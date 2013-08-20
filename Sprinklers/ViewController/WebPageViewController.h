@@ -18,6 +18,7 @@
     UINavigationBar *bar;
     NSURLRequest *_FailedRequest;
     BOOL _Authenticated;
+    NSURLConnection *urlConnection;
 }
 
 @property (retain, nonatomic) IBOutlet UIWebView *webView;

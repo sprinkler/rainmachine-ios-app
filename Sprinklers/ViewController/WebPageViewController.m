@@ -84,33 +84,87 @@
 
 #pragma mark - UIWebView delegate
 
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    BOOL result = _Authenticated;
+//    if (!_Authenticated) {
+//        _FailedRequest = request;
+//        NSURLConnection *connnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+//        [connnection start];
+//    }
+//    return result;
+//}
+//
+//- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+//        NSURL *baseURL = [_FailedRequest URL];
+//        if ([challenge.protectionSpace.host isEqualToString:baseURL.host]) {
+//            NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
+//            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+//        } else
+//            NSLog(@"Not trusting connection to host %@", challenge.protectionSpace.host);
+//    }
+//    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+//}
+//
+//- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+//    _Authenticated = YES;
+//    [connection cancel];
+//    [self.webView loadRequest:_FailedRequest];
+//}
+
+//V2
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    BOOL result = _Authenticated;
+    NSLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _Authenticated);
+    
     if (!_Authenticated) {
-        _FailedRequest = request;
-        NSURLConnection *connnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        [connnection start];
+        _Authenticated = NO;
+        
+        urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        
+        [urlConnection start];
+        
+        return NO;
     }
-    return result;
+    
+    return YES;
 }
 
-- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        NSURL *baseURL = [_FailedRequest URL];
-        if ([challenge.protectionSpace.host isEqualToString:baseURL.host]) {
-            NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
-            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-        } else
-            NSLog(@"Not trusting connection to host %@", challenge.protectionSpace.host);
+
+#pragma mark - NURLConnection delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    NSLog(@"WebController Got auth challange via NSURLConnection");
+    
+    if ([challenge previousFailureCount] == 0) {
+        _Authenticated = YES;
+        
+        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        
+        [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+        
+    } else {
+        [[challenge sender] cancelAuthenticationChallenge:challenge];
     }
-    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    NSLog(@"WebController received response via NSURLConnection");
+    
+    // remake a webview call now that authentication has passed ok.
     _Authenticated = YES;
-    [connection cancel];
-    [self.webView loadRequest:_FailedRequest];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    
+    // Cancel the URL connection otherwise we double up (webview + url connection, same url = no good!)
+    [urlConnection cancel];
 }
+
+// We use this method is to accept an untrusted site which unfortunately we need to do, as our PVM servers are self signed.
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+//end V2
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     if (_showLoading) {
