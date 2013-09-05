@@ -606,12 +606,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Daniel Cristolovean (5G9HAEMS6R)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = RainMachine;
 				PROVISIONING_PROFILE = "9DAE3473-55D2-46FC-9112-565960C4E1B6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADAF2B35-DBC5-4AB6-95B0-870137D2C437";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

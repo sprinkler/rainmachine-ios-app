@@ -84,36 +84,6 @@
 
 #pragma mark - UIWebView delegate
 
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//    BOOL result = _Authenticated;
-//    if (!_Authenticated) {
-//        _FailedRequest = request;
-//        NSURLConnection *connnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-//        [connnection start];
-//    }
-//    return result;
-//}
-//
-//- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-//        NSURL *baseURL = [_FailedRequest URL];
-//        if ([challenge.protectionSpace.host isEqualToString:baseURL.host]) {
-//            NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
-//            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-//        } else
-//            NSLog(@"Not trusting connection to host %@", challenge.protectionSpace.host);
-//    }
-//    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
-//}
-//
-//- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-//    _Authenticated = YES;
-//    [connection cancel];
-//    [self.webView loadRequest:_FailedRequest];
-//}
-
-//V2
-
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _Authenticated);
     
@@ -129,7 +99,6 @@
     
     return YES;
 }
-
 
 #pragma mark - NURLConnection delegate
 
@@ -159,12 +128,16 @@
     [urlConnection cancel];
 }
 
-// We use this method is to accept an untrusted site which unfortunately we need to do, as our PVM servers are self signed.
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self dismissHud];
+    [pull finishedLoading];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Your Rain Machine is not responding now, check the connection settings" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+}
+
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
     return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
 }
-
-//end V2
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     if (_showLoading) {
@@ -181,6 +154,13 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self dismissHud];
     [pull finishedLoading];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Your Rain Machine is not responding now, check the connection settings" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Dealloc

@@ -10,7 +10,7 @@
 #import "MBProgressHUD.h"
 #import "PullToRefreshView.h"
 
-@interface WebPageViewController : UIViewController <UIWebViewDelegate, UIScrollViewDelegate, PullToRefreshViewDelegate, NSURLConnectionDataDelegate> {
+@interface WebPageViewController : UIViewController <UIWebViewDelegate, UIScrollViewDelegate, PullToRefreshViewDelegate, NSURLConnectionDataDelegate, UIAlertViewDelegate> {
     MBProgressHUD *hud;   
     NSString *url;
     UIScrollView *currentScrollView;
