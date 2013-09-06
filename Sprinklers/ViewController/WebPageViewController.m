@@ -131,7 +131,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     [self dismissHud];
     [pull finishedLoading];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Your Rain Machine is not responding now, check the connection settings" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
 }
 
@@ -155,7 +155,7 @@
     [self dismissHud];
     [pull finishedLoading];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Your Rain Machine is not responding now, check the connection settings" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
 }
 
