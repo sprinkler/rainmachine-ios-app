@@ -605,14 +605,14 @@
 		B1DF326B16A6A68700A1BF38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tremend Software Consulting";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Daniel Cristolovean (5G9HAEMS6R)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "9DAE3473-55D2-46FC-9112-565960C4E1B6";
+				PROVISIONING_PROFILE = "7535D730-902C-4956-AD3C-E013235829DE";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADAF2B35-DBC5-4AB6-95B0-870137D2C437";
 				WRAPPER_EXTENSION = app;
 			};
@@ -621,15 +621,15 @@
 		B1DF326C16A6A68700A1BF38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tremend Software Consulting";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tremend Software Consulting";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "9DAE3473-55D2-46FC-9112-565960C4E1B6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9DAE3473-55D2-46FC-9112-565960C4E1B6";
+				PROVISIONING_PROFILE = "7535D730-902C-4956-AD3C-E013235829DE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7535D730-902C-4956-AD3C-E013235829DE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

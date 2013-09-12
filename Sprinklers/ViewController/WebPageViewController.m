@@ -71,7 +71,8 @@
 }
 
 - (void)appDidBecomeActive {
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    //[self.navigationController popToRootViewControllerAnimated:NO];
+    [self.webView reload];
 }
 
 #pragma mark - PullToRefresh delegate
