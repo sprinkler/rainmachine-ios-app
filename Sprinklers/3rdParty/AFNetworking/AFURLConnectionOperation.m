@@ -435,6 +435,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     [self.lock unlock];
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        DLog(@"Operation Started with URL: %@ body: %@", [_request URL], [[NSString alloc] initWithData:[_request HTTPBody] encoding:NSUTF8StringEncoding]);
         [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidStartNotification object:self];
     });
 }

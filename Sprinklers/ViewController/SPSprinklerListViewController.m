@@ -22,8 +22,6 @@
 {
   self = [super initWithCoder:coder];
   if (self) {
-    discoveredSprinklers = [NSMutableArray array];
-    savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklers]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
@@ -42,13 +40,19 @@
 //  (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey],
 //  [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion];
   [self createFooter];
-  [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [[ServiceManager current] stopBroadcast];
   if (silentTimer)
     [silentTimer invalidate];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  discoveredSprinklers = [NSMutableArray array];
+  savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklers]];
+  [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -186,9 +190,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//  if (indexPath.section == 0)
     return 44.0f;
-//  return 50.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

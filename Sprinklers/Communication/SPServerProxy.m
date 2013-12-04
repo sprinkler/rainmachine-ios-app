@@ -20,13 +20,13 @@
     
     self.delegate = del;
     
-    [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidStartNotification
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:^(NSNotification *note) {
-                                                    NSMutableURLRequest *r = (NSMutableURLRequest *)[[note object] request];
-                                                    DLog(@"Operation Started with URL: %@ body: %@", [r URL], [[NSString alloc] initWithData:[r HTTPBody] encoding:NSUTF8StringEncoding]);
-                                                  }];
+//    [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidStartNotification
+//                                                      object:nil
+//                                                       queue:nil
+//                                                  usingBlock:^(NSNotification *note) {
+//                                                    NSMutableURLRequest *r = (NSMutableURLRequest *)[[note object] request];
+//                                                    DLog(@"Operation Started with URL: %@ body: %@", [r URL], [[NSString alloc] initWithData:[r HTTPBody] encoding:NSUTF8StringEncoding]);
+//                                                  }];
 
     NSURL *baseURL = [NSURL URLWithString:serverURL];
     self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
@@ -149,7 +149,7 @@
 
 - (void)dealloc
 {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+//  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
