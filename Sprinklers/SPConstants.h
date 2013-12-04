@@ -1,14 +1,3 @@
-//
-//  Constants.h
-//  Sprinklers
-//
-//  Created by Razvan Irimia on 1/24/13.
-//  Copyright (c) 2013 Tremend. All rights reserved.
-//
-
-#ifndef Sprinklers_Constants_h
-#define Sprinklers_Constants_h
-
 #define broadcastPort   15800
 #define listenPort      15900
 
@@ -26,4 +15,5 @@
 #define keepAlivePort       16000
 #define keepAliveTimeout    0
 
-#endif
+extern NSString* const SPTestServerURL;
+extern float kGreenButtonColor[3];

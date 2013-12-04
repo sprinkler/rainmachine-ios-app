@@ -7,31 +7,43 @@
 //
 
 #import "AppDelegate.h"
-#import "SprinklerListViewController_iPhone.h"
-#import "SprinklerListViewController_iPad.h"
+//#import "SprinklerListViewController_iPhone.h"
+//#import "SprinklerListViewController_iPad.h"
+#import "SPSprinklerListViewController.h"
+#import "Sprinkler.h"
+#import "StorageManager.h"
+#import "SPConstants.h"
 
 @implementation AppDelegate
 
 #pragma mark - Init
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        SprinklerListViewController_iPhone *sprinklerController = [[SprinklerListViewController_iPhone alloc] init];
-        UINavigationController *navSprinkler = [[UINavigationController alloc] initWithRootViewController:sprinklerController];
-        navSprinkler.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        self.window.rootViewController = navSprinkler;
-    }
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        SprinklerListViewController_iPad *sprinklerController = [[SprinklerListViewController_iPad alloc] init];
-        UINavigationController *navSprinkler = [[UINavigationController alloc] initWithRootViewController:sprinklerController];
-        navSprinkler.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        self.window.rootViewController = navSprinkler;
-    }    
-    
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+//        SprinklerListViewController_iPhone *sprinklerController = [[SprinklerListViewController_iPhone alloc] init];
+//        UINavigationController *navSprinkler = [[UINavigationController alloc] initWithRootViewController:sprinklerController];
+//        navSprinkler.navigationBar.barStyle = UIBarStyleBlackOpaque;
+//        self.window.rootViewController = navSprinkler;
+//    }
+//    
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//        SprinklerListViewController_iPad *sprinklerController = [[SprinklerListViewController_iPad alloc] init];
+//        UINavigationController *navSprinkler = [[UINavigationController alloc] initWithRootViewController:sprinklerController];
+//        navSprinkler.navigationBar.barStyle = UIBarStyleBlackOpaque;
+//        self.window.rootViewController = navSprinkler;
+//    }    
+
+//  UINavigationController *rootNavigationController = (UINavigationController *)self.window.rootViewController;
+//  SPSprinklerListViewController *myViewController = (SPSprinklerListViewController *)[rootNavigationController topViewController];
+  
+  NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
+  Sprinkler *sprinkler = [[StorageManager current] getSprinkler:kTestSprinklerName];
+  if (!sprinkler) {
+    [[StorageManager current] addSprinkler:kTestSprinklerName ipAddress:SPTestServerURL port:@"443"];
+  }
     [self.window makeKeyAndVisible];
     return YES;
 }

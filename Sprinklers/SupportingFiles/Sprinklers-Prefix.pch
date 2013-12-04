@@ -13,3 +13,11 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
 #endif
+
+#ifdef APPSTORE
+#define DLog(...) /* */
+#else
+#define DLog(...) NSLog(__VA_ARGS__)
+#endif
+
+#define ALog(...) NSLog(__VA_ARGS__)

@@ -13,7 +13,7 @@
 #import "UIStrokeLabel.h"
 #import "WebPageViewController.h"
 #import "SprinklerStaticListViewController_iPhone.h"
-#import "Constants.h"
+#import "SPConstants.h"
 
 @implementation SprinklerListViewController_iPhone
 
