@@ -16,6 +16,7 @@
 #import "SPWeatherData.h"
 #import "SPMainScreenViewController.h"
 #import "MBProgressHUD.h"
+#import "SPSettingsViewController.h"
 
 @interface SPHomeViewController ()
 
@@ -171,6 +172,12 @@ const float kHomeScreenCellHeight = 44;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  
+  if (tableView == self.dataSourceTableView) {
+    
+    SPSettingsViewController *settingsViewController = (SPSettingsViewController*)[[self.tabBarController viewControllers] lastObject];
+    self.tabBarController.selectedViewController = settingsViewController;
+  }
 }
 
 #pragma mark - Communication callbacks
