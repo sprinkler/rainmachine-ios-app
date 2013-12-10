@@ -17,3 +17,7 @@
 
 extern NSString* const SPTestServerURL;
 extern float kGreenButtonColor[3];
+extern float kWaterImageFillColor[3];
+extern float kWaterImageStrokeColor[3];
+
+extern NSString *daysOfTheWeek[7];

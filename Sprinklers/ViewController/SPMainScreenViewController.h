@@ -7,12 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SPCommonProtocols.h"
 
-@class SPServerProxy;
+@interface SPMainScreenViewController : UITabBarController<UITabBarControllerDelegate>
 
-@interface SPMainScreenViewController : UITabBarController<SPSprinklerResponseProtocol>
-
-@property (strong, nonatomic) SPServerProxy *serverProxy;
-
+@property (nonatomic, strong) NSString* serverURL;
 @end

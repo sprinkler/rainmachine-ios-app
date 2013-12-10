@@ -7,8 +7,10 @@
 //
 
 #import "SPMainScreenViewController.h"
-#import "SPServerProxy.h"
 #import "SPConstants.h"
+#import "SPHomeViewController.h"
+#import "SPWaterNowViewController.h"
+#import "SPSettingsViewController.h"
 
 @interface SPMainScreenViewController ()
 
@@ -28,9 +30,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+  
+  self.title = @"Home";
+  self.delegate = self;
 	// Do any additional setup after loading the view.
-  self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self];
-  [self.serverProxy requestWeatherData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,22 +42,17 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Communication callbacks
-
-- (void)serverErrorReceived:(NSError*)error
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-}
-
-- (void)serverResponseReceived:(id)data
-{
-}
-
-- (void)loginSucceeded
-{
-}
-
-- (void)loggedOut
-{
+  if ([viewController isKindOfClass:[SPHomeViewController class]]) {
+    tabBarController.title = @"Home";
+  }
+  else if ([viewController isKindOfClass:[SPWaterNowViewController class]]) {
+    tabBarController.title = @"Water Now";
+  }
+  else if ([viewController isKindOfClass:[SPSettingsViewController class]]) {
+    tabBarController.title = @"Settings";
+  }
 }
 
 @end

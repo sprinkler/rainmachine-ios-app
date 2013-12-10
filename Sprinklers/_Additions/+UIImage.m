@@ -349,5 +349,16 @@
     
 }
 
++ (UIImage *)imageFromLayer:(CALayer *)layer
+{
+  UIGraphicsBeginImageContext([layer frame].size);
+  
+  [layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+  
+  UIGraphicsEndImageContext();
+  
+  return outputImage;
+}
 
 @end

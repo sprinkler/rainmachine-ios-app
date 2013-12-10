@@ -116,6 +116,7 @@
   // Give your view an identifier in the storyboard. That's how the storyboard object will find it.
   // You should see it in the right panel options when you click on the view.
   SPMainScreenViewController *mainScreenController = (SPMainScreenViewController*)[storyboard instantiateViewControllerWithIdentifier:@"mainScreen"];
+  mainScreenController.serverURL = self.serverProxy.serverURL;
   [self.navigationController pushViewController:mainScreenController animated:YES];
 }
 
@@ -123,7 +124,7 @@
 
 - (void)serverErrorReceived:(NSError*)error
 {
-//  [self hideHud];
+  [self hideHud];
 //  self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 //  [self.alertView show];
 }
@@ -156,7 +157,7 @@
 
 - (void)viewDidUnload {
   [self setTableView:nil];
-  self.loadingOverlay = nil;
+//  self.loadingOverlay = nil;
   self.hud = nil;
   [super viewDidUnload];
 }

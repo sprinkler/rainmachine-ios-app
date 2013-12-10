@@ -24,7 +24,7 @@
 @property (strong, nonatomic) Sprinkler *sprinkler;
 @property (strong, nonatomic) SPServerProxy *serverProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) UIView *loadingOverlay;
+//@property (strong, nonatomic) UIView *loadingOverlay;
 @property (strong, nonatomic) UIAlertView *alertView;
 
 - (IBAction)onLogin:(id)sender;

@@ -7,7 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SPCommonProtocols.h"
 
-@interface SPHomeViewController : UIViewController
+@class SPServerProxy;
+@class MBProgressHUD;
+
+@interface SPHomeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SPSprinklerResponseProtocol>
+
+@property (strong, nonatomic) UIImage *waterImage;
+@property (strong, nonatomic) SPServerProxy *serverProxy;
+@property (strong, nonatomic) NSArray *data;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *dataSourceTableView;
+@property (strong, nonatomic) NSString *lastUpdate;
+
+@property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) UIAlertView *alertView;
 
 @end

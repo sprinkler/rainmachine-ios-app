@@ -18,5 +18,6 @@
 - (UIImage *)imageByScalingToSize:(CGSize)targetSize;
 - (UIImage *)imageRotatedByDegrees:(CGFloat)degrees;
 - (CGSize) aspectScaledImageSizeForImageView:(UIImageView *)iv image:(UIImage *)im;
++ (UIImage *)imageFromLayer:(CALayer *)layer;
 
 @end

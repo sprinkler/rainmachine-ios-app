@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9D13616B0B56900E6152B /* ServiceManager.m */; };
 		AF2704FA184DE8040081155A /* SPAddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */; };
+		AF3F781218571A6100D9DEB3 /* SPHomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */; };
 		AF41C9A8184F217D00C94822 /* SPMainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9A7184F217D00C94822 /* SPMainScreenViewController.m */; };
 		AF41C9AB184F436B00C94822 /* SPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9AA184F436B00C94822 /* SPHomeViewController.m */; };
 		AF41C9AE184F440700C94822 /* SPWaterNowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9AD184F440700C94822 /* SPWaterNowViewController.m */; };
@@ -34,6 +35,13 @@
 		AF7AC9E2184E3ECE0047BD9E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */; };
 		AF7AC9E4184E3EDF0047BD9E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */; };
 		AFC58172184E58FD00C8D06A /* SPWeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* SPWeatherData.m */; };
+		AFC7E9311857972C00ACA626 /* weather_3.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E92C1857972C00ACA626 /* weather_3.png */; };
+		AFC7E9321857972C00ACA626 /* weather_4.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E92D1857972C00ACA626 /* weather_4.png */; };
+		AFC7E9331857972C00ACA626 /* weather_5.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E92E1857972C00ACA626 /* weather_5.png */; };
+		AFC7E9341857972C00ACA626 /* weather_few.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E92F1857972C00ACA626 /* weather_few.png */; };
+		AFC7E9351857972C00ACA626 /* weather_sct.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E9301857972C00ACA626 /* weather_sct.png */; };
+		AFC7E93718579D7600ACA626 /* statusOK.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* statusOK.png */; };
+		AFC7E93A18579EE900ACA626 /* SPHomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */; };
 		B111983716A7E1C10094EF9F /* +NSDate.m in Sources */ = {isa = PBXBuildFile; fileRef = B111982116A7E1C10094EF9F /* +NSDate.m */; };
 		B111983816A7E1C10094EF9F /* +NSDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B111982316A7E1C10094EF9F /* +NSDictionary.m */; };
 		B111983916A7E1C10094EF9F /* +NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = B111982516A7E1C10094EF9F /* +NSString.m */; };
@@ -101,6 +109,8 @@
 		1FD9D13616B0B56900E6152B /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Managers/ServiceManager.m; sourceTree = "<group>"; };
 		AF2704F8184DE8040081155A /* SPAddSprinklerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPAddSprinklerViewController.h; path = ViewController/SPAddSprinklerViewController.h; sourceTree = "<group>"; };
 		AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPAddSprinklerViewController.m; path = ViewController/SPAddSprinklerViewController.m; sourceTree = "<group>"; };
+		AF3F781018571A6100D9DEB3 /* SPHomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeScreenTableViewCell.h; path = Cells/SPHomeScreenTableViewCell.h; sourceTree = "<group>"; };
+		AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeScreenTableViewCell.m; path = Cells/SPHomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF41C9A6184F217D00C94822 /* SPMainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPMainScreenViewController.h; path = ViewController/SPMainScreenViewController.h; sourceTree = "<group>"; };
 		AF41C9A7184F217D00C94822 /* SPMainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPMainScreenViewController.m; path = ViewController/SPMainScreenViewController.m; sourceTree = "<group>"; };
 		AF41C9A9184F436B00C94822 /* SPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeViewController.h; path = ViewController/SPHomeViewController.h; sourceTree = "<group>"; };
@@ -147,6 +157,14 @@
 		AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AFC58170184E58FD00C8D06A /* SPWeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPWeatherData.h; path = "Response objects/SPWeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* SPWeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPWeatherData.m; path = "Response objects/SPWeatherData.m"; sourceTree = "<group>"; };
+		AFC7E92C1857972C00ACA626 /* weather_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weather_3.png; path = Resources/weather_3.png; sourceTree = "<group>"; };
+		AFC7E92D1857972C00ACA626 /* weather_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weather_4.png; path = Resources/weather_4.png; sourceTree = "<group>"; };
+		AFC7E92E1857972C00ACA626 /* weather_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weather_5.png; path = Resources/weather_5.png; sourceTree = "<group>"; };
+		AFC7E92F1857972C00ACA626 /* weather_few.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weather_few.png; path = Resources/weather_few.png; sourceTree = "<group>"; };
+		AFC7E9301857972C00ACA626 /* weather_sct.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weather_sct.png; path = Resources/weather_sct.png; sourceTree = "<group>"; };
+		AFC7E93618579D7600ACA626 /* statusOK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusOK.png; path = Resources/statusOK.png; sourceTree = "<group>"; };
+		AFC7E93818579EE900ACA626 /* SPHomeScreenDataSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeScreenDataSourceCell.h; path = Cells/SPHomeScreenDataSourceCell.h; sourceTree = "<group>"; };
+		AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeScreenDataSourceCell.m; path = Cells/SPHomeScreenDataSourceCell.m; sourceTree = "<group>"; };
 		B111982016A7E1C10094EF9F /* +NSDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "+NSDate.h"; sourceTree = "<group>"; };
 		B111982116A7E1C10094EF9F /* +NSDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "+NSDate.m"; sourceTree = "<group>"; };
 		B111982216A7E1C10094EF9F /* +NSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "+NSDictionary.h"; sourceTree = "<group>"; };
@@ -399,6 +417,10 @@
 		B111981E16A7E1B20094EF9F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				AF3F781018571A6100D9DEB3 /* SPHomeScreenTableViewCell.h */,
+				AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */,
+				AFC7E93818579EE900ACA626 /* SPHomeScreenDataSourceCell.h */,
+				AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -450,6 +472,12 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AFC7E93618579D7600ACA626 /* statusOK.png */,
+				AFC7E92C1857972C00ACA626 /* weather_3.png */,
+				AFC7E92D1857972C00ACA626 /* weather_4.png */,
+				AFC7E92E1857972C00ACA626 /* weather_5.png */,
+				AFC7E92F1857972C00ACA626 /* weather_few.png */,
+				AFC7E9301857972C00ACA626 /* weather_sct.png */,
 				AF7AC9B3184E27B80047BD9E /* temp-checkbox-selected.png */,
 				AF7AC9B4184E27B80047BD9E /* temp-checkbox-unselected.png */,
 				AF7AC9B1184E25870047BD9E /* bucket.png */,
@@ -662,19 +690,25 @@
 				B1DF326416A6A68700A1BF38 /* Default-568h@2x.png in Resources */,
 				B111984D16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib in Resources */,
 				AF4F42DF184CA598001796AE /* Storyboard.storyboard in Resources */,
+				AFC7E9351857972C00ACA626 /* weather_sct.png in Resources */,
 				B111986D16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib in Resources */,
 				B1583E5C16A7F9640051B480 /* rose.png in Resources */,
 				B1583E6C16A803830051B480 /* WebPageViewController.xib in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
+				AFC7E9341857972C00ACA626 /* weather_few.png in Resources */,
+				AFC7E9321857972C00ACA626 /* weather_4.png in Resources */,
 				B1583E7316A803970051B480 /* arrow@2x.png in Resources */,
 				AF7AC9B5184E27B80047BD9E /* temp-checkbox-selected.png in Resources */,
 				B1583E7C16A804E60051B480 /* web-back-on-btn.png in Resources */,
 				B1583E7D16A804E60051B480 /* web-forward-on-btn.png in Resources */,
 				B1583F4516A8941A0051B480 /* SprinklerListViewController_iPad.xib in Resources */,
 				B1583F4B16A8994D0051B480 /* AddSprinklerViewController_iPad.xib in Resources */,
+				AFC7E9331857972C00ACA626 /* weather_5.png in Resources */,
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
+				AFC7E93718579D7600ACA626 /* statusOK.png in Resources */,
 				B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */,
 				B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */,
+				AFC7E9311857972C00ACA626 /* weather_3.png in Resources */,
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AF7AC9B2184E25870047BD9E /* bucket.png in Resources */,
 				B11F7DA916B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib in Resources */,
@@ -732,6 +766,7 @@
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				B1583E6B16A803830051B480 /* WebPageViewController.m in Sources */,
+				AF3F781218571A6100D9DEB3 /* SPHomeScreenTableViewCell.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
 				AF7AC9D0184E3DD30047BD9E /* AFHTTPSessionManager.m in Sources */,
 				AF7AC9BE184E3D200047BD9E /* SPServerProxy.m in Sources */,
@@ -742,6 +777,7 @@
 				AF7AC9B0184E13890047BD9E /* SPLoginViewController.m in Sources */,
 				AF41C9A8184F217D00C94822 /* SPMainScreenViewController.m in Sources */,
 				B11F7DA816B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m in Sources */,
+				AFC7E93A18579EE900ACA626 /* SPHomeScreenDataSourceCell.m in Sources */,
 				B11F7DAD16B99B0A00E36D00 /* SprinklerStaticListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

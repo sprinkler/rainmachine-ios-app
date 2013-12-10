@@ -20,5 +20,6 @@
 
 @property (nonatomic, weak) id<SPSprinklerResponseProtocol> delegate;
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
+@property (nonatomic, strong) NSString* serverURL;
 
 @end

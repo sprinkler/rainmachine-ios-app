@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSNumber *day;
 @property (nonatomic, strong) NSNumber *icon;
 @property (nonatomic, strong) NSNumber *id;
-@property (nonatomic, strong) NSString *maxt;
+@property (nonatomic, strong) NSNumber *maxt;
 @property (nonatomic, strong) NSNumber *mint;
 @property (nonatomic, strong) NSNumber *percentage;
 @property (nonatomic, strong) NSString *units;

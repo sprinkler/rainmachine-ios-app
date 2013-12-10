@@ -19,6 +19,7 @@
     }
     
     self.delegate = del;
+    self.serverURL = serverURL;
     
 //    [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidStartNotification
 //                                                      object:nil
