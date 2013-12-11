@@ -84,7 +84,7 @@
 
 - (void)setupTitleView
 {
-  self.deviceNameLabel.text = @"Device List";//self.sprinkler.name;
+  self.deviceNameLabel.text = self.sprinkler.name;
   self.deviceIPLabel.text = self.sprinkler.address;
   
   self.deviceNameLabel.textColor = [UIColor whiteColor];
