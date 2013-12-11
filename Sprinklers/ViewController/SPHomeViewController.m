@@ -22,7 +22,7 @@
 
 @end
 
-const float kHomeScreenCellHeight = 44;
+const float kHomeScreenCellHeight = 66;
 
 @implementation SPHomeViewController
 
@@ -87,7 +87,7 @@ const float kHomeScreenCellHeight = 44;
   float verticalWavesNumber = 9;
   float maxY = layer.frame.size.height - kLineWidth;
   for (int y = kLineWidth; y <= maxY; y++) {
-    float angle = -M_PI + (M_PI * verticalWavesNumber * (y - kLineWidth)) / maxY;
+    float angle = -M_PI + (M_PI * verticalWavesNumber * (y - kLineWidth)) / (maxY - kLineWidth);
     float dx = kWaveAmplitude * sinf(angle);
     CGPathAddLineToPoint(path, NULL, x + dx, y);
   }
@@ -128,7 +128,7 @@ const float kHomeScreenCellHeight = 44;
   if (tableView == self.dataSourceTableView) {
     return 55;
   }
-  return 66;
+  return kHomeScreenCellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
