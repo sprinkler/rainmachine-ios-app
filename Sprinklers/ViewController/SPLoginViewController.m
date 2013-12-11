@@ -13,6 +13,7 @@
 #import "SPServerProxy.h"
 #import "MBProgressHUD.h"
 #import "SPMainScreenViewController.h"
+#import "StorageManager.h"
 
 @interface SPLoginViewController ()
 
@@ -49,6 +50,16 @@
   
   self.tableView.sectionFooterHeight = 0;
   self.tableView.sectionHeaderHeight = 0;
+  
+  if ([self.sprinkler.loginRememberMe boolValue]) {
+    [self showMainScreen];
+  }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [self.checkBox setSelected:[self.sprinkler.loginRememberMe boolValue]];
+  
 }
 
 - (void)didReceiveMemoryWarning
@@ -140,6 +151,9 @@
 
 - (void)loginSucceeded
 {
+  self.sprinkler.loginRememberMe = [NSNumber numberWithBool:self.checkBox.selected];
+  [[StorageManager current] saveData];
+
   [self hideHud];
 
   [self showMainScreen];

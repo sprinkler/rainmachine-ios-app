@@ -13,4 +13,7 @@
 @interface SPMainScreenViewController : UITabBarController<UITabBarControllerDelegate>
 
 @property (strong, nonatomic) Sprinkler *sprinkler;
+
+- (void)handleServerLoggedOutUser;
+
 @end

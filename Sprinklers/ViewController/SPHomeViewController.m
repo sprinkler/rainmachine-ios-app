@@ -37,7 +37,6 @@ const float kHomeScreenCellHeight = 66;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-      [self createWaterImage];
     }
     return self;
 }
@@ -48,6 +47,7 @@ const float kHomeScreenCellHeight = 66;
   if (self) {
     // Custom initialization
     [self createWaterImage];
+    [self createWaterWavesImage];
   }
   return self;
 }
@@ -76,7 +76,8 @@ const float kHomeScreenCellHeight = 66;
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
   if (theAlertView.tag == kLoggedOut_AlertViewTag) {
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
+    [tabBarController handleServerLoggedOutUser];
   }
   
   self.alertView = nil;
@@ -84,26 +85,23 @@ const float kHomeScreenCellHeight = 66;
 
 # pragma mark - Water image generation
 
-- (void)createWaterImage
+- (void)createWaterWavesImage
 {
-  float kLineWidth = 1;// * [[UIScreen mainScreen] scale];
-//  float kWaterWavesWidth = 12;
-  float kWaveAmplitude = 0.5 * [[UIScreen mainScreen] scale];
+  float kLineWidth = 1 * [[UIScreen mainScreen] scale];
+  float kWaveAmplitude = 1 * [[UIScreen mainScreen] scale];
   CAShapeLayer *layer = [CAShapeLayer layer];
   layer.strokeColor = [UIColor colorWithRed:kWaterImageStrokeColor[0] green:kWaterImageStrokeColor[1] blue:kWaterImageStrokeColor[2] alpha:1].CGColor;
-  //  stationLayer.backgroundColor = [CBUtils CGColorFromNSColor:[NSColor redColor]];
   layer.fillColor = [UIColor colorWithRed:kWaterImageFillColor[0] green:kWaterImageFillColor[1] blue:kWaterImageFillColor[2] alpha:1].CGColor;
   layer.lineWidth = kLineWidth;
   layer.lineCap = kCALineCapRound;
   layer.lineJoin = kCALineJoinRound;
-
-  layer.frame = CGRectMake(0, 0, 6 + 2 * kLineWidth + 2 * kWaveAmplitude, kHomeScreenCellHeight * [[UIScreen mainScreen] scale]);
-
-  float x = layer.frame.size.width - 1 - kWaveAmplitude - kLineWidth / 2;
+  
+  layer.frame = CGRectMake(0, 0, 2 * kWaveAmplitude + 2 * kLineWidth, kHomeScreenCellHeight * [[UIScreen mainScreen] scale]);
+  
+  float x = layer.frame.size.width / 2;
   CGMutablePathRef path = CGPathCreateMutable();
   CGPathMoveToPoint(path, NULL, -kLineWidth, kLineWidth);
   CGPathAddLineToPoint(path, NULL, x, kLineWidth);
-//  CGPathAddLineToPoint(path, NULL, layer.frame.size.width - 1, layer.frame.size.height - 1);
   
   float verticalWavesNumber = 9;
   float maxY = layer.frame.size.height - kLineWidth;
@@ -113,17 +111,83 @@ const float kHomeScreenCellHeight = 66;
     CGPathAddLineToPoint(path, NULL, x + dx, y);
   }
   CGPathAddLineToPoint(path, NULL, -kLineWidth, maxY);
-
+  
   CGPathCloseSubpath(path);
   
   layer.path = path;
-
+  
   CGPathRelease(path);
-
-  UIImage *image = [UIImage imageFromLayer:layer];
-  UIEdgeInsets insets = UIEdgeInsetsMake(0, 2, 0, 2 * kLineWidth + 2 * kWaveAmplitude);
-  self.waterImage = [image resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+  
+  self.waterWavesImage = [UIImage imageFromLayer:layer];
 }
+
+- (void)createWaterImage
+{
+  float kLineWidth = 1 * [[UIScreen mainScreen] scale];
+  CAShapeLayer *layer = [CAShapeLayer layer];
+  layer.strokeColor = [UIColor colorWithRed:kWaterImageStrokeColor[0] green:kWaterImageStrokeColor[1] blue:kWaterImageStrokeColor[2] alpha:1].CGColor;
+  layer.fillColor = [UIColor colorWithRed:kWaterImageFillColor[0] green:kWaterImageFillColor[1] blue:kWaterImageFillColor[2] alpha:1].CGColor;
+  layer.lineWidth = kLineWidth;
+  layer.lineCap = kCALineCapRound;
+  layer.lineJoin = kCALineJoinRound;
+  
+  layer.frame = CGRectMake(0, 0, 1, kHomeScreenCellHeight * [[UIScreen mainScreen] scale]);
+
+  float maxY = layer.frame.size.height - kLineWidth;
+
+  CGMutablePathRef path = CGPathCreateMutable();
+  CGPathMoveToPoint(path, NULL, -2 * kLineWidth, kLineWidth);
+  CGPathAddLineToPoint(path, NULL, 2 * kLineWidth, kLineWidth);
+  CGPathAddLineToPoint(path, NULL, 2 * kLineWidth, maxY);
+  CGPathAddLineToPoint(path, NULL, -2 * kLineWidth, maxY);
+  
+  CGPathCloseSubpath(path);
+  
+  layer.path = path;
+  
+  CGPathRelease(path);
+  
+  self.waterImage = [UIImage imageFromLayer:layer];
+}
+
+//- (void)createWaterImage
+//{
+//  float kLineWidth = 1;
+//  float kWaveAmplitude = 0.5 * [[UIScreen mainScreen] scale];
+//  CAShapeLayer *layer = [CAShapeLayer layer];
+//  layer.strokeColor = [UIColor colorWithRed:kWaterImageStrokeColor[0] green:kWaterImageStrokeColor[1] blue:kWaterImageStrokeColor[2] alpha:1].CGColor;
+//  //  stationLayer.backgroundColor = [CBUtils CGColorFromNSColor:[NSColor redColor]];
+//  layer.fillColor = [UIColor colorWithRed:kWaterImageFillColor[0] green:kWaterImageFillColor[1] blue:kWaterImageFillColor[2] alpha:1].CGColor;
+//  layer.lineWidth = kLineWidth;
+//  layer.lineCap = kCALineCapRound;
+//  layer.lineJoin = kCALineJoinRound;
+//
+//  layer.frame = CGRectMake(0, 0, 6 + 2 * kLineWidth + 2 * kWaveAmplitude, kHomeScreenCellHeight * [[UIScreen mainScreen] scale]);
+//
+//  float x = layer.frame.size.width - 1 - kWaveAmplitude - kLineWidth / 2;
+//  CGMutablePathRef path = CGPathCreateMutable();
+//  CGPathMoveToPoint(path, NULL, -kLineWidth, kLineWidth);
+//  CGPathAddLineToPoint(path, NULL, x, kLineWidth);
+//  
+//  float verticalWavesNumber = 9;
+//  float maxY = layer.frame.size.height - kLineWidth;
+//  for (int y = kLineWidth; y <= maxY; y++) {
+//    float angle = -M_PI + (M_PI * verticalWavesNumber * (y - kLineWidth)) / (maxY - kLineWidth);
+//    float dx = kWaveAmplitude * sinf(angle);
+//    CGPathAddLineToPoint(path, NULL, x + dx, y);
+//  }
+//  CGPathAddLineToPoint(path, NULL, -kLineWidth, maxY);
+//
+//  CGPathCloseSubpath(path);
+//  
+//  layer.path = path;
+//
+//  CGPathRelease(path);
+//
+//  UIImage *image = [UIImage imageFromLayer:layer];
+//  UIEdgeInsets insets = UIEdgeInsetsMake(0, 2, 0, 2 * kLineWidth + 2 * kWaveAmplitude);
+//  self.waterImage = [image resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -169,6 +233,7 @@ const float kHomeScreenCellHeight = 66;
   SPWeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
   cell.waterPercentage = [weatherData.percentage floatValue];
   cell.waterImage.image = self.waterImage;
+  cell.waterWavesImageView.image = self.waterWavesImage;
   cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(100 * [weatherData.percentage floatValue])];
   cell.temperatureLabel.text = [NSString stringWithFormat:@"Hi: %@° / Lo: %@°", weatherData.maxt, weatherData.mint];
   if ([weatherData.id intValue] == 0) {

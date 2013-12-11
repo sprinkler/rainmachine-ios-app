@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (assign, nonatomic) float waterPercentage;
 @property (weak, nonatomic) IBOutlet UILabel *percentageLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *waterWavesImageView;
 
 @end

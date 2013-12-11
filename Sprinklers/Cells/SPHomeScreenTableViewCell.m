@@ -29,18 +29,20 @@
 - (void)layoutSubviews
 {
   [super layoutSubviews];
-  int w = 120 * self.waterPercentage;
-  if (w % 2 != 0) {
-    w++;
-  }
-  
-  self.waterImage.frame = CGRectMake(0, 0, w, self.waterImage.frame.size.height);
+  float waterWavesWidth = (self.waterWavesImageView.image.size.width * self.frame.size.height) / self.waterWavesImageView.image.size.height;
+  int w = MAX(0, (120 * self.waterPercentage) - waterWavesWidth);
   
   float padding = 0;
   self.daylabel.center = CGPointMake(self.daylabel.center.x, self.frame.size.height / 2 - self.daylabel.frame.size.height / 2 - padding);
   self.temperatureLabel.center = CGPointMake(self.daylabel.center.x, self.frame.size.height / 2 + self.temperatureLabel.frame.size.height / 2 + padding);
-  self.weatherImage.center = CGPointMake(self.weatherImage.center.x, self.frame.size.height / 2);
   self.percentageLabel.center = CGPointMake(self.percentageLabel.center.x, self.frame.size.height / 2);
+  self.weatherImage.center = CGPointMake(self.weatherImage.center.x, self.frame.size.height / 2);
+  
+  self.waterImage.frame = CGRectMake(0, 0, w, self.waterImage.frame.size.height);
+  self.waterWavesImageView.frame = CGRectMake(self.waterImage.frame.origin.x + self.waterImage.frame.size.width,
+                                              0,
+                                              waterWavesWidth,
+                                              self.waterWavesImageView.frame.size.height);
 }
 
 @end

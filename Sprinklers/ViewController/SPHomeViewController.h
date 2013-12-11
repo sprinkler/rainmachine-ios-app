@@ -15,6 +15,7 @@
 @interface SPHomeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SPSprinklerResponseProtocol>
 
 @property (strong, nonatomic) UIImage *waterImage;
+@property (strong, nonatomic) UIImage *waterWavesImage;
 @property (strong, nonatomic) SPServerProxy *serverProxy;
 @property (strong, nonatomic) NSArray *data;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

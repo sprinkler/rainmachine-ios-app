@@ -12,6 +12,7 @@
 #import "SPWaterNowViewController.h"
 #import "SPSettingsViewController.h"
 #import "Sprinkler.h"
+#import "StorageManager.h"
 
 @interface SPMainScreenViewController ()
 
@@ -54,6 +55,14 @@
   else if ([viewController isKindOfClass:[SPSettingsViewController class]]) {
     tabBarController.title = @"Settings";
   }
+}
+
+- (void)handleServerLoggedOutUser
+{
+  [self.navigationController popToRootViewControllerAnimated:NO];
+
+  self.sprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
+  [[StorageManager current] saveData];
 }
 
 @end
