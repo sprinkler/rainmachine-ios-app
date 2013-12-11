@@ -19,7 +19,6 @@
 @property (strong, nonatomic) NSArray *data;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableView *dataSourceTableView;
-@property (strong, nonatomic) NSString *lastUpdate;
 
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) UIAlertView *alertView;

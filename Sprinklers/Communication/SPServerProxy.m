@@ -70,7 +70,12 @@
                                       if (success) {
                                         [self.delegate loginSucceeded];
                                       } else {
-                                        [self handleError:error fromOperation:operation];
+                                        NSHTTPURLResponse *response = operation.response;
+                                        if ((NSUInteger)response.statusCode == 200) {
+                                          [self.delegate loggedOut];
+                                        } else {
+                                          [self handleError:error fromOperation:operation];
+                                        }
                                       }
                                   }];
 }
@@ -92,7 +97,9 @@
   BOOL isLoggedOut = NO;
   NSError *jsonError = nil;
   NSData* responseData = [operation responseData];
-  if (([[[operation response] MIMEType] isEqualToString:@"json/html"]) && (responseData)) {
+  if ((([[[operation response] MIMEType] isEqualToString:@"json/html"]) ||
+       ([[[operation response] MIMEType] isEqualToString: @"text/plain"])) &&
+       (responseData)) {
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:&jsonError];
     if (!jsonError) {
       if ([jsonObject isKindOfClass:[NSDictionary class]]) {

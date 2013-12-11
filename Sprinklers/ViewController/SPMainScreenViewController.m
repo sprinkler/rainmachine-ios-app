@@ -11,6 +11,7 @@
 #import "SPHomeViewController.h"
 #import "SPWaterNowViewController.h"
 #import "SPSettingsViewController.h"
+#import "Sprinkler.h"
 
 @interface SPMainScreenViewController ()
 

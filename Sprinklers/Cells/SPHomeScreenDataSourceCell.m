@@ -7,6 +7,7 @@
 //
 
 #import "SPHomeScreenDataSourceCell.h"
+#import "Sprinkler.h"
 
 @implementation SPHomeScreenDataSourceCell
 
@@ -33,6 +34,9 @@
   self.statusImageView.center = CGPointMake(self.statusImageView.center.x, self.frame.size.height / 2 );
   self.dataSourceLabel.center = CGPointMake(self.dataSourceLabel.center.x, self.frame.size.height / 2 - self.dataSourceLabel.frame.size.height / 2);
   self.lastUpdatedLabel.center = CGPointMake(self.lastUpdatedLabel.center.x, self.frame.size.height / 2 + self.lastUpdatedLabel.frame.size.height / 2);
+
+  self.statusImageView.image = [UIImage imageNamed:(self.sprinkler.lastError == nil) ? @"statusOK" : @"statusWarning"];
 }
+
 
 @end

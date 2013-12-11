@@ -42,6 +42,8 @@
 		AFC7E9351857972C00ACA626 /* weather_sct.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E9301857972C00ACA626 /* weather_sct.png */; };
 		AFC7E93718579D7600ACA626 /* statusOK.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* statusOK.png */; };
 		AFC7E93A18579EE900ACA626 /* SPHomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */; };
+		AFCC57B4185860FD001F48F0 /* statusWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* statusWarning.png */; };
+		AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCC57B6185861E7001F48F0 /* Sprinkler.m */; };
 		B111983716A7E1C10094EF9F /* +NSDate.m in Sources */ = {isa = PBXBuildFile; fileRef = B111982116A7E1C10094EF9F /* +NSDate.m */; };
 		B111983816A7E1C10094EF9F /* +NSDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B111982316A7E1C10094EF9F /* +NSDictionary.m */; };
 		B111983916A7E1C10094EF9F /* +NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = B111982516A7E1C10094EF9F /* +NSString.m */; };
@@ -59,7 +61,6 @@
 		B111986C16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986A16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m */; };
 		B111986D16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B111986B16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib */; };
 		B111987016A7EED00094EF9F /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986F16A7EED00094EF9F /* StorageManager.m */; };
-		B111987316A7F04E0094EF9F /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = B111987216A7F04E0094EF9F /* Sprinkler.m */; };
 		B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */ = {isa = PBXBuildFile; fileRef = B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */; };
 		B11F7DA816B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = B11F7DA616B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m */; };
 		B11F7DA916B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B11F7DA716B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib */; };
@@ -165,6 +166,10 @@
 		AFC7E93618579D7600ACA626 /* statusOK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusOK.png; path = Resources/statusOK.png; sourceTree = "<group>"; };
 		AFC7E93818579EE900ACA626 /* SPHomeScreenDataSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeScreenDataSourceCell.h; path = Cells/SPHomeScreenDataSourceCell.h; sourceTree = "<group>"; };
 		AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeScreenDataSourceCell.m; path = Cells/SPHomeScreenDataSourceCell.m; sourceTree = "<group>"; };
+		AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sprinklers 2.xcdatamodel"; sourceTree = "<group>"; };
+		AFCC57B3185860FD001F48F0 /* statusWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusWarning.png; path = Resources/statusWarning.png; sourceTree = "<group>"; };
+		AFCC57B5185861E7001F48F0 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
+		AFCC57B6185861E7001F48F0 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		B111982016A7E1C10094EF9F /* +NSDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "+NSDate.h"; sourceTree = "<group>"; };
 		B111982116A7E1C10094EF9F /* +NSDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "+NSDate.m"; sourceTree = "<group>"; };
 		B111982216A7E1C10094EF9F /* +NSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "+NSDictionary.h"; sourceTree = "<group>"; };
@@ -197,8 +202,6 @@
 		B111986B16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddSprinklerViewController_iPhone.xib; path = ViewController/AddSprinklerViewController_iPhone.xib; sourceTree = "<group>"; };
 		B111986E16A7EED00094EF9F /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StorageManager.h; path = Managers/StorageManager.h; sourceTree = "<group>"; };
 		B111986F16A7EED00094EF9F /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StorageManager.m; path = Managers/StorageManager.m; sourceTree = "<group>"; };
-		B111987116A7F04E0094EF9F /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
-		B111987216A7F04E0094EF9F /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscoveredSprinklers.h; path = Model/DiscoveredSprinklers.h; sourceTree = "<group>"; };
 		B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DiscoveredSprinklers.m; path = Model/DiscoveredSprinklers.m; sourceTree = "<group>"; };
 		B11F7DA516B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerStaticListViewController_iPhone.h; path = ViewController/SprinklerStaticListViewController_iPhone.h; sourceTree = "<group>"; };
@@ -460,9 +463,9 @@
 		B111984216A7E1E60094EF9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B111987116A7F04E0094EF9F /* Sprinkler.h */,
-				B111987216A7F04E0094EF9F /* Sprinkler.m */,
 				B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */,
+				AFCC57B5185861E7001F48F0 /* Sprinkler.h */,
+				AFCC57B6185861E7001F48F0 /* Sprinkler.m */,
 				B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */,
 				B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */,
 			);
@@ -473,6 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				AFC7E93618579D7600ACA626 /* statusOK.png */,
+				AFCC57B3185860FD001F48F0 /* statusWarning.png */,
 				AFC7E92C1857972C00ACA626 /* weather_3.png */,
 				AFC7E92D1857972C00ACA626 /* weather_4.png */,
 				AFC7E92E1857972C00ACA626 /* weather_5.png */,
@@ -692,6 +696,7 @@
 				AF4F42DF184CA598001796AE /* Storyboard.storyboard in Resources */,
 				AFC7E9351857972C00ACA626 /* weather_sct.png in Resources */,
 				B111986D16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib in Resources */,
+				AFCC57B4185860FD001F48F0 /* statusWarning.png in Resources */,
 				B1583E5C16A7F9640051B480 /* rose.png in Resources */,
 				B1583E6C16A803830051B480 /* WebPageViewController.xib in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
@@ -725,6 +730,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */,
 				AF41C9AE184F440700C94822 /* SPWaterNowViewController.m in Sources */,
 				AF41C9AB184F436B00C94822 /* SPHomeViewController.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
@@ -762,7 +768,6 @@
 				B111986516A7E7F60094EF9F /* NetworkUtilities.m in Sources */,
 				B111986C16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
-				B111987316A7F04E0094EF9F /* Sprinkler.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				B1583E6B16A803830051B480 /* WebPageViewController.m in Sources */,
@@ -909,9 +914,10 @@
 		B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */,
 				B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */;
+			currentVersion = AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

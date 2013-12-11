@@ -57,6 +57,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+  self.alertView = nil;
+}
+
 #pragma mark - Table view
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,7 +120,7 @@
   // Give your view an identifier in the storyboard. That's how the storyboard object will find it.
   // You should see it in the right panel options when you click on the view.
   SPMainScreenViewController *mainScreenController = (SPMainScreenViewController*)[storyboard instantiateViewControllerWithIdentifier:@"mainScreen"];
-  mainScreenController.serverURL = self.serverProxy.serverURL;
+  mainScreenController.sprinkler = self.sprinkler;
   [self.navigationController pushViewController:mainScreenController animated:YES];
 }
 
@@ -125,8 +129,8 @@
 - (void)serverErrorReceived:(NSError*)error
 {
   [self hideHud];
-//  self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//  [self.alertView show];
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+  [self.alertView show];
 }
 
 - (void)serverResponseReceived:(id)data
@@ -144,6 +148,8 @@
 - (void)loggedOut
 {
   [self hideHud];
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Your password is incorrect." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+  [self.alertView show];
 }
 
 #pragma  mark - TextField delegate

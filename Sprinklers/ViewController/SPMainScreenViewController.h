@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class Sprinkler;
+
 @interface SPMainScreenViewController : UITabBarController<UITabBarControllerDelegate>
 
-@property (nonatomic, strong) NSString* serverURL;
+@property (strong, nonatomic) Sprinkler *sprinkler;
 @end

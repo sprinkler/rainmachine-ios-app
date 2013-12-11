@@ -2,7 +2,7 @@
 //  Sprinkler.m
 //  Sprinklers
 //
-//  Created by Daniel Cristolovean on 1/17/13.
+//  Created by Fabian Matyas on 11/12/13.
 //  Copyright (c) 2013 Tremend. All rights reserved.
 //
 
@@ -11,9 +11,11 @@
 
 @implementation Sprinkler
 
+@dynamic address;
 @dynamic name;
 @dynamic port;
-@dynamic address;
-@dynamic updated;
+@dynamic lastError;
+@dynamic lastUpdate;
+@dynamic loginRememberMe;
 
 @end

@@ -17,6 +17,12 @@
 #import "SPMainScreenViewController.h"
 #import "MBProgressHUD.h"
 #import "SPSettingsViewController.h"
+#import "Sprinkler.h"
+#import "StorageManager.h"
+#import "+NSDate.h"
+
+const int kLoggedOut_AlertViewTag = 1;
+const int kError_AlertViewTag = 2;
 
 @interface SPHomeViewController ()
 
@@ -46,19 +52,34 @@ const float kHomeScreenCellHeight = 66;
   return self;
 }
 
+#pragma mark - UI
+
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+  [super viewDidLoad];
   self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self];
   [self.serverProxy requestWeatherData];
   [self startHud:@"Receiving data..."];
-	// Do any additional setup after loading the view.
+  
+  [self refreshStatus];
 }
 
 - (void)startHud:(NSString *)text {
   self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   self.hud.labelText = text;
-//  self.view.userInteractionEnabled = NO;
+}
+
+- (void)refreshStatus
+{
+  [self.dataSourceTableView reloadData];
+}
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+  if (theAlertView.tag == kLoggedOut_AlertViewTag) {
+    [self.navigationController popToRootViewControllerAnimated:NO];
+  }
+  
+  self.alertView = nil;
 }
 
 # pragma mark - Water image generation
@@ -136,8 +157,9 @@ const float kHomeScreenCellHeight = 66;
     static NSString *CellIdentifier = @"HomeDataSourceCell";
     SPHomeScreenDataSourceCell *cell = (SPHomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
-    cell.dataSourceLabel.text = tabBarController.serverURL;
-    cell.lastUpdatedLabel.text = self.lastUpdate;
+    cell.dataSourceLabel.text = tabBarController.sprinkler.address;
+    cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [tabBarController.sprinkler.lastUpdate getTimeSinceDate]];
+    cell.sprinkler = tabBarController.sprinkler;
     
     return cell;
   }
@@ -185,7 +207,13 @@ const float kHomeScreenCellHeight = 66;
 - (void)serverErrorReceived:(NSError*)error
 {
   [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+  [self storeSprinklerError:[error localizedDescription]];
+
+  [self refreshStatus];
+  
   self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+  self.alertView.tag = kError_AlertViewTag;
   [self.alertView show];
 }
 
@@ -193,11 +221,14 @@ const float kHomeScreenCellHeight = 66;
 {
   [MBProgressHUD hideHUDForView:self.view animated:YES];
 
+  [self storeSprinklerError:nil];
+  
   self.data = data;
   
   SPWeatherData *lastWeatherData = [self.data lastObject];
-  self.lastUpdate = lastWeatherData.lastupdate;
   
+  [self storeLastSprinklerUpdateFromString:lastWeatherData.lastupdate];
+
   [self.tableView reloadData];
   [self.dataSourceTableView reloadData];
 }
@@ -209,6 +240,40 @@ const float kHomeScreenCellHeight = 66;
 - (void)loggedOut
 {
   [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+  [self storeSprinklerError:@"Logged out"];
+  
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Logged out" message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+  self.alertView.tag = kLoggedOut_AlertViewTag;
+  [self.alertView show];
+}
+
+#pragma mark - Core Data
+
+- (void)storeLastSprinklerUpdateFromString:(NSString*)stringDate
+{
+  NSString *dateAsString = stringDate;
+  if ([[dateAsString componentsSeparatedByString:@","] count] == 2) {
+    // TODO: remove this hack
+    // In case there are only two date components, we assume that the year is not present
+    dateAsString = [NSString stringWithFormat:@"%@, %d", dateAsString, [[NSDate date] year]];
+  }
+  
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"HH:mm, LLL d, yyyy"];
+  [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+  NSDate *myDate = [dateFormatter dateFromString:dateAsString];
+  
+  SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
+  tabBarController.sprinkler.lastUpdate = myDate;
+  [[StorageManager current] saveData];
+}
+
+- (void)storeSprinklerError:(NSString*)errorMessage
+{
+  SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
+  tabBarController.sprinkler.lastError = errorMessage;
+  [[StorageManager current] saveData];
 }
 
 @end
