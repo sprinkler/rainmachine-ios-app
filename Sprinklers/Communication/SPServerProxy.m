@@ -9,6 +9,11 @@
 #import "SPServerProxy.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "SPWeatherData.h"
+#import "SPZoneProperty.h"
+#import "SPWaterNowZone.h"
+#import "SPStartStopWatering.h"
+#import "SPZonePropertiesResponse.h"
+#import <objc/runtime.h>
 
 @implementation SPServerProxy
 
@@ -84,12 +89,73 @@
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"weatherdata"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-//        DLog(@"Success code: %d", [[operation response] statusCode]);
       [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[responseObject objectForKey:@"HomeScreen"] toClass:NSStringFromClass([SPWeatherData class])]];
       
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       [self handleError:error fromOperation:operation];
     }];
+}
+
+- (void)requestZonePropertyList
+{
+  [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
+                                           @"what": @"zones"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([SPZoneProperty class])]];
+  
+  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    [self handleError:error fromOperation:operation];
+  }];
+}
+
+- (void)requestWaterNowZoneList
+{
+  [self.manager GET:@"ui.cgi" parameters:@{@"action": @"zones"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             
+                                             [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([SPWaterNowZone class])]];
+                                             
+                                           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self handleError:error fromOperation:operation];
+                                           }];
+}
+
+- (void)requestWaterActionsForZone:(NSNumber*)zoneId
+{
+  [self.manager GET:@"ui.cgi" parameters:@{@"action": @"zoneedit",
+                                           @"zid": zoneId} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+                                             [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"zones"]]
+                                                               toClass:NSStringFromClass([SPWaterNowZone class])]];
+    
+  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    [self handleError:error fromOperation:operation];
+  }];
+}
+
+- (void)sendStartStopZoneWatering:(SPStartStopWatering*)zoneProperty
+{
+  NSDictionary *params = [self toDictionaryFromObject:zoneProperty];
+  [self.manager POST:@"ui.cgi?action=zonesave" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+  
+    // TODO: figure out the response type
+//    [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[responseObject objectForKey:@"Zones"] toClass:NSStringFromClass([SPZoneProperty class])]];
+    
+  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    [self handleError:error fromOperation:operation];
+  }];
+}
+
+- (void)sendZoneProperties:(SPZoneProperty*)zoneProperty
+{
+  NSDictionary *params = [self toDictionaryFromObject:zoneProperty];
+  [self.manager POST:@"ui.cgi?action=settings&what=zones" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject]
+                                                               toClass:NSStringFromClass([SPZonePropertiesResponse class])]];
+    
+  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    [self handleError:error fromOperation:operation];
+  }];
 }
 
 - (void)handleError:(NSError*)error fromOperation:(AFHTTPRequestOperation*) operation
@@ -121,7 +187,7 @@
   }
 }
 
-#pragma mark - Response objects conversion
+#pragma mark - Response/request objects conversion
 
 + (NSArray*)fromJSONArray:(NSArray*)jsonArray toClass:(NSString*)className
 {
@@ -146,6 +212,8 @@
   
   for (NSString *key in jsonDic) {
     if ([loadedObject respondsToSelector:NSSelectorFromString(key)]) {
+      // Use this line to debug types of received data members
+      NSLog(@"%@:, %@", key, NSStringFromClass([[jsonDic valueForKey:key] class]));
       [loadedObject setValue:[jsonDic valueForKey:key] forKey:key];
     } else {
       DLog(@"Error: response object of class %@ doesn't implement property '%@' of type %@", className, key, NSStringFromClass([[jsonDic valueForKey:key] class]));
@@ -153,6 +221,34 @@
   }
   
   return loadedObject;
+}
+
+- (NSDictionary*)toDictionaryFromObject:(id)object {
+  unsigned int outCount, i;
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  objc_property_t *properties = class_copyPropertyList([object class], &outCount);
+  for(i = 0; i < outCount; i++) {
+    objc_property_t property = properties[i];
+    const char *propName = property_getName(property);
+    if(propName) {
+      NSString *propertyName = [NSString stringWithCString:propName encoding:[NSString defaultCStringEncoding]];
+      [dict setObject:[object valueForKey:propertyName] forKey:propertyName];
+    }
+  }
+  free(properties);
+
+  return dict;
+}
+
+- (NSData*)toJSONFromObject:(id)object {
+  NSDictionary *dict = [self toDictionaryFromObject:object];
+  NSError *error;
+  NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+//  NSString *s = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  if (error) {
+    DLog(@"Error encoding object of type '%@': %@", NSStringFromClass([object class]), error);
+  }
+  return data;
 }
 
 - (void)dealloc
