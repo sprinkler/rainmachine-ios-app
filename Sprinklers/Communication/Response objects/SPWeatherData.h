@@ -11,7 +11,7 @@
 @interface SPWeatherData : NSObject
 
 @property (nonatomic, strong) NSNumber *day;
-@property (nonatomic, strong) NSNumber *icon;
+@property (nonatomic, strong) NSString *icon;
 @property (nonatomic, strong) NSNumber *id;
 @property (nonatomic, strong) NSNumber *maxt;
 @property (nonatomic, strong) NSNumber *mint;

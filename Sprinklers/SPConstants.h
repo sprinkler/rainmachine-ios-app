@@ -16,8 +16,14 @@
 #define keepAliveTimeout    0
 
 extern NSString* const SPTestServerURL;
-extern float kGreenButtonColor[3];
+extern float kLoginGreenButtonColor[3];
+extern float kWateringGreenButtonColor[3];
+extern float kWateringRedButtonColor[3];
+extern float kWindowTintColorOnBlueNavBar[3];
+extern float kBarBlueColor[3];
 extern float kWaterImageFillColor[3];
 extern float kWaterImageStrokeColor[3];
 
 extern NSString *daysOfTheWeek[7];
+
+extern float kWaterNowListRefreshTimeInterval;

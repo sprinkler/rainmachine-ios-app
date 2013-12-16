@@ -20,9 +20,7 @@
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "+NSDate.h"
-
-const int kLoggedOut_AlertViewTag = 1;
-const int kError_AlertViewTag = 2;
+#import "SPUtils.h"
 
 @interface SPHomeViewController ()
 
@@ -57,7 +55,7 @@ const float kHomeScreenCellHeight = 66;
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self];
+  self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
   [self.serverProxy requestWeatherData];
   [self startHud:@"Receiving data..."];
   
@@ -74,12 +72,9 @@ const float kHomeScreenCellHeight = 66;
   [self.dataSourceTableView reloadData];
 }
 
+#pragma mark - Alert view
+
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-  if (theAlertView.tag == kLoggedOut_AlertViewTag) {
-    SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
-    [tabBarController handleServerLoggedOutUser];
-  }
-  
   self.alertView = nil;
 }
 
@@ -219,7 +214,7 @@ const float kHomeScreenCellHeight = 66;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   if (tableView == self.dataSourceTableView) {
     static NSString *CellIdentifier = @"HomeDataSourceCell";
-    SPHomeScreenDataSourceCell *cell = (SPHomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    SPHomeScreenDataSourceCell *cell = (SPHomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
     cell.dataSourceLabel.text = tabBarController.sprinkler.address;
     cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [tabBarController.sprinkler.lastUpdate getTimeSinceDate]];
@@ -229,7 +224,7 @@ const float kHomeScreenCellHeight = 66;
   }
   
   static NSString *CellIdentifier = @"HomeScreenCell";
-  SPHomeScreenTableViewCell *cell = (SPHomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  SPHomeScreenTableViewCell *cell = (SPHomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
   SPWeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
   cell.waterPercentage = [weatherData.percentage floatValue];
   cell.waterImage.image = self.waterImage;
@@ -245,12 +240,8 @@ const float kHomeScreenCellHeight = 66;
     cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
   }
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  UIImage *weatherImage = [UIImage imageNamed:[NSString stringWithFormat:@"weather_%@", weatherData.icon]];
+  UIImage *weatherImage = [UIImage imageWithContentsOfFile:[SPUtils pathForWeatherImageWithname:weatherData.icon forHomeScreen:YES]];
   
-  if (!weatherImage) {
-    // TODO: remove this line
-    weatherImage = [UIImage imageNamed:@"weather_4"];
-  }
   cell.weatherImage.image = weatherImage;
   
   return cell;
@@ -269,24 +260,20 @@ const float kHomeScreenCellHeight = 66;
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
 {
   [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-  [self storeSprinklerError:[error localizedDescription]];
+  [(SPMainScreenViewController*)self.tabBarController handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
 
   [self refreshStatus];
-  
-  self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-  self.alertView.tag = kError_AlertViewTag;
-  [self.alertView show];
 }
 
-- (void)serverResponseReceived:(id)data
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
 {
   [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-  [self storeSprinklerError:nil];
+  [(SPMainScreenViewController*)self.tabBarController handleGeneralSprinklerError:nil showErrorMessage:YES];
   
   self.data = data;
   
@@ -298,19 +285,11 @@ const float kHomeScreenCellHeight = 66;
   [self.dataSourceTableView reloadData];
 }
 
-- (void)loginSucceeded
-{
-}
-
 - (void)loggedOut
 {
   [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-  [self storeSprinklerError:@"Logged out"];
-  
-  self.alertView = [[UIAlertView alloc] initWithTitle:@"Logged out" message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-  self.alertView.tag = kLoggedOut_AlertViewTag;
-  [self.alertView show];
+  [(SPMainScreenViewController*)self.tabBarController handleLoggedOutSprinklerError];
 }
 
 #pragma mark - Core Data
@@ -331,13 +310,6 @@ const float kHomeScreenCellHeight = 66;
   
   SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
   tabBarController.sprinkler.lastUpdate = myDate;
-  [[StorageManager current] saveData];
-}
-
-- (void)storeSprinklerError:(NSString*)errorMessage
-{
-  SPMainScreenViewController *tabBarController = (SPMainScreenViewController*)self.tabBarController;
-  tabBarController.sprinkler.lastError = errorMessage;
   [[StorageManager current] saveData];
 }
 

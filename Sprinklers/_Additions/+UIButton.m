@@ -16,4 +16,14 @@
   self.layer.cornerRadius = 10.0f;
 }
 
+- (void)setupWithImage:(UIImage*)img
+{
+  [self setImage:img forState:UIControlStateNormal];
+  [self setImage:img forState:UIControlStateHighlighted];
+  [self setImage:img forState:UIControlStateSelected];
+  
+  self.contentMode = UIViewContentModeScaleToFill; //Look up UIViewContentMode in the documentation for other options
+
+}
+
 @end

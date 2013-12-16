@@ -8,5 +8,6 @@
 @interface UIButton (Additions)
 
 - (void)setupAsRoundColouredButton:(UIColor*)color;
+- (void)setupWithImage:(UIImage*)img;
 
 @end

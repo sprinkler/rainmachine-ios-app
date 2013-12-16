@@ -270,10 +270,10 @@
             </objects>
             <point key="canvasLocation" x="1400" y="-359"/>
         </scene>
-        <!--Home View Controller - hey-->
+        <!--Home View Controller - Home-->
         <scene sceneID="lJC-fe-tPu">
             <objects>
-                <viewController title="hey" id="C0e-RJ-yZf" customClass="SPHomeViewController" sceneMemberID="viewController">
+                <viewController id="C0e-RJ-yZf" customClass="SPHomeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zMF-DW-2Wc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -369,7 +369,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="statusOK.png" id="b7i-Es-u8R">
-                                                    <rect key="frame" x="249" y="14" width="32" height="32"/>
+                                                    <rect key="frame" x="249" y="12" width="32" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -391,7 +391,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" id="0rs-fR-x7H"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="home3.png" id="0rs-fR-x7H"/>
                     <connections>
                         <outlet property="dataSourceTableView" destination="9fh-9k-AQL" id="8yQ-MH-NgD"/>
                         <outlet property="tableView" destination="AQc-sT-5HS" id="6KS-Fn-hZh"/>
@@ -413,7 +413,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="C0e-RJ-yZf" kind="relationship" relationship="viewControllers" id="gE6-2b-CKh"/>
-                        <segue destination="06D-oE-K0d" kind="relationship" relationship="viewControllers" id="Tul-8W-Iqv"/>
+                        <segue destination="Lkt-7z-UWO" kind="relationship" relationship="viewControllers" id="AkC-ou-bFE"/>
                         <segue destination="LjN-mg-9JI" kind="relationship" relationship="viewControllers" id="Qt8-AM-k47"/>
                     </connections>
                 </tabBarController>
@@ -421,20 +421,165 @@
             </objects>
             <point key="canvasLocation" x="1879" y="-357"/>
         </scene>
-        <!--Water Now View Controller - Water Now-->
-        <scene sceneID="nba-cO-xmQ">
+        <!--Water Now Table View Controller - Water Now-->
+        <scene sceneID="1mb-7N-e3P">
             <objects>
-                <viewController id="06D-oE-K0d" customClass="SPWaterNowViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Dsm-dM-JpI">
+                <tableViewController id="Lkt-7z-UWO" customClass="SPWaterNowTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="9Cp-ai-AYz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Water Now" id="aPO-pg-2qc"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OrM-3H-yZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WaterZoneListCell" id="AbX-5p-0Zw" customClass="SPWaterZoneListCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AbX-5p-0Zw" id="P3E-1s-ERQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="lcL-Sw-gJM">
+                                            <rect key="frame" x="9" y="14" width="51" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <connections>
+                                                <action selector="onSwitch:" destination="AbX-5p-0Zw" eventType="valueChanged" id="z2T-bN-gOz"/>
+                                            </connections>
+                                        </switch>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Cej-eN-f8l">
+                                            <rect key="frame" x="66" y="12" width="161" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="umK-yD-45c">
+                                            <rect key="frame" x="66" y="29" width="161" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lll-MV-qpt">
+                                            <rect key="frame" x="235" y="19" width="52" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="umK-yD-45c" id="etC-oW-vd3"/>
+                                    <outlet property="onOffSwitch" destination="lcL-Sw-gJM" id="wBI-ID-ui9"/>
+                                    <outlet property="timeLabel" destination="Lll-MV-qpt" id="hyX-9F-d4v"/>
+                                    <outlet property="zoneNameLabel" destination="Cej-eN-f8l" id="C9t-yg-0Eq"/>
+                                    <segue destination="ETk-29-4SJ" kind="push" id="kJb-rg-hRR"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Lkt-7z-UWO" id="bQL-dX-QbO"/>
+                            <outlet property="delegate" destination="Lkt-7z-UWO" id="D7o-a0-YE2"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Water Now" image="waternow.png" id="2Ez-Yp-TZe"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fuc-Gu-Lhk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2411" y="-33"/>
+            <point key="canvasLocation" x="2411" y="-14"/>
+        </scene>
+        <!--Water Zone Now Table View Controller-->
+        <scene sceneID="h8S-aQ-oH7">
+            <objects>
+                <tableViewController id="ETk-29-4SJ" customClass="SPWaterZoneNowTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="1000" sectionHeaderHeight="22" sectionFooterHeight="22" id="2fO-7X-0jp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <color key="sectionIndexTrackingBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="wa2-E3-Ubm">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="300" id="5ol-jE-NxA" customClass="SPWaterNowZoneTimerCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5ol-jE-NxA" id="eZA-g0-68s">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="299"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="u6g-EN-ICW">
+                                                    <rect key="frame" x="39" y="20" width="243" height="142"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="86"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xad-Jd-c7t">
+                                                    <rect key="frame" x="59" y="191" width="88" height="88"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="onUpButton:" destination="ETk-29-4SJ" eventType="touchUpInside" id="t51-5W-3X6"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MDy-3o-MDY">
+                                                    <rect key="frame" x="174" y="191" width="88" height="88"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="onDownButton:" destination="ETk-29-4SJ" eventType="touchUpInside" id="N1D-Mw-uue"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="bhH-XO-g4S">
+                                        <rect key="frame" x="0.0" y="300" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bhH-XO-g4S" id="3nA-ZY-Mit">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Xq2-Hv-Y2v">
+                                                    <rect key="frame" x="20" y="7" width="280" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="onStartButton:" destination="ETk-29-4SJ" eventType="touchUpInside" id="8yO-J6-833"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="ETk-29-4SJ" id="OZm-dm-94C"/>
+                            <outlet property="delegate" destination="ETk-29-4SJ" id="a0r-vG-Mdy"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="R73-rF-2uz"/>
+                    <connections>
+                        <outlet property="downButton" destination="MDy-3o-MDY" id="67D-sP-z6x"/>
+                        <outlet property="startButton" destination="Xq2-Hv-Y2v" id="TzO-ij-pbB"/>
+                        <outlet property="timerLabel" destination="u6g-EN-ICW" id="wIg-Cb-rr9"/>
+                        <outlet property="upButton" destination="Xad-Jd-c7t" id="fbo-Dl-hnj"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iz1-q9-ZdQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2880" y="-14"/>
         </scene>
         <!--Settings View Controller - Settings-->
         <scene sceneID="BC7-4G-5nD">
@@ -445,7 +590,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" id="LE5-UC-8dX"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings_sprinkler.png" id="LE5-UC-8dX"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eTK-zg-TzF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -591,7 +736,10 @@
     </scenes>
     <resources>
         <image name="bucket.png" width="319" height="199"/>
+        <image name="home3.png" width="18" height="18"/>
+        <image name="settings_sprinkler.png" width="18" height="18"/>
         <image name="statusOK.png" width="32" height="32"/>
+        <image name="waternow.png" width="18" height="18"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

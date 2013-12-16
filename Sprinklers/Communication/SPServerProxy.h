@@ -21,15 +21,15 @@
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 @property (nonatomic, strong) NSString* serverURL;
 
-- (id)initWithServerURL:(NSString*)serverURL delegate:(id<SPSprinklerResponseProtocol>)del;
+- (id)initWithServerURL:(NSString*)serverURL delegate:(id<SPSprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest;
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe;
 
 - (void)requestWeatherData;
-- (void)requestZonePropertyList;
+- (void)requestZonePropertiesList;
 - (void)requestWaterNowZoneList;
 - (void)requestWaterActionsForZone:(NSNumber*)zoneId;
 
 - (void)sendZoneProperties:(SPZoneProperty*)zoneProperty;
-- (void)sendStartStopZoneWatering:(SPStartStopWatering*)zoneProperty;
+- (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter;
 
 @end

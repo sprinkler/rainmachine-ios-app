@@ -163,6 +163,7 @@
  @return The newly-initialized HTTP client
  */
 - (instancetype)initWithBaseURL:(NSURL *)url;
+- (instancetype)initWithBaseURL:(NSURL *)url jsonRequest:(BOOL)jsonRequest;
 
 ///---------------------------------------
 /// @name Managing HTTP Request Operations

@@ -1048,7 +1048,18 @@ typedef enum {
     NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
 
     [mutableRequest setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
-    [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
+  
+  // TODO: remove these lines
+  // Test 2
+//  NSString *test = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error] encoding:NSUTF8StringEncoding];
+//  test = [test stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+//  [mutableRequest setHTTPBody:[test dataUsingEncoding:NSUTF8StringEncoding]];
+  
+  // Test 1
+//  NSString *test = @"{counter: 0, id: 4}";
+//  [mutableRequest setHTTPBody:[test dataUsingEncoding:NSUTF8StringEncoding]];
+
+  [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
 
     return mutableRequest;
 }

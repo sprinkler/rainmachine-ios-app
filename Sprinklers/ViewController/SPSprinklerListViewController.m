@@ -199,7 +199,7 @@
   
   if (indexPath.section == 0) {
     NSString *cellID = @"DeviceDescriptionCellID";
-    cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
     Sprinkler *spr = savedSprinklers[indexPath.row];
     cell.textLabel.text = spr.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", spr.address];
@@ -213,14 +213,14 @@
   else if (indexPath.section == 1) {
     if (indexPath.row < [discoveredSprinklers count]) {
       NSString *cellID = @"DeviceFoundCellID";
-      cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+      cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
       DiscoveredSprinklers *spr = discoveredSprinklers[indexPath.row];
       cell.textLabel.text = spr.sprinklerName;
       cell.detailTextLabel.text = spr.host;
     }
     else {
       NSString *cellID = @"DeviceAddCellID";
-      cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+      cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
     }
     
     return cell;

@@ -43,7 +43,12 @@
     return [[[self class] alloc] initWithBaseURL:nil];
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url {
+- (instancetype)initWithBaseURL:(NSURL *)url
+{
+  return [self initWithBaseURL:url jsonRequest:NO];
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)url jsonRequest:(BOOL)jsonRequest {
     self = [super init];
     if (!self) {
         return nil;
@@ -56,7 +61,7 @@
 
     self.baseURL = url;
 
-    self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    self.requestSerializer = jsonRequest ? [AFJSONRequestSerializer serializer] : [AFHTTPRequestSerializer serializer];
     self.responseSerializer = [AFJSONResponseSerializer serializer];
 
     self.securityPolicy = [AFSecurityPolicy defaultPolicy];

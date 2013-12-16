@@ -62,7 +62,7 @@
   else if (indexPath.section == 3) {
     // Customize the Save button
     cell.backgroundColor = [UIColor clearColor];
-    [self.saveButton setupAsRoundColouredButton:[UIColor colorWithRed:kGreenButtonColor[0] green:kGreenButtonColor[1] blue:kGreenButtonColor[2] alpha:1]];
+    [self.saveButton setupAsRoundColouredButton:[UIColor colorWithRed:kLoginGreenButtonColor[0] green:kLoginGreenButtonColor[1] blue:kLoginGreenButtonColor[2] alpha:1]];
   }
 
   return cell;

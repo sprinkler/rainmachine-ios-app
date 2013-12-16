@@ -46,7 +46,7 @@
   self.checkBox.adjustsImageWhenHighlighted = YES;
   [self.checkBox addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
 
-  [self.loginButton setupAsRoundColouredButton:[UIColor colorWithRed:kGreenButtonColor[0] green:kGreenButtonColor[1] blue:kGreenButtonColor[2] alpha:1]];
+  [self.loginButton setupAsRoundColouredButton:[UIColor colorWithRed:kLoginGreenButtonColor[0] green:kLoginGreenButtonColor[1] blue:kLoginGreenButtonColor[2] alpha:1]];
   
   self.tableView.sectionFooterHeight = 0;
   self.tableView.sectionHeaderHeight = 0;
@@ -84,7 +84,7 @@
 #pragma mark - Actions
 
 - (IBAction)onLogin:(id)sender {
-  self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self];
+  self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
   
   [self.serverProxy loginWithUserName:@"admin" password:self.passwordTextField.text rememberMe:self.checkBox.isSelected];
   [self startHud:@"Logging in..."];
@@ -137,14 +137,14 @@
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
 {
   [self hideHud];
   self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
   [self.alertView show];
 }
 
-- (void)serverResponseReceived:(id)data
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
 {
   [self hideHud];
 }

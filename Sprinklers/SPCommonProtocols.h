@@ -10,9 +10,11 @@
 
 @protocol SPSprinklerResponseProtocol <NSObject>
 
-- (void)loginSucceeded;
 - (void)loggedOut;
-- (void)serverErrorReceived:(NSError*)error;
-- (void)serverResponseReceived:(id)data;
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy;
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy;
+
+@optional
+- (void)loginSucceeded;
 
 @end
