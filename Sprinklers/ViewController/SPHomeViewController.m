@@ -240,7 +240,7 @@ const float kHomeScreenCellHeight = 66;
     cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
   }
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  UIImage *weatherImage = [UIImage imageWithContentsOfFile:[SPUtils pathForWeatherImageWithname:weatherData.icon forHomeScreen:YES]];
+  UIImage *weatherImage = [UIImage imageWithContentsOfFile:[SPUtils pathForWeatherImageWithName:weatherData.icon forHomeScreen:YES]];
   
   cell.weatherImage.image = weatherImage;
   

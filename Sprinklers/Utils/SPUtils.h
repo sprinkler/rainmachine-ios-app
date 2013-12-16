@@ -12,7 +12,7 @@
 
 + (int)checkOSVersion;
 + (BOOL)retinaScreen;
-+ (NSString*)pathForWeatherImageWithname:(NSString*)imageName forHomeScreen:(BOOL)forHomeScreen;
++ (NSString*)pathForWeatherImageWithName:(NSString*)imageName forHomeScreen:(BOOL)forHomeScreen;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter;
 
 @end

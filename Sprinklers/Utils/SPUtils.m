@@ -12,7 +12,7 @@
 
 #pragma mark - Sprinkler specific utils
 
-+ (NSString*)pathForWeatherImageWithname:(NSString*)imageName forHomeScreen:(BOOL)forHomeScreen
++ (NSString*)pathForWeatherImageWithName:(NSString*)imageName forHomeScreen:(BOOL)forHomeScreen
 {
   NSString *dataFolder = [[NSBundle mainBundle] resourcePath];
   if (forHomeScreen) {
