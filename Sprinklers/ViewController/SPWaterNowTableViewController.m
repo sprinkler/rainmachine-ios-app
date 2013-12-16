@@ -53,7 +53,7 @@
   switchOnOrangeColor = [UIColor colorWithRed:255 / 255.0 green:101 / 255.0 blue:0 / 255.0 alpha:1];
 
   UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
-  self.navigationItem.leftBarButtonItem = backButton;
+  self.tabBarController.navigationItem.rightBarButtonItem = backButton;
 
   self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
   self.postServerProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:YES];
