@@ -26,4 +26,5 @@ extern float kWaterImageStrokeColor[3];
 
 extern NSString *daysOfTheWeek[7];
 
+
 extern float kWaterNowListRefreshTimeInterval;

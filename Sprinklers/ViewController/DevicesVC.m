@@ -68,6 +68,10 @@
     [self createFooter];
     
     [self shouldStartBroadcast];
+    
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+    self.navigationItem.rightBarButtonItem = closeButton;
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -86,6 +90,10 @@
 }
 
 #pragma mark - Methods
+
+- (void)done {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)createFooter {
     NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
