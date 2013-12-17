@@ -8,4 +8,8 @@
 
 + (NSDictionary *)dictionaryWithContentsOfData:(NSData *)data;
 
+- (NSString *)nullProofedStringValueForKey: (NSString *)key;
+- (int)nullProofedIntValueForKey: (NSString *)key;
+- (BOOL)nullProofedBoolValueForKey: (NSString *)key;
+
 @end

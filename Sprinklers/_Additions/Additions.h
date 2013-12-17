@@ -12,3 +12,4 @@
 #import "+UIScreen.h"
 #import "+UILabel.h"
 #import "+UIBezierPath.h"
+#import "+UIImageView.h"

@@ -13,37 +13,56 @@
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "SPConstants.h"
+#import "StatsVC.h"
+#import "SettingsVC.h"
+#import "WaterNowVC.h"
+#import "Additions.h"
 
 @implementation AppDelegate
 
 #pragma mark - Init
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        SprinklerListViewController_iPhone *sprinklerController = [[SprinklerListViewController_iPhone alloc] init];
-//        UINavigationController *navSprinkler = [[UINavigationController alloc] initWithRootViewController:sprinklerController];
-//        navSprinkler.navigationBar.barStyle = UIBarStyleBlackOpaque;
-//        self.window.rootViewController = navSprinkler;
-//    }
-//    
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-//        SprinklerListViewController_iPad *sprinklerController = [[SprinklerListViewController_iPad alloc] init];
-//        UINavigationController *navSprinkler = [[UINavigationController alloc] initWithRootViewController:sprinklerController];
-//        navSprinkler.navigationBar.barStyle = UIBarStyleBlackOpaque;
-//        self.window.rootViewController = navSprinkler;
-//    }    
-
-//  UINavigationController *rootNavigationController = (UINavigationController *)self.window.rootViewController;
-//  SPSprinklerListViewController *myViewController = (SPSprinklerListViewController *)[rootNavigationController topViewController];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        self.window.tintColor = [UIColor whiteColor];
+        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        
+        [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1]];
+        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+    }
+    
+    StatsVC *statsVC = [[StatsVC alloc] init];
+    UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:statsVC];
+    UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"home3.png"] tag:2];
+    statsVC.tabBarItem = tabBarItemStats;
+    
+    WaterNowVC *waterVC = [[WaterNowVC alloc] init];
+    UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
+    UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Water Now" image:[UIImage imageNamed:@"waternow.png"] tag:2];
+    waterVC.tabBarItem = tabBarItemWaterNow;
+    
+    SettingsVC *settingsVC = [[SettingsVC alloc] init];
+    UINavigationController *navSettings = [[UINavigationController alloc] initWithRootViewController:settingsVC];
+    UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"settings_sprinkler.png"] tag:2];
+    settingsVC.tabBarItem = tabBarItemSettings;
+    
+    _tabBarController = [[UITabBarController alloc] init];
+    _tabBarController.viewControllers = @[navStats, navWater, navSettings];
+    self.window.rootViewController = _tabBarController;
   
-  NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
-  Sprinkler *sprinkler = [[StorageManager current] getSprinkler:kTestSprinklerName];
-  if (!sprinkler) {
-    [[StorageManager current] addSprinkler:kTestSprinklerName ipAddress:SPTestServerURL port:@"443"];
-  }
+    NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
+    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:kTestSprinklerName];
+    if (!sprinkler) {
+        [[StorageManager current] addSprinkler:kTestSprinklerName ipAddress:SPTestServerURL port:@"443"];
+    }
+    
+    if (![[UIDevice currentDevice] iOSGreaterThan:7]) {
+        [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackOpaque];
+    }
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
