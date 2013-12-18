@@ -23,8 +23,6 @@
   self = [super initWithCoder:coder];
   if (self) {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
   }
   return self;
 }
@@ -32,14 +30,17 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
-  self.navigationItem.leftBarButtonItem = saveButton;
-  self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
+
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
+    self.navigationItem.leftBarButtonItem = saveButton;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
   
 //  [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey],
 //  (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey],
 //  [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion];
-  [self createFooter];
+    [self createFooter];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -271,18 +272,6 @@
   [self setViewLoading:nil];
   loadingOverlay = nil;
   [super viewDidUnload];
-}
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-  // Get the new view controller using [segue destinationViewController].
-  // Pass the selected object to the new view controller.
-  UIViewController *destViewController = [segue destinationViewController];
-  if ([destViewController isKindOfClass:[SPLoginViewController class]]) {
-    SPLoginViewController *loginViewController = (SPLoginViewController*)destViewController;
-    loginViewController.sprinkler = savedSprinklers[[self.tableView indexPathForSelectedRow].row];
-  }
 }
 
 @end

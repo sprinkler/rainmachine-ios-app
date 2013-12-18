@@ -1,15 +1,14 @@
 //
-//  SPWaterZoneListCell.m
+//  WaterNowTimerCell.m
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 14/12/13.
+//  Created by Fabian Matyas on 18/12/13.
 //  Copyright (c) 2013 Tremend. All rights reserved.
 //
 
-#import "SPWaterZoneListCell.h"
-#import "WaterNowVC.h"
+#import "WaterNowTimerCell.h"
 
-@implementation SPWaterZoneListCell
+@implementation WaterNowTimerCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -25,10 +24,6 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
-}
-
-- (IBAction)onSwitch:(id)sender {
-  [self.delegate toggleWatering:sender onZoneWithId:self.id andCounter:self.counter];
 }
 
 @end

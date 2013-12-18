@@ -207,7 +207,7 @@
         cell.labelMainTitle.text = sprinkler.name;
         cell.labelMainSubtitle.text = sprinkler.address;
         
-        // TODO: decide upon loca/remote type on runtime
+        // TODO: decide upon local/remote type on runtime
         cell.labelInfo.text = @"remote";
     
         return cell;

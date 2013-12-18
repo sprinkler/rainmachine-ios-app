@@ -111,6 +111,7 @@
 
 - (void)loginSucceeded {
     self.sprinkler.loginRememberMe = [NSNumber numberWithBool:_buttonCheckBox.selected];
+    [StorageManager current].currentSprinkler = self.sprinkler;
     [[StorageManager current] saveData];
     
     [self hideHud];

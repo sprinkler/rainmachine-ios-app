@@ -8,7 +8,30 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseLevel2ViewController.h"
+#import "SPCommonProtocols.h"
 
-@interface WaterNowLevel1VC : BaseLevel2ViewController
+@class SPWaterNowZone;
+@class SPServerProxy;
+@class WaterNowVC;
+
+@interface WaterNowLevel1VC : BaseLevel2ViewController<SPSprinklerResponseProtocol>
+{
+    NSTimeInterval retryInterval;
+    UIColor *greenColor;
+    UIColor *redColor;
+}
+
+@property (retain, nonatomic) SPWaterNowZone *waterZone;
+@property (strong, nonatomic) SPServerProxy *serverProxy;
+@property (strong, nonatomic) SPServerProxy *postServerProxy; // TODO: rename it to pollServerProxy or something better
+@property (strong, nonatomic) UIAlertView *alertView;
+@property (strong, nonatomic) NSDate *lastListRefreshDate;
+@property (strong, nonatomic) NSError *lastScheduleRequestError;
+@property (strong, nonatomic) WaterNowVC *parent;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+- (IBAction)onUpButton:(id)sender;
+- (IBAction)onDownButton:(id)sender;
+- (IBAction)onStartButton:(id)sender;
 
 @end

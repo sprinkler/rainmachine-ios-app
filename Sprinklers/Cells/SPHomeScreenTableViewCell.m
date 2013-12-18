@@ -30,7 +30,7 @@
 {
   [super layoutSubviews];
   float waterWavesWidth = (self.waterWavesImageView.image.size.width * self.frame.size.height) / self.waterWavesImageView.image.size.height;
-  int w = MAX(0, (120 * self.waterPercentage) - waterWavesWidth);
+  int w = MAX(waterWavesWidth, (120 * self.waterPercentage) - waterWavesWidth);
   
   float padding = 0;
   self.daylabel.center = CGPointMake(self.daylabel.center.x, self.frame.size.height / 2 - self.daylabel.frame.size.height / 2 - padding);

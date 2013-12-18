@@ -14,18 +14,20 @@
 		AF0E69D2185F94B0000A3E90 /* settings_sprinkler@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D0185F94B0000A3E90 /* settings_sprinkler@2x.png */; };
 		AF0E69D5185F9502000A3E90 /* waternow.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D3185F9502000A3E90 /* waternow.png */; };
 		AF0E69D6185F9502000A3E90 /* waternow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D4185F9502000A3E90 /* waternow@2x.png */; };
+		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
+		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
+		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
+		AF0EFF5C1861C504007BF852 /* WaterNowTimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */; };
+		AF0EFF5E1861C516007BF852 /* WaterNowStartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */; };
+		AF0EFF611861C55B007BF852 /* WaterNowStartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */; };
+		AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */; };
 		AF2704FA184DE8040081155A /* SPAddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */; };
 		AF3F781218571A6100D9DEB3 /* SPHomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */; };
-		AF41C9A8184F217D00C94822 /* SPMainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9A7184F217D00C94822 /* SPMainScreenViewController.m */; };
-		AF41C9AB184F436B00C94822 /* SPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9AA184F436B00C94822 /* SPHomeViewController.m */; };
 		AF41C9B1184F441500C94822 /* SPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9B0184F441500C94822 /* SPSettingsViewController.m */; };
 		AF4F42DF184CA598001796AE /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF4F42DE184CA598001796AE /* Storyboard.storyboard */; };
 		AF4F42E2184CA911001796AE /* SPSprinklerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4F42E1184CA911001796AE /* SPSprinklerListViewController.m */; };
-		AF5D798F185CBA3800A49CF7 /* SPWaterNowTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D798E185CBA3800A49CF7 /* SPWaterNowTableViewController.m */; };
-		AF5D7992185CD85800A49CF7 /* SPWaterZoneNowTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D7991185CD85800A49CF7 /* SPWaterZoneNowTableViewController.m */; };
 		AF5D7995185CDC2900A49CF7 /* buttonDown.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7993185CDC2900A49CF7 /* buttonDown.png */; };
 		AF5D7996185CDC2900A49CF7 /* buttonUp.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7994185CDC2900A49CF7 /* buttonUp.png */; };
-		AF5D7999185CDCC100A49CF7 /* SPWaterNowZoneTimerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D7998185CDCC100A49CF7 /* SPWaterNowZoneTimerCell.m */; };
 		AF5D79A0185CEBB900A49CF7 /* SPFormatterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D799F185CEBB900A49CF7 /* SPFormatterHelper.m */; };
 		AF7782C4184CD3DE00DCBD54 /* SPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* SPConstants.m */; };
 		AF77AC12185F460F00E3C36F /* bkn.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AB61185F45E700E3C36F /* bkn.png */; };
@@ -528,27 +530,26 @@
 		AF0E69D0185F94B0000A3E90 /* settings_sprinkler@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings_sprinkler@2x.png"; path = "Resources/settings_sprinkler@2x.png"; sourceTree = "<group>"; };
 		AF0E69D3185F9502000A3E90 /* waternow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = waternow.png; path = Resources/waternow.png; sourceTree = "<group>"; };
 		AF0E69D4185F9502000A3E90 /* waternow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "waternow@2x.png"; path = "Resources/waternow@2x.png"; sourceTree = "<group>"; };
+		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
+		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
+		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
+		AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterNowTimerCell.xib; path = Cells/WaterNowTimerCell.xib; sourceTree = "<group>"; };
+		AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterNowStartCell.xib; path = Cells/WaterNowStartCell.xib; sourceTree = "<group>"; };
+		AF0EFF5F1861C55B007BF852 /* WaterNowStartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowStartCell.h; path = Cells/WaterNowStartCell.h; sourceTree = "<group>"; };
+		AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowStartCell.m; path = Cells/WaterNowStartCell.m; sourceTree = "<group>"; };
+		AF0EFF621861C573007BF852 /* WaterNowTimerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowTimerCell.h; path = Cells/WaterNowTimerCell.h; sourceTree = "<group>"; };
+		AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowTimerCell.m; path = Cells/WaterNowTimerCell.m; sourceTree = "<group>"; };
 		AF2704F8184DE8040081155A /* SPAddSprinklerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPAddSprinklerViewController.h; path = ViewController/SPAddSprinklerViewController.h; sourceTree = "<group>"; };
 		AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPAddSprinklerViewController.m; path = ViewController/SPAddSprinklerViewController.m; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* SPHomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeScreenTableViewCell.h; path = Cells/SPHomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeScreenTableViewCell.m; path = Cells/SPHomeScreenTableViewCell.m; sourceTree = "<group>"; };
-		AF41C9A6184F217D00C94822 /* SPMainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPMainScreenViewController.h; path = ViewController/SPMainScreenViewController.h; sourceTree = "<group>"; };
-		AF41C9A7184F217D00C94822 /* SPMainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPMainScreenViewController.m; path = ViewController/SPMainScreenViewController.m; sourceTree = "<group>"; };
-		AF41C9A9184F436B00C94822 /* SPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeViewController.h; path = ViewController/SPHomeViewController.h; sourceTree = "<group>"; };
-		AF41C9AA184F436B00C94822 /* SPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeViewController.m; path = ViewController/SPHomeViewController.m; sourceTree = "<group>"; };
 		AF41C9AF184F441500C94822 /* SPSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPSettingsViewController.h; path = ViewController/SPSettingsViewController.h; sourceTree = "<group>"; };
 		AF41C9B0184F441500C94822 /* SPSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPSettingsViewController.m; path = ViewController/SPSettingsViewController.m; sourceTree = "<group>"; };
 		AF4F42DE184CA598001796AE /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		AF4F42E0184CA911001796AE /* SPSprinklerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPSprinklerListViewController.h; path = ViewController/SPSprinklerListViewController.h; sourceTree = "<group>"; };
 		AF4F42E1184CA911001796AE /* SPSprinklerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPSprinklerListViewController.m; path = ViewController/SPSprinklerListViewController.m; sourceTree = "<group>"; };
-		AF5D798D185CBA3800A49CF7 /* SPWaterNowTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPWaterNowTableViewController.h; path = ViewController/SPWaterNowTableViewController.h; sourceTree = "<group>"; };
-		AF5D798E185CBA3800A49CF7 /* SPWaterNowTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPWaterNowTableViewController.m; path = ViewController/SPWaterNowTableViewController.m; sourceTree = "<group>"; };
-		AF5D7990185CD85800A49CF7 /* SPWaterZoneNowTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPWaterZoneNowTableViewController.h; path = ViewController/SPWaterZoneNowTableViewController.h; sourceTree = "<group>"; };
-		AF5D7991185CD85800A49CF7 /* SPWaterZoneNowTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPWaterZoneNowTableViewController.m; path = ViewController/SPWaterZoneNowTableViewController.m; sourceTree = "<group>"; };
 		AF5D7993185CDC2900A49CF7 /* buttonDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonDown.png; path = Resources/buttonDown.png; sourceTree = "<group>"; };
 		AF5D7994185CDC2900A49CF7 /* buttonUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonUp.png; path = Resources/buttonUp.png; sourceTree = "<group>"; };
-		AF5D7997185CDCC100A49CF7 /* SPWaterNowZoneTimerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPWaterNowZoneTimerCell.h; path = Cells/SPWaterNowZoneTimerCell.h; sourceTree = "<group>"; };
-		AF5D7998185CDCC100A49CF7 /* SPWaterNowZoneTimerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPWaterNowZoneTimerCell.m; path = Cells/SPWaterNowZoneTimerCell.m; sourceTree = "<group>"; };
 		AF5D799E185CEBB900A49CF7 /* SPFormatterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPFormatterHelper.h; sourceTree = "<group>"; };
 		AF5D799F185CEBB900A49CF7 /* SPFormatterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPFormatterHelper.m; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* SPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPConstants.h; path = ../SPConstants.h; sourceTree = "<group>"; };
@@ -1262,14 +1263,6 @@
 				AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */,
 				AF7AC9AE184E13890047BD9E /* SPLoginViewController.h */,
 				AF7AC9AF184E13890047BD9E /* SPLoginViewController.m */,
-				AF41C9A6184F217D00C94822 /* SPMainScreenViewController.h */,
-				AF41C9A7184F217D00C94822 /* SPMainScreenViewController.m */,
-				AF41C9A9184F436B00C94822 /* SPHomeViewController.h */,
-				AF41C9AA184F436B00C94822 /* SPHomeViewController.m */,
-				AF5D798D185CBA3800A49CF7 /* SPWaterNowTableViewController.h */,
-				AF5D798E185CBA3800A49CF7 /* SPWaterNowTableViewController.m */,
-				AF5D7990185CD85800A49CF7 /* SPWaterZoneNowTableViewController.h */,
-				AF5D7991185CD85800A49CF7 /* SPWaterZoneNowTableViewController.m */,
 				AF41C9AF184F441500C94822 /* SPSettingsViewController.h */,
 				AF41C9B0184F441500C94822 /* SPSettingsViewController.m */,
 				B1583E6816A803830051B480 /* WebPageViewController.h */,
@@ -1313,8 +1306,7 @@
 				AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */,
 				AF789761185C955F00449381 /* SPWaterZoneListCell.h */,
 				AF789762185C955F00449381 /* SPWaterZoneListCell.m */,
-				AF5D7997185CDCC100A49CF7 /* SPWaterNowZoneTimerCell.h */,
-				AF5D7998185CDCC100A49CF7 /* SPWaterNowZoneTimerCell.m */,
+				AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */,
 				B1213EAF1860879F009D97F4 /* DevicesCellType1.h */,
 				B1213EB01860879F009D97F4 /* DevicesCellType1.m */,
 				B1213EB2186087B3009D97F4 /* DevicesCellType1.xib */,
@@ -1324,6 +1316,14 @@
 				B1213EBA186090CC009D97F4 /* DevicesCellType3.h */,
 				B1213EBB186090CC009D97F4 /* DevicesCellType3.m */,
 				B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */,
+				AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */,
+				AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */,
+				AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */,
+				AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */,
+				AF0EFF5F1861C55B007BF852 /* WaterNowStartCell.h */,
+				AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */,
+				AF0EFF621861C573007BF852 /* WaterNowTimerCell.h */,
+				AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1661,11 +1661,14 @@
 				B1DF326416A6A68700A1BF38 /* Default-568h@2x.png in Resources */,
 				B111984D16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib in Resources */,
 				AF4F42DF184CA598001796AE /* Storyboard.storyboard in Resources */,
+				AF0EFF5E1861C516007BF852 /* WaterNowStartCell.xib in Resources */,
 				B1EF21181860497B00D9CE26 /* SettingsVC.xib in Resources */,
 				B111986D16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib in Resources */,
 				B1213EB918608FF6009D97F4 /* DevicesCellType2.xib in Resources */,
 				B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */,
 				B1EF2128186049B800D9CE26 /* SettingsTestLevel1VC.xib in Resources */,
+				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
+				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
 				AFCC57B4185860FD001F48F0 /* statusWarning.png in Resources */,
 				B1583E5C16A7F9640051B480 /* rose.png in Resources */,
 				B1583E6C16A803830051B480 /* WebPageViewController.xib in Resources */,
@@ -1687,6 +1690,7 @@
 				AFC7E93718579D7600ACA626 /* statusOK.png in Resources */,
 				B1213EC2186094DB009D97F4 /* image_arrow_next_gray@2x.png in Resources */,
 				B1EF21231860499E00D9CE26 /* WaterNowVC.xib in Resources */,
+				AF0EFF5C1861C504007BF852 /* WaterNowTimerCell.xib in Resources */,
 				B1213EC0186090E7009D97F4 /* DevicesCellType3.xib in Resources */,
 				B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */,
 				B1EF2132186049D800D9CE26 /* WaterNowLevel1VC.xib in Resources */,
@@ -1700,6 +1704,7 @@
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,
 				B11F7DAE16B99B0A00E36D00 /* SprinklerStaticListViewController.xib in Resources */,
 				B11F7DB216BA6F3B00E36D00 /* form_inputbox_one.png in Resources */,
+				AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */,
 				B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1713,7 +1718,6 @@
 			files = (
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
 				AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */,
-				AF41C9AB184F436B00C94822 /* SPHomeViewController.m in Sources */,
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
@@ -1734,7 +1738,6 @@
 				AF41C9B1184F441500C94822 /* SPSettingsViewController.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
 				B1EF20F3186046D300D9CE26 /* +UIColor.m in Sources */,
-				AF5D7999185CDCC100A49CF7 /* SPWaterNowZoneTimerCell.m in Sources */,
 				B1EF20EF186046D300D9CE26 /* +NSDate.m in Sources */,
 				AF7AC9D7184E3DEB0047BD9E /* AFURLRequestSerialization.m in Sources */,
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,
@@ -1743,21 +1746,21 @@
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* SPUtils.m in Sources */,
 				AF91C7F01858D047005888AA /* SPWaterNowZone.m in Sources */,
+				AF0EFF611861C55B007BF852 /* WaterNowStartCell.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
 				B1EF20F8186046D300D9CE26 /* +UIScreen.m in Sources */,
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
+				AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */,
 				AFC58172184E58FD00C8D06A /* SPWeatherData.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
-				AF5D7992185CD85800A49CF7 /* SPWaterZoneNowTableViewController.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
 				B111984C16A7E3220094EF9F /* SprinklerListViewController_iPhone.m in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				AF4F42E2184CA911001796AE /* SPSprinklerListViewController.m in Sources */,
-				AF5D798F185CBA3800A49CF7 /* SPWaterNowTableViewController.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				B111986C16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
@@ -1784,7 +1787,6 @@
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
-				AF41C9A8184F217D00C94822 /* SPMainScreenViewController.m in Sources */,
 				B11F7DA816B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
 				AFC7E93A18579EE900ACA626 /* SPHomeScreenDataSourceCell.m in Sources */,

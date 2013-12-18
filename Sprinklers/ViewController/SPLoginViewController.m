@@ -12,7 +12,6 @@
 #import "SPConstants.h"
 #import "SPServerProxy.h"
 #import "MBProgressHUD.h"
-#import "SPMainScreenViewController.h"
 #import "StorageManager.h"
 
 @interface SPLoginViewController ()
@@ -50,10 +49,6 @@
   
   self.tableView.sectionFooterHeight = 0;
   self.tableView.sectionHeaderHeight = 0;
-  
-  if ([self.sprinkler.loginRememberMe boolValue]) {
-    [self showMainScreen];
-  }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -107,32 +102,14 @@
 }
 
 - (void)startHud:(NSString *)text {
-//  self.loadingOverlay = [[UIView alloc] initWithFrame:self.view.bounds];
-//  self.loadingOverlay.backgroundColor = [UIColor clearColor];
-//  self.loadingOverlay.userInteractionEnabled = NO;
-//  [self.view addSubview:self.loadingOverlay];
-//  self.loadingOverlay.hidden = NO;
   self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   self.hud.labelText = text;
   self.view.userInteractionEnabled = NO;
 }
 
 - (void)hideHud {
-//  self.loadingOverlay = nil;
-//  self.loadingOverlay.hidden = YES;
   [MBProgressHUD hideHUDForView:self.view animated:YES];
   self.view.userInteractionEnabled = YES;
-}
-
-- (void)showMainScreen
-{
-  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:[NSBundle mainBundle]];
-  
-  // Give your view an identifier in the storyboard. That's how the storyboard object will find it.
-  // You should see it in the right panel options when you click on the view.
-  SPMainScreenViewController *mainScreenController = (SPMainScreenViewController*)[storyboard instantiateViewControllerWithIdentifier:@"mainScreen"];
-  mainScreenController.sprinkler = self.sprinkler;
-  [self.navigationController pushViewController:mainScreenController animated:YES];
 }
 
 #pragma mark - Communication callbacks
@@ -155,8 +132,6 @@
   [[StorageManager current] saveData];
 
   [self hideHud];
-
-  [self showMainScreen];
 }
 
 - (void)loggedOut

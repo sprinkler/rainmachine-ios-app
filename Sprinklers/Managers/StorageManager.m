@@ -15,10 +15,11 @@ static StorageManager *current = nil;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize currentSprinkler = __currentSprinkler;
 
 #pragma mark - Singleton
 
-+ (id)current {
++ (StorageManager*)current {
 	@synchronized(self) {
 		if (current == nil)
 			current = [[super allocWithZone:NULL] init];

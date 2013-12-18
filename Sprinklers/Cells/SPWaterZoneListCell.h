@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class SPWaterNowTableViewController;
+@class WaterNowVC;
 
 @interface SPWaterZoneListCell : UITableViewCell
 
-@property (weak, nonatomic) SPWaterNowTableViewController *delegate;
+@property (weak, nonatomic) WaterNowVC *delegate;
 @property (weak, nonatomic) NSNumber *id;
 @property (weak, nonatomic) NSNumber *counter;
 
