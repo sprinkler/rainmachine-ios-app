@@ -26,6 +26,8 @@ const float kHomeScreenCellHeight = 66;
 
 @interface StatsVC ()
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *constrainTableBotom;
+
 @end
 
 @implementation StatsVC
@@ -54,6 +56,7 @@ const float kHomeScreenCellHeight = 66;
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
         self.navigationController.navigationBar.translucent = NO;
+        self.tabBarController.tabBar.translucent = NO;
     }
     else {
         self.navigationController.navigationBar.tintColor = [UIColor blackColor];

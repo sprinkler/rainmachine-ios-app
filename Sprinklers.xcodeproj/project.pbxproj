@@ -1300,13 +1300,6 @@
 		B111981E16A7E1B20094EF9F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				AF3F781018571A6100D9DEB3 /* SPHomeScreenTableViewCell.h */,
-				AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */,
-				AFC7E93818579EE900ACA626 /* SPHomeScreenDataSourceCell.h */,
-				AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */,
-				AF789761185C955F00449381 /* SPWaterZoneListCell.h */,
-				AF789762185C955F00449381 /* SPWaterZoneListCell.m */,
-				AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */,
 				B1213EAF1860879F009D97F4 /* DevicesCellType1.h */,
 				B1213EB01860879F009D97F4 /* DevicesCellType1.m */,
 				B1213EB2186087B3009D97F4 /* DevicesCellType1.xib */,
@@ -1318,12 +1311,19 @@
 				B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */,
 				AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */,
 				AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */,
-				AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */,
-				AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */,
+				AFC7E93818579EE900ACA626 /* SPHomeScreenDataSourceCell.h */,
+				AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */,
+				AF3F781018571A6100D9DEB3 /* SPHomeScreenTableViewCell.h */,
+				AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */,
+				AF789761185C955F00449381 /* SPWaterZoneListCell.h */,
+				AF789762185C955F00449381 /* SPWaterZoneListCell.m */,
 				AF0EFF5F1861C55B007BF852 /* WaterNowStartCell.h */,
 				AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */,
+				AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */,
 				AF0EFF621861C573007BF852 /* WaterNowTimerCell.h */,
 				AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */,
+				AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */,
+				AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
