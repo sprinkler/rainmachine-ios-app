@@ -24,7 +24,6 @@
 		AF2704FA184DE8040081155A /* SPAddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */; };
 		AF3F781218571A6100D9DEB3 /* SPHomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */; };
 		AF41C9B1184F441500C94822 /* SPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9B0184F441500C94822 /* SPSettingsViewController.m */; };
-		AF4F42DF184CA598001796AE /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF4F42DE184CA598001796AE /* Storyboard.storyboard */; };
 		AF4F42E2184CA911001796AE /* SPSprinklerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4F42E1184CA911001796AE /* SPSprinklerListViewController.m */; };
 		AF5D7995185CDC2900A49CF7 /* buttonDown.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7993185CDC2900A49CF7 /* buttonDown.png */; };
 		AF5D7996185CDC2900A49CF7 /* buttonUp.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7994185CDC2900A49CF7 /* buttonUp.png */; };
@@ -234,16 +233,8 @@
 		AFCDF79F185DBE2700F9C57E /* SPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* SPUtils.m */; };
 		AFD9CBB31858AB510055947C /* SPZoneProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD9CBB21858AB510055947C /* SPZoneProperty.m */; };
 		B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */; };
-		B111984C16A7E3220094EF9F /* SprinklerListViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = B111984A16A7E3220094EF9F /* SprinklerListViewController_iPhone.m */; };
-		B111984D16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B111984B16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib */; };
-		B111986C16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986A16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m */; };
-		B111986D16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B111986B16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib */; };
 		B111987016A7EED00094EF9F /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986F16A7EED00094EF9F /* StorageManager.m */; };
 		B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */ = {isa = PBXBuildFile; fileRef = B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */; };
-		B11F7DA816B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = B11F7DA616B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m */; };
-		B11F7DA916B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B11F7DA716B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib */; };
-		B11F7DAD16B99B0A00E36D00 /* SprinklerStaticListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11F7DAB16B99B0A00E36D00 /* SprinklerStaticListViewController.m */; };
-		B11F7DAE16B99B0A00E36D00 /* SprinklerStaticListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B11F7DAC16B99B0A00E36D00 /* SprinklerStaticListViewController.xib */; };
 		B11F7DB216BA6F3B00E36D00 /* form_inputbox_one.png in Resources */ = {isa = PBXBuildFile; fileRef = B11F7DB016BA6F3B00E36D00 /* form_inputbox_one.png */; };
 		B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B11F7DB116BA6F3B00E36D00 /* form_inputbox_one@2x.png */; };
 		B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1213EA71860796A009D97F4 /* nav_menu_icon@2x.png */; };
@@ -258,8 +249,6 @@
 		B1213EC2186094DB009D97F4 /* image_arrow_next_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1213EC1186094DB009D97F4 /* image_arrow_next_gray@2x.png */; };
 		B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1583E5816A7F7170051B480 /* UIStrokeLabel.m */; };
 		B1583E5C16A7F9640051B480 /* rose.png in Resources */ = {isa = PBXBuildFile; fileRef = B1583E5B16A7F9640051B480 /* rose.png */; };
-		B1583E6B16A803830051B480 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1583E6916A803830051B480 /* WebPageViewController.m */; };
-		B1583E6C16A803830051B480 /* WebPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1583E6A16A803830051B480 /* WebPageViewController.xib */; };
 		B1583E7216A803970051B480 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = B1583E6E16A803970051B480 /* arrow.png */; };
 		B1583E7316A803970051B480 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1583E6F16A803970051B480 /* arrow@2x.png */; };
 		B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1583E7116A803970051B480 /* PullToRefreshView.m */; };
@@ -267,10 +256,6 @@
 		B1583E7916A8049F0051B480 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1583E7816A8049F0051B480 /* QuartzCore.framework */; };
 		B1583E7C16A804E60051B480 /* web-back-on-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = B1583E7A16A804E60051B480 /* web-back-on-btn.png */; };
 		B1583E7D16A804E60051B480 /* web-forward-on-btn.png in Resources */ = {isa = PBXBuildFile; fileRef = B1583E7B16A804E60051B480 /* web-forward-on-btn.png */; };
-		B1583F4416A8941A0051B480 /* SprinklerListViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = B1583F4216A8941A0051B480 /* SprinklerListViewController_iPad.m */; };
-		B1583F4516A8941A0051B480 /* SprinklerListViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1583F4316A8941A0051B480 /* SprinklerListViewController_iPad.xib */; };
-		B1583F4A16A8994D0051B480 /* AddSprinklerViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = B1583F4816A8994C0051B480 /* AddSprinklerViewController_iPad.m */; };
-		B1583F4B16A8994D0051B480 /* AddSprinklerViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1583F4916A8994C0051B480 /* AddSprinklerViewController_iPad.xib */; };
 		B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = B173B4FA16B2C459000EB72D /* Sprinkler_Icon_57.png */; };
 		B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */; };
 		B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */; };
@@ -545,7 +530,6 @@
 		AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeScreenTableViewCell.m; path = Cells/SPHomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF41C9AF184F441500C94822 /* SPSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPSettingsViewController.h; path = ViewController/SPSettingsViewController.h; sourceTree = "<group>"; };
 		AF41C9B0184F441500C94822 /* SPSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPSettingsViewController.m; path = ViewController/SPSettingsViewController.m; sourceTree = "<group>"; };
-		AF4F42DE184CA598001796AE /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		AF4F42E0184CA911001796AE /* SPSprinklerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPSprinklerListViewController.h; path = ViewController/SPSprinklerListViewController.h; sourceTree = "<group>"; };
 		AF4F42E1184CA911001796AE /* SPSprinklerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPSprinklerListViewController.m; path = ViewController/SPSprinklerListViewController.m; sourceTree = "<group>"; };
 		AF5D7993185CDC2900A49CF7 /* buttonDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonDown.png; path = Resources/buttonDown.png; sourceTree = "<group>"; };
@@ -781,22 +765,10 @@
 		AFD9CBB11858AB510055947C /* SPZoneProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPZoneProperty.h; path = "Response objects/SPZoneProperty.h"; sourceTree = "<group>"; };
 		AFD9CBB21858AB510055947C /* SPZoneProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPZoneProperty.m; path = "Response objects/SPZoneProperty.m"; sourceTree = "<group>"; };
 		B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sprinklers.xcdatamodel; sourceTree = "<group>"; };
-		B111984916A7E3220094EF9F /* SprinklerListViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerListViewController_iPhone.h; path = ViewController/SprinklerListViewController_iPhone.h; sourceTree = "<group>"; };
-		B111984A16A7E3220094EF9F /* SprinklerListViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SprinklerListViewController_iPhone.m; path = ViewController/SprinklerListViewController_iPhone.m; sourceTree = "<group>"; };
-		B111984B16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SprinklerListViewController_iPhone.xib; path = ViewController/SprinklerListViewController_iPhone.xib; sourceTree = "<group>"; };
-		B111986916A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddSprinklerViewController_iPhone.h; path = ViewController/AddSprinklerViewController_iPhone.h; sourceTree = "<group>"; };
-		B111986A16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddSprinklerViewController_iPhone.m; path = ViewController/AddSprinklerViewController_iPhone.m; sourceTree = "<group>"; };
-		B111986B16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddSprinklerViewController_iPhone.xib; path = ViewController/AddSprinklerViewController_iPhone.xib; sourceTree = "<group>"; };
 		B111986E16A7EED00094EF9F /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StorageManager.h; path = Managers/StorageManager.h; sourceTree = "<group>"; };
 		B111986F16A7EED00094EF9F /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StorageManager.m; path = Managers/StorageManager.m; sourceTree = "<group>"; };
 		B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscoveredSprinklers.h; path = Model/DiscoveredSprinklers.h; sourceTree = "<group>"; };
 		B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DiscoveredSprinklers.m; path = Model/DiscoveredSprinklers.m; sourceTree = "<group>"; };
-		B11F7DA516B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerStaticListViewController_iPhone.h; path = ViewController/SprinklerStaticListViewController_iPhone.h; sourceTree = "<group>"; };
-		B11F7DA616B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SprinklerStaticListViewController_iPhone.m; path = ViewController/SprinklerStaticListViewController_iPhone.m; sourceTree = "<group>"; };
-		B11F7DA716B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SprinklerStaticListViewController_iPhone.xib; path = ViewController/SprinklerStaticListViewController_iPhone.xib; sourceTree = "<group>"; };
-		B11F7DAA16B99B0A00E36D00 /* SprinklerStaticListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerStaticListViewController.h; path = ViewController/SprinklerStaticListViewController.h; sourceTree = "<group>"; };
-		B11F7DAB16B99B0A00E36D00 /* SprinklerStaticListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SprinklerStaticListViewController.m; path = ViewController/SprinklerStaticListViewController.m; sourceTree = "<group>"; };
-		B11F7DAC16B99B0A00E36D00 /* SprinklerStaticListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SprinklerStaticListViewController.xib; path = ViewController/SprinklerStaticListViewController.xib; sourceTree = "<group>"; };
 		B11F7DB016BA6F3B00E36D00 /* form_inputbox_one.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = form_inputbox_one.png; path = Resources/form_inputbox_one.png; sourceTree = "<group>"; };
 		B11F7DB116BA6F3B00E36D00 /* form_inputbox_one@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "form_inputbox_one@2x.png"; path = "Resources/form_inputbox_one@2x.png"; sourceTree = "<group>"; };
 		B1213EA71860796A009D97F4 /* nav_menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "nav_menu_icon@2x.png"; path = "Resources/nav_menu_icon@2x.png"; sourceTree = "<group>"; };
@@ -817,9 +789,6 @@
 		B1583E5716A7F7170051B480 /* UIStrokeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIStrokeLabel.h; path = Controls/UIStrokeLabel.h; sourceTree = "<group>"; };
 		B1583E5816A7F7170051B480 /* UIStrokeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIStrokeLabel.m; path = Controls/UIStrokeLabel.m; sourceTree = "<group>"; };
 		B1583E5B16A7F9640051B480 /* rose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rose.png; path = Resources/rose.png; sourceTree = "<group>"; };
-		B1583E6816A803830051B480 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebPageViewController.h; path = ViewController/WebPageViewController.h; sourceTree = "<group>"; };
-		B1583E6916A803830051B480 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebPageViewController.m; path = ViewController/WebPageViewController.m; sourceTree = "<group>"; };
-		B1583E6A16A803830051B480 /* WebPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebPageViewController.xib; path = ViewController/WebPageViewController.xib; sourceTree = "<group>"; };
 		B1583E6E16A803970051B480 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		B1583E6F16A803970051B480 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		B1583E7016A803970051B480 /* PullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshView.h; sourceTree = "<group>"; };
@@ -829,12 +798,6 @@
 		B1583E7816A8049F0051B480 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B1583E7A16A804E60051B480 /* web-back-on-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "web-back-on-btn.png"; path = "Resources/web-back-on-btn.png"; sourceTree = "<group>"; };
 		B1583E7B16A804E60051B480 /* web-forward-on-btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "web-forward-on-btn.png"; path = "Resources/web-forward-on-btn.png"; sourceTree = "<group>"; };
-		B1583F4116A8941A0051B480 /* SprinklerListViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerListViewController_iPad.h; path = ViewController/SprinklerListViewController_iPad.h; sourceTree = "<group>"; };
-		B1583F4216A8941A0051B480 /* SprinklerListViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SprinklerListViewController_iPad.m; path = ViewController/SprinklerListViewController_iPad.m; sourceTree = "<group>"; };
-		B1583F4316A8941A0051B480 /* SprinklerListViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SprinklerListViewController_iPad.xib; path = ViewController/SprinklerListViewController_iPad.xib; sourceTree = "<group>"; };
-		B1583F4716A8994C0051B480 /* AddSprinklerViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddSprinklerViewController_iPad.h; path = ViewController/AddSprinklerViewController_iPad.h; sourceTree = "<group>"; };
-		B1583F4816A8994C0051B480 /* AddSprinklerViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddSprinklerViewController_iPad.m; path = ViewController/AddSprinklerViewController_iPad.m; sourceTree = "<group>"; };
-		B1583F4916A8994C0051B480 /* AddSprinklerViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddSprinklerViewController_iPad.xib; path = ViewController/AddSprinklerViewController_iPad.xib; sourceTree = "<group>"; };
 		B173B4FA16B2C459000EB72D /* Sprinkler_Icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_57.png; path = Resources/Sprinkler_Icon_57.png; sourceTree = "<group>"; };
 		B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_72.png; path = Resources/Sprinkler_Icon_72.png; sourceTree = "<group>"; };
 		B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_114.png; path = Resources/Sprinkler_Icon_114.png; sourceTree = "<group>"; };
@@ -1265,11 +1228,6 @@
 				AF7AC9AF184E13890047BD9E /* SPLoginViewController.m */,
 				AF41C9AF184F441500C94822 /* SPSettingsViewController.h */,
 				AF41C9B0184F441500C94822 /* SPSettingsViewController.m */,
-				B1583E6816A803830051B480 /* WebPageViewController.h */,
-				B1583E6916A803830051B480 /* WebPageViewController.m */,
-				B1583E6A16A803830051B480 /* WebPageViewController.xib */,
-				B111984816A7E3000094EF9F /* temp_iPad */,
-				B111984716A7E2F80094EF9F /* temp_iPhone */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1376,38 +1334,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		B111984716A7E2F80094EF9F /* temp_iPhone */ = {
-			isa = PBXGroup;
-			children = (
-				B111984916A7E3220094EF9F /* SprinklerListViewController_iPhone.h */,
-				B111986B16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib */,
-				B111984A16A7E3220094EF9F /* SprinklerListViewController_iPhone.m */,
-				B111984B16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib */,
-				B11F7DA516B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.h */,
-				B11F7DA616B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m */,
-				B11F7DA716B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib */,
-				B111986916A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.h */,
-				B111986A16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m */,
-			);
-			name = temp_iPhone;
-			sourceTree = "<group>";
-		};
-		B111984816A7E3000094EF9F /* temp_iPad */ = {
-			isa = PBXGroup;
-			children = (
-				B1583F4116A8941A0051B480 /* SprinklerListViewController_iPad.h */,
-				B1583F4216A8941A0051B480 /* SprinklerListViewController_iPad.m */,
-				B1583F4316A8941A0051B480 /* SprinklerListViewController_iPad.xib */,
-				B11F7DAA16B99B0A00E36D00 /* SprinklerStaticListViewController.h */,
-				B11F7DAB16B99B0A00E36D00 /* SprinklerStaticListViewController.m */,
-				B11F7DAC16B99B0A00E36D00 /* SprinklerStaticListViewController.xib */,
-				B1583F4716A8994C0051B480 /* AddSprinklerViewController_iPad.h */,
-				B1583F4816A8994C0051B480 /* AddSprinklerViewController_iPad.m */,
-				B1583F4916A8994C0051B480 /* AddSprinklerViewController_iPad.xib */,
-			);
-			name = temp_iPad;
-			sourceTree = "<group>";
-		};
 		B1583E6D16A803970051B480 /* PullToRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -1476,7 +1402,6 @@
 		B1DF325416A6A68700A1BF38 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AF4F42DE184CA598001796AE /* Storyboard.storyboard */,
 				B1DF325516A6A68700A1BF38 /* Sprinklers-Info.plist */,
 				B1DF325616A6A68700A1BF38 /* InfoPlist.strings */,
 				B1DF325916A6A68700A1BF38 /* main.m */,
@@ -1659,11 +1584,8 @@
 				AF7AC9B6184E27B80047BD9E /* temp-checkbox-unselected@2x.png in Resources */,
 				B1DF326216A6A68700A1BF38 /* Default@2x.png in Resources */,
 				B1DF326416A6A68700A1BF38 /* Default-568h@2x.png in Resources */,
-				B111984D16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib in Resources */,
-				AF4F42DF184CA598001796AE /* Storyboard.storyboard in Resources */,
 				AF0EFF5E1861C516007BF852 /* WaterNowStartCell.xib in Resources */,
 				B1EF21181860497B00D9CE26 /* SettingsVC.xib in Resources */,
-				B111986D16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib in Resources */,
 				B1213EB918608FF6009D97F4 /* DevicesCellType2.xib in Resources */,
 				B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */,
 				B1EF2128186049B800D9CE26 /* SettingsTestLevel1VC.xib in Resources */,
@@ -1671,7 +1593,6 @@
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
 				AFCC57B4185860FD001F48F0 /* statusWarning.png in Resources */,
 				B1583E5C16A7F9640051B480 /* rose.png in Resources */,
-				B1583E6C16A803830051B480 /* WebPageViewController.xib in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
 				B1583E7316A803970051B480 /* arrow@2x.png in Resources */,
 				AF7AC9B5184E27B80047BD9E /* temp-checkbox-selected@2x.png in Resources */,
@@ -1681,9 +1602,7 @@
 				B1EF21101860493C00D9CE26 /* LoginVC.xib in Resources */,
 				AF0E69CD185F8E52000A3E90 /* home3.png in Resources */,
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
-				B1583F4516A8941A0051B480 /* SprinklerListViewController_iPad.xib in Resources */,
 				AF0E69CE185F8E52000A3E90 /* settings_sprinkler.png in Resources */,
-				B1583F4B16A8994D0051B480 /* AddSprinklerViewController_iPad.xib in Resources */,
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
 				AF0E69D6185F9502000A3E90 /* waternow@2x.png in Resources */,
 				AF0E69D5185F9502000A3E90 /* waternow.png in Resources */,
@@ -1699,10 +1618,8 @@
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */,
 				AF5D7995185CDC2900A49CF7 /* buttonDown.png in Resources */,
-				B11F7DA916B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib in Resources */,
 				AF0E69D2185F94B0000A3E90 /* settings_sprinkler@2x.png in Resources */,
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,
-				B11F7DAE16B99B0A00E36D00 /* SprinklerStaticListViewController.xib in Resources */,
 				B11F7DB216BA6F3B00E36D00 /* form_inputbox_one.png in Resources */,
 				AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */,
 				B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */,
@@ -1756,13 +1673,11 @@
 				AFC58172184E58FD00C8D06A /* SPWeatherData.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
-				B111984C16A7E3220094EF9F /* SprinklerListViewController_iPhone.m in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				AF4F42E2184CA911001796AE /* SPSprinklerListViewController.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
-				B111986C16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				AF789763185C955F00449381 /* SPWaterZoneListCell.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
@@ -1770,27 +1685,22 @@
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
-				B1583E6B16A803830051B480 /* WebPageViewController.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* SPHomeScreenTableViewCell.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
 				AF7AC9D0184E3DD30047BD9E /* AFHTTPSessionManager.m in Sources */,
 				AF7AC9BE184E3D200047BD9E /* SPServerProxy.m in Sources */,
 				B1583E7716A803B50051B480 /* MBProgressHUD.m in Sources */,
-				B1583F4416A8941A0051B480 /* SprinklerListViewController_iPad.m in Sources */,
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF91C7F41858D640005888AA /* SPStartStopWatering.m in Sources */,
-				B1583F4A16A8994D0051B480 /* AddSprinklerViewController_iPad.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
 				AF7AC9B0184E13890047BD9E /* SPLoginViewController.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
-				B11F7DA816B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
 				AFC7E93A18579EE900ACA626 /* SPHomeScreenDataSourceCell.m in Sources */,
-				B11F7DAD16B99B0A00E36D00 /* SprinklerStaticListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
