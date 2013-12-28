@@ -198,8 +198,8 @@
         WaterNowTimerCell *cell = (WaterNowTimerCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
         cell.timerLabel.text = [FormatterHelper formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter] intValue]];
-        [cell.upButton setupWithImage:[UIImage imageNamed:@"buttonUp"]];
-        [cell.downButton setupWithImage:[UIImage imageNamed:@"buttonDown"]];
+        [cell.upButton setupWithImage:[UIImage imageNamed:@"button_up"]];
+        [cell.downButton setupWithImage:[UIImage imageNamed:@"button_down"]];
         
         if (watering) {
             cell.timerLabel.textColor = greenColor;

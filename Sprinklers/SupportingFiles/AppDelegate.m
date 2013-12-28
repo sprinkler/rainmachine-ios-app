@@ -7,8 +7,6 @@
 //
 
 #import "AppDelegate.h"
-//#import "SprinklerListViewController_iPhone.h"
-//#import "SprinklerListViewController_iPad.h"
 #import "SprinklerListViewController.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
@@ -36,17 +34,17 @@
     
     StatsVC *statsVC = [[StatsVC alloc] init];
     UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:statsVC];
-    UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"home3.png"] tag:2];
+    UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_home3.png"] tag:2];
     statsVC.tabBarItem = tabBarItemStats;
     
     WaterNowVC *waterVC = [[WaterNowVC alloc] init];
     UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
-    UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Water Now" image:[UIImage imageNamed:@"waternow.png"] tag:2];
+    UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Water Now" image:[UIImage imageNamed:@"icon_waternow.png"] tag:2];
     waterVC.tabBarItem = tabBarItemWaterNow;
     
     SettingsVC *settingsVC = [[SettingsVC alloc] init];
     UINavigationController *navSettings = [[UINavigationController alloc] initWithRootViewController:settingsVC];
-    UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"settings_sprinkler.png"] tag:2];
+    UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings_sprinkler.png"] tag:2];
     settingsVC.tabBarItem = tabBarItemSettings;
     
     _tabBarController = [[UITabBarController alloc] init];

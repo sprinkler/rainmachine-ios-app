@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9D13616B0B56900E6152B /* ServiceManager.m */; };
-		AF0E69CD185F8E52000A3E90 /* home3.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CB185F8E52000A3E90 /* home3.png */; };
-		AF0E69CE185F8E52000A3E90 /* settings_sprinkler.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CC185F8E52000A3E90 /* settings_sprinkler.png */; };
-		AF0E69D1185F94B0000A3E90 /* home3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CF185F94B0000A3E90 /* home3@2x.png */; };
-		AF0E69D2185F94B0000A3E90 /* settings_sprinkler@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D0185F94B0000A3E90 /* settings_sprinkler@2x.png */; };
-		AF0E69D5185F9502000A3E90 /* waternow.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D3185F9502000A3E90 /* waternow.png */; };
-		AF0E69D6185F9502000A3E90 /* waternow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D4185F9502000A3E90 /* waternow@2x.png */; };
+		AF0E69CD185F8E52000A3E90 /* icon_home3.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CB185F8E52000A3E90 /* icon_home3.png */; };
+		AF0E69CE185F8E52000A3E90 /* icon_settings_sprinkler.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */; };
+		AF0E69D1185F94B0000A3E90 /* icon_home3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */; };
+		AF0E69D2185F94B0000A3E90 /* icon_settings_sprinkler@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D0185F94B0000A3E90 /* icon_settings_sprinkler@2x.png */; };
+		AF0E69D5185F9502000A3E90 /* icon_waternow.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D3185F9502000A3E90 /* icon_waternow.png */; };
+		AF0E69D6185F9502000A3E90 /* icon_waternow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D4185F9502000A3E90 /* icon_waternow@2x.png */; };
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
 		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
@@ -24,8 +24,8 @@
 		AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* AddSprinklerViewController.m */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF4F42E2184CA911001796AE /* SprinklerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4F42E1184CA911001796AE /* SprinklerListViewController.m */; };
-		AF5D7995185CDC2900A49CF7 /* buttonDown.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7993185CDC2900A49CF7 /* buttonDown.png */; };
-		AF5D7996185CDC2900A49CF7 /* buttonUp.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7994185CDC2900A49CF7 /* buttonUp.png */; };
+		AF5D7995185CDC2900A49CF7 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7993185CDC2900A49CF7 /* button_down.png */; };
+		AF5D7996185CDC2900A49CF7 /* button_up.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7994185CDC2900A49CF7 /* button_up.png */; };
 		AF5D79A0185CEBB900A49CF7 /* FormatterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D799F185CEBB900A49CF7 /* FormatterHelper.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF77AC12185F460F00E3C36F /* bkn.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AB61185F45E700E3C36F /* bkn.png */; };
@@ -225,9 +225,9 @@
 		AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F31858D640005888AA /* StartStopWatering.m */; };
 		AF91C7F71858D757005888AA /* SetZonePropertiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* SetZonePropertiesResponse.m */; };
 		AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* WeatherData.m */; };
-		AFC7E93718579D7600ACA626 /* statusOK.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* statusOK.png */; };
+		AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* icon_status_ok.png */; };
 		AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */; };
-		AFCC57B4185860FD001F48F0 /* statusWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* statusWarning.png */; };
+		AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* icon_status_warning.png */; };
 		AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCC57B6185861E7001F48F0 /* Sprinkler.m */; };
 		AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* Utils.m */; };
 		AFD9CBB31858AB510055947C /* ZoneProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD9CBB21858AB510055947C /* ZoneProperty.m */; };
@@ -508,12 +508,12 @@
 /* Begin PBXFileReference section */
 		1FD9D13516B0B56900E6152B /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Managers/ServiceManager.h; sourceTree = "<group>"; };
 		1FD9D13616B0B56900E6152B /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Managers/ServiceManager.m; sourceTree = "<group>"; };
-		AF0E69CB185F8E52000A3E90 /* home3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home3.png; path = Resources/home3.png; sourceTree = "<group>"; };
-		AF0E69CC185F8E52000A3E90 /* settings_sprinkler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings_sprinkler.png; path = Resources/settings_sprinkler.png; sourceTree = "<group>"; };
-		AF0E69CF185F94B0000A3E90 /* home3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home3@2x.png"; path = "Resources/home3@2x.png"; sourceTree = "<group>"; };
-		AF0E69D0185F94B0000A3E90 /* settings_sprinkler@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings_sprinkler@2x.png"; path = "Resources/settings_sprinkler@2x.png"; sourceTree = "<group>"; };
-		AF0E69D3185F9502000A3E90 /* waternow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = waternow.png; path = Resources/waternow.png; sourceTree = "<group>"; };
-		AF0E69D4185F9502000A3E90 /* waternow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "waternow@2x.png"; path = "Resources/waternow@2x.png"; sourceTree = "<group>"; };
+		AF0E69CB185F8E52000A3E90 /* icon_home3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_home3.png; path = Resources/icon_home3.png; sourceTree = "<group>"; };
+		AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings_sprinkler.png; path = Resources/icon_settings_sprinkler.png; sourceTree = "<group>"; };
+		AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_home3@2x.png"; path = "Resources/icon_home3@2x.png"; sourceTree = "<group>"; };
+		AF0E69D0185F94B0000A3E90 /* icon_settings_sprinkler@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_settings_sprinkler@2x.png"; path = "Resources/icon_settings_sprinkler@2x.png"; sourceTree = "<group>"; };
+		AF0E69D3185F9502000A3E90 /* icon_waternow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_waternow.png; path = Resources/icon_waternow.png; sourceTree = "<group>"; };
+		AF0E69D4185F9502000A3E90 /* icon_waternow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_waternow@2x.png"; path = "Resources/icon_waternow@2x.png"; sourceTree = "<group>"; };
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
 		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
 		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
@@ -529,8 +529,8 @@
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF4F42E0184CA911001796AE /* SprinklerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerListViewController.h; path = ViewController/SprinklerListViewController.h; sourceTree = "<group>"; };
 		AF4F42E1184CA911001796AE /* SprinklerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SprinklerListViewController.m; path = ViewController/SprinklerListViewController.m; sourceTree = "<group>"; };
-		AF5D7993185CDC2900A49CF7 /* buttonDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonDown.png; path = Resources/buttonDown.png; sourceTree = "<group>"; };
-		AF5D7994185CDC2900A49CF7 /* buttonUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonUp.png; path = Resources/buttonUp.png; sourceTree = "<group>"; };
+		AF5D7993185CDC2900A49CF7 /* button_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_down.png; path = Resources/button_down.png; sourceTree = "<group>"; };
+		AF5D7994185CDC2900A49CF7 /* button_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_up.png; path = Resources/button_up.png; sourceTree = "<group>"; };
 		AF5D799E185CEBB900A49CF7 /* FormatterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatterHelper.h; sourceTree = "<group>"; };
 		AF5D799F185CEBB900A49CF7 /* FormatterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatterHelper.m; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -750,11 +750,11 @@
 		AF91C7F61858D757005888AA /* SetZonePropertiesResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetZonePropertiesResponse.m; path = "Response objects/SetZonePropertiesResponse.m"; sourceTree = "<group>"; };
 		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Response objects/WeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Response objects/WeatherData.m"; sourceTree = "<group>"; };
-		AFC7E93618579D7600ACA626 /* statusOK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusOK.png; path = Resources/statusOK.png; sourceTree = "<group>"; };
+		AFC7E93618579D7600ACA626 /* icon_status_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_status_ok.png; path = Resources/icon_status_ok.png; sourceTree = "<group>"; };
 		AFC7E93818579EE900ACA626 /* HomeScreenDataSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenDataSourceCell.h; path = Cells/HomeScreenDataSourceCell.h; sourceTree = "<group>"; };
 		AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenDataSourceCell.m; path = Cells/HomeScreenDataSourceCell.m; sourceTree = "<group>"; };
 		AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 2.xcdatamodel"; sourceTree = "<group>"; };
-		AFCC57B3185860FD001F48F0 /* statusWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusWarning.png; path = Resources/statusWarning.png; sourceTree = "<group>"; };
+		AFCC57B3185860FD001F48F0 /* icon_status_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_status_warning.png; path = Resources/icon_status_warning.png; sourceTree = "<group>"; };
 		AFCC57B5185861E7001F48F0 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
 		AFCC57B6185861E7001F48F0 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AFCDF79D185DBE2700F9C57E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
@@ -1108,8 +1108,6 @@
 		AF7AC9BB184E3D200047BD9E /* Communication */ = {
 			isa = PBXGroup;
 			children = (
-				AF91C7F11858D62A005888AA /* Request objects */,
-				AFC5816F184E58B800C8D06A /* Response objects */,
 				AF7AC9BC184E3D200047BD9E /* ServerProxy.h */,
 				AF7AC9BD184E3D200047BD9E /* ServerProxy.m */,
 			);
@@ -1188,7 +1186,8 @@
 				AF91C7F21858D640005888AA /* StartStopWatering.h */,
 				AF91C7F31858D640005888AA /* StartStopWatering.m */,
 			);
-			path = "Request objects";
+			name = "Request objects";
+			path = "Communication/Request objects";
 			sourceTree = "<group>";
 		};
 		AFC5816F184E58B800C8D06A /* Response objects */ = {
@@ -1204,6 +1203,7 @@
 				AF91C7F61858D757005888AA /* SetZonePropertiesResponse.m */,
 			);
 			name = "Response objects";
+			path = Communication;
 			sourceTree = "<group>";
 		};
 		B111981B16A7E19E0094EF9F /* ViewControllers */ = {
@@ -1284,6 +1284,8 @@
 		B111984216A7E1E60094EF9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AF91C7F11858D62A005888AA /* Request objects */,
+				AFC5816F184E58B800C8D06A /* Response objects */,
 				B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */,
 				AFCC57B5185861E7001F48F0 /* Sprinkler.h */,
 				AFCC57B6185861E7001F48F0 /* Sprinkler.m */,
@@ -1296,33 +1298,33 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AF7AC9B1184E25870047BD9E /* bucket@2x.png */,
-				AF5D7993185CDC2900A49CF7 /* buttonDown.png */,
-				AF5D7994185CDC2900A49CF7 /* buttonUp.png */,
 				AF77AB60185F45E700E3C36F /* daily-stats */,
+				AF77ABB9185F45EE00E3C36F /* main-screen-normal-and-retina-sizes */,
+				AF7AC9B1184E25870047BD9E /* bucket@2x.png */,
 				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
 				B1DF325F16A6A68700A1BF38 /* Default.png */,
 				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
+				AF5D7993185CDC2900A49CF7 /* button_down.png */,
+				AF5D7994185CDC2900A49CF7 /* button_up.png */,
+				AF0E69CB185F8E52000A3E90 /* icon_home3.png */,
+				AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */,
+				AF0E69D3185F9502000A3E90 /* icon_waternow.png */,
+				AF0E69D4185F9502000A3E90 /* icon_waternow@2x.png */,
+				AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */,
+				AF0E69D0185F94B0000A3E90 /* icon_settings_sprinkler@2x.png */,
+				AFC7E93618579D7600ACA626 /* icon_status_ok.png */,
+				AFCC57B3185860FD001F48F0 /* icon_status_warning.png */,
 				B11F7DB016BA6F3B00E36D00 /* form_inputbox_one.png */,
 				B11F7DB116BA6F3B00E36D00 /* form_inputbox_one@2x.png */,
-				AF0E69CB185F8E52000A3E90 /* home3.png */,
-				AF0E69CF185F94B0000A3E90 /* home3@2x.png */,
 				B1213EC1186094DB009D97F4 /* image_arrow_next_gray@2x.png */,
-				AF77ABB9185F45EE00E3C36F /* main-screen-normal-and-retina-sizes */,
 				B1213EA71860796A009D97F4 /* nav_menu_icon@2x.png */,
 				B1583E5B16A7F9640051B480 /* rose.png */,
-				AF0E69CC185F8E52000A3E90 /* settings_sprinkler.png */,
-				AF0E69D0185F94B0000A3E90 /* settings_sprinkler@2x.png */,
 				B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */,
 				B173B4FD16B2C459000EB72D /* Sprinkler_Icon_144.png */,
 				B173B4FA16B2C459000EB72D /* Sprinkler_Icon_57.png */,
 				B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */,
-				AFC7E93618579D7600ACA626 /* statusOK.png */,
-				AFCC57B3185860FD001F48F0 /* statusWarning.png */,
 				AF7AC9B3184E27B80047BD9E /* temp-checkbox-selected@2x.png */,
 				AF7AC9B4184E27B80047BD9E /* temp-checkbox-unselected@2x.png */,
-				AF0E69D3185F9502000A3E90 /* waternow.png */,
-				AF0E69D4185F9502000A3E90 /* waternow@2x.png */,
 				B1583E7A16A804E60051B480 /* web-back-on-btn.png */,
 				B1583E7B16A804E60051B480 /* web-forward-on-btn.png */,
 			);
@@ -1571,10 +1573,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF5D7996185CDC2900A49CF7 /* buttonUp.png in Resources */,
+				AF5D7996185CDC2900A49CF7 /* button_up.png in Resources */,
 				B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */,
 				B1DF325816A6A68700A1BF38 /* InfoPlist.strings in Resources */,
-				AF0E69D1185F94B0000A3E90 /* home3@2x.png in Resources */,
+				AF0E69D1185F94B0000A3E90 /* icon_home3@2x.png in Resources */,
 				B1DF326016A6A68700A1BF38 /* Default.png in Resources */,
 				AF7AC9B6184E27B80047BD9E /* temp-checkbox-unselected@2x.png in Resources */,
 				B1DF326216A6A68700A1BF38 /* Default@2x.png in Resources */,
@@ -1586,7 +1588,7 @@
 				B1EF2128186049B800D9CE26 /* SettingsTestLevel1VC.xib in Resources */,
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
-				AFCC57B4185860FD001F48F0 /* statusWarning.png in Resources */,
+				AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */,
 				B1583E5C16A7F9640051B480 /* rose.png in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
 				B1583E7316A803970051B480 /* arrow@2x.png in Resources */,
@@ -1595,13 +1597,13 @@
 				B1583E7D16A804E60051B480 /* web-forward-on-btn.png in Resources */,
 				B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */,
 				B1EF21101860493C00D9CE26 /* LoginVC.xib in Resources */,
-				AF0E69CD185F8E52000A3E90 /* home3.png in Resources */,
+				AF0E69CD185F8E52000A3E90 /* icon_home3.png in Resources */,
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
-				AF0E69CE185F8E52000A3E90 /* settings_sprinkler.png in Resources */,
+				AF0E69CE185F8E52000A3E90 /* icon_settings_sprinkler.png in Resources */,
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
-				AF0E69D6185F9502000A3E90 /* waternow@2x.png in Resources */,
-				AF0E69D5185F9502000A3E90 /* waternow.png in Resources */,
-				AFC7E93718579D7600ACA626 /* statusOK.png in Resources */,
+				AF0E69D6185F9502000A3E90 /* icon_waternow@2x.png in Resources */,
+				AF0E69D5185F9502000A3E90 /* icon_waternow.png in Resources */,
+				AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */,
 				B1213EC2186094DB009D97F4 /* image_arrow_next_gray@2x.png in Resources */,
 				B1EF21231860499E00D9CE26 /* WaterNowVC.xib in Resources */,
 				AF0EFF5C1861C504007BF852 /* WaterNowTimerCell.xib in Resources */,
@@ -1612,8 +1614,8 @@
 				B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */,
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */,
-				AF5D7995185CDC2900A49CF7 /* buttonDown.png in Resources */,
-				AF0E69D2185F94B0000A3E90 /* settings_sprinkler@2x.png in Resources */,
+				AF5D7995185CDC2900A49CF7 /* button_down.png in Resources */,
+				AF0E69D2185F94B0000A3E90 /* icon_settings_sprinkler@2x.png in Resources */,
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,
 				B11F7DB216BA6F3B00E36D00 /* form_inputbox_one.png in Resources */,
 				AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */,
