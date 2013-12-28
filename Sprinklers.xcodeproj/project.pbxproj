@@ -23,7 +23,6 @@
 		AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */; };
 		AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* AddSprinklerViewController.m */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
-		AF4F42E2184CA911001796AE /* SprinklerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4F42E1184CA911001796AE /* SprinklerListViewController.m */; };
 		AF5D7995185CDC2900A49CF7 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7993185CDC2900A49CF7 /* button_down.png */; };
 		AF5D7996185CDC2900A49CF7 /* button_up.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7994185CDC2900A49CF7 /* button_up.png */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
@@ -204,7 +203,6 @@
 		AF77ACC1185F463000E3C36F /* wind.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AC10185F45EE00E3C36F /* wind.png */; };
 		AF77ACC2185F463000E3C36F /* wind@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AC11185F45EE00E3C36F /* wind@2x.png */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
-		AF7AC9B0184E13890047BD9E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9AF184E13890047BD9E /* LoginViewController.m */; };
 		AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B1184E25870047BD9E /* bucket@2x.png */; };
 		AF7AC9B5184E27B80047BD9E /* temp-checkbox-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B3184E27B80047BD9E /* temp-checkbox-selected@2x.png */; };
 		AF7AC9B6184E27B80047BD9E /* temp-checkbox-unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B4184E27B80047BD9E /* temp-checkbox-unselected@2x.png */; };
@@ -526,8 +524,6 @@
 		AF2704F9184DE8040081155A /* AddSprinklerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddSprinklerViewController.m; path = ViewController/AddSprinklerViewController.m; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
-		AF4F42E0184CA911001796AE /* SprinklerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerListViewController.h; path = ViewController/SprinklerListViewController.h; sourceTree = "<group>"; };
-		AF4F42E1184CA911001796AE /* SprinklerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SprinklerListViewController.m; path = ViewController/SprinklerListViewController.m; sourceTree = "<group>"; };
 		AF5D7993185CDC2900A49CF7 /* button_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_down.png; path = Resources/button_down.png; sourceTree = "<group>"; };
 		AF5D7994185CDC2900A49CF7 /* button_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_up.png; path = Resources/button_up.png; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -710,8 +706,6 @@
 		AF77AC11185F45EE00E3C36F /* wind@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wind@2x.png"; sourceTree = "<group>"; };
 		AF789761185C955F00449381 /* WaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterZoneListCell.h; path = Cells/WaterZoneListCell.h; sourceTree = "<group>"; };
 		AF789762185C955F00449381 /* WaterZoneListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterZoneListCell.m; path = Cells/WaterZoneListCell.m; sourceTree = "<group>"; };
-		AF7AC9AE184E13890047BD9E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ViewController/LoginViewController.h; sourceTree = "<group>"; };
-		AF7AC9AF184E13890047BD9E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ViewController/LoginViewController.m; sourceTree = "<group>"; };
 		AF7AC9B1184E25870047BD9E /* bucket@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bucket@2x.png"; path = "Resources/bucket@2x.png"; sourceTree = "<group>"; };
 		AF7AC9B3184E27B80047BD9E /* temp-checkbox-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "temp-checkbox-selected@2x.png"; path = "Resources/temp-checkbox-selected@2x.png"; sourceTree = "<group>"; };
 		AF7AC9B4184E27B80047BD9E /* temp-checkbox-unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "temp-checkbox-unselected@2x.png"; path = "Resources/temp-checkbox-unselected@2x.png"; sourceTree = "<group>"; };
@@ -1212,12 +1206,8 @@
 				B1213EAA18607F32009D97F4 /* BaseViewController.m */,
 				B1213EAC1860804E009D97F4 /* BaseLevel2ViewController.h */,
 				B1213EAD1860804E009D97F4 /* BaseLevel2ViewController.m */,
-				AF4F42E0184CA911001796AE /* SprinklerListViewController.h */,
-				AF4F42E1184CA911001796AE /* SprinklerListViewController.m */,
 				AF2704F8184DE8040081155A /* AddSprinklerViewController.h */,
 				AF2704F9184DE8040081155A /* AddSprinklerViewController.m */,
-				AF7AC9AE184E13890047BD9E /* LoginViewController.h */,
-				AF7AC9AF184E13890047BD9E /* LoginViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1666,7 +1656,6 @@
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
-				AF4F42E2184CA911001796AE /* SprinklerListViewController.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
@@ -1685,7 +1674,6 @@
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
-				AF7AC9B0184E13890047BD9E /* LoginViewController.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,

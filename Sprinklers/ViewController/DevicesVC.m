@@ -107,7 +107,7 @@
 }
 
 - (void)shouldStartBroadcast {
-    [self startHud:@"Looking for local sprinklers..."];
+    [self startHud:nil]; // @"Looking for local sprinklers..."
     timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(shouldStopBroadcast) userInfo:nil repeats:NO];
     [[ServiceManager current] startBroadcastForSprinklers:NO];
 }

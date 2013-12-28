@@ -103,7 +103,7 @@
     self.lastListRefreshDate = [NSDate date];
     
     if ([showHud boolValue]) {
-        [self startHud:@"Receiving data..."];
+        [self startHud:nil]; // @"Receiving data..."
     }
 }
 

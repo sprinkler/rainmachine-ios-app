@@ -82,7 +82,7 @@ const float kHomeScreenCellHeight = 66;
     //TODO: Load current sprinkler from SettingsManager here and update content if needed.
     
     [self.serverProxy requestWeatherData];
-    [self startHud:@"Receiving data..."];
+    [self startHud:nil]; // @"Receiving data..."
     
     [self refreshStatus];
 }

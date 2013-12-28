@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "SprinklerListViewController.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "Constants.h"
