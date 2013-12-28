@@ -181,13 +181,13 @@
     lblView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.0f];
     lblView.backgroundColor = [UIColor clearColor];
     
-    if (section == 0) {
-        lblView.text = @"Nice section header 1";
-    }
-    if (section == 1) {
-        lblView.text = @"Nice section header 2";
-    }
-    
+//    if (section == 0) {
+//        lblView.text = @"Nice section header 1";
+//    }
+//    if (section == 1) {
+//        lblView.text = @"Nice section header 2";
+//    }
+  
     [headerView addSubview:lblView];
     
     

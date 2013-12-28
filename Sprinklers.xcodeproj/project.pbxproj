@@ -1336,7 +1336,9 @@
 				B1DF324A16A6A68700A1BF38 /* Frameworks */,
 				B1DF324816A6A68700A1BF38 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		B1DF324816A6A68700A1BF38 /* Products */ = {
 			isa = PBXGroup;
