@@ -15,6 +15,14 @@
 #import "LoginViewController.h"
 
 @implementation SprinklerListViewController
+{
+    NSMutableArray *savedSprinklers;
+    NSMutableArray *discoveredSprinklers;
+    IBOutlet UIView *loadingOverlay;
+    MBProgressHUD *hud;
+    NSTimer *timer;
+    NSTimer *silentTimer;
+}
 
 - (id)initWithCoder:(NSCoder *)coder
 {

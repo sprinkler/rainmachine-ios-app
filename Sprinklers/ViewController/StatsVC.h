@@ -16,13 +16,4 @@
 
 @interface StatsVC : BaseViewController<UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
-@property (strong, nonatomic) UIImage *waterImage;
-@property (strong, nonatomic) UIImage *waterWavesImage;
-@property (strong, nonatomic) ServerProxy *serverProxy;
-@property (strong, nonatomic) NSArray *data;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UITableView *dataSourceTableView;
-
-@property (strong, nonatomic) MBProgressHUD *hud;
-
 @end

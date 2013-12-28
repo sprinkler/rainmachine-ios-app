@@ -16,6 +16,17 @@
 
 @interface LoginViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deviceIPLabel;
+@property (weak, nonatomic) IBOutlet UIButton *checkBox;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+
+@property (strong, nonatomic) Sprinkler *sprinkler;
+@property (strong, nonatomic) ServerProxy *serverProxy;
+@property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) UIAlertView *alertView;
+
 @end
 
 @implementation LoginViewController

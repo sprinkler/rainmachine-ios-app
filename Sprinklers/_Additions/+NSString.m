@@ -850,4 +850,16 @@ static int EscapeMapCompare(const void *ucharVoid, const void *mapVoid) {
     return [emailTest evaluateWithObject:checkString];
 }
 
++ (NSString*)formattedTime:(int)timeInSeconds
+{
+    NSString *formattedTime;
+    if (timeInSeconds < 3600) {
+        formattedTime = [NSString stringWithFormat:@"%02d:%02d", (timeInSeconds/60)%60, timeInSeconds%60];
+    } else {
+        formattedTime = [NSString stringWithFormat:@"%02d:%02d:%02d", timeInSeconds / 3600, (timeInSeconds/60)%60, timeInSeconds%60];
+    }
+    
+    return formattedTime;
+}
+
 @end

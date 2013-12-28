@@ -10,14 +10,6 @@
 #import "MBProgressHUD.h"
 
 @interface SprinklerListViewController : UIViewController
-{
-  NSMutableArray *savedSprinklers;
-  NSMutableArray *discoveredSprinklers;
-  IBOutlet UIView *loadingOverlay;
-  MBProgressHUD *hud;
-  NSTimer *timer;
-  NSTimer *silentTimer;
-}
 
 @property (strong, nonatomic) IBOutlet UIView *viewLoading;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

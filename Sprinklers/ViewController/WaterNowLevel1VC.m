@@ -11,13 +11,27 @@
 #import "+UIButton.h"
 #import "WaterNowZone.h"
 #import "ServerProxy.h"
-#import "FormatterHelper.h"
 #import "Utils.h"
 #import "WaterNowVC.h"
 #import "WaterNowTimerCell.h"
 #import "WaterNowStartCell.h"
+#import "Additions.h"
 
 @interface WaterNowLevel1VC ()
+{
+    NSTimeInterval retryInterval;
+    UIColor *greenColor;
+    UIColor *redColor;
+}
+
+@property (strong, nonatomic) ServerProxy *serverProxy;
+@property (strong, nonatomic) ServerProxy *postServerProxy; // TODO: rename it to pollServerProxy or something better
+@property (strong, nonatomic) UIAlertView *alertView;
+@property (strong, nonatomic) NSDate *lastListRefreshDate;
+@property (strong, nonatomic) NSError *lastScheduleRequestError;
+@property (strong, nonatomic) WaterNowVC *parent;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -197,7 +211,7 @@
         static NSString *CellIdentifier = @"WaterNowTimerCell";
         WaterNowTimerCell *cell = (WaterNowTimerCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
-        cell.timerLabel.text = [FormatterHelper formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter] intValue]];
+        cell.timerLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter] intValue]];
         [cell.upButton setupWithImage:[UIImage imageNamed:@"button_up"]];
         [cell.downButton setupWithImage:[UIImage imageNamed:@"button_down"]];
         

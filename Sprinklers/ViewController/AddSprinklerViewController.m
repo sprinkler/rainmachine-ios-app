@@ -14,6 +14,11 @@
 
 @interface AddSprinklerViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *urlOrIPTextField;
+@property (weak, nonatomic) IBOutlet UITextField *tokenEmailTextField;
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
+
 @end
 
 @implementation AddSprinklerViewController

@@ -17,11 +17,23 @@
 #import "WaterZoneListCell.h"
 #import "ZoneProperty.h"
 #import "WaterNowLevel1VC.h"
-#import "FormatterHelper.h"
 #import "StartStopWatering.h"
 #import "Utils.h"
 
-@interface WaterNowVC ()
+@interface WaterNowVC () {
+    UIColor *switchOnOrangeColor;
+    UIColor *switchOnGreenColor;
+    NSTimeInterval retryInterval;
+}
+
+@property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) ServerProxy *serverProxy; // TODO: rename it to pollServerProxy or something better
+@property (strong, nonatomic) ServerProxy *postServerProxy;
+@property (strong, nonatomic) NSArray *zones;
+@property (strong, nonatomic) NSDate *lastListRefreshDate;
+@property (strong, nonatomic) NSError *lastScheduleRequestError;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -198,7 +210,7 @@
     cell.onOffSwitch.onTintColor = pending ? switchOnOrangeColor : (watering ? switchOnGreenColor : [UIColor grayColor]);
     cell.timeLabel.textColor = cell.onOffSwitch.onTintColor;
     
-    cell.timeLabel.text = [FormatterHelper formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter] intValue]];
+    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter] intValue]];
     
     return cell;
 }
