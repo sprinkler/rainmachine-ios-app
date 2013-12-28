@@ -52,14 +52,14 @@ const float kHomeScreenCellHeight = 66;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self createWaterImage];
-    [self createWaterWavesImage];
+  
+    self.waterImage = [Utils waterImage:kHomeScreenCellHeight];
+    self.waterWavesImage = [Utils waterWavesImage:kHomeScreenCellHeight];
 
     [_dataSourceTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"HomeScreenCell" bundle:nil] forCellReuseIdentifier:@"HomeScreenCell"];
 
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
 
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
@@ -102,73 +102,6 @@ const float kHomeScreenCellHeight = 66;
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     self.alertView = nil;
-}
-
-# pragma mark - Water image generation
-
-- (void)createWaterWavesImage
-{
-    float kLineWidth = 1 * [[UIScreen mainScreen] scale];
-    float kWaveAmplitude = 1 * [[UIScreen mainScreen] scale];
-    CAShapeLayer *layer = [CAShapeLayer layer];
-    layer.strokeColor = [UIColor colorWithRed:kWaterImageStrokeColor[0] green:kWaterImageStrokeColor[1] blue:kWaterImageStrokeColor[2] alpha:1].CGColor;
-    layer.fillColor = [UIColor colorWithRed:kWaterImageFillColor[0] green:kWaterImageFillColor[1] blue:kWaterImageFillColor[2] alpha:1].CGColor;
-    layer.lineWidth = kLineWidth;
-    layer.lineCap = kCALineCapRound;
-    layer.lineJoin = kCALineJoinRound;
-    
-    layer.frame = CGRectMake(0, 0, 2 * kWaveAmplitude + 2 * kLineWidth, kHomeScreenCellHeight * [[UIScreen mainScreen] scale]);
-    
-    float x = layer.frame.size.width / 2;
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, -kLineWidth, kLineWidth);
-    CGPathAddLineToPoint(path, NULL, x, kLineWidth);
-    
-    float verticalWavesNumber = 9;
-    float maxY = layer.frame.size.height - kLineWidth;
-    for (int y = kLineWidth; y <= maxY; y++) {
-        float angle = -M_PI + (M_PI * verticalWavesNumber * (y - kLineWidth)) / (maxY - kLineWidth);
-        float dx = kWaveAmplitude * sinf(angle);
-        CGPathAddLineToPoint(path, NULL, x + dx, y);
-    }
-    CGPathAddLineToPoint(path, NULL, -kLineWidth, maxY);
-    
-    CGPathCloseSubpath(path);
-    
-    layer.path = path;
-    
-    CGPathRelease(path);
-    
-    self.waterWavesImage = [UIImage imageFromLayer:layer];
-}
-
-- (void)createWaterImage
-{
-    float kLineWidth = 1 * [[UIScreen mainScreen] scale];
-    CAShapeLayer *layer = [CAShapeLayer layer];
-    layer.strokeColor = [UIColor colorWithRed:kWaterImageStrokeColor[0] green:kWaterImageStrokeColor[1] blue:kWaterImageStrokeColor[2] alpha:1].CGColor;
-    layer.fillColor = [UIColor colorWithRed:kWaterImageFillColor[0] green:kWaterImageFillColor[1] blue:kWaterImageFillColor[2] alpha:1].CGColor;
-    layer.lineWidth = kLineWidth;
-    layer.lineCap = kCALineCapRound;
-    layer.lineJoin = kCALineJoinRound;
-    
-    layer.frame = CGRectMake(0, 0, 1, kHomeScreenCellHeight * [[UIScreen mainScreen] scale]);
-    
-    float maxY = layer.frame.size.height - kLineWidth;
-    
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, -2 * kLineWidth, kLineWidth);
-    CGPathAddLineToPoint(path, NULL, 2 * kLineWidth, kLineWidth);
-    CGPathAddLineToPoint(path, NULL, 2 * kLineWidth, maxY);
-    CGPathAddLineToPoint(path, NULL, -2 * kLineWidth, maxY);
-    
-    CGPathCloseSubpath(path);
-    
-    layer.path = path;
-    
-    CGPathRelease(path);
-    
-    self.waterImage = [UIImage imageFromLayer:layer];
 }
 
 #pragma mark - Table view
@@ -220,7 +153,7 @@ const float kHomeScreenCellHeight = 66;
         cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UIImage *weatherImage = [UIImage imageWithContentsOfFile:[Utils pathForWeatherImageWithName:weatherData.icon forHomeScreen:YES]];
+    UIImage *weatherImage = [UIImage imageNamed:[@"daily-stats_" stringByAppendingString:weatherData.icon]];
     
     cell.weatherImage.image = weatherImage;
     

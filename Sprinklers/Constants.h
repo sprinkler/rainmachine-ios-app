@@ -15,7 +15,9 @@
 #define keepAlivePort       16000
 #define keepAliveTimeout    0
 
-extern NSString* const SPTestServerURL;
+extern NSString* const TestServerURL;
+extern NSString* const TestServerPort;
+
 extern float kLoginGreenButtonColor[3];
 extern float kWateringGreenButtonColor[3];
 extern float kWateringRedButtonColor[3];

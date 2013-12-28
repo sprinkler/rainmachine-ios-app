@@ -53,7 +53,7 @@
     NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
     Sprinkler *sprinkler = [[StorageManager current] getSprinkler:kTestSprinklerName];
     if (!sprinkler) {
-        [[StorageManager current] addSprinkler:kTestSprinklerName ipAddress:SPTestServerURL port:@"443"];
+        [[StorageManager current] addSprinkler:kTestSprinklerName ipAddress:TestServerURL port:TestServerPort];
     }
     
     if (![[UIDevice currentDevice] iOSGreaterThan:7]) {

@@ -10,9 +10,11 @@
 
 @interface Utils : NSObject
 
-+ (int)checkOSVersion;
-+ (BOOL)retinaScreen;
-+ (NSString*)pathForWeatherImageWithName:(NSString*)imageName forHomeScreen:(BOOL)forHomeScreen;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter;
+
++ (UIImage*)waterWavesImage:(float)height;
++ (UIImage*)waterImage:(float)height;
+
++ (int)checkOSVersion;
 
 @end
