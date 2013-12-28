@@ -13,6 +13,7 @@
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
 #import "StorageManager.h"
+#import "DevicesVC.h"
 
 @interface LoginVC () {
     ServerProxy *serverProxy;
@@ -116,7 +117,7 @@
     
     [self hideHud];
     
-    [self showMainScreen];
+    [self.parent done];
 }
 
 - (void)loggedOut {
@@ -125,8 +126,8 @@
     [alertView show];
 }
 
-- (void)showMainScreen {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+- (void)showMainScreenAnimated:(BOOL)animated {
+    [self.navigationController popToRootViewControllerAnimated:animated];
 }
 
 #pragma mark - Dealloc

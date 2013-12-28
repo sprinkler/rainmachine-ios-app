@@ -69,9 +69,12 @@
     
     [self shouldStartBroadcast];
     
-    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-    self.navigationItem.rightBarButtonItem = closeButton;
-    
+    if ([StorageManager current].currentSprinkler) {
+        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+        self.navigationItem.rightBarButtonItem = closeButton;
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -241,6 +244,7 @@
     if (indexPath.section == 0) {
         LoginVC *login = [[LoginVC alloc] init];
         login.sprinkler = savedSprinklers[indexPath.row];
+        login.parent = self;
         [self.navigationController pushViewController:login animated:YES];
     }
 }

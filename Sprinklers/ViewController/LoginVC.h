@@ -10,8 +10,11 @@
 #import "Sprinkler.h"
 #import "Protocols.h"
 
+@class DevicesVC;
+
 @interface LoginVC : UIViewController <UITextFieldDelegate, SprinklerResponseProtocol>
 
 @property (strong, nonatomic) Sprinkler *sprinkler;
+@property (weak, nonatomic) DevicesVC *parent;
 
 @end

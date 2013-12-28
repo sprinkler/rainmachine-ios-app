@@ -10,4 +10,6 @@
 
 @interface DevicesVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+- (void)done;
+
 @end
