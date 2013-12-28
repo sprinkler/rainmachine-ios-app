@@ -10,17 +10,17 @@
 #import "DevicesVC.h"
 #import "Additions.h"
 #import "StatsTestLevel1VC.h"
-#import "SPHomeScreenTableViewCell.h"
-#import "SPHomeScreenDataSourceCell.h"
-#import "SPServerProxy.h"
-#import "SPConstants.h"
-#import "SPWeatherData.h"
+#import "HomeScreenTableViewCell.h"
+#import "HomeScreenDataSourceCell.h"
+#import "ServerProxy.h"
+#import "Constants.h"
+#import "WeatherData.h"
 #import "MBProgressHUD.h"
-#import "SPSettingsViewController.h"
+#import "SettingsViewController.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "Sprinkler.h"
-#import "SPUtils.h"
+#import "Utils.h"
 
 const float kHomeScreenCellHeight = 66;
 
@@ -51,7 +51,7 @@ const float kHomeScreenCellHeight = 66;
     [_dataSourceTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"HomeScreenCell" bundle:nil] forCellReuseIdentifier:@"HomeScreenCell"];
 
-    self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
 
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
@@ -187,7 +187,7 @@ const float kHomeScreenCellHeight = 66;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.dataSourceTableView) {
         static NSString *CellIdentifier = @"HomeDataSourceCell";
-        SPHomeScreenDataSourceCell *cell = (SPHomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         cell.dataSourceLabel.text = [StorageManager current].currentSprinkler.address;
         cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate]];
         cell.sprinkler = [StorageManager current].currentSprinkler;
@@ -196,8 +196,8 @@ const float kHomeScreenCellHeight = 66;
     }
     
     static NSString *CellIdentifier = @"HomeScreenCell";
-    SPHomeScreenTableViewCell *cell = (SPHomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    SPWeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
+    HomeScreenTableViewCell *cell = (HomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    WeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
     cell.waterPercentage = [weatherData.percentage floatValue];
     cell.waterImage.image = self.waterImage;
     cell.waterWavesImageView.image = self.waterWavesImage;
@@ -212,7 +212,7 @@ const float kHomeScreenCellHeight = 66;
         cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UIImage *weatherImage = [UIImage imageWithContentsOfFile:[SPUtils pathForWeatherImageWithName:weatherData.icon forHomeScreen:YES]];
+    UIImage *weatherImage = [UIImage imageWithContentsOfFile:[Utils pathForWeatherImageWithName:weatherData.icon forHomeScreen:YES]];
     
     cell.weatherImage.image = weatherImage;
     
@@ -225,7 +225,7 @@ const float kHomeScreenCellHeight = 66;
     
     if (tableView == self.dataSourceTableView) {
         
-        SPSettingsViewController *settingsViewController = (SPSettingsViewController*)[[self.tabBarController viewControllers] lastObject];
+        SettingsViewController *settingsViewController = (SettingsViewController*)[[self.tabBarController viewControllers] lastObject];
         self.tabBarController.selectedViewController = settingsViewController;
     }
 }
@@ -249,7 +249,7 @@ const float kHomeScreenCellHeight = 66;
     
     self.data = data;
     
-    SPWeatherData *lastWeatherData = [self.data lastObject];
+    WeatherData *lastWeatherData = [self.data lastObject];
     
     [self storeLastSprinklerUpdateFromString:lastWeatherData.lastupdate];
     

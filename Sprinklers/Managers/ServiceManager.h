@@ -12,7 +12,7 @@
 #import "DiscoveredSprinklers.h"
 #import "Sprinkler.h"
 #import "Additions.h"
-#import "SPConstants.h"
+#import "Constants.h"
 
 @interface ServiceManager : NSObject <GCDAsyncUdpSocketDelegate> {
     

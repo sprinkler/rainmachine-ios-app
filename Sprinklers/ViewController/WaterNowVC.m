@@ -10,16 +10,16 @@
 #import "Additions.h"
 #import "DevicesVC.h"
 #import "WaterNowLevel1VC.h"
-#import "SPServerProxy.h"
-#import "SPConstants.h"
-#import "SPWaterNowZone.h"
+#import "ServerProxy.h"
+#import "Constants.h"
+#import "WaterNowZone.h"
 #import "MBProgressHUD.h"
-#import "SPWaterZoneListCell.h"
-#import "SPZoneProperty.h"
+#import "WaterZoneListCell.h"
+#import "ZoneProperty.h"
 #import "WaterNowLevel1VC.h"
-#import "SPFormatterHelper.h"
-#import "SPStartStopWatering.h"
-#import "SPUtils.h"
+#import "FormatterHelper.h"
+#import "StartStopWatering.h"
+#import "Utils.h"
 
 @interface WaterNowVC ()
 
@@ -51,8 +51,8 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
     self.tabBarController.navigationItem.rightBarButtonItem = backButton;
     
-    self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
-    self.postServerProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:YES];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
+    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -107,7 +107,7 @@
 
 - (void)stopAll
 {
-    for (SPWaterNowZone *zone in self.zones) {
+    for (WaterNowZone *zone in self.zones) {
         BOOL watering = [zone.state isEqualToString:@"Watering"];
         if (watering) {
             [self toggleWatering:!watering onZoneWithId:zone.id andCounter:zone.counter];
@@ -180,9 +180,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"WaterZoneListCell";
-    SPWaterZoneListCell *cell = (SPWaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    SPWaterNowZone *waterNowZone = [self.zones objectAtIndex:indexPath.row];
+    WaterNowZone *waterNowZone = [self.zones objectAtIndex:indexPath.row];
     BOOL pending = [waterNowZone.state isEqualToString:@"Pending"];
     BOOL watering = [waterNowZone.state isEqualToString:@"Watering"];
     //  BOOL unkownState = (!pending) && (!watering);
@@ -198,7 +198,7 @@
     cell.onOffSwitch.onTintColor = pending ? switchOnOrangeColor : (watering ? switchOnGreenColor : [UIColor grayColor]);
     cell.timeLabel.textColor = cell.onOffSwitch.onTintColor;
     
-    cell.timeLabel.text = [SPFormatterHelper formattedTime:[[SPUtils fixedZoneCounter:waterNowZone.counter] intValue]];
+    cell.timeLabel.text = [FormatterHelper formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter] intValue]];
     
     return cell;
 }
@@ -208,7 +208,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
-    SPWaterNowZone *waterZone = [self.zones objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+    WaterNowZone *waterZone = [self.zones objectAtIndex:[self.tableView indexPathForSelectedRow].row];
     waterNowZoneVC.waterZone = waterZone;
     [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }
@@ -218,7 +218,7 @@
 - (NSArray*)filteredZones:(NSArray*)zones
 {
     NSMutableArray *rez = [NSMutableArray array];
-    for (SPWaterNowZone *zone in zones) {
+    for (WaterNowZone *zone in zones) {
         // Skip the Master Valve
         if ([zone.id intValue] != 1) {
             [rez addObject:zone];

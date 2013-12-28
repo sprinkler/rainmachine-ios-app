@@ -9,13 +9,13 @@
 #import "LoginVC.h"
 #import "Additions.h"
 #import "+UIButton.h"
-#import "SPConstants.h"
-#import "SPServerProxy.h"
+#import "Constants.h"
+#import "ServerProxy.h"
 #import "MBProgressHUD.h"
 #import "StorageManager.h"
 
 @interface LoginVC () {
-    SPServerProxy *serverProxy;
+    ServerProxy *serverProxy;
     MBProgressHUD *hud;
 }
 
@@ -92,7 +92,7 @@
 }
 
 - (IBAction)login:(id)sender {
-    serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
+    serverProxy = [[ServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
     [serverProxy loginWithUserName:@"admin" password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
     [self startHud:@"Logging in..."];
 }

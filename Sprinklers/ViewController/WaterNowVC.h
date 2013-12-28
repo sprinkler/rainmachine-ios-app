@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
-#import "SPCommonProtocols.h"
+#import "Protocols.h"
 
 @class MBProgressHUD;
-@class SPServerProxy;
+@class ServerProxy;
 
-@interface WaterNowVC : BaseViewController<SPSprinklerResponseProtocol>
+@interface WaterNowVC : BaseViewController<SprinklerResponseProtocol>
 {
     UIColor *switchOnOrangeColor;
     UIColor *switchOnGreenColor;
@@ -21,8 +21,8 @@
 }
 
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) SPServerProxy *serverProxy; // TODO: rename it to pollServerProxy or something better
-@property (strong, nonatomic) SPServerProxy *postServerProxy;
+@property (strong, nonatomic) ServerProxy *serverProxy; // TODO: rename it to pollServerProxy or something better
+@property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) NSArray *zones;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
 @property (strong, nonatomic) NSError *lastScheduleRequestError;

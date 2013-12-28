@@ -7,12 +7,12 @@
 //
 
 #import "WaterNowLevel1VC.h"
-#import "SPConstants.h"
+#import "Constants.h"
 #import "+UIButton.h"
-#import "SPWaterNowZone.h"
-#import "SPServerProxy.h"
-#import "SPFormatterHelper.h"
-#import "SPUtils.h"
+#import "WaterNowZone.h"
+#import "ServerProxy.h"
+#import "FormatterHelper.h"
+#import "Utils.h"
 #import "WaterNowVC.h"
 #import "WaterNowTimerCell.h"
 #import "WaterNowStartCell.h"
@@ -47,8 +47,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.serverProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
-    self.postServerProxy = [[SPServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:YES];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:NO];
+    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:SPTestServerURL delegate:self jsonRequest:YES];
     
     self.title = self.waterZone.name;
 }
@@ -132,7 +132,7 @@
 - (IBAction)onUpButton:(id)sender {
     BOOL watering = [self.waterZone.state isEqualToString:@"Watering"];
     
-    int counter = [[SPUtils fixedZoneCounter:self.waterZone.counter] intValue];
+    int counter = [[Utils fixedZoneCounter:self.waterZone.counter] intValue];
     NSNumber *newCounter = [NSNumber numberWithInt:counter + 10];
     self.waterZone.counter = newCounter;
     
@@ -146,7 +146,7 @@
 - (IBAction)onDownButton:(id)sender {
     BOOL watering = [self.waterZone.state isEqualToString:@"Watering"];
     
-    int counter = [[SPUtils fixedZoneCounter:self.waterZone.counter] intValue];
+    int counter = [[Utils fixedZoneCounter:self.waterZone.counter] intValue];
     // This limiting is done to avoid confusion, because the value 0 is in fact used also for both:
     // * the default value of 5:00
     // * to show that a device is stopped
@@ -197,7 +197,7 @@
         static NSString *CellIdentifier = @"WaterNowTimerCell";
         WaterNowTimerCell *cell = (WaterNowTimerCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
-        cell.timerLabel.text = [SPFormatterHelper formattedTime:[[SPUtils fixedZoneCounter:self.waterZone.counter] intValue]];
+        cell.timerLabel.text = [FormatterHelper formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter] intValue]];
         [cell.upButton setupWithImage:[UIImage imageNamed:@"buttonUp"]];
         [cell.downButton setupWithImage:[UIImage imageNamed:@"buttonDown"]];
         

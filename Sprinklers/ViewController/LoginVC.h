@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Sprinkler.h"
-#import "SPCommonProtocols.h"
+#import "Protocols.h"
 
-@interface LoginVC : UIViewController <UITextFieldDelegate, SPSprinklerResponseProtocol>
+@interface LoginVC : UIViewController <UITextFieldDelegate, SprinklerResponseProtocol>
 
 @property (strong, nonatomic) Sprinkler *sprinkler;
 

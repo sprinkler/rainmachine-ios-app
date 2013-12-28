@@ -8,17 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
-#import "SPCommonProtocols.h"
+#import "Protocols.h"
 
-@class SPServerProxy;
+@class ServerProxy;
 @class MBProgressHUD;
 
 
-@interface StatsVC : BaseViewController<UITableViewDataSource, UITableViewDelegate, SPSprinklerResponseProtocol>
+@interface StatsVC : BaseViewController<UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
 @property (strong, nonatomic) UIImage *waterImage;
 @property (strong, nonatomic) UIImage *waterWavesImage;
-@property (strong, nonatomic) SPServerProxy *serverProxy;
+@property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) NSArray *data;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableView *dataSourceTableView;

@@ -21,14 +21,13 @@
 		AF0EFF5E1861C516007BF852 /* WaterNowStartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */; };
 		AF0EFF611861C55B007BF852 /* WaterNowStartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */; };
 		AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */; };
-		AF2704FA184DE8040081155A /* SPAddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */; };
-		AF3F781218571A6100D9DEB3 /* SPHomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */; };
-		AF41C9B1184F441500C94822 /* SPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF41C9B0184F441500C94822 /* SPSettingsViewController.m */; };
-		AF4F42E2184CA911001796AE /* SPSprinklerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4F42E1184CA911001796AE /* SPSprinklerListViewController.m */; };
+		AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* AddSprinklerViewController.m */; };
+		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
+		AF4F42E2184CA911001796AE /* SprinklerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4F42E1184CA911001796AE /* SprinklerListViewController.m */; };
 		AF5D7995185CDC2900A49CF7 /* buttonDown.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7993185CDC2900A49CF7 /* buttonDown.png */; };
 		AF5D7996185CDC2900A49CF7 /* buttonUp.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7994185CDC2900A49CF7 /* buttonUp.png */; };
-		AF5D79A0185CEBB900A49CF7 /* SPFormatterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D799F185CEBB900A49CF7 /* SPFormatterHelper.m */; };
-		AF7782C4184CD3DE00DCBD54 /* SPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* SPConstants.m */; };
+		AF5D79A0185CEBB900A49CF7 /* FormatterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5D799F185CEBB900A49CF7 /* FormatterHelper.m */; };
+		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF77AC12185F460F00E3C36F /* bkn.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AB61185F45E700E3C36F /* bkn.png */; };
 		AF77AC13185F460F00E3C36F /* bkn@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AB62185F45E700E3C36F /* bkn@2x.png */; };
 		AF77AC14185F460F00E3C36F /* blizzard.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AB63185F45E700E3C36F /* blizzard.png */; };
@@ -205,12 +204,12 @@
 		AF77ACC0185F463000E3C36F /* tsra@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AC0F185F45EE00E3C36F /* tsra@2x.png */; };
 		AF77ACC1185F463000E3C36F /* wind.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AC10185F45EE00E3C36F /* wind.png */; };
 		AF77ACC2185F463000E3C36F /* wind@2x.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = AF77AC11185F45EE00E3C36F /* wind@2x.png */; };
-		AF789763185C955F00449381 /* SPWaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* SPWaterZoneListCell.m */; };
-		AF7AC9B0184E13890047BD9E /* SPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9AF184E13890047BD9E /* SPLoginViewController.m */; };
+		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
+		AF7AC9B0184E13890047BD9E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9AF184E13890047BD9E /* LoginViewController.m */; };
 		AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B1184E25870047BD9E /* bucket@2x.png */; };
 		AF7AC9B5184E27B80047BD9E /* temp-checkbox-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B3184E27B80047BD9E /* temp-checkbox-selected@2x.png */; };
 		AF7AC9B6184E27B80047BD9E /* temp-checkbox-unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B4184E27B80047BD9E /* temp-checkbox-unselected@2x.png */; };
-		AF7AC9BE184E3D200047BD9E /* SPServerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9BD184E3D200047BD9E /* SPServerProxy.m */; };
+		AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9BD184E3D200047BD9E /* ServerProxy.m */; };
 		AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9C3184E3DBE0047BD9E /* AFHTTPRequestOperation.m */; };
 		AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9C5184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m */; };
 		AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9C7184E3DBE0047BD9E /* AFURLConnectionOperation.m */; };
@@ -222,16 +221,16 @@
 		AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9DF184E3E080047BD9E /* AFSecurityPolicy.m */; };
 		AF7AC9E2184E3ECE0047BD9E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */; };
 		AF7AC9E4184E3EDF0047BD9E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */; };
-		AF91C7F01858D047005888AA /* SPWaterNowZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7EF1858D047005888AA /* SPWaterNowZone.m */; };
-		AF91C7F41858D640005888AA /* SPStartStopWatering.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F31858D640005888AA /* SPStartStopWatering.m */; };
-		AF91C7F71858D757005888AA /* SPSetZonePropertiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* SPSetZonePropertiesResponse.m */; };
-		AFC58172184E58FD00C8D06A /* SPWeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* SPWeatherData.m */; };
+		AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7EF1858D047005888AA /* WaterNowZone.m */; };
+		AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F31858D640005888AA /* StartStopWatering.m */; };
+		AF91C7F71858D757005888AA /* SetZonePropertiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* SetZonePropertiesResponse.m */; };
+		AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* WeatherData.m */; };
 		AFC7E93718579D7600ACA626 /* statusOK.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* statusOK.png */; };
-		AFC7E93A18579EE900ACA626 /* SPHomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */; };
+		AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */; };
 		AFCC57B4185860FD001F48F0 /* statusWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* statusWarning.png */; };
 		AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCC57B6185861E7001F48F0 /* Sprinkler.m */; };
-		AFCDF79F185DBE2700F9C57E /* SPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* SPUtils.m */; };
-		AFD9CBB31858AB510055947C /* SPZoneProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD9CBB21858AB510055947C /* SPZoneProperty.m */; };
+		AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* Utils.m */; };
+		AFD9CBB31858AB510055947C /* ZoneProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD9CBB21858AB510055947C /* ZoneProperty.m */; };
 		B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */; };
 		B111987016A7EED00094EF9F /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986F16A7EED00094EF9F /* StorageManager.m */; };
 		B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */ = {isa = PBXBuildFile; fileRef = B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */; };
@@ -524,20 +523,18 @@
 		AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowStartCell.m; path = Cells/WaterNowStartCell.m; sourceTree = "<group>"; };
 		AF0EFF621861C573007BF852 /* WaterNowTimerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowTimerCell.h; path = Cells/WaterNowTimerCell.h; sourceTree = "<group>"; };
 		AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowTimerCell.m; path = Cells/WaterNowTimerCell.m; sourceTree = "<group>"; };
-		AF2704F8184DE8040081155A /* SPAddSprinklerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPAddSprinklerViewController.h; path = ViewController/SPAddSprinklerViewController.h; sourceTree = "<group>"; };
-		AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPAddSprinklerViewController.m; path = ViewController/SPAddSprinklerViewController.m; sourceTree = "<group>"; };
-		AF3F781018571A6100D9DEB3 /* SPHomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeScreenTableViewCell.h; path = Cells/SPHomeScreenTableViewCell.h; sourceTree = "<group>"; };
-		AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeScreenTableViewCell.m; path = Cells/SPHomeScreenTableViewCell.m; sourceTree = "<group>"; };
-		AF41C9AF184F441500C94822 /* SPSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPSettingsViewController.h; path = ViewController/SPSettingsViewController.h; sourceTree = "<group>"; };
-		AF41C9B0184F441500C94822 /* SPSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPSettingsViewController.m; path = ViewController/SPSettingsViewController.m; sourceTree = "<group>"; };
-		AF4F42E0184CA911001796AE /* SPSprinklerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPSprinklerListViewController.h; path = ViewController/SPSprinklerListViewController.h; sourceTree = "<group>"; };
-		AF4F42E1184CA911001796AE /* SPSprinklerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPSprinklerListViewController.m; path = ViewController/SPSprinklerListViewController.m; sourceTree = "<group>"; };
+		AF2704F8184DE8040081155A /* AddSprinklerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddSprinklerViewController.h; path = ViewController/AddSprinklerViewController.h; sourceTree = "<group>"; };
+		AF2704F9184DE8040081155A /* AddSprinklerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddSprinklerViewController.m; path = ViewController/AddSprinklerViewController.m; sourceTree = "<group>"; };
+		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
+		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
+		AF4F42E0184CA911001796AE /* SprinklerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SprinklerListViewController.h; path = ViewController/SprinklerListViewController.h; sourceTree = "<group>"; };
+		AF4F42E1184CA911001796AE /* SprinklerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SprinklerListViewController.m; path = ViewController/SprinklerListViewController.m; sourceTree = "<group>"; };
 		AF5D7993185CDC2900A49CF7 /* buttonDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonDown.png; path = Resources/buttonDown.png; sourceTree = "<group>"; };
 		AF5D7994185CDC2900A49CF7 /* buttonUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonUp.png; path = Resources/buttonUp.png; sourceTree = "<group>"; };
-		AF5D799E185CEBB900A49CF7 /* SPFormatterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPFormatterHelper.h; sourceTree = "<group>"; };
-		AF5D799F185CEBB900A49CF7 /* SPFormatterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPFormatterHelper.m; sourceTree = "<group>"; };
-		AF7782C2184CD3DE00DCBD54 /* SPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPConstants.h; path = ../SPConstants.h; sourceTree = "<group>"; };
-		AF7782C3184CD3DE00DCBD54 /* SPConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPConstants.m; path = ../SPConstants.m; sourceTree = "<group>"; };
+		AF5D799E185CEBB900A49CF7 /* FormatterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatterHelper.h; sourceTree = "<group>"; };
+		AF5D799F185CEBB900A49CF7 /* FormatterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatterHelper.m; sourceTree = "<group>"; };
+		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
+		AF7782C3184CD3DE00DCBD54 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		AF77AB61185F45E700E3C36F /* bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bkn.png; sourceTree = "<group>"; };
 		AF77AB62185F45E700E3C36F /* bkn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bkn@2x.png"; sourceTree = "<group>"; };
 		AF77AB63185F45E700E3C36F /* blizzard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blizzard.png; sourceTree = "<group>"; };
@@ -714,16 +711,16 @@
 		AF77AC0F185F45EE00E3C36F /* tsra@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tsra@2x.png"; sourceTree = "<group>"; };
 		AF77AC10185F45EE00E3C36F /* wind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wind.png; sourceTree = "<group>"; };
 		AF77AC11185F45EE00E3C36F /* wind@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wind@2x.png"; sourceTree = "<group>"; };
-		AF789761185C955F00449381 /* SPWaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPWaterZoneListCell.h; path = Cells/SPWaterZoneListCell.h; sourceTree = "<group>"; };
-		AF789762185C955F00449381 /* SPWaterZoneListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPWaterZoneListCell.m; path = Cells/SPWaterZoneListCell.m; sourceTree = "<group>"; };
-		AF7AC9AE184E13890047BD9E /* SPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPLoginViewController.h; path = ViewController/SPLoginViewController.h; sourceTree = "<group>"; };
-		AF7AC9AF184E13890047BD9E /* SPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPLoginViewController.m; path = ViewController/SPLoginViewController.m; sourceTree = "<group>"; };
+		AF789761185C955F00449381 /* WaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterZoneListCell.h; path = Cells/WaterZoneListCell.h; sourceTree = "<group>"; };
+		AF789762185C955F00449381 /* WaterZoneListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterZoneListCell.m; path = Cells/WaterZoneListCell.m; sourceTree = "<group>"; };
+		AF7AC9AE184E13890047BD9E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ViewController/LoginViewController.h; sourceTree = "<group>"; };
+		AF7AC9AF184E13890047BD9E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ViewController/LoginViewController.m; sourceTree = "<group>"; };
 		AF7AC9B1184E25870047BD9E /* bucket@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bucket@2x.png"; path = "Resources/bucket@2x.png"; sourceTree = "<group>"; };
 		AF7AC9B3184E27B80047BD9E /* temp-checkbox-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "temp-checkbox-selected@2x.png"; path = "Resources/temp-checkbox-selected@2x.png"; sourceTree = "<group>"; };
 		AF7AC9B4184E27B80047BD9E /* temp-checkbox-unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "temp-checkbox-unselected@2x.png"; path = "Resources/temp-checkbox-unselected@2x.png"; sourceTree = "<group>"; };
-		AF7AC9BA184E3D1A0047BD9E /* SPCommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPCommonProtocols.h; path = ../SPCommonProtocols.h; sourceTree = "<group>"; };
-		AF7AC9BC184E3D200047BD9E /* SPServerProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPServerProxy.h; sourceTree = "<group>"; };
-		AF7AC9BD184E3D200047BD9E /* SPServerProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPServerProxy.m; sourceTree = "<group>"; };
+		AF7AC9BA184E3D1A0047BD9E /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Protocols.h; path = ../Protocols.h; sourceTree = "<group>"; };
+		AF7AC9BC184E3D200047BD9E /* ServerProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerProxy.h; sourceTree = "<group>"; };
+		AF7AC9BD184E3D200047BD9E /* ServerProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerProxy.m; sourceTree = "<group>"; };
 		AF7AC9C0184E3D920047BD9E /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworking.h; path = Sprinklers/3rdParty/AFNetworking/AFNetworking.h; sourceTree = "<group>"; };
 		AF7AC9C2184E3DBE0047BD9E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = Sprinklers/3rdParty/AFNetworking/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		AF7AC9C3184E3DBE0047BD9E /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPRequestOperation.m; path = Sprinklers/3rdParty/AFNetworking/AFHTTPRequestOperation.m; sourceTree = "<group>"; };
@@ -745,25 +742,25 @@
 		AF7AC9DF184E3E080047BD9E /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFSecurityPolicy.m; path = Sprinklers/3rdParty/AFNetworking/AFSecurityPolicy.m; sourceTree = "<group>"; };
 		AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		AF91C7EE1858D047005888AA /* SPWaterNowZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPWaterNowZone.h; path = "Response objects/SPWaterNowZone.h"; sourceTree = "<group>"; };
-		AF91C7EF1858D047005888AA /* SPWaterNowZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPWaterNowZone.m; path = "Response objects/SPWaterNowZone.m"; sourceTree = "<group>"; };
-		AF91C7F21858D640005888AA /* SPStartStopWatering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPStartStopWatering.h; sourceTree = "<group>"; };
-		AF91C7F31858D640005888AA /* SPStartStopWatering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPStartStopWatering.m; sourceTree = "<group>"; };
-		AF91C7F51858D757005888AA /* SPSetZonePropertiesResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPSetZonePropertiesResponse.h; path = "Response objects/SPSetZonePropertiesResponse.h"; sourceTree = "<group>"; };
-		AF91C7F61858D757005888AA /* SPSetZonePropertiesResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPSetZonePropertiesResponse.m; path = "Response objects/SPSetZonePropertiesResponse.m"; sourceTree = "<group>"; };
-		AFC58170184E58FD00C8D06A /* SPWeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPWeatherData.h; path = "Response objects/SPWeatherData.h"; sourceTree = "<group>"; };
-		AFC58171184E58FD00C8D06A /* SPWeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPWeatherData.m; path = "Response objects/SPWeatherData.m"; sourceTree = "<group>"; };
+		AF91C7EE1858D047005888AA /* WaterNowZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowZone.h; path = "Response objects/WaterNowZone.h"; sourceTree = "<group>"; };
+		AF91C7EF1858D047005888AA /* WaterNowZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowZone.m; path = "Response objects/WaterNowZone.m"; sourceTree = "<group>"; };
+		AF91C7F21858D640005888AA /* StartStopWatering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartStopWatering.h; sourceTree = "<group>"; };
+		AF91C7F31858D640005888AA /* StartStopWatering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartStopWatering.m; sourceTree = "<group>"; };
+		AF91C7F51858D757005888AA /* SetZonePropertiesResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetZonePropertiesResponse.h; path = "Response objects/SetZonePropertiesResponse.h"; sourceTree = "<group>"; };
+		AF91C7F61858D757005888AA /* SetZonePropertiesResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetZonePropertiesResponse.m; path = "Response objects/SetZonePropertiesResponse.m"; sourceTree = "<group>"; };
+		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Response objects/WeatherData.h"; sourceTree = "<group>"; };
+		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Response objects/WeatherData.m"; sourceTree = "<group>"; };
 		AFC7E93618579D7600ACA626 /* statusOK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusOK.png; path = Resources/statusOK.png; sourceTree = "<group>"; };
-		AFC7E93818579EE900ACA626 /* SPHomeScreenDataSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPHomeScreenDataSourceCell.h; path = Cells/SPHomeScreenDataSourceCell.h; sourceTree = "<group>"; };
-		AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPHomeScreenDataSourceCell.m; path = Cells/SPHomeScreenDataSourceCell.m; sourceTree = "<group>"; };
+		AFC7E93818579EE900ACA626 /* HomeScreenDataSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenDataSourceCell.h; path = Cells/HomeScreenDataSourceCell.h; sourceTree = "<group>"; };
+		AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenDataSourceCell.m; path = Cells/HomeScreenDataSourceCell.m; sourceTree = "<group>"; };
 		AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 2.xcdatamodel"; sourceTree = "<group>"; };
 		AFCC57B3185860FD001F48F0 /* statusWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusWarning.png; path = Resources/statusWarning.png; sourceTree = "<group>"; };
 		AFCC57B5185861E7001F48F0 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
 		AFCC57B6185861E7001F48F0 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
-		AFCDF79D185DBE2700F9C57E /* SPUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPUtils.h; sourceTree = "<group>"; };
-		AFCDF79E185DBE2700F9C57E /* SPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPUtils.m; sourceTree = "<group>"; };
-		AFD9CBB11858AB510055947C /* SPZoneProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPZoneProperty.h; path = "Response objects/SPZoneProperty.h"; sourceTree = "<group>"; };
-		AFD9CBB21858AB510055947C /* SPZoneProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPZoneProperty.m; path = "Response objects/SPZoneProperty.m"; sourceTree = "<group>"; };
+		AFCDF79D185DBE2700F9C57E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		AFCDF79E185DBE2700F9C57E /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		AFD9CBB11858AB510055947C /* ZoneProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneProperty.h; path = "Response objects/ZoneProperty.h"; sourceTree = "<group>"; };
+		AFD9CBB21858AB510055947C /* ZoneProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneProperty.m; path = "Response objects/ZoneProperty.m"; sourceTree = "<group>"; };
 		B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sprinklers.xcdatamodel; sourceTree = "<group>"; };
 		B111986E16A7EED00094EF9F /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StorageManager.h; path = Managers/StorageManager.h; sourceTree = "<group>"; };
 		B111986F16A7EED00094EF9F /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StorageManager.m; path = Managers/StorageManager.m; sourceTree = "<group>"; };
@@ -905,13 +902,13 @@
 		AF5D799D185CEBB900A49CF7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				AF7AC9BA184E3D1A0047BD9E /* SPCommonProtocols.h */,
-				AF7782C2184CD3DE00DCBD54 /* SPConstants.h */,
-				AF7782C3184CD3DE00DCBD54 /* SPConstants.m */,
-				AF5D799E185CEBB900A49CF7 /* SPFormatterHelper.h */,
-				AF5D799F185CEBB900A49CF7 /* SPFormatterHelper.m */,
-				AFCDF79D185DBE2700F9C57E /* SPUtils.h */,
-				AFCDF79E185DBE2700F9C57E /* SPUtils.m */,
+				AF7AC9BA184E3D1A0047BD9E /* Protocols.h */,
+				AF7782C2184CD3DE00DCBD54 /* Constants.h */,
+				AF7782C3184CD3DE00DCBD54 /* Constants.m */,
+				AF5D799E185CEBB900A49CF7 /* FormatterHelper.h */,
+				AF5D799F185CEBB900A49CF7 /* FormatterHelper.m */,
+				AFCDF79D185DBE2700F9C57E /* Utils.h */,
+				AFCDF79E185DBE2700F9C57E /* Utils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1113,8 +1110,8 @@
 			children = (
 				AF91C7F11858D62A005888AA /* Request objects */,
 				AFC5816F184E58B800C8D06A /* Response objects */,
-				AF7AC9BC184E3D200047BD9E /* SPServerProxy.h */,
-				AF7AC9BD184E3D200047BD9E /* SPServerProxy.m */,
+				AF7AC9BC184E3D200047BD9E /* ServerProxy.h */,
+				AF7AC9BD184E3D200047BD9E /* ServerProxy.m */,
 			);
 			path = Communication;
 			sourceTree = "<group>";
@@ -1188,8 +1185,8 @@
 		AF91C7F11858D62A005888AA /* Request objects */ = {
 			isa = PBXGroup;
 			children = (
-				AF91C7F21858D640005888AA /* SPStartStopWatering.h */,
-				AF91C7F31858D640005888AA /* SPStartStopWatering.m */,
+				AF91C7F21858D640005888AA /* StartStopWatering.h */,
+				AF91C7F31858D640005888AA /* StartStopWatering.m */,
 			);
 			path = "Request objects";
 			sourceTree = "<group>";
@@ -1197,14 +1194,14 @@
 		AFC5816F184E58B800C8D06A /* Response objects */ = {
 			isa = PBXGroup;
 			children = (
-				AFD9CBB11858AB510055947C /* SPZoneProperty.h */,
-				AFD9CBB21858AB510055947C /* SPZoneProperty.m */,
-				AFC58170184E58FD00C8D06A /* SPWeatherData.h */,
-				AFC58171184E58FD00C8D06A /* SPWeatherData.m */,
-				AF91C7EE1858D047005888AA /* SPWaterNowZone.h */,
-				AF91C7EF1858D047005888AA /* SPWaterNowZone.m */,
-				AF91C7F51858D757005888AA /* SPSetZonePropertiesResponse.h */,
-				AF91C7F61858D757005888AA /* SPSetZonePropertiesResponse.m */,
+				AFD9CBB11858AB510055947C /* ZoneProperty.h */,
+				AFD9CBB21858AB510055947C /* ZoneProperty.m */,
+				AFC58170184E58FD00C8D06A /* WeatherData.h */,
+				AFC58171184E58FD00C8D06A /* WeatherData.m */,
+				AF91C7EE1858D047005888AA /* WaterNowZone.h */,
+				AF91C7EF1858D047005888AA /* WaterNowZone.m */,
+				AF91C7F51858D757005888AA /* SetZonePropertiesResponse.h */,
+				AF91C7F61858D757005888AA /* SetZonePropertiesResponse.m */,
 			);
 			name = "Response objects";
 			sourceTree = "<group>";
@@ -1220,14 +1217,12 @@
 				B1EF21131860495E00D9CE26 /* Settings */,
 				B1EF21111860494E00D9CE26 /* Stats */,
 				B1EF21121860495300D9CE26 /* WaterNow */,
-				AF4F42E0184CA911001796AE /* SPSprinklerListViewController.h */,
-				AF4F42E1184CA911001796AE /* SPSprinklerListViewController.m */,
-				AF2704F8184DE8040081155A /* SPAddSprinklerViewController.h */,
-				AF2704F9184DE8040081155A /* SPAddSprinklerViewController.m */,
-				AF7AC9AE184E13890047BD9E /* SPLoginViewController.h */,
-				AF7AC9AF184E13890047BD9E /* SPLoginViewController.m */,
-				AF41C9AF184F441500C94822 /* SPSettingsViewController.h */,
-				AF41C9B0184F441500C94822 /* SPSettingsViewController.m */,
+				AF4F42E0184CA911001796AE /* SprinklerListViewController.h */,
+				AF4F42E1184CA911001796AE /* SprinklerListViewController.m */,
+				AF2704F8184DE8040081155A /* AddSprinklerViewController.h */,
+				AF2704F9184DE8040081155A /* AddSprinklerViewController.m */,
+				AF7AC9AE184E13890047BD9E /* LoginViewController.h */,
+				AF7AC9AF184E13890047BD9E /* LoginViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1269,12 +1264,12 @@
 				B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */,
 				AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */,
 				AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */,
-				AFC7E93818579EE900ACA626 /* SPHomeScreenDataSourceCell.h */,
-				AFC7E93918579EE900ACA626 /* SPHomeScreenDataSourceCell.m */,
-				AF3F781018571A6100D9DEB3 /* SPHomeScreenTableViewCell.h */,
-				AF3F781118571A6100D9DEB3 /* SPHomeScreenTableViewCell.m */,
-				AF789761185C955F00449381 /* SPWaterZoneListCell.h */,
-				AF789762185C955F00449381 /* SPWaterZoneListCell.m */,
+				AFC7E93818579EE900ACA626 /* HomeScreenDataSourceCell.h */,
+				AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */,
+				AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */,
+				AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */,
+				AF789761185C955F00449381 /* WaterZoneListCell.h */,
+				AF789762185C955F00449381 /* WaterZoneListCell.m */,
 				AF0EFF5F1861C55B007BF852 /* WaterNowStartCell.h */,
 				AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */,
 				AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */,
@@ -1640,29 +1635,28 @@
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
-				AF91C7F71858D757005888AA /* SPSetZonePropertiesResponse.m in Sources */,
+				AF91C7F71858D757005888AA /* SetZonePropertiesResponse.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
-				AF5D79A0185CEBB900A49CF7 /* SPFormatterHelper.m in Sources */,
+				AF5D79A0185CEBB900A49CF7 /* FormatterHelper.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
 				B1EF2127186049B800D9CE26 /* SettingsTestLevel1VC.m in Sources */,
-				AFD9CBB31858AB510055947C /* SPZoneProperty.m in Sources */,
+				AFD9CBB31858AB510055947C /* ZoneProperty.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				B1EF20F4186046D300D9CE26 /* +UIDevice.m in Sources */,
 				B1DF327916A6AA5100A1BF38 /* GCDAsyncSocket.m in Sources */,
-				AF41C9B1184F441500C94822 /* SPSettingsViewController.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
 				B1EF20F3186046D300D9CE26 /* +UIColor.m in Sources */,
 				B1EF20EF186046D300D9CE26 /* +NSDate.m in Sources */,
 				AF7AC9D7184E3DEB0047BD9E /* AFURLRequestSerialization.m in Sources */,
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,
-				AF2704FA184DE8040081155A /* SPAddSprinklerViewController.m in Sources */,
-				AF7782C4184CD3DE00DCBD54 /* SPConstants.m in Sources */,
+				AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */,
+				AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
-				AFCDF79F185DBE2700F9C57E /* SPUtils.m in Sources */,
-				AF91C7F01858D047005888AA /* SPWaterNowZone.m in Sources */,
+				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
+				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
 				AF0EFF611861C55B007BF852 /* WaterNowStartCell.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
@@ -1670,37 +1664,37 @@
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
 				AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */,
-				AFC58172184E58FD00C8D06A /* SPWeatherData.m in Sources */,
+				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
-				AF4F42E2184CA911001796AE /* SPSprinklerListViewController.m in Sources */,
+				AF4F42E2184CA911001796AE /* SprinklerListViewController.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
-				AF789763185C955F00449381 /* SPWaterZoneListCell.m in Sources */,
+				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
-				AF3F781218571A6100D9DEB3 /* SPHomeScreenTableViewCell.m in Sources */,
+				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
 				AF7AC9D0184E3DD30047BD9E /* AFHTTPSessionManager.m in Sources */,
-				AF7AC9BE184E3D200047BD9E /* SPServerProxy.m in Sources */,
+				AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */,
 				B1583E7716A803B50051B480 /* MBProgressHUD.m in Sources */,
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
-				AF91C7F41858D640005888AA /* SPStartStopWatering.m in Sources */,
+				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
-				AF7AC9B0184E13890047BD9E /* SPLoginViewController.m in Sources */,
+				AF7AC9B0184E13890047BD9E /* LoginViewController.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
-				AFC7E93A18579EE900ACA626 /* SPHomeScreenDataSourceCell.m in Sources */,
+				AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
