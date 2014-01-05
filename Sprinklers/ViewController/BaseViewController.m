@@ -12,7 +12,10 @@
 #import "Sprinkler.h"
 #import "StorageManager.h"
 
-@interface BaseViewController ()
+@interface BaseViewController () {
+    UILabel *lblDeviceName;
+    UILabel *lblDeviceAddress;
+}
 
 @end
 
@@ -48,17 +51,16 @@ const int kError_AlertViewTag = 2;
     [self updateTitle];
 }
 
-- (void)updateTitle
-{
+- (void)updateTitle {
     UIView *customTitle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
-    UILabel *lblDeviceName = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 24)];
+    lblDeviceName = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 24)];
     lblDeviceName.backgroundColor = [UIColor clearColor];
     lblDeviceName.textColor = [UIColor whiteColor];
     lblDeviceName.text = [StorageManager current].currentSprinkler.name;  //TODO: replace with name from Sprinkler
     lblDeviceName.font = [UIFont systemFontOfSize:18.0f];
     [customTitle addSubview:lblDeviceName];
     
-    UILabel *lblDeviceAddress = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 200, 20)];
+    lblDeviceAddress = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 200, 20)];
     lblDeviceAddress.backgroundColor = [UIColor clearColor];
     lblDeviceAddress.textColor = [UIColor whiteColor];
     lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;//TODO: replace with address from Sprinkler
@@ -71,7 +73,8 @@ const int kError_AlertViewTag = 2;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self updateTitle]; // TODO: optimize: don't recreate the views everytime, just set label's text
+    lblDeviceName.text = [StorageManager current].currentSprinkler.name;
+    lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
 }
 
 #pragma mark - Methods
@@ -84,16 +87,14 @@ const int kError_AlertViewTag = 2;
 
 #pragma mark - Error handling
 
-- (void)handleServerLoggedOutUser
-{
+- (void)handleServerLoggedOutUser {
     [self.navigationController popToRootViewControllerAnimated:NO];
     
     [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
     [[StorageManager current] saveData];
 }
 
-- (void)handleGeneralSprinklerError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage
-{
+- (void)handleGeneralSprinklerError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
     [StorageManager current].currentSprinkler.lastError = errorMessage;
     [[StorageManager current] saveData];
     
@@ -104,8 +105,7 @@ const int kError_AlertViewTag = 2;
     }
 }
 
-- (void)handleLoggedOutSprinklerError
-{
+- (void)handleLoggedOutSprinklerError {
     NSString *errorTitle = @"Logged out";
     [StorageManager current].currentSprinkler.lastError = errorTitle;
     [[StorageManager current] saveData];

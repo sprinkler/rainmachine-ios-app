@@ -256,6 +256,8 @@
 		B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */; };
 		B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */; };
 		B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = B173B4FD16B2C459000EB72D /* Sprinkler_Icon_144.png */; };
+		B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B60618187958990046FDDC /* ProgramsVC.m */; };
+		B1B6061B187958990046FDDC /* ProgramsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B60619187958990046FDDC /* ProgramsVC.xib */; };
 		B1DF324C16A6A68700A1BF38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1DF324B16A6A68700A1BF38 /* UIKit.framework */; };
 		B1DF324E16A6A68700A1BF38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1DF324D16A6A68700A1BF38 /* Foundation.framework */; };
 		B1DF325016A6A68700A1BF38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1DF324F16A6A68700A1BF38 /* CoreGraphics.framework */; };
@@ -297,8 +299,6 @@
 		B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1EF211C1860499200D9CE26 /* StatsVC.xib */; };
 		B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EF21201860499E00D9CE26 /* WaterNowVC.m */; };
 		B1EF21231860499E00D9CE26 /* WaterNowVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1EF21211860499E00D9CE26 /* WaterNowVC.xib */; };
-		B1EF2127186049B800D9CE26 /* SettingsTestLevel1VC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EF2125186049B800D9CE26 /* SettingsTestLevel1VC.m */; };
-		B1EF2128186049B800D9CE26 /* SettingsTestLevel1VC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1EF2126186049B800D9CE26 /* SettingsTestLevel1VC.xib */; };
 		B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EF212A186049C900D9CE26 /* StatsTestLevel1VC.m */; };
 		B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1EF212B186049C900D9CE26 /* StatsTestLevel1VC.xib */; };
 		B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EF212F186049D800D9CE26 /* WaterNowLevel1VC.m */; };
@@ -593,6 +593,9 @@
 		B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_72.png; path = Resources/Sprinkler_Icon_72.png; sourceTree = "<group>"; };
 		B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_114.png; path = Resources/Sprinkler_Icon_114.png; sourceTree = "<group>"; };
 		B173B4FD16B2C459000EB72D /* Sprinkler_Icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_144.png; path = Resources/Sprinkler_Icon_144.png; sourceTree = "<group>"; };
+		B1B60617187958990046FDDC /* ProgramsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramsVC.h; path = ViewController/ProgramsVC.h; sourceTree = "<group>"; };
+		B1B60618187958990046FDDC /* ProgramsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramsVC.m; path = ViewController/ProgramsVC.m; sourceTree = "<group>"; };
+		B1B60619187958990046FDDC /* ProgramsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramsVC.xib; path = ViewController/ProgramsVC.xib; sourceTree = "<group>"; };
 		B1DF324716A6A68700A1BF38 /* RainMachine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainMachine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1DF324B16A6A68700A1BF38 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B1DF324D16A6A68700A1BF38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -662,9 +665,6 @@
 		B1EF211F1860499E00D9CE26 /* WaterNowVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowVC.h; path = ViewController/WaterNowVC.h; sourceTree = "<group>"; };
 		B1EF21201860499E00D9CE26 /* WaterNowVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowVC.m; path = ViewController/WaterNowVC.m; sourceTree = "<group>"; };
 		B1EF21211860499E00D9CE26 /* WaterNowVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterNowVC.xib; path = ViewController/WaterNowVC.xib; sourceTree = "<group>"; };
-		B1EF2124186049B800D9CE26 /* SettingsTestLevel1VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsTestLevel1VC.h; path = ViewController/SettingsTestLevel1VC.h; sourceTree = "<group>"; };
-		B1EF2125186049B800D9CE26 /* SettingsTestLevel1VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsTestLevel1VC.m; path = ViewController/SettingsTestLevel1VC.m; sourceTree = "<group>"; };
-		B1EF2126186049B800D9CE26 /* SettingsTestLevel1VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsTestLevel1VC.xib; path = ViewController/SettingsTestLevel1VC.xib; sourceTree = "<group>"; };
 		B1EF2129186049C900D9CE26 /* StatsTestLevel1VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatsTestLevel1VC.h; path = ViewController/StatsTestLevel1VC.h; sourceTree = "<group>"; };
 		B1EF212A186049C900D9CE26 /* StatsTestLevel1VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatsTestLevel1VC.m; path = ViewController/StatsTestLevel1VC.m; sourceTree = "<group>"; };
 		B1EF212B186049C900D9CE26 /* StatsTestLevel1VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StatsTestLevel1VC.xib; path = ViewController/StatsTestLevel1VC.xib; sourceTree = "<group>"; };
@@ -1303,9 +1303,9 @@
 				B1EF21141860497B00D9CE26 /* SettingsVC.h */,
 				B1EF21151860497B00D9CE26 /* SettingsVC.m */,
 				B1EF21161860497B00D9CE26 /* SettingsVC.xib */,
-				B1EF2124186049B800D9CE26 /* SettingsTestLevel1VC.h */,
-				B1EF2125186049B800D9CE26 /* SettingsTestLevel1VC.m */,
-				B1EF2126186049B800D9CE26 /* SettingsTestLevel1VC.xib */,
+				B1B60617187958990046FDDC /* ProgramsVC.h */,
+				B1B60618187958990046FDDC /* ProgramsVC.m */,
+				B1B60619187958990046FDDC /* ProgramsVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1437,7 +1437,6 @@
 				AFF63597186F54900005EDF1 /* daily_stats_cold@2x.png in Resources */,
 				AFF636C2186F55100005EDF1 /* main-screen_ndu@2x.png in Resources */,
 				AFF636B1186F55100005EDF1 /* main-screen_hi_shwrs.png in Resources */,
-				B1EF2128186049B800D9CE26 /* SettingsTestLevel1VC.xib in Resources */,
 				AFF635E9186F54900005EDF1 /* daily_stats_wind@2x.png in Resources */,
 				AFF636BE186F55100005EDF1 /* main-screen_na@2x.png in Resources */,
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
@@ -1514,6 +1513,7 @@
 				AFF635CE186F54900005EDF1 /* daily_stats_ntsra.png in Resources */,
 				AFF636DF186F55100005EDF1 /* main-screen_ra1@2x.png in Resources */,
 				AFF636C4186F55100005EDF1 /* main-screen_nfew@2x.png in Resources */,
+				B1B6061B187958990046FDDC /* ProgramsVC.xib in Resources */,
 				AFF636E1186F55100005EDF1 /* main-screen_raip.png in Resources */,
 				AFF636AD186F55100005EDF1 /* main-screen_hi_nshwrs.png in Resources */,
 				AFF635D5186F54900005EDF1 /* daily_stats_ra1.png in Resources */,
@@ -1605,7 +1605,7 @@
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
-				B1EF2127186049B800D9CE26 /* SettingsTestLevel1VC.m in Sources */,
+				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
 				AFD9CBB31858AB510055947C /* ZoneProperty.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,

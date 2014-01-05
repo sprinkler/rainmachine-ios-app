@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 
-@interface SettingsVC : BaseViewController
+@interface SettingsVC : BaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
