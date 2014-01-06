@@ -65,6 +65,7 @@
     
     self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
     self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -14,11 +14,12 @@
 #import "StartStopWatering.h"
 #import "SetZonePropertiesResponse.h"
 #import "Utils.h"
+#import "Program.h"
 #import <objc/runtime.h>
 
 @implementation ServerProxy
 
-- (id)initWithServerURL:(NSString*)serverURL delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest {
+- (id)initWithServerURL:(NSString *)serverURL delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest {
     self = [super init];
     if (!self) {
         return nil;
@@ -165,6 +166,26 @@
                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                  [self handleError:error fromOperation:operation];
                                              }];
+}
+
+- (void)requestPrograms {
+    [self.manager GET:@"ui.cgi" parameters:@{@"action" : @"settings", @"what" : @"programs"}
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSArray *values = [responseObject objectForKey:@"programs"];
+                  if (values) {
+                      NSMutableArray *returnValues = [NSMutableArray array];
+                      for (id obj in values) {
+                          if ([obj isKindOfClass:[NSDictionary class]]) {
+                              Program *program = [Program createFromJson:obj];
+                              [returnValues addObject:program];
+                          }
+                      }
+                      [self.delegate serverResponseReceived:returnValues serverProxy:self];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation];
+              }];
 }
 
 // (Used in Settings)

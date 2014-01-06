@@ -243,6 +243,8 @@
 		B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */ = {isa = PBXBuildFile; fileRef = B1213EBB186090CC009D97F4 /* DevicesCellType3.m */; };
 		B1213EC0186090E7009D97F4 /* DevicesCellType3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */; };
 		B1213EC2186094DB009D97F4 /* image_arrow_next_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1213EC1186094DB009D97F4 /* image_arrow_next_gray@2x.png */; };
+		B1254CA4187ADCB3004E2F0E /* Program.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CA3187ADCB3004E2F0E /* Program.m */; };
+		B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */; };
 		B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1583E5816A7F7170051B480 /* UIStrokeLabel.m */; };
 		B1583E5C16A7F9640051B480 /* rose.png in Resources */ = {isa = PBXBuildFile; fileRef = B1583E5B16A7F9640051B480 /* rose.png */; };
 		B1583E7216A803970051B480 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = B1583E6E16A803970051B480 /* arrow.png */; };
@@ -577,6 +579,10 @@
 		B1213EBB186090CC009D97F4 /* DevicesCellType3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DevicesCellType3.m; path = Cells/DevicesCellType3.m; sourceTree = "<group>"; };
 		B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DevicesCellType3.xib; path = Cells/DevicesCellType3.xib; sourceTree = "<group>"; };
 		B1213EC1186094DB009D97F4 /* image_arrow_next_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "image_arrow_next_gray@2x.png"; path = "Resources/image_arrow_next_gray@2x.png"; sourceTree = "<group>"; };
+		B1254CA2187ADCB3004E2F0E /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Program.h; path = "Response objects/Program.h"; sourceTree = "<group>"; };
+		B1254CA3187ADCB3004E2F0E /* Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Program.m; path = "Response objects/Program.m"; sourceTree = "<group>"; };
+		B1254CA5187ADF9B004E2F0E /* ProgramWateringTimes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramWateringTimes.h; path = "Response objects/ProgramWateringTimes.h"; sourceTree = "<group>"; };
+		B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramWateringTimes.m; path = "Response objects/ProgramWateringTimes.m"; sourceTree = "<group>"; };
 		B1583E5716A7F7170051B480 /* UIStrokeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIStrokeLabel.h; path = Controls/UIStrokeLabel.h; sourceTree = "<group>"; };
 		B1583E5816A7F7170051B480 /* UIStrokeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIStrokeLabel.m; path = Controls/UIStrokeLabel.m; sourceTree = "<group>"; };
 		B1583E5B16A7F9640051B480 /* rose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rose.png; path = Resources/rose.png; sourceTree = "<group>"; };
@@ -801,6 +807,10 @@
 				AF91C7EF1858D047005888AA /* WaterNowZone.m */,
 				AF91C7F51858D757005888AA /* SetZonePropertiesResponse.h */,
 				AF91C7F61858D757005888AA /* SetZonePropertiesResponse.m */,
+				B1254CA2187ADCB3004E2F0E /* Program.h */,
+				B1254CA3187ADCB3004E2F0E /* Program.m */,
+				B1254CA5187ADF9B004E2F0E /* ProgramWateringTimes.h */,
+				B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */,
 			);
 			name = "Response objects";
 			path = Communication;
@@ -1596,6 +1606,7 @@
 			files = (
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
 				AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */,
+				B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */,
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
@@ -1629,6 +1640,7 @@
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
 				AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */,
+				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,

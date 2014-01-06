@@ -7,8 +7,15 @@
 //
 
 #import "ProgramsVC.h"
+#import "Constants.h"
+#import "ServerProxy.h"
+#import "Program.h"
+#import "MBProgressHUD.h"
 
 @interface ProgramsVC ()
+
+@property (strong, nonatomic) ServerProxy *serverProxy;
+@property (strong, nonatomic) ServerProxy *postServerProxy;
 
 @end
 
@@ -26,6 +33,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
+    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
+    
+    [self.serverProxy requestPrograms];
+}
+
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy {
+    if (data && [data isKindOfClass:[NSArray class]]) {
+        for (Program *p in data) {
+            
+        }
+    }
+}
+
+- (void)loggedOut {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self handleLoggedOutSprinklerError];
 }
 
 @end

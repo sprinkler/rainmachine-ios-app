@@ -28,5 +28,7 @@ extern float kWaterImageStrokeColor[3];
 
 extern NSString *daysOfTheWeek[7];
 
-
 extern float kWaterNowListRefreshTimeInterval;
+
+#define kLoggedOut_AlertViewTag   1
+#define kError_AlertViewTag  2

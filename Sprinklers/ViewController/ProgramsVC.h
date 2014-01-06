@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseLevel2ViewController.h"
+#import "Protocols.h"
 
-@interface ProgramsVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ProgramsVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource, SprinklerResponseProtocol>
 
 @end

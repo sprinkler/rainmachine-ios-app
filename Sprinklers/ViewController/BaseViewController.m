@@ -21,9 +21,6 @@
 
 @implementation BaseViewController
 
-const int kLoggedOut_AlertViewTag = 1;
-const int kError_AlertViewTag = 2;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {

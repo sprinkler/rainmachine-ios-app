@@ -14,8 +14,6 @@
 @class StartStopWatering;
 
 @interface ServerProxy : NSObject
-{
-}
 
 @property (nonatomic, weak) id<SprinklerResponseProtocol> delegate;
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
@@ -28,6 +26,7 @@
 - (void)requestZonePropertiesList;
 - (void)requestWaterNowZoneList;
 - (void)requestWaterActionsForZone:(NSNumber*)zoneId;
+- (void)requestPrograms;
 
 - (void)sendZoneProperties:(ZoneProperty*)zoneProperty;
 - (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter;
