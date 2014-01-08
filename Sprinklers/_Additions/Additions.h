@@ -12,4 +12,5 @@
 #import "+UIScreen.h"
 #import "+UILabel.h"
 #import "+UIBezierPath.h"
+#import "+UIButton.h"
 #import "+UIImageView.h"

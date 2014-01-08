@@ -15,7 +15,6 @@
 #import "WaterNowZone.h"
 #import "MBProgressHUD.h"
 #import "WaterZoneListCell.h"
-#import "ZoneProperty.h"
 #import "WaterNowLevel1VC.h"
 #import "StartStopWatering.h"
 #import "Utils.h"

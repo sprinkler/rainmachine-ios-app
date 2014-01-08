@@ -59,11 +59,6 @@
     hud.labelText = text;
 }
 
-- (void)loggedOut {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self handleLoggedOutSprinklerError];
-}
-
 - (void)edit {
     editing = !editing;
     [_tableView setEditing:editing];
@@ -94,6 +89,11 @@
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
         }
     }
+}
+
+- (void)loggedOut {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self handleLoggedOutSprinklerError];
 }
 
 #pragma mark - UITableView delegate
@@ -132,6 +132,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 20.0f;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {

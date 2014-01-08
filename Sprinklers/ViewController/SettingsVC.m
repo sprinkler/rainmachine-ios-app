@@ -9,6 +9,8 @@
 #import "SettingsVC.h"
 #import "Additions.h"
 #import "ProgramsVC.h"
+#import "ZonesVC.h"
+#import "RainDelayVC.h"
 
 @interface SettingsVC ()
 
@@ -127,15 +129,21 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    switch (indexPath.row + indexPath.section) {
+    switch (indexPath.row + (2 * indexPath.section)) {
         case 0: {
             ProgramsVC *programs = [[ProgramsVC alloc] init];
             [self.navigationController pushViewController:programs animated:YES];
         }
             break;
-        case 1:
+        case 1: {
+            ZonesVC *zones = [[ZonesVC alloc] init];
+            [self.navigationController pushViewController:zones animated:YES];
+        }
             break;
-        case 2:
+        case 2: {
+            RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
+            [self.navigationController pushViewController:rainDelay animated:YES];
+        }
             break;
         case 3:
             break;

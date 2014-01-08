@@ -23,12 +23,13 @@
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe;
 
 - (void)requestWeatherData;
-- (void)requestZonePropertiesList;
 - (void)requestWaterNowZoneList;
 - (void)requestWaterActionsForZone:(NSNumber*)zoneId;
 
 - (void)requestPrograms;
 - (void)deleteProgram:(int)programId;
+
+- (void)requestZones;
 
 - (void)sendZoneProperties:(ZoneProperty*)zoneProperty;
 - (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter;

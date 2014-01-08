@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RainDelayVC">
+            <connections>
+                <outlet property="buttonSety" destination="gdH-uS-fP7" id="sIp-VC-gNM"/>
+                <outlet property="labelDays" destination="KtC-hz-C14" id="Ofb-X4-Fwg"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 days" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KtC-hz-C14">
+                    <rect key="frame" x="22" y="39" width="276" height="72"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="72" id="GKW-FA-Grg"/>
+                        <constraint firstAttribute="width" constant="276" id="g0f-xj-xjz"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="60"/>
+                    <color key="textColor" red="0.023529414087533951" green="0.63529413938522339" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gdH-uS-fP7">
+                    <rect key="frame" x="34" y="430" width="253" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="QPe-DP-30I"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="Set">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="set:" destination="-1" eventType="touchUpInside" id="efO-xO-22A"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UL2-hc-AhF">
+                    <rect key="frame" x="52" y="275" width="88" height="88"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="88" id="Paw-KL-wPL"/>
+                        <constraint firstAttribute="width" constant="88" id="dei-ww-eH0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="button_up.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="up:" destination="-1" eventType="touchUpInside" id="WMP-hF-Q7k"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="osb-S0-zOa">
+                    <rect key="frame" x="180" y="275" width="88" height="88"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="88" id="Imk-Hi-3xw"/>
+                        <constraint firstAttribute="height" constant="88" id="Xli-Vr-gDg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="button_down.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="down:" destination="-1" eventType="touchUpInside" id="tGK-vE-yVe"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="deviceRGB"/>
+            <constraints>
+                <constraint firstItem="gdH-uS-fP7" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="34" id="0OZ-ff-4Vp"/>
+                <constraint firstAttribute="trailing" secondItem="gdH-uS-fP7" secondAttribute="trailing" constant="33" id="DWc-bM-rWJ"/>
+                <constraint firstAttribute="centerX" secondItem="KtC-hz-C14" secondAttribute="centerX" id="J3U-Ro-kfH"/>
+                <constraint firstItem="UL2-hc-AhF" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="52" id="NeI-rh-rmG"/>
+                <constraint firstItem="KtC-hz-C14" firstAttribute="top" secondItem="1" secondAttribute="top" constant="39" id="RFh-tN-POi"/>
+                <constraint firstAttribute="bottom" secondItem="gdH-uS-fP7" secondAttribute="bottom" constant="20" id="WOo-b0-Mo0"/>
+                <constraint firstItem="gdH-uS-fP7" firstAttribute="top" secondItem="UL2-hc-AhF" secondAttribute="bottom" constant="67" id="fhj-45-fvc"/>
+                <constraint firstAttribute="trailing" secondItem="osb-S0-zOa" secondAttribute="trailing" constant="52" id="teh-Pp-g1E"/>
+                <constraint firstItem="gdH-uS-fP7" firstAttribute="top" secondItem="osb-S0-zOa" secondAttribute="bottom" constant="67" id="utS-TD-gMS"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="button_down.png" width="88" height="88"/>
+        <image name="button_up.png" width="88" height="88"/>
+    </resources>
+</document>

@@ -9,7 +9,7 @@
 #import "ServerProxy.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "WeatherData.h"
-#import "ZoneProperty.h"
+#import "Zone.h"
 #import "WaterNowZone.h"
 #import "StartStopWatering.h"
 #import "SetZonePropertiesResponse.h"
@@ -155,17 +155,26 @@
     }];
 }
 
-// (Used in Settings)
-- (void)requestZonePropertiesList
-{
-    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
-                                             @"what": @"zones"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                 
-                                                 [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([ZoneProperty class])] serverProxy:self];
-                                                 
-                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                 [self handleError:error fromOperation:operation];
-                                             }];
+- (void)requestZones {
+    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings", @"what": @"zones"}
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSArray *values = [responseObject objectForKey:@"zones"];
+                  if (values) {
+                      NSMutableArray *returnValues = [NSMutableArray array];
+                      for (id obj in values) {
+                          if ([obj isKindOfClass:[NSDictionary class]]) {
+                              Zone *zone = [Zone createFromJson:obj];
+                              [returnValues addObject:zone];
+                          }
+                      }
+                      if (_delegate && [_delegate respondsToSelector:@selector(serverResponseReceived:serverProxy:)]) {
+                          [_delegate serverResponseReceived:returnValues serverProxy:self];
+                      }
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation];
+              }];
 }
 
 - (void)requestPrograms {
