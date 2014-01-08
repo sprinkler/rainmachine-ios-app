@@ -37,7 +37,7 @@
 //                                                  }];
 
     NSURL *baseURL = [NSURL URLWithString:serverURL];
-  self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL jsonRequest:jsonRequest];
+    self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL jsonRequest:jsonRequest];
 
     // TODO: remove invalid certificates policy in the future
     AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
@@ -180,12 +180,27 @@
                               [returnValues addObject:program];
                           }
                       }
-                      [self.delegate serverResponseReceived:returnValues serverProxy:self];
+                      if (_delegate && [_delegate respondsToSelector:@selector(serverResponseReceived:serverProxy:)]) {
+                          [_delegate serverResponseReceived:returnValues serverProxy:self];
+                      }
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   [self handleError:error fromOperation:operation];
               }];
+}
+
+- (void)deleteProgram:(int)programId {
+    [self.manager POST:@"ui.cgi?action=settings&what=programs" parameters:@{@"id": @(programId)}
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (_delegate && [_delegate respondsToSelector:@selector(programDeleted:)]) {
+                       [_delegate programDeleted:programId];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation];
+               }];
+     
 }
 
 // (Used in Settings)
@@ -202,11 +217,10 @@
     }];
 }
 
-- (void)handleError:(NSError*)error fromOperation:(AFHTTPRequestOperation*) operation
-{
+- (void)handleError:(NSError *)error fromOperation:(AFHTTPRequestOperation *) operation {
     BOOL isLoggedOut = NO;
     NSError *jsonError = nil;
-    NSData* responseData = [operation responseData];
+    NSData *responseData = [operation responseData];
     if ((([[[operation response] MIMEType] isEqualToString:@"json/html"]) ||
          ([[[operation response] MIMEType] isEqualToString: @"text/plain"])) &&
         (responseData)) {
@@ -227,7 +241,9 @@
     } else {
         // Just a simple error
         DLog(@"NetworkError: %@", error);
-        [self.delegate serverErrorReceived:error serverProxy:self];
+        if ([_delegate respondsToSelector:@selector(serverErrorReceived:serverProxy:)]) {
+            [_delegate serverErrorReceived:error serverProxy:self];
+        }
     }
 }
 
@@ -293,11 +309,6 @@
         DLog(@"Error encoding object of type '%@': %@", NSStringFromClass([object class]), error);
     }
     return data;
-}
-
-- (void)dealloc
-{
-    //  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

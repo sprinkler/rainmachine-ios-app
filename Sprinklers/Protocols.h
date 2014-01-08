@@ -16,5 +16,6 @@
 
 @optional
 - (void)loginSucceeded;
+- (void)programDeleted:(int)programId;
 
 @end

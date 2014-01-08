@@ -26,7 +26,9 @@
 - (void)requestZonePropertiesList;
 - (void)requestWaterNowZoneList;
 - (void)requestWaterActionsForZone:(NSNumber*)zoneId;
+
 - (void)requestPrograms;
+- (void)deleteProgram:(int)programId;
 
 - (void)sendZoneProperties:(ZoneProperty*)zoneProperty;
 - (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter;

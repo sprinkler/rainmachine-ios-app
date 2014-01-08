@@ -42,6 +42,7 @@
         program.startTime = [df dateFromString:[jsonObj nullProofedStringValueForKey:@"startTime"]];
         
         program.state = [jsonObj nullProofedStringValueForKey:@"state"];
+        program.weekdays = [jsonObj nullProofedStringValueForKey:@"weekdays"];
         
         NSArray *times = [jsonObj valueForKey:@"wateringTimes"];
         if (times && [times isKindOfClass:[NSArray class]]) {
