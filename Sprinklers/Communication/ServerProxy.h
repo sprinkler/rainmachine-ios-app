@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
+#import "Zone.h"
 
 @class AFHTTPRequestOperationManager;
-@class ZoneProperty;
 @class StartStopWatering;
 
 @interface ServerProxy : NSObject
@@ -30,8 +30,8 @@
 - (void)deleteProgram:(int)programId;
 
 - (void)requestZones;
+- (void)saveZone:(Zone *)zone;
 
-- (void)sendZoneProperties:(ZoneProperty*)zoneProperty;
 - (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter;
 
 @end

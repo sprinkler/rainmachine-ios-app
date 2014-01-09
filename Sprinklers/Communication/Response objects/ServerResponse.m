@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Tremend. All rights reserved.
 //
 
-#import "SetZonePropertiesResponse.h"
+#import "ServerResponse.h"
 
-@implementation SetZonePropertiesResponse
+@implementation ServerResponse
 
 @end

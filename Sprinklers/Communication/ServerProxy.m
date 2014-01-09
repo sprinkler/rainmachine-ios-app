@@ -9,10 +9,9 @@
 #import "ServerProxy.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "WeatherData.h"
-#import "Zone.h"
 #import "WaterNowZone.h"
 #import "StartStopWatering.h"
-#import "SetZonePropertiesResponse.h"
+#import "ServerResponse.h"
 #import "Utils.h"
 #import "Program.h"
 #import <objc/runtime.h>
@@ -212,18 +211,17 @@
      
 }
 
-// (Used in Settings)
-- (void)sendZoneProperties:(ZoneProperty*)zoneProperty
-{
-    NSDictionary *params = [self toDictionaryFromObject:zoneProperty];
-    [self.manager POST:@"ui.cgi?action=settings&what=zones" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject]
-                                                                 toClass:NSStringFromClass([SetZonePropertiesResponse class])] serverProxy:self];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
-    }];
+- (void)saveZone:(Zone *)zone {
+    if (zone) {
+        NSDictionary *params = @{@"id" : @(zone.zoneId), @"active" : @(zone.active), @"after" : @(zone.after), @"before": @(zone.before),
+                                 @"forecastData" : @(zone.forecastData), @"historicalAverage" : @(zone.historicalAverage), @"masterValve" : @(zone.masterValve),
+                                 @"name" : zone.name, @"vegetation" : @(zone.vegetation)};
+        [self.manager POST:@"ui.cgi?action=settings&what=zones" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])] serverProxy:self];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self handleError:error fromOperation:operation];
+        }];
+    }
 }
 
 - (void)handleError:(NSError *)error fromOperation:(AFHTTPRequestOperation *) operation {
@@ -292,14 +290,14 @@
     return loadedObject;
 }
 
-- (NSDictionary*)toDictionaryFromObject:(id)object {
+- (NSDictionary *)toDictionaryFromObject:(id)object {
     unsigned int outCount, i;
     NSMutableDictionary *dict = [NSMutableDictionary new];
     objc_property_t *properties = class_copyPropertyList([object class], &outCount);
-    for(i = 0; i < outCount; i++) {
+    for (i = 0; i < outCount; i++) {
         objc_property_t property = properties[i];
         const char *propName = property_getName(property);
-        if(propName) {
+        if (propName) {
             NSString *propertyName = [NSString stringWithCString:propName encoding:[NSString defaultCStringEncoding]];
             [dict setObject:[object valueForKey:propertyName] forKey:propertyName];
         }

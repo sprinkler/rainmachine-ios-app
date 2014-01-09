@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SetZonePropertiesResponse : NSObject
+@interface ServerResponse : NSObject
 
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) NSString *status;

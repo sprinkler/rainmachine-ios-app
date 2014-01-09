@@ -13,6 +13,7 @@
 #import "MBProgressHUD.h"
 #import "Zone.h"
 #import "ZoneCell.h"
+#import "ZonePropertiesVC.h"
 
 @interface ZonesVC () {
     MBProgressHUD *hud;
@@ -91,8 +92,6 @@
     [self handleLoggedOutSprinklerError];
 }
 
-#pragma mark - Actions
-
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -140,6 +139,14 @@
     }
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Zone *zone = zones[indexPath.row];
+    ZonePropertiesVC *zp = [[ZonePropertiesVC alloc] init];
+    zp.showMasterValve = indexPath.row == 0;
+    zp.zone = zone;
+    [self.navigationController pushViewController:zp animated:YES];
 }
 
 @end
