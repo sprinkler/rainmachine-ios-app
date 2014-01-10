@@ -14,7 +14,7 @@
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, retain, readwrite) Sprinkler *currentSprinkler; // TODO: make this property persistent
+@property (nonatomic, retain, readwrite) Sprinkler *currentSprinkler; // TODO: keep the name of the current sprinkler persistent in the db
 
 - (void)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port;
 - (void)deleteSprinkler:(NSString *)name;

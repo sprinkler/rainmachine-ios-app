@@ -242,10 +242,17 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        LoginVC *login = [[LoginVC alloc] init];
-        login.sprinkler = savedSprinklers[indexPath.row];
-        login.parent = self;
-        [self.navigationController pushViewController:login animated:YES];
+        Sprinkler *sprinkler = savedSprinklers[indexPath.row];
+        if ([sprinkler.loginRememberMe boolValue]) {
+            [StorageManager current].currentSprinkler = savedSprinklers[indexPath.row];
+            [[StorageManager current] saveData];
+            [self done];
+        } else {
+            LoginVC *login = [[LoginVC alloc] init];
+            login.sprinkler = savedSprinklers[indexPath.row];
+            login.parent = self;
+            [self.navigationController pushViewController:login animated:YES];
+        }
     }
 }
 

@@ -15,7 +15,7 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy;
 
 @optional
-- (void)loginSucceeded;
+- (void)loginSucceededAndRemembered:(BOOL)remembered;
 - (void)programDeleted:(int)programId;
 
 @end

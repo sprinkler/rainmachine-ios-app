@@ -104,6 +104,7 @@
 
 - (void)handleLoggedOutSprinklerError {
     NSString *errorTitle = @"Logged out";
+    [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
     [StorageManager current].currentSprinkler.lastError = errorTitle;
     [[StorageManager current] saveData];
     

@@ -14,6 +14,7 @@
 #import "ServerResponse.h"
 #import "Utils.h"
 #import "Program.h"
+#import "StorageManager.h"
 #import <objc/runtime.h>
 
 @implementation ServerProxy
@@ -65,7 +66,7 @@
     [self.manager POST:@"/ui.cgi" parameters:paramsDic
                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                          //DLog(@"Success code: %d", [[operation response] statusCode]);
-                                       [self.delegate loginSucceeded];
+                                       [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler]];
                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                       BOOL success = NO;
                                       if ([[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[self.manager baseURL]] count] > 0) {
@@ -73,11 +74,8 @@
                                           success = YES;
                                         }
                                       }
-                                      // TODO: comment out Debug server code
-//                                      [self.delegate loginSucceeded];
-
                                       if (success) {
-                                        [self.delegate loginSucceeded];
+                                        [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler]];
                                       } else {
                                         NSHTTPURLResponse *response = operation.response;
                                         if ((NSUInteger)response.statusCode == 200) {
@@ -87,6 +85,18 @@
                                         }
                                       }
                                   }];
+}
+
+- (BOOL)isLoginRememberedForCurrentSprinkler
+{
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[self.manager baseURL]];
+    for (NSHTTPCookie *cookie in cookies) {
+        if (([[cookie name] isEqualToString:@"login"]) && (![cookie isSessionOnly])) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 - (void)requestWeatherData
@@ -248,9 +258,7 @@
     } else {
         // Just a simple error
         DLog(@"NetworkError: %@", error);
-        if ([_delegate respondsToSelector:@selector(serverErrorReceived:serverProxy:)]) {
-            [_delegate serverErrorReceived:error serverProxy:self];
-        }
+        [_delegate serverErrorReceived:error serverProxy:self];
     }
 }
 
@@ -279,8 +287,13 @@
     
     for (NSString *key in jsonDic) {
         if ([loadedObject respondsToSelector:NSSelectorFromString(key)]) {
-            // Use this line to debug types of received data members
-            //      NSLog(@"%@:, %@", key, NSStringFromClass([[jsonDic valueForKey:key] class]));
+            // Use the following lines to debug types of received data members
+//            objc_property_t property = class_getProperty(ObjectClass, [key UTF8String]);
+//            const char * type = property_getAttributes(property);
+//            NSString *typeString = [NSString stringWithUTF8String:type];
+//            NSArray *attributes = [typeString componentsSeparatedByString:@","];
+//            Class typeAttributeClass = NSClassFromString([attributes objectAtIndex:0]);
+//            NSLog(@"%@. type in dict:%@ type in receiving class:%@", key, NSStringFromClass([[jsonDic valueForKey:key] class]), typeAttributeClass);
             [loadedObject setValue:[jsonDic valueForKey:key] forKey:key];
         } else {
             DLog(@"Error: response object of class %@ doesn't implement property '%@' of type %@", className, key, NSStringFromClass([[jsonDic valueForKey:key] class]));
