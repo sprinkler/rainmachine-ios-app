@@ -51,6 +51,7 @@
 		AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* icon_status_warning.png */; };
 		AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCC57B6185861E7001F48F0 /* Sprinkler.m */; };
 		AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* Utils.m */; };
+		AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE749861880255500CC3620 /* ColoredBackgroundButton.m */; };
 		AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */; };
 		AFF63593186F54900005EDF1 /* daily_stats_bkn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */; };
 		AFF63594186F54900005EDF1 /* daily_stats_blizzard.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */; };
@@ -390,6 +391,8 @@
 		AFCC57B6185861E7001F48F0 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AFCDF79D185DBE2700F9C57E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AFCDF79E185DBE2700F9C57E /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		AFE749851880255500CC3620 /* ColoredBackgroundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColoredBackgroundButton.h; path = Controls/ColoredBackgroundButton.h; sourceTree = "<group>"; };
+		AFE749861880255500CC3620 /* ColoredBackgroundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColoredBackgroundButton.m; path = Controls/ColoredBackgroundButton.m; sourceTree = "<group>"; };
 		AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_bkn.png; sourceTree = "<group>"; };
 		AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_stats_bkn@2x.png"; sourceTree = "<group>"; };
 		AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_blizzard.png; sourceTree = "<group>"; };
@@ -1034,6 +1037,8 @@
 				B1583E7616A803B50051B480 /* MBProgressHUD.m */,
 				B1583E5716A7F7170051B480 /* UIStrokeLabel.h */,
 				B1583E5816A7F7170051B480 /* UIStrokeLabel.m */,
+				AFE749851880255500CC3620 /* ColoredBackgroundButton.h */,
+				AFE749861880255500CC3620 /* ColoredBackgroundButton.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -1656,6 +1661,7 @@
 				AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */,
 				AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
+				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZonePropertiesVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,

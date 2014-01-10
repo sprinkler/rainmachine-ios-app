@@ -10,14 +10,14 @@
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "Constants.h"
-#import "+UIButton.h"
+#import "ColoredBackgroundButton.h"
 
 @interface AddSprinklerViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *urlOrIPTextField;
 @property (weak, nonatomic) IBOutlet UITextField *tokenEmailTextField;
-@property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *saveButton;
 
 @end
 
@@ -67,7 +67,7 @@
   else if (indexPath.section == 3) {
     // Customize the Save button
     cell.backgroundColor = [UIColor clearColor];
-    [self.saveButton setupAsRoundColouredButton:[UIColor colorWithRed:kLoginGreenButtonColor[0] green:kLoginGreenButtonColor[1] blue:kLoginGreenButtonColor[2] alpha:1]];
+    [self.saveButton setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
   }
 
   return cell;

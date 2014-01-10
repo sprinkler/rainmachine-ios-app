@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class ColoredBackgroundButton;
+
 @interface WaterNowStartCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIButton *startButton;
+@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *startButton;
 
 @end

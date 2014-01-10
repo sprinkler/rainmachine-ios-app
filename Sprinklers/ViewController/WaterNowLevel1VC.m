@@ -16,6 +16,7 @@
 #import "WaterNowTimerCell.h"
 #import "WaterNowStartCell.h"
 #import "Additions.h"
+#import "ColoredBackgroundButton.h"
 
 @interface WaterNowLevel1VC ()
 {
@@ -216,7 +217,7 @@
         [cell.downButton setupWithImage:[UIImage imageNamed:@"button_down"]];
         
         if (watering) {
-            cell.timerLabel.textColor = greenColor;
+            cell.timerLabel.textColor = redColor;
         } else {
             cell.timerLabel.textColor = greenColor;
         }
@@ -227,10 +228,10 @@
         WaterNowStartCell *cell = (WaterNowStartCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
         if (watering) {
-            [cell.startButton setupAsRoundColouredButton:redColor];
+            [cell.startButton setCustomBackgroundColorFromComponents:kWateringRedButtonColor];
             [cell.startButton setTitle:@"Stop" forState:UIControlStateNormal];
         } else {
-            [cell.startButton setupAsRoundColouredButton:greenColor];
+            [cell.startButton setCustomBackgroundColorFromComponents:kWateringGreenButtonColor];
             [cell.startButton setTitle:@"Start" forState:UIControlStateNormal];
         }
         

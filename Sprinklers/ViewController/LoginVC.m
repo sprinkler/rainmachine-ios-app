@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "StorageManager.h"
 #import "DevicesVC.h"
+#import "ColoredBackgroundButton.h"
 
 @interface LoginVC () {
     ServerProxy *serverProxy;
@@ -22,7 +23,7 @@
 
 @property (strong, nonatomic) IBOutlet UITextField *textPassword;
 @property (strong, nonatomic) IBOutlet UIButton *buttonCheckBox;
-@property (strong, nonatomic) IBOutlet UIButton *buttonLogin;
+@property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonLogin;
 
 @end
 
@@ -59,7 +60,7 @@
     
     self.navigationItem.titleView = customTitle;
     
-    [_buttonLogin setupAsRoundColouredButton:[UIColor colorWithRed:kLoginGreenButtonColor[0] green:kLoginGreenButtonColor[1] blue:kLoginGreenButtonColor[2] alpha:1]];
+    [_buttonLogin setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
     
     _buttonCheckBox.selected = [_sprinkler.loginRememberMe boolValue];
     

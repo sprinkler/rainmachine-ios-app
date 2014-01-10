@@ -7,6 +7,7 @@
 //
 
 #import "WaterNowStartCell.h"
+#import "ColoredBackgroundButton.h"
 
 @implementation WaterNowStartCell
 

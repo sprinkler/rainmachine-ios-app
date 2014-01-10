@@ -8,11 +8,12 @@
 
 #import "RainDelayVC.h"
 #import "Additions.h"
+#import "ColoredBackgroundButton.h"
 
 @interface RainDelayVC ()
 
 @property (strong, nonatomic) IBOutlet UILabel *labelDays;
-@property (strong, nonatomic) IBOutlet UIButton *buttonSety;
+@property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonSety;
 @end
 
 @implementation RainDelayVC
@@ -30,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [_buttonSety setupAsRoundColouredButton:[UIColor colorWithRed:kLoginGreenButtonColor[0] green:kLoginGreenButtonColor[1] blue:kLoginGreenButtonColor[2] alpha:1]];
+    [_buttonSety setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
 }
 
 - (IBAction)up:(id)sender {

@@ -51,14 +51,14 @@
     NSDictionary *paramsDic;
     if (rememberMe) {
         paramsDic = @{@"action": @"login",
-          @"user": userName,
-          @"password": password,
-          @"remember": @"true"
+                      @"user": !userName ? @"" : userName,
+                      @"password": !password ? @"" : password,
+                      @"remember": @"true"
                       };
     } else {
         paramsDic = @{@"action": @"login",
-          @"user": userName,
-          @"password": password
+                      @"user": !userName ? @"" : userName,
+                      @"password": !password ? @"" : password
                       };
     }
   
@@ -105,7 +105,7 @@
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"zones"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-    [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self];
+        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     // TODO: comment out Debug server code

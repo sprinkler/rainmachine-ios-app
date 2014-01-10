@@ -11,6 +11,7 @@
 #import "EditCell.h"
 #import "MBProgressHUD.h"
 #import "ServerProxy.h"
+#import "ColoredBackgroundButton.h"
 
 typedef enum {
     MasterValve = 0,
@@ -28,7 +29,7 @@ typedef enum {
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) IBOutlet UIButton *buttonRunNow;
+@property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonRunNow;
 
 @end
 
@@ -56,7 +57,7 @@ typedef enum {
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
     self.navigationItem.rightBarButtonItem = saveButton;
        
-    [_buttonRunNow setupAsRoundColouredButton:[UIColor colorWithRed:kLoginGreenButtonColor[0] green:kLoginGreenButtonColor[1] blue:kLoginGreenButtonColor[2] alpha:1]];
+    [_buttonRunNow setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
     
     [_tableView registerNib:[UINib nibWithNibName:@"EditCell" bundle:nil] forCellReuseIdentifier:@"EditCell"];
 }
