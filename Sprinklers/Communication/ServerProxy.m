@@ -155,7 +155,7 @@
 //  NSMutableDictionary *params = [[self toDictionaryFromObject:zoneProperty] mutableCopy];
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
 //  [params setObject:@"zonesave" forKey:@"action"];
-    [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave?from=zoneedit&zid=%@", zoneId] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zoneId] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
   
       // TODO: figure out the response type
 //    [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[responseObject objectForKey:@"Zones"] toClass:NSStringFromClass([SPZoneProperty class])]];

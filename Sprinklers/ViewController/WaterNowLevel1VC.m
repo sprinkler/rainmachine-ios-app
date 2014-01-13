@@ -32,7 +32,10 @@
 @property (strong, nonatomic) NSError *lastScheduleRequestError;
 @property (strong, nonatomic) WaterNowVC *parent;
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *startButton;
+@property (weak, nonatomic) IBOutlet UILabel *timerLabel;
+@property (weak, nonatomic) IBOutlet UIButton *buttonUp;
+@property (weak, nonatomic) IBOutlet UIButton *buttonDown;
 
 @end
 
@@ -51,11 +54,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [self.buttonUp setCustomRMFontWithCode:icon_Up size:90];
+    [self.buttonDown setCustomRMFontWithCode:icon_Down size:90];
+
     greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
     redColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
-
-    [_tableView registerNib:[UINib nibWithNibName:@"WaterNowTimerCell" bundle:nil] forCellReuseIdentifier:@"WaterNowTimerCell"];
-    [_tableView registerNib:[UINib nibWithNibName:@"WaterNowStartCell" bundle:nil] forCellReuseIdentifier:@"WaterNowStartCell"];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -66,7 +69,10 @@
     self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
     
     self.title = self.waterZone.name;
+    
+    [self refreshUI];
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -83,7 +89,23 @@
 
 - (void)refreshUI
 {
-    [self.tableView reloadData];
+    BOOL watering = [self.waterZone.state isEqualToString:@"Watering"];
+
+    self.timerLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter] intValue]];
+
+    if (watering) {
+        self.timerLabel.textColor = redColor;
+    } else {
+        self.timerLabel.textColor = greenColor;
+    }
+
+    if (watering) {
+        [self.startButton setCustomBackgroundColorFromComponents:kWateringRedButtonColor];
+        [self.startButton setTitle:@"Stop" forState:UIControlStateNormal];
+    } else {
+        [self.startButton setCustomBackgroundColorFromComponents:kWateringGreenButtonColor];
+        [self.startButton setTitle:@"Start" forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - Requests
@@ -182,65 +204,6 @@
 - (IBAction)onStartButton:(id)sender {
     BOOL watering = [self.waterZone.state isEqualToString:@"Watering"];
     [self.postServerProxy toggleWatering:!watering onZoneWithId:self.waterZone.id andCounter:self.waterZone.counter];
-}
-
-#pragma mark - Table view
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0) {
-        return 300;
-    }
-    return 60;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BOOL watering = [self.waterZone.state isEqualToString:@"Watering"];
-    UITableViewCell *theCell = nil;
-    
-    if (indexPath.row == 0) {
-        
-        // TODO: keep the timer cell cached and configure it directly from refreshUI
-        static NSString *CellIdentifier = @"WaterNowTimerCell";
-        WaterNowTimerCell *cell = (WaterNowTimerCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
-        cell.timerLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter] intValue]];
-        [cell.upButton setupWithImage:[UIImage imageNamed:@"button_up"]];
-        [cell.downButton setupWithImage:[UIImage imageNamed:@"button_down"]];
-        
-        if (watering) {
-            cell.timerLabel.textColor = redColor;
-        } else {
-            cell.timerLabel.textColor = greenColor;
-        }
-        
-        theCell = cell;
-    } else {
-        static NSString *CellIdentifier = @"WaterNowStartCell";
-        WaterNowStartCell *cell = (WaterNowStartCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        if (watering) {
-            [cell.startButton setCustomBackgroundColorFromComponents:kWateringRedButtonColor];
-            [cell.startButton setTitle:@"Stop" forState:UIControlStateNormal];
-        } else {
-            [cell.startButton setCustomBackgroundColorFromComponents:kWateringGreenButtonColor];
-            [cell.startButton setTitle:@"Start" forState:UIControlStateNormal];
-        }
-        
-        theCell = cell;
-    }
-    
-    [theCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    return theCell;
 }
 
 #pragma mark - Dealloc

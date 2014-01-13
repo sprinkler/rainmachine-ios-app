@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DevicesCellType3 : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *plusLabel;
 
 @end

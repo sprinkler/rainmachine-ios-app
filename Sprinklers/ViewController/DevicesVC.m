@@ -231,6 +231,7 @@
         else {
             DevicesCellType3 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType3" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            [cell.plusLabel setCustomRMFontWithCode:icon_Plus size:24];
             return cell;
         }
     }

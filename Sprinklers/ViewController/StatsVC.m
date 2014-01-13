@@ -130,7 +130,7 @@ const float kHomeScreenCellHeight = 66;
         static NSString *CellIdentifier = @"HomeDataSourceCell";
         HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         cell.dataSourceLabel.text = [StorageManager current].currentSprinkler.address;
-        cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate]];
+        cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate] : @""];
         cell.sprinkler = [StorageManager current].currentSprinkler;
         
         return cell;
@@ -153,7 +153,7 @@ const float kHomeScreenCellHeight = 66;
         cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UIImage *weatherImage = [UIImage imageNamed:[@"daily-stats_" stringByAppendingString:weatherData.icon]];
+    UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
     
     cell.weatherImage.image = weatherImage;
     
@@ -217,7 +217,7 @@ const float kHomeScreenCellHeight = 66;
     }
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm, LLL d, yyyy"];
+    [dateFormatter setDateFormat:@"HH:mm a, LLL d, yyyy"];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     NSDate *myDate = [dateFormatter dateFromString:dateAsString];
     

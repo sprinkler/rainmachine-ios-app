@@ -25,4 +25,10 @@
     self.contentMode = UIViewContentModeScaleToFill; //Look up UIViewContentMode in the documentation for other options
 }
 
+- (void)setCustomRMFontWithCode:(unsigned short)code size:(int)size
+{
+    self.titleLabel.font = [UIFont fontWithName:@"rainmachine" size:size];
+    [self setTitle:[NSString stringWithFormat:@"%C", code] forState:UIControlStateNormal];
+}
+
 @end

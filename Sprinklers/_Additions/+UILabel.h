@@ -11,5 +11,6 @@
 @interface UILabel (Additions)
 
 - (void)setVerticalAlignmentTop;
+- (void)setCustomRMFontWithCode:(unsigned short)code size:(int)size;
 
 @end

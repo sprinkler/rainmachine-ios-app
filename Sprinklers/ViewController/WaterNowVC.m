@@ -85,13 +85,6 @@
 - (void)startHud:(NSString *)text {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.labelText = text;
-    
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-        // Correct hud frame
-        CGRect f = self.hud.frame;
-        f.origin.y -= self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-        self.hud.frame = f;
-    }
 }
 
 #pragma mark - Requests

@@ -18,4 +18,10 @@
     [self setNeedsDisplay];
 }
 
+- (void)setCustomRMFontWithCode:(unsigned short)code size:(int)size
+{
+    self.font = [UIFont fontWithName:@"rainmachine" size:size];
+    self.text = [NSString stringWithFormat:@"%C", code];
+}
+
 @end

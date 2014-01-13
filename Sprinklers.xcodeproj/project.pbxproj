@@ -45,6 +45,7 @@
 		AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7EF1858D047005888AA /* WaterNowZone.m */; };
 		AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F31858D640005888AA /* StartStopWatering.m */; };
 		AF91C7F71858D757005888AA /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* ServerResponse.m */; };
+		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
 		AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* WeatherData.m */; };
 		AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* icon_status_ok.png */; };
 		AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */; };
@@ -380,6 +381,7 @@
 		AF91C7F31858D640005888AA /* StartStopWatering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartStopWatering.m; path = "Communication/Request objects/StartStopWatering.m"; sourceTree = "<group>"; };
 		AF91C7F51858D757005888AA /* ServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerResponse.h; path = "Communication/Response objects/ServerResponse.h"; sourceTree = "<group>"; };
 		AF91C7F61858D757005888AA /* ServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerResponse.m; path = "Communication/Response objects/ServerResponse.m"; sourceTree = "<group>"; };
+		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
 		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Communication/Response objects/WeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Communication/Response objects/WeatherData.m"; sourceTree = "<group>"; };
 		AFC7E93618579D7600ACA626 /* icon_status_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_status_ok.png; path = Resources/icon_status_ok.png; sourceTree = "<group>"; };
@@ -1109,6 +1111,7 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AFA5FE281880740300C948F8 /* rainmachine.ttf */,
 				AFF63642186F55100005EDF1 /* main-screen */,
 				AFF634E0186F54900005EDF1 /* daily-stats */,
 				B1254CB7187DB323004E2F0E /* arrow-right.png */,
@@ -1501,6 +1504,7 @@
 				B1583E7C16A804E60051B480 /* web-back-on-btn.png in Resources */,
 				AFF636F2186F55100005EDF1 /* main-screen_wind@2x.png in Resources */,
 				AFF636B8186F55100005EDF1 /* main-screen_ip@2x.png in Resources */,
+				AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */,
 				AFF636C9186F55100005EDF1 /* main-screen_novc.png in Resources */,
 				B1583E7D16A804E60051B480 /* web-forward-on-btn.png in Resources */,
 				AFF635B4186F54900005EDF1 /* daily_stats_na.png in Resources */,
