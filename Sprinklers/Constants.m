@@ -18,6 +18,8 @@ NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", 
 
 float kWaterNowListRefreshTimeInterval = 10; // Value is specified in seconds
 
+// ---- Custom font glyphs ----
+
 const unsigned short icon_blizzard = 0xe600;
 const unsigned short icon_cold = 0xe601;
 const unsigned short icon_du = 0xe602;

@@ -184,18 +184,23 @@ const float kHomeScreenCellHeight = 66;
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
 {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
-    [self handleGeneralSprinklerError:nil showErrorMessage:YES];
-    
-    self.data = data;
-    
-    WeatherData *lastWeatherData = [self.data lastObject];
-    
-    [self storeLastSprinklerUpdateFromString:lastWeatherData.lastupdate];
-    
-    [self.tableView reloadData];
-    [self.dataSourceTableView reloadData];
+    NSArray *dataArray = (NSArray*)data;
+    if ([dataArray count] > 0) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        [self handleGeneralSprinklerError:nil showErrorMessage:YES];
+        
+        self.data = dataArray;
+        
+        WeatherData *lastWeatherData = [self.data lastObject];
+        
+        [self storeLastSprinklerUpdateFromString:lastWeatherData.lastupdate];
+        
+        [self.tableView reloadData];
+        [self.dataSourceTableView reloadData];
+    } else {
+        DLog(@"Warning. Empty response received from server (Stats screen).");
+    }
 }
 
 - (void)loggedOut

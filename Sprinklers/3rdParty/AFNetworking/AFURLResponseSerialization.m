@@ -57,10 +57,6 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
                     data:(NSData *)data
                    error:(NSError *__autoreleasing *)error
 {
-//    DLog(@"Response header fields: %@", [response allHeaderFields]);
-    DLog(@"Response MIME type:%@", [response MIMEType]);
-    DLog(@"Response body:%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-  
     if (response && [response isKindOfClass:[NSHTTPURLResponse class]]) {
         if (self.acceptableStatusCodes && ![self.acceptableStatusCodes containsIndex:(NSUInteger)response.statusCode]) {
             NSDictionary *userInfo = @{
@@ -167,6 +163,10 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
                            data:(NSData *)data
                           error:(NSError *__autoreleasing *)error
 {
+    //    DLog(@"Response header fields: %@", [response allHeaderFields]);
+    DLog(@"Response MIME type:%@", [response MIMEType]);
+    DLog(@"Response body:%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
         if ([(NSError *)(*error) code] == NSURLErrorCannotDecodeContentData) {
             return nil;

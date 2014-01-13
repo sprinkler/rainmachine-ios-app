@@ -145,20 +145,16 @@
                                              }];
 }
 
-// Change property of a zone (Used in Water Now->Zone screen)
+// Change property of a zone (Used in Water Now->Zone screen and when toggling watering using switches from main screen)
 - (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)zoneId andCounter:(NSNumber*)counter
 {
     StartStopWatering *startStopWatering = [StartStopWatering new];
     startStopWatering.id = zoneId;
     startStopWatering.counter = switchValue ? [Utils fixedZoneCounter:counter] : [NSNumber numberWithInteger:0];
 
-//  NSMutableDictionary *params = [[self toDictionaryFromObject:zoneProperty] mutableCopy];
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
-//  [params setObject:@"zonesave" forKey:@"action"];
     [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zoneId] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-  
-      // TODO: figure out the response type
-//    [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:[responseObject objectForKey:@"Zones"] toClass:NSStringFromClass([SPZoneProperty class])]];
+        // The server returns an empty response when success
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleError:error fromOperation:operation];
     }];

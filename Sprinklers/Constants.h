@@ -33,7 +33,8 @@ extern float kWaterNowListRefreshTimeInterval;
 #define kLoggedOut_AlertViewTag   1
 #define kError_AlertViewTag  2
 
-// ---- Custom font ----
+// ---- Custom font glyphs ----
+
 extern const unsigned short icon_blizzard;
 extern const unsigned short icon_cold;
 extern const unsigned short icon_du;
