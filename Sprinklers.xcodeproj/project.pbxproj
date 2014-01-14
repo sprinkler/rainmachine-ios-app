@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9D13616B0B56900E6152B /* ServiceManager.m */; };
+		3A9AB581188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB57F188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m */; };
+		3A9AB582188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB580188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib */; };
+		3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB58418854521005B79B9 /* RestrictionsVC.m */; };
+		3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB58518854521005B79B9 /* RestrictionsVC.xib */; };
 		AF0E69CD185F8E52000A3E90 /* icon_home3.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CB185F8E52000A3E90 /* icon_home3.png */; };
 		AF0E69CE185F8E52000A3E90 /* icon_settings_sprinkler.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */; };
 		AF0E69D1185F94B0000A3E90 /* icon_home3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */; };
@@ -323,6 +327,12 @@
 /* Begin PBXFileReference section */
 		1FD9D13516B0B56900E6152B /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Managers/ServiceManager.h; sourceTree = "<group>"; };
 		1FD9D13616B0B56900E6152B /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Managers/ServiceManager.m; sourceTree = "<group>"; };
+		3A9AB57E188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsRestrictionsHotDaysCell.h; path = Cells/SettingsRestrictionsHotDaysCell.h; sourceTree = "<group>"; };
+		3A9AB57F188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsRestrictionsHotDaysCell.m; path = Cells/SettingsRestrictionsHotDaysCell.m; sourceTree = "<group>"; };
+		3A9AB580188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsRestrictionsHotDaysCell.xib; path = Cells/SettingsRestrictionsHotDaysCell.xib; sourceTree = "<group>"; };
+		3A9AB58318854521005B79B9 /* RestrictionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsVC.h; path = ViewController/RestrictionsVC.h; sourceTree = "<group>"; };
+		3A9AB58418854521005B79B9 /* RestrictionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsVC.m; path = ViewController/RestrictionsVC.m; sourceTree = "<group>"; };
+		3A9AB58518854521005B79B9 /* RestrictionsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsVC.xib; path = ViewController/RestrictionsVC.xib; sourceTree = "<group>"; };
 		AF0E69CB185F8E52000A3E90 /* icon_home3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_home3.png; path = Resources/icon_home3.png; sourceTree = "<group>"; };
 		AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings_sprinkler.png; path = Resources/icon_settings_sprinkler.png; sourceTree = "<group>"; };
 		AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_home3@2x.png"; path = "Resources/icon_home3@2x.png"; sourceTree = "<group>"; };
@@ -1048,6 +1058,9 @@
 		B111981E16A7E1B20094EF9F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				3A9AB57E188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.h */,
+				3A9AB57F188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m */,
+				3A9AB580188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib */,
 				B1213EAF1860879F009D97F4 /* DevicesCellType1.h */,
 				B1213EB01860879F009D97F4 /* DevicesCellType1.m */,
 				B1213EB2186087B3009D97F4 /* DevicesCellType1.xib */,
@@ -1326,6 +1339,9 @@
 		B1EF21131860495E00D9CE26 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				3A9AB58318854521005B79B9 /* RestrictionsVC.h */,
+				3A9AB58418854521005B79B9 /* RestrictionsVC.m */,
+				3A9AB58518854521005B79B9 /* RestrictionsVC.xib */,
 				B1B60617187958990046FDDC /* ProgramsVC.h */,
 				B1B60618187958990046FDDC /* ProgramsVC.m */,
 				B1B60619187958990046FDDC /* ProgramsVC.xib */,
@@ -1461,6 +1477,7 @@
 				AFF635B1186F54900005EDF1 /* daily_stats_mist@2x.png in Resources */,
 				AFF636D6186F55100005EDF1 /* main-screen_nsvrtsra@2x.png in Resources */,
 				AFF636EE186F55100005EDF1 /* main-screen_sn@2x.png in Resources */,
+				3A9AB582188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib in Resources */,
 				B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */,
 				AFF635D0186F54900005EDF1 /* daily_stats_nwind.png in Resources */,
 				AFF636D8186F55100005EDF1 /* main-screen_ntsra@2x.png in Resources */,
@@ -1552,6 +1569,7 @@
 				AFF636E7186F55100005EDF1 /* main-screen_shra.png in Resources */,
 				AFF635CE186F54900005EDF1 /* daily_stats_ntsra.png in Resources */,
 				AFF636DF186F55100005EDF1 /* main-screen_ra1@2x.png in Resources */,
+				3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */,
 				AFF636C4186F55100005EDF1 /* main-screen_nfew@2x.png in Resources */,
 				B1B6061B187958990046FDDC /* ProgramsVC.xib in Resources */,
 				AFF636E1186F55100005EDF1 /* main-screen_raip.png in Resources */,
@@ -1649,6 +1667,7 @@
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
+				3A9AB581188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
 				B1254CB6187D7A33004E2F0E /* Zone.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
@@ -1702,6 +1721,7 @@
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
 				B1254CBB187DB542004E2F0E /* ZoneCell.m in Sources */,
+				3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */,
