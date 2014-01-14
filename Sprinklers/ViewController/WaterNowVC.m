@@ -63,8 +63,7 @@
     self.tabBarController.navigationItem.rightBarButtonItem = backButton;
     
     self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
-    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
-    
+    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];     
 }
 
 - (void)viewWillAppear:(BOOL)animated {

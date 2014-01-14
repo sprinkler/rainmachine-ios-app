@@ -8,6 +8,8 @@
 
 #import "RestrictionsVC.h"
 #import "SettingsRestrictionsHotDaysCell.h"
+#import "RestrictedMonthsVC.h"
+#import "RestrictionsWeekDaysVC.h"
 
 @interface RestrictionsVC ()
 
@@ -123,9 +125,28 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated: YES];
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.row) {
+        case 2:
+        {
+            RestrictedMonthsVC *restrictedMonths = [[RestrictedMonthsVC alloc] init];
+            [self.navigationController pushViewController: restrictedMonths animated:YES];
+        }
+        break;
+            
+        case 3:
+        {
+            RestrictionsWeekDaysVC *restrictionsWeekDaysVC = [[RestrictionsWeekDaysVC alloc] init];
+            [self.navigationController pushViewController: restrictionsWeekDaysVC animated:YES];
+        }
+        break;
+            
+        default:
+            break;
+    }
 }
 
 @end
