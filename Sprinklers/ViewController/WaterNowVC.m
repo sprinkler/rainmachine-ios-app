@@ -50,15 +50,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-//        UIEdgeInsets inset = {self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0};
-//        [self.tableView setContentInset:inset];
-//    }
     
     [_tableView registerNib:[UINib nibWithNibName:@"WaterZoneListCell" bundle:nil] forCellReuseIdentifier:@"WaterZoneListCell"];
 
-    switchOnGreenColor = [UIColor colorWithRed:70 / 255.0 green:225 / 255.0 blue:96 / 255.0 alpha:1];
-    switchOnOrangeColor = [UIColor colorWithRed:255 / 255.0 green:101 / 255.0 blue:0 / 255.0 alpha:1];
+    switchOnGreenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
+    switchOnOrangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
     self.tabBarController.navigationItem.rightBarButtonItem = backButton;
@@ -118,9 +114,9 @@
 - (void)stopAll
 {
     for (WaterNowZone *zone in self.zones) {
-        BOOL watering = [Utils isZoneWatering:zone];
-        if (watering) {
-            [self toggleWatering:!watering onZone:zone withCounter:zone.counter];
+        BOOL isIdle = [Utils isZoneIdle:zone];
+        if (!isIdle) {
+            [self toggleWateringOnZone:zone withCounter:zone.counter];
         }
     }
 }
@@ -171,8 +167,9 @@
         if (serverProxy == self.pollServerProxy) {
             [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
         }
+        
+        [self.tableView reloadData];
     }
-    [self.tableView reloadData];
 }
 
 - (void)loggedOut
@@ -199,6 +196,7 @@
     WaterNowZone *waterNowZone = [self.zones objectAtIndex:indexPath.row];
     BOOL pending = [Utils isZonePending:waterNowZone];
     BOOL watering = [Utils isZoneWatering:waterNowZone];
+    BOOL isIdle = [Utils isZoneIdle:waterNowZone];
     //  BOOL unkownState = (!pending) && (!watering);
     
     cell.delegate = self;
@@ -211,7 +209,7 @@
     cell.onOffSwitch.onTintColor = pending ? switchOnOrangeColor : (watering ? switchOnGreenColor : [UIColor grayColor]);
     cell.timeLabel.textColor = cell.onOffSwitch.onTintColor;
     
-    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter watering:watering] intValue] usingOnlyDigits:NO];
+    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter isIdle:isIdle] intValue] usingOnlyDigits:NO];
     
     return cell;
 }
@@ -242,9 +240,9 @@
 
 #pragma mark - Table View Cell callback
 
-- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
+- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 {
-    [self.postServerProxy toggleWatering:switchValue onZone:zone withCounter:counter];
+    [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
 }
 
 #pragma mark - Actions

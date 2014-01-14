@@ -861,7 +861,12 @@ static int EscapeMapCompare(const void *ucharVoid, const void *mapVoid) {
         }
     } else {
         if (timeInSeconds < 3600) {
-            formattedTime = [NSString stringWithFormat:@"%02d min", (timeInSeconds/60)%60];
+            int min = (timeInSeconds/60)%60;
+            if (min == 0) {
+                formattedTime = [NSString stringWithFormat:@"%02d min", min];
+            } else {
+                formattedTime = [NSString stringWithFormat:@"0 min"];
+            }
         } else {
             formattedTime = [NSString stringWithFormat:@"%02d h %02d min", timeInSeconds / 3600, (timeInSeconds/60)%60];
         }

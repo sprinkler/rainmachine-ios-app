@@ -7,6 +7,7 @@ NSString *const TestServerPort = @"443";
 
 float kLoginGreenButtonColor[3] = {2.0/255, 214.0/255, 100.0/255};
 float kWateringGreenButtonColor[3] = {0.0/255, 162.0/255, 0.0/255};
+float kWateringOrangeButtonColor[3] = {255.0/255, 162.0/255, 0.0/255};
 float kWateringRedButtonColor[3] = {255.0/255, 0.0/255, 0.0/255};
 float kWindowTintColorOnBlueNavBar[3] = {146.0/255, 146.0/255, 146.0/255};
 

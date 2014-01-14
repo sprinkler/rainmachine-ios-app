@@ -12,9 +12,10 @@
 
 @interface Utils : NSObject
 
-+ (NSNumber*)fixedZoneCounter:(NSNumber*)counter watering:(BOOL)watering;
++ (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (BOOL)isZoneWatering:(WaterNowZone*)zone;
 + (BOOL)isZonePending:(WaterNowZone*)zone;
++ (BOOL)isZoneIdle:(WaterNowZone*)zone;
 
 + (UIImage*)waterWavesImage:(float)height;
 + (UIImage*)waterImage:(float)height;

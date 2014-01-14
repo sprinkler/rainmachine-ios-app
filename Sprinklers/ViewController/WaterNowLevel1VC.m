@@ -21,8 +21,6 @@
 @interface WaterNowLevel1VC ()
 {
     NSTimeInterval retryInterval;
-    UIColor *greenColor;
-    UIColor *redColor;
 }
 
 @property (strong, nonatomic) ServerProxy *pollServerProxy;
@@ -33,8 +31,11 @@
 @property (strong, nonatomic) NSError *lastPollRequestError;
 @property (strong, nonatomic) WaterNowVC *parent;
 @property (strong, nonatomic) NSTimer *counterTimer;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *ativityIndicator;
+@property (strong, nonatomic) UIColor *greenColor;
+@property (strong, nonatomic) UIColor *redColor;
+@property (strong, nonatomic) UIColor *orangeColor;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *ativityIndicator;
 @property (weak, nonatomic) IBOutlet ColoredBackgroundButton *startButton;
 @property (weak, nonatomic) IBOutlet UILabel *counterLabel;
 @property (weak, nonatomic) IBOutlet UIButton *buttonUp;
@@ -60,8 +61,9 @@
     [self.buttonUp setCustomRMFontWithCode:icon_Up size:90];
     [self.buttonDown setCustomRMFontWithCode:icon_Down size:90];
 
-    greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
-    redColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
+    self.greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
+    self.orangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
+    self.redColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -85,7 +87,7 @@
 {
     [super viewWillAppear:animated];
     
-    [self updateCounterAndPollState:0];
+    [self updatePollStateWithDelay:0];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -104,20 +106,22 @@
 - (void)refreshUI
 {
     BOOL watering = [Utils isZoneWatering:self.waterZone];
+    BOOL isPending = [Utils isZonePending:self.waterZone];
+    BOOL isIdle = [Utils isZoneIdle:self.waterZone];
 
-    self.counterLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter watering:watering] intValue] usingOnlyDigits:YES];
+    self.counterLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];
 
-    if (watering) {
-        self.counterLabel.textColor = redColor;
-    } else {
-        self.counterLabel.textColor = greenColor;
-    }
+    self.counterLabel.textColor = _greenColor;
 
     if (watering) {
         [self.startButton setCustomBackgroundColorFromComponents:kWateringRedButtonColor];
         [self.startButton setTitle:@"Stop" forState:UIControlStateNormal];
     } else {
-        [self.startButton setCustomBackgroundColorFromComponents:kWateringGreenButtonColor];
+        if (isPending) {
+            [self.startButton setCustomBackgroundColorFromComponents:kWateringOrangeButtonColor];
+        } else {
+            [self.startButton setCustomBackgroundColorFromComponents:kWateringGreenButtonColor];
+        }
         [self.startButton setTitle:@"Start" forState:UIControlStateNormal];
     }
 }
@@ -148,16 +152,21 @@
     self.counterTimer = nil;
 }
 
-- (void)updateCounterAndPollState:(float)delay
+- (void)updateCounter
 {
-    if (/*(self.counterTimer) &&*/ (![Utils isZoneWatering:self.waterZone])) {
+    if (![Utils isZoneWatering:self.waterZone]) {
         [self stopCounterTimer];
+    } else {
+        [self startCounterTimer];
+    }
+}
+
+- (void)updatePollStateWithDelay:(float)delay
+{
+    if ([Utils isZoneIdle:self.waterZone]) {
         [self stopPollRequests];
     } else {
-//        if (/*(!self.counterTimer) &&*/ ([Utils isZoneWatering:self.waterZone])) {
-            [self startCounterTimer];
-            [self scheduleNextPollRequest:delay withServerProxy:self.pollServerProxy referenceDate:self.lastListRefreshDate];
-//        }
+        [self scheduleNextPollRequest:delay withServerProxy:self.pollServerProxy referenceDate:self.lastListRefreshDate];
     }
 }
 
@@ -206,7 +215,8 @@
 //    }
 
     if (serverProxy == self.pollServerProxy) {
-        [self updateCounterAndPollState:retryInterval];
+        [self updateCounter];
+        [self updatePollStateWithDelay:retryInterval];
 
         self.ativityIndicator.hidden = YES;
         
@@ -226,7 +236,8 @@
         
         self.waterZone = data;
 
-        [self updateCounterAndPollState:kWaterNowRefreshTimeInterval];
+        [self updateCounter];
+        [self updatePollStateWithDelay:kWaterNowRefreshTimeInterval];
         
         self.ativityIndicator.hidden = YES;
 
@@ -240,9 +251,9 @@
 }
 
 - (IBAction)onUpButton:(id)sender {
-    BOOL watering = [Utils isZoneWatering:self.waterZone];
+    BOOL isIdle = [Utils isZoneIdle:self.waterZone];
     
-    int counter = [[Utils fixedZoneCounter:self.waterZone.counter watering:watering] intValue];
+    int counter = [[Utils fixedZoneCounter:self.waterZone.counter isIdle:isIdle] intValue];
     NSNumber *newCounter = [NSNumber numberWithInt:counter + 60];
     self.waterZone.counter = newCounter;
     
@@ -250,14 +261,14 @@
     
     if ([Utils isZoneWatering:self.waterZone]) {
         self.ativityIndicator.hidden = NO;
-        [self.postServerProxy toggleWatering:watering onZone:self.waterZone withCounter:newCounter];
+        [self.postServerProxy toggleWateringOnZone:self.waterZone withCounter:newCounter];
     }
 }
 
 - (IBAction)onDownButton:(id)sender {
-    BOOL watering = [Utils isZoneWatering:self.waterZone];
+    BOOL isIdle = [Utils isZoneIdle:self.waterZone];
     
-    int counter = [[Utils fixedZoneCounter:self.waterZone.counter watering:watering] intValue];
+    int counter = [[Utils fixedZoneCounter:self.waterZone.counter isIdle:isIdle] intValue];
     // This limiting is done to avoid confusion, because the value 0 is in fact used for both of the following:
     // * the default value of 5:00
     // * to show that a device is stopped
@@ -270,7 +281,7 @@
     
     if ([Utils isZoneWatering:self.waterZone]) {
         self.ativityIndicator.hidden = NO;
-        [self.postServerProxy toggleWatering:watering onZone:self.waterZone withCounter:newCounter];
+        [self.postServerProxy toggleWateringOnZone:self.waterZone withCounter:newCounter];
     }
     
 //    if ([newCounter intValue] == 0) {
@@ -279,9 +290,8 @@
 }
 
 - (IBAction)onStartButton:(id)sender {
-    BOOL watering = [Utils isZoneWatering:self.waterZone];
     self.ativityIndicator.hidden = NO;
-    [self.postServerProxy toggleWatering:!watering onZone:self.waterZone withCounter:self.waterZone.counter];
+    [self.postServerProxy toggleWateringOnZone:self.waterZone withCounter:self.waterZone.counter];
     [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
 }
 

@@ -15,9 +15,9 @@
 
 #pragma mark - General Sprinkler utils
 
-+ (NSNumber*)fixedZoneCounter:(NSNumber*)counter watering:(BOOL)watering
++ (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle
 {
-    if (!watering) {
+    if (isIdle) {
       if ([counter intValue] == 0) {
         return [NSNumber numberWithInteger:5 * 60]; // 5 minutes
       }
@@ -29,6 +29,11 @@
 + (BOOL)isZoneWatering:(WaterNowZone*)zone
 {
     return [zone.state isEqualToString:@"Watering"];
+}
+
++ (BOOL)isZoneIdle:(WaterNowZone*)zone
+{
+    return  ([zone.state length] == 0) || ([zone.state isEqualToString:@"Idle"]);
 }
 
 + (BOOL)isZonePending:(WaterNowZone*)zone

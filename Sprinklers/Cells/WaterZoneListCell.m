@@ -29,7 +29,7 @@
 }
 
 - (IBAction)onSwitch:(UISwitch*)sender {
-  [self.delegate toggleWatering:[sender isOn] onZone:self.zone withCounter:self.zone.counter];
+  [self.delegate toggleWateringOnZone:self.zone withCounter:self.zone.counter];
 }
 
 @end

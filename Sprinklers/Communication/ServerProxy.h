@@ -33,7 +33,7 @@
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;
 
-- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
+- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 
 - (void)cancelAllOperations;
 

@@ -20,6 +20,7 @@ extern NSString* const TestServerPort;
 
 extern float kLoginGreenButtonColor[3];
 extern float kWateringGreenButtonColor[3];
+extern float kWateringOrangeButtonColor[3];
 extern float kWateringRedButtonColor[3];
 extern float kWindowTintColorOnBlueNavBar[3];
 extern float kBarBlueColor[3];

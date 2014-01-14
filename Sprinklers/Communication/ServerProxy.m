@@ -157,12 +157,13 @@
 }
 
 // Change property of a zone (Used in Water Now->Zone screen and when toggling watering using switches from main screen)
-- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
+- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
-    BOOL watering = [Utils isZoneWatering:zone];
+    BOOL isIdle = [Utils isZoneIdle:zone];
+    BOOL isWatering = [Utils isZoneWatering:zone];
     StartStopWatering *startStopWatering = [StartStopWatering new];
     startStopWatering.id = zone.id;
-    startStopWatering.counter = watering ? [NSNumber numberWithInteger:0] : [Utils fixedZoneCounter:counter watering:watering];
+    startStopWatering.counter = isWatering ? [NSNumber numberWithInteger:0] : [Utils fixedZoneCounter:counter isIdle:isIdle];
 
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
     [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zone.id] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

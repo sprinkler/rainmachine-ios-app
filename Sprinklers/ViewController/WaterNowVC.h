@@ -16,6 +16,6 @@
 
 @interface WaterNowVC : BaseViewController<SprinklerResponseProtocol>
 
-- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
+- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 
 @end
