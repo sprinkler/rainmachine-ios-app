@@ -11,6 +11,7 @@
 #import "ProgramsVC.h"
 #import "ZonesVC.h"
 #import "RainDelayVC.h"
+#import "RestrictionsVC.h"
 
 @interface SettingsVC ()
 
@@ -144,9 +145,14 @@
             RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
             [self.navigationController pushViewController:rainDelay animated:YES];
         }
-            break;
+        break;
         case 3:
+        {
+            RestrictionsVC *restrictionsVC = [[RestrictionsVC alloc] init];
+            [self.navigationController pushViewController: restrictionsVC animated:YES];
+        }
             break;
+            
         case 4:
             break;
         case 5:
