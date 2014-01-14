@@ -12,6 +12,12 @@
 		3A9AB582188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB580188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib */; };
 		3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB58418854521005B79B9 /* RestrictionsVC.m */; };
 		3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB58518854521005B79B9 /* RestrictionsVC.xib */; };
+		3A9AB590188554A2005B79B9 /* RestrictedMonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB58E188554A2005B79B9 /* RestrictedMonthsVC.m */; };
+		3A9AB591188554A2005B79B9 /* RestrictedMonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB58F188554A2005B79B9 /* RestrictedMonthsVC.xib */; };
+		3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB593188559C4005B79B9 /* RestrictionsCell.m */; };
+		3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB595188559E7005B79B9 /* RestrictionsCell.xib */; };
+		3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB59818856615005B79B9 /* RestrictionsWeekDaysVC.m */; };
+		3A9AB59B18856615005B79B9 /* RestrictionsWeekDaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */; };
 		AF0E69CD185F8E52000A3E90 /* icon_home3.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CB185F8E52000A3E90 /* icon_home3.png */; };
 		AF0E69CE185F8E52000A3E90 /* icon_settings_sprinkler.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */; };
 		AF0E69D1185F94B0000A3E90 /* icon_home3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */; };
@@ -333,6 +339,15 @@
 		3A9AB58318854521005B79B9 /* RestrictionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsVC.h; path = ViewController/RestrictionsVC.h; sourceTree = "<group>"; };
 		3A9AB58418854521005B79B9 /* RestrictionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsVC.m; path = ViewController/RestrictionsVC.m; sourceTree = "<group>"; };
 		3A9AB58518854521005B79B9 /* RestrictionsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsVC.xib; path = ViewController/RestrictionsVC.xib; sourceTree = "<group>"; };
+		3A9AB58D188554A2005B79B9 /* RestrictedMonthsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictedMonthsVC.h; path = ViewController/RestrictedMonthsVC.h; sourceTree = "<group>"; };
+		3A9AB58E188554A2005B79B9 /* RestrictedMonthsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictedMonthsVC.m; path = ViewController/RestrictedMonthsVC.m; sourceTree = "<group>"; };
+		3A9AB58F188554A2005B79B9 /* RestrictedMonthsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictedMonthsVC.xib; path = ViewController/RestrictedMonthsVC.xib; sourceTree = "<group>"; };
+		3A9AB592188559C4005B79B9 /* RestrictionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsCell.h; path = Cells/RestrictionsCell.h; sourceTree = "<group>"; };
+		3A9AB593188559C4005B79B9 /* RestrictionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsCell.m; path = Cells/RestrictionsCell.m; sourceTree = "<group>"; };
+		3A9AB595188559E7005B79B9 /* RestrictionsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsCell.xib; path = Cells/RestrictionsCell.xib; sourceTree = "<group>"; };
+		3A9AB59718856615005B79B9 /* RestrictionsWeekDaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsWeekDaysVC.h; path = ViewController/RestrictionsWeekDaysVC.h; sourceTree = "<group>"; };
+		3A9AB59818856615005B79B9 /* RestrictionsWeekDaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsWeekDaysVC.m; path = ViewController/RestrictionsWeekDaysVC.m; sourceTree = "<group>"; };
+		3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsWeekDaysVC.xib; path = ViewController/RestrictionsWeekDaysVC.xib; sourceTree = "<group>"; };
 		AF0E69CB185F8E52000A3E90 /* icon_home3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_home3.png; path = Resources/icon_home3.png; sourceTree = "<group>"; };
 		AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings_sprinkler.png; path = Resources/icon_settings_sprinkler.png; sourceTree = "<group>"; };
 		AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_home3@2x.png"; path = "Resources/icon_home3@2x.png"; sourceTree = "<group>"; };
@@ -1024,6 +1039,9 @@
 				B1213EAA18607F32009D97F4 /* BaseViewController.m */,
 				B1213EAC1860804E009D97F4 /* BaseLevel2ViewController.h */,
 				B1213EAD1860804E009D97F4 /* BaseLevel2ViewController.m */,
+				3A9AB58D188554A2005B79B9 /* RestrictedMonthsVC.h */,
+				3A9AB58E188554A2005B79B9 /* RestrictedMonthsVC.m */,
+				3A9AB58F188554A2005B79B9 /* RestrictedMonthsVC.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1091,6 +1109,9 @@
 				B1254CB9187DB542004E2F0E /* ZoneCell.h */,
 				B1254CBA187DB542004E2F0E /* ZoneCell.m */,
 				B1254CBC187DB55A004E2F0E /* ZoneCell.xib */,
+				3A9AB592188559C4005B79B9 /* RestrictionsCell.h */,
+				3A9AB593188559C4005B79B9 /* RestrictionsCell.m */,
+				3A9AB595188559E7005B79B9 /* RestrictionsCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1339,6 +1360,9 @@
 		B1EF21131860495E00D9CE26 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				3A9AB59718856615005B79B9 /* RestrictionsWeekDaysVC.h */,
+				3A9AB59818856615005B79B9 /* RestrictionsWeekDaysVC.m */,
+				3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */,
 				3A9AB58318854521005B79B9 /* RestrictionsVC.h */,
 				3A9AB58418854521005B79B9 /* RestrictionsVC.m */,
 				3A9AB58518854521005B79B9 /* RestrictionsVC.xib */,
@@ -1415,6 +1439,7 @@
 				AFF635DD186F54900005EDF1 /* daily_stats_sct@2x.png in Resources */,
 				AF5D7996185CDC2900A49CF7 /* button_up.png in Resources */,
 				AFF635E1186F54900005EDF1 /* daily_stats_skc@2x.png in Resources */,
+				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
 				AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */,
 				AFF636F1186F55100005EDF1 /* main-screen_wind.png in Resources */,
 				AFF636C7186F55100005EDF1 /* main-screen_nmix.png in Resources */,
@@ -1424,6 +1449,7 @@
 				AFF635C6186F54900005EDF1 /* daily_stats_nsct.png in Resources */,
 				AFF635D1186F54900005EDF1 /* daily_stats_nwind@2x.png in Resources */,
 				AFF635B9186F54900005EDF1 /* daily_stats_ndu@2x.png in Resources */,
+				3A9AB59B18856615005B79B9 /* RestrictionsWeekDaysVC.xib in Resources */,
 				B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */,
 				AFF635BD186F54900005EDF1 /* daily_stats_nfg@2x.png in Resources */,
 				AFF636E4186F55100005EDF1 /* main-screen_rasn@2x.png in Resources */,
@@ -1523,6 +1549,7 @@
 				AFF636B8186F55100005EDF1 /* main-screen_ip@2x.png in Resources */,
 				AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */,
 				AFF636C9186F55100005EDF1 /* main-screen_novc.png in Resources */,
+				3A9AB591188554A2005B79B9 /* RestrictedMonthsVC.xib in Resources */,
 				B1583E7D16A804E60051B480 /* web-forward-on-btn.png in Resources */,
 				AFF635B4186F54900005EDF1 /* daily_stats_na.png in Resources */,
 				B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */,
@@ -1691,9 +1718,11 @@
 				AF0EFF611861C55B007BF852 /* WaterNowStartCell.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
+				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				B1EF20F8186046D300D9CE26 /* +UIScreen.m in Sources */,
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
+				3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */,
 				AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
@@ -1708,6 +1737,7 @@
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
+				3A9AB590188554A2005B79B9 /* RestrictedMonthsVC.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,

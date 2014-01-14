@@ -146,15 +146,19 @@
             [self.navigationController pushViewController:rainDelay animated:YES];
         }
         break;
+            
         case 3:
         {
             RestrictionsVC *restrictionsVC = [[RestrictionsVC alloc] init];
             [self.navigationController pushViewController: restrictionsVC animated:YES];
         }
-            break;
-            
+        break;
+    
         case 4:
-            break;
+        {
+        }
+        break;
+            
         case 5:
             break;
         default:
