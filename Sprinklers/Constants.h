@@ -28,10 +28,11 @@ extern float kWaterImageStrokeColor[3];
 
 extern NSString *daysOfTheWeek[7];
 
-extern float kWaterNowListRefreshTimeInterval;
-
 #define kLoggedOut_AlertViewTag   1
 #define kError_AlertViewTag  2
+
+#define kWaterNowRefreshTimeInterval 10 // Value is specified in seconds
+#define kWaterNowMaxRefreshInterval (kWaterNowRefreshTimeInterval * 4)
 
 // ---- Custom font glyphs ----
 

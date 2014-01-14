@@ -8,6 +8,7 @@
 
 #import "WaterZoneListCell.h"
 #import "WaterNowVC.h"
+#import "WaterNowZone.h"
 
 @implementation WaterZoneListCell
 
@@ -27,8 +28,8 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)onSwitch:(id)sender {
-  [self.delegate toggleWatering:sender onZoneWithId:self.id andCounter:self.counter];
+- (IBAction)onSwitch:(UISwitch*)sender {
+  [self.delegate toggleWatering:[sender isOn] onZone:self.zone withCounter:self.zone.counter];
 }
 
 @end

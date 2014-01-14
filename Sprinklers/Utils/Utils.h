@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class WaterNowZone;
+
 @interface Utils : NSObject
 
-+ (NSNumber*)fixedZoneCounter:(NSNumber*)counter;
++ (NSNumber*)fixedZoneCounter:(NSNumber*)counter watering:(BOOL)watering;
++ (BOOL)isZoneWatering:(WaterNowZone*)zone;
++ (BOOL)isZonePending:(WaterNowZone*)zone;
 
 + (UIImage*)waterWavesImage:(float)height;
 + (UIImage*)waterImage:(float)height;

@@ -47,6 +47,11 @@
     return self;
 }
 
+- (void)cancelAllOperations
+{
+    [self.manager.operationQueue cancelAllOperations];
+}
+
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe
 {
     NSDictionary *paramsDic;
@@ -103,7 +108,7 @@
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"weatherdata"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-      [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"HomeScreen"] toClass:NSStringFromClass([WeatherData class])] serverProxy:self];
+        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"HomeScreen"] toClass:NSStringFromClass([WeatherData class])] serverProxy:self];
       
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       [self handleError:error fromOperation:operation];
@@ -136,9 +141,15 @@
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"zoneedit",
                                              @"zid": zoneId} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                 
-                                                 [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"zone"]]
-                                                                                                          toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self];
+
+                                                 NSDictionary *zoneDict = [responseObject objectForKey:@"zone"];
+                                                 if ([zoneDict isKindOfClass:[NSDictionary class]]) {
+                                                     WaterNowZone *zone = [WaterNowZone createFromJson:zoneDict];
+                                                     [self.delegate serverResponseReceived:zone serverProxy:self];
+                                                 }
+
+//                                                 [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"zone"]]
+//                                                                                                          toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self];
                                                  
                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                  [self handleError:error fromOperation:operation];
@@ -146,15 +157,17 @@
 }
 
 // Change property of a zone (Used in Water Now->Zone screen and when toggling watering using switches from main screen)
-- (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)zoneId andCounter:(NSNumber*)counter
+- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
+    BOOL watering = [Utils isZoneWatering:zone];
     StartStopWatering *startStopWatering = [StartStopWatering new];
-    startStopWatering.id = zoneId;
-    startStopWatering.counter = switchValue ? [Utils fixedZoneCounter:counter] : [NSNumber numberWithInteger:0];
+    startStopWatering.id = zone.id;
+    startStopWatering.counter = watering ? [Utils fixedZoneCounter:counter watering:watering] : [NSNumber numberWithInteger:0];
 
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
-    [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zoneId] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zone.id] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // The server returns an empty response when success
+        [self.delegate serverResponseReceived:nil serverProxy:self];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleError:error fromOperation:operation];
     }];
@@ -254,7 +267,10 @@
     } else {
         // Just a simple error
         DLog(@"NetworkError: %@", error);
-        [_delegate serverErrorReceived:error serverProxy:self];
+        BOOL cancelled = ([error code] == NSURLErrorCancelled) && ([[error domain] isEqualToString:NSURLErrorDomain]);
+        if (!cancelled) {
+            [_delegate serverErrorReceived:error serverProxy:self];
+        }
     }
 }
 

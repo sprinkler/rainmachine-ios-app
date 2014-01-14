@@ -12,9 +12,10 @@
 
 @class MBProgressHUD;
 @class ServerProxy;
+@class WaterNowZone;
 
 @interface WaterNowVC : BaseViewController<SprinklerResponseProtocol>
 
-- (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter;
+- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 
 @end

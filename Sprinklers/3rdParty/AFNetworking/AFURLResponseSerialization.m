@@ -163,8 +163,8 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
                            data:(NSData *)data
                           error:(NSError *__autoreleasing *)error
 {
-    //    DLog(@"Response header fields: %@", [response allHeaderFields]);
-    DLog(@"Response MIME type:%@", [response MIMEType]);
+//    DLog(@"Response header fields: %@", [response allHeaderFields]);
+//    DLog(@"Response MIME type:%@", [response MIMEType]);
     DLog(@"Response body:%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {

@@ -16,4 +16,6 @@
 @property (nonatomic, strong) NSString *state;
 @property (nonatomic, strong) NSNumber *counter;
 
++ (WaterNowZone *)createFromJson:(NSDictionary *)jsonObj;
+
 @end

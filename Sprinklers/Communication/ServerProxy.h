@@ -12,6 +12,7 @@
 
 @class AFHTTPRequestOperationManager;
 @class StartStopWatering;
+@class WaterNowZone;
 
 @interface ServerProxy : NSObject
 
@@ -32,6 +33,8 @@
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;
 
-- (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter;
+- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
+
+- (void)cancelAllOperations;
 
 @end

@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class WaterNowVC;
+@class WaterNowZone;
 
 @interface WaterZoneListCell : UITableViewCell
 
 @property (weak, nonatomic) WaterNowVC *delegate;
-@property (weak, nonatomic) NSNumber *id;
-@property (weak, nonatomic) NSNumber *counter;
+@property (weak, nonatomic) WaterNowZone *zone;
 
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *zoneNameLabel;

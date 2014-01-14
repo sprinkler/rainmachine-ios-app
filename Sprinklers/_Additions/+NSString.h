@@ -47,6 +47,6 @@
 
 - (BOOL)isValidEmail:(NSString *)checkString;
 
-+ (NSString*)formattedTime:(int)timeInSeconds;
++ (NSString*)formattedTime:(int)timeInSeconds usingOnlyDigits:(BOOL)usingOnlyDigits;
 
 @end

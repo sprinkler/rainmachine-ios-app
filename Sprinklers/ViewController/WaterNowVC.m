@@ -17,6 +17,7 @@
 #import "WaterZoneListCell.h"
 #import "WaterNowLevel1VC.h"
 #import "StartStopWatering.h"
+#import "WaterNowZone.h"
 #import "Utils.h"
 
 @interface WaterNowVC () {
@@ -26,7 +27,7 @@
 }
 
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) ServerProxy *serverProxy; // TODO: rename it to pollServerProxy or something better
+@property (strong, nonatomic) ServerProxy *pollServerProxy; // TODO: rename it to pollServerProxy or something better
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) NSArray *zones;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
@@ -62,9 +63,8 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
     self.tabBarController.navigationItem.rightBarButtonItem = backButton;
     
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
+    self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
     self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,6 +79,8 @@
 {
     [super viewWillDisappear:animated];
     
+    [self.pollServerProxy cancelAllOperations];
+    
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
@@ -91,7 +93,7 @@
 
 - (void)requestListRefreshWithShowingHud:(NSNumber*)showHud
 {
-    [self.serverProxy requestWaterNowZoneList];
+    [self.pollServerProxy requestWaterNowZoneList];
     
     self.lastListRefreshDate = [NSDate date];
     
@@ -102,20 +104,23 @@
 
 - (void)scheduleNextListRefreshRequest:(NSTimeInterval)scheduleInterval
 {
-    NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.lastListRefreshDate];
-    if (t >= scheduleInterval) {
-        [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:NO]];
-    } else {
-        [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:scheduleInterval - t];
+    if (self.isViewLoaded && self.view.window) {
+        // viewController is visible
+        NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.lastListRefreshDate];
+        if (t >= scheduleInterval) {
+            [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:NO]];
+        } else {
+            [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:scheduleInterval - t];
+        }
     }
 }
 
 - (void)stopAll
 {
     for (WaterNowZone *zone in self.zones) {
-        BOOL watering = [zone.state isEqualToString:@"Watering"];
+        BOOL watering = [Utils isZoneWatering:zone];
         if (watering) {
-            [self toggleWatering:!watering onZoneWithId:zone.id andCounter:zone.counter];
+            [self toggleWatering:!watering onZone:zone withCounter:zone.counter];
         }
     }
 }
@@ -131,39 +136,43 @@
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
 {
     BOOL showErrorMessage = YES;
-    if (serverProxy == self.serverProxy) {
+    if (serverProxy == self.pollServerProxy) {
         showErrorMessage = NO;
         if (!self.lastScheduleRequestError) {
-            retryInterval = 2 * kWaterNowListRefreshTimeInterval;
+            retryInterval = 2 * kWaterNowRefreshTimeInterval;
             showErrorMessage = YES;
         }
         self.lastScheduleRequestError = error;
     }
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
     [self handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:showErrorMessage];
     
-    [self scheduleNextListRefreshRequest:retryInterval];
+    if (serverProxy == self.pollServerProxy) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        [self scheduleNextListRefreshRequest:retryInterval];
     
-    retryInterval *= 2;
-    retryInterval = MIN(retryInterval, 8 * kWaterNowListRefreshTimeInterval);
+        retryInterval *= 2;
+        retryInterval = MIN(retryInterval, kWaterNowMaxRefreshInterval);
+    }
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
 {
-    self.lastScheduleRequestError = nil;
-    
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
     [self handleGeneralSprinklerError:nil showErrorMessage:YES];
     
-    self.zones = [self filteredZones:data];
-    [self.tableView reloadData];
-    
-    if (serverProxy == self.serverProxy) {
-        [self scheduleNextListRefreshRequest:kWaterNowListRefreshTimeInterval];
+    if (serverProxy == self.pollServerProxy) {
+        self.lastScheduleRequestError = nil;
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        self.zones = [self filteredZones:data];
+        
+        if (serverProxy == self.pollServerProxy) {
+            [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
+        }
     }
+    [self.tableView reloadData];
 }
 
 - (void)loggedOut
@@ -188,13 +197,12 @@
     WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     WaterNowZone *waterNowZone = [self.zones objectAtIndex:indexPath.row];
-    BOOL pending = [waterNowZone.state isEqualToString:@"Pending"];
-    BOOL watering = [waterNowZone.state isEqualToString:@"Watering"];
+    BOOL pending = [Utils isZonePending:waterNowZone];
+    BOOL watering = [Utils isZoneWatering:waterNowZone];
     //  BOOL unkownState = (!pending) && (!watering);
     
     cell.delegate = self;
-    cell.id = waterNowZone.id;
-    cell.counter = waterNowZone.counter;
+    cell.zone = waterNowZone;
     
     cell.zoneNameLabel.text = waterNowZone.name;
     cell.descriptionLabel.text = waterNowZone.type;
@@ -203,7 +211,7 @@
     cell.onOffSwitch.onTintColor = pending ? switchOnOrangeColor : (watering ? switchOnGreenColor : [UIColor grayColor]);
     cell.timeLabel.textColor = cell.onOffSwitch.onTintColor;
     
-    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter] intValue]];
+    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter watering:watering] intValue] usingOnlyDigits:NO];
     
     return cell;
 }
@@ -213,7 +221,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
-    WaterNowZone *waterZone = [self.zones objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+    WaterNowZone *waterZone = [self.zones objectAtIndex:indexPath.row];
     waterNowZoneVC.waterZone = waterZone;
     [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }
@@ -234,9 +242,9 @@
 
 #pragma mark - Table View Cell callback
 
-- (void)toggleWatering:(BOOL)switchValue onZoneWithId:(NSNumber*)theId andCounter:(NSNumber*)counter
+- (void)toggleWatering:(BOOL)switchValue onZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
-    [self.postServerProxy toggleWatering:switchValue onZoneWithId:theId andCounter:counter];
+    [self.postServerProxy toggleWatering:switchValue onZone:zone withCounter:counter];
 }
 
 #pragma mark - Actions
