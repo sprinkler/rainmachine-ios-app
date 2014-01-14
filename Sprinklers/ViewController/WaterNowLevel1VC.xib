@@ -7,10 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WaterNowLevel1VC">
             <connections>
+                <outlet property="ativityIndicator" destination="pba-FE-FFy" id="WYD-0v-skk"/>
                 <outlet property="buttonDown" destination="cGm-B7-oKl" id="56c-7U-8J8"/>
                 <outlet property="buttonUp" destination="5RT-aF-4Cr" id="UKg-Mk-VKG"/>
+                <outlet property="counterLabel" destination="CTN-uG-pW0" id="Z6C-ia-smw"/>
                 <outlet property="startButton" destination="YXi-li-OTW" id="fja-a6-6La"/>
-                <outlet property="timerLabel" destination="CTN-uG-pW0" id="7NA-J7-7vZ"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -73,7 +74,6 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="j9F-z8-g3k"/>
-                        <constraint firstAttribute="width" constant="280" id="x8u-eu-Mf8"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Button">
@@ -83,15 +83,23 @@
                         <action selector="onStartButton:" destination="-1" eventType="touchUpInside" id="E4h-LO-jWf"/>
                     </connections>
                 </button>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pba-FE-FFy">
+                    <rect key="frame" x="274" y="414" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="5RT-aF-4Cr" firstAttribute="centerY" secondItem="cGm-B7-oKl" secondAttribute="centerY" id="DCx-sS-FBo"/>
                 <constraint firstItem="cGm-B7-oKl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CTN-uG-pW0" secondAttribute="bottom" constant="1" id="Di8-h6-FRr"/>
+                <constraint firstItem="YXi-li-OTW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="LxC-lC-J2b"/>
                 <constraint firstItem="5RT-aF-4Cr" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="50" id="Uwp-h6-92p"/>
                 <constraint firstAttribute="centerX" secondItem="CTN-uG-pW0" secondAttribute="centerX" id="Vzh-UF-Pfy"/>
                 <constraint firstItem="YXi-li-OTW" firstAttribute="top" secondItem="cGm-B7-oKl" secondAttribute="bottom" priority="999" constant="48" id="ZO9-3Z-jkt"/>
+                <constraint firstItem="YXi-li-OTW" firstAttribute="centerY" secondItem="pba-FE-FFy" secondAttribute="centerY" id="eL5-8G-pip"/>
                 <constraint firstAttribute="centerX" secondItem="YXi-li-OTW" secondAttribute="centerX" id="f2m-lc-19x"/>
+                <constraint firstAttribute="trailing" secondItem="YXi-li-OTW" secondAttribute="trailing" constant="20" id="gbW-tJ-yoH"/>
+                <constraint firstItem="pba-FE-FFy" firstAttribute="leading" secondItem="YXi-li-OTW" secondAttribute="trailing" constant="-26" id="l4f-n5-otN"/>
                 <constraint firstItem="CTN-uG-pW0" firstAttribute="top" secondItem="1" secondAttribute="top" constant="34" id="qAL-Vu-k3w"/>
                 <constraint firstAttribute="trailing" secondItem="cGm-B7-oKl" secondAttribute="trailing" constant="61" id="qde-NM-WSJ"/>
                 <constraint firstAttribute="bottom" secondItem="YXi-li-OTW" secondAttribute="bottom" constant="36" id="tju-XV-UYF"/>

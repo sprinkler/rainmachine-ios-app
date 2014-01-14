@@ -87,6 +87,14 @@ const float kHomeScreenCellHeight = 66;
     [self refreshStatus];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.serverProxy cancelAllOperations];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+}
+
 - (void)startHud:(NSString *)text {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.labelText = text;
