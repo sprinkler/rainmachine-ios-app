@@ -33,8 +33,6 @@
 		AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */; };
 		AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* AddSprinklerViewController.m */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
-		AF5D7995185CDC2900A49CF7 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7993185CDC2900A49CF7 /* button_down.png */; };
-		AF5D7996185CDC2900A49CF7 /* button_up.png in Resources */ = {isa = PBXBuildFile; fileRef = AF5D7994185CDC2900A49CF7 /* button_up.png */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
 		AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B1184E25870047BD9E /* bucket@2x.png */; };
@@ -367,8 +365,6 @@
 		AF2704F9184DE8040081155A /* AddSprinklerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddSprinklerViewController.m; path = ViewController/AddSprinklerViewController.m; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
-		AF5D7993185CDC2900A49CF7 /* button_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_down.png; path = Resources/button_down.png; sourceTree = "<group>"; };
-		AF5D7994185CDC2900A49CF7 /* button_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_up.png; path = Resources/button_up.png; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
 		AF7782C3184CD3DE00DCBD54 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		AF789761185C955F00449381 /* WaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterZoneListCell.h; path = Cells/WaterZoneListCell.h; sourceTree = "<group>"; };
@@ -1153,8 +1149,6 @@
 				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
 				B1DF325F16A6A68700A1BF38 /* Default.png */,
 				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
-				AF5D7993185CDC2900A49CF7 /* button_down.png */,
-				AF5D7994185CDC2900A49CF7 /* button_up.png */,
 				AF0E69CB185F8E52000A3E90 /* icon_home3.png */,
 				AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */,
 				AF0E69D3185F9502000A3E90 /* icon_waternow.png */,
@@ -1437,7 +1431,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFF635DD186F54900005EDF1 /* daily_stats_sct@2x.png in Resources */,
-				AF5D7996185CDC2900A49CF7 /* button_up.png in Resources */,
 				AFF635E1186F54900005EDF1 /* daily_stats_skc@2x.png in Resources */,
 				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
 				AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */,
@@ -1649,7 +1642,6 @@
 				AFF635E6186F54900005EDF1 /* daily_stats_tsra.png in Resources */,
 				AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */,
 				AFF636E2186F55100005EDF1 /* main-screen_raip@2x.png in Resources */,
-				AF5D7995185CDC2900A49CF7 /* button_down.png in Resources */,
 				AF0E69D2185F94B0000A3E90 /* icon_settings_sprinkler@2x.png in Resources */,
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,
 				AFF636D1186F55100005EDF1 /* main-screen_nskc.png in Resources */,

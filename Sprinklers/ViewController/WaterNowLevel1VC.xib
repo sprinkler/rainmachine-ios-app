@@ -21,10 +21,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTN-uG-pW0">
-                    <rect key="frame" x="17" y="34" width="287" height="142"/>
+                    <rect key="frame" x="37" y="34" width="247" height="142"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="287" id="5nZ-EL-4UY"/>
                         <constraint firstAttribute="height" constant="142" id="FrY-HA-K2c"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="100"/>
@@ -94,6 +93,7 @@
                 <constraint firstItem="cGm-B7-oKl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CTN-uG-pW0" secondAttribute="bottom" constant="1" id="Di8-h6-FRr"/>
                 <constraint firstItem="YXi-li-OTW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="LxC-lC-J2b"/>
                 <constraint firstItem="5RT-aF-4Cr" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="50" id="Uwp-h6-92p"/>
+                <constraint firstItem="CTN-uG-pW0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1" secondAttribute="leading" id="VDS-Tv-CE3"/>
                 <constraint firstAttribute="centerX" secondItem="CTN-uG-pW0" secondAttribute="centerX" id="Vzh-UF-Pfy"/>
                 <constraint firstItem="YXi-li-OTW" firstAttribute="top" secondItem="cGm-B7-oKl" secondAttribute="bottom" priority="999" constant="48" id="ZO9-3Z-jkt"/>
                 <constraint firstItem="YXi-li-OTW" firstAttribute="centerY" secondItem="pba-FE-FFy" secondAttribute="centerY" id="eL5-8G-pip"/>
@@ -103,6 +103,7 @@
                 <constraint firstItem="CTN-uG-pW0" firstAttribute="top" secondItem="1" secondAttribute="top" constant="34" id="qAL-Vu-k3w"/>
                 <constraint firstAttribute="trailing" secondItem="cGm-B7-oKl" secondAttribute="trailing" constant="61" id="qde-NM-WSJ"/>
                 <constraint firstAttribute="bottom" secondItem="YXi-li-OTW" secondAttribute="bottom" constant="36" id="tju-XV-UYF"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CTN-uG-pW0" secondAttribute="trailing" id="wJb-cN-Xos"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
