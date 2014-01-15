@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSNumber *id;
 @property (nonatomic, strong) NSNumber *maxt;
 @property (nonatomic, strong) NSNumber *mint;
+@property (nonatomic, strong) NSNumber *error;
 @property (nonatomic, strong) NSNumber *percentage;
 @property (nonatomic, strong) NSString *units;
 @property (nonatomic, strong) NSString *lastupdate;

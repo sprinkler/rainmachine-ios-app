@@ -160,10 +160,32 @@ const float kHomeScreenCellHeight = 66;
     } else {
         cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
     }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
     
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
     cell.weatherImage.image = weatherImage;
+
+    if (([weatherData.maxt intValue] == -32000) ||
+        ([weatherData.mint intValue] == -32000) ||
+        ((weatherData.error) && ([weatherData.error intValue] == 1)) ||
+        ([weatherData.percentage floatValue] == 0)
+        ) {
+        cell.waterImage.hidden = YES;
+        cell.waterWavesImageView.hidden = YES;
+        cell.percentageLabel.hidden = YES;
+        
+        cell.notAvailableLabel.hidden = NO;
+
+        [cell.notAvailableLabel setCustomRMFontWithCode:icon_na size:cell.notAvailableLabel.bounds.size.width];
+        cell.notAvailableLabel.textColor = cell.daylabel.textColor;// [UIColor colorWithRed:153.0 / 255 green:153.0 / 255 blue:153.0 / 255 alpha:1];
+    } else {
+        cell.waterImage.hidden = NO;
+        cell.waterWavesImageView.hidden = NO;
+        cell.percentageLabel.hidden = NO;
+        
+        cell.notAvailableLabel.hidden = YES;
+    }
     
     return cell;
 }
@@ -201,6 +223,7 @@ const float kHomeScreenCellHeight = 66;
         self.data = dataArray;
         
         WeatherData *lastWeatherData = [self.data lastObject];
+        [self rescaleDataIfNeeded];
         
         [self storeLastSprinklerUpdateFromString:lastWeatherData.lastupdate];
         
@@ -236,6 +259,24 @@ const float kHomeScreenCellHeight = 66;
     
     [StorageManager current].currentSprinkler.lastUpdate = myDate;
     [[StorageManager current] saveData];
+}
+
+#pragma mark - Data
+
+- (void)rescaleDataIfNeeded
+{
+    float maxPercentage = FLT_MIN;
+    for (WeatherData *weatherData in self.data) {
+        if ([weatherData.percentage floatValue] > maxPercentage) {
+            maxPercentage = [weatherData.percentage floatValue];
+        }
+    }
+
+    if (maxPercentage > 1) {
+        for (WeatherData *weatherData in self.data) {
+            weatherData.percentage = [NSNumber numberWithFloat:[weatherData.percentage floatValue] / maxPercentage];
+        }
+    }
 }
 
 #pragma mark - Methods
