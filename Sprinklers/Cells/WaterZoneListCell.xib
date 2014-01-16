@@ -51,8 +51,8 @@
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image_arrow_next_gray.png" translatesAutoresizingMaskIntoConstraints="NO" id="GCp-QO-fZS">
-                        <rect key="frame" x="293" y="25" width="7" height="10"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_disclosure_triangle.png" translatesAutoresizingMaskIntoConstraints="NO" id="GCp-QO-fZS">
+                        <rect key="frame" x="293" y="23" width="14" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>
@@ -78,6 +78,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="image_arrow_next_gray.png" width="11" height="20"/>
+        <image name="icon_disclosure_triangle.png" width="28" height="28"/>
     </resources>
 </document>
