@@ -6,6 +6,20 @@
 //  Copyright (c) 2013 Gowalla. All rights reserved.
 //
 
+/*
+ "GET /wateringRestrictions
+ {
+ 
+ ""WateringRestrictions"" : {
+ 
+ ""hotDays"" : int , //flag not AVAIL in v3.
+ ""freezeProtect"" : int //in Fahrenheit or Celsius units,
+ ""months"" : ""001110010101"" //12 bit binary string. First bit is January.
+ 
+ }
+ }"
+*/
+ 
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
 #import "Zone.h"
@@ -36,5 +50,7 @@
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 
 - (void)cancelAllOperations;
+
+- (void)requestWateringRestrictions;
 
 @end

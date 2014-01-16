@@ -1,6 +1,6 @@
 #import "Constants.h"
 
-//NSString *const TestServerURL = @"https://50.150.118.132";
+//NSString *const TestServerURL = @"http://10.1.10.74";
 NSString *const TestServerURL = @"https://ns.tremend.ro";
 NSString *const TestServerPort = @"443";
 //NSString *const TestServerPort = @"65076";
