@@ -107,7 +107,7 @@
 
 - (void)requestWateringRestrictions
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DLog(@"%s", __PRETTY_FUNCTION__);
     
         [self.manager GET:@"ui.cgi" parameters:@{@"action": @"wateringrestrictions"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
