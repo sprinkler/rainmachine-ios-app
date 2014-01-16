@@ -35,7 +35,6 @@
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
-		AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7AC9B1184E25870047BD9E /* bucket@2x.png */; };
 		AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9BD184E3D200047BD9E /* ServerProxy.m */; };
 		AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9C3184E3DBE0047BD9E /* AFHTTPRequestOperation.m */; };
 		AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9C5184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m */; };
@@ -373,7 +372,6 @@
 		AF7782C3184CD3DE00DCBD54 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		AF789761185C955F00449381 /* WaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterZoneListCell.h; path = Cells/WaterZoneListCell.h; sourceTree = "<group>"; };
 		AF789762185C955F00449381 /* WaterZoneListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterZoneListCell.m; path = Cells/WaterZoneListCell.m; sourceTree = "<group>"; };
-		AF7AC9B1184E25870047BD9E /* bucket@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bucket@2x.png"; path = "Resources/bucket@2x.png"; sourceTree = "<group>"; };
 		AF7AC9BA184E3D1A0047BD9E /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Protocols.h; path = ../Protocols.h; sourceTree = "<group>"; };
 		AF7AC9BC184E3D200047BD9E /* ServerProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerProxy.h; path = Communication/ServerProxy.h; sourceTree = "<group>"; };
 		AF7AC9BD184E3D200047BD9E /* ServerProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerProxy.m; path = Communication/ServerProxy.m; sourceTree = "<group>"; };
@@ -1152,7 +1150,6 @@
 				AFA5FE281880740300C948F8 /* rainmachine.ttf */,
 				AFF63642186F55100005EDF1 /* main-screen */,
 				AFF634E0186F54900005EDF1 /* daily-stats */,
-				AF7AC9B1184E25870047BD9E /* bucket@2x.png */,
 				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
 				B1DF325F16A6A68700A1BF38 /* Default.png */,
 				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
@@ -1654,7 +1651,6 @@
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AFF635C3186F54900005EDF1 /* daily_stats_nra@2x.png in Resources */,
 				AFF635E6186F54900005EDF1 /* daily_stats_tsra.png in Resources */,
-				AF7AC9B2184E25870047BD9E /* bucket@2x.png in Resources */,
 				AFF636E2186F55100005EDF1 /* main-screen_raip@2x.png in Resources */,
 				AF0E69D2185F94B0000A3E90 /* icon_settings_sprinkler@2x.png in Resources */,
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,

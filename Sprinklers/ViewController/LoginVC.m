@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *textPassword;
 @property (strong, nonatomic) IBOutlet UIButton *buttonCheckBox;
 @property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonLogin;
+@property (weak, nonatomic) IBOutlet UILabel *bucketLabel;
 
 @end
 
@@ -63,6 +64,8 @@
     [_buttonLogin setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
     
     _buttonCheckBox.selected = [_sprinkler.loginRememberMe boolValue];
+    
+    [self.bucketLabel setCustomRMFontWithCode:icon_Stropitoare_Icon size:195];
     
     [_textPassword becomeFirstResponder];
 }
