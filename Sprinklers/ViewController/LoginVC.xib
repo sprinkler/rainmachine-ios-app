@@ -35,17 +35,17 @@
                     <rect key="frame" x="20" y="159" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" image="temp-checkbox-unselected.png">
+                    <state key="normal" image="checkbox-unselected.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="temp-checkbox-selected.png"/>
-                    <state key="highlighted" image="temp-checkbox-selected.png"/>
+                    <state key="selected" image="checkbox-selected.png"/>
+                    <state key="highlighted" image="checkbox-selected.png"/>
                     <connections>
                         <action selector="rememberMe:" destination="-1" eventType="touchUpInside" id="IYo-X5-tL3"/>
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remember Me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doT-Ty-bXu">
-                    <rect key="frame" x="65" y="164" width="149" height="21"/>
+                    <rect key="frame" x="60" y="164" width="149" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
@@ -69,7 +69,7 @@
     </objects>
     <resources>
         <image name="bucket.png" width="159" height="99"/>
-        <image name="temp-checkbox-selected.png" width="32" height="32"/>
-        <image name="temp-checkbox-unselected.png" width="32" height="32"/>
+        <image name="checkbox-selected.png" width="48" height="48"/>
+        <image name="checkbox-unselected.png" width="48" height="48"/>
     </resources>
 </document>

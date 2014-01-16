@@ -165,7 +165,11 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 {
 //    DLog(@"Response header fields: %@", [response allHeaderFields]);
 //    DLog(@"Response MIME type:%@", [response MIMEType]);
-    DLog(@"Response body:%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    if ([response isKindOfClass:[NSHTTPURLResponse class]])  {
+        DLog(@"Response body:%@ code:%d", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], [(NSHTTPURLResponse*)response statusCode]);
+    } else {
+        DLog(@"Response body:%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }
     
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
         if ([(NSError *)(*error) code] == NSURLErrorCannotDecodeContentData) {
