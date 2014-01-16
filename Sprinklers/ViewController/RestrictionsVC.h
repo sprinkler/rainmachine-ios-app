@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServerProxy.h"
+#import "MBProgressHUD.h"
+    
+@interface RestrictionsVC : UIViewController<SprinklerResponseProtocol>
+{
+}
 
-@interface RestrictionsVC : UIViewController
+@property(nonatomic, retain) ServerProxy* serverProxy;
+    
+@property(nonatomic, retain) UIAlertView* alertView;
+
+@property(nonatomic, retain) MBProgressHUD* hud;
 
 @end

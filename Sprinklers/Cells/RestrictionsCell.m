@@ -1,5 +1,5 @@
 //
-//  RestrictionsMonthCell.m
+//  RestrictionsCell.m
 //  Sprinklers
 //
 //  Created by Adrian Manolache on 14/01/14.

@@ -1,5 +1,5 @@
 //
-//  RestrictionsMonthCell.h
+//  RestrictionsCell.h
 //  Sprinklers
 //
 //  Created by Adrian Manolache on 14/01/14.

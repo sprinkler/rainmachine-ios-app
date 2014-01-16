@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9D13616B0B56900E6152B /* ServiceManager.m */; };
+		3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A46A3681887FD9E00B59F1F /* RestrictionsData.m */; };
 		3A9AB581188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB57F188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m */; };
 		3A9AB582188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB580188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib */; };
 		3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB58418854521005B79B9 /* RestrictionsVC.m */; };
@@ -331,6 +332,8 @@
 /* Begin PBXFileReference section */
 		1FD9D13516B0B56900E6152B /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Managers/ServiceManager.h; sourceTree = "<group>"; };
 		1FD9D13616B0B56900E6152B /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Managers/ServiceManager.m; sourceTree = "<group>"; };
+		3A46A3671887FD9E00B59F1F /* RestrictionsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsData.h; path = Model/RestrictionsData.h; sourceTree = "<group>"; };
+		3A46A3681887FD9E00B59F1F /* RestrictionsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsData.m; path = Model/RestrictionsData.m; sourceTree = "<group>"; };
 		3A9AB57E188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsRestrictionsHotDaysCell.h; path = Cells/SettingsRestrictionsHotDaysCell.h; sourceTree = "<group>"; };
 		3A9AB57F188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsRestrictionsHotDaysCell.m; path = Cells/SettingsRestrictionsHotDaysCell.m; sourceTree = "<group>"; };
 		3A9AB580188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsRestrictionsHotDaysCell.xib; path = Cells/SettingsRestrictionsHotDaysCell.xib; sourceTree = "<group>"; };
@@ -1134,6 +1137,8 @@
 				AFC58171184E58FD00C8D06A /* WeatherData.m */,
 				B1254CB4187D7A33004E2F0E /* Zone.h */,
 				B1254CB5187D7A33004E2F0E /* Zone.m */,
+				3A46A3671887FD9E00B59F1F /* RestrictionsData.h */,
+				3A46A3681887FD9E00B59F1F /* RestrictionsData.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1725,6 +1730,7 @@
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
+				3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,

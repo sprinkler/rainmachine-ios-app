@@ -9,6 +9,7 @@
 #import "ServerProxy.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "WeatherData.h"
+#import "RestrictionsData.h"
 #import "WaterNowZone.h"
 #import "StartStopWatering.h"
 #import "ServerResponse.h"
@@ -104,12 +105,25 @@
     return NO;
 }
 
+- (void)requestWateringRestrictions
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
+        [self.manager GET:@"ui.cgi" parameters:@{@"action": @"wateringrestrictions"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"WaterRestrictionsScreen"] toClass:NSStringFromClass([RestrictionsData class])] serverProxy:self];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self handleError:error fromOperation:operation];
+        }];
+}
+
 - (void)requestWeatherData
 {
-    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"weatherdata"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager GET: @"ui.cgi" parameters:@{@"action": @"weatherdata"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"HomeScreen"] toClass:NSStringFromClass([WeatherData class])] serverProxy:self];
-      
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       [self handleError:error fromOperation:operation];
     }];
@@ -119,7 +133,7 @@
 - (void)requestWaterNowZoneList
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"zones"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
+        
         [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
