@@ -79,8 +79,8 @@
     
     [self updateStartButtonActiveStateTo:YES];
     
-    [self.buttonUp setCustomRMFontWithCode:icon_Up size:90];
-    [self.buttonDown setCustomRMFontWithCode:icon_Down size:90];
+    [self.buttonUp setCustomRMFontWithCode:icon_Up size:self.buttonUp.frame.size.width];
+    [self.buttonDown setCustomRMFontWithCode:icon_Down size:self.buttonDown.frame.size.width];
 
     if ([Utils isZoneIdle:self.waterZone]) {
         self.initialTimerRequestActivityIndicator.hidden = YES;

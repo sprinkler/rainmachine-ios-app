@@ -10,7 +10,7 @@
 
 @interface HomeScreenTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *waterImage;
-@property (weak, nonatomic) IBOutlet UILabel *notAvailableLabel;
+@property (weak, nonatomic) IBOutlet UILabel *percentageNotAvailableLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *weatherImage;
 @property (weak, nonatomic) IBOutlet UILabel *daylabel;
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;

@@ -22,12 +22,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTN-uG-pW0">
-                    <rect key="frame" x="3" y="34" width="315" height="142"/>
+                    <rect key="frame" x="12" y="34" width="296" height="142"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="142" id="FrY-HA-K2c"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="96"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="90"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -87,8 +87,8 @@
                     <rect key="frame" x="274" y="414" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5cH-65-G46">
-                    <rect key="frame" x="-59" y="-50" width="20" height="20"/>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5cH-65-G46">
+                    <rect key="frame" x="150" y="95" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
             </subviews>
@@ -97,6 +97,7 @@
                 <constraint firstItem="5RT-aF-4Cr" firstAttribute="centerY" secondItem="cGm-B7-oKl" secondAttribute="centerY" id="DCx-sS-FBo"/>
                 <constraint firstItem="cGm-B7-oKl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CTN-uG-pW0" secondAttribute="bottom" constant="1" id="Di8-h6-FRr"/>
                 <constraint firstItem="YXi-li-OTW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="LxC-lC-J2b"/>
+                <constraint firstItem="5cH-65-G46" firstAttribute="centerX" secondItem="CTN-uG-pW0" secondAttribute="centerX" id="PJO-9C-vjJ"/>
                 <constraint firstItem="5RT-aF-4Cr" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="50" id="Uwp-h6-92p"/>
                 <constraint firstItem="CTN-uG-pW0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1" secondAttribute="leading" id="VDS-Tv-CE3"/>
                 <constraint firstAttribute="centerX" secondItem="CTN-uG-pW0" secondAttribute="centerX" id="Vzh-UF-Pfy"/>
@@ -107,6 +108,7 @@
                 <constraint firstItem="pba-FE-FFy" firstAttribute="leading" secondItem="YXi-li-OTW" secondAttribute="trailing" constant="-26" id="l4f-n5-otN"/>
                 <constraint firstItem="CTN-uG-pW0" firstAttribute="top" secondItem="1" secondAttribute="top" constant="34" id="qAL-Vu-k3w"/>
                 <constraint firstAttribute="trailing" secondItem="cGm-B7-oKl" secondAttribute="trailing" constant="61" id="qde-NM-WSJ"/>
+                <constraint firstItem="5cH-65-G46" firstAttribute="centerY" secondItem="CTN-uG-pW0" secondAttribute="centerY" id="tCm-WV-9GS"/>
                 <constraint firstAttribute="bottom" secondItem="YXi-li-OTW" secondAttribute="bottom" constant="36" id="tju-XV-UYF"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CTN-uG-pW0" secondAttribute="trailing" id="wJb-cN-Xos"/>
             </constraints>

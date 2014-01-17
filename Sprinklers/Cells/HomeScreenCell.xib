@@ -80,8 +80,8 @@
             <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="daylabel" destination="scd-YP-cyF" id="xvM-hn-wXO"/>
-                <outlet property="notAvailableLabel" destination="kyt-L2-E3j" id="koB-w3-g4R"/>
                 <outlet property="percentageLabel" destination="AFE-dd-inf" id="MbU-CM-ie9"/>
+                <outlet property="percentageNotAvailableLabel" destination="kyt-L2-E3j" id="h0R-8X-ckv"/>
                 <outlet property="temperatureLabel" destination="LEt-ji-f8e" id="6ke-OZ-Zc7"/>
                 <outlet property="temperatureLabelPart2" destination="u06-oO-tYy" id="HXU-f5-y3Q"/>
                 <outlet property="temperatureLabelPart3" destination="mwy-wv-FzY" id="Lks-G4-SNc"/>

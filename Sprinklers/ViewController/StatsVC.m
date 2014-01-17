@@ -151,8 +151,8 @@ const float kHomeScreenCellHeight = 66;
     cell.waterImage.image = self.waterImage;
     cell.waterWavesImageView.image = self.waterWavesImage;
     cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(100 * [weatherData.percentage floatValue])];
-    BOOL maxtValid = ((error) || (!weatherData.maxt));
-    BOOL mintValid = ((error) || (!weatherData.mint));
+    BOOL maxtValid = ((!error) && (weatherData.maxt));
+    BOOL mintValid = ((!error) && (weatherData.mint));
 
     if ((maxtValid) && (mintValid)) {
         cell.temperatureLabelPart2.hidden = YES;
@@ -206,16 +206,16 @@ const float kHomeScreenCellHeight = 66;
         cell.waterWavesImageView.hidden = YES;
         cell.percentageLabel.hidden = YES;
         
-        cell.notAvailableLabel.hidden = NO;
+        cell.percentageNotAvailableLabel.hidden = NO;
 
-        [cell.notAvailableLabel setCustomRMFontWithCode:icon_na size:cell.notAvailableLabel.bounds.size.width];
-        cell.notAvailableLabel.textColor = cell.daylabel.textColor;// [UIColor colorWithRed:153.0 / 255 green:153.0 / 255 blue:153.0 / 255 alpha:1];
+        [cell.percentageNotAvailableLabel setCustomRMFontWithCode:icon_na size:cell.percentageNotAvailableLabel.bounds.size.width];
+        cell.percentageNotAvailableLabel.textColor = cell.daylabel.textColor;// [UIColor colorWithRed:153.0 / 255 green:153.0 / 255 blue:153.0 / 255 alpha:1];
     } else {
         cell.waterImage.hidden = NO;
         cell.waterWavesImageView.hidden = NO;
         cell.percentageLabel.hidden = NO;
         
-        cell.notAvailableLabel.hidden = YES;
+        cell.percentageNotAvailableLabel.hidden = YES;
     }
     
     return cell;
@@ -256,7 +256,7 @@ const float kHomeScreenCellHeight = 66;
         WeatherData *lastWeatherData = [self.data lastObject];
         [self rescaleDataIfNeeded];
         
-        [self storeLastSprinklerUpdateFromString:lastWeatherData.lastupdate];
+        [self storeSprinklerLastUpdateFromString:lastWeatherData.lastupdate];
         
         [self.tableView reloadData];
         [self.dataSourceTableView reloadData];
@@ -274,7 +274,7 @@ const float kHomeScreenCellHeight = 66;
 
 #pragma mark - Core Data
 
-- (void)storeLastSprinklerUpdateFromString:(NSString*)stringDate
+- (void)storeSprinklerLastUpdateFromString:(NSString*)stringDate
 {
     NSString *dateAsString = stringDate;
     if ([[dateAsString componentsSeparatedByString:@","] count] == 2) {
@@ -287,7 +287,13 @@ const float kHomeScreenCellHeight = 66;
     [dateFormatter setDateFormat:@"HH:mm a, LLL d, yyyy"];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     NSDate *myDate = [dateFormatter dateFromString:dateAsString];
-    
+    if (!myDate) {
+        [dateFormatter setDateFormat:@"HH:mm, LLL d, yyyy"];
+        myDate = [dateFormatter dateFromString:dateAsString];
+        if (!myDate) {
+            DLog(@"Error: failed parsing string: %@", dateAsString);
+        }
+    }
     [StorageManager current].currentSprinkler.lastUpdate = myDate;
     [[StorageManager current] saveData];
 }
