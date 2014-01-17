@@ -174,10 +174,9 @@
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
     BOOL isIdle = [Utils isZoneIdle:zone];
-    BOOL isWatering = [Utils isZoneWatering:zone];
     StartStopWatering *startStopWatering = [StartStopWatering new];
     startStopWatering.id = zone.id;
-    startStopWatering.counter = isWatering ? [NSNumber numberWithInteger:0] : [Utils fixedZoneCounter:counter isIdle:isIdle];
+    startStopWatering.counter = isIdle ? [Utils fixedZoneCounter:counter isIdle:isIdle] : [NSNumber numberWithInteger:0];
 
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
     [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zone.id] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

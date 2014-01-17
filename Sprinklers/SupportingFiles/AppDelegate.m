@@ -33,17 +33,17 @@
     
     StatsVC *statsVC = [[StatsVC alloc] init];
     UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:statsVC];
-    UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_home3.png"] tag:2];
+    UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
     statsVC.tabBarItem = tabBarItemStats;
     
     WaterNowVC *waterVC = [[WaterNowVC alloc] init];
     UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
-    UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Water Now" image:[UIImage imageNamed:@"icon_waternow.png"] tag:2];
+    UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Water Now" image:[UIImage imageNamed:@"icon_waternow"] tag:2];
     waterVC.tabBarItem = tabBarItemWaterNow;
     
     SettingsVC *settingsVC = [[SettingsVC alloc] init];
     UINavigationController *navSettings = [[UINavigationController alloc] initWithRootViewController:settingsVC];
-    UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings_sprinkler.png"] tag:2];
+    UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
     settingsVC.tabBarItem = tabBarItemSettings;
     
     _tabBarController = [[UITabBarController alloc] init];

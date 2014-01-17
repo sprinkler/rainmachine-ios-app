@@ -16,6 +16,8 @@ float kWaterImageStrokeColor[3] = {56 / 255.0, 136 / 255.0, 194 / 255.0};
 float kWaterImageFillColor[3] = {107 / 255.0, 168 / 255.0, 207 / 255.0};
 float kBarBlueColor[3] = {1 / 255.0, 152 / 255.0, 208 / 255.0};
 
+int const kMaxCounterValue = 300 * 60; // In seconds
+
 NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"};
 
 // ---- Custom font glyphs ----

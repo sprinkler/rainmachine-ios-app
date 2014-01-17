@@ -194,8 +194,8 @@
     WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     WaterNowZone *waterNowZone = [self.zones objectAtIndex:indexPath.row];
-    BOOL pending = [Utils isZonePending:waterNowZone];
-    BOOL watering = [Utils isZoneWatering:waterNowZone];
+    BOOL isPending = [Utils isZonePending:waterNowZone];
+    BOOL isWatering = [Utils isZoneWatering:waterNowZone];
     BOOL isIdle = [Utils isZoneIdle:waterNowZone];
     //  BOOL unkownState = (!pending) && (!watering);
     
@@ -204,12 +204,12 @@
     
     cell.zoneNameLabel.text = waterNowZone.name;
     cell.descriptionLabel.text = waterNowZone.type;
-    cell.onOffSwitch.on = watering || pending;
+    cell.onOffSwitch.on = isWatering || isPending;
     
-    cell.onOffSwitch.onTintColor = pending ? switchOnOrangeColor : (watering ? switchOnGreenColor : [UIColor grayColor]);
+    cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
     cell.timeLabel.textColor = cell.onOffSwitch.onTintColor;
     
-    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:waterNowZone.counter isIdle:isIdle] intValue] usingOnlyDigits:NO];
+    cell.timeLabel.text = isIdle ? @"" : (isPending ? @"Pending" : @"Watering");
     
     return cell;
 }

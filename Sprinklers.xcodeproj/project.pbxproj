@@ -19,12 +19,6 @@
 		3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB595188559E7005B79B9 /* RestrictionsCell.xib */; };
 		3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB59818856615005B79B9 /* RestrictionsWeekDaysVC.m */; };
 		3A9AB59B18856615005B79B9 /* RestrictionsWeekDaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */; };
-		AF0E69CD185F8E52000A3E90 /* icon_home3.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CB185F8E52000A3E90 /* icon_home3.png */; };
-		AF0E69CE185F8E52000A3E90 /* icon_settings_sprinkler.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */; };
-		AF0E69D1185F94B0000A3E90 /* icon_home3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */; };
-		AF0E69D2185F94B0000A3E90 /* icon_settings_sprinkler@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D0185F94B0000A3E90 /* icon_settings_sprinkler@2x.png */; };
-		AF0E69D5185F9502000A3E90 /* icon_waternow.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D3185F9502000A3E90 /* icon_waternow.png */; };
-		AF0E69D6185F9502000A3E90 /* icon_waternow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF0E69D4185F9502000A3E90 /* icon_waternow@2x.png */; };
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
 		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
@@ -53,6 +47,12 @@
 		AF91C7F71858D757005888AA /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* ServerResponse.m */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
 		AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* WeatherData.m */; };
+		AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDA18893A5B005191DE /* icon_settings.png */; };
+		AFC5CEE118893A5B005191DE /* icon_settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDB18893A5B005191DE /* icon_settings@2x.png */; };
+		AFC5CEE218893A5B005191DE /* icon_stats.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDC18893A5B005191DE /* icon_stats.png */; };
+		AFC5CEE318893A5B005191DE /* icon_stats@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDD18893A5B005191DE /* icon_stats@2x.png */; };
+		AFC5CEE418893A5B005191DE /* icon_waternow.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDE18893A5B005191DE /* icon_waternow.png */; };
+		AFC5CEE518893A5B005191DE /* icon_waternow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDF18893A5B005191DE /* icon_waternow@2x.png */; };
 		AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* icon_status_ok.png */; };
 		AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */; };
 		AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* icon_status_warning.png */; };
@@ -352,12 +352,6 @@
 		3A9AB59718856615005B79B9 /* RestrictionsWeekDaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsWeekDaysVC.h; path = ViewController/RestrictionsWeekDaysVC.h; sourceTree = "<group>"; };
 		3A9AB59818856615005B79B9 /* RestrictionsWeekDaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsWeekDaysVC.m; path = ViewController/RestrictionsWeekDaysVC.m; sourceTree = "<group>"; };
 		3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsWeekDaysVC.xib; path = ViewController/RestrictionsWeekDaysVC.xib; sourceTree = "<group>"; };
-		AF0E69CB185F8E52000A3E90 /* icon_home3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_home3.png; path = Resources/icon_home3.png; sourceTree = "<group>"; };
-		AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings_sprinkler.png; path = Resources/icon_settings_sprinkler.png; sourceTree = "<group>"; };
-		AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_home3@2x.png"; path = "Resources/icon_home3@2x.png"; sourceTree = "<group>"; };
-		AF0E69D0185F94B0000A3E90 /* icon_settings_sprinkler@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_settings_sprinkler@2x.png"; path = "Resources/icon_settings_sprinkler@2x.png"; sourceTree = "<group>"; };
-		AF0E69D3185F9502000A3E90 /* icon_waternow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_waternow.png; path = Resources/icon_waternow.png; sourceTree = "<group>"; };
-		AF0E69D4185F9502000A3E90 /* icon_waternow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_waternow@2x.png"; path = "Resources/icon_waternow@2x.png"; sourceTree = "<group>"; };
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
 		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
 		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
@@ -408,6 +402,12 @@
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
 		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Communication/Response objects/WeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Communication/Response objects/WeatherData.m"; sourceTree = "<group>"; };
+		AFC5CEDA18893A5B005191DE /* icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings.png; path = Resources/icon_settings.png; sourceTree = "<group>"; };
+		AFC5CEDB18893A5B005191DE /* icon_settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_settings@2x.png"; path = "Resources/icon_settings@2x.png"; sourceTree = "<group>"; };
+		AFC5CEDC18893A5B005191DE /* icon_stats.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_stats.png; path = Resources/icon_stats.png; sourceTree = "<group>"; };
+		AFC5CEDD18893A5B005191DE /* icon_stats@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_stats@2x.png"; path = "Resources/icon_stats@2x.png"; sourceTree = "<group>"; };
+		AFC5CEDE18893A5B005191DE /* icon_waternow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_waternow.png; path = Resources/icon_waternow.png; sourceTree = "<group>"; };
+		AFC5CEDF18893A5B005191DE /* icon_waternow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_waternow@2x.png"; path = "Resources/icon_waternow@2x.png"; sourceTree = "<group>"; };
 		AFC7E93618579D7600ACA626 /* icon_status_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_status_ok.png; path = Resources/icon_status_ok.png; sourceTree = "<group>"; };
 		AFC7E93818579EE900ACA626 /* HomeScreenDataSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenDataSourceCell.h; path = Cells/HomeScreenDataSourceCell.h; sourceTree = "<group>"; };
 		AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenDataSourceCell.m; path = Cells/HomeScreenDataSourceCell.m; sourceTree = "<group>"; };
@@ -1038,8 +1038,6 @@
 				B1EF21131860495E00D9CE26 /* Settings */,
 				B1EF21111860494E00D9CE26 /* Stats */,
 				B1EF21121860495300D9CE26 /* WaterNow */,
-				AF2704F8184DE8040081155A /* AddSprinklerViewController.h */,
-				AF2704F9184DE8040081155A /* AddSprinklerViewController.m */,
 				B1213EA918607F32009D97F4 /* BaseViewController.h */,
 				B1213EAA18607F32009D97F4 /* BaseViewController.m */,
 				B1213EAC1860804E009D97F4 /* BaseLevel2ViewController.h */,
@@ -1158,12 +1156,12 @@
 				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
 				B1DF325F16A6A68700A1BF38 /* Default.png */,
 				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
-				AF0E69CB185F8E52000A3E90 /* icon_home3.png */,
-				AF0E69CF185F94B0000A3E90 /* icon_home3@2x.png */,
-				AF0E69D3185F9502000A3E90 /* icon_waternow.png */,
-				AF0E69D4185F9502000A3E90 /* icon_waternow@2x.png */,
-				AF0E69CC185F8E52000A3E90 /* icon_settings_sprinkler.png */,
-				AF0E69D0185F94B0000A3E90 /* icon_settings_sprinkler@2x.png */,
+				AFC5CEDA18893A5B005191DE /* icon_settings.png */,
+				AFC5CEDB18893A5B005191DE /* icon_settings@2x.png */,
+				AFC5CEDC18893A5B005191DE /* icon_stats.png */,
+				AFC5CEDD18893A5B005191DE /* icon_stats@2x.png */,
+				AFC5CEDE18893A5B005191DE /* icon_waternow.png */,
+				AFC5CEDF18893A5B005191DE /* icon_waternow@2x.png */,
 				AFC7E93618579D7600ACA626 /* icon_status_ok.png */,
 				AFF6A6B71888350400825A37 /* icon_status_ok@2x.png */,
 				AFCC57B3185860FD001F48F0 /* icon_status_warning.png */,
@@ -1326,6 +1324,8 @@
 		B1EF21061860491800D9CE26 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
+				AF2704F8184DE8040081155A /* AddSprinklerViewController.h */,
+				AF2704F9184DE8040081155A /* AddSprinklerViewController.m */,
 				B1EF21071860492B00D9CE26 /* AddNewDeviceVC.h */,
 				B1EF21081860492B00D9CE26 /* AddNewDeviceVC.m */,
 				B1EF21091860492B00D9CE26 /* AddNewDeviceVC.xib */,
@@ -1462,6 +1462,7 @@
 				B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */,
 				AFF635BD186F54900005EDF1 /* daily_stats_nfg@2x.png in Resources */,
 				AFF636E4186F55100005EDF1 /* main-screen_rasn@2x.png in Resources */,
+				AFC5CEE418893A5B005191DE /* icon_waternow.png in Resources */,
 				AFF635E0186F54900005EDF1 /* daily_stats_skc.png in Resources */,
 				AFF635B2186F54900005EDF1 /* daily_stats_mix.png in Resources */,
 				AFF636DD186F55100005EDF1 /* main-screen_ra.png in Resources */,
@@ -1473,7 +1474,6 @@
 				AFF636EF186F55100005EDF1 /* main-screen_tsra.png in Resources */,
 				AFF636D5186F55100005EDF1 /* main-screen_nsvrtsra.png in Resources */,
 				AFF635A7186F54900005EDF1 /* daily_stats_hi_ntsra@2x.png in Resources */,
-				AF0E69D1185F94B0000A3E90 /* icon_home3@2x.png in Resources */,
 				AFF636A5186F55100005EDF1 /* main-screen_fg.png in Resources */,
 				AFF636E9186F55100005EDF1 /* main-screen_skc.png in Resources */,
 				AFF635C5186F54900005EDF1 /* daily_stats_nrasn@2x.png in Resources */,
@@ -1543,6 +1543,7 @@
 				AFF6369E186F55100005EDF1 /* main-screen_blizzard@2x.png in Resources */,
 				B1583E7316A803970051B480 /* arrow@2x.png in Resources */,
 				AFF635E8186F54900005EDF1 /* daily_stats_wind.png in Resources */,
+				AFC5CEE118893A5B005191DE /* icon_settings@2x.png in Resources */,
 				AFF6369C186F55100005EDF1 /* main-screen_bkn@2x.png in Resources */,
 				AFF636B5186F55100005EDF1 /* main-screen_hot.png in Resources */,
 				AFF636D9186F55100005EDF1 /* main-screen_nwind.png in Resources */,
@@ -1559,15 +1560,14 @@
 				B1583E7D16A804E60051B480 /* web-forward-on-btn.png in Resources */,
 				AFF635B4186F54900005EDF1 /* daily_stats_na.png in Resources */,
 				B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */,
+				AFC5CEE518893A5B005191DE /* icon_waternow@2x.png in Resources */,
 				B1EF21101860493C00D9CE26 /* LoginVC.xib in Resources */,
-				AF0E69CD185F8E52000A3E90 /* icon_home3.png in Resources */,
 				AFF6359E186F54900005EDF1 /* daily_stats_frza.png in Resources */,
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
 				B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */,
 				AFF635CF186F54900005EDF1 /* daily_stats_ntsra@2x.png in Resources */,
 				AFF636B9186F55100005EDF1 /* main-screen_mist.png in Resources */,
 				AFF635A0186F54900005EDF1 /* daily_stats_fu.png in Resources */,
-				AF0E69CE185F8E52000A3E90 /* icon_settings_sprinkler.png in Resources */,
 				AFF636A2186F55100005EDF1 /* main-screen_du@2x.png in Resources */,
 				AFF636E5186F55100005EDF1 /* main-screen_sct.png in Resources */,
 				AFF635CB186F54900005EDF1 /* daily_stats_nsn@2x.png in Resources */,
@@ -1576,9 +1576,7 @@
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
 				AFF63594186F54900005EDF1 /* daily_stats_blizzard.png in Resources */,
 				AFF636DA186F55100005EDF1 /* main-screen_nwind@2x.png in Resources */,
-				AF0E69D6185F9502000A3E90 /* icon_waternow@2x.png in Resources */,
 				AFF636B7186F55100005EDF1 /* main-screen_ip.png in Resources */,
-				AF0E69D5185F9502000A3E90 /* icon_waternow.png in Resources */,
 				AFF635AB186F54900005EDF1 /* daily_stats_hi_tsra@2x.png in Resources */,
 				B1254CCC187EE054004E2F0E /* EditCell.xib in Resources */,
 				AFF635BE186F54900005EDF1 /* daily_stats_nmix.png in Resources */,
@@ -1589,6 +1587,7 @@
 				AFF635AC186F54900005EDF1 /* daily_stats_hot.png in Resources */,
 				AFF636A8186F55100005EDF1 /* main-screen_frza@2x.png in Resources */,
 				AFF63593186F54900005EDF1 /* daily_stats_bkn@2x.png in Resources */,
+				AFC5CEE318893A5B005191DE /* icon_stats@2x.png in Resources */,
 				AFF63595186F54900005EDF1 /* daily_stats_blizzard@2x.png in Resources */,
 				AFF635C4186F54900005EDF1 /* daily_stats_nrasn.png in Resources */,
 				AFF635B6186F54900005EDF1 /* daily_stats_nbkn.png in Resources */,
@@ -1652,12 +1651,13 @@
 				AFF635A8186F54900005EDF1 /* daily_stats_hi_shwrs.png in Resources */,
 				AFF636E8186F55100005EDF1 /* main-screen_shra@2x.png in Resources */,
 				AFF636AE186F55100005EDF1 /* main-screen_hi_nshwrs@2x.png in Resources */,
+				AFC5CEE218893A5B005191DE /* icon_stats.png in Resources */,
 				B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */,
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AFF635C3186F54900005EDF1 /* daily_stats_nra@2x.png in Resources */,
 				AFF635E6186F54900005EDF1 /* daily_stats_tsra.png in Resources */,
 				AFF636E2186F55100005EDF1 /* main-screen_raip@2x.png in Resources */,
-				AF0E69D2185F94B0000A3E90 /* icon_settings_sprinkler@2x.png in Resources */,
+				AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */,
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,
 				AFF636D1186F55100005EDF1 /* main-screen_nskc.png in Resources */,
 				AFF636CB186F55100005EDF1 /* main-screen_nra.png in Resources */,

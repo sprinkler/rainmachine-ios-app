@@ -27,6 +27,8 @@ extern float kBarBlueColor[3];
 extern float kWaterImageFillColor[3];
 extern float kWaterImageStrokeColor[3];
 
+extern int const kMaxCounterValue;
+
 extern NSString *daysOfTheWeek[7];
 
 #define kLoggedOut_AlertViewTag   1

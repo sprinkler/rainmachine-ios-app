@@ -7,11 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WaterNowLevel1VC">
             <connections>
-                <outlet property="ativityIndicator" destination="pba-FE-FFy" id="WYD-0v-skk"/>
                 <outlet property="buttonDown" destination="cGm-B7-oKl" id="56c-7U-8J8"/>
                 <outlet property="buttonUp" destination="5RT-aF-4Cr" id="UKg-Mk-VKG"/>
                 <outlet property="counterLabel" destination="CTN-uG-pW0" id="Z6C-ia-smw"/>
+                <outlet property="initialTimerRequestActivityIndicator" destination="5cH-65-G46" id="m11-Jq-HAj"/>
                 <outlet property="startButton" destination="YXi-li-OTW" id="fja-a6-6La"/>
+                <outlet property="startStopActivityIndicator" destination="pba-FE-FFy" id="FO4-W4-reV"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -20,13 +21,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTN-uG-pW0">
-                    <rect key="frame" x="37" y="34" width="247" height="142"/>
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTN-uG-pW0">
+                    <rect key="frame" x="3" y="34" width="315" height="142"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="142" id="FrY-HA-K2c"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="100"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="96"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -84,6 +85,10 @@
                 </button>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pba-FE-FFy">
                     <rect key="frame" x="274" y="414" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5cH-65-G46">
+                    <rect key="frame" x="-59" y="-50" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
             </subviews>
