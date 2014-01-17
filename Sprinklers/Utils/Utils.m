@@ -118,3 +118,13 @@
 }
 
 @end
+
+float evenValue(float value)
+{
+    int intValue = roundf(value);
+    if (intValue % 2 == 1) {
+        intValue++;
+    }
+    
+    return (float)intValue;
+}

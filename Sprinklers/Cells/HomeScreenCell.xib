@@ -40,8 +40,29 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZDg-1n-cW1">
-                        <rect key="frame" x="185" y="22" width="103" height="21"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LEt-ji-f8e">
+                        <rect key="frame" x="185" y="22" width="30" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/ Lo: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mwy-wv-FzY">
+                        <rect key="frame" x="245" y="22" width="32" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zuB-Cy-UZa">
+                        <rect key="frame" x="276" y="22" width="54" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="u06-oO-tYy">
+                        <rect key="frame" x="202" y="22" width="49" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -61,7 +82,10 @@
                 <outlet property="daylabel" destination="scd-YP-cyF" id="xvM-hn-wXO"/>
                 <outlet property="notAvailableLabel" destination="kyt-L2-E3j" id="koB-w3-g4R"/>
                 <outlet property="percentageLabel" destination="AFE-dd-inf" id="MbU-CM-ie9"/>
-                <outlet property="temperatureLabel" destination="ZDg-1n-cW1" id="ETh-0t-clu"/>
+                <outlet property="temperatureLabel" destination="LEt-ji-f8e" id="6ke-OZ-Zc7"/>
+                <outlet property="temperatureLabelPart2" destination="u06-oO-tYy" id="HXU-f5-y3Q"/>
+                <outlet property="temperatureLabelPart3" destination="mwy-wv-FzY" id="Lks-G4-SNc"/>
+                <outlet property="temperatureLabelPart4" destination="zuB-Cy-UZa" id="GP6-EM-hpK"/>
                 <outlet property="waterImage" destination="923-YU-T1b" id="tcn-5V-PeR"/>
                 <outlet property="waterWavesImageView" destination="ga1-L9-7Og" id="lsD-yu-SLf"/>
                 <outlet property="weatherImage" destination="siT-DN-4Ad" id="4eW-WU-G4e"/>

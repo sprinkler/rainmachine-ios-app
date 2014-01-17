@@ -23,3 +23,5 @@
 + (int)checkOSVersion;
 
 @end
+
+float evenValue(float value);

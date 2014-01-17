@@ -7,6 +7,7 @@
 //
 
 #import "+UILabel.h"
+#import "Constants.h"
 
 @implementation UILabel (Additions)
 
@@ -20,7 +21,7 @@
 
 - (void)setCustomRMFontWithCode:(unsigned short)code size:(int)size
 {
-    self.font = [UIFont fontWithName:@"rainmachine" size:size];
+    self.font = [UIFont fontWithName:kCustomRMFontName size:size];
     self.text = [NSString stringWithFormat:@"%C", code];
 }
 

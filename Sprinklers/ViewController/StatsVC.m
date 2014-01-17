@@ -147,11 +147,48 @@ const float kHomeScreenCellHeight = 66;
     static NSString *CellIdentifier = @"HomeScreenCell";
     HomeScreenTableViewCell *cell = (HomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     WeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
+    BOOL error = (weatherData.error) && ([weatherData.error intValue] == 1);
+   
     cell.waterPercentage = [weatherData.percentage floatValue];
     cell.waterImage.image = self.waterImage;
     cell.waterWavesImageView.image = self.waterWavesImage;
     cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(100 * [weatherData.percentage floatValue])];
-    cell.temperatureLabel.text = [NSString stringWithFormat:@"Hi: %@° / Lo: %@°", weatherData.maxt, weatherData.mint];
+    BOOL maxtValid = ((error) || (!weatherData.maxt));
+    BOOL mintValid = ((error) || (!weatherData.mint));
+
+    if ((maxtValid) && (mintValid)) {
+        cell.temperatureLabelPart2.hidden = YES;
+        cell.temperatureLabelPart3.hidden = YES;
+        cell.temperatureLabelPart4.hidden = YES;
+        cell.temperatureLabel.text = [NSString stringWithFormat:@"Hi: %@° / Lo: %@°", weatherData.maxt, weatherData.mint];
+    } else {
+        cell.temperatureLabelPart2.hidden = NO;
+        cell.temperatureLabelPart3.hidden = NO;
+        cell.temperatureLabelPart4.hidden = NO;
+        
+        if ((!maxtValid) && (!mintValid)) {
+            cell.temperatureLabel.text = @"Hi:";
+            [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:30];
+            cell.temperatureLabelPart3.text = @"Lo:";
+            [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:30];
+        } else {
+            if (!maxtValid) {
+                cell.temperatureLabel.text = @"Hi:";
+                [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:30];
+                cell.temperatureLabelPart3.text = @"/ Lo: ";
+                cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:13];
+                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°", weatherData.mint];
+            } else {
+                // !mintValid
+                cell.temperatureLabel.text = @"Hi: ";
+                cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:13];
+                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°", weatherData.maxt];
+                cell.temperatureLabelPart3.text = @"/ Lo:";
+                [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:30];
+            }
+        }
+    }
+    
     if ([weatherData.id intValue] == 0) {
         cell.daylabel.text = @"Today";
     }
@@ -165,12 +202,8 @@ const float kHomeScreenCellHeight = 66;
     
     UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
     cell.weatherImage.image = weatherImage;
-
-    if (([weatherData.maxt intValue] == -32000) ||
-        ([weatherData.mint intValue] == -32000) ||
-        ((weatherData.error) && ([weatherData.error intValue] == 1)) ||
-        ([weatherData.percentage floatValue] == 0)
-        ) {
+    
+    if ((error) || (!weatherData.percentage)) {
         cell.waterImage.hidden = YES;
         cell.waterWavesImageView.hidden = YES;
         cell.percentageLabel.hidden = YES;
