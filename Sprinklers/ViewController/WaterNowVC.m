@@ -27,7 +27,7 @@
 }
 
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) ServerProxy *pollServerProxy; // TODO: rename it to pollServerProxy or something better
+@property (strong, nonatomic) ServerProxy *pollServerProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) NSArray *zones;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
@@ -65,8 +65,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    //TODO: Load current sprinkler from SettingsManager here and update content if needed.
     
     [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:YES]];
 }

@@ -343,7 +343,7 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     if ([self.HTTPMethodsEncodingParametersInURI containsObject:[[request HTTPMethod] uppercaseString]]) {
         mutableRequest.URL = [NSURL URLWithString:[[mutableRequest.URL absoluteString] stringByAppendingFormat:mutableRequest.URL.query ? @"&%@" : @"?%@", query]];
     } else {
-        NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(self.stringEncoding));
+//        NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(self.stringEncoding));
         [mutableRequest setValue:[NSString stringWithFormat:@"application/x-www-form-urlencoded"] forHTTPHeaderField:@"Content-Type"];
         [mutableRequest setValue:@"38" forHTTPHeaderField:@"Content-Length"];
         [mutableRequest setHTTPBody:[query dataUsingEncoding:self.stringEncoding]];
@@ -1045,21 +1045,12 @@ typedef enum {
         return mutableRequest;
     }
 
-    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+//    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
 
 //    [mutableRequest setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
+    // Matyas: part "charset=%@" of the Content-Type header was removed because the server didn't like it and was throwing "500 - Internal Server Error"
     [mutableRequest setValue:[NSString stringWithFormat:@"application/json"] forHTTPHeaderField:@"Content-Type"];
   
-  // TODO: remove these lines
-  // Test 2
-//  NSString *test = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error] encoding:NSUTF8StringEncoding];
-//  test = [test stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-//  [mutableRequest setHTTPBody:[test dataUsingEncoding:NSUTF8StringEncoding]];
-  
-  // Test 1
-//  NSString *test = @"{counter: 0, id: 4}";
-//  [mutableRequest setHTTPBody:[test dataUsingEncoding:NSUTF8StringEncoding]];
-
   [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
 
     return mutableRequest;

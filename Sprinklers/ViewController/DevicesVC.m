@@ -48,7 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //TODO: remove this observers when sprinkler is selected and view closes !
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
     
@@ -124,9 +123,10 @@
 }
 
 - (void)appDidBecomeActive {
-    if (self.navigationController.visibleViewController == self) {
+// Is current view visible?
+//    if (self.navigationController.visibleViewController == self) {
         [self shouldStartBroadcast];
-    }
+//    }
 }
 
 - (void)appDidResignActive {
@@ -138,8 +138,6 @@
         [silentTimer invalidate];
     }
     [self hideHud];
-    //if (alertView)
-    //    [alertView dismissWithClickedButtonIndex:4 animated:YES];
 }
 
 - (void)startHud:(NSString *)text {

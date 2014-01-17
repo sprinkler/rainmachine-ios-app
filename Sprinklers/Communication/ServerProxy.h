@@ -38,16 +38,16 @@
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe;
 
 - (void)requestWeatherData;
+
 - (void)requestWaterNowZoneList;
 - (void)requestWaterActionsForZone:(NSNumber*)zoneId;
+- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 
 - (void)requestPrograms;
 - (void)deleteProgram:(int)programId;
 
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;
-
-- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 
 - (void)cancelAllOperations;
 

@@ -170,7 +170,7 @@
                                              }];
 }
 
-// Change property of a zone (Used in Water Now->Zone screen and when toggling watering using switches from main screen)
+// Toggle a zone (Used in Water Now->Zone screen and when toggling watering using switches from main screen)
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
     BOOL isIdle = [Utils isZoneIdle:zone];

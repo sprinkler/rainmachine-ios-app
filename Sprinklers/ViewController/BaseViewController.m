@@ -53,14 +53,14 @@
     lblDeviceName = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 24)];
     lblDeviceName.backgroundColor = [UIColor clearColor];
     lblDeviceName.textColor = [UIColor whiteColor];
-    lblDeviceName.text = [StorageManager current].currentSprinkler.name;  //TODO: replace with name from Sprinkler
+    lblDeviceName.text = [StorageManager current].currentSprinkler.name;
     lblDeviceName.font = [UIFont systemFontOfSize:18.0f];
     [customTitle addSubview:lblDeviceName];
     
     lblDeviceAddress = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 200, 20)];
     lblDeviceAddress.backgroundColor = [UIColor clearColor];
     lblDeviceAddress.textColor = [UIColor whiteColor];
-    lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;//TODO: replace with address from Sprinkler
+    lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
     lblDeviceAddress.font = [UIFont systemFontOfSize:10.0];
     [customTitle addSubview:lblDeviceAddress];
     

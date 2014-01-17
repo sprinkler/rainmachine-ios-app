@@ -79,8 +79,6 @@ const float kHomeScreenCellHeight = 66;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    //TODO: Load current sprinkler from SettingsManager here and update content if needed.
-    
     [self.serverProxy requestWeatherData];
     [self startHud:nil]; // @"Receiving data..."
     
@@ -280,8 +278,8 @@ const float kHomeScreenCellHeight = 66;
 {
     NSString *dateAsString = stringDate;
     if ([[dateAsString componentsSeparatedByString:@","] count] == 2) {
-        // TODO: remove this hack
-        // In case there are only two date components, we assume that the year is not present
+        // TODO: remove this hack for API v4
+        // In case there are only two date components, we assume that the year is not present and append the current year
         dateAsString = [NSString stringWithFormat:@"%@, %d", dateAsString, [[NSDate date] year]];
     }
     
