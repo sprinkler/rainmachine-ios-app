@@ -14,6 +14,8 @@
 #import "MBProgressHUD.h"
 #import "StorageManager.h"
 #import "RestrictionsData.h"
+#import "PickerVC.h"
+#import "SettingsHoursVC.h"
 
 @interface RestrictionsVC ()
 
@@ -93,7 +95,7 @@
     [self.hud hide:YES];
     
     NSMutableArray* restrictionsDataArray = data;
-    RestrictionsData* restrictionsData = restrictionsDataArray[0];
+    //RestrictionsData* restrictionsData = restrictionsDataArray[0];
 
     [_tableView reloadData];
 }
@@ -197,18 +199,32 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated: YES];
     
-    switch (indexPath.row) {
+    switch (indexPath.row)
+    {
+        case 1:
+        {
+            PickerVC *pickerVC = [[PickerVC alloc] init];
+            [self.navigationController pushViewController:pickerVC animated:YES];
+        }break;
+            
         case 2:
         {
             RestrictedMonthsVC *restrictedMonths = [[RestrictedMonthsVC alloc] init];
             [self.navigationController pushViewController: restrictedMonths animated:YES];
         }
         break;
-            
+                
         case 3:
         {
             RestrictionsWeekDaysVC *restrictionsWeekDaysVC = [[RestrictionsWeekDaysVC alloc] init];
             [self.navigationController pushViewController: restrictionsWeekDaysVC animated:YES];
+        }
+        break;
+
+        case 4:
+        {
+            SettingsHoursVC *settingsHoursVC = [[SettingsHoursVC alloc] init];
+            [self.navigationController pushViewController: settingsHoursVC animated:YES];
         }
         break;
             
