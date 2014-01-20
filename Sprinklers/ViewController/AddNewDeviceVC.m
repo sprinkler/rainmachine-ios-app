@@ -7,8 +7,17 @@
 //
 
 #import "AddNewDeviceVC.h"
+#import "Sprinkler.h"
+#import "StorageManager.h"
+#import "Constants.h"
+#import "ColoredBackgroundButton.h"
 
 @interface AddNewDeviceVC ()
+
+@property (weak, nonatomic) IBOutlet UITextField *urlOrIPTextField;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *tokenEmailTextField;
+@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *saveButton;
 
 @end
 
@@ -26,7 +35,72 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
+    if (self.sprinkler) {
+        self.nameTextField.text = self.sprinkler.name;
+        self.urlOrIPTextField.text = self.sprinkler.address;
+    }
+
+    // Customize the Save button
+    [self.saveButton setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
+}
+
+#pragma mark - Actions
+
+- (IBAction)onSave:(id)sender {
+    NSString *name = self.nameTextField.text;
+    NSString *address = self.urlOrIPTextField.text;
+    
+    if ([address length] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete fields." message:@"Please provide a value for the IP address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    
+    if ([name length] == 0) {
+        name = address;
+    }
+    
+    if (![address hasPrefix:@"http://"] && ![address hasPrefix:@"https://"]) {
+        address = [NSString stringWithFormat:@"https://%@", address];
+    }
+    
+    if ([address hasPrefix:@"http://"]) {
+        address = [address stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+    }
+    
+    if (_sprinkler) {
+        _sprinkler.name = self.nameTextField.text;
+        _sprinkler.address = self.urlOrIPTextField.text;
+        [[StorageManager current] saveData];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {
+        if (![[StorageManager current] getSprinkler:name]) {
+            [[StorageManager current] addSprinkler:name ipAddress:address port:0];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"A sprinkler with the same name already exists. Please select another name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            return;
+        }
+    }
+}
+
+#pragma mark - UITextField delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ((textField == self.nameTextField) ||
+        (textField == self.tokenEmailTextField) ||
+        (textField == self.urlOrIPTextField)
+        ) {
+        [textField resignFirstResponder];
+        
+        return YES;
+    }
+    
+    return NO;
 }
 
 #pragma mark - Dealloc

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class Sprinkler;
+
 @interface AddNewDeviceVC : UIViewController
+
+@property (strong, nonatomic) Sprinkler *sprinkler;
 
 @end

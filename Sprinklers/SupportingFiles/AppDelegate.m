@@ -50,6 +50,7 @@
     _tabBarController.viewControllers = @[navStats, navWater, navSettings];
     self.window.rootViewController = _tabBarController;
   
+    // TODO: remove this hack in production builds!
     NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
     Sprinkler *sprinkler = [[StorageManager current] getSprinkler:kTestSprinklerName];
     if (!sprinkler) {
