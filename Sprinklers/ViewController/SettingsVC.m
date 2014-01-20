@@ -153,14 +153,12 @@
             [self.navigationController pushViewController: restrictionsVC animated:YES];
         }
         break;
-    
+            
         case 4:
         {
         }
         break;
             
-        case 5:
-            break;
         default:
             break;
     }
