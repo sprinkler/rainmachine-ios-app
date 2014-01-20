@@ -11,11 +11,12 @@
 #import "DevicesVC.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
+#import "Utils.h"
 
-@interface BaseViewController () {
-    UILabel *lblDeviceName;
-    UILabel *lblDeviceAddress;
-}
+@interface BaseViewController ()
+
+@property (strong, nonatomic) UILabel *lblDeviceName;
+@property (strong, nonatomic) UILabel *lblDeviceAddress;
 
 @end
 
@@ -49,29 +50,22 @@
 }
 
 - (void)updateTitle {
-    UIView *customTitle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
-    lblDeviceName = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 24)];
-    lblDeviceName.backgroundColor = [UIColor clearColor];
-    lblDeviceName.textColor = [UIColor whiteColor];
-    lblDeviceName.text = [StorageManager current].currentSprinkler.name;
-    lblDeviceName.font = [UIFont systemFontOfSize:18.0f];
-    [customTitle addSubview:lblDeviceName];
+    UILabel *lblDeviceName;
+    UILabel *lblDeviceAddress;
+    self.navigationItem.titleView = [Utils customSprinklerTitleWithOutDeviceView:&lblDeviceName outDeviceAddressView:&lblDeviceAddress];
+
+    self.lblDeviceName = lblDeviceName;
+    self.lblDeviceAddress = lblDeviceAddress;
     
-    lblDeviceAddress = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 200, 20)];
-    lblDeviceAddress.backgroundColor = [UIColor clearColor];
-    lblDeviceAddress.textColor = [UIColor whiteColor];
-    lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
-    lblDeviceAddress.font = [UIFont systemFontOfSize:10.0];
-    [customTitle addSubview:lblDeviceAddress];
-    
-    self.navigationItem.titleView = customTitle;
+    self.lblDeviceName.text = [StorageManager current].currentSprinkler.name;
+    self.lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    lblDeviceName.text = [StorageManager current].currentSprinkler.name;
-    lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
+    _lblDeviceName.text = [StorageManager current].currentSprinkler.name;
+    _lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
 }
 
 #pragma mark - Methods

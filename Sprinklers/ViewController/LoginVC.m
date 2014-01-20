@@ -15,6 +15,7 @@
 #import "StorageManager.h"
 #import "DevicesVC.h"
 #import "ColoredBackgroundButton.h"
+#import "Utils.h"
 
 @interface LoginVC () {
     ServerProxy *serverProxy;
@@ -42,24 +43,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
+    UILabel *lblDeviceName;
+    UILabel *lblDeviceAddress;
+    self.navigationItem.titleView = [Utils customSprinklerTitleWithOutDeviceView:&lblDeviceName outDeviceAddressView:&lblDeviceAddress];
     
-    UIView *customTitle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
-    UILabel *lblDeviceName = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 200, 24)];
-    lblDeviceName.backgroundColor = [UIColor clearColor];
-    lblDeviceName.textColor = [UIColor whiteColor];
     lblDeviceName.text = _sprinkler.name;
-    lblDeviceName.font = [UIFont systemFontOfSize:18.0f];
-    [customTitle addSubview:lblDeviceName];
-    
-    UILabel *lblDeviceAddress = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, 200, 20)];
-    lblDeviceAddress.backgroundColor = [UIColor clearColor];
-    lblDeviceAddress.textColor = [UIColor whiteColor];
     lblDeviceAddress.text = _sprinkler.address;
-    lblDeviceAddress.font = [UIFont systemFontOfSize:10.0];
-    [customTitle addSubview:lblDeviceAddress];
-    
-    self.navigationItem.titleView = customTitle;
     
     [_buttonLogin setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
     

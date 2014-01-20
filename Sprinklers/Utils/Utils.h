@@ -17,6 +17,8 @@
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;
 
++ (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
+
 + (UIImage*)waterWavesImage:(float)height;
 + (UIImage*)waterImage:(float)height;
 

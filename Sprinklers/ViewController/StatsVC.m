@@ -89,6 +89,7 @@ const float kHomeScreenCellHeight = 66;
 {
     [super viewWillDisappear:animated];
     
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self.serverProxy cancelAllOperations];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
@@ -196,8 +197,6 @@ const float kHomeScreenCellHeight = 66;
         cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
     }
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
     UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
     cell.weatherImage.image = weatherImage;
     
@@ -245,9 +244,10 @@ const float kHomeScreenCellHeight = 66;
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
 {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
     NSArray *dataArray = (NSArray*)data;
     if ([dataArray count] > 0) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         [self handleGeneralSprinklerError:nil showErrorMessage:YES];
         
@@ -261,6 +261,7 @@ const float kHomeScreenCellHeight = 66;
         [self.tableView reloadData];
         [self.dataSourceTableView reloadData];
     } else {
+        // For some reason sometimes the server sends wrongly an empty list
         DLog(@"Warning. Empty response received from server (Stats screen).");
     }
 }
