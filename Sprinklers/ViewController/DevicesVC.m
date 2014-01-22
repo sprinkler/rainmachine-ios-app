@@ -252,6 +252,9 @@
             login.parent = self;
             [self.navigationController pushViewController:login animated:YES];
         }
+    } else {
+        AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+        [self.navigationController pushViewController:addNewDeviceVC animated:YES];
     }
 }
 

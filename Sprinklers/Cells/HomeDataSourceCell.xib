@@ -34,7 +34,7 @@
                     </imageView>
                 </subviews>
             </tableViewCellContentView>
-            <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="dataSourceLabel" destination="Fss-Jg-ELk" id="UIk-9D-dQe"/>
                 <outlet property="lastUpdatedLabel" destination="P8a-lp-IfI" id="9nW-Ng-em7"/>

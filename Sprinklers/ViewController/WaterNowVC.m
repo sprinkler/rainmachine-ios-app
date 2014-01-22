@@ -73,8 +73,9 @@
 {
     [super viewWillDisappear:animated];
     
-    [self.pollServerProxy cancelAllOperations];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     
+    [self.pollServerProxy cancelAllOperations];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 

@@ -41,6 +41,26 @@
     return [zone.state isEqualToString:@"Pending"];
 }
 
+# pragma mark - Sprinkler related views
+
++ (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress
+{
+    UIView *customTitle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
+    *lblDeviceName = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 24)];
+    (*lblDeviceName).backgroundColor = [UIColor clearColor];
+    (*lblDeviceName).textColor = [UIColor whiteColor];
+    (*lblDeviceName).font = [UIFont boldSystemFontOfSize:18.0f];
+    [customTitle addSubview:*lblDeviceName];
+    
+    *lblDeviceAddress = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 200, 20)];
+    (*lblDeviceAddress).backgroundColor = [UIColor clearColor];
+    (*lblDeviceAddress).textColor = [UIColor whiteColor];
+    (*lblDeviceAddress).font = [UIFont systemFontOfSize:10.0];
+    [customTitle addSubview:*lblDeviceAddress];
+    
+    return customTitle;
+}
+
 #pragma mark - Sprinkler water image generation
 
 + (UIImage*)waterWavesImage:(float)height

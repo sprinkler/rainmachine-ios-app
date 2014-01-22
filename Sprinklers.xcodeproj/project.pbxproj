@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9D13616B0B56900E6152B /* ServiceManager.m */; };
-		3A4437EF188A7F1A004F9E11 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437EE188A7F1A004F9E11 /* PickerVC.m */; };
 		3A4437F3188A8705004F9E11 /* PickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437F2188A8705004F9E11 /* PickerVC.xib */; };
 		3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437FD188A93FD004F9E11 /* SettingsHoursVC.m */; };
 		3A443800188A93FD004F9E11 /* SettingsHoursVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437FE188A93FD004F9E11 /* SettingsHoursVC.xib */; };
@@ -28,11 +27,6 @@
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
 		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
-		AF0EFF5C1861C504007BF852 /* WaterNowTimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */; };
-		AF0EFF5E1861C516007BF852 /* WaterNowStartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */; };
-		AF0EFF611861C55B007BF852 /* WaterNowStartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */; };
-		AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */; };
-		AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF2704F9184DE8040081155A /* AddSprinklerViewController.m */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
@@ -64,6 +58,8 @@
 		AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* icon_status_warning.png */; };
 		AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCC57B6185861E7001F48F0 /* Sprinkler.m */; };
 		AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* Utils.m */; };
+		AFCF47BA188D532100C34727 /* separator_line.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCF47B9188D532100C34727 /* separator_line.png */; };
+		AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437EE188A7F1A004F9E11 /* PickerVC.m */; };
 		AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE749861880255500CC3620 /* ColoredBackgroundButton.m */; };
 		AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */; };
 		AFF63593186F54900005EDF1 /* daily_stats_bkn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */; };
@@ -367,14 +363,6 @@
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
 		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
 		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
-		AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterNowTimerCell.xib; path = Cells/WaterNowTimerCell.xib; sourceTree = "<group>"; };
-		AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterNowStartCell.xib; path = Cells/WaterNowStartCell.xib; sourceTree = "<group>"; };
-		AF0EFF5F1861C55B007BF852 /* WaterNowStartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowStartCell.h; path = Cells/WaterNowStartCell.h; sourceTree = "<group>"; };
-		AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowStartCell.m; path = Cells/WaterNowStartCell.m; sourceTree = "<group>"; };
-		AF0EFF621861C573007BF852 /* WaterNowTimerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowTimerCell.h; path = Cells/WaterNowTimerCell.h; sourceTree = "<group>"; };
-		AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowTimerCell.m; path = Cells/WaterNowTimerCell.m; sourceTree = "<group>"; };
-		AF2704F8184DE8040081155A /* AddSprinklerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddSprinklerViewController.h; path = ViewController/AddSprinklerViewController.h; sourceTree = "<group>"; };
-		AF2704F9184DE8040081155A /* AddSprinklerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddSprinklerViewController.m; path = ViewController/AddSprinklerViewController.m; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -429,6 +417,7 @@
 		AFCC57B6185861E7001F48F0 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AFCDF79D185DBE2700F9C57E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AFCDF79E185DBE2700F9C57E /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		AFCF47B9188D532100C34727 /* separator_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separator_line.png; path = Resources/separator_line.png; sourceTree = "<group>"; };
 		AFE749851880255500CC3620 /* ColoredBackgroundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColoredBackgroundButton.h; path = Controls/ColoredBackgroundButton.h; sourceTree = "<group>"; };
 		AFE749861880255500CC3620 /* ColoredBackgroundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColoredBackgroundButton.m; path = Controls/ColoredBackgroundButton.m; sourceTree = "<group>"; };
 		AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_bkn.png; sourceTree = "<group>"; };
@@ -1109,12 +1098,6 @@
 				AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */,
 				AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */,
 				AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */,
-				AF0EFF5F1861C55B007BF852 /* WaterNowStartCell.h */,
-				AF0EFF601861C55B007BF852 /* WaterNowStartCell.m */,
-				AF0EFF5D1861C516007BF852 /* WaterNowStartCell.xib */,
-				AF0EFF621861C573007BF852 /* WaterNowTimerCell.h */,
-				AF0EFF631861C573007BF852 /* WaterNowTimerCell.m */,
-				AF0EFF5B1861C503007BF852 /* WaterNowTimerCell.xib */,
 				AF789761185C955F00449381 /* WaterZoneListCell.h */,
 				AF789762185C955F00449381 /* WaterZoneListCell.m */,
 				AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */,
@@ -1159,6 +1142,7 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AFCF47B9188D532100C34727 /* separator_line.png */,
 				AFA5FE281880740300C948F8 /* rainmachine.ttf */,
 				AFF63642186F55100005EDF1 /* main-screen */,
 				AFF634E0186F54900005EDF1 /* daily-stats */,
@@ -1330,8 +1314,6 @@
 		B1EF21061860491800D9CE26 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
-				AF2704F8184DE8040081155A /* AddSprinklerViewController.h */,
-				AF2704F9184DE8040081155A /* AddSprinklerViewController.m */,
 				B1EF21071860492B00D9CE26 /* AddNewDeviceVC.h */,
 				B1EF21081860492B00D9CE26 /* AddNewDeviceVC.m */,
 				B1EF21091860492B00D9CE26 /* AddNewDeviceVC.xib */,
@@ -1508,7 +1490,6 @@
 				AFF636B0186F55100005EDF1 /* main-screen_hi_ntsra@2x.png in Resources */,
 				AFF636A0186F55100005EDF1 /* main-screen_cold@2x.png in Resources */,
 				AFF63596186F54900005EDF1 /* daily_stats_cold.png in Resources */,
-				AF0EFF5E1861C516007BF852 /* WaterNowStartCell.xib in Resources */,
 				AFF636ED186F55100005EDF1 /* main-screen_sn.png in Resources */,
 				AFF6359D186F54900005EDF1 /* daily_stats_fg@2x.png in Resources */,
 				B1EF21181860497B00D9CE26 /* SettingsVC.xib in Resources */,
@@ -1646,7 +1627,6 @@
 				AFF635D8186F54900005EDF1 /* daily_stats_raip.png in Resources */,
 				AFF6369D186F55100005EDF1 /* main-screen_blizzard.png in Resources */,
 				AFF636EA186F55100005EDF1 /* main-screen_skc@2x.png in Resources */,
-				AF0EFF5C1861C504007BF852 /* WaterNowTimerCell.xib in Resources */,
 				AFF636F0186F55100005EDF1 /* main-screen_tsra@2x.png in Resources */,
 				AFF636BC186F55100005EDF1 /* main-screen_mix@2x.png in Resources */,
 				AFF6A6B6188834E400825A37 /* icon_disclosure_triangle@2x.png in Resources */,
@@ -1661,6 +1641,7 @@
 				B1EF210B1860492B00D9CE26 /* AddNewDeviceVC.xib in Resources */,
 				AFF636CA186F55100005EDF1 /* main-screen_novc@2x.png in Resources */,
 				AFF635D4186F54900005EDF1 /* daily_stats_ra.png in Resources */,
+				AFCF47BA188D532100C34727 /* separator_line.png in Resources */,
 				AFF636BF186F55100005EDF1 /* main-screen_nbkn.png in Resources */,
 				AFF6359F186F54900005EDF1 /* daily_stats_frza@2x.png in Resources */,
 				AFF635A8186F54900005EDF1 /* daily_stats_hi_shwrs.png in Resources */,
@@ -1722,6 +1703,7 @@
 				3A9AB581188544B7005B79B9 /* SettingsRestrictionsHotDaysCell.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
 				B1254CB6187D7A33004E2F0E /* Zone.m in Sources */,
+				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
@@ -1733,14 +1715,12 @@
 				AF7AC9D7184E3DEB0047BD9E /* AFURLRequestSerialization.m in Sources */,
 				B1254CC1187DBD61004E2F0E /* RainDelayVC.m in Sources */,
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,
-				AF2704FA184DE8040081155A /* AddSprinklerViewController.m in Sources */,
 				AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZonePropertiesVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
-				AF0EFF611861C55B007BF852 /* WaterNowStartCell.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
@@ -1748,8 +1728,6 @@
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
 				3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */,
-				3A4437EF188A7F1A004F9E11 /* PickerVC.m in Sources */,
-				AF0EFF641861C573007BF852 /* WaterNowTimerCell.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
