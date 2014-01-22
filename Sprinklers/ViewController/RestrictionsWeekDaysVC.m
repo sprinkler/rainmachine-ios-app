@@ -7,6 +7,7 @@
 //
 
 #import "RestrictionsWeekDaysVC.h"
+#import "RestrictionsCell.h"
 #import "+UIDevice.h"
 
 @interface RestrictionsWeekDaysVC ()
@@ -30,8 +31,9 @@
     // Do any additional setup after loading the view from its nib.
     
     [_tableView registerNib:[UINib nibWithNibName: @"RestrictionsCell" bundle:nil] forCellReuseIdentifier: @"RestrictionsCell"];
-    
+        
     self.title = @"Restricted Days";
+    self.restrictedDays = @"0100001";   
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,14 +81,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"RestrictionsCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    RestrictionsCell *cell = (RestrictionsCell*)[tableView dequeueReusableCellWithIdentifier: CellIdentifier];
     
     NSString* weekDays[] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday",@"Saturday", @"Sunday"};
+    
+    cell.onOffSwitch.on = [self.restrictedDays characterAtIndex: indexPath.row] == '1';
     
     cell.textLabel.text = weekDays[indexPath.row];
     cell.detailTextLabel.text = @"";
     
-    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+    if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     }
     

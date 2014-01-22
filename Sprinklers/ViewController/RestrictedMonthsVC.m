@@ -7,6 +7,7 @@
 //
 
 #import "RestrictedMonthsVC.h"
+#import "RestrictionsCell.h"
 #import "+UIDevice.h"
 
 @interface RestrictedMonthsVC ()
@@ -32,6 +33,8 @@
     [_tableView registerNib:[UINib nibWithNibName: @"RestrictionsCell" bundle:nil] forCellReuseIdentifier: @"RestrictionsCell"];
     
     self.title = @"Restricted Months";
+    
+    self.restrictedMonths = @"100101011000";
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,14 +82,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"RestrictionsCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
+    RestrictionsCell *cell = (RestrictionsCell*)[tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+    
     NSString* months[] = {@"January", @"February", @"March", @"April", @"May",@"June", @"July", @"August", @"September", @"October", @"November", @"December"};
+    
+    cell.onOffSwitch.on = [self.restrictedMonths characterAtIndex: indexPath.row] == '1';
     
     cell.textLabel.text = months[indexPath.row];
     cell.detailTextLabel.text = @"";
     
-    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+    if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     }
     

@@ -11,5 +11,7 @@
 @interface RestrictedMonthsVC : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property(nonatomic, retain) IBOutlet UITableView* tableView;
+    
+@property(nonatomic, retain) NSString* restrictedMonths;
 
 @end

@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsAddNewRestrictionVC">
             <connections>
+                <outlet property="buttonSety" destination="jZN-X8-9c5" id="HUF-1d-68x"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -14,7 +15,41 @@
         <view contentMode="scaleToFill" id="1">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oYQ-CA-W9g">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="421"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="421" id="AXD-8S-JwN"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Vs8-V4-Ap8"/>
+                        <outlet property="delegate" destination="-1" id="hS5-c8-x3Z"/>
+                    </connections>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jZN-X8-9c5" customClass="ColoredBackgroundButton">
+                    <rect key="frame" x="145" y="484" width="30" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="Add"/>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lV-Oz-ZuZ">
+                    <rect key="frame" x="20" y="434" width="42" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="jZN-X8-9c5" firstAttribute="top" secondItem="oYQ-CA-W9g" secondAttribute="bottom" constant="63" id="LuO-qP-mI5"/>
+                <constraint firstItem="oYQ-CA-W9g" firstAttribute="top" secondItem="1" secondAttribute="top" id="Mpv-Nm-A0s"/>
+                <constraint firstItem="jZN-X8-9c5" firstAttribute="centerX" secondItem="oYQ-CA-W9g" secondAttribute="centerX" id="T8R-Ok-Cth"/>
+                <constraint firstAttribute="trailing" secondItem="oYQ-CA-W9g" secondAttribute="trailing" id="WiF-g6-cLE"/>
+                <constraint firstItem="oYQ-CA-W9g" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="YaL-PZ-SKc"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>

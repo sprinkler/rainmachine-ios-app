@@ -11,5 +11,7 @@
 @interface SettingsHoursVC : UIViewController
     
 @property(nonatomic, retain) IBOutlet UITableView* tableView;
-    
+
+@property(nonatomic, retain) NSMutableArray* restrictions;
+
 @end

@@ -86,7 +86,8 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Programs Properties";
             cell.detailTextLabel.text = @"Next run: P2 at 06:45PST";  //TODO: Get correct next run.
@@ -107,8 +108,9 @@
             cell.detailTextLabel.text = @"Daily 09:30AM - 10:30AM"; //TODO: Get correct restrictions;
         }
     }
-
-    if (indexPath.section == 2) {
+    
+    if (indexPath.section == 2)
+    {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Device Settings";
             cell.detailTextLabel.text = @"Units, Locations, Data Sources & Types...";
@@ -119,7 +121,7 @@
         }
     }
     
-    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+    if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     }
     
@@ -135,7 +137,8 @@
             ProgramsVC *programs = [[ProgramsVC alloc] init];
             [self.navigationController pushViewController:programs animated:YES];
         }
-            break;
+        break;
+            
         case 1: {
             ZonesVC *zones = [[ZonesVC alloc] init];
             [self.navigationController pushViewController:zones animated:YES];

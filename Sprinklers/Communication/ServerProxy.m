@@ -28,14 +28,6 @@
     
     self.delegate = del;
     self.serverURL = serverURL;
-    
-//    [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidStartNotification
-//                                                      object:nil
-//                                                       queue:nil
-//                                                  usingBlock:^(NSNotification *note) {
-//                                                    NSMutableURLRequest *r = (NSMutableURLRequest *)[[note object] request];
-//                                                    DLog(@"Operation Started with URL: %@ body: %@", [r URL], [[NSString alloc] initWithData:[r HTTPBody] encoding:NSUTF8StringEncoding]);
-//                                                  }];
 
     NSURL *baseURL = [NSURL URLWithString:serverURL];
     self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL jsonRequest:jsonRequest];
@@ -44,7 +36,7 @@
     AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
     [policy setAllowInvalidCertificates:YES];
     [self.manager setSecurityPolicy:policy];
-  
+    
     return self;
 }
 
@@ -52,7 +44,7 @@
 {
     [self.manager.operationQueue cancelAllOperations];
 }
-
+        
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe
 {
     NSDictionary *paramsDic;
@@ -122,7 +114,7 @@
 {
     [self.manager GET: @"ui.cgi" parameters:@{@"action": @"weatherdata"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"HomeScreen"] toClass:NSStringFromClass([WeatherData class])] serverProxy:self];
+        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey: @"HomeScreen"] toClass:NSStringFromClass([WeatherData class])] serverProxy:self];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       [self handleError:error fromOperation:operation];

@@ -13,7 +13,7 @@
 #import "Sprinkler.h"
 #import "Additions.h"
 #import "Constants.h"
-
+         
 @interface ServiceManager : NSObject <GCDAsyncUdpSocketDelegate> {
     
     NSMutableArray *discoveredSprinklers;

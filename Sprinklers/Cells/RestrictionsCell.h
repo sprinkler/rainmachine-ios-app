@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface RestrictionsCell : UITableViewCell
+    
+@property(nonatomic, retain) IBOutlet UISwitch* onOffSwitch;
 
 @end

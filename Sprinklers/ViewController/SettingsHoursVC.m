@@ -8,7 +8,6 @@
 
 #import "SettingsHoursVC.h"
 #import "SettingsAddNewRestrictionVC.h"
-#import "SubtitleWithDeleteButtonCell.h"
 
 @interface SettingsHoursVC ()
 
@@ -32,7 +31,9 @@
     
     self.title = @"Restricted hours";
     
-    [_tableView registerNib:[UINib nibWithNibName:@"SubtitleWithDeleteButtonCell" bundle:nil] forCellReuseIdentifier:@"SubtitleWithDeleteButtonCell"];
+    self.restrictions = [NSMutableArray array];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,7 +53,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == 0)
-        return 2;
+        return [_restrictions count];
     
     // Add New restriction button
     return 1;
@@ -98,15 +99,15 @@
         
         cell.textLabel.text = @"Add New Restriction";
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    }
+    }   
     else
     if (indexPath.section == 0 && indexPath.row == 0)
     {
-        static NSString *CellIdentifier2 = @"SubtitleWithDeleteButtonCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
-            
+        static NSString *CellIdentifier3 = @"Cell2";
+        cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier3];
+        
         if (nil == cell) {
-            cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier: CellIdentifier2];
+            cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier: CellIdentifier3];
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
 
@@ -146,6 +147,16 @@
         SettingsAddNewRestrictionVC *settingsAddNewRestrictionVC = [[SettingsAddNewRestrictionVC alloc] init];
         [self.navigationController pushViewController: settingsAddNewRestrictionVC animated:YES];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Deleted row.");
 }
 
 @end

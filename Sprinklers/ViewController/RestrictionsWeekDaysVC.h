@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface RestrictionsWeekDaysVC : UIViewController
-
+            
 @property(nonatomic, retain) IBOutlet UITableView* tableView;
-
+    
+@property(nonatomic, retain) IBOutlet NSString* restrictedDays;
+    
 @end

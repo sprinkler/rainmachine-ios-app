@@ -41,7 +41,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+
     self.serverProxy = [[ServerProxy alloc] initWithServerURL: TestServerURL delegate: self jsonRequest: NO];
     
     [_tableView registerNib:[UINib nibWithNibName: @"SettingsRestrictionsHotDaysCell" bundle:nil] forCellReuseIdentifier: @"SettingsRestrictionsHotDaysCell"];
@@ -52,7 +52,7 @@
     
     //TODO: Load current sprinkler from SettingsManager here and update content if needed.
     [self.serverProxy requestWateringRestrictions];
-    [self startHud:nil]; // @"Receiving data..."
+    [self startHud:nil]; // @"Receivivfgfggng data..."
     
     [self refreshStatus];
 }
