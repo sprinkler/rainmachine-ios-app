@@ -7,7 +7,6 @@
 //
 
 #import "RestrictionsVC.h"
-#import "SettingsRestrictionsHotDaysCell.h"
 #import "RestrictedMonthsVC.h"
 #import "RestrictionsWeekDaysVC.h"
 #import "Constants.h"
@@ -162,17 +161,20 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-    if (nil == cell) {
+    if (nil == cell)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-
+    
     if (indexPath.row == 0)
     {
-        SettingsRestrictionsHotDaysCell* settingsRestrictionsCell = [tableView dequeueReusableCellWithIdentifier:@"SettingsRestrictionsHotDaysCell" forIndexPath:indexPath];
+        //add a switch
+        UISwitch *switchview = [[UISwitch alloc] initWithFrame: CGRectZero];
+        cell.accessoryView = switchview;
         
-        settingsRestrictionsCell.textLabel.text = @"Hot Days";
-        settingsRestrictionsCell.detailTextLabel.text = @"Allow extra watering";  //TODO: Get correct information.
+        cell.textLabel.text = @"Hot Days";
+        cell.detailTextLabel.text = @"Allow extra watering";
     }
     
     if (indexPath.row == 1) {
