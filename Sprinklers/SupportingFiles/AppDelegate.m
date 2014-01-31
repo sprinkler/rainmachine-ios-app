@@ -23,7 +23,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    [[UpdateManager current] init];
+    [[UpdateManager current] initUpdaterManager];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.window.tintColor = [UIColor whiteColor];
