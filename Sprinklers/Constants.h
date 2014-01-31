@@ -18,7 +18,7 @@
 extern NSString* const TestServerURL;
 extern NSString* const TestServerPort;
 
-extern NSString* const kNewCurrentSprinklerSelected;
+extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
 
 extern float kLoginGreenButtonColor[3];

@@ -8,7 +8,7 @@ NSString *const TestServerURL = @"https://ns.tremend.ro";
 NSString *const TestServerPort = @"2443"; // 3.59
 //NSString *const TestServerPort = @"65076";
 
-NSString *const kNewCurrentSprinklerSelected = @"NewCurrentSprinklerSelected";
+NSString *const kNewSprinklerSelected = @"NewSprinklerSelected";
 NSString *const kFirmwareUpdateNeeded = @"FirmwareUpdateNeeded";
 
 float kLoginGreenButtonColor[3] = {2.0/255, 214.0/255, 100.0/255};

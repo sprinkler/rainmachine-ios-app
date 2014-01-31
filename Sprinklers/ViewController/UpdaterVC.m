@@ -48,7 +48,7 @@
 
     self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
     self.startDate = [NSDate date];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(poll) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(poll) userInfo:nil repeats:YES];
 }
 
 - (void)stopTimer

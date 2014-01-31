@@ -54,7 +54,7 @@ const float kHomeScreenCellHeight = 66;
 - (void)viewDidLoad {
     [super viewDidLoad];
   
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewCurrentSprinklerSelected object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
 
     self.waterImage = [Utils waterImage:kHomeScreenCellHeight];
     self.waterWavesImage = [Utils waterWavesImage:kHomeScreenCellHeight];
