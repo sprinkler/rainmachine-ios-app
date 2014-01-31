@@ -14,6 +14,7 @@
 #import "SettingsVC.h"
 #import "WaterNowVC.h"
 #import "Additions.h"
+#import "UpdateManager.h"
 
 @implementation AppDelegate
 
@@ -21,6 +22,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    [[UpdateManager current] init];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.window.tintColor = [UIColor whiteColor];

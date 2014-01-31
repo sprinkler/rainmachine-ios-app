@@ -7,6 +7,7 @@
 //
 
 #import "StorageManager.h"
+#import "Constants.h"
 
 static StorageManager *current = nil;
 
@@ -143,6 +144,15 @@ static StorageManager *current = nil;
         abort();
     }
     return __persistentStoreCoordinator;
+}
+
+- (void)setCurrentSprinkler:(Sprinkler *)currentSprinklerP
+{
+    if (currentSprinklerP != __currentSprinkler) {
+        __currentSprinkler = currentSprinklerP;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNewCurrentSprinklerSelected object:nil];
+    }
 }
 
 @end

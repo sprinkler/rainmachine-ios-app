@@ -88,7 +88,7 @@
 }
 
 - (IBAction)login:(id)sender {
-    serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
+    serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
     [serverProxy loginWithUserName:@"admin" password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
     [self startHud:nil]; // @"Logging in..."
 }
@@ -106,7 +106,6 @@
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered {
-    [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
     self.sprinkler.loginRememberMe = [NSNumber numberWithBool:remembered];
     [StorageManager current].currentSprinkler = self.sprinkler;
     [[StorageManager current] saveData];

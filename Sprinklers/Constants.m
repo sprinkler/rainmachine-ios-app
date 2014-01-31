@@ -2,9 +2,14 @@
 
 //NSString *const TestServerURL = @"http://10.1.10.74";
 //NSString *const TestServerURL = @"https://50.150.118.132";
+//NSString *const TestServerURL = @"https://24.4.218.168"; // 3.55
 NSString *const TestServerURL = @"https://ns.tremend.ro";
-NSString *const TestServerPort = @"443";
+//NSString *const TestServerPort = @"443";
+NSString *const TestServerPort = @"2443"; // 3.59
 //NSString *const TestServerPort = @"65076";
+
+NSString *const kNewCurrentSprinklerSelected = @"NewCurrentSprinklerSelected";
+NSString *const kFirmwareUpdateNeeded = @"FirmwareUpdateNeeded";
 
 float kLoginGreenButtonColor[3] = {2.0/255, 214.0/255, 100.0/255};
 float kWateringGreenButtonColor[3] = {0.0/255, 162.0/255, 0.0/255};
@@ -19,6 +24,8 @@ float kBarBlueColor[3] = {1 / 255.0, 152 / 255.0, 208 / 255.0};
 NSString *const kCustomRMFontName = @"rainmachine";
 
 int const kMaxCounterValue = 300 * 60; // In seconds
+int const kSprinklerUpdateCheckInterval = 24 * 60 * 60;
+int const kUpdateProcessTimeoutInterval = 5 * 60;
 
 NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"};
 

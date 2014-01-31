@@ -20,5 +20,7 @@
 @property (nonatomic, strong) NSString *units;
 @property (nonatomic, strong) NSString *lastupdate;
 @property (nonatomic, strong) NSString *location;
+@property (nonatomic, strong) NSNumber *waterflag;
+@property (nonatomic, strong) NSNumber *wd;
 
 @end

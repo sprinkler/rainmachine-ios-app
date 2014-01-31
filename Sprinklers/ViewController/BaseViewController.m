@@ -12,6 +12,8 @@
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "Utils.h"
+#import "UpdaterVC.h"
+#import "AppDelegate.h"
 
 @interface BaseViewController ()
 
@@ -33,6 +35,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firmwareUpdateNeeded:) name:kFirmwareUpdateNeeded object:nil];
+
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
@@ -115,6 +119,26 @@
     }
     
     self.alertView = nil;
+}
+
+- (void)firmwareUpdateNeeded:(NSNotification*)notif
+{
+    // Are we the top most VC?
+    // This test filters the case when for ex. DevicesVC is on screen
+    if (self.navigationController.visibleViewController == self) {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        UINavigationController *navC = (UINavigationController*)(appDelegate.tabBarController.selectedViewController);
+        // Are we the selected VC in the tab view?
+        if (navC.viewControllers[0] == self) {
+            NSNumber *serverAPIMainVersion = (NSNumber*)[notif object];
+            UpdaterVC *updaterVC = [[UpdaterVC alloc] init];
+            
+            updaterVC.serverAPIMainVersion = [serverAPIMainVersion intValue];
+            
+            UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:updaterVC];
+            [self presentViewController:navDevices animated:YES completion:nil];
+        }
+    }
 }
 
 @end

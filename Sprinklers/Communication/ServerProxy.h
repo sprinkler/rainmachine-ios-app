@@ -49,6 +49,10 @@
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;
 
+- (void)requestAPIVersion;
+- (void)requestUpdateCheckForVersion:(int)version;
+- (void)requestUpdateStartForVersion:(int)version;
+
 - (void)cancelAllOperations;
 
 - (void)requestWateringRestrictions;
