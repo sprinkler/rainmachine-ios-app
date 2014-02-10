@@ -60,7 +60,7 @@
                       @"password": !password ? @"" : password
                       };
     }
-  
+    
     [self.manager POST:@"/ui.cgi" parameters:paramsDic
                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                          //DLog(@"Success code: %d", [[operation response] statusCode]);
@@ -101,9 +101,9 @@
 {
     DLog(@"%s", __PRETTY_FUNCTION__);
     
-        [self.manager GET:@"ui.cgi" parameters:@{@"action": @"wateringrestrictions"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"WaterRestrictionsScreen"] toClass:NSStringFromClass([RestrictionsData class])] serverProxy:self];
+        [self.manager GET:@"/api/4/wateringrestrictions" parameters: nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"wateringrestrictions"] toClass:NSStringFromClass([RestrictionsData class])] serverProxy:self];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self handleError:error fromOperation:operation];
