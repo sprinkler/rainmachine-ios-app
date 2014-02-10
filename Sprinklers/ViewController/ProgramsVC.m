@@ -12,6 +12,7 @@
 #import "Program.h"
 #import "MBProgressHUD.h"
 #import "Additions.h"
+#import "Utils.h"
 
 @interface ProgramsVC () {
     MBProgressHUD *hud;
@@ -45,8 +46,8 @@
     self.navigationItem.rightBarButtonItem = editButton;
     editing = NO;
     
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
-    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
     
     [self startHud:nil];
     [self.serverProxy requestPrograms];

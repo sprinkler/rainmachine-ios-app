@@ -15,6 +15,7 @@
 #import "RestrictionsData.h"
 #import "PickerVC.h"
 #import "SettingsHoursVC.h"
+#import "Utils.h"
 
 @interface RestrictionsVC ()
 
@@ -41,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL: TestServerURL delegate: self jsonRequest: NO];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate: self jsonRequest: NO];
     
     [_tableView registerNib:[UINib nibWithNibName: @"SettingsRestrictionsHotDaysCell" bundle:nil] forCellReuseIdentifier: @"SettingsRestrictionsHotDaysCell"];
 }

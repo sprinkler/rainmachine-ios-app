@@ -14,6 +14,7 @@
 #import "Zone.h"
 #import "ZoneCell.h"
 #import "ZonePropertiesVC.h"
+#import "Utils.h"
 
 @interface ZonesVC () {
     MBProgressHUD *hud;
@@ -43,8 +44,8 @@
     
     [_tableView registerNib:[UINib nibWithNibName:@"ZoneCell" bundle:nil] forCellReuseIdentifier:@"ZoneCell"];
 
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
-    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
     
     [self startHud:nil];
     [self.serverProxy requestZones];

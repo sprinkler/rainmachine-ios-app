@@ -25,6 +25,13 @@
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
 		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
+		AF167D52189A8520003E659D /* APIVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D51189A8520003E659D /* APIVersion.m */; };
+		AF167D55189AB222003E659D /* UpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D54189AB222003E659D /* UpdateManager.m */; };
+		AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D58189ABF6C003E659D /* UpdateInfo.m */; };
+		AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */; };
+		AF167D62189ACF0D003E659D /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D61189ACF0D003E659D /* Sprinkler.m */; };
+		AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D65189AD72E003E659D /* UpdaterVC.m */; };
+		AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF167D67189AD74D003E659D /* UpdaterVC.xib */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
@@ -54,7 +61,6 @@
 		AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC7E93618579D7600ACA626 /* icon_status_ok.png */; };
 		AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */; };
 		AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCC57B3185860FD001F48F0 /* icon_status_warning.png */; };
-		AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCC57B6185861E7001F48F0 /* Sprinkler.m */; };
 		AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* Utils.m */; };
 		AFCF47BA188D532100C34727 /* separator_line.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCF47B9188D532100C34727 /* separator_line.png */; };
 		AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437EE188A7F1A004F9E11 /* PickerVC.m */; };
@@ -358,6 +364,20 @@
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
 		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
 		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
+		AF167D50189A8520003E659D /* APIVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIVersion.h; path = "Communication/Response objects/APIVersion.h"; sourceTree = "<group>"; };
+		AF167D51189A8520003E659D /* APIVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIVersion.m; path = "Communication/Response objects/APIVersion.m"; sourceTree = "<group>"; };
+		AF167D53189AB222003E659D /* UpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateManager.h; path = Managers/UpdateManager.h; sourceTree = "<group>"; };
+		AF167D54189AB222003E659D /* UpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateManager.m; path = Managers/UpdateManager.m; sourceTree = "<group>"; };
+		AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 3.xcdatamodel"; sourceTree = "<group>"; };
+		AF167D57189ABF6C003E659D /* UpdateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInfo.h; path = "Communication/Response objects/UpdateInfo.h"; sourceTree = "<group>"; };
+		AF167D58189ABF6C003E659D /* UpdateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInfo.m; path = "Communication/Response objects/UpdateInfo.m"; sourceTree = "<group>"; };
+		AF167D5A189ACBA6003E659D /* UpdateStartInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateStartInfo.h; path = "Communication/Response objects/UpdateStartInfo.h"; sourceTree = "<group>"; };
+		AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateStartInfo.m; path = "Communication/Response objects/UpdateStartInfo.m"; sourceTree = "<group>"; };
+		AF167D60189ACF0D003E659D /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
+		AF167D61189ACF0D003E659D /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
+		AF167D64189AD72E003E659D /* UpdaterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdaterVC.h; path = ViewController/UpdaterVC.h; sourceTree = "<group>"; };
+		AF167D65189AD72E003E659D /* UpdaterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdaterVC.m; path = ViewController/UpdaterVC.m; sourceTree = "<group>"; };
+		AF167D67189AD74D003E659D /* UpdaterVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdaterVC.xib; path = ViewController/UpdaterVC.xib; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -408,8 +428,6 @@
 		AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenDataSourceCell.m; path = Cells/HomeScreenDataSourceCell.m; sourceTree = "<group>"; };
 		AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 2.xcdatamodel"; sourceTree = "<group>"; };
 		AFCC57B3185860FD001F48F0 /* icon_status_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_status_warning.png; path = Resources/icon_status_warning.png; sourceTree = "<group>"; };
-		AFCC57B5185861E7001F48F0 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
-		AFCC57B6185861E7001F48F0 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AFCDF79D185DBE2700F9C57E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AFCDF79E185DBE2700F9C57E /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		AFCF47B9188D532100C34727 /* separator_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separator_line.png; path = Resources/separator_line.png; sourceTree = "<group>"; };
@@ -754,6 +772,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF167D63189AD711003E659D /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				AF167D64189AD72E003E659D /* UpdaterVC.h */,
+				AF167D65189AD72E003E659D /* UpdaterVC.m */,
+				AF167D67189AD74D003E659D /* UpdaterVC.xib */,
+			);
+			name = Update;
+			sourceTree = "<group>";
+		};
 		AF5D799D185CEBB900A49CF7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -1027,6 +1055,7 @@
 		B111981B16A7E19E0094EF9F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AF167D63189AD711003E659D /* Update */,
 				B1EF21061860491800D9CE26 /* Devices */,
 				B1EF21131860495E00D9CE26 /* Settings */,
 				B1EF21111860494E00D9CE26 /* Stats */,
@@ -1051,6 +1080,8 @@
 				1FD9D13616B0B56900E6152B /* ServiceManager.m */,
 				B111986E16A7EED00094EF9F /* StorageManager.h */,
 				B111986F16A7EED00094EF9F /* StorageManager.m */,
+				AF167D53189AB222003E659D /* UpdateManager.h */,
+				AF167D54189AB222003E659D /* UpdateManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -1106,6 +1137,8 @@
 		B111984216A7E1E60094EF9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AF167D60189ACF0D003E659D /* Sprinkler.h */,
+				AF167D61189ACF0D003E659D /* Sprinkler.m */,
 				B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */,
 				B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */,
 				B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */,
@@ -1115,8 +1148,6 @@
 				B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */,
 				AF91C7F51858D757005888AA /* ServerResponse.h */,
 				AF91C7F61858D757005888AA /* ServerResponse.m */,
-				AFCC57B5185861E7001F48F0 /* Sprinkler.h */,
-				AFCC57B6185861E7001F48F0 /* Sprinkler.m */,
 				AF91C7F21858D640005888AA /* StartStopWatering.h */,
 				AF91C7F31858D640005888AA /* StartStopWatering.m */,
 				AF91C7EE1858D047005888AA /* WaterNowZone.h */,
@@ -1127,6 +1158,12 @@
 				B1254CB5187D7A33004E2F0E /* Zone.m */,
 				3A46A3671887FD9E00B59F1F /* RestrictionsData.h */,
 				3A46A3681887FD9E00B59F1F /* RestrictionsData.m */,
+				AF167D50189A8520003E659D /* APIVersion.h */,
+				AF167D51189A8520003E659D /* APIVersion.m */,
+				AF167D57189ABF6C003E659D /* UpdateInfo.h */,
+				AF167D58189ABF6C003E659D /* UpdateInfo.m */,
+				AF167D5A189ACBA6003E659D /* UpdateStartInfo.h */,
+				AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1582,6 +1619,7 @@
 				AFF63598186F54900005EDF1 /* daily_stats_du.png in Resources */,
 				AFF636A7186F55100005EDF1 /* main-screen_frza.png in Resources */,
 				AFF635DE186F54900005EDF1 /* daily_stats_shra.png in Resources */,
+				AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */,
 				AFF636E7186F55100005EDF1 /* main-screen_shra.png in Resources */,
 				AFF635CE186F54900005EDF1 /* daily_stats_ntsra.png in Resources */,
 				AFF636DF186F55100005EDF1 /* main-screen_ra1@2x.png in Resources */,
@@ -1678,7 +1716,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
-				AFCC57B7185861E7001F48F0 /* Sprinkler.m in Sources */,
 				B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */,
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,
@@ -1697,7 +1734,9 @@
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
+				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
 				B1EF20F4186046D300D9CE26 /* +UIDevice.m in Sources */,
+				AF167D52189A8520003E659D /* APIVersion.m in Sources */,
 				B1DF327916A6AA5100A1BF38 /* GCDAsyncSocket.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
 				B1EF20F3186046D300D9CE26 /* +UIColor.m in Sources */,
@@ -1718,8 +1757,10 @@
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
 				3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */,
+				AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
+				AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1729,6 +1770,7 @@
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
+				AF167D62189ACF0D003E659D /* Sprinkler.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
@@ -1745,6 +1787,7 @@
 				B1583E7716A803B50051B480 /* MBProgressHUD.m in Sources */,
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
+				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,
 				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
 				B1254CBB187DB542004E2F0E /* ZoneCell.m in Sources */,
 				3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */,
@@ -1885,9 +1928,10 @@
 			isa = XCVersionGroup;
 			children = (
 				AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */,
+				AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */,
 				B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */;
+			currentVersion = AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

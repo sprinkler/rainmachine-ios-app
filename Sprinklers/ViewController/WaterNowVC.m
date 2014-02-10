@@ -16,9 +16,9 @@
 #import "MBProgressHUD.h"
 #import "WaterZoneListCell.h"
 #import "WaterNowLevel1VC.h"
-#import "StartStopWatering.h"
 #import "WaterNowZone.h"
 #import "Utils.h"
+#import "StorageManager.h"
 
 @interface WaterNowVC () {
     UIColor *switchOnOrangeColor;
@@ -51,6 +51,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
+
     [_tableView registerNib:[UINib nibWithNibName:@"WaterZoneListCell" bundle:nil] forCellReuseIdentifier:@"WaterZoneListCell"];
 
     switchOnGreenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
@@ -59,8 +61,9 @@
     UIBarButtonItem *stopAllButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
     self.navigationItem.rightBarButtonItem = stopAllButton;
     
-    self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
-    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
+    if ([StorageManager current].currentSprinkler) {
+        [self refreshWithCurrentDevice];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -163,9 +166,7 @@
         
         self.zones = [self filteredZones:data];
         
-        if (serverProxy == self.pollServerProxy) {
-            [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
-        }
+        [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
         
         [self.tableView reloadData];
     }
@@ -176,6 +177,9 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     [self handleLoggedOutSprinklerError];
+
+    [StorageManager current].currentSprinkler = nil;
+    [self openDevices];
 }
 
 #pragma mark - Table view
@@ -252,6 +256,17 @@
 }
 
 #pragma mark - Methods
+
+- (void)refreshWithCurrentDevice
+{
+    self.zones = nil;
+    [self.tableView reloadData];
+
+    if ([StorageManager current].currentSprinkler) {
+        self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+    }
+}
 
 - (void)openDevices {
     DevicesVC *devicesVC = [[DevicesVC alloc] init];

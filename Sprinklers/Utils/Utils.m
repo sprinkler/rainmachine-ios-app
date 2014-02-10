@@ -10,10 +10,22 @@
 #import "+UIImage.h"
 #import "Constants.h"
 #import "WaterNowZone.h"
+#import "Sprinkler.h"
+#import "StorageManager.h"
 
 @implementation Utils
 
 #pragma mark - General Sprinkler utils
+
++ (NSString*)sprinklerURL:(Sprinkler*)sprinkler
+{
+    return [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];
+}
+
++(NSString*)currentSprinklerURL
+{
+    return [Utils sprinklerURL:[StorageManager current].currentSprinkler];
+}
 
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle
 {

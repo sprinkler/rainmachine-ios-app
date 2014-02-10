@@ -9,8 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @class WaterNowZone;
+@class Sprinkler;
 
 @interface Utils : NSObject
+
++ (NSString*)sprinklerURL:(Sprinkler*)sprinkler;
++ (NSString*)currentSprinklerURL;
 
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (BOOL)isZoneWatering:(WaterNowZone*)zone;

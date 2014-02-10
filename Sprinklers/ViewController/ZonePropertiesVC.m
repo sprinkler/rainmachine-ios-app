@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "ServerProxy.h"
 #import "ColoredBackgroundButton.h"
+#import "Utils.h"
 
 typedef enum {
     MasterValve = 0,
@@ -51,8 +52,8 @@ typedef enum {
         self.title = _zone.name;
     }
     
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
-    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:YES];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
     self.navigationItem.rightBarButtonItem = saveButton;

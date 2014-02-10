@@ -21,6 +21,7 @@
 #import "StorageManager.h"
 #import "Sprinkler.h"
 #import "Utils.h"
+#import "UpdateManager.h"
 
 const float kHomeScreenCellHeight = 66;
 
@@ -53,13 +54,13 @@ const float kHomeScreenCellHeight = 66;
 - (void)viewDidLoad {
     [super viewDidLoad];
   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
+
     self.waterImage = [Utils waterImage:kHomeScreenCellHeight];
     self.waterWavesImage = [Utils waterWavesImage:kHomeScreenCellHeight];
 
     [_dataSourceTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"HomeScreenCell" bundle:nil] forCellReuseIdentifier:@"HomeScreenCell"];
-
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:TestServerURL delegate:self jsonRequest:NO];
 
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
@@ -271,6 +272,9 @@ const float kHomeScreenCellHeight = 66;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     [self handleLoggedOutSprinklerError];
+ 
+    [StorageManager current].currentSprinkler = nil;
+    [self openDevices];
 }
 
 #pragma mark - Core Data
@@ -318,6 +322,18 @@ const float kHomeScreenCellHeight = 66;
 }
 
 #pragma mark - Methods
+
+- (void)refreshWithCurrentDevice
+{
+    self.data = nil;
+    [self.tableView reloadData];
+    
+    if ([StorageManager current].currentSprinkler) {
+        self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        
+        [[UpdateManager current] poll];
+    }
+}
 
 - (void)openDevices {
     DevicesVC *devicesVC = [[DevicesVC alloc] init];

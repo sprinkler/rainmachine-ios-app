@@ -18,6 +18,9 @@
 extern NSString* const TestServerURL;
 extern NSString* const TestServerPort;
 
+extern NSString* const kNewSprinklerSelected;
+extern NSString *const kFirmwareUpdateNeeded;
+
 extern float kLoginGreenButtonColor[3];
 extern float kWateringGreenButtonColor[3];
 extern float kWateringOrangeButtonColor[3];
@@ -29,7 +32,9 @@ extern float kWaterImageStrokeColor[3];
 
 extern NSString* const kCustomRMFontName;
 
+extern int const kSprinklerUpdateCheckInterval;
 extern int const kMaxCounterValue;
+extern int const kUpdateProcessTimeoutInterval;
 
 extern NSString *daysOfTheWeek[7];
 
