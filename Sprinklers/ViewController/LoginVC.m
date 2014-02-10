@@ -82,7 +82,6 @@
 }
 
 #pragma mark - Actions
-
 - (IBAction)rememberMe:(id)sender {
     _buttonCheckBox.selected = !_buttonCheckBox.selected;
 }
