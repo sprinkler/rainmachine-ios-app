@@ -102,13 +102,13 @@ static UpdateManager *current = nil;
             NSDate *lastUpdateCheck = [NSDate dateWithTimeIntervalSince1970:[updateInfo.last_update_check longLongValue]];
             NSTimeInterval intervalSinceLastUpdate = -[lastUpdateCheck timeIntervalSinceNow];
             BOOL checkUpdate = (intervalSinceLastUpdate >= kSprinklerUpdateCheckInterval);
-//            if (checkUpdate) {
+            if (checkUpdate) {
                 NSString *message = [NSString stringWithFormat:@"Please update your device firmware to version %@.", updateInfo.the_new_version];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Firmware Update Available"
                                                                 message:message delegate:self cancelButtonTitle:@"Later"
                                                       otherButtonTitles:@"Update Now", nil];
                 [alert show];
-//            }
+            }
         }
     }
     else if ([data isKindOfClass:[UpdateStartInfo class]]) {
