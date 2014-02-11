@@ -30,23 +30,37 @@ static StorageManager *current = nil;
 
 #pragma mark - Methods
 
-- (void)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port {
+- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal save:(BOOL)save {
     Sprinkler *sprinkler = [NSEntityDescription insertNewObjectForEntityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     sprinkler.name = name;
     sprinkler.address = ip;
     sprinkler.port = port;
-    [self saveData];
+    sprinkler.isLocalDevice = isLocal;
+    
+    if (save) {
+        [self saveData];
+    }
+    
+    return sprinkler;
+}
+
+- (void)deleteLocalSprinklers
+{
+    NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersOnLocalNetwork:@YES]];
+    for (Sprinkler *sprinkler in localSprinklers) {
+        [self.managedObjectContext deleteObject:sprinkler];
+    }
 }
 
 - (void)deleteSprinkler:(NSString *)name {
-    Sprinkler *sprinkler = [self getSprinkler:name];
+    Sprinkler *sprinkler = [self getSprinkler:name local:nil];
     if (sprinkler) {
         [self.managedObjectContext deleteObject:sprinkler];
         [self saveData];
     }
 }
 
-- (Sprinkler *)getSprinkler:(NSString *)name {
+- (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local {
     NSError *error;
     NSArray *items;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -54,7 +68,13 @@ static StorageManager *current = nil;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    NSPredicate *predicate = nil;
+    
+    if (local) {
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND isLocalDevice == %@", name, local];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    }
     [fetchRequest setPredicate:predicate];
     
     items = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -64,15 +84,45 @@ static StorageManager *current = nil;
     return nil;
 }
 
-- (NSArray *)getSprinklers {
+- (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local {
+    NSError *error;
+    NSArray *items;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = nil;
+    
+    if (local) {
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND isLocalDevice == %@", name, address, port, local];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@", name, address, port];
+    }
+    [fetchRequest setPredicate:predicate];
+    
+    items = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (items && items.count == 1) {
+        return items[0];
+    }
+    return nil;
+}
+
+- (NSArray *)getSprinklersOnLocalNetwork:(NSNumber*)fromLocal {
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    if (fromLocal) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isLocalDevice == %@", fromLocal];
+        [fetchRequest setPredicate:predicate];
+    }
+
+    NSSortDescriptor *sort0 = [[NSSortDescriptor alloc] initWithKey:@"isLocalDevice" ascending:NO];
+    NSSortDescriptor *sort1 = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sort0, sort1, nil]];
     
     return [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 }

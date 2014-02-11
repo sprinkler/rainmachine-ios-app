@@ -86,8 +86,8 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        if (![[StorageManager current] getSprinkler:name]) {
-            [[StorageManager current] addSprinkler:name ipAddress:address port:port];
+        if (![[StorageManager current] getSprinkler:name local:@NO]) {
+            [[StorageManager current] addSprinkler:name ipAddress:address port:port isLocal:@NO save:YES];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"A sprinkler with the same name already exists. Please select another name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

@@ -67,8 +67,6 @@
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType3" bundle:nil] forCellReuseIdentifier:@"DevicesCellType3"];
     [self createFooter];
     
-    [self shouldStartBroadcast];
-    
     if ([StorageManager current].currentSprinkler) {
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
         self.navigationItem.rightBarButtonItem = closeButton;
@@ -86,7 +84,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.discoveredSprinklers = [NSMutableArray array];
-    self.savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklers]];
+    self.savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersOnLocalNetwork:nil]];
+    
+    [self shouldStartBroadcast];
+    
     [self.tableView reloadData];
     
     //If <isLoggedIn> (or use any other mechanism to detect LoginVC login, dismiss View.
@@ -118,7 +119,24 @@
 - (void)shouldStopBroadcast {
     [[ServiceManager current] stopBroadcast];
     self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
+    
+    // Convert the DiscoveredSprinkler objects into Sprinkler objects
+    [[StorageManager current] deleteLocalSprinklers];
+    
+    self.savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersOnLocalNetwork:@NO]];
+    
+    for (int i = 0; i < [self.discoveredSprinklers count]; i++) {
+        DiscoveredSprinklers *discoveredSprinkler = self.discoveredSprinklers[i];
+        NSString *port = [NSString stringWithFormat:@"%d", discoveredSprinkler.port];
+        Sprinkler *sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES save:NO];
+        [self.savedSprinklers insertObject:sprinkler atIndex:0];
+    }
 
+    [[StorageManager current] saveData];
+    
+    // For now, the discovered sprinklers appear directly in the devices list, no need for wifi setup
+    self.discoveredSprinklers = nil;
+    
     [self hideHud];
     
     [_tableView reloadData];
@@ -211,7 +229,7 @@
         cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port] : sprinkler.address;
         
         // TODO: decide upon local/remote type on runtime
-        cell.labelInfo.text = @"remote";
+        cell.labelInfo.text = [sprinkler.isLocalDevice boolValue] ? @"local" : @"remote";
     
         return cell;
     }

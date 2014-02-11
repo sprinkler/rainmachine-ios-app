@@ -29,7 +29,6 @@
 		AF167D55189AB222003E659D /* UpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D54189AB222003E659D /* UpdateManager.m */; };
 		AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D58189ABF6C003E659D /* UpdateInfo.m */; };
 		AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */; };
-		AF167D62189ACF0D003E659D /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D61189ACF0D003E659D /* Sprinkler.m */; };
 		AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D65189AD72E003E659D /* UpdaterVC.m */; };
 		AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF167D67189AD74D003E659D /* UpdaterVC.xib */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
@@ -64,6 +63,7 @@
 		AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AFCDF79E185DBE2700F9C57E /* Utils.m */; };
 		AFCF47BA188D532100C34727 /* separator_line.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCF47B9188D532100C34727 /* separator_line.png */; };
 		AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437EE188A7F1A004F9E11 /* PickerVC.m */; };
+		AFE0F2F718AA96C900FD53C2 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE0F2F618AA96C900FD53C2 /* Sprinkler.m */; };
 		AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE749861880255500CC3620 /* ColoredBackgroundButton.m */; };
 		AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */; };
 		AFF63593186F54900005EDF1 /* daily_stats_bkn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */; };
@@ -373,11 +373,10 @@
 		AF167D58189ABF6C003E659D /* UpdateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInfo.m; path = "Communication/Response objects/UpdateInfo.m"; sourceTree = "<group>"; };
 		AF167D5A189ACBA6003E659D /* UpdateStartInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateStartInfo.h; path = "Communication/Response objects/UpdateStartInfo.h"; sourceTree = "<group>"; };
 		AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateStartInfo.m; path = "Communication/Response objects/UpdateStartInfo.m"; sourceTree = "<group>"; };
-		AF167D60189ACF0D003E659D /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
-		AF167D61189ACF0D003E659D /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AF167D64189AD72E003E659D /* UpdaterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdaterVC.h; path = ViewController/UpdaterVC.h; sourceTree = "<group>"; };
 		AF167D65189AD72E003E659D /* UpdaterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdaterVC.m; path = ViewController/UpdaterVC.m; sourceTree = "<group>"; };
 		AF167D67189AD74D003E659D /* UpdaterVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdaterVC.xib; path = ViewController/UpdaterVC.xib; sourceTree = "<group>"; };
+		AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 4.xcdatamodel"; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -431,6 +430,8 @@
 		AFCDF79D185DBE2700F9C57E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AFCDF79E185DBE2700F9C57E /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		AFCF47B9188D532100C34727 /* separator_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separator_line.png; path = Resources/separator_line.png; sourceTree = "<group>"; };
+		AFE0F2F518AA96C900FD53C2 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
+		AFE0F2F618AA96C900FD53C2 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AFE749851880255500CC3620 /* ColoredBackgroundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColoredBackgroundButton.h; path = Controls/ColoredBackgroundButton.h; sourceTree = "<group>"; };
 		AFE749861880255500CC3620 /* ColoredBackgroundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColoredBackgroundButton.m; path = Controls/ColoredBackgroundButton.m; sourceTree = "<group>"; };
 		AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_bkn.png; sourceTree = "<group>"; };
@@ -1137,9 +1138,9 @@
 		B111984216A7E1E60094EF9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AF167D60189ACF0D003E659D /* Sprinkler.h */,
-				AF167D61189ACF0D003E659D /* Sprinkler.m */,
 				B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */,
+				AFE0F2F518AA96C900FD53C2 /* Sprinkler.h */,
+				AFE0F2F618AA96C900FD53C2 /* Sprinkler.m */,
 				B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */,
 				B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */,
 				B1254CA2187ADCB3004E2F0E /* Program.h */,
@@ -1729,6 +1730,7 @@
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
+				AFE0F2F718AA96C900FD53C2 /* Sprinkler.m in Sources */,
 				B1254CB6187D7A33004E2F0E /* Zone.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
@@ -1770,7 +1772,6 @@
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
-				AF167D62189ACF0D003E659D /* Sprinkler.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
@@ -1927,11 +1928,12 @@
 		B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */,
 				AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */,
 				AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */,
 				B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */;
+			currentVersion = AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

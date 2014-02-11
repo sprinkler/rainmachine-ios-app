@@ -16,10 +16,12 @@
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readwrite) Sprinkler *currentSprinkler; // TODO: keep the name of the current sprinkler persistent in the db
 
-- (void)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port;
+- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal save:(BOOL)save;
 - (void)deleteSprinkler:(NSString *)name;
-- (Sprinkler *)getSprinkler:(NSString *)name;
-- (NSArray *)getSprinklers;
+- (void)deleteLocalSprinklers;
+- (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local;
+- (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local;
+- (NSArray *)getSprinklersOnLocalNetwork:(NSNumber*)locals;
 
 - (void)saveData;
 

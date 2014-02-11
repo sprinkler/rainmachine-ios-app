@@ -2,7 +2,7 @@
 //  Sprinkler.h
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 30/01/14.
+//  Created by Fabian Matyas on 11/02/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
@@ -13,11 +13,12 @@
 @interface Sprinkler : NSManagedObject
 
 @property (nonatomic, retain) NSString * address;
+@property (nonatomic, retain) NSNumber * isLocalDevice;
 @property (nonatomic, retain) NSString * lastError;
+@property (nonatomic, retain) NSDate * lastSprinklerVersionRequest;
 @property (nonatomic, retain) NSDate * lastUpdate;
 @property (nonatomic, retain) NSNumber * loginRememberMe;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * port;
-@property (nonatomic, retain) NSDate * lastSprinklerVersionRequest;
 
 @end

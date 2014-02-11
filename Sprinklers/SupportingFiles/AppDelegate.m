@@ -53,12 +53,12 @@
     _tabBarController.viewControllers = @[navStats, navWater, navSettings];
     self.window.rootViewController = _tabBarController;
   
-    // TODO: remove this hack in production builds!
-    NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
-    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:kTestSprinklerName];
-    if (!sprinkler) {
-        [[StorageManager current] addSprinkler:kTestSprinklerName ipAddress:TestServerURL port:TestServerPort];
-    }
+//    // TODO: remove this hack in production builds!
+//    NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
+//    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:kTestSprinklerName local:@NO];
+//    if (!sprinkler) {
+//        [[StorageManager current] addRemoteSprinkler:kTestSprinklerName ipAddress:TestServerURL port:TestServerPort];
+//    }
     
     if (![[UIDevice currentDevice] iOSGreaterThan:7]) {
         [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackOpaque];
