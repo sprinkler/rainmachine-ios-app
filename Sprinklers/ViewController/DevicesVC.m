@@ -22,14 +22,15 @@
 #import "AddNewDeviceVC.h"
 
 @interface DevicesVC () {
-    NSMutableArray *savedSprinklers;
-    NSMutableArray *discoveredSprinklers;
     NSTimer *timer;
     NSTimer *silentTimer;
-    MBProgressHUD *hud;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic) NSMutableArray *savedSprinklers;
+@property (strong, nonatomic) NSMutableArray *discoveredSprinklers;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -84,8 +85,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    discoveredSprinklers = [NSMutableArray array];
-    savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklers]];
+    self.discoveredSprinklers = [NSMutableArray array];
+    self.savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklers]];
     [self.tableView reloadData];
     
     //If <isLoggedIn> (or use any other mechanism to detect LoginVC login, dismiss View.
@@ -116,7 +117,8 @@
 
 - (void)shouldStopBroadcast {
     [[ServiceManager current] stopBroadcast];
-    discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
+    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
+
     [self hideHud];
     
     [_tableView reloadData];
@@ -141,8 +143,8 @@
 }
 
 - (void)startHud:(NSString *)text {
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = text;
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.labelText = text;
 }
 
 - (void)hideHud {
@@ -168,10 +170,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return savedSprinklers.count;
+        return self.savedSprinklers.count;
     }
     
-    return discoveredSprinklers.count + 1;
+    return self.discoveredSprinklers.count + 1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -204,7 +206,7 @@
         DevicesCellType1 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType1" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         
-        Sprinkler *sprinkler = savedSprinklers[indexPath.row];
+        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         cell.labelMainTitle.text = sprinkler.name;
         cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port] : sprinkler.address;
         
@@ -213,20 +215,21 @@
     
         return cell;
     }
-    
-    if (indexPath.section == 1) {
+    else if (indexPath.section == 1) {
         
-        if (indexPath.row < discoveredSprinklers.count) {
+        if (indexPath.row < self.discoveredSprinklers.count) {
+            // WiFi setup
             DevicesCellType2 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType2" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
             
-            DiscoveredSprinklers *sprinkler = discoveredSprinklers[indexPath.row];
+            DiscoveredSprinklers *sprinkler = self.discoveredSprinklers[indexPath.row];
             cell.labelNewDevice.text = sprinkler.sprinklerName;
             cell.detailTextLabel.text = sprinkler.host;
             
             return cell;
         }
         else {
+            // Add New Device
             DevicesCellType3 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType3" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
             [cell.plusLabel setCustomRMFontWithCode:icon_Plus size:24];
@@ -241,20 +244,24 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        Sprinkler *sprinkler = savedSprinklers[indexPath.row];
+        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         if ([sprinkler.loginRememberMe boolValue]) {
-            [StorageManager current].currentSprinkler = savedSprinklers[indexPath.row];
+            [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
             [[StorageManager current] saveData];
             [self done];
         } else {
             LoginVC *login = [[LoginVC alloc] init];
-            login.sprinkler = savedSprinklers[indexPath.row];
+            login.sprinkler = self.savedSprinklers[indexPath.row];
             login.parent = self;
             [self.navigationController pushViewController:login animated:YES];
         }
-    } else {
-        AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
-        [self.navigationController pushViewController:addNewDeviceVC animated:YES];
+    } else if (indexPath.section == 1) {
+        if (indexPath.row < self.discoveredSprinklers.count) {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        } else {
+            AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+            [self.navigationController pushViewController:addNewDeviceVC animated:YES];
+        }
     }
 }
 
