@@ -51,11 +51,19 @@
 - (IBAction)onSave:(id)sender {
     NSString *name = self.nameTextField.text;
     NSString *address = self.urlOrIPTextField.text;
+    NSURL *url = [NSURL URLWithString:address];
+    NSString *port = [[url port] stringValue];
     
     if ([address length] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete fields." message:@"Please provide a value for the IP address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
         return;
+    }
+    
+    if ([port length] > 0) {
+        if ([port length] + 1  < [address length]) {
+            address = [address substringToIndex:[address length] - ([port length] + 1)];
+        }
     }
     
     if ([name length] == 0) {
@@ -71,14 +79,15 @@
     }
     
     if (_sprinkler) {
-        _sprinkler.name = self.nameTextField.text;
-        _sprinkler.address = self.urlOrIPTextField.text;
+        _sprinkler.name = name;
+        _sprinkler.address = address;
+        _sprinkler.port = port;
         [[StorageManager current] saveData];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
         if (![[StorageManager current] getSprinkler:name]) {
-            [[StorageManager current] addSprinkler:name ipAddress:address port:0];
+            [[StorageManager current] addSprinkler:name ipAddress:address port:port];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"A sprinkler with the same name already exists. Please select another name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

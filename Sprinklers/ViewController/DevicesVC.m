@@ -206,7 +206,7 @@
         
         Sprinkler *sprinkler = savedSprinklers[indexPath.row];
         cell.labelMainTitle.text = sprinkler.name;
-        cell.labelMainSubtitle.text = sprinkler.address;
+        cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port] : sprinkler.address;
         
         // TODO: decide upon local/remote type on runtime
         cell.labelInfo.text = @"remote";
