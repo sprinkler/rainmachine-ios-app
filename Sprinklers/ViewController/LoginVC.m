@@ -87,6 +87,15 @@
 }
 
 - (IBAction)login:(id)sender {
+    
+    if (![self.sprinkler.address hasPrefix:@"http://"] && ![self.sprinkler.address hasPrefix:@"https://"]) {
+        self.sprinkler.address = [NSString stringWithFormat:@"https://%@", self.sprinkler.address ];
+    }
+    
+    if ([self.sprinkler.address hasPrefix:@"http://"]) {
+        self.sprinkler.address = [self.sprinkler.address stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+    }
+        
     serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
     [serverProxy loginWithUserName:@"admin" password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
     [self startHud:nil]; // @"Logging in..."

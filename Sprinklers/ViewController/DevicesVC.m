@@ -125,10 +125,14 @@
     
     self.savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersOnLocalNetwork:@NO]];
     
+    // for the discovered sprinklers we will have the default port
+    NSString *port = @"443";
+    
     for (int i = 0; i < [self.discoveredSprinklers count]; i++) {
+        
         DiscoveredSprinklers *discoveredSprinkler = self.discoveredSprinklers[i];
-        NSString *port = [NSString stringWithFormat:@"%d", discoveredSprinkler.port];
         Sprinkler *sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES save:NO];
+        
         [self.savedSprinklers insertObject:sprinkler atIndex:0];
     }
 
