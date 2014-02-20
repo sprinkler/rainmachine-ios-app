@@ -47,6 +47,10 @@
         self.urlOrIPTextField.text = self.sprinkler.address;
     }
 
+    _nameTextField.tintColor = _nameTextField.textColor;
+    _urlOrIPTextField.tintColor = _urlOrIPTextField.textColor;
+    _tokenEmailTextField.tintColor = _tokenEmailTextField.textColor;
+
     [self removeTokenView];
     
     // Customize the Save button
@@ -76,7 +80,7 @@
 
 - (IBAction)onSave:(id)sender {
     NSString *name = self.nameTextField.text;
-    NSString *address = self.urlOrIPTextField.text;
+    NSString *address = [Utils fixedSprinklerAddress:self.urlOrIPTextField.text];
     NSURL *url = [NSURL URLWithString:address];
     NSString *port = [[url port] stringValue];
     
@@ -95,8 +99,6 @@
     if ([name length] == 0) {
         name = address;
     }
-    
-    address = [Utils fixedSprinklerAddress:address];
     
     if (!port) {
         port = @"443";

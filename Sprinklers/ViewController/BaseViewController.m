@@ -116,6 +116,7 @@
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (theAlertView.tag == kLoggedOut_AlertViewTag) {
         [self handleServerLoggedOutUser];
+        [self openDevices];
     }
     
     self.alertView = nil;

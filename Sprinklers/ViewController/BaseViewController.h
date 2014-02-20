@@ -20,5 +20,6 @@
 - (void)handleLoggedOutSprinklerError;
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex;
+- (void)openDevices;
 
 @end

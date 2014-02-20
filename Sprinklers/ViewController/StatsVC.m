@@ -274,7 +274,6 @@ const float kHomeScreenCellHeight = 66;
     [self handleLoggedOutSprinklerError];
  
     [StorageManager current].currentSprinkler = nil;
-    [self openDevices];
 }
 
 #pragma mark - Core Data
@@ -333,12 +332,6 @@ const float kHomeScreenCellHeight = 66;
         
         [[UpdateManager current] poll];
     }
-}
-
-- (void)openDevices {
-    DevicesVC *devicesVC = [[DevicesVC alloc] init];
-    UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:devicesVC];
-    [self presentViewController:navDevices animated:YES completion:nil];
 }
 
 #pragma mark - Actions

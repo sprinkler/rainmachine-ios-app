@@ -60,10 +60,13 @@
     [self.bucketLabel setCustomRMFontWithCode:icon_Stropitoare_Icon size:195];
     
     _textUsername.text = self.sprinkler.username ? self.sprinkler.username : @"admin";
-    [_textUsername becomeFirstResponder];
+    _textUsername.tintColor = _textUsername.textColor;
+    _textPassword.tintColor = _textPassword.textColor;
     
     // TODO: uncomment this line in case the device version is >= 4.0
 //    [self setup40SprinklerUI];
+    
+    [_textPassword becomeFirstResponder];
 }
 
 - (void)setup40SprinklerUI
@@ -77,8 +80,6 @@
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:4.0]];
-    
-    [_textPassword becomeFirstResponder];
 }
 
 #pragma mark - UITextField delegate
