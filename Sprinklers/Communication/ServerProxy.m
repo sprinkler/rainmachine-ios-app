@@ -257,7 +257,11 @@
                                  @"name" : zone.name, @"vegetation" : @(zone.vegetation)};
         [self.manager POST:@"ui.cgi?action=settings&what=zones" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             if ([self passLoggedOutFilter:operation]) {
-                [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])] serverProxy:self];
+                NSArray *response = nil;
+                if (responseObject) {
+                    response = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                }
+                [self.delegate serverResponseReceived:response serverProxy:self];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self handleError:error fromOperation:operation];
