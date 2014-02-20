@@ -51,8 +51,22 @@
 - (IBAction)onSave:(id)sender {
     NSString *name = self.nameTextField.text;
     NSString *address = self.urlOrIPTextField.text;
-    NSURL *url = [NSURL URLWithString:address];
-    NSString *port = [[url port] stringValue];
+    NSString *port;
+    NSArray *array = [address componentsSeparatedByString:@":"];
+    NSInteger lengthOfAdress = [array count] -1;
+    
+    if(lengthOfAdress >= 1)
+    {
+        port = array[lengthOfAdress];
+    }
+    
+    // if we type adress:port port must have under 4 digits (otherwise it means we have something like https://adress and we don't have a port)
+    if(lengthOfAdress == 1)
+    {
+        if([array[1] length] > 4)
+            port = NULL;
+    }
+    
     
     if ([address length] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete fields." message:@"Please provide a value for the IP address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -84,6 +98,7 @@
         _sprinkler.port = port;
         [[StorageManager current] saveData];
         [self.navigationController popViewControllerAnimated:YES];
+        
     }
     else {
         if (![[StorageManager current] getSprinkler:name local:@NO]) {
@@ -95,6 +110,7 @@
             return;
         }
     }
+    
 }
 
 #pragma mark - UITextField delegate
