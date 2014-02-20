@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonCheckBox;
 @property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonLogin;
 @property (weak, nonatomic) IBOutlet UILabel *bucketLabel;
+@property (weak, nonatomic) IBOutlet UITextField *textUsername;
 
 @end
 
@@ -58,6 +59,25 @@
     
     [self.bucketLabel setCustomRMFontWithCode:icon_Stropitoare_Icon size:195];
     
+    _textUsername.text = self.sprinkler.username ? self.sprinkler.username : @"admin";
+    [_textUsername becomeFirstResponder];
+    
+    // TODO: uncomment this line in case the device version is >= 4.0
+//    [self setup40SprinklerUI];
+}
+
+- (void)setup40SprinklerUI
+{
+    [self.textUsername removeFromSuperview];
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_textPassword
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.bucketLabel
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:4.0]];
+    
     [_textPassword becomeFirstResponder];
 }
 
@@ -88,14 +108,6 @@
 
 - (IBAction)login:(id)sender {
     
-    if (![self.sprinkler.address hasPrefix:@"http://"] && ![self.sprinkler.address hasPrefix:@"https://"]) {
-        self.sprinkler.address = [NSString stringWithFormat:@"https://%@", self.sprinkler.address ];
-    }
-    
-    if ([self.sprinkler.address hasPrefix:@"http://"]) {
-        self.sprinkler.address = [self.sprinkler.address stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
-    }
-        
     serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
     [serverProxy loginWithUserName:@"admin" password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
     [self startHud:nil]; // @"Logging in..."
@@ -115,6 +127,7 @@
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered {
     self.sprinkler.loginRememberMe = [NSNumber numberWithBool:remembered];
+    self.sprinkler.username = _textUsername.text;
     [StorageManager current].currentSprinkler = self.sprinkler;
     [[StorageManager current] saveData];
     

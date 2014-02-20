@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "Sprinkler.h"
 
+typedef enum {
+    NetworkType_Local,
+    NetworkType_Remote,
+    NetworkType_All,
+} NetworkType;
+
 @interface StorageManager : NSObject
 
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
@@ -21,7 +27,7 @@
 - (void)deleteLocalSprinklers;
 - (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local;
 - (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local;
-- (NSArray *)getSprinklersOnLocalNetwork:(NSNumber*)locals;
+- (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType onlyDiscoveredDevices:(NSNumber*)onlyDiscoveredDevices;
 
 - (void)saveData;
 

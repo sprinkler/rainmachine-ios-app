@@ -169,6 +169,10 @@ static ServiceManager *current = nil;
     NSString *host = nil;
     uint16_t port = 0;
     [GCDAsyncUdpSocket getHost:&host port:&port fromAddress:address];
+    
+    // Overwrite port value. For the discovered sprinklers we will set a default port
+    port = 443;
+    
     NSLog(@"UDP message received from sprinkler: %@, %@:%d", string, host, port);
     
     NSArray *splits = [string componentsSeparatedByString:messageDelimiter];

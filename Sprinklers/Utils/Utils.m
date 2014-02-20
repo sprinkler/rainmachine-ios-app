@@ -17,6 +17,19 @@
 
 #pragma mark - General Sprinkler utils
 
++ (NSString*)fixedSprinklerAddress:(NSString*)address
+{
+    if (![address hasPrefix:@"http://"] && ![address hasPrefix:@"https://"]) {
+        address = [NSString stringWithFormat:@"https://%@", address ];
+    }
+    
+    if ([address hasPrefix:@"http://"]) {
+        address = [address stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+    }
+    
+    return address;
+}
+
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler
 {
     return [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];

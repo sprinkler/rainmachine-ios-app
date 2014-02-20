@@ -11,6 +11,7 @@
 #import "StorageManager.h"
 #import "Constants.h"
 #import "ColoredBackgroundButton.h"
+#import "Utils.h"
 
 @interface AddNewDeviceVC ()
 
@@ -18,6 +19,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *tokenEmailTextField;
 @property (weak, nonatomic) IBOutlet ColoredBackgroundButton *saveButton;
+@property (weak, nonatomic) IBOutlet UILabel *tokenExplanationTextfield;
+@property (weak, nonatomic) IBOutlet UIImageView *tokenSeparator;
+@property (weak, nonatomic) IBOutlet UIImageView *nameAndUrlSeparator;
+@property (weak, nonatomic) IBOutlet UILabel *tokenTitleLabel;
 
 @end
 
@@ -42,8 +47,29 @@
         self.urlOrIPTextField.text = self.sprinkler.address;
     }
 
+    [self removeTokenView];
+    
     // Customize the Save button
     [self.saveButton setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
+}
+
+- (void)removeTokenView
+{
+    [_tokenExplanationTextfield removeFromSuperview];
+    [_tokenSeparator removeFromSuperview];
+    [_tokenTitleLabel removeFromSuperview];
+    [_tokenEmailTextField removeFromSuperview];
+    
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_saveButton
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:_nameAndUrlSeparator
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                multiplier:1.0
+                                                                  constant:26.0];
+    constraint.priority = UILayoutPriorityDefaultHigh;
+    
+    [self.view addConstraint:constraint];
 }
 
 #pragma mark - Actions
@@ -51,22 +77,8 @@
 - (IBAction)onSave:(id)sender {
     NSString *name = self.nameTextField.text;
     NSString *address = self.urlOrIPTextField.text;
-    NSString *port;
-    NSArray *array = [address componentsSeparatedByString:@":"];
-    NSInteger lengthOfAdress = [array count] -1;
-    
-    if(lengthOfAdress >= 1)
-    {
-        port = array[lengthOfAdress];
-    }
-    
-    // if we type adress:port port must have under 4 digits (otherwise it means we have something like https://adress and we don't have a port)
-    if(lengthOfAdress == 1)
-    {
-        if([array[1] length] > 4)
-            port = NULL;
-    }
-    
+    NSURL *url = [NSURL URLWithString:address];
+    NSString *port = [[url port] stringValue];
     
     if ([address length] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete fields." message:@"Please provide a value for the IP address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -84,12 +96,10 @@
         name = address;
     }
     
-    if (![address hasPrefix:@"http://"] && ![address hasPrefix:@"https://"]) {
-        address = [NSString stringWithFormat:@"https://%@", address];
-    }
+    address = [Utils fixedSprinklerAddress:address];
     
-    if ([address hasPrefix:@"http://"]) {
-        address = [address stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+    if (!port) {
+        port = @"443";
     }
     
     if (_sprinkler) {

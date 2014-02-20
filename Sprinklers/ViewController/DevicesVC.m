@@ -18,6 +18,7 @@
 #import "ServiceManager.h"
 #import "StorageManager.h"
 #import "MBProgressHUD.h"
+#import "Utils.h"
 #import "LoginVC.h"
 #import "AddNewDeviceVC.h"
 
@@ -28,7 +29,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) NSMutableArray *savedSprinklers;
+@property (strong, nonatomic) NSArray *savedSprinklers;
 @property (strong, nonatomic) NSMutableArray *discoveredSprinklers;
 @property (strong, nonatomic) MBProgressHUD *hud;
 
@@ -84,7 +85,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.discoveredSprinklers = [NSMutableArray array];
-    self.savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersOnLocalNetwork:nil]];
+    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All onlyDiscoveredDevices:@YES];
     
     [self shouldStartBroadcast];
     
@@ -120,23 +121,27 @@
     [[ServiceManager current] stopBroadcast];
     self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
     
+    // Mark all non-discovered sprinklers as not-alive
+    NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersFromNetwork:NetworkType_Local onlyDiscoveredDevices:@YES]];
+    for (Sprinkler *sprinkler in localSprinklers) {
+        sprinkler.isDiscovered = @NO;
+    }
+    
     // Convert the DiscoveredSprinkler objects into Sprinkler objects
-    [[StorageManager current] deleteLocalSprinklers];
-    
-    self.savedSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersOnLocalNetwork:@NO]];
-    
-    // for the discovered sprinklers we will have the default port
-    NSString *port = @"443";
-    
+    // Update all discovered ones or add them as new sprinklers
     for (int i = 0; i < [self.discoveredSprinklers count]; i++) {
-        
         DiscoveredSprinklers *discoveredSprinkler = self.discoveredSprinklers[i];
-        Sprinkler *sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES save:NO];
-        
-        [self.savedSprinklers insertObject:sprinkler atIndex:0];
+        NSString *port = [NSString stringWithFormat:@"%d", discoveredSprinkler.port];
+        Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerName address:[Utils fixedSprinklerAddress:discoveredSprinkler.host] port:port local:@YES];
+        if (!sprinkler) {
+            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES save:NO];
+        }
+        sprinkler.isDiscovered = @YES;
     }
 
     [[StorageManager current] saveData];
+    
+    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All onlyDiscoveredDevices:@YES];
     
     // For now, the discovered sprinklers appear directly in the devices list, no need for wifi setup
     self.discoveredSprinklers = nil;

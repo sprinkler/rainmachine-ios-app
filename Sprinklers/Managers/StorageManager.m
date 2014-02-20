@@ -7,6 +7,7 @@
 //
 
 #import "StorageManager.h"
+#import "Utils.h"
 #import "Constants.h"
 
 static StorageManager *current = nil;
@@ -33,10 +34,11 @@ static StorageManager *current = nil;
 - (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal save:(BOOL)save {
     Sprinkler *sprinkler = [NSEntityDescription insertNewObjectForEntityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     sprinkler.name = name;
-    sprinkler.address = ip;
+    sprinkler.address = [Utils fixedSprinklerAddress:ip];
     sprinkler.port = port;
     sprinkler.isLocalDevice = isLocal;
-    
+    sprinkler.isDiscovered = @YES;
+
     if (save) {
         [self saveData];
     }
@@ -46,7 +48,7 @@ static StorageManager *current = nil;
 
 - (void)deleteLocalSprinklers
 {
-    NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersOnLocalNetwork:@YES]];
+    NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersFromNetwork:NetworkType_Local onlyDiscoveredDevices:@NO]];
     for (Sprinkler *sprinkler in localSprinklers) {
         [self.managedObjectContext deleteObject:sprinkler];
     }
@@ -108,15 +110,18 @@ static StorageManager *current = nil;
     return nil;
 }
 
-- (NSArray *)getSprinklersOnLocalNetwork:(NSNumber*)fromLocal {
+- (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType onlyDiscoveredDevices:(NSNumber*)onlyDiscoveredDevices {
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    if (fromLocal) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isLocalDevice == %@", fromLocal];
+    if (networkType != NetworkType_All) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isLocalDevice == %@ AND isDiscovered == YES", [NSNumber numberWithBool:networkType == NetworkType_Local]];
+        [fetchRequest setPredicate:predicate];
+    } else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isDiscovered == YES", onlyDiscoveredDevices];
         [fetchRequest setPredicate:predicate];
     }
 
