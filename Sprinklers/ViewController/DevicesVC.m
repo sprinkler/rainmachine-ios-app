@@ -22,6 +22,8 @@
 #import "LoginVC.h"
 #import "AddNewDeviceVC.h"
 
+#define kAlertView_DeleteDevice 1
+
 @interface DevicesVC () {
     NSTimer *timer;
     NSTimer *silentTimer;
@@ -30,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSArray *savedSprinklers;
+@property (strong, nonatomic) NSArray *remoteSprinklers;
 @property (strong, nonatomic) NSMutableArray *discoveredSprinklers;
 @property (strong, nonatomic) MBProgressHUD *hud;
 
@@ -54,25 +57,37 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
-    
+
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
         self.navigationController.navigationBar.translucent = NO;
     }
-    
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
-    self.navigationItem.leftBarButtonItem = saveButton;
     
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType2" bundle:nil] forCellReuseIdentifier:@"DevicesCellType2"];
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType3" bundle:nil] forCellReuseIdentifier:@"DevicesCellType3"];
     [self createFooter];
     
-    if ([StorageManager current].currentSprinkler) {
-        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-        self.navigationItem.rightBarButtonItem = closeButton;
+    [self updateNavigationbarButtons];
+}
+
+- (void)updateNavigationbarButtons
+{
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItems = nil;
+    self.navigationItem.leftBarButtonItem = nil;
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+    if (self.tableView.isEditing) {
+        self.navigationItem.rightBarButtonItem = doneButton;
     } else {
-        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(edit)];
+        if ([StorageManager current].currentSprinkler) {
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneButton, editButton, nil];
+        } else {
+            self.navigationItem.rightBarButtonItem = editButton;
+        }
     }
 }
 
@@ -85,7 +100,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.discoveredSprinklers = [NSMutableArray array];
-    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All onlyDiscoveredDevices:@YES];
+
+    [self refreshSprinklerList];
     
     [self shouldStartBroadcast];
     
@@ -96,8 +112,15 @@
 
 #pragma mark - Methods
 
-- (void)done {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void)setSavedSprinklers:(NSArray *)savedSprinklers
+{
+    _savedSprinklers = savedSprinklers;
+    _remoteSprinklers = [Utils remoteSprinklersFilter:_savedSprinklers];
+}
+
+- (void)refreshSprinklerList
+{
+    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All onlyDiscoveredDevices:@YES];
 }
 
 - (void)createFooter {
@@ -141,7 +164,7 @@
 
     [[StorageManager current] saveData];
     
-    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All onlyDiscoveredDevices:@YES];
+    [self refreshSprinklerList];
     
     // For now, the discovered sprinklers appear directly in the devices list, no need for wifi setup
     self.discoveredSprinklers = nil;
@@ -185,6 +208,23 @@
 
 #pragma mark - Actions
 
+- (void)done {
+    if (self.tableView.isEditing) {
+        [self.tableView setEditing:NO animated:YES];
+        [self updateNavigationbarButtons];
+        [self.tableView reloadData];
+        return;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)edit {
+    [self.tableView setEditing:YES animated:YES];
+    [self updateNavigationbarButtons];
+    [self.tableView reloadData];
+}
+
 - (void)onRefresh:(id)notification {
     [self shouldStartBroadcast];
 }
@@ -192,11 +232,17 @@
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView.editing) {
+        return 1;
+    }
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
+        if (tableView.editing) {
+            return self.remoteSprinklers.count;
+        }
         return self.savedSprinklers.count;
     }
     
@@ -228,18 +274,29 @@
     return 35.0f;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [[StorageManager current] deleteSprinkler:[self.remoteSprinklers[indexPath.row] name]];
+        [self refreshSprinklerList];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         DevicesCellType1 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType1" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         
-        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+        Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
         cell.labelMainTitle.text = sprinkler.name;
         cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port] : sprinkler.address;
         
         // TODO: decide upon local/remote type on runtime
         cell.labelInfo.text = [sprinkler.isLocalDevice boolValue] ? @"local" : @"remote";
-    
+
+        cell.disclosureImageView.hidden = tableView.isEditing;
+        cell.labelInfo.hidden = tableView.isEditing;
+
         return cell;
     }
     else if (indexPath.section == 1) {

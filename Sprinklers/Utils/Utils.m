@@ -17,6 +17,18 @@
 
 #pragma mark - General Sprinkler utils
 
++ (NSArray*)remoteSprinklersFilter:(NSArray*)sprinklers
+{
+    NSMutableArray *rs = [NSMutableArray array];
+    for (Sprinkler *sprinkler in sprinklers) {
+        if (![sprinkler.isLocalDevice boolValue]) {
+            [rs addObject:sprinkler];
+        }
+    }
+    
+    return rs;
+}
+
 + (NSString*)fixedSprinklerAddress:(NSString*)address
 {
     if (![address hasPrefix:@"http://"] && ![address hasPrefix:@"https://"]) {

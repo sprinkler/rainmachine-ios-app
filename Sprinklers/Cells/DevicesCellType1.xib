@@ -44,6 +44,7 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
+                <outlet property="disclosureImageView" destination="1ur-E5-aPU" id="6OL-He-IWZ"/>
                 <outlet property="labelInfo" destination="k5M-6e-97S" id="shC-ke-kIy"/>
                 <outlet property="labelMainSubtitle" destination="eoN-2J-POi" id="gbV-av-ubY"/>
                 <outlet property="labelMainTitle" destination="u4s-Oa-W5p" id="djh-Sp-EeK"/>

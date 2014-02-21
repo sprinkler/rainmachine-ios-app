@@ -13,5 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelInfo;
 @property (strong, nonatomic) IBOutlet UILabel *labelMainTitle;
 @property (strong, nonatomic) IBOutlet UILabel *labelMainSubtitle;
+@property (weak, nonatomic) IBOutlet UIImageView *disclosureImageView;
 
 @end

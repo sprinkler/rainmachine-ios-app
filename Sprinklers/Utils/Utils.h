@@ -21,6 +21,7 @@
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;
 + (NSString*)fixedSprinklerAddress:(NSString*)address;
++ (NSArray*)remoteSprinklersFilter:(NSArray*)sprinklers;
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 
