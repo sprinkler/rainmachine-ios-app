@@ -158,14 +158,28 @@
         Program *program = programs[indexPath.row];
         cell.textLabel.text = program.name;
         
+        NSDateFormatter *formatter = [NSDateFormatter new];
+        [formatter setDateFormat:@"hh:mm"];
+        NSString *startHourAndMinute = [formatter stringFromDate:program.startTime];
+        if (!startHourAndMinute) {
+            startHourAndMinute = @"";
+        } else {
+            startHourAndMinute = [@"at " stringByAppendingString:startHourAndMinute];
+        }
+        
         if ([program.weekdays isEqualToString:@"D"]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Daily %@", program.startTime];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Daily %@", startHourAndMinute];
         }
         if ([program.weekdays isEqualToString:@"ODD"]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Odd days %@", program.startTime];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Odd days %@", startHourAndMinute];
+        }
+        if ([program.weekdays containsString:@"INT"]) {
+            int nrDays;
+            sscanf([program.weekdays UTF8String], "INT %d", &nrDays);
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Every %d days %@", nrDays, startHourAndMinute];
         }
         if ([program.weekdays isEqualToString:@"EVD"]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Even days %@", program.startTime];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Even days %@", startHourAndMinute];
         }
         if ([program.weekdays containsString:@","]) {
             NSArray *vals = [program.weekdays componentsSeparatedByString:@","];
@@ -198,7 +212,7 @@
                 if ([daysString hasSuffix:@","]) {
                     daysString = [daysString substringToIndex:daysString.length - 2];
                 }
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", daysString, program.startTime];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", daysString, startHourAndMinute];
             }
         }
         
