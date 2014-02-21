@@ -128,7 +128,7 @@ const float kHomeScreenCellHeight = 66;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.dataSourceTableView) {
-        return 55;
+        return 76;
     }
     return kHomeScreenCellHeight;
 }
@@ -138,9 +138,20 @@ const float kHomeScreenCellHeight = 66;
         static NSString *CellIdentifier = @"HomeDataSourceCell";
         HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         cell.dataSourceLabel.text = [StorageManager current].currentSprinkler.address;
-        cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate] : @""];
-        cell.sprinkler = [StorageManager current].currentSprinkler;
         
+        // This is the old formatting style: <x> hours ago / Yesterday / ...
+        // cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate] : @""];
+
+        // This is the new date formatting for Last update
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateStyle:NSDateFormatterShortStyle];
+        [formatter setTimeStyle:NSDateFormatterShortStyle];
+        
+        cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [formatter stringFromDate:[StorageManager current].currentSprinkler.lastUpdate] : @""];
+
+        cell.statusImageView.image = [UIImage imageNamed:([StorageManager current].currentSprinkler.lastError == nil) ? @"icon_status_ok" : @"icon_status_warning"];
+        cell.wheatherUpdateLabel.text = [NSString stringWithFormat:@"Wheather update: %@", ([StorageManager current].currentSprinkler.lastError == nil) ? @"success" : @"failure"];
+
         return cell;
     }
     

@@ -91,10 +91,10 @@
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    DLog(@"%s", __PRETTY_FUNCTION__);
     [self.hud hide:YES];
     
-    NSMutableArray* restrictionsDataArray = data;
+    // NSMutableArray* restrictionsDataArray = data;
     //RestrictionsData* restrictionsData = restrictionsDataArray[0];
 
     [_tableView reloadData];
@@ -102,8 +102,8 @@
 
 - (void)handleLoggedOutSprinklerError {
     NSString *errorTitle = @"Logged out";
-    [StorageManager current].currentSprinkler.lastError = errorTitle;
-    [[StorageManager current] saveData];
+//    [StorageManager current].currentSprinkler.lastError = errorTitle;
+//    [[StorageManager current] saveData];
     
     self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     self.alertView.tag = kLoggedOut_AlertViewTag;
