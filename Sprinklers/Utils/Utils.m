@@ -29,6 +29,15 @@
     return rs;
 }
 
++ (NSString*)fixedWaterZoneName:(WaterNowZone *)waterNowZone
+{
+    if ([waterNowZone.name length] == 0) {
+        return [NSString stringWithFormat:@"Zone %@", waterNowZone.id];
+    }
+    
+    return waterNowZone.name;
+}
+
 + (NSString*)fixedSprinklerAddress:(NSString*)address
 {
     if (![address hasPrefix:@"http://"] && ![address hasPrefix:@"https://"]) {

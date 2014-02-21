@@ -204,7 +204,7 @@
     cell.delegate = self;
     cell.zone = waterNowZone;
     
-    cell.zoneNameLabel.text = waterNowZone.name;
+    cell.zoneNameLabel.text = [Utils fixedWaterZoneName:waterNowZone];
     cell.descriptionLabel.text = waterNowZone.type;
     cell.onOffSwitch.on = isWatering || isPending;
     

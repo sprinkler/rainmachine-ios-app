@@ -16,6 +16,7 @@
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler;
 + (NSString*)currentSprinklerURL;
 
++ (NSString*)fixedWaterZoneName:(WaterNowZone *)waterNowZone;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (BOOL)isZoneWatering:(WaterNowZone*)zone;
 + (BOOL)isZonePending:(WaterNowZone*)zone;
