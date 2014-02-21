@@ -49,7 +49,17 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    if (section == 0) {
+        return 2;
+    }
+    else if (section == 1) {
+        return 1;
+    }
+    else if (section == 2) {
+        return 1;
+    }
+    
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -103,10 +113,10 @@
             cell.textLabel.text = @"Rain Delay";
             cell.detailTextLabel.text = @"0 days"; //TODO: Get correct delay;
         }
-        if (indexPath.row == 1) {
-            cell.textLabel.text = @"Restrictions";
-            cell.detailTextLabel.text = @"Daily 09:30AM - 10:30AM"; //TODO: Get correct restrictions;
-        }
+//        if (indexPath.row == 1) {
+//            cell.textLabel.text = @"Restrictions";
+//            cell.detailTextLabel.text = @"Daily 09:30AM - 10:30AM"; //TODO: Get correct restrictions;
+//        }
     }
     
     if (indexPath.section == 2)
@@ -115,10 +125,10 @@
             cell.textLabel.text = @"Device Settings";
             cell.detailTextLabel.text = @"Units, Locations, Data Sources & Types...";
         }
-        if (indexPath.row == 1) {
-            cell.textLabel.text = @"Statistics";
-            cell.detailTextLabel.text = @"1 Month, 1 Year...";
-        }
+//        if (indexPath.row == 1) {
+//            cell.textLabel.text = @"Statistics";
+//            cell.detailTextLabel.text = @"1 Month, 1 Year...";
+//        }
     }
     
     if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
@@ -132,38 +142,27 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    switch (indexPath.row + (2 * indexPath.section)) {
-        case 0: {
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
             ProgramsVC *programs = [[ProgramsVC alloc] init];
             [self.navigationController pushViewController:programs animated:YES];
         }
-        break;
-            
-        case 1: {
+        if (indexPath.row == 1) {
             ZonesVC *zones = [[ZonesVC alloc] init];
             [self.navigationController pushViewController:zones animated:YES];
         }
-            break;
-        case 2: {
+    }
+    else if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
             RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
             [self.navigationController pushViewController:rainDelay animated:YES];
         }
-        break;
-            
-        case 3:
-        {
-            RestrictionsVC *restrictionsVC = [[RestrictionsVC alloc] init];
-            [self.navigationController pushViewController: restrictionsVC animated:YES];
-        }
-        break;
-            
-        case 4:
-        {
-        }
-        break;
-            
-        default:
-            break;
+    }
+    else if (indexPath.section == 2) {
+//        if (indexPath.row == 1) {
+//            RestrictionsVC *restrictionsVC = [[RestrictionsVC alloc] init];
+//            [self.navigationController pushViewController: restrictionsVC animated:YES];
+//        }
     }
 }
 
