@@ -20,6 +20,7 @@
 @interface WaterNowLevel1VC ()
 {
     NSTimeInterval retryInterval;
+    BOOL freezeCounter;
 }
 
 @property (strong, nonatomic) ServerProxy *pollServerProxy;
@@ -85,6 +86,8 @@
         self.initialTimerRequestActivityIndicator.hidden = YES;
         self.counterLabel.hidden = NO;
     }
+    
+    freezeCounter = NO;
     
     [self refreshUI];
 }
@@ -160,7 +163,9 @@
     int counter = [self.waterZone.counter intValue] - 1;
     int newCounter = MAX(0, counter);
     self.waterZone.counter = [NSNumber numberWithInt:newCounter];
-    self.counterLabel.text = [NSString formattedTime:newCounter usingOnlyDigits:YES];
+    if (!freezeCounter) {
+        self.counterLabel.text = [NSString formattedTime:newCounter usingOnlyDigits:YES];
+    }
 }
 
 - (void)stopCounterTimer
@@ -241,6 +246,8 @@
 //    }
 
     if (serverProxy == self.pollServerProxy) {
+        freezeCounter = NO;
+        
         [self updateCounter];
         [self updatePollStateWithDelay:retryInterval];
 
@@ -258,6 +265,8 @@
     if (serverProxy == self.postServerProxy) {
 //        [self scheduleNextPollRequest:5 withServerProxy:self.quickRefreshServerProxy];
     } else {
+        freezeCounter = NO;
+        
         self.lastPollRequestError = nil;
         
         self.waterZone = data;
@@ -306,7 +315,12 @@
 
 - (IBAction)onStartButton:(id)sender {
     [self updateStartButtonActiveStateTo:NO];
-    [self.postServerProxy toggleWateringOnZone:self.waterZone withCounter:self.waterZone.counter];
+
+    if (![self.postServerProxy toggleWateringOnZone:self.waterZone withCounter:self.waterZone.counter]) {
+        // Watering stop request sent. Freeze the counter until next update.
+        freezeCounter = YES;
+    }
+
     [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
 }
 

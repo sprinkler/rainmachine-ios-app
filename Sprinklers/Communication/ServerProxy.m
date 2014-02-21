@@ -169,7 +169,8 @@
 }
 
 // Toggle a zone (Used in Water Now->Zone screen and when toggling watering using switches from main screen)
-- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
+// Return value means: YES - if watering started, NO - if watering stopped
+- (BOOL)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
     BOOL isIdle = [Utils isZoneIdle:zone];
     StartStopWatering *startStopWatering = [StartStopWatering new];
@@ -185,6 +186,8 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleError:error fromOperation:operation];
     }];
+    
+    return [startStopWatering.counter intValue] != 0;
 }
 
 - (void)requestZones {
