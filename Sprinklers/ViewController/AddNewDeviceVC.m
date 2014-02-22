@@ -55,23 +55,26 @@
     
     // Customize the Save button
     [self.saveButton setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
+
+    [_nameTextField becomeFirstResponder];
 }
 
 - (void)removeTokenView
 {
     [_tokenExplanationTextfield removeFromSuperview];
-    [_tokenSeparator removeFromSuperview];
+    [_nameAndUrlSeparator removeFromSuperview];
     [_tokenTitleLabel removeFromSuperview];
     [_tokenEmailTextField removeFromSuperview];
     
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_saveButton
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_nameAndUrlSeparator
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier:1.0
-                                                                  constant:26.0];
-    constraint.priority = UILayoutPriorityDefaultHigh;
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_tokenSeparator
+                                                                   attribute:NSLayoutAttributeTop
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:_urlOrIPTextField
+                                                                   attribute:NSLayoutAttributeBottom
+                                                                  multiplier:1.0
+                                                                    constant:18.0];
+
+    constraint.priority = UILayoutPriorityRequired;
     
     [self.view addConstraint:constraint];
 }

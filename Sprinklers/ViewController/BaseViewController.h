@@ -16,7 +16,7 @@
 @property (strong, nonatomic) UIAlertView *alertView;
 
 - (void)handleServerLoggedOutUser;
-- (void)handleGeneralSprinklerError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage;
+- (BOOL)handleGeneralSprinklerError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage;
 - (void)handleLoggedOutSprinklerError;
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex;

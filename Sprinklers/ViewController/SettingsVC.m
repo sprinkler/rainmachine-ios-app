@@ -100,18 +100,18 @@
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Programs Properties";
-            cell.detailTextLabel.text = @"Next run: P2 at 06:45PST";  //TODO: Get correct next run.
+//            cell.detailTextLabel.text = @"Next run: P2 at 06:45PST";  //TODO: Get correct next run.
         }
         if (indexPath.row == 1) {
             cell.textLabel.text = @"Zone Properties";
-            cell.detailTextLabel.text = @"8 active, 4 inactive";  //TODO: Get correct zone numbers.
+//            cell.detailTextLabel.text = @"8 active, 4 inactive";  //TODO: Get correct zone numbers.
         }
     }
     
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Rain Delay";
-            cell.detailTextLabel.text = @"0 days"; //TODO: Get correct delay;
+//            cell.detailTextLabel.text = @"0 days"; //TODO: Get correct delay;
         }
 //        if (indexPath.row == 1) {
 //            cell.textLabel.text = @"Restrictions";
@@ -123,7 +123,7 @@
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Device Settings";
-            cell.detailTextLabel.text = @"Units, Locations, Data Sources & Types...";
+            cell.detailTextLabel.text = @"Units, Date, Time";
         }
 //        if (indexPath.row == 1) {
 //            cell.textLabel.text = @"Statistics";
@@ -155,6 +155,7 @@
     else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
+            rainDelay.parent = self;
             [self.navigationController pushViewController:rainDelay animated:YES];
         }
     }

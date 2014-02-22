@@ -214,8 +214,7 @@
 {
     if (serverProxy == self.pollServerProxy) {
         // Clear previously scheduled pollServerProxy requests
-        [serverProxy cancelAllOperations];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        [self stopPollRequests];
     }
     
     NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:referenceDate];

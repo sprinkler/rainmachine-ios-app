@@ -42,6 +42,8 @@
 - (void)requestWaterNowZoneList;
 - (void)requestWaterActionsForZone:(NSNumber*)zoneId;
 - (BOOL)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
+- (void)setRainDelay:(NSNumber*)value;
+- (void)getRainDelay;
 
 - (void)requestPrograms;
 - (void)deleteProgram:(int)programId;

@@ -10,6 +10,11 @@
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
 
+@class SettingsVC;
+
 @interface RainDelayVC : BaseLevel2ViewController <SprinklerResponseProtocol>
+
+@property (weak, nonatomic) SettingsVC *parent;
+
 
 @end

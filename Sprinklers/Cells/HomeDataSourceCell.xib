@@ -8,21 +8,21 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeDataSourceCell" id="FzE-wB-NfW" customClass="HomeScreenDataSourceCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FzE-wB-NfW" id="gia-eb-gMr">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data source" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fss-Jg-ELk">
-                        <rect key="frame" x="11" y="9" width="255" height="15"/>
+                        <rect key="frame" x="11" y="9" width="255" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last updated" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8a-lp-IfI">
-                        <rect key="frame" x="11" y="47" width="255" height="25"/>
+                        <rect key="frame" x="11" y="51" width="255" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -52,23 +52,20 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OOe-s2-zlH">
-                        <rect key="frame" x="0.0" y="43" width="10" height="33"/>
+                        <rect key="frame" x="0.0" y="43" width="10" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="eTO-hF-c3e" firstAttribute="height" secondItem="OOe-s2-zlH" secondAttribute="height" id="6Cx-ic-M6G"/>
-                    <constraint firstItem="Fss-Jg-ELk" firstAttribute="top" secondItem="gia-eb-gMr" secondAttribute="top" constant="9" id="70M-hM-Xxa"/>
                     <constraint firstItem="eTO-hF-c3e" firstAttribute="width" secondItem="OOe-s2-zlH" secondAttribute="width" id="8Za-X5-bL4"/>
                     <constraint firstItem="4vM-Xp-8IH" firstAttribute="centerY" secondItem="jdx-nN-ZfO" secondAttribute="centerY" id="9DT-nG-uH8"/>
                     <constraint firstItem="eTO-hF-c3e" firstAttribute="top" secondItem="gia-eb-gMr" secondAttribute="top" id="CP5-OG-jA8"/>
-                    <constraint firstAttribute="bottom" secondItem="P8a-lp-IfI" secondAttribute="bottom" constant="3" id="L07-L9-6vr"/>
                     <constraint firstItem="eTO-hF-c3e" firstAttribute="leading" secondItem="gia-eb-gMr" secondAttribute="leading" id="Ndh-0i-bAZ"/>
                     <constraint firstItem="4vM-Xp-8IH" firstAttribute="leading" secondItem="gia-eb-gMr" secondAttribute="leading" constant="11" id="TqL-Ul-kUB"/>
                     <constraint firstItem="jdx-nN-ZfO" firstAttribute="leading" secondItem="4vM-Xp-8IH" secondAttribute="trailing" constant="8" id="VVh-Ha-U2F"/>
                     <constraint firstItem="4vM-Xp-8IH" firstAttribute="leading" secondItem="P8a-lp-IfI" secondAttribute="leading" id="Wh3-ox-cyk"/>
-                    <constraint firstItem="Fss-Jg-ELk" firstAttribute="top" secondItem="eTO-hF-c3e" secondAttribute="top" constant="9" id="Xm2-la-few"/>
                     <constraint firstItem="Fss-Jg-ELk" firstAttribute="trailing" secondItem="4vM-Xp-8IH" secondAttribute="trailing" id="Y03-aU-0op"/>
                     <constraint firstAttribute="centerY" secondItem="jdx-nN-ZfO" secondAttribute="centerY" constant="-0.5" id="Y2S-wV-ZxI"/>
                     <constraint firstAttribute="trailing" secondItem="jdx-nN-ZfO" secondAttribute="trailing" constant="14" id="cC1-U9-AUg"/>

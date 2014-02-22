@@ -13,6 +13,7 @@
 #import "RestrictionsData.h"
 #import "WaterNowZone.h"
 #import "StartStopWatering.h"
+#import "SetRainDelay.h"
 #import "ServerResponse.h"
 #import "Utils.h"
 #import "Program.h"
@@ -20,6 +21,7 @@
 #import "UpdateInfo.h"
 #import "UpdateStartInfo.h"
 #import "StorageManager.h"
+#import "RainDelay.h"
 
 @implementation ServerProxy
 
@@ -188,6 +190,34 @@
     }];
     
     return [startStopWatering.counter intValue] != 0;
+}
+
+- (void)getRainDelay {
+    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings", @"what": @"rainDelay"}
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if ([self passLoggedOutFilter:operation]) {
+                      NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([RainDelay class])];
+                      ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                      [self.delegate serverResponseReceived:response serverProxy:self];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation];
+              }];
+}
+
+- (void)setRainDelay:(NSNumber*)value
+{
+    NSDictionary *params = [NSDictionary dictionaryWithObject:value forKey:@"rainDelay"];
+    [self.manager POST:@"/ui.cgi?action=settings&what=rainDelay" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([self passLoggedOutFilter:operation]) {
+            NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+            ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+            [self.delegate serverResponseReceived:response serverProxy:self];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation];
+    }];
 }
 
 - (void)requestZones {

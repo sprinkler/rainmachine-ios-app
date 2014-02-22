@@ -89,7 +89,7 @@
     [[StorageManager current] saveData];
 }
 
-- (void)handleGeneralSprinklerError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
+- (BOOL)handleGeneralSprinklerError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
 //    [StorageManager current].currentSprinkler.lastError = errorMessage;
 //    [[StorageManager current] saveData];
     
@@ -97,7 +97,11 @@
         self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         self.alertView.tag = kError_AlertViewTag;
         [self.alertView show];
+        
+        return YES;
     }
+    
+    return NO;
 }
 
 - (void)handleLoggedOutSprinklerError {
