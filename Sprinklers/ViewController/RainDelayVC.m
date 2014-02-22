@@ -114,10 +114,8 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
 {
     if (serverProxy == self.pollServerProxy) {
-        if (![self.parent handleGeneralSprinklerError:nil showErrorMessage:YES]) {
-            self.rainDelay = ((RainDelay*)data).rainDelay;
-            [self updateCounter];
-        }
+        self.rainDelay = ((RainDelay*)data).rainDelay;
+        [self updateCounter];
     }
     else if (serverProxy == self.postServerProxy) {
         ServerResponse *response = (ServerResponse*)data;

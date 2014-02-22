@@ -16,6 +16,5 @@
 
 @optional
 - (void)loginSucceededAndRemembered:(BOOL)remembered;
-- (void)programDeleted:(int)programId;
 
 @end

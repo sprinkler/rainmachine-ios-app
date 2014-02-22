@@ -269,18 +269,20 @@
 }
 
 - (void)deleteProgram:(int)programId {
-    [self.manager POST:@"ui.cgi?action=settings&what=programs" parameters:@{@"id": @(programId)}
-               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                   if ([self passLoggedOutFilter:operation]) {
-                       if (_delegate && [_delegate respondsToSelector:@selector(programDeleted:)]) {
-                           [_delegate programDeleted:programId];
-                       }
-                   }
-               }
-               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                   [self handleError:error fromOperation:operation];
-               }];
-     
+    NSDictionary *paramsDic = @{@"action": @"settings",
+                                @"what": @"delete_program",
+                                @"pid": [NSNumber numberWithInt:programId]};
+
+    [self.manager POST:@"/ui.cgi" parameters:paramsDic
+       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           if ([self passLoggedOutFilter:operation]) {
+               [_delegate serverResponseReceived:[NSNumber numberWithInt:programId] serverProxy:self];
+           }
+       }
+       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           [self handleError:error fromOperation:operation];
+       }];
+    
 }
 
 - (void)saveZone:(Zone *)zone {

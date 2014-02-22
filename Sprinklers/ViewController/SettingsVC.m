@@ -145,6 +145,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             ProgramsVC *programs = [[ProgramsVC alloc] init];
+            programs.parent = self;
             [self.navigationController pushViewController:programs animated:YES];
         }
         if (indexPath.row == 1) {

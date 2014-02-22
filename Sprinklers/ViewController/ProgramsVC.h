@@ -10,6 +10,10 @@
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
 
+@class SettingsVC;
+
 @interface ProgramsVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource, SprinklerResponseProtocol>
+
+@property (weak, nonatomic) SettingsVC *parent;
 
 @end

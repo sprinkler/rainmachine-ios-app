@@ -13,17 +13,17 @@
 #import "MBProgressHUD.h"
 #import "Additions.h"
 #import "Utils.h"
+#import "SettingsVC.h"
 
 @interface ProgramsVC () {
     MBProgressHUD *hud;
-    NSMutableArray *programs;
-    BOOL editing;
     UIBarButtonItem *editButton;
 }
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
-@property (strong, nonatomic) ServerProxy *postServerProxy;
+@property (strong, nonatomic) ServerProxy *postDeleteServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *programs;
 
 @end
 
@@ -44,16 +44,19 @@
     
     editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
     self.navigationItem.rightBarButtonItem = editButton;
-    editing = NO;
     
     self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-    self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
     
-    [self startHud:nil];
-    [self.serverProxy requestPrograms];
+    [self requestPrograms];
 }
 
 #pragma mark - Methods
+
+- (void)requestPrograms
+{
+    [self startHud:nil];
+    [self.serverProxy requestPrograms];
+}
 
 - (void)startHud:(NSString *)text {
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -61,51 +64,68 @@
 }
 
 - (void)edit {
-    editing = !editing;
-    [_tableView setEditing:editing];
-    if (editing) {
+    [_tableView setEditing:!_tableView.editing];
+    if (_tableView.editing) {
+        self.postDeleteServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         [editButton setTitle:@"Done"];
-    }
-    else {
+        [self.tableView reloadData];
+    } else {
+        self.postDeleteServerProxy = nil;
         [editButton setTitle:@"Edit"];
+//        [self requestPrograms];
     }
 }
 
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    programs = data;
+    if (serverProxy == self.postDeleteServerProxy) {
+//        [self requestPrograms];
+        [self programDeleted:data];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } else {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.programs = data;
+    }
+    
     [_tableView reloadData];
 }
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
+
+//    if (serverProxy == self.postDeleteServerProxy) {
+//        [self requestPrograms];
+//    }
 }
 
-- (void)programDeleted:(int)programId {
-    for (int i = 0; i < programs.count; i++) {
-        if (((Program *)programs[i]).programId == programId) {
-            [programs removeObject:programs[i]];
+- (void)programDeleted:(NSNumber*)programId {
+    for (int i = 0; i < self.programs.count; i++) {
+        if (((Program *)self.programs[i]).programId == [programId intValue]) {
+            [self.programs removeObject:self.programs[i]];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+            break;
         }
     }
 }
 
 - (void)loggedOut {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self handleLoggedOutSprinklerError];
+//    [self handleLoggedOutSprinklerError];
+    [self.parent handleLoggedOutSprinklerError];
 }
 
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return tableView.editing ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 1) return 1;
-    return programs.count;
+    return self.programs.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -118,9 +138,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Program *program = programs[indexPath.row];
+        Program *program = self.programs[indexPath.row];
         [self startHud:nil];
-        [_serverProxy deleteProgram:program.programId];
+        [self.postDeleteServerProxy deleteProgram:program.programId];
     }
 }
 
@@ -155,7 +175,7 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
-        Program *program = programs[indexPath.row];
+        Program *program = self.programs[indexPath.row];
         cell.textLabel.text = program.name;
         
         NSDateFormatter *formatter = [NSDateFormatter new];
