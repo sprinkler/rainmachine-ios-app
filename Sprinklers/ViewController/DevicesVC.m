@@ -79,13 +79,16 @@
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     if (self.tableView.isEditing) {
+        [doneButton setTitle:@"Edit"];
         self.navigationItem.rightBarButtonItem = doneButton;
+        
     } else {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
         UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(edit)];
         if ([StorageManager current].currentSprinkler) {
             self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneButton, editButton, nil];
         } else {
+            [editButton setTitle:@"Done"];
             self.navigationItem.rightBarButtonItem = editButton;
         }
     }
