@@ -289,7 +289,15 @@
         
         Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
         cell.labelMainTitle.text = sprinkler.name;
-        cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port] : sprinkler.address;
+        
+        // remove https from address
+        NSString *adressWithoutPrefix = [sprinkler.address substringWithRange:NSMakeRange(8, [sprinkler.address length] - 8)];
+        
+        // we don't have to print the default port
+        if([sprinkler.port isEqual: @"443"])
+            cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@", adressWithoutPrefix] : sprinkler.address;
+        else
+            cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
         
         // TODO: decide upon local/remote type on runtime
         cell.labelInfo.text = [sprinkler.isLocalDevice boolValue] ? @"local" : @"remote";
