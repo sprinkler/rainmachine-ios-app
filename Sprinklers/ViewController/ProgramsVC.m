@@ -14,6 +14,7 @@
 #import "Additions.h"
 #import "Utils.h"
 #import "SettingsVC.h"
+#import "DailyProgramVC.h"
 
 @interface ProgramsVC () {
     MBProgressHUD *hud;
@@ -259,5 +260,18 @@
     
     return nil;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0) {
+        DailyProgramVC *dailyProgramVC = [[DailyProgramVC alloc] init];
+        dailyProgramVC.program = self.programs[indexPath.row];
+        dailyProgramVC.parent = self;
+        [self.navigationController pushViewController:dailyProgramVC animated:YES];
+    }
+}
+
 
 @end

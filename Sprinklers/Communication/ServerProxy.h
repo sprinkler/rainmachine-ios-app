@@ -27,6 +27,7 @@
 @class AFHTTPRequestOperationManager;
 @class StartStopWatering;
 @class WaterNowZone;
+@class Program;
 
 @interface ServerProxy : NSObject
 
@@ -47,6 +48,8 @@
 
 - (void)requestPrograms;
 - (void)deleteProgram:(int)programId;
+- (void)saveProgram:(Program*)program;
+- (void)runNowProgram:(Program*)program;
 
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;

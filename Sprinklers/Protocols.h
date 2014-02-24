@@ -18,3 +18,8 @@
 - (void)loginSucceededAndRemembered:(BOOL)remembered;
 
 @end
+
+@protocol CellButtonDelegate <NSObject>
+- (void)onCellButton;
+
+@end

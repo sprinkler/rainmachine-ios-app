@@ -47,9 +47,18 @@
 		AF7AC9E2184E3ECE0047BD9E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */; };
 		AF7AC9E4184E3EDF0047BD9E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */; };
 		AF7BFAF118B638210013F337 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7BFAF018B638210013F337 /* Sprinkler.m */; };
+		AF81E6DC18BA24D2007E9A03 /* DailyProgramVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6DB18BA24D2007E9A03 /* DailyProgramVC.m */; };
+		AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6DE18BA3216007E9A03 /* ButtonCell.m */; };
+		AF81E6E118BA3237007E9A03 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF81E6E018BA3237007E9A03 /* ButtonCell.xib */; };
+		AF81E6E318BA32C6007E9A03 /* ProgramCellType1.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF81E6E218BA32C6007E9A03 /* ProgramCellType1.xib */; };
+		AF81E6E618BA32D8007E9A03 /* ProgramCellType1.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6E518BA32D8007E9A03 /* ProgramCellType1.m */; };
+		AF81E6E918BA33EB007E9A03 /* ProgramCellType2.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6E818BA33EB007E9A03 /* ProgramCellType2.m */; };
+		AF81E6EB18BA34ED007E9A03 /* ProgramCellType2.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF81E6EA18BA34ED007E9A03 /* ProgramCellType2.xib */; };
 		AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7EF1858D047005888AA /* WaterNowZone.m */; };
 		AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F31858D640005888AA /* StartStopWatering.m */; };
 		AF91C7F71858D757005888AA /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* ServerResponse.m */; };
+		AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */; };
+		AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBC218B8B505006FE76D /* RainDelay.m */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
 		AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* WeatherData.m */; };
 		AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDA18893A5B005191DE /* icon_settings.png */; };
@@ -65,6 +74,13 @@
 		AFCF47BA188D532100C34727 /* separator_line.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCF47B9188D532100C34727 /* separator_line.png */; };
 		AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437EE188A7F1A004F9E11 /* PickerVC.m */; };
 		AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE749861880255500CC3620 /* ColoredBackgroundButton.m */; };
+		AFEAECB518BA36D700370F22 /* DailyProgramVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB418BA36D700370F22 /* DailyProgramVC.xib */; };
+		AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */; };
+		AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */; };
+		AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECBD18BA3F9B00370F22 /* ProgramCellType4.m */; };
+		AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECC018BA3FA800370F22 /* ProgramCellType3.m */; };
+		AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */; };
+		AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */; };
 		AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */; };
 		AFF63593186F54900005EDF1 /* daily_stats_bkn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */; };
 		AFF63594186F54900005EDF1 /* daily_stats_blizzard.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */; };
@@ -410,12 +426,27 @@
 		AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 5.xcdatamodel"; sourceTree = "<group>"; };
 		AF7BFAEF18B638210013F337 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
 		AF7BFAF018B638210013F337 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
+		AF81E6DA18BA24D2007E9A03 /* DailyProgramVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyProgramVC.h; path = ViewController/DailyProgramVC.h; sourceTree = "<group>"; };
+		AF81E6DB18BA24D2007E9A03 /* DailyProgramVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyProgramVC.m; path = ViewController/DailyProgramVC.m; sourceTree = "<group>"; };
+		AF81E6DD18BA3216007E9A03 /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonCell.h; path = Cells/ButtonCell.h; sourceTree = "<group>"; };
+		AF81E6DE18BA3216007E9A03 /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonCell.m; path = Cells/ButtonCell.m; sourceTree = "<group>"; };
+		AF81E6E018BA3237007E9A03 /* ButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ButtonCell.xib; path = Cells/ButtonCell.xib; sourceTree = "<group>"; };
+		AF81E6E218BA32C6007E9A03 /* ProgramCellType1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType1.xib; path = Cells/ProgramCellType1.xib; sourceTree = "<group>"; };
+		AF81E6E418BA32D8007E9A03 /* ProgramCellType1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType1.h; path = Cells/ProgramCellType1.h; sourceTree = "<group>"; };
+		AF81E6E518BA32D8007E9A03 /* ProgramCellType1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType1.m; path = Cells/ProgramCellType1.m; sourceTree = "<group>"; };
+		AF81E6E718BA33EB007E9A03 /* ProgramCellType2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType2.h; path = Cells/ProgramCellType2.h; sourceTree = "<group>"; };
+		AF81E6E818BA33EB007E9A03 /* ProgramCellType2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType2.m; path = Cells/ProgramCellType2.m; sourceTree = "<group>"; };
+		AF81E6EA18BA34ED007E9A03 /* ProgramCellType2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType2.xib; path = Cells/ProgramCellType2.xib; sourceTree = "<group>"; };
 		AF91C7EE1858D047005888AA /* WaterNowZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowZone.h; path = "Communication/Response objects/WaterNowZone.h"; sourceTree = "<group>"; };
 		AF91C7EF1858D047005888AA /* WaterNowZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowZone.m; path = "Communication/Response objects/WaterNowZone.m"; sourceTree = "<group>"; };
 		AF91C7F21858D640005888AA /* StartStopWatering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartStopWatering.h; path = "Communication/Request objects/StartStopWatering.h"; sourceTree = "<group>"; };
 		AF91C7F31858D640005888AA /* StartStopWatering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartStopWatering.m; path = "Communication/Request objects/StartStopWatering.m"; sourceTree = "<group>"; };
 		AF91C7F51858D757005888AA /* ServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerResponse.h; path = "Communication/Response objects/ServerResponse.h"; sourceTree = "<group>"; };
 		AF91C7F61858D757005888AA /* ServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerResponse.m; path = "Communication/Response objects/ServerResponse.m"; sourceTree = "<group>"; };
+		AF94FBBE18B7CC9D006FE76D /* SetRainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetRainDelay.h; path = "Communication/Request objects/SetRainDelay.h"; sourceTree = "<group>"; };
+		AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetRainDelay.m; path = "Communication/Request objects/SetRainDelay.m"; sourceTree = "<group>"; };
+		AF94FBC118B8B505006FE76D /* RainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainDelay.h; path = "Communication/Response objects/RainDelay.h"; sourceTree = "<group>"; };
+		AF94FBC218B8B505006FE76D /* RainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainDelay.m; path = "Communication/Response objects/RainDelay.m"; sourceTree = "<group>"; };
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
 		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Communication/Response objects/WeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Communication/Response objects/WeatherData.m"; sourceTree = "<group>"; };
@@ -435,6 +466,16 @@
 		AFCF47B9188D532100C34727 /* separator_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separator_line.png; path = Resources/separator_line.png; sourceTree = "<group>"; };
 		AFE749851880255500CC3620 /* ColoredBackgroundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColoredBackgroundButton.h; path = Controls/ColoredBackgroundButton.h; sourceTree = "<group>"; };
 		AFE749861880255500CC3620 /* ColoredBackgroundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColoredBackgroundButton.m; path = Controls/ColoredBackgroundButton.m; sourceTree = "<group>"; };
+		AFEAECB418BA36D700370F22 /* DailyProgramVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DailyProgramVC.xib; path = ViewController/DailyProgramVC.xib; sourceTree = "<group>"; };
+		AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType3.xib; path = Cells/ProgramCellType3.xib; sourceTree = "<group>"; };
+		AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType4.xib; path = Cells/ProgramCellType4.xib; sourceTree = "<group>"; };
+		AFEAECBC18BA3F9B00370F22 /* ProgramCellType4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType4.h; path = Cells/ProgramCellType4.h; sourceTree = "<group>"; };
+		AFEAECBD18BA3F9B00370F22 /* ProgramCellType4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType4.m; path = Cells/ProgramCellType4.m; sourceTree = "<group>"; };
+		AFEAECBF18BA3FA800370F22 /* ProgramCellType3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType3.h; path = Cells/ProgramCellType3.h; sourceTree = "<group>"; };
+		AFEAECC018BA3FA800370F22 /* ProgramCellType3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType3.m; path = Cells/ProgramCellType3.m; sourceTree = "<group>"; };
+		AFEAECC218BA6B9B00370F22 /* ProgramCellType5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType5.h; path = Cells/ProgramCellType5.h; sourceTree = "<group>"; };
+		AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType5.m; path = Cells/ProgramCellType5.m; sourceTree = "<group>"; };
+		AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType5.xib; path = Cells/ProgramCellType5.xib; sourceTree = "<group>"; };
 		AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_bkn.png; sourceTree = "<group>"; };
 		AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_stats_bkn@2x.png"; sourceTree = "<group>"; };
 		AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_blizzard.png; sourceTree = "<group>"; };
@@ -1132,6 +1173,24 @@
 				3A9AB592188559C4005B79B9 /* RestrictionsCell.h */,
 				3A9AB593188559C4005B79B9 /* RestrictionsCell.m */,
 				3A9AB595188559E7005B79B9 /* RestrictionsCell.xib */,
+				AF81E6DD18BA3216007E9A03 /* ButtonCell.h */,
+				AF81E6DE18BA3216007E9A03 /* ButtonCell.m */,
+				AF81E6E418BA32D8007E9A03 /* ProgramCellType1.h */,
+				AF81E6E518BA32D8007E9A03 /* ProgramCellType1.m */,
+				AF81E6E718BA33EB007E9A03 /* ProgramCellType2.h */,
+				AF81E6E818BA33EB007E9A03 /* ProgramCellType2.m */,
+				AFEAECBF18BA3FA800370F22 /* ProgramCellType3.h */,
+				AFEAECC018BA3FA800370F22 /* ProgramCellType3.m */,
+				AFEAECBC18BA3F9B00370F22 /* ProgramCellType4.h */,
+				AFEAECBD18BA3F9B00370F22 /* ProgramCellType4.m */,
+				AFEAECC218BA6B9B00370F22 /* ProgramCellType5.h */,
+				AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */,
+				AF81E6E018BA3237007E9A03 /* ButtonCell.xib */,
+				AF81E6E218BA32C6007E9A03 /* ProgramCellType1.xib */,
+				AF81E6EA18BA34ED007E9A03 /* ProgramCellType2.xib */,
+				AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */,
+				AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */,
+				AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1166,6 +1225,10 @@
 				AF167D58189ABF6C003E659D /* UpdateInfo.m */,
 				AF167D5A189ACBA6003E659D /* UpdateStartInfo.h */,
 				AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */,
+				AF94FBBE18B7CC9D006FE76D /* SetRainDelay.h */,
+				AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */,
+				AF94FBC118B8B505006FE76D /* RainDelay.h */,
+				AF94FBC218B8B505006FE76D /* RainDelay.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1417,6 +1480,9 @@
 				B1254CAF187D77EB004E2F0E /* ZonesVC.h */,
 				B1254CB0187D77EB004E2F0E /* ZonesVC.m */,
 				B1254CB1187D77EB004E2F0E /* ZonesVC.xib */,
+				AF81E6DA18BA24D2007E9A03 /* DailyProgramVC.h */,
+				AF81E6DB18BA24D2007E9A03 /* DailyProgramVC.m */,
+				AFEAECB418BA36D700370F22 /* DailyProgramVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1487,6 +1553,7 @@
 				3A443800188A93FD004F9E11 /* SettingsHoursVC.xib in Resources */,
 				AFF635B0186F54900005EDF1 /* daily_stats_mist.png in Resources */,
 				AFF636D3186F55100005EDF1 /* main-screen_nsn.png in Resources */,
+				AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */,
 				AFF636D0186F55100005EDF1 /* main-screen_nsct@2x.png in Resources */,
 				AFF635C6186F54900005EDF1 /* daily_stats_nsct.png in Resources */,
 				AFF635D1186F54900005EDF1 /* daily_stats_nwind@2x.png in Resources */,
@@ -1499,11 +1566,13 @@
 				AFC5CEE418893A5B005191DE /* icon_waternow.png in Resources */,
 				AFF635E0186F54900005EDF1 /* daily_stats_skc.png in Resources */,
 				AFF635B2186F54900005EDF1 /* daily_stats_mix.png in Resources */,
+				AFEAECB518BA36D700370F22 /* DailyProgramVC.xib in Resources */,
 				AFF636DD186F55100005EDF1 /* main-screen_ra.png in Resources */,
 				AFF636DB186F55100005EDF1 /* main-screen_ovc.png in Resources */,
 				AFF635E3186F54900005EDF1 /* daily_stats_smoke@2x.png in Resources */,
 				AFF635CC186F54900005EDF1 /* daily_stats_nsvrtsra.png in Resources */,
 				B1DF325816A6A68700A1BF38 /* InfoPlist.strings in Resources */,
+				AF81E6E118BA3237007E9A03 /* ButtonCell.xib in Resources */,
 				AFF636D2186F55100005EDF1 /* main-screen_nskc@2x.png in Resources */,
 				AFF636EF186F55100005EDF1 /* main-screen_tsra.png in Resources */,
 				AFF636D5186F55100005EDF1 /* main-screen_nsvrtsra.png in Resources */,
@@ -1518,6 +1587,7 @@
 				AFF635E5186F54900005EDF1 /* daily_stats_sn@2x.png in Resources */,
 				AFF636CC186F55100005EDF1 /* main-screen_nra@2x.png in Resources */,
 				B1DF326016A6A68700A1BF38 /* Default.png in Resources */,
+				AF81E6EB18BA34ED007E9A03 /* ProgramCellType2.xib in Resources */,
 				AFF636C3186F55100005EDF1 /* main-screen_nfew.png in Resources */,
 				AFF636A4186F55100005EDF1 /* main-screen_few@2x.png in Resources */,
 				B1DF326216A6A68700A1BF38 /* Default@2x.png in Resources */,
@@ -1588,6 +1658,7 @@
 				AFF636C9186F55100005EDF1 /* main-screen_novc.png in Resources */,
 				3A9AB591188554A2005B79B9 /* RestrictedMonthsVC.xib in Resources */,
 				AFF635B4186F54900005EDF1 /* daily_stats_na.png in Resources */,
+				AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */,
 				B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */,
 				AFC5CEE518893A5B005191DE /* icon_waternow@2x.png in Resources */,
 				B1EF21101860493C00D9CE26 /* LoginVC.xib in Resources */,
@@ -1632,6 +1703,7 @@
 				AFF636DF186F55100005EDF1 /* main-screen_ra1@2x.png in Resources */,
 				3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */,
 				AFF636C4186F55100005EDF1 /* main-screen_nfew@2x.png in Resources */,
+				AF81E6E318BA32C6007E9A03 /* ProgramCellType1.xib in Resources */,
 				B1B6061B187958990046FDDC /* ProgramsVC.xib in Resources */,
 				AFF636E1186F55100005EDF1 /* main-screen_raip.png in Resources */,
 				AFF6A6B1188834AC00825A37 /* checkbox-unselected.png in Resources */,
@@ -1674,6 +1746,7 @@
 				AFF636AC186F55100005EDF1 /* main-screen_fzrara@2x.png in Resources */,
 				AFF635B5186F54900005EDF1 /* daily_stats_na@2x.png in Resources */,
 				3A4437F3188A8705004F9E11 /* PickerVC.xib in Resources */,
+				AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */,
 				B1EF210B1860492B00D9CE26 /* AddNewDeviceVC.xib in Resources */,
 				AFF636CA186F55100005EDF1 /* main-screen_novc@2x.png in Resources */,
 				AFF635D4186F54900005EDF1 /* daily_stats_ra.png in Resources */,
@@ -1730,6 +1803,7 @@
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
+				AF81E6DC18BA24D2007E9A03 /* DailyProgramVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
@@ -1743,6 +1817,7 @@
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
+				AF81E6E618BA32D8007E9A03 /* ProgramCellType1.m in Sources */,
 				B1EF20F4186046D300D9CE26 /* +UIDevice.m in Sources */,
 				AF167D52189A8520003E659D /* APIVersion.m in Sources */,
 				B1DF327916A6AA5100A1BF38 /* GCDAsyncSocket.m in Sources */,
@@ -1753,12 +1828,16 @@
 				B1254CC1187DBD61004E2F0E /* RainDelayVC.m in Sources */,
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,
 				AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */,
+				AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
+				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZonePropertiesVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
+				AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
+				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				B1EF20F8186046D300D9CE26 /* +UIScreen.m in Sources */,
@@ -1766,12 +1845,14 @@
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
 				3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */,
 				AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */,
+				AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
 				AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
+				AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
@@ -1798,6 +1879,7 @@
 				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
 				B1254CBB187DB542004E2F0E /* ZoneCell.m in Sources */,
 				3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */,
+				AF81E6E918BA33EB007E9A03 /* ProgramCellType2.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */,

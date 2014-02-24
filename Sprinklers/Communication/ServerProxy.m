@@ -268,6 +268,42 @@
               }];
 }
 
+- (void)runNowProgram:(Program*)program {
+    if (program) {
+        NSDictionary *params = [self toDictionaryFromObject:program];
+        
+        [self.manager GET:[NSString stringWithFormat:@"ui.cgi?action=settings&what=run_now&pid=%d", program.programId] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            if ([self passLoggedOutFilter:operation]) {
+                NSArray *response = nil;
+                if (responseObject) {
+                    response = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                }
+                [self.delegate serverResponseReceived:response serverProxy:self];
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self handleError:error fromOperation:operation];
+        }];
+    }
+}
+
+- (void)saveProgram:(Program*)program {
+    if (program) {
+        NSDictionary *params = [self toDictionaryFromObject:program];
+        
+        [self.manager POST:@"ui.cgi?action=settings&what=programs" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            if ([self passLoggedOutFilter:operation]) {
+                NSArray *response = nil;
+                if (responseObject) {
+                    response = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                }
+                [self.delegate serverResponseReceived:response serverProxy:self];
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self handleError:error fromOperation:operation];
+        }];
+    }
+}
+
 - (void)deleteProgram:(int)programId {
     NSDictionary *paramsDic = @{@"action": @"settings",
                                 @"what": @"delete_program",
@@ -448,6 +484,8 @@
         objc_property_t property = properties[i];
         const char *propName = property_getName(property);
         if (propName) {
+//            objc_property_t number_property = class_getProperty([object class], propName);
+            char *number_property_type_attribute = property_copyAttributeValue(property, "T");
             NSString *propertyName = [NSString stringWithCString:propName encoding:[NSString defaultCStringEncoding]];
             [dict setObject:[object valueForKey:propertyName] forKey:propertyName];
         }
