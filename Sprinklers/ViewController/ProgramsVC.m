@@ -102,7 +102,7 @@
 }
 
 - (void)programDeleted:(NSNumber*)programId {
-    for (int i = 0; i < self.programs.count; i++) {
+    for (int i = 0; i < self.programs.count - 1 ; i++) {
         if (((Program *)self.programs[i]).programId == [programId intValue]) {
             [self.programs removeObject:self.programs[i]];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
@@ -125,7 +125,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 1) return 1;
-    return self.programs.count;
+    return self.programs.count - 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
