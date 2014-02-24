@@ -232,10 +232,7 @@
 {
     NSMutableArray *rez = [NSMutableArray array];
     for (WaterNowZone *zone in zones) {
-        // Skip the Master Valve
-        if ([zone.id intValue] != 1) {
-            [rez addObject:zone];
-        }
+        [rez addObject:zone];
     }
     return rez;
 }
