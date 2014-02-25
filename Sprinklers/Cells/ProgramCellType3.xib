@@ -20,35 +20,57 @@
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dY9-hv-t0E">
+                        <rect key="frame" x="34" y="12" width="45" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pix-uw-aZ9">
                         <rect key="frame" x="34" y="24" width="31" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JGK-tl-irf">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lvP-Ns-os1">
                         <rect key="frame" x="6" y="11" width="22" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="22" id="SNy-F4-TGi"/>
-                            <constraint firstAttribute="width" constant="22" id="t2W-dA-mj4"/>
+                            <constraint firstAttribute="width" constant="22" id="Caq-H1-OHC"/>
+                            <constraint firstAttribute="height" constant="22" id="hEe-tt-EbX"/>
                         </constraints>
-                    </imageView>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" image="checkbox-unselected.png">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="selected" image="checkbox-selected"/>
+                        <connections>
+                            <action selector="onCheckMark:" destination="F3V-sU-588" eventType="touchUpInside" id="T8d-lw-m9C"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="centerY" secondItem="JGK-tl-irf" secondAttribute="centerY" constant="-0.5" id="6WH-WO-3mB"/>
-                    <constraint firstItem="JGK-tl-irf" firstAttribute="leading" secondItem="Xtz-mp-FG1" secondAttribute="leading" constant="6" id="MTd-XP-EX2"/>
-                    <constraint firstItem="pix-uw-aZ9" firstAttribute="leading" secondItem="JGK-tl-irf" secondAttribute="trailing" constant="6" id="N7m-b7-0pf"/>
-                    <constraint firstAttribute="centerY" secondItem="pix-uw-aZ9" secondAttribute="centerY" constant="-10" id="eAY-XZ-Tly"/>
+                    <constraint firstItem="dY9-hv-t0E" firstAttribute="leading" secondItem="lvP-Ns-os1" secondAttribute="trailing" constant="6" id="Srm-5o-jxC"/>
+                    <constraint firstItem="lvP-Ns-os1" firstAttribute="centerY" secondItem="0SM-ys-qzh" secondAttribute="centerY" constant="9" id="W3W-R7-9yL"/>
+                    <constraint firstAttribute="centerY" secondItem="pix-uw-aZ9" secondAttribute="centerY" priority="500" id="eAY-XZ-Tly"/>
+                    <constraint firstAttribute="centerY" secondItem="dY9-hv-t0E" secondAttribute="centerY" constant="-1.5" id="hw9-CX-oom"/>
+                    <constraint firstItem="pix-uw-aZ9" firstAttribute="leading" secondItem="lvP-Ns-os1" secondAttribute="trailing" constant="6" id="kbV-9G-a7A"/>
+                    <constraint firstItem="lvP-Ns-os1" firstAttribute="leading" secondItem="Xtz-mp-FG1" secondAttribute="leading" constant="6" id="nmw-E3-MA1"/>
+                    <constraint firstAttribute="centerY" secondItem="lvP-Ns-os1" secondAttribute="centerY" constant="-0.5" id="qW5-sp-kwZ"/>
                     <constraint firstItem="pix-uw-aZ9" firstAttribute="top" secondItem="0SM-ys-qzh" secondAttribute="bottom" id="t5s-ss-F4b"/>
-                    <constraint firstItem="0SM-ys-qzh" firstAttribute="leading" secondItem="JGK-tl-irf" secondAttribute="trailing" constant="6" id="y5Y-aL-nLi"/>
+                    <constraint firstItem="0SM-ys-qzh" firstAttribute="leading" secondItem="lvP-Ns-os1" secondAttribute="trailing" constant="6" id="xNF-3x-k5G"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="checkMarkImage" destination="JGK-tl-irf" id="qKw-xu-8yz"/>
+                <outlet property="checkmark" destination="lvP-Ns-os1" id="yfS-rk-tkb"/>
+                <outlet property="theCenteredTextLabel" destination="dY9-hv-t0E" id="nLg-Co-KH3"/>
                 <outlet property="theDetailTextLabel" destination="pix-uw-aZ9" id="H2I-5b-Uyl"/>
                 <outlet property="theTextLabel" destination="0SM-ys-qzh" id="dI6-TY-HiW"/>
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="checkbox-selected" width="48" height="48"/>
+        <image name="checkbox-unselected.png" width="48" height="48"/>
+    </resources>
 </document>

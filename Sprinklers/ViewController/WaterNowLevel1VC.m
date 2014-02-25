@@ -226,7 +226,7 @@
     }
 }
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     BOOL showErrorMessage = YES;
     if (serverProxy == self.pollServerProxy) {
@@ -257,7 +257,7 @@
     }
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [self.parent handleGeneralSprinklerError:nil showErrorMessage:YES];
     

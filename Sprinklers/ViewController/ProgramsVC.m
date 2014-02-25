@@ -15,6 +15,7 @@
 #import "Utils.h"
 #import "SettingsVC.h"
 #import "DailyProgramVC.h"
+#import "ProgramListCell.h"
 
 @interface ProgramsVC () {
     MBProgressHUD *hud;
@@ -43,6 +44,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [_tableView registerNib:[UINib nibWithNibName:@"ProgramListCell" bundle:nil] forCellReuseIdentifier:@"ProgramListCell"];
+
     editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
     self.navigationItem.rightBarButtonItem = editButton;
     
@@ -79,7 +82,7 @@
 
 #pragma mark - ProxyService delegate
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy {
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.postDeleteServerProxy) {
 //        [self requestPrograms];
         [self programDeleted:data];
@@ -92,7 +95,7 @@
     [_tableView reloadData];
 }
 
-- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy {
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
@@ -168,20 +171,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
-        static NSString *CellIdentifier = @"Cell";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
+        static NSString *CellIdentifier = @"ProgramListCell";
+        ProgramListCell *cell = (ProgramListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         Program *program = self.programs[indexPath.row];
-        cell.textLabel.text = program.name;
-        
-        NSDateFormatter *formatter = [NSDateFormatter new];
-        [formatter setDateFormat:@"hh:mm"];
-        NSString *startHourAndMinute = [formatter stringFromDate:program.startTime];
+        cell.theTextLabel.text = program.name;
+        cell.activeStateLabel.hidden = program.active;
+        NSString *startHourAndMinute =  [Utils formattedTime:program.startTime forTimeFormat:program.timeFormat];
         if (!startHourAndMinute) {
             startHourAndMinute = @"";
         } else {
@@ -189,56 +185,30 @@
         }
         
         if ([program.weekdays isEqualToString:@"D"]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Daily %@", startHourAndMinute];
+            cell.theDetailTextLabel.text = [NSString stringWithFormat:@"Daily %@", startHourAndMinute];
         }
         if ([program.weekdays isEqualToString:@"ODD"]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Odd days %@", startHourAndMinute];
+            cell.theDetailTextLabel.text = [NSString stringWithFormat:@"Odd days %@", startHourAndMinute];
         }
         if ([program.weekdays containsString:@"INT"]) {
             int nrDays;
             sscanf([program.weekdays UTF8String], "INT %d", &nrDays);
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Every %d days %@", nrDays, startHourAndMinute];
+            cell.theDetailTextLabel.text = [NSString stringWithFormat:@"Every %d days %@", nrDays, startHourAndMinute];
         }
         if ([program.weekdays isEqualToString:@"EVD"]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Even days %@", startHourAndMinute];
+            cell.theDetailTextLabel.text = [NSString stringWithFormat:@"Even days %@", startHourAndMinute];
         }
         if ([program.weekdays containsString:@","]) {
-            NSArray *vals = [program.weekdays componentsSeparatedByString:@","];
-            if (vals && vals.count == 7) {
-                NSDateFormatter * df = [[NSDateFormatter alloc] init];
-                [df setLocale: [NSLocale currentLocale]];
-                NSArray *weekdays = [df weekdaySymbols];
-                NSString *daysString = @"";
-                if ([vals[0] isEqualToString:@"1"]) {
-                    daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[0]];
-                }
-                if ([vals[1] isEqualToString:@"1"]) {
-                    daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[1]];
-                }
-                if ([vals[2] isEqualToString:@"1"]) {
-                    daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[2]];
-                }
-                if ([vals[3] isEqualToString:@"1"]) {
-                    daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[3]];
-                }
-                if ([vals[4] isEqualToString:@"1"]) {
-                    daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[4]];
-                }
-                if ([vals[5] isEqualToString:@"1"]) {
-                    daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[5]];
-                }
-                if ([vals[6] isEqualToString:@"1"]) {
-                    daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[6]];
-                }
-                if ([daysString hasSuffix:@","]) {
-                    daysString = [daysString substringToIndex:daysString.length - 2];
-                }
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", daysString, startHourAndMinute];
+            NSString *daysString = [Utils daysStringFromWeekdaysFrequency:program.weekdays];
+            if (daysString) {
+                cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%@ %@", daysString, startHourAndMinute];
+            } else {
+                cell.theDetailTextLabel.text = @"";
             }
         }
         
         if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-            cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+            cell.theDetailTextLabel.textColor = [UIColor lightGrayColor];
         }
         
         return cell;
@@ -269,9 +239,14 @@
         DailyProgramVC *dailyProgramVC = [[DailyProgramVC alloc] init];
         dailyProgramVC.program = self.programs[indexPath.row];
         dailyProgramVC.parent = self;
+        dailyProgramVC.programIndex = indexPath.row;
         [self.navigationController pushViewController:dailyProgramVC animated:YES];
     }
 }
 
+- (void)setProgram:(Program*)p withIndex:(int)i
+{
+    [self.programs replaceObjectAtIndex:i withObject:p];
+}
 
 @end

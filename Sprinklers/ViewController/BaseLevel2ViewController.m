@@ -33,7 +33,7 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.262745 green:0.592157 blue:0.796079 alpha:1];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:kSprinklerWaterColor[0] green:kSprinklerWaterColor[1] blue:kSprinklerWaterColor[2] alpha:1];
         self.navigationController.navigationBar.translucent = NO;
     }
 }

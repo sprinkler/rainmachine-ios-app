@@ -26,4 +26,8 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)onSwitch:(id)sender {
+    [_delegate onCellSwitch:self];
+}
+
 @end

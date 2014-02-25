@@ -48,6 +48,8 @@
 
 - (void)requestPrograms;
 - (void)deleteProgram:(int)programId;
+- (void)programCycleAndSoak:(int)programId cycles:(int)cycles soak:(int)soak_minutes cs_on:(int)cs_on;
+- (void)programStationDelay:(int)programId delay:(int)delay_minutes delay_on:(int)delay_on;
 - (void)saveProgram:(Program*)program;
 - (void)runNowProgram:(Program*)program;
 

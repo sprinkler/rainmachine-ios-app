@@ -11,9 +11,12 @@
 #import "Protocols.h"
 
 @class SettingsVC;
+@class Program;
 
 @interface ProgramsVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource, SprinklerResponseProtocol>
 
 @property (weak, nonatomic) SettingsVC *parent;
+
+- (void)setProgram:(Program*)p withIndex:(int)i;
 
 @end

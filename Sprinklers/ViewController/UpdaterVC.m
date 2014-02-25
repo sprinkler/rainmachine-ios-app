@@ -82,11 +82,11 @@
 
 #pragma mark - Server responses
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     if ([data isKindOfClass:[UpdateInfo class]]) {
         UpdateInfo *updateInfo = (UpdateInfo*)data;

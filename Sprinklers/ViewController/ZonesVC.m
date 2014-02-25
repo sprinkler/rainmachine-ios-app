@@ -78,13 +78,13 @@
 
 #pragma mark - ProxyService delegate
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy {
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     zones = data;
     [_tableView reloadData];
 }
 
-- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy {
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 

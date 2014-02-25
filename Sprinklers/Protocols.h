@@ -11,8 +11,8 @@
 @protocol SprinklerResponseProtocol <NSObject>
 
 - (void)loggedOut;
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy;
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy;
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo;
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo;
 
 @optional
 - (void)loginSucceededAndRemembered:(BOOL)remembered;
@@ -21,5 +21,8 @@
 
 @protocol CellButtonDelegate <NSObject>
 - (void)onCellButton;
+- (void)onCellSwitch:(id)object;
+- (void)cellTextFieldChanged:(NSString*)text;
+- (void)onCell:(UITableViewCell*)cell checkmarkState:(BOOL)sel;
 
 @end

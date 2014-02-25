@@ -131,7 +131,7 @@
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     BOOL showErrorMessage = YES;
     if (serverProxy == self.pollServerProxy) {
@@ -155,7 +155,7 @@
     }
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [self handleGeneralSprinklerError:nil showErrorMessage:YES];
     
@@ -204,7 +204,7 @@
     cell.delegate = self;
     cell.zone = waterNowZone;
     
-    cell.zoneNameLabel.text = [Utils fixedWaterZoneName:waterNowZone];
+    cell.zoneNameLabel.text = [Utils fixedZoneName:waterNowZone.name withId:waterNowZone.id];
     cell.descriptionLabel.text = waterNowZone.type;
     cell.onOffSwitch.on = isWatering || isPending;
     

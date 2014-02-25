@@ -29,6 +29,7 @@ extern float kWindowTintColorOnBlueNavBar[3];
 extern float kBarBlueColor[3];
 extern float kWaterImageFillColor[3];
 extern float kWaterImageStrokeColor[3];
+extern float kSprinklerWaterColor[3];
 
 extern NSString* const kCustomRMFontName;
 

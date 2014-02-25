@@ -29,13 +29,13 @@
     return rs;
 }
 
-+ (NSString*)fixedWaterZoneName:(WaterNowZone *)waterNowZone
++ (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId
 {
-    if ([waterNowZone.name length] == 0) {
-        return [NSString stringWithFormat:@"Zone %@", waterNowZone.id];
+    if ([zoneName length] == 0) {
+        return [NSString stringWithFormat:@"Zone %@", theId];
     }
     
-    return waterNowZone.name;
+    return zoneName;
 }
 
 + (NSString*)fixedSprinklerAddress:(NSString*)address
@@ -85,6 +85,67 @@
 + (BOOL)isZonePending:(WaterNowZone*)zone
 {
     return [zone.state isEqualToString:@"Pending"];
+}
+
++ (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays
+{
+    NSArray *vals = [weekdays componentsSeparatedByString:@","];
+    if (vals && vals.count == 7) {
+        NSDateFormatter * df = [[NSDateFormatter alloc] init];
+        [df setLocale: [NSLocale currentLocale]];
+        [df setDateStyle:NSDateFormatterShortStyle];
+        [df setTimeStyle:NSDateFormatterShortStyle];
+        NSArray *weekdays = [df weekdaySymbols];
+        NSMutableArray *lowerCaseShortWeekdays = [NSMutableArray array];
+        for (NSString *d in weekdays) {
+            [lowerCaseShortWeekdays addObject:[d substringToIndex:3]];
+        }
+        weekdays = lowerCaseShortWeekdays;
+        
+        NSString *daysString = @"";
+        if ([vals[0] isEqualToString:@"1"]) {
+            daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[0]];
+        }
+        if ([vals[1] isEqualToString:@"1"]) {
+            daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[1]];
+        }
+        if ([vals[2] isEqualToString:@"1"]) {
+            daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[2]];
+        }
+        if ([vals[3] isEqualToString:@"1"]) {
+            daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[3]];
+        }
+        if ([vals[4] isEqualToString:@"1"]) {
+            daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[4]];
+        }
+        if ([vals[5] isEqualToString:@"1"]) {
+            daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[5]];
+        }
+        if ([vals[6] isEqualToString:@"1"]) {
+            daysString = [NSString stringWithFormat:@"%@%@, ", daysString, weekdays[6]];
+        }
+        if (([daysString hasSuffix:@", "]) || ([daysString hasSuffix:@","])) {
+            daysString = [daysString substringToIndex:daysString.length - 2];
+        }
+        
+        return daysString;
+    }
+    
+    return nil;
+}
+
++ (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat
+{
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    if (timeFormat == 0) {
+        [formatter setDateFormat:@"H:mm"];
+    } else {
+        [formatter setDateFormat:@"K:mm a"];
+    }
+    
+    NSString *hourAndMinute = [formatter stringFromDate:date];
+    
+    return hourAndMinute;
 }
 
 # pragma mark - Sprinkler related views

@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
 @interface ProgramCellType2 : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UISwitch *theSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *theTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *theDetailLabel;
+
+@property (weak, nonatomic) id<CellButtonDelegate> delegate;
+
+- (IBAction)onSwitch:(id)sender;
 
 @end

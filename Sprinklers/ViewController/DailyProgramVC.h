@@ -12,10 +12,16 @@
 
 @class Program;
 @class ProgramsVC;
+@class SetDelayVC;
+@class WeekdaysVC;
 
 @interface DailyProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate>
 
 @property (strong, nonatomic) Program *program;
 @property (weak, nonatomic) ProgramsVC *parent;
+@property (assign) int programIndex;
+
+- (void)setDelayVCOver:(SetDelayVC*)setDelayVC;
+- (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC;
 
 @end

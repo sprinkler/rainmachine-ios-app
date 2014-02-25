@@ -32,6 +32,8 @@
 		AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D65189AD72E003E659D /* UpdaterVC.m */; };
 		AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF167D67189AD74D003E659D /* UpdaterVC.xib */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
+		AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */; };
+		AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
 		AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9BD184E3D200047BD9E /* ServerProxy.m */; };
@@ -60,6 +62,11 @@
 		AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */; };
 		AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBC218B8B505006FE76D /* RainDelay.m */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
+		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
+		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
+		AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760018BBDFC3007200BF /* SimpleCell.xib */; };
+		AFC0760318BC9C99007200BF /* SetDelayVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760218BC9C99007200BF /* SetDelayVC.xib */; };
+		AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC0760518BC9DEB007200BF /* SetDelayVC.m */; };
 		AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC58171184E58FD00C8D06A /* WeatherData.m */; };
 		AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDA18893A5B005191DE /* icon_settings.png */; };
 		AFC5CEE118893A5B005191DE /* icon_settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5CEDB18893A5B005191DE /* icon_settings@2x.png */; };
@@ -395,6 +402,9 @@
 		AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 4.xcdatamodel"; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
+		AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramListCell.xib; path = Cells/ProgramListCell.xib; sourceTree = "<group>"; };
+		AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramListCell.h; path = Cells/ProgramListCell.h; sourceTree = "<group>"; };
+		AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramListCell.m; path = Cells/ProgramListCell.m; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
 		AF7782C3184CD3DE00DCBD54 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		AF789761185C955F00449381 /* WaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterZoneListCell.h; path = Cells/WaterZoneListCell.h; sourceTree = "<group>"; };
@@ -448,6 +458,13 @@
 		AF94FBC118B8B505006FE76D /* RainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainDelay.h; path = "Communication/Response objects/RainDelay.h"; sourceTree = "<group>"; };
 		AF94FBC218B8B505006FE76D /* RainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainDelay.m; path = "Communication/Response objects/RainDelay.m"; sourceTree = "<group>"; };
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
+		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
+		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
+		AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeekdaysVC.m; path = ViewController/WeekdaysVC.m; sourceTree = "<group>"; };
+		AFC0760018BBDFC3007200BF /* SimpleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SimpleCell.xib; path = Cells/SimpleCell.xib; sourceTree = "<group>"; };
+		AFC0760218BC9C99007200BF /* SetDelayVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SetDelayVC.xib; path = ViewController/SetDelayVC.xib; sourceTree = "<group>"; };
+		AFC0760418BC9DEB007200BF /* SetDelayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetDelayVC.h; path = ViewController/SetDelayVC.h; sourceTree = "<group>"; };
+		AFC0760518BC9DEB007200BF /* SetDelayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetDelayVC.m; path = ViewController/SetDelayVC.m; sourceTree = "<group>"; };
 		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Communication/Response objects/WeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Communication/Response objects/WeatherData.m"; sourceTree = "<group>"; };
 		AFC5CEDA18893A5B005191DE /* icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings.png; path = Resources/icon_settings.png; sourceTree = "<group>"; };
@@ -1146,6 +1163,7 @@
 		B111981E16A7E1B20094EF9F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				AFC0760018BBDFC3007200BF /* SimpleCell.xib */,
 				B1213EAF1860879F009D97F4 /* DevicesCellType1.h */,
 				B1213EB01860879F009D97F4 /* DevicesCellType1.m */,
 				B1213EB2186087B3009D97F4 /* DevicesCellType1.xib */,
@@ -1189,6 +1207,9 @@
 				AF81E6E218BA32C6007E9A03 /* ProgramCellType1.xib */,
 				AF81E6EA18BA34ED007E9A03 /* ProgramCellType2.xib */,
 				AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */,
+				AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */,
+				AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */,
+				AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */,
 				AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */,
 				AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */,
 			);
@@ -1483,6 +1504,12 @@
 				AF81E6DA18BA24D2007E9A03 /* DailyProgramVC.h */,
 				AF81E6DB18BA24D2007E9A03 /* DailyProgramVC.m */,
 				AFEAECB418BA36D700370F22 /* DailyProgramVC.xib */,
+				AFC0760418BC9DEB007200BF /* SetDelayVC.h */,
+				AFC0760518BC9DEB007200BF /* SetDelayVC.m */,
+				AFC0760218BC9C99007200BF /* SetDelayVC.xib */,
+				AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */,
+				AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */,
+				AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1544,6 +1571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFF635DD186F54900005EDF1 /* daily_stats_sct@2x.png in Resources */,
+				AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */,
 				AFF6A6B5188834E400825A37 /* icon_disclosure_triangle.png in Resources */,
 				AFF635E1186F54900005EDF1 /* daily_stats_skc@2x.png in Resources */,
 				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
@@ -1584,6 +1612,7 @@
 				AFF6359B186F54900005EDF1 /* daily_stats_few@2x.png in Resources */,
 				AFF635A3186F54900005EDF1 /* daily_stats_fzrara@2x.png in Resources */,
 				AFF636C6186F55100005EDF1 /* main-screen_nfg@2x.png in Resources */,
+				AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */,
 				AFF635E5186F54900005EDF1 /* daily_stats_sn@2x.png in Resources */,
 				AFF636CC186F55100005EDF1 /* main-screen_nra@2x.png in Resources */,
 				B1DF326016A6A68700A1BF38 /* Default.png in Resources */,
@@ -1635,6 +1664,7 @@
 				AFF636E3186F55100005EDF1 /* main-screen_rasn.png in Resources */,
 				AFF635AD186F54900005EDF1 /* daily_stats_hot@2x.png in Resources */,
 				AFF636DE186F55100005EDF1 /* main-screen_ra1.png in Resources */,
+				AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */,
 				AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
 				AFF636C1186F55100005EDF1 /* main-screen_ndu.png in Resources */,
@@ -1646,6 +1676,7 @@
 				AFF635E8186F54900005EDF1 /* daily_stats_wind.png in Resources */,
 				AFC5CEE118893A5B005191DE /* icon_settings@2x.png in Resources */,
 				AFF6369C186F55100005EDF1 /* main-screen_bkn@2x.png in Resources */,
+				AFC0760318BC9C99007200BF /* SetDelayVC.xib in Resources */,
 				AFF636B5186F55100005EDF1 /* main-screen_hot.png in Resources */,
 				AFF636D9186F55100005EDF1 /* main-screen_nwind.png in Resources */,
 				AFF635DB186F54900005EDF1 /* daily_stats_rasn@2x.png in Resources */,
@@ -1832,6 +1863,7 @@
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
+				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZonePropertiesVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
@@ -1840,6 +1872,7 @@
 				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
+				AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */,
 				B1EF20F8186046D300D9CE26 /* +UIScreen.m in Sources */,
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
@@ -1875,6 +1908,7 @@
 				B1583E7716A803B50051B480 /* MBProgressHUD.m in Sources */,
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
+				AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */,
 				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,
 				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
 				B1254CBB187DB542004E2F0E /* ZoneCell.m in Sources */,

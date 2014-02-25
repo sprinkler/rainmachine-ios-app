@@ -245,7 +245,7 @@ const float kHomeScreenCellHeight = 66;
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
@@ -254,7 +254,7 @@ const float kHomeScreenCellHeight = 66;
     [self refreshStatus];
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 

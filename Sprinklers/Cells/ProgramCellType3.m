@@ -26,4 +26,9 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)onCheckMark:(id)sender {
+    _checkmark.selected = !_checkmark.selected;
+    [_delegate onCell:self checkmarkState:_checkmark.selected];
+}
+
 @end

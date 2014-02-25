@@ -16,13 +16,15 @@
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler;
 + (NSString*)currentSprinklerURL;
 
-+ (NSString*)fixedWaterZoneName:(WaterNowZone *)waterNowZone;
++ (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (BOOL)isZoneWatering:(WaterNowZone*)zone;
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;
 + (NSString*)fixedSprinklerAddress:(NSString*)address;
 + (NSArray*)remoteSprinklersFilter:(NSArray*)sprinklers;
++ (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays;
++ (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat;
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 

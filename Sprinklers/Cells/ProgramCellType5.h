@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
 @interface ProgramCellType5 : UITableViewCell
+@property (weak, nonatomic) IBOutlet UISwitch *theSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *theTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *theDetailTextLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *theActivityIndicator;
+
+@property (weak, nonatomic) id<CellButtonDelegate> delegate;
+@property (assign) BOOL cycleAndSoak;
+
+- (IBAction)onSwitch:(id)sender;
 
 @end

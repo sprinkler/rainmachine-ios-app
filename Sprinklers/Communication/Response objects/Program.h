@@ -11,7 +11,7 @@
 @interface Program : NSObject
 
 @property (nonatomic) int active;
-@property (nonatomic) int csOn;
+@property (nonatomic) int csOn; // cycle/soak flag
 @property (nonatomic) int cycles;
 @property (nonatomic) int delay;
 @property (nonatomic) int delayOn;

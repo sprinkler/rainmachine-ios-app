@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
 @interface ProgramCellType3 : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *checkMarkImage;
+@property (weak, nonatomic) IBOutlet UILabel *theCenteredTextLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *theTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *theDetailTextLabel;
+@property (weak, nonatomic) IBOutlet UIButton *checkmark;
+@property (assign) int index;
+
+@property (weak, nonatomic) id<CellButtonDelegate> delegate;
+- (IBAction)onCheckMark:(id)sender;
 
 @end

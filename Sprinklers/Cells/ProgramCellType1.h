@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
 @interface ProgramCellType1 : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UITextField *theTextField;
+
+@property (weak, nonatomic) id<CellButtonDelegate> delegate;
 
 @end

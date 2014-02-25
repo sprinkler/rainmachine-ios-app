@@ -81,16 +81,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy {
-    [self.hud hide:YES];
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
-}
-
 #pragma mark - ProxyService delegate
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy {
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     DLog(@"%s", __PRETTY_FUNCTION__);
     [self.hud hide:YES];
     
@@ -98,6 +91,13 @@
     //RestrictionsData* restrictionsData = restrictionsDataArray[0];
 
     [_tableView reloadData];
+}
+
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    [self.hud hide:YES];
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
 }
 
 - (void)handleLoggedOutSprinklerError {

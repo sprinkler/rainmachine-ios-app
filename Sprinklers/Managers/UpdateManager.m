@@ -79,13 +79,13 @@ static UpdateManager *current = nil;
     }
 }
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [self.serverProxy cancelAllOperations];
     self.serverProxy = nil;
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     if ([data isKindOfClass:[APIVersion class]]) {
         APIVersion *apiVersion = (APIVersion*)data;

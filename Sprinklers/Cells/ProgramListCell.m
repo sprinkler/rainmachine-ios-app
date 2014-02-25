@@ -1,14 +1,14 @@
 //
-//  ProgramCellType5.m
+//  ProgramListCell.m
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 23/02/14.
+//  Created by Fabian Matyas on 25/02/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "ProgramCellType5.h"
+#import "ProgramListCell.h"
 
-@implementation ProgramCellType5
+@implementation ProgramListCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -24,10 +24,6 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
-}
-
-- (IBAction)onSwitch:(id)sender {
-    [_delegate onCellSwitch:self];
 }
 
 @end
