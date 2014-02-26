@@ -74,12 +74,11 @@
     if (_tableView.editing) {
         self.postDeleteServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         [editButton setTitle:@"Done"];
-        [self.tableView reloadData];
     } else {
         self.postDeleteServerProxy = nil;
         [editButton setTitle:@"Edit"];
-//        [self requestPrograms];
     }
+    [self.tableView reloadData];
 }
 
 #pragma mark - ProxyService delegate
