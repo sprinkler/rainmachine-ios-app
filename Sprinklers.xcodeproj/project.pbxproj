@@ -88,6 +88,8 @@
 		AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECC018BA3FA800370F22 /* ProgramCellType3.m */; };
 		AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */; };
 		AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */; };
+		AFF3A06318BDE4C10060D0F6 /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3A06218BDE4C10060D0F6 /* DatePickerVC.m */; };
+		AFF3A06518BDE4D00060D0F6 /* DatePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF3A06418BDE4D00060D0F6 /* DatePickerVC.xib */; };
 		AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */; };
 		AFF63593186F54900005EDF1 /* daily_stats_bkn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */; };
 		AFF63594186F54900005EDF1 /* daily_stats_blizzard.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */; };
@@ -284,8 +286,8 @@
 		B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1213EB2186087B3009D97F4 /* DevicesCellType1.xib */; };
 		B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */ = {isa = PBXBuildFile; fileRef = B1213EB618608FEA009D97F4 /* DevicesCellType2.m */; };
 		B1213EB918608FF6009D97F4 /* DevicesCellType2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1213EB818608FF6009D97F4 /* DevicesCellType2.xib */; };
-		B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */ = {isa = PBXBuildFile; fileRef = B1213EBB186090CC009D97F4 /* DevicesCellType3.m */; };
-		B1213EC0186090E7009D97F4 /* DevicesCellType3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */; };
+		B1213EBC186090CC009D97F4 /* AddNewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1213EBB186090CC009D97F4 /* AddNewCell.m */; };
+		B1213EC0186090E7009D97F4 /* AddNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1213EBF186090E7009D97F4 /* AddNewCell.xib */; };
 		B1254CA4187ADCB3004E2F0E /* Program.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CA3187ADCB3004E2F0E /* Program.m */; };
 		B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */; };
 		B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CB0187D77EB004E2F0E /* ZonesVC.m */; };
@@ -493,6 +495,9 @@
 		AFEAECC218BA6B9B00370F22 /* ProgramCellType5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType5.h; path = Cells/ProgramCellType5.h; sourceTree = "<group>"; };
 		AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType5.m; path = Cells/ProgramCellType5.m; sourceTree = "<group>"; };
 		AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType5.xib; path = Cells/ProgramCellType5.xib; sourceTree = "<group>"; };
+		AFF3A06118BDE4C10060D0F6 /* DatePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePickerVC.h; path = ViewController/DatePickerVC.h; sourceTree = "<group>"; };
+		AFF3A06218BDE4C10060D0F6 /* DatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerVC.m; path = ViewController/DatePickerVC.m; sourceTree = "<group>"; };
+		AFF3A06418BDE4D00060D0F6 /* DatePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatePickerVC.xib; path = ViewController/DatePickerVC.xib; sourceTree = "<group>"; };
 		AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_bkn.png; sourceTree = "<group>"; };
 		AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_stats_bkn@2x.png"; sourceTree = "<group>"; };
 		AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_blizzard.png; sourceTree = "<group>"; };
@@ -695,9 +700,9 @@
 		B1213EB518608FEA009D97F4 /* DevicesCellType2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DevicesCellType2.h; path = Cells/DevicesCellType2.h; sourceTree = "<group>"; };
 		B1213EB618608FEA009D97F4 /* DevicesCellType2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DevicesCellType2.m; path = Cells/DevicesCellType2.m; sourceTree = "<group>"; };
 		B1213EB818608FF6009D97F4 /* DevicesCellType2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DevicesCellType2.xib; path = Cells/DevicesCellType2.xib; sourceTree = "<group>"; };
-		B1213EBA186090CC009D97F4 /* DevicesCellType3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DevicesCellType3.h; path = Cells/DevicesCellType3.h; sourceTree = "<group>"; };
-		B1213EBB186090CC009D97F4 /* DevicesCellType3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DevicesCellType3.m; path = Cells/DevicesCellType3.m; sourceTree = "<group>"; };
-		B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DevicesCellType3.xib; path = Cells/DevicesCellType3.xib; sourceTree = "<group>"; };
+		B1213EBA186090CC009D97F4 /* AddNewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddNewCell.h; path = Cells/AddNewCell.h; sourceTree = "<group>"; };
+		B1213EBB186090CC009D97F4 /* AddNewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddNewCell.m; path = Cells/AddNewCell.m; sourceTree = "<group>"; };
+		B1213EBF186090E7009D97F4 /* AddNewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddNewCell.xib; path = Cells/AddNewCell.xib; sourceTree = "<group>"; };
 		B1254CA2187ADCB3004E2F0E /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Program.h; path = "Communication/Response objects/Program.h"; sourceTree = "<group>"; };
 		B1254CA3187ADCB3004E2F0E /* Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Program.m; path = "Communication/Response objects/Program.m"; sourceTree = "<group>"; };
 		B1254CA5187ADF9B004E2F0E /* ProgramWateringTimes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramWateringTimes.h; path = "Communication/Response objects/ProgramWateringTimes.h"; sourceTree = "<group>"; };
@@ -1170,9 +1175,9 @@
 				B1213EB518608FEA009D97F4 /* DevicesCellType2.h */,
 				B1213EB618608FEA009D97F4 /* DevicesCellType2.m */,
 				B1213EB818608FF6009D97F4 /* DevicesCellType2.xib */,
-				B1213EBA186090CC009D97F4 /* DevicesCellType3.h */,
-				B1213EBB186090CC009D97F4 /* DevicesCellType3.m */,
-				B1213EBF186090E7009D97F4 /* DevicesCellType3.xib */,
+				B1213EBA186090CC009D97F4 /* AddNewCell.h */,
+				B1213EBB186090CC009D97F4 /* AddNewCell.m */,
+				B1213EBF186090E7009D97F4 /* AddNewCell.xib */,
 				B1254CC8187EE048004E2F0E /* EditCell.h */,
 				B1254CC9187EE048004E2F0E /* EditCell.m */,
 				B1254CCB187EE054004E2F0E /* EditCell.xib */,
@@ -1510,6 +1515,9 @@
 				AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */,
 				AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */,
 				AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */,
+				AFF3A06118BDE4C10060D0F6 /* DatePickerVC.h */,
+				AFF3A06218BDE4C10060D0F6 /* DatePickerVC.m */,
+				AFF3A06418BDE4D00060D0F6 /* DatePickerVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1575,6 +1583,7 @@
 				AFF6A6B5188834E400825A37 /* icon_disclosure_triangle.png in Resources */,
 				AFF635E1186F54900005EDF1 /* daily_stats_skc@2x.png in Resources */,
 				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
+				AFF3A06518BDE4D00060D0F6 /* DatePickerVC.xib in Resources */,
 				AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */,
 				AFF636F1186F55100005EDF1 /* main-screen_wind.png in Resources */,
 				AFF636C7186F55100005EDF1 /* main-screen_nmix.png in Resources */,
@@ -1770,7 +1779,7 @@
 				AFF636BC186F55100005EDF1 /* main-screen_mix@2x.png in Resources */,
 				AFF6A6B6188834E400825A37 /* icon_disclosure_triangle@2x.png in Resources */,
 				AFF636D7186F55100005EDF1 /* main-screen_ntsra.png in Resources */,
-				B1213EC0186090E7009D97F4 /* DevicesCellType3.xib in Resources */,
+				B1213EC0186090E7009D97F4 /* AddNewCell.xib in Resources */,
 				B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */,
 				B1EF2132186049D800D9CE26 /* WaterNowLevel1VC.xib in Resources */,
 				AFF636EC186F55100005EDF1 /* main-screen_smoke@2x.png in Resources */,
@@ -1884,6 +1893,7 @@
 				AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
+				AFF3A06318BDE4C10060D0F6 /* DatePickerVC.m in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
@@ -1916,7 +1926,7 @@
 				AF81E6E918BA33EB007E9A03 /* ProgramCellType2.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
-				B1213EBC186090CC009D97F4 /* DevicesCellType3.m in Sources */,
+				B1213EBC186090CC009D97F4 /* AddNewCell.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
 				AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */,

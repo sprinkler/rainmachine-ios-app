@@ -14,7 +14,7 @@
 #import "DiscoveredSprinklers.h"
 #import "DevicesCellType1.h"
 #import "DevicesCellType2.h"
-#import "DevicesCellType3.h"
+#import "AddNewCell.h"
 #import "ServiceManager.h"
 #import "StorageManager.h"
 #import "MBProgressHUD.h"
@@ -65,7 +65,7 @@
     
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType2" bundle:nil] forCellReuseIdentifier:@"DevicesCellType2"];
-    [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType3" bundle:nil] forCellReuseIdentifier:@"DevicesCellType3"];
+    [_tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
     [self createFooter];
     
     [self updateNavigationbarButtons];
@@ -325,7 +325,7 @@
         }
         else {
             // Add New Device
-            DevicesCellType3 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType3" forIndexPath:indexPath];
+            AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
             [cell.plusLabel setCustomRMFontWithCode:icon_Plus size:24];
             return cell;

@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DevicesCellType3 : UITableViewCell
+@interface AddNewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *plusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

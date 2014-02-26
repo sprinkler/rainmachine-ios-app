@@ -10,4 +10,20 @@
 
 @implementation ProgramWateringTimes
 
+- (NSDictionary*)toDictionary
+{
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+    
+    [dic setObject:[NSNumber numberWithInt:_wtId] forKey:@"id"];
+    [dic setObject:[NSNumber numberWithInt:_minutes] forKey:@"minutes"];
+
+    if (_name) {
+        [dic setObject:_name forKey:@"name"];
+    } else {
+        [dic setObject:@"" forKey:@"name"];
+    }
+
+    return dic;
+}
+
 @end

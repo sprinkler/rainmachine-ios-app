@@ -286,9 +286,10 @@
 
 - (void)saveProgram:(Program*)program {
     if (program) {
-        NSMutableDictionary *params = [[self toDictionaryFromObject:program] mutableCopy];
-
-        [params setObject:[Utils formattedTime:program.startTime forTimeFormat:program.timeFormat] forKey:@"programStartTime"];
+        //        NSMutableDictionary *params = [[self toDictionaryFromObject:program] mutableCopy];
+        //        [params setObject:[Utils formattedTime:program.startTime forTimeFormat:program.timeFormat] forKey:@"programStartTime"];
+        //        [params removeObjectForKey:@"startTime"];
+        NSDictionary *params = [program toDictionary];
         
         [self.manager POST:@"ui.cgi?action=settings&what=programs" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             if ([self passLoggedOutFilter:operation]) {
@@ -549,7 +550,10 @@
                 }
                 [dict setObject:archivedArray forKey:propertyName];
             } else {
-                [dict setObject:[object valueForKey:propertyName] forKey:propertyName];
+                id objectValue = [object valueForKey:propertyName];
+                if (objectValue) {
+                    [dict setObject:objectValue forKey:propertyName];
+                }
             }
         }
     }

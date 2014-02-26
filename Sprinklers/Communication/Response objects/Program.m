@@ -9,6 +9,7 @@
 #import "Program.h"
 #import "Additions.h"
 #import "ProgramWateringTimes.h"
+#import "Utils.h"
 
 @implementation Program
 
@@ -65,7 +66,82 @@
     }
 
     return nil;
+}
+
+- (NSDictionary*)toDictionary
+{
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+
+    [dic setObject:[NSNumber numberWithInt:_active] forKey:@"active"];
+    [dic setObject:[NSNumber numberWithInt:_csOn] forKey:@"cs_on"];
+    [dic setObject:[NSNumber numberWithInt:_cycles] forKey:@"cycles"];
+    [dic setObject:[NSNumber numberWithInt:_delay] forKey:@"delay"];
+    [dic setObject:[NSNumber numberWithInt:_delayOn] forKey:@"delay_on"];
+    [dic setObject:[NSNumber numberWithInt:_frequency] forKey:@"frequency"];
+
+    if (_name) {
+        [dic setObject:_name forKey:@"name"];
+    } else {
+        [dic setObject:@"" forKey:@"name"];
+    }
     
+    [dic setObject:[NSNumber numberWithInt:_programId] forKey:@"id"];
+    [dic setObject:[NSNumber numberWithInt:_soak] forKey:@"soak"];
+
+    [dic setObject:[Utils formattedTime:_startTime forTimeFormat:_timeFormat] forKey:@"programStartTime"];
+//    [dic setObject:[NSNumber numberWithDouble:[_startTime timeIntervalSince1970]] forKey:@"startTime"];
+    
+    if (_state) {
+        [dic setObject:_state forKey:@"state"];
+    }
+    
+    [dic setObject:[NSNumber numberWithInt:_timeFormat] forKey:@"timeFormat"];
+    [dic setObject:_weekdays forKey:@"weekdays"];
+    
+    NSMutableArray *wateringTimesArray = [NSMutableArray array];
+    for (ProgramWateringTimes *obj in _wateringTimes) {
+        [wateringTimesArray addObject:[obj toDictionary]];
+    }
+    [dic setObject:wateringTimesArray forKey:@"wateringTimes"];
+    
+    return dic;
+}
+
++ (Program *)program
+{
+    Program *program = [[Program alloc] init];
+
+    program.programId = -1;
+    program.weekdays = @"D";
+    program.timeFormat = 0;
+    program.active = YES;
+    
+    // Start time
+    program.startTime = [NSDate date];
+//    NSCalendar* cal = [NSCalendar currentCalendar];
+//    NSDateComponents* dateComp = [cal components:(
+//                                                  NSDayCalendarUnit |
+//                                                  NSMonthCalendarUnit |
+//                                                  NSYearCalendarUnit
+//                                                  )
+//                                        fromDate:program.startTime];
+//    
+//    dateComp.hour = 0;
+//    dateComp.minute = 0;
+//    
+//    program.startTime = [cal dateFromComponents:dateComp];
+    
+    // Watering times
+    
+    program.wateringTimes = [NSMutableArray array];
+    
+    for (int i = 0; i < 12; i++) {
+        ProgramWateringTimes *wt = [[ProgramWateringTimes alloc] init];
+        wt.wtId = i + 1;
+        [program.wateringTimes addObject:wt];
+    }
+    
+    return program;
 }
 
 @end

@@ -14,6 +14,7 @@
 @class ProgramsVC;
 @class SetDelayVC;
 @class WeekdaysVC;
+@class DatePickerVC;
 
 @interface DailyProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate>
 
@@ -23,5 +24,6 @@
 
 - (void)setDelayVCOver:(SetDelayVC*)setDelayVC;
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC;
+- (void)datePikcerVCWillDissapear:(DatePickerVC*)datePickerVC;
 
 @end

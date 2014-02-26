@@ -14,4 +14,6 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) int minutes;
 
+- (NSDictionary*)toDictionary;
+
 @end

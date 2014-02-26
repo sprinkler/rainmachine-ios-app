@@ -16,6 +16,7 @@
 #import "SettingsVC.h"
 #import "DailyProgramVC.h"
 #import "ProgramListCell.h"
+#import "AddNewCell.h"
 
 @interface ProgramsVC () {
     MBProgressHUD *hud;
@@ -45,6 +46,7 @@
     [super viewDidLoad];
     
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramListCell" bundle:nil] forCellReuseIdentifier:@"ProgramListCell"];
+    [_tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
 
     editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
     self.navigationItem.rightBarButtonItem = editButton;
@@ -132,10 +134,6 @@
     return self.programs.count - 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return indexPath.section == 0;
 }
@@ -146,6 +144,14 @@
         [self startHud:nil];
         [self.postDeleteServerProxy deleteProgram:program.programId];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == [self numberOfSectionsInTableView:tableView] - 1) {
+        return 20.0f;
+    }
+    
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -164,6 +170,12 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == [self numberOfSectionsInTableView:tableView] - 1) {
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 35)];
+        headerView.backgroundColor = [UIColor colorWithRed:229.0f / 255.0f green:229.0f / 255.0f blue:229.0f / 255.0f alpha:1.0f];
+        return headerView;
+    }
+    
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
     return view;
 }
@@ -215,15 +227,11 @@
     }
     
     if (indexPath.section == 1) {
-        static NSString *CellIdentifier2 = @"Cell2";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
-        
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        
-        cell.textLabel.text = @"Add New Program";
+        AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        [cell.plusLabel setCustomRMFontWithCode:icon_Plus size:24];
+
+        cell.titleLabel.text = @"Add New Program";
 
         return cell;
     }
@@ -241,12 +249,35 @@
         dailyProgramVC.parent = self;
         dailyProgramVC.programIndex = indexPath.row;
         [self.navigationController pushViewController:dailyProgramVC animated:YES];
+    } else {
+        DailyProgramVC *dailyProgramVC = [[DailyProgramVC alloc] init];
+        dailyProgramVC.parent = self;
+        dailyProgramVC.programIndex = -1;
+        [self.navigationController pushViewController:dailyProgramVC animated:YES];
     }
+}
+
+- (void)addProgram:(Program*)p
+{
+    [self.programs addObject:p];
 }
 
 - (void)setProgram:(Program*)p withIndex:(int)i
 {
-    [self.programs replaceObjectAtIndex:i withObject:p];
+    if (i >= 0) {
+        [self.programs replaceObjectAtIndex:i withObject:p];
+    }
+}
+
+- (int)serverTimeFormat
+{
+    if ([self.programs count] > 0) {
+        Program *p = self.programs[0];
+        return p.timeFormat;
+    }
+    
+    // As default return the AM/PM time format. It's more natural for USA people.
+    return 1;
 }
 
 @end

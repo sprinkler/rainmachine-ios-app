@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Tremend. All rights reserved.
 //
 
-#import "DevicesCellType3.h"
+#import "AddNewCell.h"
 
-@implementation DevicesCellType3
+@implementation AddNewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

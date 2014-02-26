@@ -28,5 +28,8 @@
 @property (nonatomic, strong) NSMutableArray *wateringTimes;
 
 + (Program *)createFromJson:(NSDictionary *)jsonObj;
++ (Program *)program;
+
+- (NSDictionary*)toDictionary;
 
 @end
