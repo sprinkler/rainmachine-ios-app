@@ -45,6 +45,7 @@
     int wateringTimesSectionIndex;
 }
 
+@property (strong, nonatomic) ServerProxy *getProgramListServerProxy;
 @property (strong, nonatomic) ServerProxy *runNowServerProxy;
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
 @property (strong, nonatomic) ServerProxy *cycleAndSoakServerProxy;
@@ -246,7 +247,7 @@
     [self.tableView reloadData];
 }
 
-- (void)datePikcerVCWillDissapear:(DatePickerVC*)datePickerVC
+- (void)datePickerVCWillDissapear:(DatePickerVC*)datePickerVC
 {
     NSCalendar* cal = [NSCalendar currentCalendar];
     NSDateComponents* dateComp = [cal components:(
@@ -591,8 +592,10 @@
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
     
-    if (serverProxy == self.postSaveServerProxy) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (serverProxy == self.getProgramListServerProxy) {
+        self.getProgramListServerProxy = nil;
+    }
+    else if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;
     }
     else if (serverProxy == self.runNowServerProxy) {
@@ -605,19 +608,43 @@
         self.cycleAndSoakServerProxy = nil;
     }
     
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:YES];
     
     [self.tableView reloadData];
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    if (serverProxy == self.postSaveServerProxy) {
+    if (serverProxy == self.getProgramListServerProxy) {
+        self.getProgramListServerProxy = nil;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+        NSArray *newPrograms = (NSArray *)data;
+        if ([newPrograms count] > 0) {
+            NSArray *oldPrograms = self.parent.programs;
+            Program *possibleAddedProgram = [self extractAddedProgramFromList:newPrograms basedOnOldList:oldPrograms];
+            self.parent.programs = [newPrograms mutableCopy];
+
+            if (possibleAddedProgram) {
+                self.program = possibleAddedProgram;
+                [self.parent addProgram:self.program];
+            }
+        }
+    }
+    else if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;
-        if (self.program.programId == -1) {
-            [self.parent addProgram:self.program];
+        ServerResponse *response = (ServerResponse*)data;
+        if ([response.status isEqualToString:@"err"]) {
+            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
         } else {
-            [self.parent setProgram:self.program withIndex:self.programIndex];
+            if (self.program.programId == -1) {
+                self.getProgramListServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+                [_getProgramListServerProxy requestPrograms];
+            } else {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self.parent setProgram:self.program withIndex:self.programIndex];
+            }
         }
     }
     else if (serverProxy == self.runNowServerProxy) {
@@ -660,6 +687,26 @@
 - (void)loggedOut {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self handleLoggedOutSprinklerError];
+}
+
+#pragma mark - Internal
+
+- (Program*)extractAddedProgramFromList:(NSArray*)newPrograms basedOnOldList:(NSArray*)oldPrograms
+{
+    NSArray *oldIds = [oldPrograms valueForKey:@"programId"];
+    NSMutableArray *newIds = [[newPrograms valueForKey:@"programId"] mutableCopy];
+    
+    [newIds removeObjectsInArray:oldIds];
+    if ([newIds count] > 0) {
+        int lastId = [[newIds lastObject] intValue];
+        for (Program *p in newPrograms) {
+            if ([p programId] == lastId) {
+                return p;
+            }
+        }
+    }
+    
+    return nil;
 }
 
 @end

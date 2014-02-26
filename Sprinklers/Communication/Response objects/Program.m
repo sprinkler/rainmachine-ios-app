@@ -78,6 +78,7 @@
     [dic setObject:[NSNumber numberWithInt:_delay] forKey:@"delay"];
     [dic setObject:[NSNumber numberWithInt:_delayOn] forKey:@"delay_on"];
     [dic setObject:[NSNumber numberWithInt:_frequency] forKey:@"frequency"];
+    [dic setObject:[NSNumber numberWithInt:_ignoreWeatherData] forKey:@"ignoreWeatherData"];
 
     if (_name) {
         [dic setObject:_name forKey:@"name"];

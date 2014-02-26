@@ -49,7 +49,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self.parent datePikcerVCWillDissapear:self];
+    [self.parent datePickerVCWillDissapear:self];
 }
 
 - (void)didReceiveMemoryWarning

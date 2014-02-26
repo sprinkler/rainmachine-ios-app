@@ -16,6 +16,7 @@
 @interface ProgramsVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource, SprinklerResponseProtocol>
 
 @property (weak, nonatomic) SettingsVC *parent;
+@property (strong, nonatomic) NSMutableArray *programs;
 
 - (void)setProgram:(Program*)p withIndex:(int)i;
 - (void)addProgram:(Program*)p;

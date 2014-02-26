@@ -24,6 +24,6 @@
 
 - (void)setDelayVCOver:(SetDelayVC*)setDelayVC;
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC;
-- (void)datePikcerVCWillDissapear:(DatePickerVC*)datePickerVC;
+- (void)datePickerVCWillDissapear:(DatePickerVC*)datePickerVC;
 
 @end
