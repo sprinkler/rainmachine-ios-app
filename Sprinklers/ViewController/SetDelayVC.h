@@ -19,9 +19,5 @@
 @property (assign) int valuePicker2;
 
 @property (weak, nonatomic) DailyProgramVC *parent;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraintPicker1;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraintPicker1;
-@property (weak, nonatomic) IBOutlet UIView *helperMiddleView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelYAlignConstraintPicker1;
 
 @end

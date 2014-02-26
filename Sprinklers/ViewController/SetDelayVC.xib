@@ -7,14 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SetDelayVC">
             <connections>
-                <outlet property="bottomConstraintPicker1" destination="rrl-sd-nZq" id="CKo-WC-znA"/>
-                <outlet property="helperMiddleView" destination="nAG-mE-7ol" id="ABt-Nu-0zv"/>
-                <outlet property="labelYAlignConstraintPicker1" destination="T3m-Xg-62f" id="7ic-qL-aB1"/>
+                <outlet property="helperView2" destination="kZJ-hk-p41" id="tiL-3c-0mB"/>
                 <outlet property="picker1" destination="i7D-Dy-SZs" id="6qw-0c-CMr"/>
                 <outlet property="picker2" destination="o73-bd-rEm" id="b85-iL-OfE"/>
                 <outlet property="title1" destination="61x-5S-ReG" id="b32-WP-CMm"/>
                 <outlet property="title2" destination="lwq-I0-v1x" id="Aue-WV-IYg"/>
-                <outlet property="topConstraintPicker1" destination="dId-c4-bK0" id="FnM-95-9Ow"/>
                 <outlet property="view" destination="1" id="ZkF-WL-eWv"/>
             </connections>
         </placeholder>
@@ -23,8 +20,24 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KiS-jU-gPK">
+                    <rect key="frame" x="160" y="0.0" width="0.0" height="240"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.25098040700000002" green="0.69411766529999996" blue="0.85490202900000001" alpha="1" colorSpace="deviceRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" id="ddP-gw-zTt"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZJ-hk-p41">
+                    <rect key="frame" x="160" y="240" width="0.0" height="240"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="0.0761146989" blue="0.15216917620000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" id="mNf-Xh-Oei"/>
+                    </constraints>
+                </view>
                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i7D-Dy-SZs">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+                    <rect key="frame" x="0.0" y="39" width="320" height="162"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="poA-sG-4Ks"/>
@@ -32,13 +45,13 @@
                     </connections>
                 </pickerView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61x-5S-ReG">
-                    <rect key="frame" x="193" y="104" width="42" height="21"/>
+                    <rect key="frame" x="193" y="110" width="42" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o73-bd-rEm">
-                    <rect key="frame" x="0.0" y="240" width="320" height="216"/>
+                    <rect key="frame" x="0.0" y="279" width="320" height="162"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="bEJ-00-oSI"/>
@@ -46,41 +59,34 @@
                     </connections>
                 </pickerView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwq-I0-v1x">
-                    <rect key="frame" x="193" y="344" width="42" height="21"/>
+                    <rect key="frame" x="193" y="350" width="42" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAG-mE-7ol">
-                    <rect key="frame" x="140" y="240" width="40" height="0.0"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.2784313725" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" id="DLc-jO-xo1"/>
-                        <constraint firstAttribute="width" constant="40" id="UXr-Jw-anr"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="KiS-jU-gPK" firstAttribute="top" secondItem="1" secondAttribute="top" id="1E0-KD-f42"/>
+                <constraint firstAttribute="centerX" secondItem="KiS-jU-gPK" secondAttribute="centerX" id="7nN-EW-RKB"/>
                 <constraint firstAttribute="trailing" secondItem="i7D-Dy-SZs" secondAttribute="trailing" id="DuV-gx-Qby"/>
-                <constraint firstItem="lwq-I0-v1x" firstAttribute="centerY" secondItem="o73-bd-rEm" secondAttribute="centerY" constant="-6" id="EIk-aa-nW6"/>
+                <constraint firstItem="lwq-I0-v1x" firstAttribute="centerY" secondItem="o73-bd-rEm" secondAttribute="centerY" id="EIk-aa-nW6"/>
+                <constraint firstAttribute="bottom" secondItem="KiS-jU-gPK" secondAttribute="bottom" priority="750" id="GEP-qe-Lcy"/>
                 <constraint firstItem="i7D-Dy-SZs" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="NZV-gl-iz4"/>
-                <constraint firstItem="61x-5S-ReG" firstAttribute="centerY" secondItem="i7D-Dy-SZs" secondAttribute="centerY" constant="6.5" id="T3m-Xg-62f"/>
-                <constraint firstItem="o73-bd-rEm" firstAttribute="top" secondItem="nAG-mE-7ol" secondAttribute="bottom" id="cVj-mV-7PO"/>
-                <constraint firstItem="i7D-Dy-SZs" firstAttribute="top" secondItem="1" secondAttribute="top" id="dId-c4-bK0"/>
+                <constraint firstItem="kZJ-hk-p41" firstAttribute="height" secondItem="KiS-jU-gPK" secondAttribute="height" id="R0b-Lq-X9C"/>
+                <constraint firstAttribute="centerX" secondItem="kZJ-hk-p41" secondAttribute="centerX" id="S05-jv-1gh"/>
+                <constraint firstItem="61x-5S-ReG" firstAttribute="centerY" secondItem="i7D-Dy-SZs" secondAttribute="centerY" id="T3m-Xg-62f"/>
+                <constraint firstItem="kZJ-hk-p41" firstAttribute="top" secondItem="KiS-jU-gPK" secondAttribute="bottom" id="Zab-Ye-5I1"/>
                 <constraint firstAttribute="trailing" secondItem="o73-bd-rEm" secondAttribute="trailing" id="dX4-Og-bN2"/>
-                <constraint firstAttribute="centerX" secondItem="nAG-mE-7ol" secondAttribute="centerX" id="diH-C2-fVM"/>
-                <constraint firstItem="61x-5S-ReG" firstAttribute="leading" secondItem="nAG-mE-7ol" secondAttribute="trailing" constant="13" id="grc-WU-scY"/>
+                <constraint firstItem="i7D-Dy-SZs" firstAttribute="centerY" secondItem="KiS-jU-gPK" secondAttribute="centerY" id="oRD-aX-xeh"/>
                 <constraint firstAttribute="centerX" secondItem="i7D-Dy-SZs" secondAttribute="centerX" id="pgC-uT-o7c"/>
-                <constraint firstAttribute="centerY" secondItem="nAG-mE-7ol" secondAttribute="centerY" id="pm2-Tb-gUE"/>
-                <constraint firstItem="nAG-mE-7ol" firstAttribute="top" secondItem="i7D-Dy-SZs" secondAttribute="bottom" constant="24" id="rrl-sd-nZq"/>
+                <constraint firstAttribute="bottom" secondItem="kZJ-hk-p41" secondAttribute="bottom" id="sH1-jg-tHR"/>
                 <constraint firstAttribute="centerX" secondItem="o73-bd-rEm" secondAttribute="centerX" id="sxa-eJ-0ku"/>
                 <constraint firstItem="lwq-I0-v1x" firstAttribute="leading" secondItem="61x-5S-ReG" secondAttribute="leading" id="ufF-Lj-qBp"/>
+                <constraint firstItem="KiS-jU-gPK" firstAttribute="leading" secondItem="61x-5S-ReG" secondAttribute="leading" constant="-33" id="v8n-C7-foV"/>
                 <constraint firstItem="o73-bd-rEm" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="w7I-l5-H0o"/>
-                <constraint firstAttribute="bottom" secondItem="o73-bd-rEm" secondAttribute="bottom" id="wuE-na-rbS"/>
-                <constraint firstAttribute="centerY" secondItem="i7D-Dy-SZs" secondAttribute="centerY" priority="750" constant="132" id="yA6-Q3-Dc1"/>
+                <constraint firstItem="kZJ-hk-p41" firstAttribute="centerY" secondItem="o73-bd-rEm" secondAttribute="centerY" id="wPy-qZ-cdV"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>

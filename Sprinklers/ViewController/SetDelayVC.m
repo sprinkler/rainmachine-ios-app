@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *title2;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker1;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker2;
+@property (weak, nonatomic) IBOutlet UIView *helperView2;
 
 @end
 
@@ -38,22 +39,8 @@
     _picker2.hidden = (_titlePicker2 == nil);
     
     if (_picker2.hidden) {
+        [_helperView2 removeFromSuperview];
         [_picker2 removeFromSuperview];
-        [self.view removeConstraint:_bottomConstraintPicker1];
-        [self.view removeConstraint:_topConstraintPicker1];
-        
-        // For some reason, for 2 picker views the label Y centering had to be corrected
-        // Here we add the constraint as we normally would
-        [self.view removeConstraint:_labelYAlignConstraintPicker1];
-        _labelYAlignConstraintPicker1 = nil;
-        NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_title1
-                                                                      attribute:NSLayoutAttributeCenterY
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:_picker1
-                                                                      attribute:NSLayoutAttributeCenterY
-                                                                     multiplier:1.0
-                                                                       constant:0.0];
-        [self.view addConstraint:constraint];
     }
     
     _title1.hidden = _picker1.hidden;
