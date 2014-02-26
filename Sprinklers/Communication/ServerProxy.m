@@ -216,7 +216,7 @@
                 NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
                 response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
             }
-            [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+            [self.delegate serverResponseReceived:response serverProxy:self userInfo:params];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleError:error fromOperation:operation];

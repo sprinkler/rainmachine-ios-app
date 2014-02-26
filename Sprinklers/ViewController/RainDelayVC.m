@@ -17,6 +17,10 @@
 #import "SettingsVC.h"
 
 @interface RainDelayVC ()
+{
+    BOOL resumeMode;
+}
+
 @property (strong, nonatomic) IBOutlet UILabel *labelDays;
 @property (weak, nonatomic) IBOutlet UIButton *buttonUp;
 @property (weak, nonatomic) IBOutlet UIButton *buttonDown;
@@ -43,17 +47,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    resumeMode = NO;
     
     [self.buttonUp setCustomRMFontWithCode:icon_Up size:90];
     [self.buttonDown setCustomRMFontWithCode:icon_Down size:90];
-    
-    [_buttonSety setCustomBackgroundColorFromComponents:kWateringGreenButtonColor];
 
     self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
     self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
 
     [self.pollServerProxy getRainDelay];
+
+    [self refreshUI];
     [self updateStartButtonActiveStateTo:NO setActivityIndicator:NO];
+}
+
+- (void)refreshUI
+{
+    [self.buttonSety setCustomBackgroundColorFromComponents:resumeMode ? kWateringRedButtonColor : kWateringGreenButtonColor];
+    [self.buttonSety setTitle:resumeMode ? @"Resume" : @"Set" forState:UIControlStateNormal];
+    self.buttonUp.enabled = !resumeMode;
+    self.buttonDown.enabled = !resumeMode;
+    
+    [self refreshCounterUI];
 }
 
 - (void)updateStartButtonActiveStateTo:(BOOL)state setActivityIndicator:(BOOL)setActivityIndicator
@@ -65,7 +81,7 @@
     self.buttonSety.alpha = state ? 1 : 0.66;
 }
 
-- (void)updateCounter
+- (void)refreshCounterUI
 {
     self.initialTimerRequestActivityIndicator.hidden = YES;
     self.labelDays.hidden = NO;
@@ -85,17 +101,22 @@
 
 - (IBAction)up:(id)sender {
     self.rainDelay = [NSNumber numberWithInt:[_rainDelay intValue] + 1];
-    [self updateCounter];
+    [self refreshCounterUI];
 }
 
 - (IBAction)down:(id)sender {
     self.rainDelay = [NSNumber numberWithInt:MAX(0, [_rainDelay intValue] - 1)];
-    [self updateCounter];
+    [self refreshCounterUI];
 }
 
 - (IBAction)set:(id)sender {
-    [self updateStartButtonActiveStateTo:NO setActivityIndicator:YES];
-    [self.postServerProxy setRainDelay:_rainDelay];
+    if (resumeMode) {
+        [self updateStartButtonActiveStateTo:NO setActivityIndicator:YES];
+        [self.postServerProxy setRainDelay:@0];
+    } else {
+        [self updateStartButtonActiveStateTo:NO setActivityIndicator:YES];
+        [self.postServerProxy setRainDelay:_rainDelay];
+    }
 }
 
 #pragma mark - Server related
@@ -104,31 +125,40 @@
 {
     [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
     if (serverProxy == self.pollServerProxy) {
-        [self updateCounter];
     }
     else if (serverProxy == self.postServerProxy) {
         [self updateStartButtonActiveStateTo:YES setActivityIndicator:YES];
     }
+    [self refreshUI];
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     if (serverProxy == self.pollServerProxy) {
         self.rainDelay = ((RainDelay*)data).rainDelay;
-        [self updateCounter];
+        [self updateResumeMode];
     }
     else if (serverProxy == self.postServerProxy) {
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
             [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+        } else {
+            self.rainDelay = [userInfo objectForKey:@"rainDelay"];
+            [self updateResumeMode];
         }
     }
     [self updateStartButtonActiveStateTo:YES setActivityIndicator:YES];
+    [self refreshUI];
 }
 
 - (void)loggedOut
 {
     [self.parent handleLoggedOutSprinklerError];
+}
+
+- (void)updateResumeMode
+{
+    resumeMode = ([_rainDelay intValue] != 0);
 }
 
 @end
