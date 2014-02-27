@@ -113,24 +113,29 @@
     Program *program = [[Program alloc] init];
 
     program.programId = -1;
+    program.name = @"New Program";
     program.weekdays = @"D";
     program.timeFormat = 0;
     program.active = YES;
+    program.ignoreWeatherData = NO;
+    program.cycles = 2;
+    program.soak = 30;
+    program.delay = 0;
     
     // Start time
     program.startTime = [NSDate date];
-//    NSCalendar* cal = [NSCalendar currentCalendar];
-//    NSDateComponents* dateComp = [cal components:(
-//                                                  NSDayCalendarUnit |
-//                                                  NSMonthCalendarUnit |
-//                                                  NSYearCalendarUnit
-//                                                  )
-//                                        fromDate:program.startTime];
-//    
-//    dateComp.hour = 0;
-//    dateComp.minute = 0;
-//    
-//    program.startTime = [cal dateFromComponents:dateComp];
+    NSCalendar* cal = [NSCalendar currentCalendar];
+    NSDateComponents* dateComp = [cal components:(
+                                                  NSDayCalendarUnit |
+                                                  NSMonthCalendarUnit |
+                                                  NSYearCalendarUnit
+                                                  )
+                                        fromDate:program.startTime];
+    
+    dateComp.hour = 6;
+    dateComp.minute = 0;
+    
+    program.startTime = [cal dateFromComponents:dateComp];
     
     // Watering times
     
