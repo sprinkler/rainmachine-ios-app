@@ -53,6 +53,9 @@
     _title1.hidden = _picker1.hidden;
     _title2.hidden = _picker2.hidden;
     
+    _valuePicker1 = MAX(_valuePicker1, _minValuePicker1);
+    _valuePicker2 = MAX(_valuePicker2, _minValuePicker2);
+    
     [_picker1 selectRow:(_valuePicker1 - _minValuePicker1) inComponent:0 animated:NO];
     [_picker2 selectRow:(_valuePicker2 - _minValuePicker2) inComponent:0 animated:NO];
     

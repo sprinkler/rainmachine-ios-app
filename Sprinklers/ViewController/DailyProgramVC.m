@@ -51,8 +51,8 @@
 @property (strong, nonatomic) ServerProxy *getProgramListServerProxy;
 @property (strong, nonatomic) ServerProxy *runNowServerProxy;
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
-@property (strong, nonatomic) ServerProxy *cycleAndSoakServerProxy;
-@property (strong, nonatomic) ServerProxy *stationDelayServerProxy;
+//@property (strong, nonatomic) ServerProxy *cycleAndSoakServerProxy;
+//@property (strong, nonatomic) ServerProxy *stationDelayServerProxy;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSString *frequencyEveryXDays;
@@ -146,35 +146,35 @@
     [self.tableView reloadData];
 }
 
-- (void)requestCycleAndSoakServerProxyWithProgramId:(int)programId cycles:(int)nr_of_cycles soak:(int)soak_minutes cs_on:(int)cs_on
-{
-    if (self.program.programId != -1) {
-        if (self.cycleAndSoakServerProxy) {
-            [self.cycleAndSoakServerProxy cancelAllOperations];
-            self.cycleAndSoakServerProxy = nil;
-        }
-        
-        self.cycleAndSoakServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        [self.cycleAndSoakServerProxy programCycleAndSoak:programId cycles:nr_of_cycles soak:soak_minutes cs_on:cs_on];
-    }
-    
-    [self.tableView reloadData];
-}
-
-- (void)requestStationDelay:(int)programId delay:(int)delay_minutes delay_on:(int)delay_on
-{
-    if (self.program.programId != -1) {
-        if (self.stationDelayServerProxy) {
-            [self.stationDelayServerProxy cancelAllOperations];
-            self.stationDelayServerProxy = nil;
-        }
-
-        self.stationDelayServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        [self.stationDelayServerProxy programStationDelay:programId delay:delay_minutes delay_on:delay_on];
-    }
-    
-    [self.tableView reloadData];
-}
+//- (void)requestCycleAndSoakServerProxyWithProgramId:(int)programId cycles:(int)nr_of_cycles soak:(int)soak_minutes cs_on:(int)cs_on
+//{
+//    if (self.program.programId != -1) {
+//        if (self.cycleAndSoakServerProxy) {
+//            [self.cycleAndSoakServerProxy cancelAllOperations];
+//            self.cycleAndSoakServerProxy = nil;
+//        }
+//        
+//        self.cycleAndSoakServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+//        [self.cycleAndSoakServerProxy programCycleAndSoak:programId cycles:nr_of_cycles soak:soak_minutes cs_on:cs_on];
+//    }
+//    
+//    [self.tableView reloadData];
+//}
+//
+//- (void)requestStationDelay:(int)programId delay:(int)delay_minutes delay_on:(int)delay_on
+//{
+//    if (self.program.programId != -1) {
+//        if (self.stationDelayServerProxy) {
+//            [self.stationDelayServerProxy cancelAllOperations];
+//            self.stationDelayServerProxy = nil;
+//        }
+//
+//        self.stationDelayServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+//        [self.stationDelayServerProxy programStationDelay:programId delay:delay_minutes delay_on:delay_on];
+//    }
+//    
+//    [self.tableView reloadData];
+//}
 
 - (void)onCellSwitch:(id)object
 {
@@ -185,14 +185,14 @@
                 [self showSection4Screen:0];
             } else {
                 self.program.csOn = YES;
-                [self requestCycleAndSoakServerProxyWithProgramId:_program.programId cycles:_program.cycles soak:_program.soak cs_on:cell.theSwitch.on];
+//                [self requestCycleAndSoakServerProxyWithProgramId:_program.programId cycles:_program.cycles soak:_program.soak cs_on:cell.theSwitch.on];
             }
         } else {
             if ((cell.theSwitch.on) && ((self.program.delay == 0)) ) {
                 [self showSection4Screen:1];
             } else {
                 self.program.delayOn = YES;
-                [self requestStationDelay:_program.programId delay:_program.delay delay_on:cell.theSwitch.on];
+//                [self requestStationDelay:_program.programId delay:_program.delay delay_on:cell.theSwitch.on];
             }
         }
     }
@@ -243,19 +243,19 @@
             self.program.cycles = setDelayVC.valuePicker1;
             self.program.soak = setDelayVC.valuePicker2;
             self.program.csOn = !((_program.cycles == 0) && (_program.soak == 0));
-            if (self.program.csOn) {
-                [self requestCycleAndSoakServerProxyWithProgramId:_program.programId cycles:_program.cycles soak:_program.soak cs_on:_program.csOn];
-            }
+//            if (self.program.csOn) {
+//                [self requestCycleAndSoakServerProxyWithProgramId:_program.programId cycles:_program.cycles soak:_program.soak cs_on:_program.csOn];
+//            }
         } else if ([setDelayVC.userInfo isEqualToString:@"station_delay"]) {
             self.program.delay = setDelayVC.valuePicker1;
             self.program.delayOn = !((_program.delay == 0));
-            if (self.program.delayOn) {
-                [self requestStationDelay:_program.programId delay:_program.delay delay_on:_program.delayOn];
-            }
+//            if (self.program.delayOn) {
+//                [self requestStationDelay:_program.programId delay:_program.delay delay_on:_program.delayOn];
+//            }
         } else if ([setDelayVC.userInfo isEqualToString:@"interval_frequency"]) {
             self.frequencyEveryXDays = [NSString stringWithFormat:@"INT %d", setDelayVC.valuePicker1];
             self.program.weekdays = self.frequencyEveryXDays;
-        }
+            }
     } else if ([setDelayVC.userInfo isKindOfClass:[NSDictionary class]]) {
         NSString *name = [setDelayVC.userInfo objectForKey:@"name"];
          if ([name isEqualToString:@"zoneDelay"]) {
@@ -477,14 +477,14 @@
             cell.theSwitch.on = self.program.csOn;
             cell.theTextLabel.text = @"Cycle & Soak";
             cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soak];
-            cell.theActivityIndicator.hidden = (self.cycleAndSoakServerProxy == nil);
+//            cell.theActivityIndicator.hidden = (self.cycleAndSoakServerProxy == nil);
             cell.cycleAndSoak = YES;
         }
         else if (indexPath.row == 1) {
             cell.theSwitch.on = self.program.delayOn;
             cell.theTextLabel.text = @"Station Delay";
             cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
-            cell.theActivityIndicator.hidden = (self.stationDelayServerProxy == nil);
+//            cell.theActivityIndicator.hidden = (self.stationDelayServerProxy == nil);
             cell.cycleAndSoak = NO;
         }
         if (!cell.theActivityIndicator.hidden) {
@@ -637,12 +637,12 @@
     else if (serverProxy == self.runNowServerProxy) {
         self.runNowServerProxy = nil;
     }
-    else if (serverProxy == self.stationDelayServerProxy) {
-        self.stationDelayServerProxy = nil;
-    }
-    else if (serverProxy == self.cycleAndSoakServerProxy) {
-        self.cycleAndSoakServerProxy = nil;
-    }
+//    else if (serverProxy == self.stationDelayServerProxy) {
+//        self.stationDelayServerProxy = nil;
+//    }
+//    else if (serverProxy == self.cycleAndSoakServerProxy) {
+//        self.cycleAndSoakServerProxy = nil;
+//    }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
@@ -695,29 +695,29 @@
         }
         self.runNowServerProxy = nil;
     }
-    else if (serverProxy == self.stationDelayServerProxy) {
-        self.stationDelayServerProxy = nil;
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
-        } else {
-            NSDictionary *paramsDic = (NSDictionary *)userInfo;
-            self.program.delay = [[paramsDic objectForKey:@"delay"] intValue];
-            self.program.delayOn = [[paramsDic objectForKey:@"delay_on"] intValue];
-        }
-    }
-    else if (serverProxy == self.cycleAndSoakServerProxy) {
-        self.cycleAndSoakServerProxy = nil;
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
-        } else {
-            NSDictionary *paramsDic = (NSDictionary *)userInfo;
-            self.program.cycles = [[paramsDic objectForKey:@"cycles"] intValue];
-            self.program.soak = [[paramsDic objectForKey:@"soak"] intValue];
-            self.program.csOn = [[paramsDic objectForKey:@"cs_on"] intValue];
-        }
-    }
+//    else if (serverProxy == self.stationDelayServerProxy) {
+//        self.stationDelayServerProxy = nil;
+//        ServerResponse *response = (ServerResponse*)data;
+//        if ([response.status isEqualToString:@"err"]) {
+//            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+//        } else {
+//            NSDictionary *paramsDic = (NSDictionary *)userInfo;
+//            self.program.delay = [[paramsDic objectForKey:@"delay"] intValue];
+//            self.program.delayOn = [[paramsDic objectForKey:@"delay_on"] intValue];
+//        }
+//    }
+//    else if (serverProxy == self.cycleAndSoakServerProxy) {
+//        self.cycleAndSoakServerProxy = nil;
+//        ServerResponse *response = (ServerResponse*)data;
+//        if ([response.status isEqualToString:@"err"]) {
+//            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+//        } else {
+//            NSDictionary *paramsDic = (NSDictionary *)userInfo;
+//            self.program.cycles = [[paramsDic objectForKey:@"cycles"] intValue];
+//            self.program.soak = [[paramsDic objectForKey:@"soak"] intValue];
+//            self.program.csOn = [[paramsDic objectForKey:@"cs_on"] intValue];
+//        }
+//    }
     
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:YES];
     

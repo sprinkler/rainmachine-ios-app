@@ -1218,15 +1218,15 @@
 				AFEAECBD18BA3F9B00370F22 /* ProgramCellType4.m */,
 				AFEAECC218BA6B9B00370F22 /* ProgramCellType5.h */,
 				AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */,
+				AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */,
+				AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */,
 				AF81E6E018BA3237007E9A03 /* ButtonCell.xib */,
 				AF81E6E218BA32C6007E9A03 /* ProgramCellType1.xib */,
 				AF81E6EA18BA34ED007E9A03 /* ProgramCellType2.xib */,
 				AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */,
-				AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */,
-				AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */,
-				AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */,
 				AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */,
 				AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */,
+				AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
