@@ -514,7 +514,7 @@
     if (row == 0) {
         setDelayVC.minValuePicker1 = 2;
         setDelayVC.maxValuePicker1 = 5;
-        setDelayVC.minValuePicker2 = 30;
+        setDelayVC.minValuePicker2 = 1;
         setDelayVC.maxValuePicker2 = 120;
         setDelayVC.userInfo = @"cycle_and_soak";
         setDelayVC.titlePicker1 = @"cycles delayed";
