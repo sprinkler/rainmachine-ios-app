@@ -28,6 +28,9 @@
 #import "SetDelayVC.h"
 #import "DatePickerVC.h"
 
+#define kAlertViewTag_InvalidProgram 1
+#define kAlertViewTag_UnsavedChanges 2
+
 @interface DailyProgramVC ()
 {
     MBProgressHUD *hud;
@@ -215,10 +218,22 @@
 
 - (void)save
 {
-    self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
-    [self.postSaveServerProxy saveProgram:self.program];
+    NSString *invalidProgramStateMessage = [self checkProgramValidity];
 
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (invalidProgramStateMessage) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot save program"
+                                                            message:invalidProgramStateMessage
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        alertView.tag = kAlertViewTag_InvalidProgram;
+        [alertView show];
+    } else {
+        self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+        [self.postSaveServerProxy saveProgram:self.program];
+
+        hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
 }
 
 - (void)setDelayVCOver:(SetDelayVC*)setDelayVC
@@ -737,6 +752,27 @@
     return YES;
 }
 
+- (NSString *)checkProgramValidity
+{
+    if ([self.program.weekdays isEqualToString:@"0,0,0,0,0,0,0"]) {
+        return @"Select at least a weekday or change frequency type";
+    }
+    
+    BOOL isThereANonZeroWateringZoneTime = NO;
+    for (ProgramWateringTimes *programWateringTime in self.program.wateringTimes) {
+        if (programWateringTime.minutes != 0) {
+            isThereANonZeroWateringZoneTime = YES;
+            break;
+        }
+    }
+    
+    if (!isThereANonZeroWateringZoneTime) {
+        return @"At least one zone must have a non-zero watering time";
+    }
+    
+    return nil;
+}
+
 #pragma mark - CCTBackButtonActionHelper delegate
 
 - (BOOL)cct_navigationBar:(UINavigationBar *)navigationBar willPopItem:(UINavigationItem *)item {
@@ -746,6 +782,7 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"Leave screen"
                                                   otherButtonTitles:@"Stay", nil];
+        alertView.tag = kAlertViewTag_UnsavedChanges;
         [alertView show];
         
         return NO;
@@ -758,9 +795,13 @@
 #pragma mark - Alert view delegate
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.cancelButtonIndex == buttonIndex) {
-        [CCTBackButtonActionHelper sharedInstance].delegate = nil;
-        [self.navigationController popViewControllerAnimated:YES];
+    if (alertView.tag == kAlertViewTag_UnsavedChanges) {
+        if (alertView.cancelButtonIndex == buttonIndex) {
+            [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else if (alertView.tag == kAlertViewTag_InvalidProgram) {
     }
 }
 
