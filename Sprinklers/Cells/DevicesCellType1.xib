@@ -14,33 +14,47 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eoN-2J-POi">
-                        <rect key="frame" x="15" y="24" width="187" height="15"/>
+                    <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eoN-2J-POi">
+                        <rect key="frame" x="15" y="24" width="43" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u4s-Oa-W5p">
-                        <rect key="frame" x="15" y="1" width="193" height="22"/>
+                    <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u4s-Oa-W5p">
+                        <rect key="frame" x="15" y="1" width="34" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k5M-6e-97S">
-                        <rect key="frame" x="216" y="11" width="64" height="21"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k5M-6e-97S">
+                        <rect key="frame" x="240" y="12" width="40" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_disclosure_triangle" translatesAutoresizingMaskIntoConstraints="NO" id="1ur-E5-aPU">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_disclosure_triangle" translatesAutoresizingMaskIntoConstraints="NO" id="1ur-E5-aPU">
                         <rect key="frame" x="293" y="15" width="14" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="14" id="5Sx-rH-erd"/>
+                            <constraint firstAttribute="width" constant="14" id="IEb-II-2KD"/>
+                        </constraints>
                     </imageView>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="u4s-Oa-W5p" firstAttribute="leading" secondItem="wIb-pN-yjX" secondAttribute="leading" constant="15" id="31F-aq-cEn"/>
+                    <constraint firstAttribute="centerY" secondItem="1ur-E5-aPU" secondAttribute="centerY" constant="-0.5" id="9M8-1I-yXe"/>
+                    <constraint firstItem="1ur-E5-aPU" firstAttribute="leading" secondItem="k5M-6e-97S" secondAttribute="trailing" constant="13" id="Fd4-UI-cEJ"/>
+                    <constraint firstAttribute="centerY" secondItem="k5M-6e-97S" secondAttribute="centerY" id="LkJ-cJ-n2c"/>
+                    <constraint firstAttribute="centerY" secondItem="u4s-Oa-W5p" secondAttribute="centerY" constant="9.5" id="Qdh-la-QLH"/>
+                    <constraint firstAttribute="trailing" secondItem="1ur-E5-aPU" secondAttribute="trailing" constant="13" id="W6m-7q-5Fl"/>
+                    <constraint firstItem="eoN-2J-POi" firstAttribute="top" secondItem="u4s-Oa-W5p" secondAttribute="bottom" constant="1" id="cHI-aA-zeZ"/>
+                    <constraint firstItem="eoN-2J-POi" firstAttribute="leading" secondItem="wIb-pN-yjX" secondAttribute="leading" constant="15" id="nUk-7x-bZc"/>
+                </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>

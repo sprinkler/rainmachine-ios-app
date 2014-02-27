@@ -63,6 +63,9 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVg-nK-f1I" customClass="ColoredBackgroundButton">
                     <rect key="frame" x="20" y="250" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="SwH-SV-PHx"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" title="Login">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -91,12 +94,12 @@
                 <constraint firstAttribute="trailing" secondItem="IlE-gQ-CaR" secondAttribute="trailing" priority="500" constant="20" id="E00-Wn-LBm"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ZVg-nK-f1I" secondAttribute="bottom" constant="150" id="HYQ-Ku-gOW"/>
                 <constraint firstAttribute="trailing" secondItem="7rW-D2-z09" secondAttribute="trailing" priority="500" id="Ia2-B8-UF5"/>
+                <constraint firstItem="ZVg-nK-f1I" firstAttribute="top" secondItem="rkA-0y-l2m" secondAttribute="bottom" constant="14" id="Pr7-MU-y9o"/>
                 <constraint firstAttribute="trailing" secondItem="ZVg-nK-f1I" secondAttribute="trailing" priority="500" constant="20" id="Qui-6y-0AB"/>
                 <constraint firstItem="7rW-D2-z09" firstAttribute="top" secondItem="1" secondAttribute="top" priority="500" id="SnQ-4t-xj4"/>
                 <constraint firstItem="rkA-0y-l2m" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="XOJ-Fa-yuL"/>
                 <constraint firstItem="rkA-0y-l2m" firstAttribute="top" secondItem="IlE-gQ-CaR" secondAttribute="bottom" priority="500" constant="18" id="Zac-ZF-uVc"/>
                 <constraint firstItem="QkD-Pc-YFt" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="aXh-TP-2eC"/>
-                <constraint firstItem="ZVg-nK-f1I" firstAttribute="top" secondItem="doT-Ty-bXu" secondAttribute="bottom" priority="500" constant="14" id="cdT-qb-VAb"/>
                 <constraint firstAttribute="trailing" secondItem="QkD-Pc-YFt" secondAttribute="trailing" priority="500" constant="20" id="dKu-XF-kdj"/>
                 <constraint firstItem="doT-Ty-bXu" firstAttribute="top" secondItem="IlE-gQ-CaR" secondAttribute="bottom" priority="500" constant="17" id="mjl-E2-mAL"/>
                 <constraint firstItem="ZVg-nK-f1I" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="wrt-UY-eYN"/>
