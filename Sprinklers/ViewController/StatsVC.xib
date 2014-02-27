@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StatsVC">
             <connections>
-                <outlet property="constrainTableBotom" destination="Owp-Xo-nLj" id="89c-n9-kv5"/>
                 <outlet property="dataSourceTableView" destination="qrO-Fn-gL9" id="u7H-iZ-hFa"/>
                 <outlet property="tableView" destination="chW-gE-f48" id="g3e-wh-cMu"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -19,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="chW-gE-f48">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="443"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="464"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="deviceRGB"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -28,12 +27,12 @@
                         <outlet property="delegate" destination="-1" id="OCp-kh-AHB"/>
                     </connections>
                 </tableView>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="76" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qrO-Fn-gL9">
-                    <rect key="frame" x="0.0" y="443" width="320" height="76"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qrO-Fn-gL9">
+                    <rect key="frame" x="0.0" y="464" width="320" height="55"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="76" id="6I6-4c-z6q"/>
+                        <constraint firstAttribute="height" constant="55" id="6I6-4c-z6q"/>
                     </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="JTA-QU-AZt"/>
@@ -47,8 +46,8 @@
                 <constraint firstAttribute="trailing" secondItem="chW-gE-f48" secondAttribute="trailing" id="84z-Ff-YLw"/>
                 <constraint firstItem="qrO-Fn-gL9" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="8qd-um-dU9"/>
                 <constraint firstItem="chW-gE-f48" firstAttribute="top" secondItem="1" secondAttribute="top" id="C9T-PN-IwP"/>
-                <constraint firstAttribute="bottom" secondItem="qrO-Fn-gL9" secondAttribute="bottom" id="Owp-Xo-nLj"/>
                 <constraint firstItem="chW-gE-f48" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="ccd-zs-Ndm"/>
+                <constraint firstAttribute="bottom" secondItem="qrO-Fn-gL9" secondAttribute="bottom" id="k6G-fw-Hna"/>
                 <constraint firstItem="qrO-Fn-gL9" firstAttribute="top" secondItem="chW-gE-f48" secondAttribute="bottom" id="wfK-mZ-j4V"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

@@ -55,14 +55,18 @@
 @property (strong, nonatomic) NSString *frequencyEveryXDays;
 @property (strong, nonatomic) NSString *frequencyWeekdays;
 
+@property (copy, nonatomic) Program *programCopyBeforeSave;
+
 @end
 
 @implementation DailyProgramVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     isNewProgram = (self.program == nil);
+    
+    self.programCopyBeforeSave = self.program;
     
     if (self.program) {
         runNowSectionIndex = 0;
@@ -107,6 +111,16 @@
     } else {
         self.frequencyWeekdays = @"0,0,0,0,0,0,0";
     }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [CCTBackButtonActionHelper sharedInstance].delegate = self;
 }
 
 - (void)updateRunNowButtonActiveStateTo:(BOOL)state setActivityIndicator:(BOOL)setActivityIndicator
@@ -361,6 +375,7 @@
             cell.theSwitch.on = self.program.active;
             cell.theTextLabel.text = @"Active";
             cell.theDetailLabel.text = nil;
+            cell.delegate = self;
             return cell;
         }
             // The commented part is for the newer API
@@ -631,6 +646,7 @@
                 [self.parent addProgram:self.program];
             }
         }
+        self.programCopyBeforeSave = self.program;
     }
     else if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;
@@ -639,11 +655,14 @@
             [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
         } else {
             if (self.program.programId == -1) {
+                // Create a new program. We don't receive the new id from the server. That's why we have to do a new requestPrograms call and extract the new id from there.
                 self.getProgramListServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
                 [_getProgramListServerProxy requestPrograms];
             } else {
+                // Save existing program
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self.parent setProgram:self.program withIndex:self.programIndex];
+                self.programCopyBeforeSave = self.program;
             }
         }
     }
@@ -707,6 +726,42 @@
     }
     
     return nil;
+}
+
+- (BOOL)hasUnsavedChanged
+{
+    if (self.programCopyBeforeSave) {
+        return ![self.programCopyBeforeSave isEqualToProgram:self.program];
+    }
+    
+    return YES;
+}
+
+#pragma mark - CCTBackButtonActionHelper delegate
+
+- (BOOL)cct_navigationBar:(UINavigationBar *)navigationBar willPopItem:(UINavigationItem *)item {
+    if ([self hasUnsavedChanged]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Leave screen?"
+                                                            message:@"There are unsaved changes"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Leave screen"
+                                                  otherButtonTitles:@"Stay", nil];
+        [alertView show];
+        
+        return NO;
+    }
+    
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+    return YES;
+}
+
+#pragma mark - Alert view delegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView.cancelButtonIndex == buttonIndex) {
+        [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

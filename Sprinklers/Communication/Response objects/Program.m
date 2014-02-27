@@ -145,4 +145,62 @@
     return program;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    Program *program = [(Program *)[[self class] allocWithZone:zone] init];
+    
+    program.active = self.active;
+    program.csOn = self.csOn;
+    program.cycles = self.cycles;
+    program.delay = self.delay;
+    program.delayOn = self.delayOn;
+    program.frequency = self.frequency;
+    program.ignoreWeatherData = self.ignoreWeatherData;
+    program.name = [self.name copy];
+    program.parameter = self.parameter;
+    program.programId = self.programId;
+    program.soak = self.soak;
+    program.startTime = [self.startTime copy];
+    program.state = [self.state copy];
+    program.timeFormat = self.timeFormat;
+    program.weekdays = [self.weekdays copy];
+    program.wateringTimes = [self.wateringTimes copy];
+    
+    return program;
+}
+
+- (BOOL)isEqualToProgram:(Program*)program
+{
+    BOOL isEqual = YES;
+
+    isEqual &= (program.active == self.active);
+    isEqual &= (program.csOn == self.csOn);
+    isEqual &= (program.cycles == self.cycles);
+    isEqual &= (program.delay == self.delay);
+    isEqual &= (program.delayOn == self.delayOn);
+    isEqual &= (program.frequency == self.frequency);
+    isEqual &= (program.ignoreWeatherData == self.ignoreWeatherData);
+    isEqual &= ([program.name isEqualToString:self.name]);
+    isEqual &= (program.parameter == self.parameter);
+    isEqual &= (program.programId == self.programId);
+    isEqual &= (program.soak == self.soak);
+    isEqual &= ([program.startTime isEqualToDate:self.startTime]);
+    isEqual &= ([program.state isEqualToString:self.state]);
+    isEqual &= (program.timeFormat == self.timeFormat);
+    isEqual &= ([program.weekdays isEqualToString:self.weekdays]);
+    
+    if (self.wateringTimes.count != program.wateringTimes.count) {
+        isEqual = NO;
+    } else {
+        for (int i = 0; i < self.wateringTimes.count; i++) {
+            ProgramWateringTimes *selfWateringTime = self.wateringTimes[i];
+            ProgramWateringTimes *otherWateringTime = program.wateringTimes[i];
+            isEqual &= ([otherWateringTime isEqualToProgramWateringTime:selfWateringTime]);
+        }
+    }
+    
+    return isEqual;
+}
+
 @end

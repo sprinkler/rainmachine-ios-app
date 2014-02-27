@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
+#import "CCTBackButtonActionHelper.h"
 
 @class Program;
 @class ProgramsVC;
@@ -16,9 +17,9 @@
 @class WeekdaysVC;
 @class DatePickerVC;
 
-@interface DailyProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate>
+@interface DailyProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate, CCTBackButtonActionHelperProtocol>
 
-@property (strong, nonatomic) Program *program;
+@property (copy, nonatomic) Program *program;
 @property (weak, nonatomic) ProgramsVC *parent;
 @property (assign) int programIndex;
 

@@ -128,7 +128,7 @@ const float kHomeScreenCellHeight = 66;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.dataSourceTableView) {
-        return 76;
+        return 54;
     }
     return kHomeScreenCellHeight;
 }

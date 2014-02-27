@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ProgramWateringTimes : NSObject
+@interface ProgramWateringTimes : NSObject<NSCopying>
 
 @property (nonatomic) int wtId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) int minutes;
 
 - (NSDictionary*)toDictionary;
+- (BOOL)isEqualToProgramWateringTime:(ProgramWateringTimes*)wt;
 
 @end

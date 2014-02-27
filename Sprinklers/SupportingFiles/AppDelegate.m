@@ -15,6 +15,7 @@
 #import "WaterNowVC.h"
 #import "Additions.h"
 #import "UpdateManager.h"
+#import "RMNavigationController.h"
 
 @implementation AppDelegate
 
@@ -45,7 +46,7 @@
     waterVC.tabBarItem = tabBarItemWaterNow;
     
     SettingsVC *settingsVC = [[SettingsVC alloc] init];
-    UINavigationController *navSettings = [[UINavigationController alloc] initWithRootViewController:settingsVC];
+    RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:settingsVC];
     UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
     settingsVC.tabBarItem = tabBarItemSettings;
     

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Program : NSObject
+@interface Program : NSObject<NSCopying>
 
 @property (nonatomic) int active;
 @property (nonatomic) int csOn; // cycle/soak flag
@@ -30,6 +30,7 @@
 + (Program *)createFromJson:(NSDictionary *)jsonObj;
 + (Program *)program;
 
+- (BOOL)isEqualToProgram:(Program*)program;
 - (NSDictionary*)toDictionary;
 
 @end
