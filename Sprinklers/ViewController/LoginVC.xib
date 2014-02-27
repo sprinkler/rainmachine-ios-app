@@ -98,9 +98,9 @@
                 <constraint firstAttribute="trailing" secondItem="ZVg-nK-f1I" secondAttribute="trailing" priority="500" constant="20" id="Qui-6y-0AB"/>
                 <constraint firstItem="7rW-D2-z09" firstAttribute="top" secondItem="1" secondAttribute="top" priority="500" id="SnQ-4t-xj4"/>
                 <constraint firstItem="rkA-0y-l2m" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="XOJ-Fa-yuL"/>
-                <constraint firstItem="rkA-0y-l2m" firstAttribute="top" secondItem="IlE-gQ-CaR" secondAttribute="bottom" priority="500" constant="18" id="Zac-ZF-uVc"/>
                 <constraint firstItem="QkD-Pc-YFt" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="aXh-TP-2eC"/>
                 <constraint firstAttribute="trailing" secondItem="QkD-Pc-YFt" secondAttribute="trailing" priority="500" constant="20" id="dKu-XF-kdj"/>
+                <constraint firstItem="doT-Ty-bXu" firstAttribute="centerY" secondItem="rkA-0y-l2m" secondAttribute="centerY" id="dP2-ek-Uar"/>
                 <constraint firstItem="doT-Ty-bXu" firstAttribute="top" secondItem="IlE-gQ-CaR" secondAttribute="bottom" priority="500" constant="17" id="mjl-E2-mAL"/>
                 <constraint firstItem="ZVg-nK-f1I" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="wrt-UY-eYN"/>
                 <constraint firstItem="QkD-Pc-YFt" firstAttribute="top" secondItem="7rW-D2-z09" secondAttribute="bottom" priority="500" id="wxv-6b-2Fa"/>
