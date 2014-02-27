@@ -16,6 +16,7 @@
 #import "DevicesVC.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
+#import "+UIDevice.h"
 
 @interface LoginVC () {
     ServerProxy *serverProxy;
@@ -60,8 +61,10 @@
     [self.bucketLabel setCustomRMFontWithCode:icon_Stropitoare_Icon size:195];
     
     _textUsername.text = self.sprinkler.username ? self.sprinkler.username : @"admin";
-    _textUsername.tintColor = _textUsername.textColor;
-    _textPassword.tintColor = _textPassword.textColor;
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        _textUsername.tintColor = _textUsername.textColor;
+        _textPassword.tintColor = _textPassword.textColor;
+    }
     
     // TODO: uncomment this line in case the device version is >= 4.0
 //    [self setup40SprinklerUI];

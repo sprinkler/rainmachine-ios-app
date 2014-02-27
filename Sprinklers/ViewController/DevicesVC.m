@@ -252,30 +252,22 @@
     return self.discoveredSprinklers.count + 1;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 35)];
-    headerView.backgroundColor = [UIColor colorWithRed:229.0f / 255.0f green:229.0f / 255.0f blue:229.0f / 255.0f alpha:1.0f];
-    
-    UILabel *lblView = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 250, 35)];
-    lblView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.0f];
-    lblView.backgroundColor = [UIColor clearColor];
-    
-//    if (section == 0) {
-//        lblView.text = @"Nice section header 1";
-//    }
-//    if (section == 1) {
-//        lblView.text = @"Nice section header 2";
-//    }
-  
-    [headerView addSubview:lblView];
-    
-    
-    return headerView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 35.0f;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 35)];
+//    headerView.backgroundColor = [UIColor colorWithRed:229.0f / 255.0f green:229.0f / 255.0f blue:229.0f / 255.0f alpha:1.0f];
+//    
+//    UILabel *lblView = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 250, 35)];
+//    lblView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17.0f];
+//    lblView.backgroundColor = [UIColor clearColor];
+//    
+//    [headerView addSubview:lblView];
+//    
+//    return headerView;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 35.0f;
+//}
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {

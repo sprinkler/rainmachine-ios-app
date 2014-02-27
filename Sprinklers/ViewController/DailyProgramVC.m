@@ -27,6 +27,7 @@
 #import "WeekdaysVC.h"
 #import "SetDelayVC.h"
 #import "DatePickerVC.h"
+#import "+UIDevice.h"
 
 #define kAlertViewTag_InvalidProgram 1
 #define kAlertViewTag_UnsavedChanges 2
@@ -312,15 +313,15 @@
     return nil;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == frequencySectionIndex) {
-        return 44.0;
-    }
-    else if (section == wateringTimesSectionIndex) {
-        return 44.0;
-    }
-    return 22.0;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    if (section == frequencySectionIndex) {
+//        return 34.0;
+//    }
+//    else if (section == wateringTimesSectionIndex) {
+//        return 34.0;
+//    }
+//    return 22.0;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == runNowSectionIndex) {
@@ -349,6 +350,12 @@
     if (indexPath.section == runNowSectionIndex) {
             return 60;
     }
+    else if (indexPath.section == programNameSectionIndex) {
+        return 50;
+    }
+    else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
+        return 50;
+    }
     
     return 44.0f;
 }
@@ -375,7 +382,9 @@
         if (indexPath.row == 0) {
             static NSString *CellIdentifier = @"ProgramCellType1";
             ProgramCellType1 *cell = (ProgramCellType1*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            cell.theTextField.tintColor = [UIColor blackColor];
+            if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+                cell.theTextField.tintColor = [UIColor blackColor];
+            }
             cell.theTextField.text = self.program.name;
             cell.delegate = self;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -512,10 +521,10 @@
 {
     SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
     if (row == 0) {
-        setDelayVC.minValuePicker1 = 2;
+        setDelayVC.minValuePicker1 = 0;
         setDelayVC.maxValuePicker1 = 5;
-        setDelayVC.minValuePicker2 = 1;
-        setDelayVC.maxValuePicker2 = 120;
+        setDelayVC.minValuePicker2 = 0;
+        setDelayVC.maxValuePicker2 = 300;
         setDelayVC.userInfo = @"cycle_and_soak";
         setDelayVC.titlePicker1 = @"cycles delayed";
         setDelayVC.titlePicker2 = @"minutes";
@@ -525,7 +534,7 @@
     }
     else if (row == 1) {
         setDelayVC.minValuePicker1 = 0;
-        setDelayVC.maxValuePicker1 = 120;
+        setDelayVC.maxValuePicker1 = 300;
         setDelayVC.userInfo = @"station_delay";
         setDelayVC.titlePicker1 = @"minutes";
         setDelayVC.valuePicker1 = self.program.delay;

@@ -22,6 +22,7 @@
 #import "UpdateStartInfo.h"
 #import "StorageManager.h"
 #import "RainDelay.h"
+#import "SettingsUnits.h"
 
 @implementation ServerProxy
 
@@ -113,6 +114,40 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self handleError:error fromOperation:operation];
         }];
+}
+
+- (void)requestSettingsUnits
+{
+    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
+                                              @"what" : @"units"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([self passLoggedOutFilter:operation]) {
+            NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsUnits class])];
+            ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+            [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation];
+    }];
+}
+
+- (void)setSettingsUnits:(NSString*)unit
+{
+    [self.manager POST:@"/ui.cgi?action=settings&what=units" parameters:@{@"units": unit} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                  
+      if ([self passLoggedOutFilter:operation]) {
+          ServerResponse *response = nil;
+          if (responseObject) {
+              NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+              response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+          }
+          [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+      }
+      
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      [self handleError:error fromOperation:operation];
+    }];
 }
 
 - (void)requestWeatherData

@@ -12,6 +12,7 @@
 #import "ZonesVC.h"
 #import "RainDelayVC.h"
 #import "RestrictionsVC.h"
+#import "UnitsVC.h"
 
 @interface SettingsVC ()
 
@@ -56,34 +57,27 @@
         return 1;
     }
     else if (section == 2) {
-        return 1;
+        return 4;
     }
     
     return 0;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 35)];
-    headerView.backgroundColor = [UIColor colorWithRed:229.0f / 255.0f green:229.0f / 255.0f blue:229.0f / 255.0f alpha:1.0f];
-   
-    return headerView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 20.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 20;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    return 1;
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+//    return view;
+//}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -100,35 +94,35 @@
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Programs Properties";
-//            cell.detailTextLabel.text = @"Next run: P2 at 06:45PST";  //TODO: Get correct next run.
         }
         if (indexPath.row == 1) {
             cell.textLabel.text = @"Zone Properties";
-//            cell.detailTextLabel.text = @"8 active, 4 inactive";  //TODO: Get correct zone numbers.
         }
     }
     
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Rain Delay";
-//            cell.detailTextLabel.text = @"0 days"; //TODO: Get correct delay;
         }
-//        if (indexPath.row == 1) {
-//            cell.textLabel.text = @"Restrictions";
-//            cell.detailTextLabel.text = @"Daily 09:30AM - 10:30AM"; //TODO: Get correct restrictions;
-//        }
     }
     
     if (indexPath.section == 2)
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Device Settings";
-            cell.detailTextLabel.text = @"Units, Date, Time";
+            cell.textLabel.textColor = [UIColor lightGrayColor];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-//        if (indexPath.row == 1) {
-//            cell.textLabel.text = @"Statistics";
-//            cell.detailTextLabel.text = @"1 Month, 1 Year...";
-//        }
+        if (indexPath.row == 1) {
+            cell.textLabel.text = @"Units";
+        }
+        if (indexPath.row == 2) {
+            cell.textLabel.text = @"Date & Time";
+        }
+        if (indexPath.row == 3) {
+            cell.textLabel.text = @"Security";
+        }
     }
     
     if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
@@ -161,10 +155,15 @@
         }
     }
     else if (indexPath.section == 2) {
-//        if (indexPath.row == 1) {
-//            RestrictionsVC *restrictionsVC = [[RestrictionsVC alloc] init];
-//            [self.navigationController pushViewController: restrictionsVC animated:YES];
-//        }
+        if (indexPath.row == 1) {
+            UnitsVC *unitsVC = [[UnitsVC alloc] init];
+            unitsVC.parent = self;
+            [self.navigationController pushViewController:unitsVC animated:YES];
+        }
+        else if (indexPath.row == 2) {
+        }
+        else if (indexPath.row == 3) {
+        }
     }
 }
 

@@ -24,6 +24,9 @@
 		3AAA6F4F188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAA6F4D188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
+		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
+		AF02F88418BFA9A500579CAF /* UnitsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF02F88318BFA9A500579CAF /* UnitsVC.xib */; };
+		AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88618BFACA600579CAF /* SettingsUnits.m */; };
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
 		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
@@ -392,6 +395,11 @@
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
 		AF02F87E18BF4DA800579CAF /* RMNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMNavigationController.m; path = ViewController/RMNavigationController.m; sourceTree = "<group>"; };
+		AF02F88018BFA99700579CAF /* UnitsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitsVC.h; path = ViewController/UnitsVC.h; sourceTree = "<group>"; };
+		AF02F88118BFA99700579CAF /* UnitsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnitsVC.m; path = ViewController/UnitsVC.m; sourceTree = "<group>"; };
+		AF02F88318BFA9A500579CAF /* UnitsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UnitsVC.xib; path = ViewController/UnitsVC.xib; sourceTree = "<group>"; };
+		AF02F88518BFACA600579CAF /* SettingsUnits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsUnits.h; path = "Communication/Response objects/SettingsUnits.h"; sourceTree = "<group>"; };
+		AF02F88618BFACA600579CAF /* SettingsUnits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsUnits.m; path = "Communication/Response objects/SettingsUnits.m"; sourceTree = "<group>"; };
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
 		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
 		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
@@ -1265,6 +1273,8 @@
 				AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */,
 				AF94FBC118B8B505006FE76D /* RainDelay.h */,
 				AF94FBC218B8B505006FE76D /* RainDelay.m */,
+				AF02F88518BFACA600579CAF /* SettingsUnits.h */,
+				AF02F88618BFACA600579CAF /* SettingsUnits.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1528,6 +1538,9 @@
 				AFF3A06118BDE4C10060D0F6 /* DatePickerVC.h */,
 				AFF3A06218BDE4C10060D0F6 /* DatePickerVC.m */,
 				AFF3A06418BDE4D00060D0F6 /* DatePickerVC.xib */,
+				AF02F88018BFA99700579CAF /* UnitsVC.h */,
+				AF02F88118BFA99700579CAF /* UnitsVC.m */,
+				AF02F88318BFA9A500579CAF /* UnitsVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1756,6 +1769,7 @@
 				AF81E6E318BA32C6007E9A03 /* ProgramCellType1.xib in Resources */,
 				B1B6061B187958990046FDDC /* ProgramsVC.xib in Resources */,
 				AFF636E1186F55100005EDF1 /* main-screen_raip.png in Resources */,
+				AF02F88418BFA9A500579CAF /* UnitsVC.xib in Resources */,
 				AFF6A6B1188834AC00825A37 /* checkbox-unselected.png in Resources */,
 				AFF6A6B2188834AC00825A37 /* checkbox-unselected@2x.png in Resources */,
 				B1254CC2187DBD61004E2F0E /* RainDelayVC.xib in Resources */,
@@ -1865,6 +1879,7 @@
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
+				AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
@@ -1918,6 +1933,7 @@
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
 				3A9AB590188554A2005B79B9 /* RestrictedMonthsVC.m in Sources */,
+				AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,

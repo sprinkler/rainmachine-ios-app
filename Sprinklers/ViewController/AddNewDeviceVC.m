@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
+#import "+UIDevice.h"
 
 @interface AddNewDeviceVC ()
 
@@ -47,9 +48,11 @@
         self.urlOrIPTextField.text = self.sprinkler.address;
     }
 
-    _nameTextField.tintColor = _nameTextField.textColor;
-    _urlOrIPTextField.tintColor = _urlOrIPTextField.textColor;
-    _tokenEmailTextField.tintColor = _tokenEmailTextField.textColor;
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        _nameTextField.tintColor = _nameTextField.textColor;
+        _urlOrIPTextField.tintColor = _urlOrIPTextField.textColor;
+        _tokenEmailTextField.tintColor = _tokenEmailTextField.textColor;
+    }
 
     [self removeTokenView];
     

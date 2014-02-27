@@ -14,22 +14,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" text="Add new device" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffo-X7-Jm7">
-                        <rect key="frame" x="15" y="0.0" width="290" height="43"/>
+                    <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Add new device" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffo-X7-Jm7">
+                        <rect key="frame" x="15" y="0.0" width="130" height="43"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <color key="textColor" red="0.25098040700000002" green="0.69411766529999996" blue="0.85490202900000001" alpha="1" colorSpace="deviceRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kib-W0-DqM">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kib-W0-DqM">
                         <rect key="frame" x="284" y="0.0" width="26" height="43"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="26" id="lb6-g8-gEY"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
                         <color key="textColor" red="0.25098040700000002" green="0.69411766529999996" blue="0.85490202900000001" alpha="1" colorSpace="deviceRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="centerY" secondItem="Kib-W0-DqM" secondAttribute="centerY" id="0tC-7t-97V"/>
+                    <constraint firstItem="ffo-X7-Jm7" firstAttribute="leading" secondItem="jhx-VC-jsA" secondAttribute="leading" constant="15" id="3d6-NZ-EEv"/>
+                    <constraint firstAttribute="bottom" secondItem="ffo-X7-Jm7" secondAttribute="bottom" id="S78-tb-UVg"/>
+                    <constraint firstAttribute="centerY" secondItem="ffo-X7-Jm7" secondAttribute="centerY" id="S7n-hg-uwr"/>
+                    <constraint firstItem="ffo-X7-Jm7" firstAttribute="top" secondItem="jhx-VC-jsA" secondAttribute="top" id="UEW-3w-2sQ"/>
+                    <constraint firstAttribute="trailing" secondItem="Kib-W0-DqM" secondAttribute="trailing" constant="10" id="doW-2i-5LA"/>
+                    <constraint firstItem="Kib-W0-DqM" firstAttribute="top" secondItem="jhx-VC-jsA" secondAttribute="top" id="hCj-FW-q8n"/>
+                    <constraint firstAttribute="bottom" secondItem="Kib-W0-DqM" secondAttribute="bottom" id="keP-6P-VkI"/>
+                </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>

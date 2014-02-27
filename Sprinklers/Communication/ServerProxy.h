@@ -53,6 +53,9 @@
 - (void)saveProgram:(Program*)program;
 - (void)runNowProgram:(Program*)program;
 
+- (void)setSettingsUnits:(NSString*)unit;
+- (void)requestSettingsUnits;
+
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;
 
