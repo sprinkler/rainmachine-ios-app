@@ -11,5 +11,7 @@
 @interface APIVersion : NSObject
 
 @property (nonatomic, strong) NSString *apiVer;
+@property (nonatomic, strong) NSString *swVer;
+@property (nonatomic, strong) NSString *hwVer;
 
 @end

@@ -166,7 +166,7 @@ const float kHomeScreenCellHeight = 66;
     cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(100 * [weatherData.percentage floatValue])];
     BOOL maxtValid = ((!error) && (weatherData.maxt));
     BOOL mintValid = ((!error) && (weatherData.mint));
-
+    
     if ((maxtValid) && (mintValid)) {
         cell.temperatureLabelPart2.hidden = YES;
         cell.temperatureLabelPart3.hidden = YES;
@@ -222,8 +222,8 @@ const float kHomeScreenCellHeight = 66;
         [cell.percentageNotAvailableLabel setCustomRMFontWithCode:icon_na size:cell.percentageNotAvailableLabel.bounds.size.width];
         cell.percentageNotAvailableLabel.textColor = cell.daylabel.textColor;// [UIColor colorWithRed:153.0 / 255 green:153.0 / 255 blue:153.0 / 255 alpha:1];
     } else {
-        cell.waterImage.hidden = NO;
-        cell.waterWavesImageView.hidden = NO;
+        cell.waterImage.hidden = (cell.waterPercentage == 0);
+        cell.waterWavesImageView.hidden = (cell.waterPercentage == 0);
         cell.percentageLabel.hidden = NO;
         
         cell.percentageNotAvailableLabel.hidden = YES;
@@ -264,7 +264,7 @@ const float kHomeScreenCellHeight = 66;
         [self handleGeneralSprinklerError:nil showErrorMessage:YES];
         
         self.data = dataArray;
-        
+
         WeatherData *lastWeatherData = [self.data lastObject];
         [self rescaleDataIfNeeded];
         
@@ -298,15 +298,28 @@ const float kHomeScreenCellHeight = 66;
         dateAsString = [NSString stringWithFormat:@"%@, %d", dateAsString, [[NSDate date] year]];
     }
     
+    // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm a, LLL d, yyyy"];
+    // Sprinkler 3.5x support
+    [dateFormatter setDateFormat:@"K:mm a, LLL d, yyyy"];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     NSDate *myDate = [dateFormatter dateFromString:dateAsString];
     if (!myDate) {
-        [dateFormatter setDateFormat:@"HH:mm, LLL d, yyyy"];
+        // Sprinkler 3.5x support
+        [dateFormatter setDateFormat:@"H:mm, LLL d, yyyy"];
         myDate = [dateFormatter dateFromString:dateAsString];
         if (!myDate) {
-            DLog(@"Error: failed parsing string: %@", dateAsString);
+            // Sprinkler 3.60 support
+            [dateFormatter setDateFormat:@"MM/dd/yy H:mm"];
+            myDate = [dateFormatter dateFromString:dateAsString];
+            if (!myDate) {
+                // Sprinkler 3.60 support
+                [dateFormatter setDateFormat:@"MM/dd/yy K:mm a"];
+                myDate = [dateFormatter dateFromString:dateAsString];
+                if (!myDate) {
+                    DLog(@"Error: failed parsing string: %@", dateAsString);
+                }
+            }
         }
     }
     [StorageManager current].currentSprinkler.lastUpdate = myDate;
