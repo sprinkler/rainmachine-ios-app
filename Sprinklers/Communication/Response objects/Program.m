@@ -170,7 +170,10 @@
     program.state = [self.state copy];
     program.timeFormat = self.timeFormat;
     program.weekdays = [self.weekdays copy];
-    program.wateringTimes = [self.wateringTimes copy];
+    program.wateringTimes = [NSMutableArray array];
+    for (ProgramWateringTimes *wt in self.wateringTimes) {
+        [program.wateringTimes addObject:[wt copy]];
+    }
     
     return program;
 }
