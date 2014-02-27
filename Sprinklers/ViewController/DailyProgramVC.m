@@ -761,6 +761,8 @@
 - (BOOL)hasUnsavedChanged
 {
     if (self.programCopyBeforeSave) {
+        // In this comparison the difference in state should not be considered
+        self.programCopyBeforeSave.state = self.program.state;
         return ![self.programCopyBeforeSave isEqualToProgram:self.program];
     }
     
