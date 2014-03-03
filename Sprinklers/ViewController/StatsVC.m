@@ -171,7 +171,7 @@ const float kHomeScreenCellHeight = 66;
         cell.temperatureLabelPart2.hidden = YES;
         cell.temperatureLabelPart3.hidden = YES;
         cell.temperatureLabelPart4.hidden = YES;
-        cell.temperatureLabel.text = [NSString stringWithFormat:@"Hi: %@° / Lo: %@°", weatherData.maxt, weatherData.mint];
+        cell.temperatureLabel.text = [NSString stringWithFormat:@"Hi: %@°%@ / Lo: %@°%@", weatherData.maxt, weatherData.units , weatherData.mint, weatherData.units];
     } else {
         cell.temperatureLabelPart2.hidden = NO;
         cell.temperatureLabelPart3.hidden = NO;
