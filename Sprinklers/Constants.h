@@ -21,6 +21,8 @@ extern NSString* const TestServerPort;
 extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
 
+NSString *kVegetationType[9];
+
 extern float kLoginGreenButtonColor[3];
 extern float kWateringGreenButtonColor[3];
 extern float kWateringOrangeButtonColor[3];

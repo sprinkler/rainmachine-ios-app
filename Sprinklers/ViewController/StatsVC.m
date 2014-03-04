@@ -188,12 +188,12 @@ const float kHomeScreenCellHeight = 66;
                 [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:30];
                 cell.temperatureLabelPart3.text = @"/ Lo: ";
                 cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:13];
-                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°", weatherData.mint];
+                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", weatherData.mint, weatherData.units];
             } else {
                 // !mintValid
                 cell.temperatureLabel.text = @"Hi: ";
                 cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:13];
-                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°", weatherData.maxt];
+                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", weatherData.maxt, weatherData.units];
                 cell.temperatureLabelPart3.text = @"/ Lo:";
                 [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:30];
             }

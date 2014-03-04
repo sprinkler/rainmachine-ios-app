@@ -18,12 +18,12 @@
 
 @interface ZonesVC () {
     MBProgressHUD *hud;
-    NSArray *zones;
 }
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *zones;
 
 @end
 
@@ -51,6 +51,11 @@
     [self.serverProxy requestZones];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
+
 #pragma mark - Methods
 
 - (void)startHud:(NSString *)text {
@@ -58,21 +63,10 @@
     hud.labelText = text;
 }
 
-- (NSString *)getVegetationType:(int)type {
-    switch (type) {
-        case 0:
-            return @"Bushes";
-        case 1:
-            return @"Grass";
-        case 2:
-            return @"Magic Beans";
-        case 3:
-            return @"Dog shit";
-        case 4:
-            return @"Trees";
-        default:
-            return @"Trees";
-            break;
+- (void)setZone:(Zone*)zone withIndex:(int)i
+{
+    if (i >= 0) {
+        [self.zones replaceObjectAtIndex:i withObject:zone];
     }
 }
 
@@ -80,7 +74,7 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    zones = data;
+    self.zones = [data mutableCopy];
     [_tableView reloadData];
 }
 
@@ -100,7 +94,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return zones.count;
+    return self.zones.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -120,10 +114,10 @@
 
     ZoneCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZoneCell"];
     
-    Zone *zone = zones[indexPath.row];
+    Zone *zone = self.zones[indexPath.row];
     
-    cell.labelTitle.text = zone.name;
-    cell.labelSubtitle.text = [self getVegetationType:zone.vegetation];
+    cell.labelTitle.text = [Utils fixedZoneName:zone.name withId:[NSNumber numberWithInt:zone.zoneId]];
+    cell.labelSubtitle.text = kVegetationType[zone.vegetation];
     
     if (zone.masterValve) {
         cell.labelAccessory.text = @"Master Valve";
@@ -143,11 +137,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Zone *zone = zones[indexPath.row];
+    Zone *zone = self.zones[indexPath.row];
     ZonePropertiesVC *zp = [[ZonePropertiesVC alloc] init];
     zp.showMasterValve = indexPath.row == 0;
+    zp.zoneIndex = indexPath.row;
     zp.zone = zone;
+    zp.parent = self;
     [self.navigationController pushViewController:zp animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

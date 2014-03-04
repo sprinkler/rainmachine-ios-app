@@ -10,10 +10,18 @@
 #import "BaseLevel2ViewController.h"
 #import "Zone.h"
 #import "Protocols.h"
+#import "CCTBackButtonActionHelper.h"
 
-@interface ZonePropertiesVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, SprinklerResponseProtocol>
+@class VegetationTypeVC;
+@class ZonesVC;
 
-@property (nonatomic, strong) Zone *zone;
+@interface ZonePropertiesVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, CCTBackButtonActionHelperProtocol, CellButtonDelegate>
+
+@property (nonatomic, copy) Zone *zone;
 @property (nonatomic) BOOL showMasterValve;
+@property (nonatomic, weak) ZonesVC *parent;
+@property (assign) int zoneIndex;
+
+- (void)vegetationTypeVCWillDissapear:(VegetationTypeVC*)vegetationTypeVC;
 
 @end

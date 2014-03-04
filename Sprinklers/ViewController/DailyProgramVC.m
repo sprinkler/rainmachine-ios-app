@@ -230,10 +230,12 @@
         alertView.tag = kAlertViewTag_InvalidProgram;
         [alertView show];
     } else {
-        self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
-        [self.postSaveServerProxy saveProgram:self.program];
+        if (!self.postSaveServerProxy) {
+            self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+            [self.postSaveServerProxy saveProgram:self.program];
 
-        hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        }
     }
 }
 

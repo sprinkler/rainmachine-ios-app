@@ -20,6 +20,8 @@
 @end
 
 @protocol CellButtonDelegate <NSObject>
+
+@optional
 - (void)onCellButton;
 - (void)onCellSwitch:(id)object;
 - (void)cellTextFieldChanged:(NSString*)text;

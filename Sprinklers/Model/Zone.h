@@ -8,18 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Zone : NSObject
+@interface Zone : NSObject<NSCopying>
 
 @property (nonatomic) int zoneId;
-@property (nonatomic) BOOL masterValve;
+@property (nonatomic) int masterValve;
 @property (nonatomic) int before;
 @property (nonatomic) int after;
-@property (nonatomic) BOOL active;
+@property (nonatomic) int active;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) int vegetation;
-@property (nonatomic) BOOL forecastData;
-@property (nonatomic) BOOL historicalAverage;
+@property (nonatomic) int forecastData;
+@property (nonatomic) int historicalAverage;
 
 + (Zone *)createFromJson:(NSDictionary *)jsonObj;
+- (BOOL)isEqualToZone:(Zone*)program;
 
 @end

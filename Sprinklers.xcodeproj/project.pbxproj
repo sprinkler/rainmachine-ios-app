@@ -27,6 +27,8 @@
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
 		AF02F88418BFA9A500579CAF /* UnitsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF02F88318BFA9A500579CAF /* UnitsVC.xib */; };
 		AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88618BFACA600579CAF /* SettingsUnits.m */; };
+		AF04995F18C601C300D73860 /* VegetationTypeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF04995E18C601C300D73860 /* VegetationTypeVC.xib */; };
+		AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF04996118C601DA00D73860 /* VegetationTypeVC.m */; };
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
 		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
@@ -408,6 +410,9 @@
 		AF02F88318BFA9A500579CAF /* UnitsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UnitsVC.xib; path = ViewController/UnitsVC.xib; sourceTree = "<group>"; };
 		AF02F88518BFACA600579CAF /* SettingsUnits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsUnits.h; path = "Communication/Response objects/SettingsUnits.h"; sourceTree = "<group>"; };
 		AF02F88618BFACA600579CAF /* SettingsUnits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsUnits.m; path = "Communication/Response objects/SettingsUnits.m"; sourceTree = "<group>"; };
+		AF04995E18C601C300D73860 /* VegetationTypeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VegetationTypeVC.xib; path = ViewController/VegetationTypeVC.xib; sourceTree = "<group>"; };
+		AF04996018C601DA00D73860 /* VegetationTypeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VegetationTypeVC.h; path = ViewController/VegetationTypeVC.h; sourceTree = "<group>"; };
+		AF04996118C601DA00D73860 /* VegetationTypeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VegetationTypeVC.m; path = ViewController/VegetationTypeVC.m; sourceTree = "<group>"; };
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
 		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
 		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
@@ -1575,6 +1580,9 @@
 				AFA1BEFB18C4D703005FBE9B /* SettingsPasswordVC.h */,
 				AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */,
 				AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */,
+				AF04996018C601DA00D73860 /* VegetationTypeVC.h */,
+				AF04996118C601DA00D73860 /* VegetationTypeVC.m */,
+				AF04995E18C601C300D73860 /* VegetationTypeVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1697,6 +1705,7 @@
 				AFF635A4186F54900005EDF1 /* daily_stats_hi_nshwrs.png in Resources */,
 				B1254CC7187ECE48004E2F0E /* ZonePropertiesVC.xib in Resources */,
 				AFF635CD186F54900005EDF1 /* daily_stats_nsvrtsra@2x.png in Resources */,
+				AF04995F18C601C300D73860 /* VegetationTypeVC.xib in Resources */,
 				AFF636C8186F55100005EDF1 /* main-screen_nmix@2x.png in Resources */,
 				AFF635E7186F54900005EDF1 /* daily_stats_tsra@2x.png in Resources */,
 				AFF636BA186F55100005EDF1 /* main-screen_mist@2x.png in Resources */,
@@ -1969,6 +1978,7 @@
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
+				AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */,
 				3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,

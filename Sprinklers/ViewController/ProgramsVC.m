@@ -97,7 +97,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } else {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        self.programs = data;
+        self.programs = [data mutableCopy];
     }
     
     [_tableView reloadData];

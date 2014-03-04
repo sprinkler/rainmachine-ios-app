@@ -10,6 +10,11 @@
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
 
+@class Zone;
+
 @interface ZonesVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
+
+- (void)setZone:(Zone*)zone withIndex:(int)i;
+//- (void)switchMasterValveVC;
 
 @end
