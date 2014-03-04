@@ -41,6 +41,12 @@
 		AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
+		AF7A72B118C491F500596148 /* SettingsDate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B018C491F500596148 /* SettingsDate.m */; };
+		AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B318C492E800596148 /* SettingsPassword.m */; };
+		AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B618C4AA8500596148 /* DatePickerVC.m */; };
+		AF7A72B918C4AAA300596148 /* DatePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF7A72B818C4AAA300596148 /* DatePickerVC.xib */; };
+		AF7A72BB18C4C3B800596148 /* SettingsTimePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */; };
+		AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */; };
 		AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9BD184E3D200047BD9E /* ServerProxy.m */; };
 		AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9C3184E3DBE0047BD9E /* AFHTTPRequestOperation.m */; };
 		AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9C5184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m */; };
@@ -66,6 +72,8 @@
 		AF91C7F71858D757005888AA /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* ServerResponse.m */; };
 		AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */; };
 		AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBC218B8B505006FE76D /* RainDelay.m */; };
+		AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */; };
+		AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
 		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
 		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
@@ -93,8 +101,8 @@
 		AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECC018BA3FA800370F22 /* ProgramCellType3.m */; };
 		AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */; };
 		AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */; };
-		AFF3A06318BDE4C10060D0F6 /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3A06218BDE4C10060D0F6 /* DatePickerVC.m */; };
-		AFF3A06518BDE4D00060D0F6 /* DatePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF3A06418BDE4D00060D0F6 /* DatePickerVC.xib */; };
+		AFF3A06318BDE4C10060D0F6 /* TimePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */; };
+		AFF3A06518BDE4D00060D0F6 /* TimePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */; };
 		AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */; };
 		AFF63593186F54900005EDF1 /* daily_stats_bkn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */; };
 		AFF63594186F54900005EDF1 /* daily_stats_blizzard.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */; };
@@ -425,6 +433,16 @@
 		AF7782C3184CD3DE00DCBD54 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		AF789761185C955F00449381 /* WaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterZoneListCell.h; path = Cells/WaterZoneListCell.h; sourceTree = "<group>"; };
 		AF789762185C955F00449381 /* WaterZoneListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterZoneListCell.m; path = Cells/WaterZoneListCell.m; sourceTree = "<group>"; };
+		AF7A72AF18C491F500596148 /* SettingsDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsDate.h; path = "Communication/Response objects/SettingsDate.h"; sourceTree = "<group>"; };
+		AF7A72B018C491F500596148 /* SettingsDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsDate.m; path = "Communication/Response objects/SettingsDate.m"; sourceTree = "<group>"; };
+		AF7A72B218C492E800596148 /* SettingsPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsPassword.h; path = "Communication/Response objects/SettingsPassword.h"; sourceTree = "<group>"; };
+		AF7A72B318C492E800596148 /* SettingsPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPassword.m; path = "Communication/Response objects/SettingsPassword.m"; sourceTree = "<group>"; };
+		AF7A72B518C4AA8500596148 /* DatePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePickerVC.h; path = ViewController/DatePickerVC.h; sourceTree = "<group>"; };
+		AF7A72B618C4AA8500596148 /* DatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerVC.m; path = ViewController/DatePickerVC.m; sourceTree = "<group>"; };
+		AF7A72B818C4AAA300596148 /* DatePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatePickerVC.xib; path = ViewController/DatePickerVC.xib; sourceTree = "<group>"; };
+		AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsTimePickerVC.xib; path = ViewController/SettingsTimePickerVC.xib; sourceTree = "<group>"; };
+		AF7A72BC18C4C3D300596148 /* SettingsTimePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsTimePickerVC.h; path = ViewController/SettingsTimePickerVC.h; sourceTree = "<group>"; };
+		AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsTimePickerVC.m; path = ViewController/SettingsTimePickerVC.m; sourceTree = "<group>"; };
 		AF7AC9BA184E3D1A0047BD9E /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Protocols.h; path = ../Protocols.h; sourceTree = "<group>"; };
 		AF7AC9BC184E3D200047BD9E /* ServerProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerProxy.h; path = Communication/ServerProxy.h; sourceTree = "<group>"; };
 		AF7AC9BD184E3D200047BD9E /* ServerProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerProxy.m; path = Communication/ServerProxy.m; sourceTree = "<group>"; };
@@ -473,6 +491,9 @@
 		AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetRainDelay.m; path = "Communication/Request objects/SetRainDelay.m"; sourceTree = "<group>"; };
 		AF94FBC118B8B505006FE76D /* RainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainDelay.h; path = "Communication/Response objects/RainDelay.h"; sourceTree = "<group>"; };
 		AF94FBC218B8B505006FE76D /* RainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainDelay.m; path = "Communication/Response objects/RainDelay.m"; sourceTree = "<group>"; };
+		AFA1BEFB18C4D703005FBE9B /* SettingsPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsPasswordVC.h; path = ViewController/SettingsPasswordVC.h; sourceTree = "<group>"; };
+		AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPasswordVC.m; path = ViewController/SettingsPasswordVC.m; sourceTree = "<group>"; };
+		AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsPasswordVC.xib; path = ViewController/SettingsPasswordVC.xib; sourceTree = "<group>"; };
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
 		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
 		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
@@ -509,9 +530,9 @@
 		AFEAECC218BA6B9B00370F22 /* ProgramCellType5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType5.h; path = Cells/ProgramCellType5.h; sourceTree = "<group>"; };
 		AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType5.m; path = Cells/ProgramCellType5.m; sourceTree = "<group>"; };
 		AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType5.xib; path = Cells/ProgramCellType5.xib; sourceTree = "<group>"; };
-		AFF3A06118BDE4C10060D0F6 /* DatePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePickerVC.h; path = ViewController/DatePickerVC.h; sourceTree = "<group>"; };
-		AFF3A06218BDE4C10060D0F6 /* DatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerVC.m; path = ViewController/DatePickerVC.m; sourceTree = "<group>"; };
-		AFF3A06418BDE4D00060D0F6 /* DatePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatePickerVC.xib; path = ViewController/DatePickerVC.xib; sourceTree = "<group>"; };
+		AFF3A06118BDE4C10060D0F6 /* TimePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimePickerVC.h; path = ViewController/TimePickerVC.h; sourceTree = "<group>"; };
+		AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimePickerVC.m; path = ViewController/TimePickerVC.m; sourceTree = "<group>"; };
+		AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TimePickerVC.xib; path = ViewController/TimePickerVC.xib; sourceTree = "<group>"; };
 		AFF634E1186F54900005EDF1 /* daily_stats_bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_bkn.png; sourceTree = "<group>"; };
 		AFF634E2186F54900005EDF1 /* daily_stats_bkn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_stats_bkn@2x.png"; sourceTree = "<group>"; };
 		AFF634E3186F54900005EDF1 /* daily_stats_blizzard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_stats_blizzard.png; sourceTree = "<group>"; };
@@ -1274,7 +1295,11 @@
 				AF94FBC118B8B505006FE76D /* RainDelay.h */,
 				AF94FBC218B8B505006FE76D /* RainDelay.m */,
 				AF02F88518BFACA600579CAF /* SettingsUnits.h */,
+				AF7A72B218C492E800596148 /* SettingsPassword.h */,
+				AF7A72B318C492E800596148 /* SettingsPassword.m */,
 				AF02F88618BFACA600579CAF /* SettingsUnits.m */,
+				AF7A72AF18C491F500596148 /* SettingsDate.h */,
+				AF7A72B018C491F500596148 /* SettingsDate.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1535,12 +1560,21 @@
 				AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */,
 				AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */,
 				AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */,
-				AFF3A06118BDE4C10060D0F6 /* DatePickerVC.h */,
-				AFF3A06218BDE4C10060D0F6 /* DatePickerVC.m */,
-				AFF3A06418BDE4D00060D0F6 /* DatePickerVC.xib */,
 				AF02F88018BFA99700579CAF /* UnitsVC.h */,
 				AF02F88118BFA99700579CAF /* UnitsVC.m */,
 				AF02F88318BFA9A500579CAF /* UnitsVC.xib */,
+				AF7A72B518C4AA8500596148 /* DatePickerVC.h */,
+				AF7A72B618C4AA8500596148 /* DatePickerVC.m */,
+				AF7A72B818C4AAA300596148 /* DatePickerVC.xib */,
+				AFF3A06118BDE4C10060D0F6 /* TimePickerVC.h */,
+				AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */,
+				AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */,
+				AF7A72BC18C4C3D300596148 /* SettingsTimePickerVC.h */,
+				AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */,
+				AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */,
+				AFA1BEFB18C4D703005FBE9B /* SettingsPasswordVC.h */,
+				AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */,
+				AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1606,7 +1640,7 @@
 				AFF6A6B5188834E400825A37 /* icon_disclosure_triangle.png in Resources */,
 				AFF635E1186F54900005EDF1 /* daily_stats_skc@2x.png in Resources */,
 				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
-				AFF3A06518BDE4D00060D0F6 /* DatePickerVC.xib in Resources */,
+				AFF3A06518BDE4D00060D0F6 /* TimePickerVC.xib in Resources */,
 				AFF63592186F54900005EDF1 /* daily_stats_bkn.png in Resources */,
 				AFF636F1186F55100005EDF1 /* main-screen_wind.png in Resources */,
 				AFF636C7186F55100005EDF1 /* main-screen_nmix.png in Resources */,
@@ -1680,6 +1714,7 @@
 				AFF636D8186F55100005EDF1 /* main-screen_ntsra@2x.png in Resources */,
 				AFF635AA186F54900005EDF1 /* daily_stats_hi_tsra.png in Resources */,
 				AFF635A1186F54900005EDF1 /* daily_stats_fu@2x.png in Resources */,
+				AF7A72B918C4AAA300596148 /* DatePickerVC.xib in Resources */,
 				AFF636CD186F55100005EDF1 /* main-screen_nrasn.png in Resources */,
 				AFF635E2186F54900005EDF1 /* daily_stats_smoke.png in Resources */,
 				AFF636BD186F55100005EDF1 /* main-screen_na.png in Resources */,
@@ -1759,6 +1794,7 @@
 				AFF636C5186F55100005EDF1 /* main-screen_nfg.png in Resources */,
 				AFF63598186F54900005EDF1 /* daily_stats_du.png in Resources */,
 				AFF636A7186F55100005EDF1 /* main-screen_frza.png in Resources */,
+				AF7A72BB18C4C3B800596148 /* SettingsTimePickerVC.xib in Resources */,
 				AFF635DE186F54900005EDF1 /* daily_stats_shra.png in Resources */,
 				AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */,
 				AFF636E7186F55100005EDF1 /* main-screen_shra.png in Resources */,
@@ -1846,6 +1882,7 @@
 				AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */,
 				B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */,
 				AFF635BA186F54900005EDF1 /* daily_stats_nfew.png in Resources */,
+				AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */,
 				AFF636E6186F55100005EDF1 /* main-screen_sct@2x.png in Resources */,
 				AFF636D4186F55100005EDF1 /* main-screen_nsn@2x.png in Resources */,
 				AFF635DF186F54900005EDF1 /* daily_stats_shra@2x.png in Resources */,
@@ -1859,12 +1896,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */,
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
 				B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */,
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,
+				AF7A72B118C491F500596148 /* SettingsDate.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
+				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* DailyProgramVC.m in Sources */,
@@ -1899,6 +1939,7 @@
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
+				AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */,
 				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZonePropertiesVC.m in Sources */,
@@ -1907,6 +1948,7 @@
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
+				AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */,
 				B1EF20F8186046D300D9CE26 /* +UIScreen.m in Sources */,
@@ -1920,7 +1962,7 @@
 				AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
-				AFF3A06318BDE4C10060D0F6 /* DatePickerVC.m in Sources */,
+				AFF3A06318BDE4C10060D0F6 /* TimePickerVC.m in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,

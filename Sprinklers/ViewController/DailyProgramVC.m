@@ -26,7 +26,7 @@
 #import "ProgramWateringTimes.h"
 #import "WeekdaysVC.h"
 #import "SetDelayVC.h"
-#import "DatePickerVC.h"
+#import "TimePickerVC.h"
 #import "+UIDevice.h"
 
 #define kAlertViewTag_InvalidProgram 1
@@ -277,7 +277,7 @@
     [self.tableView reloadData];
 }
 
-- (void)datePickerVCWillDissapear:(DatePickerVC*)datePickerVC
+- (void)timePickerVCWillDissapear:(TimePickerVC*)timePickerVCC
 {
     NSCalendar* cal = [NSCalendar currentCalendar];
     NSDateComponents* dateComp = [cal components:(
@@ -287,8 +287,8 @@
                                                   )
                                         fromDate:self.program.startTime];
     
-    dateComp.hour = [datePickerVC hour24Format];
-    dateComp.minute = [datePickerVC minutes];
+    dateComp.hour = [timePickerVCC hour24Format];
+    dateComp.minute = [timePickerVCC minutes];
     
     self.program.startTime = [cal dateFromComponents:dateComp];
     [self.tableView reloadData];
@@ -597,11 +597,11 @@
     }
     else if (indexPath.section == startTimeSectionIndex) {
         if (indexPath.row == 0) {
-            DatePickerVC *datePickerVC = [[DatePickerVC alloc] init];
-            datePickerVC.timeFormat = self.program.timeFormat;
-            datePickerVC.parent = self;
-            datePickerVC.time = self.program.startTime;
-            [self.navigationController pushViewController:datePickerVC animated:YES];
+            TimePickerVC *timePickerVC = [[TimePickerVC alloc] init];
+            timePickerVC.timeFormat = self.program.timeFormat;
+            timePickerVC.parent = self;
+            timePickerVC.time = self.program.startTime;
+            [self.navigationController pushViewController:timePickerVC animated:YES];
         }
     }
     else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {

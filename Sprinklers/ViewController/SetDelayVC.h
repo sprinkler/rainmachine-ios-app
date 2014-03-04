@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseLevel2ViewController.h"
 
 @class DailyProgramVC;
 
-@interface SetDelayVC : UIViewController
+@interface SetDelayVC : BaseLevel2ViewController
 
 @property (weak, nonatomic) NSString *titlePicker1;
 @property (weak, nonatomic) NSString *titlePicker2;

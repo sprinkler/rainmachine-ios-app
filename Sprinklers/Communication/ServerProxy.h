@@ -28,6 +28,7 @@
 @class StartStopWatering;
 @class WaterNowZone;
 @class Program;
+@class SettingsDate;
 
 @interface ServerProxy : NSObject
 
@@ -55,6 +56,9 @@
 
 - (void)setSettingsUnits:(NSString*)unit;
 - (void)requestSettingsUnits;
+- (void)setSettingsDate:(SettingsDate*)unit;
+- (void)requestSettingsDate;
+- (void)setNewPassword:(NSString*)newPassword confirmPassword:(NSString*)confirmPassword oldPassword:(NSString*)oldPassword;
 
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;

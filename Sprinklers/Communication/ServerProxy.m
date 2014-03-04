@@ -23,6 +23,8 @@
 #import "StorageManager.h"
 #import "RainDelay.h"
 #import "SettingsUnits.h"
+#import "SettingsDate.h"
+#import "SettingsPassword.h"
 
 @implementation ServerProxy
 
@@ -116,6 +118,29 @@
         }];
 }
 
+#pragma mark - Settings
+
+- (void)setNewPassword:(NSString*)newPassword confirmPassword:(NSString*)confirmPassword oldPassword:(NSString*)oldPassword
+{
+    [self.manager POST:@"/ui.cgi?action=settings&what=password" parameters:@{@"newPass" : newPassword,
+                                                                             @"confirmPass" : confirmPassword,
+                                                                             @"oldPass" : oldPassword
+                                                                             } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([self passLoggedOutFilter:operation]) {
+            ServerResponse *response = nil;
+            if (responseObject) {
+                NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+            }
+            [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation];
+    }];
+}
+
 - (void)requestSettingsUnits
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
@@ -149,6 +174,80 @@
       [self handleError:error fromOperation:operation];
     }];
 }
+
+- (void)requestSettingsDate
+{
+    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
+                                             @"what" : @"timedate"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                 
+                                                 if ([self passLoggedOutFilter:operation]) {
+                                                     NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsDate class])];
+                                                     ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                                                     [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+                                                 }
+                                                 
+                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                 [self handleError:error fromOperation:operation];
+                                             }];
+}
+
+- (void)setSettingsDate:(SettingsDate*)settingsDate
+{
+    NSDictionary *params = [self toDictionaryFromObject:settingsDate];
+    
+    [self.manager POST:@"/ui.cgi?action=settings&what=timedate" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([self passLoggedOutFilter:operation]) {
+            ServerResponse *response = nil;
+            if (responseObject) {
+                NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+            }
+            [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation];
+    }];
+}
+
+- (void)requestSettingsPassword
+{
+    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
+                                             @"what" : @"password"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                 
+                                                 if ([self passLoggedOutFilter:operation]) {
+                                                     NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsPassword class])];
+                                                     ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                                                     [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+                                                 }
+                                                 
+                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                 [self handleError:error fromOperation:operation];
+                                             }];
+}
+
+- (void)setSettingsPassword:(SettingsPassword*)settingsPassword
+{
+    NSDictionary *params = [self toDictionaryFromObject:settingsPassword];
+    
+    [self.manager POST:@"/ui.cgi?action=settings&what=password" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([self passLoggedOutFilter:operation]) {
+            ServerResponse *response = nil;
+            if (responseObject) {
+                NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+            }
+            [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation];
+    }];
+}
+
+#pragma mark - Wheather
 
 - (void)requestWeatherData
 {

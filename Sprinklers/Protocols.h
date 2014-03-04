@@ -26,3 +26,10 @@
 - (void)onCell:(UITableViewCell*)cell checkmarkState:(BOOL)sel;
 
 @end
+
+@protocol TimePickerDelegate <NSObject>
+
+- (void)timePickerVCWillDissapear:(id)timePicker;
+- (void)handleGeneralSprinklerError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage;
+
+@end

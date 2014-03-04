@@ -13,6 +13,9 @@
 #import "RainDelayVC.h"
 #import "RestrictionsVC.h"
 #import "UnitsVC.h"
+#import "DatePickerVC.h"
+#import "SettingsTimePickerVC.h"
+#import "SettingsPasswordVC.h"
 
 @interface SettingsVC ()
 
@@ -57,7 +60,7 @@
         return 1;
     }
     else if (section == 2) {
-        return 4;
+        return 5;
     }
     
     return 0;
@@ -79,6 +82,16 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
 }
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (indexPath.section == 2) {
+//        if (indexPath.row == 0) {
+//            return 38;
+//        }
+//    }
+//    return 44;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -113,14 +126,20 @@
             cell.textLabel.textColor = [UIColor lightGrayColor];
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
+                cell.separatorInset = UIEdgeInsetsZero;
+            }
         }
         if (indexPath.row == 1) {
             cell.textLabel.text = @"Units";
         }
         if (indexPath.row == 2) {
-            cell.textLabel.text = @"Date & Time";
+            cell.textLabel.text = @"Date";
         }
         if (indexPath.row == 3) {
+            cell.textLabel.text = @"Time";
+        }
+        if (indexPath.row == 4) {
             cell.textLabel.text = @"Security";
         }
     }
@@ -161,10 +180,25 @@
             [self.navigationController pushViewController:unitsVC animated:YES];
         }
         else if (indexPath.row == 2) {
+            DatePickerVC *datePickerVC = [[DatePickerVC alloc] init];
+            datePickerVC.parent = self;
+            [self.navigationController pushViewController:datePickerVC animated:YES];
         }
         else if (indexPath.row == 3) {
+            SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] init];
+            timePickerVC.parent = self;
+            [self.navigationController pushViewController:timePickerVC animated:YES];
+        }
+        else if (indexPath.row == 4) {
+            SettingsPasswordVC *passwordVC = [[SettingsPasswordVC alloc] init];
+            passwordVC.parent = self;
+            [self.navigationController pushViewController:passwordVC animated:YES];
         }
     }
+}
+
+- (void)timePickerVCWillDissapear:(id)timePicker
+{
 }
 
 @end

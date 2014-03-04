@@ -15,9 +15,9 @@
 @class ProgramsVC;
 @class SetDelayVC;
 @class WeekdaysVC;
-@class DatePickerVC;
+@class TimePickerVC;
 
-@interface DailyProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate, CCTBackButtonActionHelperProtocol>
+@interface DailyProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate, CCTBackButtonActionHelperProtocol, TimePickerDelegate>
 
 @property (copy, nonatomic) Program *program;
 @property (weak, nonatomic) ProgramsVC *parent;
@@ -25,6 +25,6 @@
 
 - (void)setDelayVCOver:(SetDelayVC*)setDelayVC;
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC;
-- (void)datePickerVCWillDissapear:(DatePickerVC*)datePickerVC;
+- (void)timePickerVCWillDissapear:(TimePickerVC*)timePickerVC;
 
 @end

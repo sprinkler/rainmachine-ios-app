@@ -1,36 +1,33 @@
 //
-//  DatePickerVC.m
+//  SettingsTimePickerVC.m
 //  Sprinklers
 //
 //  Created by Fabian Matyas on 03/03/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "DatePickerVC.h"
+#import "SettingsTimePickerVC.h"
 #import "SettingsDate.h"
 #import "MBProgressHUD.h"
 #import "ServerProxy.h"
 #import "ServerResponse.h"
 #import "SettingsVC.h"
 #import "Utils.h"
-#import "+UIDevice.h"
 
-@interface DatePickerVC ()
-//{
-//    NSInteger hours;
-//    NSInteger minutes;
-//}
+@interface SettingsTimePickerVC ()
+{
+    NSInteger day;
+    NSInteger month;
+    NSInteger year;
+}
 
 @property (strong, nonatomic) SettingsDate *settingsDate;
 @property (strong, nonatomic) ServerProxy *pullServerProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 
-@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalConstraint;
-
 @end
 
-@implementation DatePickerVC
+@implementation SettingsTimePickerVC
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,26 +46,12 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.pullServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
     [self.pullServerProxy requestSettingsDate];
-    
+
     [self refreshUI];
     
-    if (![[UIDevice currentDevice] iOSGreaterThan:7]) {
-        self.view.backgroundColor = [UIColor blackColor];
-        
-        NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.datePicker
-                                                                      attribute:NSLayoutAttributeTop
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:self.view
-                                                                      attribute:NSLayoutAttributeTop
-                                                                     multiplier:1.0
-                                                                       constant:0];
-        
-        [self.view removeConstraint:self.verticalConstraint];
-        [self.view addConstraint:constraint];
-    }
-    
-    self.title = @"Date";
+    self.title = @"Time";
 }
+
 
 - (NSDateFormatter*)dateFormatter
 {
@@ -97,23 +80,17 @@
 
 - (NSDate*)constructDateFromPicker
 {
-    NSCalendar* timeCal = [NSCalendar currentCalendar];
-    NSDateComponents* timeComp = [timeCal components:(
-                                                      NSHourCalendarUnit |
-                                                      NSMinuteCalendarUnit
+    NSCalendar* dateCal = [NSCalendar currentCalendar];
+    NSDateComponents* dateComp = [dateCal components:(
+                                                      NSYearCalendarUnit |
+                                                      NSMonthCalendarUnit |
+                                                      NSDayCalendarUnit
                                                       )
                                             fromDate:[self dateFromString:self.settingsDate.appDate]];
     
-    NSCalendar* dateCal = [NSCalendar currentCalendar];
-    NSDateComponents* dateComp = [dateCal components:(
-                                                      NSMonthCalendarUnit |
-                                                      NSYearCalendarUnit |
-                                                      NSDayCalendarUnit
-                                                      )
-                                            fromDate:self.datePicker.date];
-    
-    dateComp.hour = timeComp.hour;
-    dateComp.minute = timeComp.minute;
+
+    dateComp.hour = [self hour24Format];
+    dateComp.minute = [self minutes];
     
     return [dateCal dateFromComponents:dateComp];
 }
@@ -139,9 +116,16 @@
 - (void)refreshUI
 {
     self.datePicker.hidden = (self.settingsDate == nil);
-    
+
     if (self.settingsDate) {
-        [self.datePicker setDate:[self dateFromString:self.settingsDate.appDate] animated:NO];
+        NSCalendar* cal = [NSCalendar currentCalendar];
+        NSDateComponents* dateComp = [cal components:(
+                                                      NSHourCalendarUnit |
+                                                      NSMinuteCalendarUnit
+                                                      )
+                                            fromDate:[self dateFromString:self.settingsDate.appDate]];
+
+        [super refreshUIWithHour:dateComp.hour minutes:dateComp.minute];
     }
 }
 
@@ -170,16 +154,7 @@
     
     if (serverProxy == self.pullServerProxy) {
         self.settingsDate = data;
-        
-//        NSCalendar* cal = [NSCalendar currentCalendar];
-//        NSDateComponents* dateComp = [cal components:(
-//                                                      NSHourCalendarUnit |
-//                                                      NSMinuteCalendarUnit
-//                                                      )
-//                                            fromDate:[self dateFromString:self.settingsDate.appDate ]];
-//        hours = dateComp.hour;
-//        minutes = dateComp.minute;
-        
+        self.timeFormat = [self.settingsDate.time_format integerValue] == 12 ? 1 : 0;
         self.pullServerProxy = nil;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
     }
@@ -192,6 +167,8 @@
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
+    [self.datePicker reloadAllComponents];
     
     [self refreshUI];
 }

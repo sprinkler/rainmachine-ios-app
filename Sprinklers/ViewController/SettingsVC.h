@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import "Protocols.h"
 
-@interface SettingsVC : BaseViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SettingsVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, TimePickerDelegate>
 
 @end

@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseLevel2ViewController.h"
 
 @class DailyProgramVC;
 
-@interface WeekdaysVC : UIViewController
+@interface WeekdaysVC : BaseLevel2ViewController
 
 @property (nonatomic, strong) NSMutableArray *selectedWeekdays;
 
