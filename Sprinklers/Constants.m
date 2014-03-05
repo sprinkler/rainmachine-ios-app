@@ -38,6 +38,10 @@ NSString *const kCustomRMFontName = @"rainmachine";
 int const kMaxCounterValue = 300 * 60; // In seconds
 int const kSprinklerUpdateCheckInterval = 24 * 60 * 60;
 int const kUpdateProcessTimeoutInterval = 5 * 60;
+int const kWheatherValueFontSize = 15;
+int const kWheatherValueCustomFontSize = (kWheatherValueFontSize * 2);
+int const kXCorrectionbetweenCustomAndNormalWheatherFont = (-6 * kWheatherValueCustomFontSize) / 30;
+//int const kYCorrectionbetweenCustomNormalWheatherFont = (-10 * kWheatherValueCustomFontSize) / kWheatherValueFontSize;
 
 NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"};
 

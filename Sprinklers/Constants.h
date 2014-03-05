@@ -38,6 +38,9 @@ extern NSString* const kCustomRMFontName;
 extern int const kSprinklerUpdateCheckInterval;
 extern int const kMaxCounterValue;
 extern int const kUpdateProcessTimeoutInterval;
+extern int const kWheatherValueFontSize;
+extern int const kWheatherValueCustomFontSize;
+extern int const kXCorrectionbetweenCustomAndNormalWheatherFont;
 
 extern NSString *daysOfTheWeek[7];
 

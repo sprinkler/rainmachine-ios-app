@@ -46,24 +46,23 @@
                                                 waterWavesWidth,
                                                 self.waterWavesImageView.frame.size.height);
     
-    [self.temperatureLabel sizeToFit];
-    if (!self.temperatureLabelPart2.hidden) { [self.temperatureLabelPart2 sizeToFit]; }
-    if (!self.temperatureLabelPart3.hidden) { [self.temperatureLabelPart3 sizeToFit]; }
-    if (!self.temperatureLabelPart4.hidden) { [self.temperatureLabelPart4 sizeToFit]; }
+    [self.temperatureLabelPart2 sizeToFit];
+    [self.temperatureLabelPart4 sizeToFit];
     
-    if (!self.temperatureLabelPart2.hidden) {
-        int paddingPart2 = [self.temperatureLabelPart2.font.fontName isEqualToString:kCustomRMFontName] ? -3 : 0;
-        self.temperatureLabelPart2.frame = CGRectMake(paddingPart2 + self.temperatureLabel.frame.origin.x + self.temperatureLabel.frame.size.width, roundf(self.temperatureLabel.center.y - self.temperatureLabelPart2.frame.size.height / 2), evenValue(self.temperatureLabelPart2.frame.size.width), self.temperatureLabelPart2.frame.size.height);
-    }
+    const float yPadding = 6;
+    float y = self.daylabel.frame.origin.y + self.daylabel.frame.size.height + kWheatherValueFontSize / 2 + yPadding;
     
-    if (!self.temperatureLabelPart3.hidden) {
-        self.temperatureLabelPart3.frame = CGRectMake(self.temperatureLabelPart2.frame.origin.x + self.temperatureLabelPart2.frame.size.width, roundf(self.temperatureLabel.center.y - self.temperatureLabelPart3.frame.size.height / 2), evenValue(self.temperatureLabelPart3.frame.size.width), self.temperatureLabelPart3.frame.size.height);
-    }
+    int paddingPart2 = [self.temperatureLabelPart2.font.fontName isEqualToString:kCustomRMFontName] ? kXCorrectionbetweenCustomAndNormalWheatherFont : 0;
+    self.temperatureLabelPart2.frame = CGRectMake(paddingPart2 + self.daylabel.frame.origin.x,
+                                                  y - evenValue(self.temperatureLabelPart2.frame.size.height / 2),
+                                                  evenValue(self.temperatureLabelPart2.frame.size.width),
+                                                  self.temperatureLabelPart2.frame.size.height);
     
-    if (!self.temperatureLabelPart4.hidden) {
-        int paddingPart4 = [self.temperatureLabelPart4.font.fontName isEqualToString:kCustomRMFontName] ? -3 : 0;
-        self.temperatureLabelPart4.frame = CGRectMake(paddingPart4 + self.temperatureLabelPart3.frame.origin.x + self.temperatureLabelPart3.frame.size.width, roundf(self.temperatureLabel.center.y - self.temperatureLabelPart4.frame.size.height / 2), evenValue(self.temperatureLabelPart4.frame.size.width), self.temperatureLabelPart4.frame.size.height);
-    }
+    int paddingPart4 = [self.temperatureLabelPart4.font.fontName isEqualToString:kCustomRMFontName] ? kXCorrectionbetweenCustomAndNormalWheatherFont : 0;
+    self.temperatureLabelPart4.frame = CGRectMake(paddingPart4 + self.temperatureLabelPart2.frame.origin.x + self.temperatureLabelPart2.frame.size.width,
+                                                  y - evenValue(self.temperatureLabelPart4.frame.size.height / 2),
+                                                  evenValue(self.temperatureLabelPart4.frame.size.width),
+                                                  self.temperatureLabelPart4.frame.size.height);
 }
 
 @end

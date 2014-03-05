@@ -150,7 +150,11 @@ const float kHomeScreenCellHeight = 66;
         cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [formatter stringFromDate:[StorageManager current].currentSprinkler.lastUpdate] : @""];
 
         cell.statusImageView.image = [UIImage imageNamed:([StorageManager current].currentSprinkler.lastError == nil) ? @"icon_status_ok" : @"icon_status_warning"];
-        cell.wheatherUpdateLabel.text = [NSString stringWithFormat:@"Wheather update: %@", ([StorageManager current].currentSprinkler.lastError == nil) ? @"success" : @"failure"];
+        if ([StorageManager current].currentSprinkler.lastError == nil)  {
+            cell.wheatherUpdateLabel.text = @"NOAA";
+        } else {
+            cell.wheatherUpdateLabel.text = @"Wheather update: failure";
+        }
 
         return cell;
     }
@@ -167,35 +171,29 @@ const float kHomeScreenCellHeight = 66;
     BOOL maxtValid = ((!error) && (weatherData.maxt));
     BOOL mintValid = ((!error) && (weatherData.mint));
     
+    cell.temperatureLabel.hidden = YES;
+    cell.temperatureLabelPart3.hidden = YES;
+    
     if ((maxtValid) && (mintValid)) {
-        cell.temperatureLabelPart2.hidden = YES;
-        cell.temperatureLabelPart3.hidden = YES;
-        cell.temperatureLabelPart4.hidden = YES;
-        cell.temperatureLabel.text = [NSString stringWithFormat:@"Hi: %@°%@ / Lo: %@°%@", weatherData.maxt, weatherData.units , weatherData.mint, weatherData.units];
+        cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@  ", weatherData.maxt];
+        cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@", weatherData.mint];
+
     } else {
-        cell.temperatureLabelPart2.hidden = NO;
-        cell.temperatureLabelPart3.hidden = NO;
-        cell.temperatureLabelPart4.hidden = NO;
-        
         if ((!maxtValid) && (!mintValid)) {
-            cell.temperatureLabel.text = @"Hi:";
-            [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:30];
-            cell.temperatureLabelPart3.text = @"Lo:";
-            [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:30];
+            [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
+            [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
         } else {
             if (!maxtValid) {
-                cell.temperatureLabel.text = @"Hi:";
-                [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:30];
-                cell.temperatureLabelPart3.text = @"/ Lo: ";
-                cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:13];
-                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", weatherData.mint, weatherData.units];
+                [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
+                cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@", weatherData.mint];
             } else {
                 // !mintValid
-                cell.temperatureLabel.text = @"Hi: ";
-                cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:13];
-                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", weatherData.maxt, weatherData.units];
-                cell.temperatureLabelPart3.text = @"/ Lo:";
-                [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:30];
+                cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@  ", weatherData.maxt];
+                [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
             }
         }
     }
@@ -203,10 +201,11 @@ const float kHomeScreenCellHeight = 66;
     if ([weatherData.id intValue] == 0) {
         cell.daylabel.text = @"Today";
     }
-    else if ([weatherData.id intValue] == 1) {
-        cell.daylabel.text = @"Tomorrow";
-    } else {
-        cell.daylabel.text = daysOfTheWeek[[weatherData.day intValue]];
+    else {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"LLL d";
+        NSDate *dayDate = [[NSDate date] dateByAddingDays:[weatherData.day intValue]];
+        cell.daylabel.text = [formatter stringFromDate:dayDate];
     }
     
     UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
@@ -264,7 +263,7 @@ const float kHomeScreenCellHeight = 66;
         [self handleGeneralSprinklerError:nil showErrorMessage:YES];
         
         self.data = dataArray;
-
+        
         WeatherData *lastWeatherData = [self.data lastObject];
         [self rescaleDataIfNeeded];
         
