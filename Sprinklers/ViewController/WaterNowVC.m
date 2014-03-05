@@ -24,6 +24,7 @@
     UIColor *switchOnOrangeColor;
     UIColor *switchOnGreenColor;
     NSTimeInterval retryInterval;
+    int stopAllCounter;
 }
 
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -66,6 +67,18 @@
     }
 }
 
+- (BOOL)allStopped
+{
+    for (WaterNowZone *zone in self.zones) {
+        BOOL isIdle = [Utils isZoneIdle:zone];
+        if (!isIdle) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -75,16 +88,25 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+ 
+    [self hideHud];
     
     [self.pollServerProxy cancelAllOperations];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 - (void)startHud:(NSString *)text {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (!self.hud) {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
+    
     self.hud.labelText = text;
+}
+
+- (void)hideHud
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.hud = nil;
 }
 
 #pragma mark - Requests
@@ -121,6 +143,10 @@
             [self toggleWateringOnZone:zone withCounter:zone.counter];
         }
     }
+
+    stopAllCounter = 2;
+        
+    [self startHud:nil];
 }
 
 #pragma mark - Alert view
@@ -146,7 +172,9 @@
     [self handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:showErrorMessage];
     
     if (serverProxy == self.pollServerProxy) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        stopAllCounter = 0;
+        [self hideHud];
         
         [self scheduleNextListRefreshRequest:retryInterval];
     
@@ -162,9 +190,19 @@
     if (serverProxy == self.pollServerProxy) {
         self.lastScheduleRequestError = nil;
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         self.zones = [self filteredZones:data];
+        
+        if (stopAllCounter > 0) {
+            if ([self allStopped]) {
+                stopAllCounter = 0;
+            } else {
+                stopAllCounter--;
+            }
+        }
+        
+        if (stopAllCounter <= 0) {
+            [self hideHud];
+        }
         
         [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
         
@@ -174,7 +212,7 @@
 
 - (void)loggedOut
 {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self hideHud];
     
     [self handleLoggedOutSprinklerError];
 
