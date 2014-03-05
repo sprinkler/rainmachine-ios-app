@@ -75,7 +75,7 @@
     // Initialize with a fake but valid value
     self.lastListRefreshDate = [NSDate date];
     
-    self.title = self.waterZone.name;
+    self.title = [Utils fixedZoneName:self.waterZone.name withId:self.waterZone.id];
     
     [self updateStartButtonActiveStateTo:YES];
     
@@ -313,14 +313,15 @@
 }
 
 - (IBAction)onStartButton:(id)sender {
-    [self updateStartButtonActiveStateTo:NO];
-
     if (![self.postServerProxy toggleWateringOnZone:self.waterZone withCounter:self.waterZone.counter]) {
         // Watering stop request sent. Freeze the counter until next update.
         freezeCounter = YES;
     }
 
-    [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
+//    [self updateStartButtonActiveStateTo:NO];
+//    [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Dealloc
