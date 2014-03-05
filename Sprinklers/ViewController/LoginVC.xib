@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
@@ -21,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IlE-gQ-CaR">
-                    <rect key="frame" x="20" y="168" width="280" height="30"/>
+                    <rect key="frame" x="20" y="68" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
@@ -30,7 +30,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QkD-Pc-YFt">
-                    <rect key="frame" x="20" y="120" width="280" height="30"/>
+                    <rect key="frame" x="20" y="20" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -39,7 +39,7 @@
                     </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkA-0y-l2m">
-                    <rect key="frame" x="20" y="216" width="20" height="20"/>
+                    <rect key="frame" x="20" y="116" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="DvY-Z4-HWN"/>
@@ -55,13 +55,13 @@
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doT-Ty-bXu">
-                    <rect key="frame" x="45" y="215" width="114" height="21"/>
+                    <rect key="frame" x="45" y="115" width="114" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVg-nK-f1I" customClass="ColoredBackgroundButton">
-                    <rect key="frame" x="20" y="250" width="280" height="30"/>
+                    <rect key="frame" x="20" y="150" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="SwH-SV-PHx"/>
@@ -74,8 +74,8 @@
                         <action selector="login:" destination="-1" eventType="touchUpInside" id="gDU-Ss-UFO"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bucket" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rW-D2-z09">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bucket" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rW-D2-z09">
+                    <rect key="frame" x="0.0" y="314" width="320" height="120"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="120" id="hEE-BG-5Sg"/>
@@ -88,6 +88,7 @@
             <color key="backgroundColor" red="0.92156869173049927" green="0.92156869173049927" blue="0.92156869173049927" alpha="1" colorSpace="deviceRGB"/>
             <constraints>
                 <constraint firstItem="IlE-gQ-CaR" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="1tA-ke-E60"/>
+                <constraint firstAttribute="bottom" secondItem="7rW-D2-z09" secondAttribute="bottom" constant="134" id="34e-Zh-33H"/>
                 <constraint firstItem="IlE-gQ-CaR" firstAttribute="top" secondItem="QkD-Pc-YFt" secondAttribute="bottom" priority="500" constant="18" id="5YQ-BE-jNb"/>
                 <constraint firstItem="7rW-D2-z09" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" id="Ac8-Wh-6lj"/>
                 <constraint firstItem="doT-Ty-bXu" firstAttribute="leading" secondItem="rkA-0y-l2m" secondAttribute="trailing" priority="500" constant="5" id="An6-di-afG"/>
@@ -96,14 +97,13 @@
                 <constraint firstAttribute="trailing" secondItem="7rW-D2-z09" secondAttribute="trailing" priority="500" id="Ia2-B8-UF5"/>
                 <constraint firstItem="ZVg-nK-f1I" firstAttribute="top" secondItem="rkA-0y-l2m" secondAttribute="bottom" constant="14" id="Pr7-MU-y9o"/>
                 <constraint firstAttribute="trailing" secondItem="ZVg-nK-f1I" secondAttribute="trailing" priority="500" constant="20" id="Qui-6y-0AB"/>
-                <constraint firstItem="7rW-D2-z09" firstAttribute="top" secondItem="1" secondAttribute="top" priority="500" id="SnQ-4t-xj4"/>
+                <constraint firstItem="QkD-Pc-YFt" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" id="TGJ-aT-Z7U"/>
                 <constraint firstItem="rkA-0y-l2m" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="XOJ-Fa-yuL"/>
                 <constraint firstItem="QkD-Pc-YFt" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="aXh-TP-2eC"/>
                 <constraint firstAttribute="trailing" secondItem="QkD-Pc-YFt" secondAttribute="trailing" priority="500" constant="20" id="dKu-XF-kdj"/>
                 <constraint firstItem="doT-Ty-bXu" firstAttribute="centerY" secondItem="rkA-0y-l2m" secondAttribute="centerY" id="dP2-ek-Uar"/>
                 <constraint firstItem="doT-Ty-bXu" firstAttribute="top" secondItem="IlE-gQ-CaR" secondAttribute="bottom" priority="500" constant="17" id="mjl-E2-mAL"/>
                 <constraint firstItem="ZVg-nK-f1I" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="wrt-UY-eYN"/>
-                <constraint firstItem="QkD-Pc-YFt" firstAttribute="top" secondItem="7rW-D2-z09" secondAttribute="bottom" priority="500" id="wxv-6b-2Fa"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

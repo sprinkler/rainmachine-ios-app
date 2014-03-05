@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *theDetailLabel;
 
 @property (weak, nonatomic) id<CellButtonDelegate> delegate;
+@property (assign) BOOL ignoreWeatherDataCellType;
 
 - (IBAction)onSwitch:(id)sender;
 

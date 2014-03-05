@@ -147,36 +147,6 @@
     [self.tableView reloadData];
 }
 
-//- (void)requestCycleAndSoakServerProxyWithProgramId:(int)programId cycles:(int)nr_of_cycles soak:(int)soak_minutes cs_on:(int)cs_on
-//{
-//    if (self.program.programId != -1) {
-//        if (self.cycleAndSoakServerProxy) {
-//            [self.cycleAndSoakServerProxy cancelAllOperations];
-//            self.cycleAndSoakServerProxy = nil;
-//        }
-//        
-//        self.cycleAndSoakServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-//        [self.cycleAndSoakServerProxy programCycleAndSoak:programId cycles:nr_of_cycles soak:soak_minutes cs_on:cs_on];
-//    }
-//    
-//    [self.tableView reloadData];
-//}
-//
-//- (void)requestStationDelay:(int)programId delay:(int)delay_minutes delay_on:(int)delay_on
-//{
-//    if (self.program.programId != -1) {
-//        if (self.stationDelayServerProxy) {
-//            [self.stationDelayServerProxy cancelAllOperations];
-//            self.stationDelayServerProxy = nil;
-//        }
-//
-//        self.stationDelayServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-//        [self.stationDelayServerProxy programStationDelay:programId delay:delay_minutes delay_on:delay_on];
-//    }
-//    
-//    [self.tableView reloadData];
-//}
-
 - (void)onCellSwitch:(id)object
 {
     if ([object isKindOfClass:[ProgramCellType5 class]]) {
@@ -186,20 +156,22 @@
                 [self showSection4Screen:0];
             } else {
                 self.program.csOn = YES;
-//                [self requestCycleAndSoakServerProxyWithProgramId:_program.programId cycles:_program.cycles soak:_program.soak cs_on:cell.theSwitch.on];
             }
         } else {
             if ((cell.theSwitch.on) && ((self.program.delay == 0)) ) {
                 [self showSection4Screen:1];
             } else {
                 self.program.delayOn = YES;
-//                [self requestStationDelay:_program.programId delay:_program.delay delay_on:cell.theSwitch.on];
             }
         }
     }
     else if ([object isKindOfClass:[ProgramCellType2 class]]) {
         ProgramCellType2 *cell = (ProgramCellType2*)object;
-        self.program.active = cell.theSwitch.on;
+        if (cell.ignoreWeatherDataCellType) {
+            self.program.ignoreWeatherData = cell.theSwitch.on;
+        } else {
+            self.program.active = cell.theSwitch.on;
+        }
     }
 }
 
@@ -330,7 +302,7 @@
         return 1;
     }
     else if (section == programNameSectionIndex) {
-        return 2;
+        return 3;
     }
     else if (section == frequencySectionIndex) {
         return 5;
@@ -402,17 +374,19 @@
             cell.theTextLabel.text = @"Active";
             cell.theDetailLabel.text = nil;
             cell.delegate = self;
+            cell.ignoreWeatherDataCellType = NO;
             return cell;
         }
-            // The commented part is for the newer API
-//            else if (indexPath.row == 2) {
-//                static NSString *CellIdentifier = @"ProgramCellType2";
-//                ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//                cell.theSwitch.on = self.program.ignoreWeatherData;
-//                cell.theTextLabel.text = @"Ignore weather data";
-//                cell.theDetailLabel.text = @"";
-//                return cell;
-//            }
+        else if (indexPath.row == 2) {
+            static NSString *CellIdentifier = @"ProgramCellType2";
+            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            cell.theSwitch.on = self.program.ignoreWeatherData;
+            cell.theTextLabel.text = @"Ignore weather data";
+            cell.theDetailLabel.text = nil;
+            cell.delegate = self;
+            cell.ignoreWeatherDataCellType = YES;
+            return cell;
+        }
     }
     
     else if (indexPath.section == frequencySectionIndex) {
@@ -427,7 +401,7 @@
         BOOL check = NO;
         if (indexPath.row == 0) {
             check = [self.program.weekdays isEqualToString:@"D"];
-            cell.theCenteredTextLabel.text = @"Every day";
+            cell.theCenteredTextLabel.text = @"Daily";
             cell.index = 0;
         }
         else if (indexPath.row == 1) {
@@ -488,14 +462,12 @@
             cell.theSwitch.on = self.program.csOn;
             cell.theTextLabel.text = @"Cycle & Soak";
             cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soak];
-//            cell.theActivityIndicator.hidden = (self.cycleAndSoakServerProxy == nil);
             cell.cycleAndSoak = YES;
         }
         else if (indexPath.row == 1) {
             cell.theSwitch.on = self.program.delayOn;
             cell.theTextLabel.text = @"Station Delay";
             cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
-//            cell.theActivityIndicator.hidden = (self.stationDelayServerProxy == nil);
             cell.cycleAndSoak = NO;
         }
         if (!cell.theActivityIndicator.hidden) {
