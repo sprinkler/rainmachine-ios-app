@@ -17,9 +17,6 @@
 
 @interface BaseViewController ()
 
-@property (strong, nonatomic) UILabel *lblDeviceName;
-@property (strong, nonatomic) UILabel *lblDeviceAddress;
-
 @end
 
 @implementation BaseViewController
@@ -49,27 +46,16 @@
     
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_menu_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openDevices)];
     self.navigationItem.leftBarButtonItem = menuButton;
-    
-    [self updateTitle];
 }
 
 - (void)updateTitle {
-    UILabel *lblDeviceName;
-    UILabel *lblDeviceAddress;
-    self.navigationItem.titleView = [Utils customSprinklerTitleWithOutDeviceView:&lblDeviceName outDeviceAddressView:&lblDeviceAddress];
-
-    self.lblDeviceName = lblDeviceName;
-    self.lblDeviceAddress = lblDeviceAddress;
-    
-    self.lblDeviceName.text = [StorageManager current].currentSprinkler.name;
-    self.lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
+    self.navigationItem.title = [StorageManager current].currentSprinkler.name;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    _lblDeviceName.text = [StorageManager current].currentSprinkler.name;
-    _lblDeviceAddress.text = [StorageManager current].currentSprinkler.address;
+    [self updateTitle];
 }
 
 #pragma mark - Methods
