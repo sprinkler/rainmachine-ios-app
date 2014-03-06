@@ -83,7 +83,6 @@
 
 - (void)refreshCounterUI
 {
-    self.initialTimerRequestActivityIndicator.hidden = YES;
     self.labelDays.hidden = NO;
     
     if (_rainDelay) {
@@ -92,8 +91,10 @@
         } else {
             self.labelDays.text = [NSString stringWithFormat:@"%@ days", _rainDelay];
         }
+        self.initialTimerRequestActivityIndicator.hidden = YES;
     } else {
         self.labelDays.text = @"";
+        self.initialTimerRequestActivityIndicator.hidden = NO;
     }
 }
 
