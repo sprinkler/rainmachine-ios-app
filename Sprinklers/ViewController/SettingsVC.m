@@ -11,7 +11,6 @@
 #import "ProgramsVC.h"
 #import "ZonesVC.h"
 #import "RainDelayVC.h"
-#import "RestrictionsVC.h"
 #import "UnitsVC.h"
 #import "DatePickerVC.h"
 #import "SettingsTimePickerVC.h"

@@ -7,7 +7,6 @@
 //
 
 #import "SetDelayVC.h"
-#import "DailyProgramVC.h"
 
 @interface SetDelayVC ()
 

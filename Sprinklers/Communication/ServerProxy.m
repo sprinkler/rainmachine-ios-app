@@ -511,12 +511,14 @@
     if (zone) {
         NSDictionary *params = @{@"id" : @(zone.zoneId), @"active" : @(zone.active), @"after" : @(zone.after), @"before": @(zone.before),
                                  @"forecastData" : @(zone.forecastData), @"historicalAverage" : @(zone.historicalAverage), @"masterValve" : @(zone.masterValve),
-                                 @"name" : zone.name, @"vegetation" : @(zone.vegetation)};
-        [self.manager POST:@"ui.cgi?action=settings&what=zones" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                 @"name" : zone.name, @"vegetation" : [NSString stringWithFormat:@"%d", zone.vegetation]};
+        NSString *url = [NSString stringWithFormat:@"ui.cgi?action=settings&what=zones&zid=%d", zone.zoneId];
+        [self.manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             if ([self passLoggedOutFilter:operation]) {
                 NSArray *response = nil;
                 if (responseObject) {
-                    response = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                    NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                    response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
                 }
                 [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
             }

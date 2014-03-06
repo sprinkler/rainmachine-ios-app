@@ -149,11 +149,11 @@ const float kHomeScreenCellHeight = 66;
         
         cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [formatter stringFromDate:[StorageManager current].currentSprinkler.lastUpdate] : @""];
 
-        cell.statusImageView.image = [UIImage imageNamed:([StorageManager current].currentSprinkler.lastError == nil) ? @"icon_status_ok" : @"icon_status_warning"];
-        if ([StorageManager current].currentSprinkler.lastError == nil)  {
-            cell.wheatherUpdateLabel.text = @"NOAA";
-        } else {
+        cell.statusImageView.image = [UIImage imageNamed:([[StorageManager current].currentSprinkler.lastError isEqualToString:@"1"]) ? @"icon_status_warning" : @"icon_status_ok"];
+        if ([[StorageManager current].currentSprinkler.lastError isEqualToString:@"1"]) {
             cell.wheatherUpdateLabel.text = @"Wheather update: failure";
+        } else {
+            cell.wheatherUpdateLabel.text = @"NOAA";
         }
 
         return cell;
@@ -267,7 +267,7 @@ const float kHomeScreenCellHeight = 66;
         WeatherData *lastWeatherData = [self.data lastObject];
         [self rescaleDataIfNeeded];
         
-        [self storeSprinklerLastUpdateFromString:lastWeatherData.lastupdate];
+        [self storeSprinklerLastUpdateAndError:lastWeatherData];
         
         [self.tableView reloadData];
         [self.dataSourceTableView reloadData];
@@ -288,9 +288,9 @@ const float kHomeScreenCellHeight = 66;
 
 #pragma mark - Core Data
 
-- (void)storeSprinklerLastUpdateFromString:(NSString*)stringDate
+- (void)storeSprinklerLastUpdateAndError:(WeatherData*)weather
 {
-    NSString *dateAsString = stringDate;
+    NSString *dateAsString = weather.lastupdate;
     if ([[dateAsString componentsSeparatedByString:@","] count] == 2) {
         // TODO: remove this hack for API v4
         // In case there are only two date components, we assume that the year is not present and append the current year
@@ -321,7 +321,14 @@ const float kHomeScreenCellHeight = 66;
             }
         }
     }
+    
     [StorageManager current].currentSprinkler.lastUpdate = myDate;
+    if (weather.error) {
+        [StorageManager current].currentSprinkler.lastError = [NSString stringWithFormat:@"%@", weather.error];
+    } else {
+        [StorageManager current].currentSprinkler.lastError = nil;
+    }
+    
     [[StorageManager current] saveData];
 }
 

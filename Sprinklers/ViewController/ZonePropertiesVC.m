@@ -16,6 +16,8 @@
 #import "VegetationTypeVC.h"
 #import "ServerResponse.h"
 #import "ZonesVC.h"
+#import "DevicesCellType1.h"
+#import "SetDelayVC.h"
 
 #define kZoneProperties_Name 0
 #define kZoneProperties_Active 1
@@ -79,6 +81,7 @@ typedef enum {
 //    [_buttonRunNow setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
     
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType1" bundle:nil] forCellReuseIdentifier:@"ProgramCellType1"];
+    [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -138,6 +141,20 @@ typedef enum {
     self.footer = label;
     
     return label;
+}
+
+- (void)setDelayVCOver:(SetDelayVC*)setDelayVC
+{
+    if ([setDelayVC.userInfo isKindOfClass:[NSString class]]) {
+        if ([setDelayVC.userInfo isEqualToString:@"before"]) {
+            self.zone.before = setDelayVC.valuePicker1;
+        }
+        else if ([setDelayVC.userInfo isEqualToString:@"after"]) {
+                self.zone.after = setDelayVC.valuePicker1;
+        }
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Actions
@@ -286,46 +303,26 @@ typedef enum {
     }
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            static NSString *CellIdentifier2 = @"Cell2";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+            static NSString *CellIdentifier2 = @"DevicesCellType1";
+            DevicesCellType1 *cell = (DevicesCellType1*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
             
-            if (nil == cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier2];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            
-            NSString *s = [NSString stringWithFormat:@"%d mins", _zone.before];
-            UILabel *label = [[UILabel alloc] init];
-            CGSize size = [s sizeWithFont:label.font constrainedToSize:CGSizeMake(100, cell.frame.size.height) lineBreakMode:label.lineBreakMode];
-            label.frame = CGRectMake(0, 0, size.width, size.height);
-            label.textAlignment = NSTextAlignmentRight;
-            label.text = s;
-            cell.accessoryView = label;
-            
-            cell.textLabel.text = @"Before program starts";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.labelMainSubtitle removeFromSuperview];
+
+            cell.labelMainTitle.text = @"Before program starts";
+            cell.labelMainSubtitle.hidden = YES;
+            cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.before];
             
             return cell;
         }
         else if (indexPath.row == 1) {
-            static NSString *CellIdentifier2 = @"Cell2";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+            static NSString *CellIdentifier2 = @"DevicesCellType1";
+            DevicesCellType1 *cell = (DevicesCellType1*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
             
-            if (nil == cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier2];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
+            [cell.labelMainSubtitle removeFromSuperview];
             
-            NSString *s = [NSString stringWithFormat:@"%d mins", _zone.after];
-            UILabel *label = [[UILabel alloc] init];
-            CGSize size = [s sizeWithFont:label.font constrainedToSize:CGSizeMake(100, cell.frame.size.height) lineBreakMode:label.lineBreakMode];
-            label.frame = CGRectMake(0, 0, size.width, size.height);
-            label.textAlignment = NSTextAlignmentRight;
-            label.text = s;
-            cell.accessoryView = label;
-            
-            cell.textLabel.text = @"After program ends";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.labelMainTitle.text = @"After program starts";
+            cell.labelMainSubtitle.hidden = YES;
+            cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.after];
             
             return cell;
         }
@@ -461,6 +458,26 @@ typedef enum {
                 vegetationTypeVC.parent = self;
                 vegetationTypeVC.vegetationType = self.zone.vegetation;
                 [self.navigationController pushViewController:vegetationTypeVC animated:YES];
+            }
+        }
+    } else {
+        if (indexPath.section == 1) {
+            SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
+            setDelayVC.minValuePicker1 = 0;
+            setDelayVC.maxValuePicker1 = 300;
+            setDelayVC.titlePicker1 = @"minutes";
+            
+            setDelayVC.parent = self;
+            
+            [self.navigationController pushViewController:setDelayVC animated:YES];
+            if (indexPath.row == 0) {
+                setDelayVC.userInfo = @"before";
+                setDelayVC.title = @"Before";
+                setDelayVC.valuePicker1 = self.zone.before;
+            } else {
+                setDelayVC.userInfo = @"after";
+                setDelayVC.title = @"After";
+                setDelayVC.valuePicker1 = self.zone.after;
             }
         }
     }

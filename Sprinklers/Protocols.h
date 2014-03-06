@@ -35,3 +35,9 @@
 - (void)handleGeneralSprinklerError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage;
 
 @end
+
+@protocol SetDelayVCDelegate <NSObject>
+
+- (void)setDelayVCOver:(id)setDelayVC;
+
+@end

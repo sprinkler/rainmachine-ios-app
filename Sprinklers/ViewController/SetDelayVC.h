@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseLevel2ViewController.h"
-
-@class DailyProgramVC;
+#import "Protocols.h"
 
 @interface SetDelayVC : BaseLevel2ViewController
 
@@ -25,6 +24,6 @@
 @property (assign) int maxValuePicker1;
 @property (assign) int maxValuePicker2;
 
-@property (weak, nonatomic) DailyProgramVC *parent;
+@property (weak, nonatomic) id<SetDelayVCDelegate> parent;
 
 @end
