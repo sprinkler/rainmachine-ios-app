@@ -70,29 +70,29 @@
     self.title = @"Date";
 }
 
-- (NSDateFormatter*)dateFormatter
+- (NSDateFormatter*)dateFormatterWithTimeFormat:(int)timeFormat
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
-    if ([self.settingsDate.time_format intValue] == 24) {
+    if (timeFormat == 24) {
         df.dateFormat = @"yyyy/MM/dd H:mm"; // H means hours between [0-23]
     }
-    else if ([self.settingsDate.time_format intValue] == 12) {
+    else if (timeFormat == 12) {
         df.dateFormat = @"yyyy/MM/dd K:mm a"; // K means hours between [0-11]
     }
     
     return df;
 }
 
-- (NSDate*)dateFromString:(NSString*)stringDate
+- (NSDate*)dateFromString:(NSString*)stringDate timeFormat:(int)timeFormat
 {
-    return [[self dateFormatter] dateFromString:stringDate];
+    return [[self dateFormatterWithTimeFormat:timeFormat] dateFromString:stringDate];
 }
 
 - (NSString*)stringFromDate:(NSDate*)date
 {
-    return [[self dateFormatter] stringFromDate:date];
+    return [[self dateFormatterWithTimeFormat:[self.settingsDate.time_format intValue]] stringFromDate:date];
 }
 
 - (NSDate*)constructDateFromPicker
@@ -102,7 +102,7 @@
                                                       NSHourCalendarUnit |
                                                       NSMinuteCalendarUnit
                                                       )
-                                            fromDate:[self dateFromString:self.settingsDate.appDate]];
+                                            fromDate:[self dateFromString:self.settingsDate.appDate timeFormat:[self.settingsDate.time_format intValue]]];
     
     NSCalendar* dateCal = [NSCalendar currentCalendar];
     NSDateComponents* dateComp = [dateCal components:(
@@ -138,11 +138,27 @@
 
 - (void)refreshUI
 {
-    self.datePicker.hidden = (self.settingsDate == nil);
-    
     if (self.settingsDate) {
-        [self.datePicker setDate:[self dateFromString:self.settingsDate.appDate] animated:NO];
+        int timeFormat = [self.settingsDate.time_format intValue];
+        NSDate *date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
+        if (!date) {
+            // Starting form Sprinkler v3.59 the comes in am/pm format regardless of time_format
+            // This is a workaround for that case
+            timeFormat = (timeFormat == 24) ? 12 : 24;
+            date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
+        }
+        
+        if (date) {
+            [self.datePicker setDate:date animated:NO];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Couldn't parse date" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            
+            self.settingsDate = nil;
+        }
     }
+
+    self.datePicker.hidden = (self.settingsDate == nil);
 }
 
 - (void)didReceiveMemoryWarning
