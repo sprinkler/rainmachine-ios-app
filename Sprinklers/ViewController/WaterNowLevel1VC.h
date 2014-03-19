@@ -17,6 +17,7 @@
 @interface WaterNowLevel1VC : BaseLevel2ViewController<SprinklerResponseProtocol>
 
 @property (retain, nonatomic) WaterNowZone *waterZone;
+@property (strong, nonatomic) WaterNowVC *parent;
 
 - (IBAction)onUpButton:(id)sender;
 - (IBAction)onDownButton:(id)sender;

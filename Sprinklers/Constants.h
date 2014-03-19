@@ -23,15 +23,17 @@ extern NSString *const kFirmwareUpdateNeeded;
 
 NSString *kVegetationType[9];
 
-extern float kLoginGreenButtonColor[3];
-extern float kWateringGreenButtonColor[3];
-extern float kWateringOrangeButtonColor[3];
-extern float kWateringRedButtonColor[3];
-extern float kWindowTintColorOnBlueNavBar[3];
-extern float kBarBlueColor[3];
-extern float kWaterImageFillColor[3];
-extern float kWaterImageStrokeColor[3];
-extern float kSprinklerWaterColor[3];
+extern float kButtonInactiveOpacity;
+
+extern CGFloat kLoginGreenButtonColor[3];
+extern CGFloat kWateringGreenButtonColor[3];
+extern CGFloat kWateringOrangeButtonColor[3];
+extern CGFloat kWateringRedButtonColor[3];
+extern CGFloat kWindowTintColorOnBlueNavBar[3];
+extern CGFloat kBarBlueColor[3];
+extern CGFloat kWaterImageFillColor[3];
+extern CGFloat kWaterImageStrokeColor[3];
+extern CGFloat kSprinklerWaterColor[3];
 
 extern NSString* const kCustomRMFontName;
 

@@ -15,18 +15,23 @@
 #import "Constants.h"
 #import "StorageManager.h"
 #import "UpdaterVC.h"
+#import "ServerResponse35xDetection.h"
 
 @interface UpdateManager () {
     int serverAPIMainVersion;
+    int serverAPISubVersion;
 }
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
+@property (strong, nonatomic) ServerProxy *serverProxyDetect35x;
 
 @end
-    
+
 static UpdateManager *current = nil;
 
 @implementation UpdateManager
+
+@synthesize serverAPIMainVersion, serverAPISubVersion;
 
 #pragma mark - Singleton
 
@@ -81,18 +86,40 @@ static UpdateManager *current = nil;
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
+    if ([userInfo isEqualToString:@"apiVer"]) {
+        self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        [self.serverProxyDetect35x detect35XSprinklerVersion];
+    }
+    else if ([userInfo isEqualToString:@"detect35XSprinklerVersion"]) {
+        self.serverProxyDetect35x = nil;
+        serverAPIMainVersion = 3;
+        serverAPISubVersion = 56; // or 55;
+    }
+    
     [self.serverProxy cancelAllOperations];
     self.serverProxy = nil;
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    if ([data isKindOfClass:[APIVersion class]]) {
+    if (([userInfo isEqualToString:@"detect35XSprinklerVersion"]) && ([data isKindOfClass:[ServerResponse35xDetection class]])) {
+        serverAPIMainVersion = 3;
+        ServerResponse35xDetection *response = (ServerResponse35xDetection*)data;
+        if ([response.state isEqualToString:@"err"]) {
+            serverAPISubVersion = 57;
+        } else {
+            serverAPISubVersion = 56;
+        }
+        
+        self.serverProxyDetect35x = nil;
+    }
+    else if ([data isKindOfClass:[APIVersion class]]) {
         APIVersion *apiVersion = (APIVersion*)data;
         NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
         if ([versionComponents[0] intValue] >= 3) {
             // Firmware update is supported by server
             serverAPIMainVersion = [versionComponents[0] intValue];
+            serverAPISubVersion = [versionComponents[1] intValue];
             [self.serverProxy requestUpdateCheckForVersion:serverAPIMainVersion];
         }
     }

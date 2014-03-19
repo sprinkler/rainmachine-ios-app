@@ -66,9 +66,13 @@
 {
     [self.buttonSety setCustomBackgroundColorFromComponents:resumeMode ? kWateringRedButtonColor : kWateringGreenButtonColor];
     [self.buttonSety setTitle:resumeMode ? @"Resume" : @"Set" forState:UIControlStateNormal];
+
     self.buttonUp.enabled = !resumeMode;
-    self.buttonDown.enabled = !resumeMode;
-    
+    self.buttonDown.enabled = !resumeMode && ([self.rainDelay intValue] > 1);
+
+    self.buttonUp.alpha = self.buttonUp.enabled ? 1 : kButtonInactiveOpacity;
+    self.buttonDown.alpha = self.buttonDown.enabled ? 1 : kButtonInactiveOpacity;
+
     [self refreshCounterUI];
 }
 
@@ -103,11 +107,13 @@
 - (IBAction)up:(id)sender {
     self.rainDelay = [NSNumber numberWithInt:[_rainDelay intValue] + 1];
     [self refreshCounterUI];
+    [self refreshUI];
 }
 
 - (IBAction)down:(id)sender {
     self.rainDelay = [NSNumber numberWithInt:MAX(0, [_rainDelay intValue] - 1)];
     [self refreshCounterUI];
+    [self refreshUI];
 }
 
 - (IBAction)set:(id)sender {

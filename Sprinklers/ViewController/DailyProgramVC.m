@@ -359,6 +359,7 @@
             if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
                 cell.theTextField.tintColor = [UIColor blackColor];
             }
+            cell.theTextField.enabled = [Utils canEditProgramName];
             cell.theTextField.text = self.program.name;
             cell.delegate = self;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;

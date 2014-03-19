@@ -12,6 +12,7 @@
 #import "WaterNowZone.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
+#import "UpdateManager.h"
 
 @implementation Utils
 
@@ -85,6 +86,15 @@
 + (BOOL)isZonePending:(WaterNowZone*)zone
 {
     return [zone.state isEqualToString:@"Pending"];
+}
+
++ (BOOL)canEditProgramName
+{
+    if ([UpdateManager current].serverAPIMainVersion == 3) {
+        return ([UpdateManager current].serverAPISubVersion >= 57);
+    }
+    
+    return YES;
 }
 
 + (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays

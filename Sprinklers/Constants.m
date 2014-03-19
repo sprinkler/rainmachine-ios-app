@@ -23,15 +23,17 @@ NSString *kVegetationType[9] = {
     @"Other"
 };
 
-float kLoginGreenButtonColor[3] = {2.0/255, 214.0/255, 100.0/255};
-float kWateringGreenButtonColor[3] = {0.0/255, 162.0/255, 0.0/255};
-float kWateringOrangeButtonColor[3] = {255.0/255, 162.0/255, 0.0/255};
-float kWateringRedButtonColor[3] = {255.0/255, 0.0/255, 0.0/255};
-float kWindowTintColorOnBlueNavBar[3] = {146.0/255, 146.0/255, 146.0/255};
-float kWaterImageStrokeColor[3] = {56 / 255.0, 136 / 255.0, 194 / 255.0};
-float kWaterImageFillColor[3] = {107 / 255.0, 168 / 255.0, 207 / 255.0};
-float kBarBlueColor[3] = {1 / 255.0, 152 / 255.0, 208 / 255.0};
-float kSprinklerWaterColor[3] = {0.262745, 0.592157, 0.796079};
+float kButtonInactiveOpacity = 0.51;
+
+CGFloat kLoginGreenButtonColor[3] = {2.0/255, 214.0/255, 100.0/255};
+CGFloat kWateringGreenButtonColor[3] = {0.0/255, 162.0/255, 0.0/255};
+CGFloat kWateringOrangeButtonColor[3] = {255.0/255, 162.0/255, 0.0/255};
+CGFloat kWateringRedButtonColor[3] = {255.0/255, 0.0/255, 0.0/255};
+CGFloat kWindowTintColorOnBlueNavBar[3] = {146.0/255, 146.0/255, 146.0/255};
+CGFloat kWaterImageStrokeColor[3] = {56 / 255.0, 136 / 255.0, 194 / 255.0};
+CGFloat kWaterImageFillColor[3] = {107 / 255.0, 168 / 255.0, 207 / 255.0};
+CGFloat kBarBlueColor[3] = {1 / 255.0, 152 / 255.0, 208 / 255.0};
+CGFloat kSprinklerWaterColor[3] = {0.262745, 0.592157, 0.796079};
 
 NSString *const kCustomRMFontName = @"rainmachine";
 

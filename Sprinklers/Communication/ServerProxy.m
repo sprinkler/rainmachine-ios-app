@@ -25,6 +25,7 @@
 #import "SettingsUnits.h"
 #import "SettingsDate.h"
 #import "SettingsPassword.h"
+#import "ServerResponse35xDetection.h"
 
 @implementation ServerProxy
 
@@ -87,7 +88,7 @@
                                         if ((NSUInteger)response.statusCode == 200) {
                                           [self.delegate loggedOut];
                                         } else {
-                                          [self handleError:error fromOperation:operation];
+                                            [self handleError:error fromOperation:operation userInfo:nil];
                                         }
                                       }
                                   }];
@@ -114,7 +115,7 @@
             [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"wateringrestrictions"] toClass:NSStringFromClass([RestrictionsData class])] serverProxy:self userInfo:nil];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self handleError:error fromOperation:operation];
+            [self handleError:error fromOperation:operation userInfo:nil];
         }];
 }
 
@@ -137,7 +138,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -153,7 +154,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -171,7 +172,7 @@
       }
       
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-      [self handleError:error fromOperation:operation];
+      [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -187,7 +188,7 @@
                                                  }
                                                  
                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                 [self handleError:error fromOperation:operation];
+                                                 [self handleError:error fromOperation:operation userInfo:nil];
                                              }];
 }
 
@@ -207,7 +208,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -223,7 +224,7 @@
                                                  }
                                                  
                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                 [self handleError:error fromOperation:operation];
+                                                 [self handleError:error fromOperation:operation userInfo:nil];
                                              }];
 }
 
@@ -243,7 +244,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -258,7 +259,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-      [self handleError:error fromOperation:operation];
+      [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -281,7 +282,7 @@
 //                               nil];
 //    [self.delegate serverResponseReceived:[SPServerProxy fromJSONArray:responseObject toClass:NSStringFromClass([SPWaterNowZone class])]];
 
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -300,7 +301,7 @@
                                                  }
 
                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                 [self handleError:error fromOperation:operation];
+                                                 [self handleError:error fromOperation:operation userInfo:nil];
                                              }];
 }
 
@@ -320,7 +321,7 @@
             [self.delegate serverResponseReceived:nil serverProxy:self userInfo:nil];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
     
     return [startStopWatering.counter intValue] != 0;
@@ -336,7 +337,7 @@
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  [self handleError:error fromOperation:operation];
+                  [self handleError:error fromOperation:operation userInfo:nil];
               }];
 }
 
@@ -353,7 +354,7 @@
             [self.delegate serverResponseReceived:response serverProxy:self userInfo:params];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -375,7 +376,7 @@
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  [self handleError:error fromOperation:operation];
+                  [self handleError:error fromOperation:operation userInfo:nil];
               }];
 }
 
@@ -397,7 +398,7 @@
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  [self handleError:error fromOperation:operation];
+                  [self handleError:error fromOperation:operation userInfo:nil];
               }];
 }
 
@@ -413,7 +414,7 @@
                 [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self handleError:error fromOperation:operation];
+            [self handleError:error fromOperation:operation userInfo:nil];
         }];
     }
 }
@@ -435,7 +436,7 @@
                 [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self handleError:error fromOperation:operation];
+            [self handleError:error fromOperation:operation userInfo:nil];
         }];
     }
 }
@@ -452,7 +453,7 @@
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-           [self handleError:error fromOperation:operation];
+           [self handleError:error fromOperation:operation userInfo:nil];
        }];
 }
 
@@ -478,7 +479,7 @@
                    }
                }
                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                   [self handleError:error fromOperation:operation];
+                   [self handleError:error fromOperation:operation userInfo:nil];
                }];
 }
 
@@ -503,7 +504,7 @@
                    }
                }
                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                   [self handleError:error fromOperation:operation];
+                   [self handleError:error fromOperation:operation userInfo:nil];
                }];
 }
 
@@ -523,7 +524,7 @@
                 [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self handleError:error fromOperation:operation];
+            [self handleError:error fromOperation:operation userInfo:nil];
         }];
     }
 }
@@ -540,7 +541,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -556,7 +557,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
@@ -567,21 +568,42 @@
         if ([self passLoggedOutFilter:operation]) {
             NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([APIVersion class])];
             APIVersion *version = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
-            [self.delegate serverResponseReceived:version serverProxy:self userInfo:nil];
+            [self.delegate serverResponseReceived:version serverProxy:self userInfo:@"apiVer"];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation];
+        [self handleError:error fromOperation:operation userInfo:@"apiVer"];
     }];
 }
 
-- (void)handleError:(NSError *)error fromOperation:(AFHTTPRequestOperation *) operation {
+- (void)detect35XSprinklerVersion
+{
+    [self.manager POST:@"/ui.cgi" parameters:@{@"action" : @"settings",
+                                               @"what" : @"run_now",
+                                               @"pid" : @"-1"
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+        if ([self passLoggedOutFilter:operation]) {
+            ServerResponse35xDetection *response = nil;
+            if (responseObject) {
+                NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse35xDetection class])];
+                response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+            }
+            [self.delegate serverResponseReceived:response serverProxy:self userInfo:@"detect35XSprinklerVersion"];
+        }
+     
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:@"detect35XSprinklerVersion"];
+    }];
+}
+
+- (void)handleError:(NSError *)error fromOperation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     if ([self passLoggedOutFilter:operation]) {
         // Just a simple error
         DLog(@"NetworkError: %@", error);
         BOOL cancelled = ([error code] == NSURLErrorCancelled) && ([[error domain] isEqualToString:NSURLErrorDomain]);
         if (!cancelled) {
-            [_delegate serverErrorReceived:error serverProxy:self userInfo:nil];
+            [_delegate serverErrorReceived:error serverProxy:self userInfo:userInfo];
         }
     }
 }

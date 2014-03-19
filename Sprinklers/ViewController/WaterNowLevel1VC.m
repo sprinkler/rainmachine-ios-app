@@ -29,7 +29,6 @@
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
 @property (strong, nonatomic) NSError *lastPollRequestError;
-@property (strong, nonatomic) WaterNowVC *parent;
 @property (strong, nonatomic) NSTimer *counterTimer;
 @property (strong, nonatomic) UIColor *greenColor;
 @property (strong, nonatomic) UIColor *redColor;
@@ -139,8 +138,8 @@
         self.buttonDown.enabled = YES;
         self.buttonUp.enabled = YES;
     } else {
-        self.buttonDown.alpha = 0.66;
-        self.buttonUp.alpha = 0.66;
+        self.buttonDown.alpha = kButtonInactiveOpacity;
+        self.buttonUp.alpha = kButtonInactiveOpacity;
         self.buttonDown.enabled = NO;
         self.buttonUp.enabled = NO;
     }
@@ -321,6 +320,8 @@
 //    [self updateStartButtonActiveStateTo:NO];
 //    [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
     
+    self.parent.delayedInitialListRefresh = YES;
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -32,6 +32,7 @@
 + (UIImage*)waterImage:(float)height;
 
 + (int)checkOSVersion;
++ (BOOL)canEditProgramName;
 
 @end
 

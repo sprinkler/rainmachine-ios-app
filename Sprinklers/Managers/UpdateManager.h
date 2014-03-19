@@ -11,6 +11,9 @@
 
 @interface UpdateManager : NSObject<SprinklerResponseProtocol>
 
+@property (readonly, nonatomic) int serverAPIMainVersion;
+@property (readonly, nonatomic)int serverAPISubVersion;
+
 + (UpdateManager*)current;
 
 - (void)initUpdaterManager;

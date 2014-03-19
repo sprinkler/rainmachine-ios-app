@@ -52,6 +52,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.delayedInitialListRefresh = NO;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
 
     [_tableView registerNib:[UINib nibWithNibName:@"WaterZoneListCell" bundle:nil] forCellReuseIdentifier:@"WaterZoneListCell"];
@@ -81,8 +83,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:YES]];
+
+    if (self.delayedInitialListRefresh) {
+        self.delayedInitialListRefresh = NO;
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:2];
+    } else {
+        [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:YES]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -261,6 +269,7 @@
     WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
     WaterNowZone *waterZone = [self.zones objectAtIndex:indexPath.row];
     waterNowZoneVC.waterZone = waterZone;
+    waterNowZoneVC.parent = self;
     [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }
 
@@ -285,8 +294,9 @@
 #pragma mark - Actions
 
 - (IBAction)next:(id)sender {
-    WaterNowLevel1VC *water = [[WaterNowLevel1VC alloc] init];
-    [self.navigationController pushViewController:water animated:YES];
+    WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
+    waterNowZoneVC.parent = self;
+    [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }
 
 #pragma mark - Methods

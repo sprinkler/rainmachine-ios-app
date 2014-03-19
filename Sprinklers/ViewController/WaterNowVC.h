@@ -16,6 +16,8 @@
 
 @interface WaterNowVC : BaseViewController<SprinklerResponseProtocol>
 
+@property (assign, nonatomic) BOOL delayedInitialListRefresh;
+
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 
 @end
