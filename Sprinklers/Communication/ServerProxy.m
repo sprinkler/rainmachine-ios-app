@@ -25,7 +25,7 @@
 #import "SettingsUnits.h"
 #import "SettingsDate.h"
 #import "SettingsPassword.h"
-#import "ServerResponse35xDetection.h"
+#import "StartStopProgramResponse.h"
 
 @implementation ServerProxy
 
@@ -404,17 +404,20 @@
 
 - (void)runNowProgram:(Program*)program {
     if (program) {
-        [self.manager GET:[NSString stringWithFormat:@"ui.cgi?action=settings&what=run_now&pid=%d", program.programId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.manager POST:@"/ui.cgi" parameters:@{@"action" : @"settings",
+                                                   @"what" : @"run_now",
+                                                   @"pid" : [NSNumber numberWithInt:program.programId]}
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
             if ([self passLoggedOutFilter:operation]) {
-                ServerResponse *response = nil;
+                StartStopProgramResponse *response = nil;
                 if (responseObject) {
-                    NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                    NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([StartStopProgramResponse class])];
                     response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
                 }
-                [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+                [self.delegate serverResponseReceived:response serverProxy:self userInfo:@"runNowProgram"];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self handleError:error fromOperation:operation userInfo:nil];
+            [self handleError:error fromOperation:operation userInfo:@"runNowProgram"];
         }];
     }
 }
@@ -573,27 +576,6 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleError:error fromOperation:operation userInfo:@"apiVer"];
-    }];
-}
-
-- (void)detect35XSprinklerVersion
-{
-    [self.manager POST:@"/ui.cgi" parameters:@{@"action" : @"settings",
-                                               @"what" : @"run_now",
-                                               @"pid" : @"-1"
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    
-        if ([self passLoggedOutFilter:operation]) {
-            ServerResponse35xDetection *response = nil;
-            if (responseObject) {
-                NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse35xDetection class])];
-                response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
-            }
-            [self.delegate serverResponseReceived:response serverProxy:self userInfo:@"detect35XSprinklerVersion"];
-        }
-     
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation userInfo:@"detect35XSprinklerVersion"];
     }];
 }
 

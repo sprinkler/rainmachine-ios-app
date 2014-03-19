@@ -1,5 +1,5 @@
 //
-//  ServerResponse35xDetection.h
+//  ServerResponseStartStopProgram.h
 //  Sprinklers
 //
 //  Created by Fabian Matyas on 19/03/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ServerResponse35xDetection : NSObject
+@interface StartStopProgramResponse : NSObject
 
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) NSString *state;

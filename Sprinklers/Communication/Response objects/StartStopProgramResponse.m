@@ -1,13 +1,13 @@
 //
-//  ServerResponse35xDetection.m
+//  ServerResponseStartStopProgram.m
 //  Sprinklers
 //
 //  Created by Fabian Matyas on 19/03/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "ServerResponse35xDetection.h"
+#import "StartStopProgramResponse.h"
 
-@implementation ServerResponse35xDetection
+@implementation StartStopProgramResponse
 
 @end

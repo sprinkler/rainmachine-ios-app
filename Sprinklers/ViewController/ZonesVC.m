@@ -110,6 +110,11 @@
     cell.backgroundColor = [UIColor whiteColor];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     ZoneCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZoneCell"];

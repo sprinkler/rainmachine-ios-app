@@ -20,7 +20,6 @@
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
 #import "+NSString.h"
-#import "MBProgressHUD.h"
 #import "ServerResponse.h"
 #import "ProgramsVC.h"
 #import "ProgramWateringTimes.h"
@@ -28,6 +27,7 @@
 #import "SetDelayVC.h"
 #import "TimePickerVC.h"
 #import "+UIDevice.h"
+#import "StartStopProgramResponse.h"
 
 #define kAlertViewTag_InvalidProgram 1
 #define kAlertViewTag_UnsavedChanges 2
@@ -52,14 +52,15 @@
 @property (strong, nonatomic) ServerProxy *getProgramListServerProxy;
 @property (strong, nonatomic) ServerProxy *runNowServerProxy;
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
-//@property (strong, nonatomic) ServerProxy *cycleAndSoakServerProxy;
-//@property (strong, nonatomic) ServerProxy *stationDelayServerProxy;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSString *frequencyEveryXDays;
 @property (strong, nonatomic) NSString *frequencyWeekdays;
 
 @property (copy, nonatomic) Program *programCopyBeforeSave;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *startButtonItem;
+@property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
 
 @end
 
@@ -73,12 +74,12 @@
     self.programCopyBeforeSave = self.program;
     
     if (self.program) {
-        runNowSectionIndex = 0;
-        programNameSectionIndex = 1;
-        frequencySectionIndex = 2;
-        startTimeSectionIndex = 3;
-        cycleSoakAndStationDelaySectionIndex = 4;
-        wateringTimesSectionIndex = 5;
+        runNowSectionIndex = -1;
+        programNameSectionIndex = 0;
+        frequencySectionIndex = 1;
+        startTimeSectionIndex = 2;
+        cycleSoakAndStationDelaySectionIndex = 3;
+        wateringTimesSectionIndex = 4;
     } else {
         runNowSectionIndex = -1;
         programNameSectionIndex = 0;
@@ -86,7 +87,22 @@
         startTimeSectionIndex = 2;
         cycleSoakAndStationDelaySectionIndex = 3;
         wateringTimesSectionIndex = 4;
+        
+        UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
+        UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        }
+        
+        //set the toolbar buttons
+        self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, nil];
+        self.startButtonItem = nil;
     }
+    
+    [self refreshToolBarButtonTitles];
     
     if (!self.program) {
         self.program = [Program program];
@@ -100,9 +116,9 @@
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType5" bundle:nil] forCellReuseIdentifier:@"ProgramCellType5"];
     [_tableView registerNib:[UINib nibWithNibName:@"ButtonCell" bundle:nil] forCellReuseIdentifier:@"ButtonCell"];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
 
-    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:YES];
+    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
 
     if ([self.program.weekdays containsString:@"INT"]) {
         self.frequencyEveryXDays = self.program.weekdays;
@@ -117,6 +133,11 @@
     }
 }
 
+- (void)refreshToolBarButtonTitles
+{
+    self.startButtonItem.title = [self.program.state isEqualToString:@"stopped"] ? @"Start" : @"Stop";
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
@@ -129,22 +150,63 @@
 
 - (void)updateRunNowButtonActiveStateTo:(BOOL)state setActivityIndicator:(BOOL)setActivityIndicator
 {
-    setRunNowActivityIndicator = setActivityIndicator;
-    runNowButtonEnabledState = state;
+//    setRunNowActivityIndicator = setActivityIndicator;
+//    runNowButtonEnabledState = state;
+
+    if (setActivityIndicator) {
+        hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    } else {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
+    self.startButtonItem.enabled = state;
 }
 
 #pragma mark - Actions
 
-// onRunNow
-- (void)onCellButton
+- (IBAction)onSave:(id)sender {
+    NSString *invalidProgramStateMessage = [self checkProgramValidity];
+    
+    if (invalidProgramStateMessage) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot save program"
+                                                            message:invalidProgramStateMessage
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        alertView.tag = kAlertViewTag_InvalidProgram;
+        [alertView show];
+    } else {
+        if (!self.postSaveServerProxy) {
+            self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+            [self.postSaveServerProxy saveProgram:self.program];
+            
+            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        }
+    }
+}
+
+- (void)discard
 {
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)onDiscard:(id)sender {
+    [self discard];
+}
+
+- (IBAction)onStartOrStop:(id)sender {
     self.runNowServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
     [self.runNowServerProxy runNowProgram:self.program];
     
     [self updateRunNowButtonActiveStateTo:NO setActivityIndicator:YES];
-    self.program.state = @"running";
+//    self.program.state = @"running";
     
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
+}
+
+// onRunNow
+- (void)onCellButton
+{
 }
 
 - (void)onCellSwitch:(id)object
@@ -191,24 +253,6 @@
 
 - (void)save
 {
-    NSString *invalidProgramStateMessage = [self checkProgramValidity];
-
-    if (invalidProgramStateMessage) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot save program"
-                                                            message:invalidProgramStateMessage
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        alertView.tag = kAlertViewTag_InvalidProgram;
-        [alertView show];
-    } else {
-        if (!self.postSaveServerProxy) {
-            self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
-            [self.postSaveServerProxy saveProgram:self.program];
-
-            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        }
-    }
 }
 
 - (void)setDelayVCOver:(SetDelayVC*)setDelayVC
@@ -630,7 +674,7 @@
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:YES];
+    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
     
     [self.tableView reloadData];
 }
@@ -673,10 +717,11 @@
     }
     else if (serverProxy == self.runNowServerProxy) {
         self.runNowServerProxy = nil;
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
+        StartStopProgramResponse *response = (StartStopProgramResponse*)data;
+        if ([response.state isEqualToString:@"err"]) {
             [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
         }
+        self.program.state = response.state;
         self.runNowServerProxy = nil;
     }
 //    else if (serverProxy == self.stationDelayServerProxy) {
@@ -703,9 +748,10 @@
 //        }
 //    }
     
-    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:YES];
+    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
     
     [self.tableView reloadData];
+    [self refreshToolBarButtonTitles];
 }
 
 - (void)loggedOut {
@@ -789,8 +835,7 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.tag == kAlertViewTag_UnsavedChanges) {
         if (alertView.cancelButtonIndex == buttonIndex) {
-            [CCTBackButtonActionHelper sharedInstance].delegate = nil;
-            [self.navigationController popViewControllerAnimated:YES];
+            [self discard];
         }
     }
     else if (alertView.tag == kAlertViewTag_InvalidProgram) {

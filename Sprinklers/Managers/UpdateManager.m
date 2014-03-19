@@ -15,7 +15,8 @@
 #import "Constants.h"
 #import "StorageManager.h"
 #import "UpdaterVC.h"
-#import "ServerResponse35xDetection.h"
+#import "StartStopProgramResponse.h"
+#import "Program.h"
 
 @interface UpdateManager () {
     int serverAPIMainVersion;
@@ -88,9 +89,11 @@ static UpdateManager *current = nil;
 {
     if ([userInfo isEqualToString:@"apiVer"]) {
         self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        [self.serverProxyDetect35x detect35XSprinklerVersion];
+        Program *program = [Program new];
+        program.programId = -1;
+        [self.serverProxyDetect35x runNowProgram:program];
     }
-    else if ([userInfo isEqualToString:@"detect35XSprinklerVersion"]) {
+    else if ([userInfo isEqualToString:@"runNowProgram"]) {
         self.serverProxyDetect35x = nil;
         serverAPIMainVersion = 3;
         serverAPISubVersion = 56; // or 55;
@@ -102,9 +105,9 @@ static UpdateManager *current = nil;
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    if (([userInfo isEqualToString:@"detect35XSprinklerVersion"]) && ([data isKindOfClass:[ServerResponse35xDetection class]])) {
+    if (([userInfo isEqualToString:@"runNowProgram"]) && ([data isKindOfClass:[StartStopProgramResponse class]])) {
         serverAPIMainVersion = 3;
-        ServerResponse35xDetection *response = (ServerResponse35xDetection*)data;
+        StartStopProgramResponse *response = (StartStopProgramResponse*)data;
         if ([response.state isEqualToString:@"err"]) {
             serverAPISubVersion = 57;
         } else {

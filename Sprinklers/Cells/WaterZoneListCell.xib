@@ -38,7 +38,7 @@
                             <constraint firstAttribute="height" constant="21" id="By1-0L-s7g"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6X-Dg-edw">
@@ -48,24 +48,31 @@
                             <constraint firstAttribute="width" constant="52" id="7ER-wQ-4nF"/>
                             <constraint firstAttribute="height" constant="21" id="Fmj-ik-BvS"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_disclosure_triangle.png" translatesAutoresizingMaskIntoConstraints="NO" id="GCp-QO-fZS">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_disclosure_triangle.png" translatesAutoresizingMaskIntoConstraints="NO" id="GCp-QO-fZS">
                         <rect key="frame" x="293" y="23" width="14" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="14" id="4mN-B1-vXs"/>
+                            <constraint firstAttribute="width" constant="14" id="gGW-ws-aqS"/>
+                        </constraints>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
                 <constraints>
                     <constraint firstItem="ZHf-yk-9m8" firstAttribute="leading" secondItem="fi5-ou-rDF" secondAttribute="trailing" constant="8" id="2ly-qb-gkg"/>
                     <constraint firstItem="E4c-E2-6NG" firstAttribute="leading" secondItem="fi5-ou-rDF" secondAttribute="trailing" constant="8" id="39e-Sw-Dw5"/>
+                    <constraint firstAttribute="centerY" secondItem="GCp-QO-fZS" secondAttribute="centerY" constant="-0.5" id="5j4-qk-BzS"/>
                     <constraint firstItem="ZHf-yk-9m8" firstAttribute="width" secondItem="E4c-E2-6NG" secondAttribute="width" id="7gs-Hg-9d6"/>
                     <constraint firstItem="fi5-ou-rDF" firstAttribute="top" secondItem="E4c-E2-6NG" secondAttribute="top" constant="-16" id="Fmw-GN-tiZ"/>
                     <constraint firstItem="ZHf-yk-9m8" firstAttribute="top" secondItem="fi5-ou-rDF" secondAttribute="top" constant="-2" id="HEG-FO-Oz2"/>
                     <constraint firstAttribute="trailing" secondItem="s6X-Dg-edw" secondAttribute="trailing" constant="39" id="HJU-fF-txo"/>
                     <constraint firstAttribute="centerY" secondItem="fi5-ou-rDF" secondAttribute="centerY" id="Juw-wc-zt0"/>
                     <constraint firstAttribute="centerY" secondItem="s6X-Dg-edw" secondAttribute="centerY" id="baz-or-B0a"/>
+                    <constraint firstAttribute="trailing" secondItem="GCp-QO-fZS" secondAttribute="trailing" constant="13" id="cB5-hr-bYO"/>
                     <constraint firstItem="fi5-ou-rDF" firstAttribute="leading" secondItem="QYk-i8-blq" secondAttribute="leading" constant="9" id="ec3-rE-ELP"/>
                     <constraint firstItem="s6X-Dg-edw" firstAttribute="leading" secondItem="ZHf-yk-9m8" secondAttribute="trailing" constant="2" id="rkd-Et-2Fi"/>
                 </constraints>

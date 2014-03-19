@@ -41,7 +41,7 @@
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */; };
 		AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */; };
-		AF6008AE18D9E69300DB6D75 /* ServerResponse35xDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6008AD18D9E69300DB6D75 /* ServerResponse35xDetection.m */; };
+		AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6008AD18D9E69300DB6D75 /* StartStopProgramResponse.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
 		AF7A72B118C491F500596148 /* SettingsDate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B018C491F500596148 /* SettingsDate.m */; };
@@ -435,8 +435,8 @@
 		AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramListCell.xib; path = Cells/ProgramListCell.xib; sourceTree = "<group>"; };
 		AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramListCell.h; path = Cells/ProgramListCell.h; sourceTree = "<group>"; };
 		AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramListCell.m; path = Cells/ProgramListCell.m; sourceTree = "<group>"; };
-		AF6008AC18D9E69300DB6D75 /* ServerResponse35xDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerResponse35xDetection.h; path = "Communication/Response objects/ServerResponse35xDetection.h"; sourceTree = "<group>"; };
-		AF6008AD18D9E69300DB6D75 /* ServerResponse35xDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerResponse35xDetection.m; path = "Communication/Response objects/ServerResponse35xDetection.m"; sourceTree = "<group>"; };
+		AF6008AC18D9E69300DB6D75 /* StartStopProgramResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartStopProgramResponse.h; path = "Communication/Response objects/StartStopProgramResponse.h"; sourceTree = "<group>"; };
+		AF6008AD18D9E69300DB6D75 /* StartStopProgramResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartStopProgramResponse.m; path = "Communication/Response objects/StartStopProgramResponse.m"; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
 		AF7782C3184CD3DE00DCBD54 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		AF789761185C955F00449381 /* WaterZoneListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterZoneListCell.h; path = Cells/WaterZoneListCell.h; sourceTree = "<group>"; };
@@ -1282,8 +1282,8 @@
 				B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */,
 				AF91C7F51858D757005888AA /* ServerResponse.h */,
 				AF91C7F61858D757005888AA /* ServerResponse.m */,
-				AF6008AC18D9E69300DB6D75 /* ServerResponse35xDetection.h */,
-				AF6008AD18D9E69300DB6D75 /* ServerResponse35xDetection.m */,
+				AF6008AC18D9E69300DB6D75 /* StartStopProgramResponse.h */,
+				AF6008AD18D9E69300DB6D75 /* StartStopProgramResponse.m */,
 				AF91C7F21858D640005888AA /* StartStopWatering.h */,
 				AF91C7F31858D640005888AA /* StartStopWatering.m */,
 				AF91C7EE1858D047005888AA /* WaterNowZone.h */,
@@ -2014,7 +2014,7 @@
 				B1213EBC186090CC009D97F4 /* AddNewCell.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
-				AF6008AE18D9E69300DB6D75 /* ServerResponse35xDetection.m in Sources */,
+				AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */,
 				AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

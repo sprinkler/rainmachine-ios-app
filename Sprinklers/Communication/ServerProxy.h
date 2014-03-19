@@ -70,6 +70,5 @@
 - (void)cancelAllOperations;
 
 - (void)requestWateringRestrictions;
-- (void)detect35XSprinklerVersion;
 
 @end

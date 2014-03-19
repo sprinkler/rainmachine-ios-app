@@ -23,7 +23,7 @@
 #import "Utils.h"
 #import "UpdateManager.h"
 
-const float kHomeScreenCellHeight = 66;
+const float kHomeScreenCellHeight = 63;
 
 @interface StatsVC ()
 
