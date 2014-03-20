@@ -17,6 +17,9 @@
 #import "SettingsPasswordVC.h"
 
 @interface SettingsVC ()
+{
+    BOOL showZonesOnAppear;
+}
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
@@ -29,6 +32,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSettingsZonesNotif) name:kShowSettingsZones object:nil];
     }
     return self;
 }
@@ -37,10 +41,26 @@
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    //TODO: Load current sprinkler from SettingsManager here and update content if needed.
+    if (showZonesOnAppear) {
+        showZonesOnAppear = NO;
+        [self showZonesAnimated:NO];
+    }
+}
+
+- (void)showZonesAnimated:(BOOL)animated
+{
+    ZonesVC *zones = [[ZonesVC alloc] init];
+    [self.navigationController pushViewController:zones animated:animated];
+}
+
+- (void)showSettingsZonesNotif
+{
+    showZonesOnAppear = YES;
+    self.tabBarController.selectedViewController = self.navigationController;
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 #pragma mark - Actions
@@ -161,8 +181,7 @@
             [self.navigationController pushViewController:programs animated:YES];
         }
         if (indexPath.row == 1) {
-            ZonesVC *zones = [[ZonesVC alloc] init];
-            [self.navigationController pushViewController:zones animated:YES];
+            [self showZonesAnimated:YES];
         }
     }
     else if (indexPath.section == 1) {

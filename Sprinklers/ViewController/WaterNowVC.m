@@ -63,6 +63,8 @@
     UIBarButtonItem *stopAllButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
     self.navigationItem.rightBarButtonItem = stopAllButton;
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
+
     if ([StorageManager current].currentSprinkler) {
         [self refreshWithCurrentDevice];
     }
@@ -296,6 +298,11 @@
     WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
     waterNowZoneVC.parent = self;
     [self.navigationController pushViewController:waterNowZoneVC animated:YES];
+}
+
+- (void)onEdit
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowSettingsZones object:nil];
 }
 
 #pragma mark - Methods

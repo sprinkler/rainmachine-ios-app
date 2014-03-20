@@ -21,6 +21,8 @@ extern NSString* const TestServerPort;
 extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
 
+extern NSString *const kShowSettingsZones;
+
 NSString *kVegetationType[9];
 
 extern float kButtonInactiveOpacity;
