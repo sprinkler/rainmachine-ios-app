@@ -214,14 +214,16 @@
     }
 }
 
-- (void)discard
+- (void)popWithoutQuestion
 {
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)onDiscard:(id)sender {
-    [self discard];
+    self.program = self.programCopyBeforeSave;
+    
+    [self.tableView reloadData];
 }
 
 - (IBAction)onStartOrStop:(id)sender {
@@ -874,7 +876,7 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.tag == kAlertViewTag_UnsavedChanges) {
         if (alertView.cancelButtonIndex == buttonIndex) {
-            [self discard];
+            [self popWithoutQuestion];
         }
     }
     else if (alertView.tag == kAlertViewTag_InvalidProgram) {
