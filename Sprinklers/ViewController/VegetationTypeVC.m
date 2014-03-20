@@ -8,7 +8,7 @@
 
 #import "VegetationTypeVC.h"
 #import "Constants.h"
-#import "ZonePropertiesVC.h"
+#import "ZoneVC.h"
 #import "+UIDevice.h"
 
 @interface VegetationTypeVC ()

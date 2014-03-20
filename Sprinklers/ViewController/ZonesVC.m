@@ -13,7 +13,7 @@
 #import "MBProgressHUD.h"
 #import "Zone.h"
 #import "ZoneCell.h"
-#import "ZonePropertiesVC.h"
+#import "ZoneVC.h"
 #import "Utils.h"
 
 @interface ZonesVC () {
@@ -90,7 +90,7 @@
 
 - (void)pushVCForZone:(Zone*)z withIndex:(int)i showInitialUnsavedAlert:(BOOL)showInitialUnsavedAlert
 {
-    ZonePropertiesVC *zoneVC = [[ZonePropertiesVC alloc] init];
+    ZoneVC *zoneVC = [[ZoneVC alloc] init];
     zoneVC.showMasterValve = (i == 0);
     zoneVC.zoneIndex = i;
     zoneVC.zone = z;

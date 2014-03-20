@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "ZonePropertiesVC.h"
+#import "ZoneVC.h"
 #import "Additions.h"
 #import "ProgramCellType1.h"
 #import "MBProgressHUD.h"
@@ -37,7 +37,7 @@ typedef enum {
     HistoricalAverages = 5
 } RowTypes;
 
-@interface ZonePropertiesVC () {
+@interface ZoneVC () {
     MBProgressHUD *hud;
     int sectionMasterValve;
     int sectionProperties;
@@ -50,7 +50,7 @@ typedef enum {
 
 @end
 
-@implementation ZonePropertiesVC
+@implementation ZoneVC
 
 #pragma mark - Init
 

@@ -315,8 +315,8 @@
 		B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1254CBC187DB55A004E2F0E /* ZoneCell.xib */; };
 		B1254CC1187DBD61004E2F0E /* RainDelayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CBF187DBD61004E2F0E /* RainDelayVC.m */; };
 		B1254CC2187DBD61004E2F0E /* RainDelayVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1254CC0187DBD61004E2F0E /* RainDelayVC.xib */; };
-		B1254CC6187ECE48004E2F0E /* ZonePropertiesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CC4187ECE48004E2F0E /* ZonePropertiesVC.m */; };
-		B1254CC7187ECE48004E2F0E /* ZonePropertiesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1254CC5187ECE48004E2F0E /* ZonePropertiesVC.xib */; };
+		B1254CC6187ECE48004E2F0E /* ZoneVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CC4187ECE48004E2F0E /* ZoneVC.m */; };
+		B1254CC7187ECE48004E2F0E /* ZoneVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1254CC5187ECE48004E2F0E /* ZoneVC.xib */; };
 		B1254CCA187EE048004E2F0E /* EditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CC9187EE048004E2F0E /* EditCell.m */; };
 		B1254CCC187EE054004E2F0E /* EditCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1254CCB187EE054004E2F0E /* EditCell.xib */; };
 		B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1583E5816A7F7170051B480 /* UIStrokeLabel.m */; };
@@ -765,9 +765,9 @@
 		B1254CBE187DBD61004E2F0E /* RainDelayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainDelayVC.h; path = ViewController/RainDelayVC.h; sourceTree = "<group>"; };
 		B1254CBF187DBD61004E2F0E /* RainDelayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainDelayVC.m; path = ViewController/RainDelayVC.m; sourceTree = "<group>"; };
 		B1254CC0187DBD61004E2F0E /* RainDelayVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RainDelayVC.xib; path = ViewController/RainDelayVC.xib; sourceTree = "<group>"; };
-		B1254CC3187ECE48004E2F0E /* ZonePropertiesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZonePropertiesVC.h; path = ViewController/ZonePropertiesVC.h; sourceTree = "<group>"; };
-		B1254CC4187ECE48004E2F0E /* ZonePropertiesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZonePropertiesVC.m; path = ViewController/ZonePropertiesVC.m; sourceTree = "<group>"; };
-		B1254CC5187ECE48004E2F0E /* ZonePropertiesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZonePropertiesVC.xib; path = ViewController/ZonePropertiesVC.xib; sourceTree = "<group>"; };
+		B1254CC3187ECE48004E2F0E /* ZoneVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneVC.h; path = ViewController/ZoneVC.h; sourceTree = "<group>"; };
+		B1254CC4187ECE48004E2F0E /* ZoneVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneVC.m; path = ViewController/ZoneVC.m; sourceTree = "<group>"; };
+		B1254CC5187ECE48004E2F0E /* ZoneVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZoneVC.xib; path = ViewController/ZoneVC.xib; sourceTree = "<group>"; };
 		B1254CC8187EE048004E2F0E /* EditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditCell.h; path = Cells/EditCell.h; sourceTree = "<group>"; };
 		B1254CC9187EE048004E2F0E /* EditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditCell.m; path = Cells/EditCell.m; sourceTree = "<group>"; };
 		B1254CCB187EE054004E2F0E /* EditCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditCell.xib; path = Cells/EditCell.xib; sourceTree = "<group>"; };
@@ -1561,9 +1561,9 @@
 				B1EF21141860497B00D9CE26 /* SettingsVC.h */,
 				B1EF21151860497B00D9CE26 /* SettingsVC.m */,
 				B1EF21161860497B00D9CE26 /* SettingsVC.xib */,
-				B1254CC3187ECE48004E2F0E /* ZonePropertiesVC.h */,
-				B1254CC4187ECE48004E2F0E /* ZonePropertiesVC.m */,
-				B1254CC5187ECE48004E2F0E /* ZonePropertiesVC.xib */,
+				B1254CC3187ECE48004E2F0E /* ZoneVC.h */,
+				B1254CC4187ECE48004E2F0E /* ZoneVC.m */,
+				B1254CC5187ECE48004E2F0E /* ZoneVC.xib */,
 				B1254CAF187D77EB004E2F0E /* ZonesVC.h */,
 				B1254CB0187D77EB004E2F0E /* ZonesVC.m */,
 				B1254CB1187D77EB004E2F0E /* ZonesVC.xib */,
@@ -1715,7 +1715,7 @@
 				AFF6359D186F54900005EDF1 /* daily_stats_fg@2x.png in Resources */,
 				B1EF21181860497B00D9CE26 /* SettingsVC.xib in Resources */,
 				AFF635A4186F54900005EDF1 /* daily_stats_hi_nshwrs.png in Resources */,
-				B1254CC7187ECE48004E2F0E /* ZonePropertiesVC.xib in Resources */,
+				B1254CC7187ECE48004E2F0E /* ZoneVC.xib in Resources */,
 				AFF635CD186F54900005EDF1 /* daily_stats_nsvrtsra@2x.png in Resources */,
 				AF04995F18C601C300D73860 /* VegetationTypeVC.xib in Resources */,
 				AFF636C8186F55100005EDF1 /* main-screen_nmix@2x.png in Resources */,
@@ -1964,7 +1964,7 @@
 				AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */,
 				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
-				B1254CC6187ECE48004E2F0E /* ZonePropertiesVC.m in Sources */,
+				B1254CC6187ECE48004E2F0E /* ZoneVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
 				AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,

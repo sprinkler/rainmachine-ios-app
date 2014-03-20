@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "BaseLevel2ViewController.h"
 
-@class ZonePropertiesVC;
+@class ZoneVC;
 
 @interface VegetationTypeVC : BaseLevel2ViewController
 
-@property (weak, nonatomic) ZonePropertiesVC *parent;
+@property (weak, nonatomic) ZoneVC *parent;
 @property (assign) int vegetationType;
 
 @end

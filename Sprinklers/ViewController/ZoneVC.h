@@ -15,7 +15,7 @@
 @class VegetationTypeVC;
 @class ZonesVC;
 
-@interface ZonePropertiesVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, CCTBackButtonActionHelperProtocol, CellButtonDelegate, SetDelayVCDelegate>
+@interface ZoneVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, CCTBackButtonActionHelperProtocol, CellButtonDelegate, SetDelayVCDelegate>
 
 @property (nonatomic, copy) Zone *zone;
 @property (nonatomic) BOOL showMasterValve;
