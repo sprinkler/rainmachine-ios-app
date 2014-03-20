@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "DailyProgramVC.h"
+#import "ProgramVC.h"
 #import "BaseLevel2ViewController.h"
 #import "Program.h"
 #import "ServerProxy.h"
@@ -32,7 +32,7 @@
 #define kAlertViewTag_InvalidProgram 1
 #define kAlertViewTag_UnsavedChanges 2
 
-@interface DailyProgramVC ()
+@interface ProgramVC ()
 {
     MBProgressHUD *hud;
     BOOL setRunNowActivityIndicator;
@@ -64,10 +64,12 @@
 
 @end
 
-@implementation DailyProgramVC
+@implementation ProgramVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = @"Program";
     
     isNewProgram = (self.program == nil);
     
@@ -80,6 +82,11 @@
         startTimeSectionIndex = 2;
         cycleSoakAndStationDelaySectionIndex = 3;
         wateringTimesSectionIndex = 4;
+        
+        if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
+            // 3.55 and 3.56 can only Stop programs
+            [self createTwoButtonToolbar];
+        }
     } else {
         runNowSectionIndex = -1;
         programNameSectionIndex = 0;
@@ -87,19 +94,8 @@
         startTimeSectionIndex = 2;
         cycleSoakAndStationDelaySectionIndex = 3;
         wateringTimesSectionIndex = 4;
-        
-        UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
-        UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
-        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-            buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-            buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        }
-        
-        //set the toolbar buttons
-        self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, nil];
-        self.startButtonItem = nil;
+    
+        [self createTwoButtonToolbar];
     }
     
     [self refreshToolBarButtonTitles];
@@ -131,11 +127,30 @@
     } else {
         self.frequencyWeekdays = @"0,0,0,0,0,0,0";
     }
+
+    [self.navigationItem.backBarButtonItem setAction:@selector(onBack:)];
+    [self.navigationItem.backBarButtonItem setTarget:self];
 }
 
 - (void)refreshToolBarButtonTitles
 {
     self.startButtonItem.title = [self.program.state isEqualToString:@"stopped"] ? @"Start" : @"Stop";
+}
+
+- (void)createTwoButtonToolbar
+{
+    UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
+    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+    }
+    
+    //set the toolbar buttons
+    self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, nil];
+    self.startButtonItem = nil;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -162,6 +177,11 @@
 }
 
 #pragma mark - Actions
+
+- (void)onBack:(id)notif
+{
+    NSLog(@"fuck you!");
+}
 
 - (IBAction)onSave:(id)sender {
     NSString *invalidProgramStateMessage = [self checkProgramValidity];
@@ -403,7 +423,7 @@
             if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
                 cell.theTextField.tintColor = [UIColor blackColor];
             }
-            cell.theTextField.enabled = [Utils canEditProgramName];
+            cell.theTextField.enabled = [Utils isDevice357Plus];
             cell.theTextField.text = self.program.name;
             cell.delegate = self;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -723,6 +743,9 @@
         }
         self.program.state = response.state;
         self.runNowServerProxy = nil;
+
+        [self.parent setProgram:self.program withIndex:self.programIndex];
+        self.programCopyBeforeSave = self.program;
     }
 //    else if (serverProxy == self.stationDelayServerProxy) {
 //        self.stationDelayServerProxy = nil;

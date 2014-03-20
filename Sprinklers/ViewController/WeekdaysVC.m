@@ -8,7 +8,7 @@
 
 #import "WeekdaysVC.h"
 #import "Constants.h"
-#import "DailyProgramVC.h"
+#import "ProgramVC.h"
 #import "+UIDevice.h"
 
 @interface WeekdaysVC ()

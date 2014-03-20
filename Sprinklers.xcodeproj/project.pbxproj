@@ -63,7 +63,7 @@
 		AF7AC9E2184E3ECE0047BD9E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */; };
 		AF7AC9E4184E3EDF0047BD9E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */; };
 		AF7BFAF118B638210013F337 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7BFAF018B638210013F337 /* Sprinkler.m */; };
-		AF81E6DC18BA24D2007E9A03 /* DailyProgramVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6DB18BA24D2007E9A03 /* DailyProgramVC.m */; };
+		AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */; };
 		AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6DE18BA3216007E9A03 /* ButtonCell.m */; };
 		AF81E6E118BA3237007E9A03 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF81E6E018BA3237007E9A03 /* ButtonCell.xib */; };
 		AF81E6E318BA32C6007E9A03 /* ProgramCellType1.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF81E6E218BA32C6007E9A03 /* ProgramCellType1.xib */; };
@@ -99,7 +99,7 @@
 		AFCF47BA188D532100C34727 /* separator_line.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCF47B9188D532100C34727 /* separator_line.png */; };
 		AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437EE188A7F1A004F9E11 /* PickerVC.m */; };
 		AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE749861880255500CC3620 /* ColoredBackgroundButton.m */; };
-		AFEAECB518BA36D700370F22 /* DailyProgramVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB418BA36D700370F22 /* DailyProgramVC.xib */; };
+		AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB418BA36D700370F22 /* ProgramVC.xib */; };
 		AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */; };
 		AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */; };
 		AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFEAECBD18BA3F9B00370F22 /* ProgramCellType4.m */; };
@@ -480,8 +480,8 @@
 		AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 5.xcdatamodel"; sourceTree = "<group>"; };
 		AF7BFAEF18B638210013F337 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
 		AF7BFAF018B638210013F337 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
-		AF81E6DA18BA24D2007E9A03 /* DailyProgramVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyProgramVC.h; path = ViewController/DailyProgramVC.h; sourceTree = "<group>"; };
-		AF81E6DB18BA24D2007E9A03 /* DailyProgramVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyProgramVC.m; path = ViewController/DailyProgramVC.m; sourceTree = "<group>"; };
+		AF81E6DA18BA24D2007E9A03 /* ProgramVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramVC.h; path = ViewController/ProgramVC.h; sourceTree = "<group>"; };
+		AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramVC.m; path = ViewController/ProgramVC.m; sourceTree = "<group>"; };
 		AF81E6DD18BA3216007E9A03 /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonCell.h; path = Cells/ButtonCell.h; sourceTree = "<group>"; };
 		AF81E6DE18BA3216007E9A03 /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonCell.m; path = Cells/ButtonCell.m; sourceTree = "<group>"; };
 		AF81E6E018BA3237007E9A03 /* ButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ButtonCell.xib; path = Cells/ButtonCell.xib; sourceTree = "<group>"; };
@@ -532,7 +532,7 @@
 		AFCF47B9188D532100C34727 /* separator_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separator_line.png; path = Resources/separator_line.png; sourceTree = "<group>"; };
 		AFE749851880255500CC3620 /* ColoredBackgroundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColoredBackgroundButton.h; path = Controls/ColoredBackgroundButton.h; sourceTree = "<group>"; };
 		AFE749861880255500CC3620 /* ColoredBackgroundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColoredBackgroundButton.m; path = Controls/ColoredBackgroundButton.m; sourceTree = "<group>"; };
-		AFEAECB418BA36D700370F22 /* DailyProgramVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DailyProgramVC.xib; path = ViewController/DailyProgramVC.xib; sourceTree = "<group>"; };
+		AFEAECB418BA36D700370F22 /* ProgramVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramVC.xib; path = ViewController/ProgramVC.xib; sourceTree = "<group>"; };
 		AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType3.xib; path = Cells/ProgramCellType3.xib; sourceTree = "<group>"; };
 		AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType4.xib; path = Cells/ProgramCellType4.xib; sourceTree = "<group>"; };
 		AFEAECBC18BA3F9B00370F22 /* ProgramCellType4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType4.h; path = Cells/ProgramCellType4.h; sourceTree = "<group>"; };
@@ -1567,9 +1567,9 @@
 				B1254CAF187D77EB004E2F0E /* ZonesVC.h */,
 				B1254CB0187D77EB004E2F0E /* ZonesVC.m */,
 				B1254CB1187D77EB004E2F0E /* ZonesVC.xib */,
-				AF81E6DA18BA24D2007E9A03 /* DailyProgramVC.h */,
-				AF81E6DB18BA24D2007E9A03 /* DailyProgramVC.m */,
-				AFEAECB418BA36D700370F22 /* DailyProgramVC.xib */,
+				AF81E6DA18BA24D2007E9A03 /* ProgramVC.h */,
+				AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */,
+				AFEAECB418BA36D700370F22 /* ProgramVC.xib */,
 				AFC0760418BC9DEB007200BF /* SetDelayVC.h */,
 				AFC0760518BC9DEB007200BF /* SetDelayVC.m */,
 				AFC0760218BC9C99007200BF /* SetDelayVC.xib */,
@@ -1679,7 +1679,7 @@
 				AFC5CEE418893A5B005191DE /* icon_waternow.png in Resources */,
 				AFF635E0186F54900005EDF1 /* daily_stats_skc.png in Resources */,
 				AFF635B2186F54900005EDF1 /* daily_stats_mix.png in Resources */,
-				AFEAECB518BA36D700370F22 /* DailyProgramVC.xib in Resources */,
+				AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */,
 				AFF636DD186F55100005EDF1 /* main-screen_ra.png in Resources */,
 				AFF636DB186F55100005EDF1 /* main-screen_ovc.png in Resources */,
 				AFF635E3186F54900005EDF1 /* daily_stats_smoke@2x.png in Resources */,
@@ -1929,7 +1929,7 @@
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
-				AF81E6DC18BA24D2007E9A03 /* DailyProgramVC.m in Sources */,
+				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,

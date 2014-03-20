@@ -17,7 +17,7 @@
 @class WeekdaysVC;
 @class TimePickerVC;
 
-@interface DailyProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate, CCTBackButtonActionHelperProtocol, TimePickerDelegate, SetDelayVCDelegate>
+@interface ProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate, CCTBackButtonActionHelperProtocol, TimePickerDelegate, SetDelayVCDelegate>
 
 @property (copy, nonatomic) Program *program;
 @property (weak, nonatomic) ProgramsVC *parent;

@@ -405,7 +405,7 @@
 - (void)runNowProgram:(Program*)program {
     if (program) {
         [self.manager POST:@"/ui.cgi" parameters:@{@"action" : @"settings",
-                                                   @"what" : @"run_now",
+                                                   @"what" : [Utils isDevice357Plus] ? @"run_now" : @"stop_now",
                                                    @"pid" : [NSNumber numberWithInt:program.programId]}
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
             if ([self passLoggedOutFilter:operation]) {

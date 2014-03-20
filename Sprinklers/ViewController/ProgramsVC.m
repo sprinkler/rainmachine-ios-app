@@ -14,7 +14,7 @@
 #import "Additions.h"
 #import "Utils.h"
 #import "SettingsVC.h"
-#import "DailyProgramVC.h"
+#import "ProgramVC.h"
 #import "ProgramListCell.h"
 #import "AddNewCell.h"
 
@@ -250,13 +250,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        DailyProgramVC *dailyProgramVC = [[DailyProgramVC alloc] init];
+        ProgramVC *dailyProgramVC = [[ProgramVC alloc] init];
         dailyProgramVC.program = self.programs[indexPath.row];
         dailyProgramVC.parent = self;
         dailyProgramVC.programIndex = indexPath.row;
         [self.navigationController pushViewController:dailyProgramVC animated:YES];
     } else {
-        DailyProgramVC *dailyProgramVC = [[DailyProgramVC alloc] init];
+        ProgramVC *dailyProgramVC = [[ProgramVC alloc] init];
         dailyProgramVC.parent = self;
         dailyProgramVC.programIndex = -1;
         [self.navigationController pushViewController:dailyProgramVC animated:YES];

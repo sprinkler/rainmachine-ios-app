@@ -88,7 +88,7 @@
     return [zone.state isEqualToString:@"Pending"];
 }
 
-+ (BOOL)canEditProgramName
++ (BOOL)isDevice357Plus
 {
     if ([UpdateManager current].serverAPIMainVersion == 3) {
         return ([UpdateManager current].serverAPISubVersion >= 57);

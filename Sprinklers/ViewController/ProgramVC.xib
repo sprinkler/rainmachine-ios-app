@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DailyProgramVC">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProgramVC">
             <connections>
                 <outlet property="startButtonItem" destination="vEC-xm-ppZ" id="1cw-8a-3Fg"/>
                 <outlet property="tableView" destination="hgl-eJ-Yy7" id="U7j-IO-eJC"/>
