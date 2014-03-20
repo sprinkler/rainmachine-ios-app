@@ -46,7 +46,6 @@ typedef enum {
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 //@property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonRunNow;
-@property (copy, nonatomic) Zone *zoneCopyBeforeSave;
 @property (strong, nonatomic) UILabel *footer;
 
 @end
@@ -73,7 +72,10 @@ typedef enum {
     sectionMasterValve = _showMasterValve ? 0 : -1;
     sectionProperties = sectionMasterValve + 1;
     
-    self.zoneCopyBeforeSave = self.zone;
+    if (!self.showInitialUnsavedAlert) {
+        // In the case when 'showInitialUnsavedAlert' is YES, zoneCopyBeforeSave is set beforehand
+        self.zoneCopyBeforeSave = self.zone;
+    }
 
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
     self.navigationItem.rightBarButtonItem = saveButton;
@@ -82,6 +84,23 @@ typedef enum {
     
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType1" bundle:nil] forCellReuseIdentifier:@"ProgramCellType1"];
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];
+    
+    if (self.showInitialUnsavedAlert) {
+        [self showUnsavedChangesPopup:nil];
+        self.showInitialUnsavedAlert = NO;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if ([CCTBackButtonActionHelper sharedInstance].delegate) {
+        // The back was done using back-swipe gesture
+        if ([self hasUnsavedChanged]) {
+            [self.parent setUnsavedZone:self.zone withIndex:self.zoneIndex];
+        }
+    }
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -104,6 +123,17 @@ typedef enum {
 - (void)cellTextFieldChanged:(NSString*)text
 {
     self.zone.name = text;
+}
+
+- (void)showUnsavedChangesPopup:(id)notif
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Leave screen?"
+                                                        message:@"There are unsaved changes"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Leave screen"
+                                              otherButtonTitles:@"Stay", nil];
+    alertView.tag = kAlertViewTag_UnsavedChanges;
+    [alertView show];
 }
 
 - (BOOL)hasUnsavedChanged
@@ -499,13 +529,7 @@ typedef enum {
 
 - (BOOL)cct_navigationBar:(UINavigationBar *)navigationBar willPopItem:(UINavigationItem *)item {
     if ([self hasUnsavedChanged]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Leave screen?"
-                                                            message:@"There are unsaved changes"
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Leave screen"
-                                                  otherButtonTitles:@"Stay", nil];
-        alertView.tag = kAlertViewTag_UnsavedChanges;
-        [alertView show];
+        [self showUnsavedChangesPopup:nil];
         
         return NO;
     }

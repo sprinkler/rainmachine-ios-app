@@ -24,6 +24,8 @@
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *zones;
+@property (strong, nonatomic) Zone *unsavedZone;
+@property (assign, nonatomic) int unsavedZoneIndex;
 
 @end
 
@@ -51,6 +53,16 @@
     [self.serverProxy requestZones];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (self.unsavedZone) {
+        [self pushVCForZone:self.unsavedZone withIndex:self.unsavedZoneIndex showInitialUnsavedAlert:YES];
+        self.unsavedZone = nil;
+    }
+    
+    [super viewDidAppear:animated];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
@@ -68,6 +80,26 @@
     if (i >= 0) {
         [self.zones replaceObjectAtIndex:i withObject:zone];
     }
+}
+
+- (void)setUnsavedZone:(Zone*)zone withIndex:(int)i
+{
+    self.unsavedZone = zone;
+    self.unsavedZoneIndex = i;
+}
+
+- (void)pushVCForZone:(Zone*)z withIndex:(int)i showInitialUnsavedAlert:(BOOL)showInitialUnsavedAlert
+{
+    ZonePropertiesVC *zoneVC = [[ZonePropertiesVC alloc] init];
+    zoneVC.showMasterValve = (i == 0);
+    zoneVC.zoneIndex = i;
+    zoneVC.zone = z;
+    zoneVC.parent = self;
+    if (showInitialUnsavedAlert) {
+        zoneVC.zoneCopyBeforeSave = self.zones[i];
+    }
+    zoneVC.showInitialUnsavedAlert = showInitialUnsavedAlert;
+    [self.navigationController pushViewController:zoneVC animated:!showInitialUnsavedAlert];
 }
 
 #pragma mark - ProxyService delegate
@@ -142,13 +174,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Zone *zone = self.zones[indexPath.row];
-    ZonePropertiesVC *zp = [[ZonePropertiesVC alloc] init];
-    zp.showMasterValve = indexPath.row == 0;
-    zp.zoneIndex = indexPath.row;
-    zp.zone = zone;
-    zp.parent = self;
-    [self.navigationController pushViewController:zp animated:YES];
+    [self pushVCForZone:self.zones[indexPath.row] withIndex:indexPath.row showInitialUnsavedAlert:NO];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

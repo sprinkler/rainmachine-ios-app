@@ -22,6 +22,9 @@
 @property (nonatomic, weak) ZonesVC *parent;
 @property (assign) int zoneIndex;
 
+@property (copy, nonatomic) Zone *zoneCopyBeforeSave;
+@property (assign) BOOL showInitialUnsavedAlert;
+
 - (void)vegetationTypeVCWillDissapear:(VegetationTypeVC*)vegetationTypeVC;
 
 @end

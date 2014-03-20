@@ -26,6 +26,8 @@
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *postDeleteServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) Program *unsavedProgram;
+@property (assign, nonatomic) int unsavedProgramIndex;
 
 @end
 
@@ -61,6 +63,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (self.unsavedProgram) {
+        [self pushVCForProgram:self.unsavedProgram withIndex:self.unsavedProgramIndex showInitialUnsavedAlert:YES];
+        self.unsavedProgram = nil;
+    }
+    
+    [super viewDidAppear:animated];
 }
 
 #pragma mark - Methods
@@ -250,17 +262,23 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        ProgramVC *dailyProgramVC = [[ProgramVC alloc] init];
-        dailyProgramVC.program = self.programs[indexPath.row];
-        dailyProgramVC.parent = self;
-        dailyProgramVC.programIndex = indexPath.row;
-        [self.navigationController pushViewController:dailyProgramVC animated:YES];
+        [self pushVCForProgram:self.programs[indexPath.row] withIndex:indexPath.row showInitialUnsavedAlert:NO];
     } else {
-        ProgramVC *dailyProgramVC = [[ProgramVC alloc] init];
-        dailyProgramVC.parent = self;
-        dailyProgramVC.programIndex = -1;
-        [self.navigationController pushViewController:dailyProgramVC animated:YES];
+        [self pushVCForProgram:nil withIndex:-1 showInitialUnsavedAlert:NO];
     }
+}
+
+- (void)pushVCForProgram:(Program*)p withIndex:(int)i showInitialUnsavedAlert:(BOOL)showInitialUnsavedAlert
+{
+    ProgramVC *dailyProgramVC = [[ProgramVC alloc] init];
+    dailyProgramVC.program = p;
+    if (showInitialUnsavedAlert) {
+        dailyProgramVC.programCopyBeforeSave = self.programs[i];
+    }
+    dailyProgramVC.parent = self;
+    dailyProgramVC.programIndex = i;
+    dailyProgramVC.showInitialUnsavedAlert = showInitialUnsavedAlert;
+    [self.navigationController pushViewController:dailyProgramVC animated:!showInitialUnsavedAlert];
 }
 
 - (void)addProgram:(Program*)p
@@ -273,6 +291,12 @@
     if (i >= 0) {
         [self.programs replaceObjectAtIndex:i withObject:p];
     }
+}
+
+- (void)setUnsavedProgram:(Program*)program withIndex:(int)i
+{
+    self.unsavedProgram = program;
+    self.unsavedProgramIndex = i;
 }
 
 - (int)serverTimeFormat

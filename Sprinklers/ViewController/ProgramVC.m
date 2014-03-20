@@ -57,8 +57,6 @@
 @property (strong, nonatomic) NSString *frequencyEveryXDays;
 @property (strong, nonatomic) NSString *frequencyWeekdays;
 
-@property (copy, nonatomic) Program *programCopyBeforeSave;
-
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *startButtonItem;
 @property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
 
@@ -73,7 +71,10 @@
     
     isNewProgram = (self.program == nil);
     
-    self.programCopyBeforeSave = self.program;
+    if (!self.showInitialUnsavedAlert) {
+        // In the case when 'showInitialUnsavedAlert' is YES, programCopyBeforeSave is set beforehand
+        self.programCopyBeforeSave = self.program;
+    }
     
     if (self.program) {
         runNowSectionIndex = -1;
@@ -127,9 +128,23 @@
     } else {
         self.frequencyWeekdays = @"0,0,0,0,0,0,0";
     }
+    
+    if (self.showInitialUnsavedAlert) {
+        [self showUnsavedChangesPopup:nil];
+        self.showInitialUnsavedAlert = NO;
+    }
+}
 
-    [self.navigationItem.backBarButtonItem setAction:@selector(onBack:)];
-    [self.navigationItem.backBarButtonItem setTarget:self];
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if ([CCTBackButtonActionHelper sharedInstance].delegate) {
+        // The back was done using back-swipe gesture
+        if ([self hasUnsavedChanged]) {
+            [self.parent setUnsavedProgram:self.program withIndex:self.programIndex];
+        }
+    }
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)refreshToolBarButtonTitles
@@ -177,11 +192,6 @@
 }
 
 #pragma mark - Actions
-
-- (void)onBack:(id)notif
-{
-    NSLog(@"fuck you!");
-}
 
 - (IBAction)onSave:(id)sender {
     NSString *invalidProgramStateMessage = [self checkProgramValidity];
@@ -813,6 +823,17 @@
     return YES;
 }
 
+- (void)showUnsavedChangesPopup:(id)notif
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Leave screen?"
+                                                        message:@"There are unsaved changes"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Leave screen"
+                                              otherButtonTitles:@"Stay", nil];
+    alertView.tag = kAlertViewTag_UnsavedChanges;
+    [alertView show];
+}
+
 - (NSString *)checkProgramValidity
 {
     if ([self.program.weekdays isEqualToString:@"0,0,0,0,0,0,0"]) {
@@ -838,13 +859,8 @@
 
 - (BOOL)cct_navigationBar:(UINavigationBar *)navigationBar willPopItem:(UINavigationItem *)item {
     if ([self hasUnsavedChanged]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Leave screen?"
-                                                            message:@"There are unsaved changes"
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Leave screen"
-                                                  otherButtonTitles:@"Stay", nil];
-        alertView.tag = kAlertViewTag_UnsavedChanges;
-        [alertView show];
+        
+        [self showUnsavedChangesPopup:nil];
         
         return NO;
     }

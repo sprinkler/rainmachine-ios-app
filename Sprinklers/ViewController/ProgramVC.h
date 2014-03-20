@@ -20,8 +20,10 @@
 @interface ProgramVC : BaseLevel2ViewController <SprinklerResponseProtocol, CellButtonDelegate, CCTBackButtonActionHelperProtocol, TimePickerDelegate, SetDelayVCDelegate>
 
 @property (copy, nonatomic) Program *program;
+@property (copy, nonatomic) Program *programCopyBeforeSave;
 @property (weak, nonatomic) ProgramsVC *parent;
 @property (assign) int programIndex;
+@property (assign) BOOL showInitialUnsavedAlert;
 
 - (void)setDelayVCOver:(SetDelayVC*)setDelayVC;
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC;

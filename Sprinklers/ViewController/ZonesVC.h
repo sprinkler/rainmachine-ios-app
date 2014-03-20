@@ -15,6 +15,6 @@
 @interface ZonesVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
 - (void)setZone:(Zone*)zone withIndex:(int)i;
-//- (void)switchMasterValveVC;
+- (void)setUnsavedZone:(Zone*)zone withIndex:(int)i;
 
 @end
