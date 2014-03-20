@@ -47,6 +47,7 @@ const float kHomeScreenCellHeight = 63;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Stats";
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
     }
     return self;
 }
@@ -54,8 +55,6 @@ const float kHomeScreenCellHeight = 63;
 - (void)viewDidLoad {
     [super viewDidLoad];
   
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
-
     self.waterImage = [Utils waterImage:kHomeScreenCellHeight];
     self.waterWavesImage = [Utils waterWavesImage:kHomeScreenCellHeight];
 
@@ -74,7 +73,6 @@ const float kHomeScreenCellHeight = 63;
     //Check if there is only one Sprinkler.
     //If ONE -> do not show Device List.
     //else :
-    [self openDevices];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

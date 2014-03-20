@@ -43,9 +43,6 @@
     else {
         self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:kSprinklerWaterColor[0] green:kSprinklerWaterColor[1] blue:kSprinklerWaterColor[2] alpha:1];
     }
-    
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_menu_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(openDevices)];
-    self.navigationItem.leftBarButtonItem = menuButton;
 }
 
 - (void)updateTitle {
@@ -56,14 +53,6 @@
     [super viewWillAppear:animated];
     
     [self updateTitle];
-}
-
-#pragma mark - Methods
-
-- (void)openDevices {
-    DevicesVC *devicesVC = [[DevicesVC alloc] init];
-    UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:devicesVC];
-    [self presentViewController:navDevices animated:YES completion:nil];
 }
 
 #pragma mark - Error handling
@@ -106,7 +95,10 @@
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (theAlertView.tag == kLoggedOut_AlertViewTag) {
         [self handleServerLoggedOutUser];
-        [self openDevices];
+
+        [StorageManager current].currentSprinkler = nil;
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate refreshRootViews];
     }
     
     self.alertView = nil;

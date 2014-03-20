@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface DevicesVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 - (void)done;
 

@@ -21,6 +21,7 @@
 #import "Utils.h"
 #import "LoginVC.h"
 #import "AddNewDeviceVC.h"
+#import "AppDelegate.h"
 
 #define kAlertView_DeleteDevice 1
 
@@ -45,7 +46,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Devices";
     }
     return self;
 }
@@ -61,6 +61,10 @@
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
         self.navigationController.navigationBar.translucent = NO;
+        self.tabBarController.tabBar.translucent = NO;
+    }
+    else {
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     }
     
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];
@@ -69,6 +73,12 @@
     [self createFooter];
     
     [self updateNavigationbarButtons];
+}
+
+// Overwrites BaseViewController's updateTitle
+- (void)updateTitle
+{
+    self.title = @"Devices";
 }
 
 - (void)updateNavigationbarButtons
@@ -210,7 +220,8 @@
         return;
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate refreshRootViews];
 }
 
 - (void)edit {

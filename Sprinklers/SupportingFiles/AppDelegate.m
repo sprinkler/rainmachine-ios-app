@@ -10,6 +10,7 @@
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "Constants.h"
+#import "DevicesVC.h"
 #import "StatsVC.h"
 #import "SettingsVC.h"
 #import "WaterNowVC.h"
@@ -35,24 +36,7 @@
         [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
     }
     
-    StatsVC *statsVC = [[StatsVC alloc] init];
-    UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:statsVC];
-    UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
-    statsVC.tabBarItem = tabBarItemStats;
-    
-    WaterNowVC *waterVC = [[WaterNowVC alloc] init];
-    UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
-    UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Water Now" image:[UIImage imageNamed:@"icon_waternow"] tag:2];
-    waterVC.tabBarItem = tabBarItemWaterNow;
-    
-    SettingsVC *settingsVC = [[SettingsVC alloc] init];
-    RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:settingsVC];
-    UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
-    settingsVC.tabBarItem = tabBarItemSettings;
-    
-    _tabBarController = [[UITabBarController alloc] init];
-    _tabBarController.viewControllers = @[navStats, navWater, navSettings];
-    self.window.rootViewController = _tabBarController;
+    [self refreshRootViews];
   
 //    // TODO: remove this hack in production builds!
 //    NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
@@ -67,6 +51,42 @@
     
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (void)refreshRootViews
+{
+    DevicesVC *devicesVC = [[DevicesVC alloc] init];
+    UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:devicesVC];
+
+    if ([[StorageManager current] currentSprinkler]) {
+        UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
+        devicesVC.tabBarItem = tabBarItemDevices;
+
+        StatsVC *statsVC = [[StatsVC alloc] init];
+        UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:statsVC];
+        UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
+        statsVC.tabBarItem = tabBarItemStats;
+        
+        WaterNowVC *waterVC = [[WaterNowVC alloc] init];
+        UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
+        UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Water Now" image:[UIImage imageNamed:@"icon_waternow"] tag:2];
+        waterVC.tabBarItem = tabBarItemWaterNow;
+
+        SettingsVC *settingsVC = [[SettingsVC alloc] init];
+        RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:settingsVC];
+        UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
+        settingsVC.tabBarItem = tabBarItemSettings;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNewSprinklerSelected object:nil];
+
+        _tabBarController = [[UITabBarController alloc] init];
+        _tabBarController.viewControllers = @[navDevices, navStats, navWater, navSettings];
+        
+        _tabBarController.selectedViewController = navStats;
+        self.window.rootViewController = _tabBarController;
+    } else {
+        self.window.rootViewController = navDevices;
+    }
 }
 
 #pragma mark - UIApplication delegate

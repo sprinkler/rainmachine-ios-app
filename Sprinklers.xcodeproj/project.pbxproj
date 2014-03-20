@@ -78,6 +78,8 @@
 		AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */; };
 		AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
+		AFA9B58018DADB4F00DB40E8 /* icon_devices.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */; };
+		AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */; };
 		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
 		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
 		AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760018BBDFC3007200BF /* SimpleCell.xib */; };
@@ -503,6 +505,8 @@
 		AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPasswordVC.m; path = ViewController/SettingsPasswordVC.m; sourceTree = "<group>"; };
 		AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsPasswordVC.xib; path = ViewController/SettingsPasswordVC.xib; sourceTree = "<group>"; };
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
+		AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_devices.png; path = Resources/icon_devices.png; sourceTree = "<group>"; };
+		AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_devices@2x.png"; path = "Resources/icon_devices@2x.png"; sourceTree = "<group>"; };
 		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
 		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
 		AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeekdaysVC.m; path = ViewController/WeekdaysVC.m; sourceTree = "<group>"; };
@@ -1324,6 +1328,8 @@
 				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
 				B1DF325F16A6A68700A1BF38 /* Default.png */,
 				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
+				AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */,
+				AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */,
 				AFC5CEDA18893A5B005191DE /* icon_settings.png */,
 				AFC5CEDB18893A5B005191DE /* icon_settings@2x.png */,
 				AFC5CEDC18893A5B005191DE /* icon_stats.png */,
@@ -1677,6 +1683,7 @@
 				AFF636DD186F55100005EDF1 /* main-screen_ra.png in Resources */,
 				AFF636DB186F55100005EDF1 /* main-screen_ovc.png in Resources */,
 				AFF635E3186F54900005EDF1 /* daily_stats_smoke@2x.png in Resources */,
+				AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */,
 				AFF635CC186F54900005EDF1 /* daily_stats_nsvrtsra.png in Resources */,
 				B1DF325816A6A68700A1BF38 /* InfoPlist.strings in Resources */,
 				AF81E6E118BA3237007E9A03 /* ButtonCell.xib in Resources */,
@@ -1791,6 +1798,7 @@
 				AFF636B7186F55100005EDF1 /* main-screen_ip.png in Resources */,
 				AFF635AB186F54900005EDF1 /* daily_stats_hi_tsra@2x.png in Resources */,
 				B1254CCC187EE054004E2F0E /* EditCell.xib in Resources */,
+				AFA9B58018DADB4F00DB40E8 /* icon_devices.png in Resources */,
 				AFF635BE186F54900005EDF1 /* daily_stats_nmix.png in Resources */,
 				AFF636A6186F55100005EDF1 /* main-screen_fg@2x.png in Resources */,
 				AFF635BB186F54900005EDF1 /* daily_stats_nfew@2x.png in Resources */,
