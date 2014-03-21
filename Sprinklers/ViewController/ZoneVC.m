@@ -45,7 +45,7 @@ typedef enum {
 
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-//@property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonRunNow;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) UILabel *footer;
 
 @end
@@ -77,9 +77,6 @@ typedef enum {
         self.zoneCopyBeforeSave = self.zone;
     }
 
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
-    self.navigationItem.rightBarButtonItem = saveButton;
-       
 //    [_buttonRunNow setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
     
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType1" bundle:nil] forCellReuseIdentifier:@"ProgramCellType1"];
@@ -195,6 +192,19 @@ typedef enum {
 
 #pragma mark - Actions
 
+- (IBAction)onSave:(id)sender {
+    if (!self.postSaveServerProxy) {
+        [self startHud:nil];
+        self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+        [self.postSaveServerProxy saveZone:_zone];
+    }
+}
+
+- (IBAction)onDiscard:(id)sender {
+    self.zone = self.zoneCopyBeforeSave;
+    [self.tableView reloadData];
+}
+
 //- (IBAction)runNow:(id)sender {
 //}
 
@@ -211,14 +221,6 @@ typedef enum {
     }
     if (tag == HistoricalAverages) {
         _zone.historicalAverage = !_zone.historicalAverage;
-    }
-}
-
-- (void)save {
-    if (!self.postSaveServerProxy) {
-        [self startHud:nil];
-        self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
-        [self.postSaveServerProxy saveZone:_zone];
     }
 }
 

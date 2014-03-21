@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ZoneVC">
             <connections>
                 <outlet property="tableView" destination="c3Y-50-e3e" id="G53-lK-X2m"/>
+                <outlet property="toolbar" destination="bsh-iQ-gQl" id="SH7-Sx-HH3"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -17,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="c3Y-50-e3e">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
@@ -25,11 +26,35 @@
                         <outlet property="delegate" destination="-1" id="Y5Y-ty-jxo"/>
                     </connections>
                 </tableView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsh-iQ-gQl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="HYH-xF-gCw"/>
+                        <barButtonItem title="Discard" id="ceG-sU-NhE">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onDiscard:" destination="-1" id="pyl-ty-ACs"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jpb-8E-xbD"/>
+                        <barButtonItem title="Save" id="9v8-Jp-n4z">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onSave:" destination="-1" id="cVb-5W-9uI"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="hZ5-1r-w8i"/>
+                    </items>
+                </toolbar>
             </subviews>
             <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="deviceRGB"/>
             <constraints>
-                <constraint firstItem="c3Y-50-e3e" firstAttribute="top" secondItem="1" secondAttribute="top" id="HFY-kR-bo6"/>
+                <constraint firstItem="c3Y-50-e3e" firstAttribute="top" secondItem="bsh-iQ-gQl" secondAttribute="bottom" id="5Tg-4W-PVZ"/>
+                <constraint firstAttribute="trailing" secondItem="bsh-iQ-gQl" secondAttribute="trailing" id="KnT-Ph-4jK"/>
                 <constraint firstAttribute="trailing" secondItem="c3Y-50-e3e" secondAttribute="trailing" id="MKs-LN-Gcy"/>
+                <constraint firstItem="bsh-iQ-gQl" firstAttribute="top" secondItem="1" secondAttribute="top" id="N0s-PD-Dxp"/>
+                <constraint firstItem="bsh-iQ-gQl" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Qkk-rz-3ys"/>
                 <constraint firstItem="c3Y-50-e3e" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="aTb-yF-lob"/>
                 <constraint firstAttribute="bottom" secondItem="c3Y-50-e3e" secondAttribute="bottom" id="mAl-43-HTc"/>
             </constraints>

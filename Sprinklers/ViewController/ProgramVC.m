@@ -156,6 +156,24 @@
     self.startButtonItem = nil;
 }
 
+- (void)createThreeButtonToolbar
+{
+    UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
+    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+    UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        buttonStart.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+    }
+    
+    //set the toolbar buttons
+    self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, buttonStart, flexibleSpace, nil];
+    self.startButtonItem = buttonStart;
+}
+
 - (void)willPushChildView
 {
     // This prevents the test from viewWillDisappear to pass
@@ -228,7 +246,6 @@
 
 - (IBAction)onDiscard:(id)sender {
     self.program = self.programCopyBeforeSave;
-    
     [self.tableView reloadData];
 }
 
@@ -747,6 +764,7 @@
             }
         }
         self.programCopyBeforeSave = self.program;
+        [self createThreeButtonToolbar];
     }
     else if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;
