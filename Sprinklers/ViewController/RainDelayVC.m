@@ -50,9 +50,17 @@
 
     resumeMode = NO;
     
-    [self.buttonUp setCustomRMFontWithCode:icon_Up size:90];
-    [self.buttonDown setCustomRMFontWithCode:icon_Down size:90];
+    [self.buttonUp setCustomRMFontWithCode:icon_Plus size:self.buttonUp.frame.size.width - 2];
+    [self.buttonDown setCustomRMFontWithCode:icon_Minus size:self.buttonUp.frame.size.width - 2];
 
+    UIColor *greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
+    UIColor *redColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
+    
+    [self.buttonDown setTitleColor:redColor forState:UIControlStateNormal];
+    [self.buttonUp setTitleColor:greenColor forState:UIControlStateNormal];
+    
+    [self.labelDays setTextColor:greenColor];
+    
     self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
     self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
 

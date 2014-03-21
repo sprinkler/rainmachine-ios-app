@@ -27,14 +27,12 @@ NSString *kVegetationType[9] = {
 
 float kButtonInactiveOpacity = 0.51;
 
-CGFloat kLoginGreenButtonColor[3] = {2.0/255, 214.0/255, 100.0/255};
-CGFloat kWateringGreenButtonColor[3] = {0.0/255, 162.0/255, 0.0/255};
-CGFloat kWateringOrangeButtonColor[3] = {255.0/255, 162.0/255, 0.0/255};
-CGFloat kWateringRedButtonColor[3] = {255.0/255, 0.0/255, 0.0/255};
-CGFloat kWindowTintColorOnBlueNavBar[3] = {146.0/255, 146.0/255, 146.0/255};
+CGFloat kLoginGreenButtonColor[3] = {0x33/255.0, 0x99/255.0, 0xcc/255.0};
+CGFloat kWateringGreenButtonColor[3] = {0x33/255.0, 0x99/255.0, 0xcc/255.0};
+CGFloat kWateringOrangeButtonColor[3] = {0xff/255.0, 0x99/255.0, 0x00/255.0};
+CGFloat kWateringRedButtonColor[3] = {0xff/255.0, 0x44/255.0, 0x44/255.0};
 CGFloat kWaterImageStrokeColor[3] = {56 / 255.0, 136 / 255.0, 194 / 255.0};
 CGFloat kWaterImageFillColor[3] = {107 / 255.0, 168 / 255.0, 207 / 255.0};
-CGFloat kBarBlueColor[3] = {1 / 255.0, 152 / 255.0, 208 / 255.0};
 CGFloat kSprinklerWaterColor[3] = {0.262745, 0.592157, 0.796079};
 CGFloat kButtonBlueTintColor[3] = {21.0/255, 122.0/255, 251.0/255};
 
@@ -100,7 +98,6 @@ const unsigned short icon_Stropitoare_Icon = 0xe62c;
 const unsigned short icon_Stats_Icon = 0xe62d;
 const unsigned short icon_Settings_Icon = 0xe62e;
 const unsigned short icon_Devices_Icon = 0xe62f;
-const unsigned short icon_Up = 0xe630;
-const unsigned short icon_Down = 0xe631;
-const unsigned short icon_Plus = 0xe632;
-const unsigned short icon_Minus = 0xe633;
+const unsigned short icon_Plus = 0xe630;
+const unsigned short icon_Minus = 0xe631;
+const unsigned short icon_Add = 0xe632;

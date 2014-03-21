@@ -256,7 +256,7 @@
     if (indexPath.section == 1) {
         AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        [cell.plusLabel setCustomRMFontWithCode:icon_Plus size:24];
+        [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
 
         cell.titleLabel.text = @"Add New Program";
 

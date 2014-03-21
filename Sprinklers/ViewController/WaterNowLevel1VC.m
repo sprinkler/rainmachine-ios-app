@@ -78,8 +78,11 @@
     
     [self updateStartButtonActiveStateTo:YES];
     
-    [self.buttonUp setCustomRMFontWithCode:icon_Up size:self.buttonUp.frame.size.width];
-    [self.buttonDown setCustomRMFontWithCode:icon_Down size:self.buttonDown.frame.size.width];
+    [self.buttonDown setCustomRMFontWithCode:icon_Minus size:self.buttonDown.frame.size.width - 2];
+    [self.buttonUp setCustomRMFontWithCode:icon_Plus size:self.buttonUp.frame.size.width - 2];
+    
+    [self.buttonDown setTitleColor:self.redColor forState:UIControlStateNormal];
+    [self.buttonUp setTitleColor:self.greenColor forState:UIControlStateNormal];
 
     if ([Utils isZoneIdle:self.waterZone]) {
         self.initialTimerRequestActivityIndicator.hidden = YES;
