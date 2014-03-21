@@ -91,6 +91,12 @@ typedef enum {
     }
 }
 
+- (void)willPushChildView
+{
+    // This prevents the test from viewWillDisappear to pass
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     if ([CCTBackButtonActionHelper sharedInstance].delegate) {
@@ -487,6 +493,8 @@ typedef enum {
                 VegetationTypeVC *vegetationTypeVC = [[VegetationTypeVC alloc] init];
                 vegetationTypeVC.parent = self;
                 vegetationTypeVC.vegetationType = self.zone.vegetation;
+
+                [self willPushChildView];
                 [self.navigationController pushViewController:vegetationTypeVC animated:YES];
             }
         }
@@ -499,7 +507,9 @@ typedef enum {
             
             setDelayVC.parent = self;
             
+            [self willPushChildView];
             [self.navigationController pushViewController:setDelayVC animated:YES];
+            
             if (indexPath.row == 0) {
                 setDelayVC.userInfo = @"before";
                 setDelayVC.title = @"Before";

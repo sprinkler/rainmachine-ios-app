@@ -19,7 +19,6 @@
 @property (strong, nonatomic) NSMutableArray *programs;
 
 - (void)setProgram:(Program*)p withIndex:(int)i;
-- (void)addProgram:(Program*)p;
 - (int)serverTimeFormat;
 - (void)setUnsavedProgram:(Program*)program withIndex:(int)i;
 

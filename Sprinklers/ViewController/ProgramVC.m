@@ -135,18 +135,6 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    if ([CCTBackButtonActionHelper sharedInstance].delegate) {
-        // The back was done using back-swipe gesture
-        if ([self hasUnsavedChanged]) {
-            [self.parent setUnsavedProgram:self.program withIndex:self.programIndex];
-        }
-    }
-    
-    [super viewWillDisappear:animated];
-}
-
 - (void)refreshToolBarButtonTitles
 {
     self.startButtonItem.title = [self.program.state isEqualToString:@"stopped"] ? @"Start" : @"Stop";
@@ -166,6 +154,24 @@
     //set the toolbar buttons
     self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, nil];
     self.startButtonItem = nil;
+}
+
+- (void)willPushChildView
+{
+    // This prevents the test from viewWillDisappear to pass
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if ([CCTBackButtonActionHelper sharedInstance].delegate) {
+        // The back was done using back-swipe gesture
+        if ([self hasUnsavedChanged]) {
+            [self.parent setUnsavedProgram:self.program withIndex:self.programIndex];
+        }
+    }
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -594,6 +600,7 @@
     
     setDelayVC.parent = self;
     
+    [self willPushChildView];
     [self.navigationController pushViewController:setDelayVC animated:YES];
 }
 
@@ -636,12 +643,16 @@
             setIntervalFrequencyVC.titlePicker1 = @"days";
             setIntervalFrequencyVC.valuePicker1 = nrDays;
             setIntervalFrequencyVC.title = @"Set days frequency";
+
+            [self willPushChildView];
             [self.navigationController pushViewController:setIntervalFrequencyVC animated:YES];
         }
         else if (indexPath.row == 4) {
             WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
             weekdaysVC.selectedWeekdays = [[_program.weekdays componentsSeparatedByString:@","] mutableCopy];
             weekdaysVC.parent = self;
+
+            [self willPushChildView];
             [self.navigationController pushViewController:weekdaysVC animated:YES];
         }
 
@@ -652,6 +663,8 @@
             timePickerVC.timeFormat = self.program.timeFormat;
             timePickerVC.parent = self;
             timePickerVC.time = self.program.startTime;
+
+            [self willPushChildView];
             [self.navigationController pushViewController:timePickerVC animated:YES];
         }
     }
@@ -671,6 +684,7 @@
         setDelayVC.title = @"Zone watering duration";
         setDelayVC.parent = self;
         
+        [self willPushChildView];
         [self.navigationController pushViewController:setDelayVC animated:YES];
     }
     
@@ -724,7 +738,6 @@
 
             if (possibleAddedProgram) {
                 self.program = possibleAddedProgram;
-                [self.parent addProgram:self.program];
             }
         }
         self.programCopyBeforeSave = self.program;

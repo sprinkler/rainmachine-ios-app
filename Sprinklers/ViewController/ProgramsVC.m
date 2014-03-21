@@ -281,11 +281,6 @@
     [self.navigationController pushViewController:dailyProgramVC animated:!showInitialUnsavedAlert];
 }
 
-- (void)addProgram:(Program*)p
-{
-    [self.programs addObject:p];
-}
-
 - (void)setProgram:(Program*)p withIndex:(int)i
 {
     if (i >= 0) {
