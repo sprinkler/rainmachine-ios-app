@@ -525,11 +525,11 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_zone.masterValve == 1) {
-        return 44.0f;
+        return 50.0f;
     }
     
     if (indexPath.section == kZoneProperties_Name) {
-        return 50;
+        return 54;
     }
     
     return 44.0f;

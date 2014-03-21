@@ -46,6 +46,7 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
+                    <constraint firstItem="eoN-2J-POi" firstAttribute="top" secondItem="u4s-Oa-W5p" secondAttribute="bottom" constant="1" id="2Df-d0-Ekz"/>
                     <constraint firstItem="u4s-Oa-W5p" firstAttribute="leading" secondItem="wIb-pN-yjX" secondAttribute="leading" constant="15" id="31F-aq-cEn"/>
                     <constraint firstItem="eoN-2J-POi" firstAttribute="trailing" secondItem="u4s-Oa-W5p" secondAttribute="trailing" constant="9" id="7jP-ZL-mzb"/>
                     <constraint firstAttribute="centerY" secondItem="1ur-E5-aPU" secondAttribute="centerY" constant="-0.5" id="9M8-1I-yXe"/>
@@ -53,8 +54,8 @@
                     <constraint firstAttribute="centerY" secondItem="k5M-6e-97S" secondAttribute="centerY" id="LkJ-cJ-n2c"/>
                     <constraint firstAttribute="centerY" secondItem="eoN-2J-POi" secondAttribute="centerY" constant="-10" id="Llb-jd-9jq"/>
                     <constraint firstAttribute="trailing" secondItem="1ur-E5-aPU" secondAttribute="trailing" constant="13" id="W6m-7q-5Fl"/>
+                    <constraint firstAttribute="centerY" secondItem="u4s-Oa-W5p" secondAttribute="centerY" priority="500" id="Xxa-Dn-Zpa"/>
                     <constraint firstItem="k5M-6e-97S" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="u4s-Oa-W5p" secondAttribute="trailing" constant="10" id="iXB-Vw-Dg5"/>
-                    <constraint firstAttribute="centerY" secondItem="u4s-Oa-W5p" secondAttribute="centerY" constant="10" id="mUj-Tm-l0n"/>
                     <constraint firstItem="eoN-2J-POi" firstAttribute="leading" secondItem="wIb-pN-yjX" secondAttribute="leading" constant="15" id="nUk-7x-bZc"/>
                 </constraints>
             </tableViewCellContentView>

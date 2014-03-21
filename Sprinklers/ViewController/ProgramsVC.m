@@ -168,6 +168,15 @@
     cell.backgroundColor = [UIColor whiteColor];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return 56;
+    }
+    
+    return 44;
+}
+
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
 //    if (section == [self numberOfSectionsInTableView:tableView] - 1) {
 //        return 20.0f;

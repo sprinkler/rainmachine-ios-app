@@ -407,10 +407,16 @@
             return 60;
     }
     else if (indexPath.section == programNameSectionIndex) {
-        return 50;
+        return 54;
+    }
+    else if (indexPath.section == frequencySectionIndex) {
+        return 48;
     }
     else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
-        return 50;
+        return 54;
+    }
+    else if (indexPath.section == wateringTimesSectionIndex) {
+        return 48;
     }
     
     return 44.0f;
