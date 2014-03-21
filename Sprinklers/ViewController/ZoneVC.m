@@ -39,8 +39,11 @@ typedef enum {
 
 @interface ZoneVC () {
     MBProgressHUD *hud;
-    int sectionMasterValve;
-    int sectionProperties;
+    int masterValveSectionIndex;
+    int nameSectionIndex;
+    int activeSectionIndex;
+    int vegetationTypeIndex;
+    int statisticalSectionIndex;
 }
 
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
@@ -69,8 +72,11 @@ typedef enum {
         self.title = [Utils fixedZoneName:_zone.name withId:[NSNumber numberWithInt:_zone.zoneId]];
     }
     
-    sectionMasterValve = _showMasterValve ? 0 : -1;
-    sectionProperties = sectionMasterValve + 1;
+    masterValveSectionIndex = _showMasterValve ? 0 : -1;
+    nameSectionIndex = masterValveSectionIndex + 1;
+    activeSectionIndex = nameSectionIndex + 1;
+    vegetationTypeIndex = activeSectionIndex + 1;
+    statisticalSectionIndex = vegetationTypeIndex + 1;
     
     if (!self.showInitialUnsavedAlert) {
         // In the case when 'showInitialUnsavedAlert' is YES, zoneCopyBeforeSave is set beforehand
@@ -212,6 +218,7 @@ typedef enum {
     int tag = sw.tag;
     if (tag == MasterValve) {
         _zone.masterValve = !_zone.masterValve;
+        [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
     }
     if (tag == Active) {
         _zone.active = !_zone.active;
@@ -277,7 +284,16 @@ typedef enum {
         return 2;
     }
     
-    return (sectionMasterValve >= 0) ? 2 : 1;
+    return statisticalSectionIndex + 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == nameSectionIndex) {
+        return @"Name";
+    }
+    
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -285,14 +301,14 @@ typedef enum {
         if (_zone.masterValve == 1) {
             return (section == 0) ? 1 : 2;
         } else {
-            if (section == sectionMasterValve) {
-                return 1;
+            if (section == statisticalSectionIndex) {
+                return 2;
             }
-            else if (section == sectionProperties) {
-                return 5;
-            }
+            
+            return 1;
         }
     }
+    
     return 0;
 }
 
@@ -320,24 +336,21 @@ typedef enum {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView masterValveCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            static NSString *CellIdentifier1 = @"Cell1";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
-            
-            if (nil == cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
-            }
-            UISwitch *sw = [[UISwitch alloc] init];
-            sw.on = _zone.active;
-            sw.tag = MasterValve;
-            [sw addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
-            cell.accessoryView = sw;
-            cell.textLabel.text = @"Master Valve";
-            cell.textLabel.textColor = [UIColor orangeColor];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
+    if (indexPath.section == masterValveSectionIndex) {
+        static NSString *CellIdentifier1 = @"Cell1";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+        
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
         }
+        UISwitch *sw = [[UISwitch alloc] init];
+        sw.on = _zone.active;
+        sw.tag = MasterValve;
+        [sw addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+        cell.accessoryView = sw;
+        cell.textLabel.text = @"Master Valve";
+        cell.textLabel.textColor = [UIColor orangeColor];
+        return cell;
     }
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -375,7 +388,7 @@ typedef enum {
         return [self tableView:tableView masterValveCellForRowAtIndexPath:indexPath];
     }
     
-    if (indexPath.section == sectionMasterValve) {
+    if (indexPath.section == masterValveSectionIndex) {
         static NSString *CellIdentifier = @"Cell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
@@ -393,49 +406,46 @@ typedef enum {
         return cell;
     }
     
-    if (indexPath.section == sectionProperties) {
-        if (indexPath.row == kZoneProperties_Name) {
-            ProgramCellType1 *cell = (ProgramCellType1 *)[tableView dequeueReusableCellWithIdentifier:@"ProgramCellType1"];
+    else if (indexPath.section == nameSectionIndex) {
+        ProgramCellType1 *cell = (ProgramCellType1 *)[tableView dequeueReusableCellWithIdentifier:@"ProgramCellType1"];
 
-            cell.delegate = self;
-            cell.theTextField.text = _zone.name;//[Utils fixedZoneName:_zone.name withId:[NSNumber numberWithInt:_zone.zoneId]];
-            if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-                cell.theTextField.tintColor = [UIColor blackColor];
-            }
-            
-            return cell;
+        cell.delegate = self;
+        cell.theTextField.text = _zone.name;//[Utils fixedZoneName:_zone.name withId:[NSNumber numberWithInt:_zone.zoneId]];
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            cell.theTextField.tintColor = [UIColor blackColor];
         }
         
-        else if (indexPath.row == kZoneProperties_Active) {
-            static NSString *CellIdentifier1 = @"Cell1";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
-            
-            if (nil == cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
-            }
-            UISwitch *sw = [[UISwitch alloc] init];
-            sw.on = _zone.active;
-            sw.tag = Active;
-            [sw addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
-            cell.accessoryView = sw;
-            cell.textLabel.text = @"Active";
-            return cell;
+        return cell;
+    }
+    else if (indexPath.section == activeSectionIndex) {
+        static NSString *CellIdentifier1 = @"Cell1";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+        
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+        }
+        UISwitch *sw = [[UISwitch alloc] init];
+        sw.on = _zone.active;
+        sw.tag = Active;
+        [sw addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+        cell.accessoryView = sw;
+        cell.textLabel.text = @"Active";
+        return cell;
+    }
+    else if (indexPath.section == vegetationTypeIndex) {
+        static NSString *CellIdentifier2 = @"Cell2";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+        
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier2];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
-        else if (indexPath.row == kZoneProperties_VegetationType) {
-            static NSString *CellIdentifier2 = @"Cell2";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
-            
-            if (nil == cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier2];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            
-            cell.textLabel.text = @"Vegetation Type";
-            cell.detailTextLabel.text = kVegetationType[_zone.vegetation];
-            
-            return cell;
-        }
+        cell.textLabel.text = @"Vegetation Type";
+        cell.detailTextLabel.text = kVegetationType[_zone.vegetation];
+        
+        return cell;
+    }
 
     //    if (indexPath.row == 3) {
     //        static NSString *CellIdentifier3 = @"Cell3";
@@ -450,7 +460,8 @@ typedef enum {
     //        return cell;
     //    }
 
-        else if (indexPath.row == kZoneProperties_ForecastData) {
+    else if (indexPath.section == statisticalSectionIndex) {
+        if (indexPath.row == 0) {
             static NSString *CellIdentifier4 = @"Cell4";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier4];
             
@@ -465,8 +476,7 @@ typedef enum {
             cell.textLabel.text = @"Forecast Data";
             return cell;
         }
-
-        else if (indexPath.row == kZoneProperties_HistoricalAverages) {
+        else if (indexPath.row == 1) {
             static NSString *CellIdentifier5 = @"Cell5";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier5];
             
@@ -490,18 +500,42 @@ typedef enum {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (_zone.masterValve == 0) {
-        if (indexPath.section == sectionProperties) {
-            if (indexPath.row == kZoneProperties_VegetationType) {
-                VegetationTypeVC *vegetationTypeVC = [[VegetationTypeVC alloc] init];
-                vegetationTypeVC.parent = self;
-                vegetationTypeVC.vegetationType = self.zone.vegetation;
+        if (indexPath.section == masterValveSectionIndex) {
+            _zone.masterValve = !_zone.masterValve;
+            [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
+        }
+        else if (indexPath.section == vegetationTypeIndex) {
+            VegetationTypeVC *vegetationTypeVC = [[VegetationTypeVC alloc] init];
+            vegetationTypeVC.parent = self;
+            vegetationTypeVC.vegetationType = self.zone.vegetation;
 
-                [self willPushChildView];
-                [self.navigationController pushViewController:vegetationTypeVC animated:YES];
+            [self willPushChildView];
+            [self.navigationController pushViewController:vegetationTypeVC animated:YES];
+        }
+        else if (indexPath.section == nameSectionIndex) {
+            ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];
+            [cell.theTextField becomeFirstResponder];
+        }
+        else if (indexPath.section == activeSectionIndex) {
+            _zone.active = !_zone.active;
+            [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
+        }
+        else if (indexPath.section == statisticalSectionIndex) {
+            if (indexPath.row == 0) {
+                _zone.forecastData = !_zone.forecastData;
+                [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
+            }
+            else if (indexPath.row == 1) {
+                _zone.historicalAverage = !_zone.historicalAverage;
+                [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
             }
         }
     } else {
-        if (indexPath.section == 1) {
+        if (indexPath.section == 0) {
+            _zone.masterValve = !_zone.masterValve;
+            [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
+        }
+        else if (indexPath.section == 1) {
             SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
             setDelayVC.minValuePicker1 = 0;
             setDelayVC.maxValuePicker1 = 300;
@@ -527,14 +561,10 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_zone.masterValve == 1) {
-        return 50.0f;
+        return 54.0f;
     }
     
-    if (indexPath.section == kZoneProperties_Name) {
-        return 54;
-    }
-    
-    return 44.0f;
+    return 54;
 }
 
 #pragma mark - CCTBackButtonActionHelper delegate

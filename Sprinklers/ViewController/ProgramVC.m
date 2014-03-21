@@ -42,7 +42,9 @@
     BOOL isNewProgram;
     
     int runNowSectionIndex;
-    int programNameSectionIndex;
+    int nameSectionIndex;
+    int activeSectionIndex;
+    int ignoreWeatherDataSectionIndex;
     int frequencySectionIndex;
     int startTimeSectionIndex;
     int cycleSoakAndStationDelaySectionIndex;
@@ -78,11 +80,13 @@
     
     if (self.program) {
         runNowSectionIndex = -1;
-        programNameSectionIndex = 0;
-        frequencySectionIndex = 1;
-        startTimeSectionIndex = 2;
-        cycleSoakAndStationDelaySectionIndex = 3;
-        wateringTimesSectionIndex = 4;
+        nameSectionIndex = 0;
+        activeSectionIndex = 1;
+        ignoreWeatherDataSectionIndex = 2;
+        frequencySectionIndex = 3;
+        startTimeSectionIndex = 4;
+        cycleSoakAndStationDelaySectionIndex = 5;
+        wateringTimesSectionIndex = 6;
         
         if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
             // 3.55 and 3.56 can only Stop programs
@@ -90,11 +94,13 @@
         }
     } else {
         runNowSectionIndex = -1;
-        programNameSectionIndex = 0;
-        frequencySectionIndex = 1;
-        startTimeSectionIndex = 2;
-        cycleSoakAndStationDelaySectionIndex = 3;
-        wateringTimesSectionIndex = 4;
+        nameSectionIndex = 0;
+        activeSectionIndex = 1;
+        ignoreWeatherDataSectionIndex = 2;
+        frequencySectionIndex = 3;
+        startTimeSectionIndex = 4;
+        cycleSoakAndStationDelaySectionIndex = 5;
+        wateringTimesSectionIndex = 6;
     
         [self createTwoButtonToolbar];
     }
@@ -370,12 +376,15 @@
 #pragma mark - Table view
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return (self.program != nil) ? 6 : ([self.program.wateringTimes count] != 0 ? 5 : 4);
+    return wateringTimesSectionIndex + 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == frequencySectionIndex) {
+    if (section == nameSectionIndex) {
+        return @"Name";
+    }
+    else if (section == frequencySectionIndex) {
         return @"Frequency";
     }
     else if (section == wateringTimesSectionIndex) {
@@ -400,8 +409,14 @@
     if (section == runNowSectionIndex) {
         return 1;
     }
-    else if (section == programNameSectionIndex) {
-        return 3;
+    else if (section == nameSectionIndex) {
+        return 1;
+    }
+    else if (section == activeSectionIndex) {
+        return 1;
+    }
+    else if (section == ignoreWeatherDataSectionIndex) {
+        return 1;
     }
     else if (section == frequencySectionIndex) {
         return 5;
@@ -421,9 +436,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == runNowSectionIndex) {
-            return 60;
+        return 60;
     }
-    else if (indexPath.section == programNameSectionIndex) {
+    else if (indexPath.section == nameSectionIndex) {
+        return 54;
+    }
+    else if (indexPath.section == activeSectionIndex) {
+        return 54;
+    }
+    else if (indexPath.section == ignoreWeatherDataSectionIndex) {
         return 54;
     }
     else if (indexPath.section == frequencySectionIndex) {
@@ -456,45 +477,40 @@
         
         return cell;
     }
-    
-    else if (indexPath.section == programNameSectionIndex) {
-        if (indexPath.row == 0) {
-            static NSString *CellIdentifier = @"ProgramCellType1";
-            ProgramCellType1 *cell = (ProgramCellType1*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-                cell.theTextField.tintColor = [UIColor blackColor];
-            }
-            cell.theTextField.enabled = [Utils isDevice357Plus];
-            cell.theTextField.text = self.program.name;
-            cell.delegate = self;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if (resignKeyboard) {
-                [cell.theTextField resignFirstResponder];
-            }
-            return cell;
+    else if (indexPath.section == nameSectionIndex) {
+        static NSString *CellIdentifier = @"ProgramCellType1";
+        ProgramCellType1 *cell = (ProgramCellType1*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            cell.theTextField.tintColor = [UIColor blackColor];
         }
-        else if (indexPath.row == 1) {
-            static NSString *CellIdentifier = @"ProgramCellType2";
-            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            cell.theSwitch.on = self.program.active;
-            cell.theTextLabel.text = @"Active";
-            cell.theDetailLabel.text = nil;
-            cell.delegate = self;
-            cell.ignoreWeatherDataCellType = NO;
-            return cell;
+        cell.theTextField.enabled = [Utils isDevice357Plus];
+        cell.theTextField.text = self.program.name;
+        cell.delegate = self;
+        if (resignKeyboard) {
+            [cell.theTextField resignFirstResponder];
         }
-        else if (indexPath.row == 2) {
-            static NSString *CellIdentifier = @"ProgramCellType2";
-            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            cell.theSwitch.on = self.program.ignoreWeatherData;
-            cell.theTextLabel.text = @"Ignore weather data";
-            cell.theDetailLabel.text = nil;
-            cell.delegate = self;
-            cell.ignoreWeatherDataCellType = YES;
-            return cell;
-        }
+        return cell;
     }
-    
+    else if (indexPath.section == activeSectionIndex) {
+        static NSString *CellIdentifier = @"ProgramCellType2";
+        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        cell.theSwitch.on = self.program.active;
+        cell.theTextLabel.text = @"Active";
+        cell.theDetailLabel.text = nil;
+        cell.delegate = self;
+        cell.ignoreWeatherDataCellType = NO;
+        return cell;
+    }
+    else if (indexPath.section == ignoreWeatherDataSectionIndex) {
+        static NSString *CellIdentifier = @"ProgramCellType2";
+        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        cell.theSwitch.on = self.program.ignoreWeatherData;
+        cell.theTextLabel.text = @"Ignore weather data";
+        cell.theDetailLabel.text = nil;
+        cell.delegate = self;
+        cell.ignoreWeatherDataCellType = YES;
+        return cell;
+    }
     else if (indexPath.section == frequencySectionIndex) {
         static NSString *CellIdentifier = @"ProgramCellType3";
         ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -550,13 +566,11 @@
     else if (indexPath.section == startTimeSectionIndex) {
         static NSString *CellIdentifier = @"ProgramCellType4";
         ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        if (indexPath.row == 0) {
-            
-            NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
-            cell.theTextLabel.text = @"START TIME";
-            cell.timeLabel.text = startHourAndMinute;
-            cell.timeLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
-        }
+        
+        NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
+        cell.theTextLabel.text = @"START TIME";
+        cell.timeLabel.text = startHourAndMinute;
+        cell.timeLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
         return cell;
     }
 
@@ -647,12 +661,21 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == programNameSectionIndex) {
-        if (indexPath.row == 1) {
-            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
-            cell.theSwitch.on = !cell.theSwitch.on;
-            self.program.active = cell.theSwitch.on;
-        }
+    if (indexPath.section == nameSectionIndex) {
+        ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];
+        [cell.theTextField becomeFirstResponder];
+    }
+    else if (indexPath.section == activeSectionIndex) {
+        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
+        cell.theSwitch.on = !cell.theSwitch.on;
+        self.program.active = cell.theSwitch.on;
+        [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
+    }
+    else if (indexPath.section == ignoreWeatherDataSectionIndex) {
+        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
+        cell.theSwitch.on = !cell.theSwitch.on;
+        self.program.ignoreWeatherData = cell.theSwitch.on;
+        [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
     }
     else if (indexPath.section == frequencySectionIndex) {
         [self checkFrequencyWithIndex:indexPath.row];
@@ -712,12 +735,6 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [tableView reloadData];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self.tableView reloadData];
 }
 
 #pragma mark - ProxyService delegate
