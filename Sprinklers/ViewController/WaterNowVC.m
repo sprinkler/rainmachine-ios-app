@@ -310,7 +310,7 @@
     cell.zone = waterNowZone;
     
     cell.zoneNameLabel.text = [Utils fixedZoneName:waterNowZone.name withId:waterNowZone.id];
-    cell.descriptionLabel.text = waterNowZone.type;
+    cell.descriptionLabel.text = [waterNowZone.type isEqualToString:@"Unknown"] ? @"Other" : waterNowZone.type;
     cell.onOffSwitch.on = isWatering || isPending;
     
     cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
