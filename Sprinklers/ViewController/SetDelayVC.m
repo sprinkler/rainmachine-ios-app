@@ -68,7 +68,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
     self.valuePicker1 = _minValuePicker1 + [self.picker1 selectedRowInComponent:0];
     self.valuePicker2 = _minValuePicker2 + [self.picker2 selectedRowInComponent:0];
     

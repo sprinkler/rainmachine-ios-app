@@ -188,14 +188,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+
     if ([CCTBackButtonActionHelper sharedInstance].delegate) {
         // The back was done using back-swipe gesture
         if ([self hasUnsavedChanged]) {
             [self.parent setUnsavedProgram:self.program withIndex:self.programIndex];
         }
     }
-    
-    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

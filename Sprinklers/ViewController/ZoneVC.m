@@ -102,14 +102,14 @@ typedef enum {
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+
     if ([CCTBackButtonActionHelper sharedInstance].delegate) {
         // The back was done using back-swipe gesture
         if ([self hasUnsavedChanged]) {
             [self.parent setUnsavedZone:self.zone withIndex:self.zoneIndex];
         }
     }
-    
-    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

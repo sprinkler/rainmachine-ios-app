@@ -96,6 +96,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
     [[ServiceManager current] stopBroadcast];
     if (silentTimer)
         [silentTimer invalidate];
