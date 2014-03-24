@@ -13,10 +13,10 @@
 @interface WaterNowCounterHelper : NSObject
 
 @property (strong, nonatomic) NSTimer *counterTimer;
-@property (assign, nonatomic) BOOL freezeCounter;
 @property (strong, nonatomic) NSNumber *counterValue;
 
 - (id)initWithDelegate:(id<WaterNowCounterHelperDelegate>)delegate;
 - (void)updateCounter;
+- (void)stopCounterTimer;
 
 @end

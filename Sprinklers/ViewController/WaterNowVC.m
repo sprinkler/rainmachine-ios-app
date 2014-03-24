@@ -114,8 +114,11 @@
     return YES;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.tableView reloadData];
+    [self resetServerProxies];
 
     if (self.delayedInitialListRefresh) {
         self.delayedInitialListRefresh = NO;
@@ -129,7 +132,9 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
- 
+    
+    [self.wateringCounterHelper stopCounterTimer];
+    
     [self hideHud];
 
     self.lastScheduleRequestError = nil;
@@ -360,8 +365,7 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    self.wateringCounterHelper.freezeCounter = YES;
-    [self.wateringCounterHelper updateCounter];
+    [self.wateringCounterHelper stopCounterTimer];
 
     [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
 }
@@ -384,8 +388,13 @@
 - (void)refreshWithCurrentDevice
 {
     self.zones = nil;
+    
     [self.tableView reloadData];
+    [self resetServerProxies];
+}
 
+- (void)resetServerProxies
+{
     if ([StorageManager current].currentSprinkler) {
         self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         self.wateringZoneDetailsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];

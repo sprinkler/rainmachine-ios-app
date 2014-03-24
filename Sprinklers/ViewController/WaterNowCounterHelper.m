@@ -22,7 +22,6 @@
     self = [super init];
     if (self) {
         self.delegate = del;
-        self.freezeCounter = NO;
     }
     return self;
 }
@@ -42,9 +41,7 @@
     int counter = [self.delegate.wateringZone.counter intValue] - 1;
     int newCounter = MAX(0, counter);
     self.delegate.wateringZone.counter = [NSNumber numberWithInt:newCounter];
-    if (!self.freezeCounter) {
-        [self.delegate refreshCounterLabel:newCounter];
-    }
+    [self.delegate refreshCounterLabel:newCounter];
 }
 
 - (void)stopCounterTimer

@@ -222,8 +222,6 @@
 //    }
 
     if (serverProxy == self.pollServerProxy) {
-        self.wateringCounterHelper.freezeCounter = NO;
-        
         [self.wateringCounterHelper updateCounter];
         [self updatePollStateWithDelay:retryInterval];
 
@@ -241,8 +239,6 @@
     if (serverProxy == self.postServerProxy) {
 //        [self scheduleNextPollRequest:5 withServerProxy:self.quickRefreshServerProxy];
     } else {
-        self.wateringCounterHelper.freezeCounter = NO;
-        
         self.lastPollRequestError = nil;
         
         self.wateringZone = data;
@@ -290,18 +286,19 @@
 }
 
 - (IBAction)onStartButton:(id)sender {
-    if (![self.postServerProxy toggleWateringOnZone:self.wateringZone withCounter:self.wateringZone.counter]) {
+    BOOL startRequest = [self.postServerProxy toggleWateringOnZone:self.wateringZone withCounter:self.wateringZone.counter];
+    if (!startRequest) {
         // Watering stop request sent. Freeze the counter until next update.
-        self.wateringCounterHelper.freezeCounter = YES;
-        [self.wateringCounterHelper updateCounter];
+        [self.wateringCounterHelper stopCounterTimer];
     }
-
-//    [self updateStartButtonActiveStateTo:NO];
-//    [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
     
-    self.parent.delayedInitialListRefresh = YES;
-
-    [self.navigationController popViewControllerAnimated:YES];
+    if (startRequest) {
+        self.parent.delayedInitialListRefresh = YES;
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self updateStartButtonActiveStateTo:NO];
+        [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
+    }
 }
 
 #pragma mark - Dealloc
