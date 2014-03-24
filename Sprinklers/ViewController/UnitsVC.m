@@ -56,11 +56,9 @@
 {
     if ((self.settingsUnits) && (!self.postServerProxy) && (!self.pullServerProxy)) {
         // If we save the same unit again the server returns error: "Units not saved"
-        if (![self.unitsBeforeSave isEqualToString:self.settingsUnits.units]) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
-            [self.postServerProxy setSettingsUnits:self.settingsUnits.units];
-        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+        [self.postServerProxy setSettingsUnits:self.settingsUnits.units];
     }
 }
 
