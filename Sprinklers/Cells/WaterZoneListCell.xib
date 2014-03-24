@@ -21,22 +21,22 @@
                             <action selector="onSwitch:" destination="a5U-A8-PVY" eventType="valueChanged" id="gRz-ab-bN3"/>
                         </connections>
                     </switch>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zone Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZHf-yk-9m8">
-                        <rect key="frame" x="66" y="12" width="151" height="20"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Zone Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZHf-yk-9m8">
+                        <rect key="frame" x="66" y="12" width="179" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E4c-E2-6NG">
-                        <rect key="frame" x="66" y="30" width="79" height="18"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E4c-E2-6NG">
+                        <rect key="frame" x="66" y="30" width="171" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6X-Dg-edw">
-                        <rect key="frame" x="217" y="21" width="64" height="17"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="5 min" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6X-Dg-edw">
+                        <rect key="frame" x="245" y="21" width="36" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -63,7 +63,7 @@
                     <constraint firstAttribute="centerY" secondItem="s6X-Dg-edw" secondAttribute="centerY" id="baz-or-B0a"/>
                     <constraint firstAttribute="trailing" secondItem="GCp-QO-fZS" secondAttribute="trailing" constant="13" id="cB5-hr-bYO"/>
                     <constraint firstItem="fi5-ou-rDF" firstAttribute="leading" secondItem="QYk-i8-blq" secondAttribute="leading" constant="9" id="ec3-rE-ELP"/>
-                    <constraint firstItem="s6X-Dg-edw" firstAttribute="leading" secondItem="E4c-E2-6NG" secondAttribute="trailing" constant="72" id="txc-7R-nvz"/>
+                    <constraint firstItem="s6X-Dg-edw" firstAttribute="leading" secondItem="E4c-E2-6NG" secondAttribute="trailing" constant="8" id="txc-7R-nvz"/>
                     <constraint firstItem="s6X-Dg-edw" firstAttribute="leading" secondItem="ZHf-yk-9m8" secondAttribute="trailing" id="wC4-yj-ku3"/>
                 </constraints>
             </tableViewCellContentView>

@@ -60,21 +60,16 @@
     [self requestPrograms];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self.tableView reloadData];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     if (self.unsavedProgram) {
         [self pushVCForProgram:self.unsavedProgram withIndex:self.unsavedProgramIndex showInitialUnsavedAlert:YES];
         self.unsavedProgram = nil;
     }
     
-    [super viewDidAppear:animated];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Methods
@@ -217,7 +212,7 @@
         
         Program *program = self.programs[indexPath.row];
         cell.theTextLabel.text = program.name;
-        cell.activeStateLabel.hidden = program.active;
+        cell.activeStateLabel.text = program.active ? @"" : @"Inactive";
         NSString *startHourAndMinute =  [Utils formattedTime:program.startTime forTimeFormat:program.timeFormat];
         if (!startHourAndMinute) {
             startHourAndMinute = @"";

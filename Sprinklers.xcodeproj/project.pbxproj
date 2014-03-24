@@ -1257,6 +1257,7 @@
 				3A9AB595188559E7005B79B9 /* RestrictionsCell.xib */,
 				AF81E6DD18BA3216007E9A03 /* ButtonCell.h */,
 				AF81E6DE18BA3216007E9A03 /* ButtonCell.m */,
+				AF81E6E018BA3237007E9A03 /* ButtonCell.xib */,
 				AF81E6E418BA32D8007E9A03 /* ProgramCellType1.h */,
 				AF81E6E518BA32D8007E9A03 /* ProgramCellType1.m */,
 				AF81E6E718BA33EB007E9A03 /* ProgramCellType2.h */,
@@ -1269,13 +1270,12 @@
 				AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */,
 				AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */,
 				AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */,
-				AF81E6E018BA3237007E9A03 /* ButtonCell.xib */,
+				AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */,
 				AF81E6E218BA32C6007E9A03 /* ProgramCellType1.xib */,
 				AF81E6EA18BA34ED007E9A03 /* ProgramCellType2.xib */,
 				AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */,
 				AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */,
 				AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */,
-				AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
