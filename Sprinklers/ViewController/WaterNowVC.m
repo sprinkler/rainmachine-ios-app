@@ -59,18 +59,30 @@
 
     switchOnGreenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
     switchOnOrangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
+
+    [self refreshStopAllButton];
     
-    UIBarButtonItem *stopAllButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
-    self.navigationItem.rightBarButtonItem = stopAllButton;
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
 
     if ([StorageManager current].currentSprinkler) {
         [self refreshWithCurrentDevice];
     }
 }
 
-- (BOOL)allStopped
+- (void)refreshStopAllButton
+{
+    if (![self areAllStopped]) {
+        if (!self.navigationItem.leftBarButtonItem) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
+        }
+    } else {
+        if (self.navigationItem.leftBarButtonItem) {
+            self.navigationItem.leftBarButtonItem = nil;
+        }
+    }
+}
+
+- (BOOL)areAllStopped
 {
     for (WaterNowZone *zone in self.zones) {
         BOOL isIdle = [Utils isZoneIdle:zone];
@@ -99,6 +111,8 @@
     [super viewWillDisappear:animated];
  
     [self hideHud];
+
+    self.lastScheduleRequestError = nil;
     
     [self.pollServerProxy cancelAllOperations];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
@@ -202,7 +216,7 @@
         self.zones = [self filteredZones:data];
         
         if (stopAllCounter > 0) {
-            if ([self allStopped]) {
+            if ([self areAllStopped]) {
                 stopAllCounter = 0;
             } else {
                 stopAllCounter--;
@@ -217,6 +231,8 @@
         
         [self.tableView reloadData];
     }
+
+    [self refreshStopAllButton];
 }
 
 - (void)loggedOut

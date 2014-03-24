@@ -331,6 +331,10 @@
             AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
             [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
+            
+            [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
+            [cell.titleLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
+            
             return cell;
         }
     }
