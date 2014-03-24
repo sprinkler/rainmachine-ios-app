@@ -100,7 +100,7 @@
     }
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-        cell.tintColor = [UIColor colorWithRed:kSprinklerWaterColor[0] green:kSprinklerWaterColor[1] blue:kSprinklerWaterColor[2] alpha:1];
+        cell.tintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
     }
     
     return cell;

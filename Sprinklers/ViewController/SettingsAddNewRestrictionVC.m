@@ -28,7 +28,7 @@
     
     self.title = @"Add Restriction";
     
-    [_buttonSety setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
+    [_buttonSety setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
     
     return self;
 }

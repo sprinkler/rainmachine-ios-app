@@ -83,7 +83,7 @@ typedef enum {
         self.zoneCopyBeforeSave = self.zone;
     }
 
-//    [_buttonRunNow setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
+//    [_buttonRunNow setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
     
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType1" bundle:nil] forCellReuseIdentifier:@"ProgramCellType1"];
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];

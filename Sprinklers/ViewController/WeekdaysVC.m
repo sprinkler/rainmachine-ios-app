@@ -80,7 +80,7 @@
     UITableViewCell *cell = (UITableViewCell*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.textLabel.text = self.weekdaysNames[indexPath.row];
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-        cell.tintColor = [UIColor colorWithRed:kSprinklerWaterColor[0] green:kSprinklerWaterColor[1] blue:kSprinklerWaterColor[2] alpha:1];
+        cell.tintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
     }
     cell.accessoryType = [_selectedWeekdays[indexPath.row] intValue] == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     return cell;

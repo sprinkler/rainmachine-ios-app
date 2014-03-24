@@ -54,7 +54,7 @@
     lblDeviceName.text = _sprinkler.name;
     lblDeviceAddress.text = _sprinkler.address;
     
-    [_buttonLogin setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
+    [_buttonLogin setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
     
     _buttonCheckBox.selected = [_sprinkler.loginRememberMe boolValue];
     

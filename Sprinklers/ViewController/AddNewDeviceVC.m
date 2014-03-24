@@ -57,7 +57,7 @@
     [self removeTokenView];
     
     // Customize the Save button
-    [self.saveButton setCustomBackgroundColorFromComponents:kLoginGreenButtonColor];
+    [self.saveButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
 
     [_nameTextField becomeFirstResponder];
 }

@@ -16,7 +16,7 @@
 #pragma mark - Error handling
 
 - (void)handleServerLoggedOutUser {
-    [self.navigationController popToRootViewControllerAnimated:NO];
+//    [self.navigationController popToRootViewControllerAnimated:NO];
     
     [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
     [[StorageManager current] saveData];

@@ -466,7 +466,7 @@
         ButtonCell *cell = (ButtonCell*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         cell.delegate = self;
         BOOL isStopped = [self.program.state isEqualToString:@"stopped"];
-        [cell.button setCustomBackgroundColorFromComponents:isStopped ? kLoginGreenButtonColor : kWateringRedButtonColor];
+        [cell.button setCustomBackgroundColorFromComponents:isStopped ? kSprinklerBlueColor : kWateringRedButtonColor];
         [cell.button setTitle:isStopped ? @"Run Now" : @"Stop" forState:UIControlStateNormal];
         
         if (setRunNowActivityIndicator) {
