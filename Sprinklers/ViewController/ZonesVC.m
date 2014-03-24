@@ -60,14 +60,9 @@
         self.unsavedZone = nil;
     }
     
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
     [self.tableView reloadData];
+
+    [super viewDidAppear:animated];
 }
 
 #pragma mark - Methods
@@ -98,7 +93,9 @@
     zoneVC.zone = z;
     zoneVC.parent = self;
     if (showInitialUnsavedAlert) {
-        zoneVC.zoneCopyBeforeSave = self.zones[i];
+        if (i != -1) {
+            zoneVC.zoneCopyBeforeSave = self.zones[i];
+        }
     }
     zoneVC.showInitialUnsavedAlert = showInitialUnsavedAlert;
     [self.navigationController pushViewController:zoneVC animated:!showInitialUnsavedAlert];

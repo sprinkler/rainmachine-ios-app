@@ -282,7 +282,9 @@
     ProgramVC *dailyProgramVC = [[ProgramVC alloc] init];
     dailyProgramVC.program = p;
     if (showInitialUnsavedAlert) {
-        dailyProgramVC.programCopyBeforeSave = self.programs[i];
+        if (i != -1) {
+            dailyProgramVC.programCopyBeforeSave = self.programs[i];
+        }
     }
     dailyProgramVC.parent = self;
     dailyProgramVC.programIndex = i;
