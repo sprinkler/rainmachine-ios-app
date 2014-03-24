@@ -292,6 +292,7 @@
 		AFF6A6B6188834E400825A37 /* icon_disclosure_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6B4188834E400825A37 /* icon_disclosure_triangle@2x.png */; };
 		AFF6A6B91888350400825A37 /* icon_status_ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6B71888350400825A37 /* icon_status_ok@2x.png */; };
 		AFF6A6BA1888350400825A37 /* icon_status_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */; };
+		AFF796C618E04C6400E3C109 /* WaterNowCounterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF796C518E04C6400E3C109 /* WaterNowCounterHelper.m */; };
 		B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */; };
 		B111987016A7EED00094EF9F /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986F16A7EED00094EF9F /* StorageManager.m */; };
 		B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */ = {isa = PBXBuildFile; fileRef = B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */; };
@@ -729,6 +730,8 @@
 		AFF6A6B4188834E400825A37 /* icon_disclosure_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_disclosure_triangle@2x.png"; path = "Resources/icon_disclosure_triangle@2x.png"; sourceTree = "<group>"; };
 		AFF6A6B71888350400825A37 /* icon_status_ok@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_status_ok@2x.png"; path = "Resources/icon_status_ok@2x.png"; sourceTree = "<group>"; };
 		AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_status_warning@2x.png"; path = "Resources/icon_status_warning@2x.png"; sourceTree = "<group>"; };
+		AFF796C418E04C6400E3C109 /* WaterNowCounterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowCounterHelper.h; path = ViewController/WaterNowCounterHelper.h; sourceTree = "<group>"; };
+		AFF796C518E04C6400E3C109 /* WaterNowCounterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowCounterHelper.m; path = ViewController/WaterNowCounterHelper.m; sourceTree = "<group>"; };
 		B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sprinklers.xcdatamodel; sourceTree = "<group>"; };
 		B111986E16A7EED00094EF9F /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StorageManager.h; path = Managers/StorageManager.h; sourceTree = "<group>"; };
 		B111986F16A7EED00094EF9F /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StorageManager.m; path = Managers/StorageManager.m; sourceTree = "<group>"; };
@@ -1530,6 +1533,8 @@
 				B1EF212E186049D800D9CE26 /* WaterNowLevel1VC.h */,
 				B1EF212F186049D800D9CE26 /* WaterNowLevel1VC.m */,
 				B1EF2130186049D800D9CE26 /* WaterNowLevel1VC.xib */,
+				AFF796C418E04C6400E3C109 /* WaterNowCounterHelper.h */,
+				AFF796C518E04C6400E3C109 /* WaterNowCounterHelper.m */,
 			);
 			name = WaterNow;
 			sourceTree = "<group>";
@@ -1976,6 +1981,7 @@
 				B1EF20F8186046D300D9CE26 /* +UIScreen.m in Sources */,
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
+				AFF796C618E04C6400E3C109 /* WaterNowCounterHelper.m in Sources */,
 				3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */,
 				AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */,
 				AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */,

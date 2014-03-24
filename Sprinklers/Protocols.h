@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WaterNowZone.h"
 
 @protocol SprinklerResponseProtocol <NSObject>
 
@@ -39,5 +40,13 @@
 @protocol SetDelayVCDelegate <NSObject>
 
 - (void)setDelayVCOver:(id)setDelayVC;
+
+@end
+
+@protocol WaterNowCounterHelperDelegate<NSObject>
+
+- (void)refreshCounterLabel:(int)counter;
+- (void)showCounterLabel;
+- (WaterNowZone*)wateringZone;
 
 @end

@@ -14,10 +14,10 @@
 @class ServerProxy;
 @class WaterNowVC;
 
-@interface WaterNowLevel1VC : BaseLevel2ViewController<SprinklerResponseProtocol>
+@interface WaterNowLevel1VC : BaseLevel2ViewController<SprinklerResponseProtocol, WaterNowCounterHelperDelegate>
 
-@property (retain, nonatomic) WaterNowZone *waterZone;
 @property (strong, nonatomic) WaterNowVC *parent;
+@property (strong, nonatomic) WaterNowZone *wateringZone;
 
 - (IBAction)onUpButton:(id)sender;
 - (IBAction)onDownButton:(id)sender;

@@ -16,11 +16,11 @@
 #import "Additions.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
+#import "WaterNowCounterHelper.h"
 
 @interface WaterNowLevel1VC ()
 {
     NSTimeInterval retryInterval;
-    BOOL freezeCounter;
 }
 
 @property (strong, nonatomic) ServerProxy *pollServerProxy;
@@ -29,10 +29,10 @@
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
 @property (strong, nonatomic) NSError *lastPollRequestError;
-@property (strong, nonatomic) NSTimer *counterTimer;
 @property (strong, nonatomic) UIColor *greenColor;
 @property (strong, nonatomic) UIColor *redColor;
 @property (strong, nonatomic) UIColor *orangeColor;
+@property (strong, nonatomic) WaterNowCounterHelper *wateringCounterHelper;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *startStopActivityIndicator;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *initialTimerRequestActivityIndicator;
@@ -58,6 +58,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.wateringCounterHelper = [[WaterNowCounterHelper alloc] initWithDelegate:self];
+    
     self.greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
     self.orangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
     self.redColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
@@ -74,7 +76,7 @@
     // Initialize with a fake but valid value
     self.lastListRefreshDate = [NSDate date];
     
-    self.title = [Utils fixedZoneName:self.waterZone.name withId:self.waterZone.id];
+    self.title = [Utils fixedZoneName:self.wateringZone.name withId:self.wateringZone.id];
     
     [self updateStartButtonActiveStateTo:YES];
     
@@ -84,12 +86,10 @@
     [self.buttonDown setTitleColor:self.redColor forState:UIControlStateNormal];
     [self.buttonUp setTitleColor:self.greenColor forState:UIControlStateNormal];
 
-    if ([Utils isZoneIdle:self.waterZone]) {
+    if ([Utils isZoneIdle:self.wateringZone]) {
         self.initialTimerRequestActivityIndicator.hidden = YES;
         self.counterLabel.hidden = NO;
     }
-    
-    freezeCounter = NO;
     
     [self refreshUI];
 }
@@ -119,11 +119,11 @@
 
 - (void)refreshUI
 {
-    BOOL isWatering = [Utils isZoneWatering:self.waterZone];
-    BOOL isPending = [Utils isZonePending:self.waterZone];
-    BOOL isIdle = [Utils isZoneIdle:self.waterZone];
+    BOOL isWatering = [Utils isZoneWatering:self.wateringZone];
+    BOOL isPending = [Utils isZonePending:self.wateringZone];
+    BOOL isIdle = [Utils isZoneIdle:self.wateringZone];
 
-    self.counterLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.waterZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];
+    self.counterLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];
 
     self.counterLabel.textColor = isPending ? _orangeColor : _greenColor;
 
@@ -150,51 +150,26 @@
 
 #pragma - Counter timer
 
-- (void)startCounterTimer
-{
-    [self stopCounterTimer];
-    self.counterTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                         target:self
-                                                       selector:@selector(counterTimer:)
-                                                       userInfo:nil
-                                                        repeats:YES];
-}
-
-- (void)counterTimer:(id)notif
-{
-    int counter = [self.waterZone.counter intValue] - 1;
-    int newCounter = MAX(0, counter);
-    self.waterZone.counter = [NSNumber numberWithInt:newCounter];
-    if (!freezeCounter) {
-        self.counterLabel.text = [NSString formattedTime:newCounter usingOnlyDigits:YES];
-    }
-}
-
-- (void)stopCounterTimer
-{
-    [self.counterTimer invalidate];
-    self.counterTimer = nil;
-}
-
-- (void)updateCounter
-{
-    self.initialTimerRequestActivityIndicator.hidden = YES;
-    self.counterLabel.hidden = NO;
-    
-    if (![Utils isZoneWatering:self.waterZone]) {
-        [self stopCounterTimer];
-    } else {
-        [self startCounterTimer];
-    }
-}
-
 - (void)updatePollStateWithDelay:(float)delay
 {
-    if ([Utils isZoneIdle:self.waterZone]) {
+    if ([Utils isZoneIdle:self.wateringZone]) {
         [self stopPollRequests];
     } else {
         [self scheduleNextPollRequest:delay withServerProxy:self.pollServerProxy referenceDate:self.lastListRefreshDate];
     }
+}
+
+#pragma - WaterNowCounterHelper callbacks
+
+- (void)refreshCounterLabel:(int)newCounter
+{
+    self.counterLabel.text = [NSString formattedTime:newCounter usingOnlyDigits:YES];
+}
+
+- (void)showCounterLabel
+{
+    self.initialTimerRequestActivityIndicator.hidden = YES;
+    self.counterLabel.hidden = NO;
 }
 
 #pragma mark - Requests
@@ -207,7 +182,7 @@
 
 - (void)requestZoneStateRefreshWithServerProxy:(ServerProxy*)serverProxy
 {
-    [serverProxy requestWaterActionsForZone:self.waterZone.id];
+    [serverProxy requestWaterActionsForZone:self.wateringZone.id];
     
     self.lastListRefreshDate = [NSDate date];
 }
@@ -247,9 +222,9 @@
 //    }
 
     if (serverProxy == self.pollServerProxy) {
-        freezeCounter = NO;
+        self.wateringCounterHelper.freezeCounter = NO;
         
-        [self updateCounter];
+        [self.wateringCounterHelper updateCounter];
         [self updatePollStateWithDelay:retryInterval];
 
         [self updateStartButtonActiveStateTo:YES];
@@ -266,13 +241,13 @@
     if (serverProxy == self.postServerProxy) {
 //        [self scheduleNextPollRequest:5 withServerProxy:self.quickRefreshServerProxy];
     } else {
-        freezeCounter = NO;
+        self.wateringCounterHelper.freezeCounter = NO;
         
         self.lastPollRequestError = nil;
         
-        self.waterZone = data;
+        self.wateringZone = data;
 
-        [self updateCounter];
+        [self.wateringCounterHelper updateCounter];
         [self updatePollStateWithDelay:kWaterNowRefreshTimeInterval];
         
         [self updateStartButtonActiveStateTo:YES];
@@ -287,37 +262,38 @@
 }
 
 - (IBAction)onUpButton:(id)sender {
-    BOOL isIdle = [Utils isZoneIdle:self.waterZone];
+    BOOL isIdle = [Utils isZoneIdle:self.wateringZone];
     
     if (isIdle) {
-        int counter = [[Utils fixedZoneCounter:self.waterZone.counter isIdle:isIdle] intValue];
+        int counter = [[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue];
         int newCounter = MIN(counter + 60, kMaxCounterValue);
-        self.waterZone.counter = [NSNumber numberWithInt:newCounter];
+        self.wateringZone.counter = [NSNumber numberWithInt:newCounter];
         
         [self refreshUI];
     }
 }
 
 - (IBAction)onDownButton:(id)sender {
-    BOOL isIdle = [Utils isZoneIdle:self.waterZone];
+    BOOL isIdle = [Utils isZoneIdle:self.wateringZone];
     
     if (isIdle) {
-        int counter = [[Utils fixedZoneCounter:self.waterZone.counter isIdle:isIdle] intValue];
+        int counter = [[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue];
         // This limiting is done to avoid confusion, because the value 0 is in fact used for both of the following:
         // * the default value of 5:00
         // * to show that a device is stopped
-        int minCounterValue = [Utils isZoneWatering:self.waterZone] ? 0 : 60;
+        int minCounterValue = [Utils isZoneWatering:self.wateringZone] ? 0 : 60;
 
-        self.waterZone.counter = [NSNumber numberWithInt:MAX(minCounterValue, counter - 60)];
+        self.wateringZone.counter = [NSNumber numberWithInt:MAX(minCounterValue, counter - 60)];
         
         [self refreshUI];
     }
 }
 
 - (IBAction)onStartButton:(id)sender {
-    if (![self.postServerProxy toggleWateringOnZone:self.waterZone withCounter:self.waterZone.counter]) {
+    if (![self.postServerProxy toggleWateringOnZone:self.wateringZone withCounter:self.wateringZone.counter]) {
         // Watering stop request sent. Freeze the counter until next update.
-        freezeCounter = YES;
+        self.wateringCounterHelper.freezeCounter = YES;
+        [self.wateringCounterHelper updateCounter];
     }
 
 //    [self updateStartButtonActiveStateTo:NO];
