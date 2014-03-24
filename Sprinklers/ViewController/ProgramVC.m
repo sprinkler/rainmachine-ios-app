@@ -740,7 +740,7 @@
 #pragma mark - ProxyService delegate
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
     
     if (serverProxy == self.getProgramListServerProxy) {
         self.getProgramListServerProxy = nil;
@@ -787,7 +787,7 @@
         self.postSaveServerProxy = nil;
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         } else {
             if (self.program.programId == -1) {
                 // Create a new program. We don't receive the new id from the server. That's why we have to do a new requestPrograms call and extract the new id from there.
@@ -805,7 +805,7 @@
         self.runNowServerProxy = nil;
         StartStopProgramResponse *response = (StartStopProgramResponse*)data;
         if ([response.state isEqualToString:@"err"]) {
-            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         }
         self.program.state = response.state;
         self.runNowServerProxy = nil;

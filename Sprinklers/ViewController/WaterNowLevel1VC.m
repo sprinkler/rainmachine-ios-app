@@ -215,7 +215,7 @@
         self.lastPollRequestError = error;
     }
     
-    [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:showErrorMessage];
+    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:showErrorMessage];
 
 //    if ((serverProxy == self.pollServerProxy) || (serverProxy == self.quickRefreshServerProxy)) {
 //        [self updateCounterAndPollState];
@@ -234,7 +234,7 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    [self.parent handleGeneralSprinklerError:nil showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:nil showErrorMessage:YES];
     
     if (serverProxy == self.postServerProxy) {
 //        [self scheduleNextPollRequest:5 withServerProxy:self.quickRefreshServerProxy];

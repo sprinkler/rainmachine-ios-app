@@ -38,44 +38,4 @@
     }
 }
 
-#pragma mark - Error handling
-
-- (void)handleServerLoggedOutUser {
-    [self.navigationController popToRootViewControllerAnimated:NO];
-    
-    [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
-    [[StorageManager current] saveData];
-}
-
-- (void)handleGeneralSprinklerError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
-//    [StorageManager current].currentSprinkler.lastError = errorMessage;
-//    [[StorageManager current] saveData];
-    
-    if ((errorMessage) && (showErrorMessage)) {
-        self.alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        self.alertView.tag = kError_AlertViewTag;
-        [self.alertView show];
-    }
-}
-
-- (void)handleLoggedOutSprinklerError {
-    NSString *errorTitle = @"Logged out";
-//    [StorageManager current].currentSprinkler.lastError = errorTitle;
-//    [[StorageManager current] saveData];
-    
-    self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    self.alertView.tag = kLoggedOut_AlertViewTag;
-    [self.alertView show];
-}
-
-#pragma mark - Alert view
-
-- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (theAlertView.tag == kLoggedOut_AlertViewTag) {
-        [self handleServerLoggedOutUser];
-    }
-    
-    self.alertView = nil;
-}
-
 @end

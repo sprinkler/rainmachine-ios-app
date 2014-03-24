@@ -245,7 +245,7 @@ typedef enum {
         self.postSaveServerProxy = nil;
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         } else {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.parent setZone:self.zone withIndex:self.zoneIndex];
@@ -261,7 +261,7 @@ typedef enum {
 }
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
     
     if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;

@@ -220,7 +220,7 @@
         self.lastScheduleRequestError = error;
     }
     
-    [self handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:showErrorMessage];
+    [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:showErrorMessage];
     
     if (serverProxy == self.pollServerProxy) {
         
@@ -236,7 +236,7 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    [self handleGeneralSprinklerError:nil showErrorMessage:YES];
+    [self handleSprinklerNetworkError:nil showErrorMessage:YES];
     
     if (serverProxy == self.pollServerProxy) {
         self.lastScheduleRequestError = nil;

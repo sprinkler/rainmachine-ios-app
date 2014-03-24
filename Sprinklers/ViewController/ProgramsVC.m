@@ -118,7 +118,7 @@
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-    [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
 
 //    if (serverProxy == self.postDeleteServerProxy) {
 //        [self requestPrograms];

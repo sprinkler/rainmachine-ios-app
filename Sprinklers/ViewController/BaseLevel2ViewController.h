@@ -8,15 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
+#import "BaseVC.h"
 
-@interface BaseLevel2ViewController : UIViewController
-
-@property (strong, nonatomic) UIAlertView *alertView;
-
-- (void)handleServerLoggedOutUser;
-- (void)handleGeneralSprinklerError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage;
-- (void)handleLoggedOutSprinklerError;
-
-- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex;
+@interface BaseLevel2ViewController : BaseVC
 
 @end

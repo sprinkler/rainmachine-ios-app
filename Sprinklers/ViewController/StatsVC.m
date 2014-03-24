@@ -246,7 +246,7 @@ const float kHomeScreenCellHeight = 63;
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
-    [self handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
+    [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
     
     [self refreshStatus];
 }
@@ -258,7 +258,7 @@ const float kHomeScreenCellHeight = 63;
     NSArray *dataArray = (NSArray*)data;
     if ([dataArray count] > 0) {
         
-        [self handleGeneralSprinklerError:nil showErrorMessage:YES];
+        [self handleSprinklerNetworkError:nil showErrorMessage:YES];
         
         self.data = dataArray;
         

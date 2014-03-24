@@ -33,7 +33,6 @@
 @protocol TimePickerDelegate <NSObject>
 
 - (void)timePickerVCWillDissapear:(id)timePicker;
-- (void)handleGeneralSprinklerError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage;
 
 @end
 

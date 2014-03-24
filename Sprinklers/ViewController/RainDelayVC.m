@@ -138,7 +138,7 @@
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
     if (serverProxy == self.pollServerProxy) {
     }
     else if (serverProxy == self.postServerProxy) {
@@ -156,7 +156,7 @@
     else if (serverProxy == self.postServerProxy) {
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         } else {
             self.rainDelay = [userInfo objectForKey:@"rainDelay"];
             [self updateResumeMode];

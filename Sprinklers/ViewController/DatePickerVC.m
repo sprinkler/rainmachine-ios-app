@@ -170,7 +170,7 @@
 #pragma mark - ProxyService delegate
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    [self.parent handleGeneralSprinklerError:[error localizedDescription] showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
     
     if (serverProxy == self.pullServerProxy) {
         self.pullServerProxy = nil;
@@ -203,7 +203,7 @@
         self.postServerProxy = nil;
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleGeneralSprinklerError:response.message showErrorMessage:YES];
+            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         }
     }
     
