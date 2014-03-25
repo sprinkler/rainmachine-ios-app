@@ -452,7 +452,13 @@
     [self.manager POST:@"/ui.cgi" parameters:paramsDic
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
            if ([self passLoggedOutFilter:operation]) {
-               [_delegate serverResponseReceived:[NSNumber numberWithInt:programId] serverProxy:self userInfo:nil];
+               ServerResponse *response = nil;
+               if (responseObject) {
+                   NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                   response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+               }
+               NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:response, @"serverResponse", [NSNumber numberWithInt:programId], @"pid", nil];
+               [_delegate serverResponseReceived:d serverProxy:self userInfo:nil];
            }
        }
        failure:^(AFHTTPRequestOperation *operation, NSError *error) {

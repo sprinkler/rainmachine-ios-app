@@ -17,6 +17,7 @@
 #import "ProgramVC.h"
 #import "ProgramListCell.h"
 #import "AddNewCell.h"
+#import "ServerResponse.h"
 
 @interface ProgramsVC () {
     MBProgressHUD *hud;
@@ -88,10 +89,8 @@
 - (void)edit {
     [_tableView setEditing:!_tableView.editing];
     if (_tableView.editing) {
-        self.postDeleteServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         [editButton setTitle:@"Done"];
     } else {
-        self.postDeleteServerProxy = nil;
         [editButton setTitle:@"Edit"];
     }
     [self.tableView reloadData];
@@ -101,8 +100,14 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.postDeleteServerProxy) {
-//        [self requestPrograms];
-        [self programDeleted:data];
+        self.postDeleteServerProxy = nil;
+        ServerResponse *response = [data objectForKey:@"serverResponse"];
+        if ([response.status isEqualToString:@"ok"]) {
+            NSNumber *delProgramId = [data objectForKey:@"pid"];
+            [self programDeleted:delProgramId];
+        } else {
+            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } else {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -141,7 +146,7 @@
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return tableView.editing ? 1 : 2;
+    return 2;//tableView.editing ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -157,6 +162,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Program *program = self.programs[indexPath.row];
         [self startHud:nil];
+        self.postDeleteServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         [self.postDeleteServerProxy deleteProgram:program.programId];
     }
 }

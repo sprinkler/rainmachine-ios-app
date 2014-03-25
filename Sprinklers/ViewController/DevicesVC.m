@@ -218,7 +218,7 @@
     if (self.tableView.isEditing) {
         [self.tableView setEditing:NO animated:YES];
         [self updateNavigationbarButtons];
-        [self.tableView reloadData];
+//        [self.tableView reloadData];
         return;
     }
     
@@ -229,7 +229,7 @@
 - (void)edit {
     [self.tableView setEditing:YES animated:YES];
     [self updateNavigationbarButtons];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 - (void)onRefresh:(id)notification {
@@ -239,17 +239,14 @@
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView.editing) {
-        return 1;
-    }
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        if (tableView.editing) {
-            return self.remoteSprinklers.count;
-        }
+//        if (tableView.editing) {
+//            return self.remoteSprinklers.count;
+//        }
         return self.savedSprinklers.count;
     }
     
@@ -282,9 +279,17 @@
     return 44;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+//    Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
+    
+    Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+    return (indexPath.section == 0) && (![sprinkler.isLocalDevice boolValue]);
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [[StorageManager current] deleteSprinkler:[self.remoteSprinklers[indexPath.row] name]];
+//        [[StorageManager current] deleteSprinkler:[self.remoteSprinklers[indexPath.row] name]];
+        [[StorageManager current] deleteSprinkler:[self.savedSprinklers[indexPath.row] name]];
         [self refreshSprinklerList];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
     }
@@ -295,7 +300,8 @@
         DevicesCellType1 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType1" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         
-        Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
+//        Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
+        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         cell.labelMainTitle.text = sprinkler.name;
         
         // remove https from address
