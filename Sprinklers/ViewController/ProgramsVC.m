@@ -73,6 +73,12 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.tableView setEditing:NO];
+}
+
 #pragma mark - Methods
 
 - (void)requestPrograms
