@@ -129,7 +129,7 @@
         cell.detailTextLabel.text = @"4:00 PM - 12:00 AM";
     }
     
-    NSLog(@"indexPath is: %d %d", indexPath.section, indexPath.row);
+    NSLog(@"indexPath is: %d %d", (int)indexPath.section, (int)indexPath.row);
     
     return cell;
 }

@@ -292,7 +292,7 @@ const float kHomeScreenCellHeight = 63;
     if ([[dateAsString componentsSeparatedByString:@","] count] == 2) {
         // TODO: remove this hack for API v4
         // In case there are only two date components, we assume that the year is not present and append the current year
-        dateAsString = [NSString stringWithFormat:@"%@, %d", dateAsString, [[NSDate date] year]];
+        dateAsString = [NSString stringWithFormat:@"%@, %d", dateAsString, (int)[[NSDate date] year]];
     }
     
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns

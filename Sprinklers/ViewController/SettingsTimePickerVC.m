@@ -125,7 +125,7 @@
                                                       )
                                             fromDate:[self dateFromString:self.settingsDate.appDate]];
 
-        [super refreshUIWithHour:dateComp.hour minutes:dateComp.minute];
+        [super refreshUIWithHour:(int)dateComp.hour minutes:(int)dateComp.minute];
     }
 }
 

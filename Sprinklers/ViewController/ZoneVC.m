@@ -215,7 +215,7 @@ typedef enum {
 //}
 
 - (void)switchChanged:(UISwitch *)sw {
-    int tag = sw.tag;
+    int tag = (int)sw.tag;
     if (tag == MasterValve) {
         _zone.masterValve = !_zone.masterValve;
         [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];

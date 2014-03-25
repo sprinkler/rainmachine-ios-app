@@ -79,7 +79,7 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
-    self.vegetationType = 2 + indexPath.row;
+    self.vegetationType = 2 + (int)indexPath.row;
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

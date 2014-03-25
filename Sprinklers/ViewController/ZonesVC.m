@@ -173,7 +173,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self pushVCForZone:self.zones[indexPath.row] withIndex:indexPath.row showInitialUnsavedAlert:NO];
+    [self pushVCForZone:self.zones[indexPath.row] withIndex:(int)indexPath.row showInitialUnsavedAlert:NO];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

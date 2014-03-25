@@ -72,8 +72,8 @@
 {
     [super viewWillDisappear:animated];
     
-    self.valuePicker1 = _minValuePicker1 + [self.picker1 selectedRowInComponent:0];
-    self.valuePicker2 = _minValuePicker2 + [self.picker2 selectedRowInComponent:0];
+    self.valuePicker1 = _minValuePicker1 + (int)[self.picker1 selectedRowInComponent:0];
+    self.valuePicker2 = _minValuePicker2 + (int)[self.picker2 selectedRowInComponent:0];
     
     [self.parent setDelayVCOver:self];
 }
@@ -83,13 +83,13 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     if (pickerView == _picker1) {
-        return [NSString stringWithFormat:@"%d", _minValuePicker1 + row];
+        return [NSString stringWithFormat:@"%d", (int)(_minValuePicker1 + row)];
     }
     if (pickerView == _picker2) {
-        return [NSString stringWithFormat:@"%d", _minValuePicker2 + row];
+        return [NSString stringWithFormat:@"%d", (int)(_minValuePicker2 + row)];
     }
     
-    return [NSString stringWithFormat:@"%d", row];
+    return [NSString stringWithFormat:@"%d", (int)row];
 }
 
 #pragma mark - Picker data source

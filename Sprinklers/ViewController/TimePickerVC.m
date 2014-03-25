@@ -39,7 +39,7 @@
                                                       )
                                             fromDate:self.time];
      
-        [self refreshUIWithHour:dateComp.hour minutes:dateComp.minute];
+        [self refreshUIWithHour:(int)dateComp.hour minutes:(int)dateComp.minute];
     }
     
     if (![[UIDevice currentDevice] iOSGreaterThan:7]) {
@@ -87,11 +87,11 @@
 {
     if (component == 0) {
         // Hours
-        return [NSString stringWithFormat:@"%d", row];
+        return [NSString stringWithFormat:@"%d", (int)row];
     }
     else if (component == 1) {
         // Minutes
-        return [NSString stringWithFormat:@"%d", row];
+        return [NSString stringWithFormat:@"%d", (int)row];
     }
     else if (component == 2) {
         return (row == 0) ? @"AM" : @"PM";
@@ -128,12 +128,12 @@
 
 - (int)hour24Format
 {
-    return (_timeFormat == 0) ? [_datePicker selectedRowInComponent:0] : ([_datePicker selectedRowInComponent:2] * 12 + [_datePicker selectedRowInComponent:0]);
+    return (_timeFormat == 0) ? (int)[_datePicker selectedRowInComponent:0] : ((int)[_datePicker selectedRowInComponent:2] * 12 + (int)[_datePicker selectedRowInComponent:0]);
 }
 
 - (int)minutes
 {
-    return [_datePicker selectedRowInComponent:1];
+    return (int)[_datePicker selectedRowInComponent:1];
 }
 
 @end

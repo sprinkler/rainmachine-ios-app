@@ -283,7 +283,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        [self pushVCForProgram:self.programs[indexPath.row] withIndex:indexPath.row showInitialUnsavedAlert:NO];
+        [self pushVCForProgram:self.programs[indexPath.row] withIndex:(int)indexPath.row showInitialUnsavedAlert:NO];
     } else {
         [self pushVCForProgram:nil withIndex:-1 showInitialUnsavedAlert:NO];
     }

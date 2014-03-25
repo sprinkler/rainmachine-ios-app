@@ -678,7 +678,7 @@
         [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
     }
     else if (indexPath.section == frequencySectionIndex) {
-        [self checkFrequencyWithIndex:indexPath.row];
+        [self checkFrequencyWithIndex:(int)indexPath.row];
         if (indexPath.row == 3) {
             int nrDays;
             sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
@@ -715,13 +715,13 @@
         }
     }
     else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
-        [self showSection4Screen:indexPath.row];
+        [self showSection4Screen:(int)indexPath.row];
     }
     else if (indexPath.section == wateringTimesSectionIndex) {
         SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
         ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
         setDelayVC.userInfo = @{@"name" : @"zoneDelay",
-                                @"zoneId" : [NSNumber numberWithInt:indexPath.row],
+                                @"zoneId" : [NSNumber numberWithInteger:indexPath.row],
                                 @"mins" : [NSNumber numberWithInt:programWateringTime.minutes],
                                 };
         setDelayVC.titlePicker1 = @"minutes";
