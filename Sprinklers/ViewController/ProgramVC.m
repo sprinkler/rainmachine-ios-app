@@ -278,13 +278,13 @@
             if ((cell.theSwitch.on) && ((self.program.cycles == 0) && (self.program.soak == 0)) ) {
                 [self showSection4Screen:0];
             } else {
-                self.program.csOn = YES;
+                self.program.csOn = cell.theSwitch.on;
             }
         } else {
             if ((cell.theSwitch.on) && ((self.program.delay == 0)) ) {
                 [self showSection4Screen:1];
             } else {
-                self.program.delayOn = YES;
+                self.program.delayOn = cell.theSwitch.on;
             }
         }
     }

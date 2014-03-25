@@ -157,7 +157,7 @@
     
     if (zone.masterValve) {
         cell.labelAccessory.text = @"Master Valve";
-        cell.labelAccessory.textColor = [UIColor colorWithRed:0.850980 green:0.627451 blue:0.415686 alpha:1];
+        cell.labelAccessory.textColor = [UIColor colorWithRed:kMasterValveOrangeColor[0] green:kMasterValveOrangeColor[1] blue:kMasterValveOrangeColor[2] alpha:1];
     }
     else {
         if (!zone.active) {

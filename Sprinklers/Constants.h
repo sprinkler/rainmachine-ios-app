@@ -30,6 +30,7 @@ extern float kButtonInactiveOpacity;
 extern CGFloat kSprinklerBlueColor[3];
 extern CGFloat kWateringGreenButtonColor[3];
 extern CGFloat kWateringOrangeButtonColor[3];
+extern CGFloat kMasterValveOrangeColor[3];
 extern CGFloat kWateringRedButtonColor[3];
 extern CGFloat kWaterImageFillColor[3];
 extern CGFloat kWaterImageStrokeColor[3];

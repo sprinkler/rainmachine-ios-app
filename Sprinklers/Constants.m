@@ -31,6 +31,7 @@ CGFloat kSprinklerBlueColor[3] = {0x33/255.0, 0x99/255.0, 0xcc/255.0};
 CGFloat kWateringGreenButtonColor[3] = {0x33/255.0, 0x99/255.0, 0xcc/255.0};
 CGFloat kWateringOrangeButtonColor[3] = {0xff/255.0, 0x99/255.0, 0x00/255.0};
 CGFloat kWateringRedButtonColor[3] = {0xff/255.0, 0x44/255.0, 0x44/255.0};
+CGFloat kMasterValveOrangeColor[3] = {253/255.0, 136/255.0, 36/255.0};
 CGFloat kWaterImageStrokeColor[3] = {56 / 255.0, 136 / 255.0, 194 / 255.0};
 CGFloat kWaterImageFillColor[3] = {107 / 255.0, 168 / 255.0, 207 / 255.0};
 CGFloat kButtonBlueTintColor[3] = {21.0/255, 122.0/255, 251.0/255};

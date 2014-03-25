@@ -18,6 +18,7 @@
 #import "ZonesVC.h"
 #import "DevicesCellType1.h"
 #import "SetDelayVC.h"
+#import "Constants.h"
 
 #define kZoneProperties_Name 0
 #define kZoneProperties_Active 1
@@ -349,7 +350,7 @@ typedef enum {
         [sw addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = sw;
         cell.textLabel.text = @"Master Valve";
-        cell.textLabel.textColor = [UIColor orangeColor];
+        cell.textLabel.textColor = [UIColor colorWithRed:kMasterValveOrangeColor[0] green:kMasterValveOrangeColor[1] blue:kMasterValveOrangeColor[2] alpha:1];
         return cell;
     }
     if (indexPath.section == 1) {
