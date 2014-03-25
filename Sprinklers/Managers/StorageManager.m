@@ -205,9 +205,9 @@ static StorageManager *current = nil;
 {
     if (currentSprinklerP != __currentSprinkler) {
         __currentSprinkler = currentSprinklerP;
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNewSprinklerSelected object:nil];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNewSprinklerSelected object:nil];
 }
 
 @end
