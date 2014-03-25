@@ -77,8 +77,6 @@
         UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
         settingsVC.tabBarItem = tabBarItemSettings;
         
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kNewSprinklerSelected object:nil];
-
         _tabBarController = [[UITabBarController alloc] init];
         _tabBarController.viewControllers = @[navDevices, navStats, navWater, navSettings];
         
