@@ -7,6 +7,7 @@
 //
 
 #import "SetDelayVC.h"
+#import "+UIDevice.h"
 
 @interface SetDelayVC ()
 
@@ -15,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *picker1;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker2;
 @property (weak, nonatomic) IBOutlet UIView *helperView2;
+@property (weak, nonatomic) IBOutlet UIView *helperView1;
 
 @end
 
@@ -32,6 +34,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ((![[UIDevice currentDevice] iOSGreaterThan:7]) && (_titlePicker2 == nil)) {
+        // iOS 6: Make picker snap to top
+        [_picker2 removeFromSuperview];
+        [_title2 removeFromSuperview];
+        [_helperView1 removeFromSuperview];
+        [_helperView2 removeFromSuperview];
+
+        NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_picker1
+                                                                      attribute:NSLayoutAttributeTop
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self.view
+                                                                      attribute:NSLayoutAttributeTop
+                                                                     multiplier:1.0
+                                                                       constant:0];
+        [self.view addConstraint:constraint];
+        self.view.backgroundColor = [UIColor blackColor];
+    }
     
     if (_maxValuePicker1 == 0) {
         _maxValuePicker1 = 500;
@@ -76,6 +96,15 @@
     self.valuePicker2 = _minValuePicker2 + (int)[self.picker2 selectedRowInComponent:0];
     
     [self.parent setDelayVCOver:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    float yCompressionValue = ((self.view.frame.size.height / 2.0) / 216) * 1.02;
+    _picker1.transform = CGAffineTransformMakeScale(1, yCompressionValue);
+    _picker2.transform = CGAffineTransformMakeScale(1, yCompressionValue);
+    
+//    NSLog(@"");
 }
 
 #pragma mark - Picker delegate

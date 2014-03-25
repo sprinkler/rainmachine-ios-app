@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SetDelayVC">
             <connections>
-                <outlet property="helperView2" destination="kZJ-hk-p41" id="tiL-3c-0mB"/>
+                <outlet property="helperView1" destination="KiS-jU-gPK" id="bU6-o0-vIU"/>
                 <outlet property="picker1" destination="i7D-Dy-SZs" id="6qw-0c-CMr"/>
                 <outlet property="picker2" destination="o73-bd-rEm" id="b85-iL-OfE"/>
                 <outlet property="title1" destination="61x-5S-ReG" id="b32-WP-CMm"/>
