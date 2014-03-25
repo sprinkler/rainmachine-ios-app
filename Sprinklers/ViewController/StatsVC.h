@@ -13,7 +13,6 @@
 @class ServerProxy;
 @class MBProgressHUD;
 
-
 @interface StatsVC : BaseViewController<UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
 @end

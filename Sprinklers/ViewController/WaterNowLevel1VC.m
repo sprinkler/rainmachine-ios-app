@@ -89,6 +89,16 @@
     if ([Utils isZoneIdle:self.wateringZone]) {
         self.initialTimerRequestActivityIndicator.hidden = YES;
         self.counterLabel.hidden = NO;
+    } else {
+        if (self.wateringZone.counter) {
+            self.initialTimerRequestActivityIndicator.hidden = YES;
+            self.counterLabel.hidden = NO;
+
+            [self.wateringCounterHelper updateCounter];
+        } else {
+            self.initialTimerRequestActivityIndicator.hidden = NO;
+            self.counterLabel.hidden = YES;
+        }
     }
     
     [self refreshUI];

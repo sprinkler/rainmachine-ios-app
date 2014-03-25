@@ -343,6 +343,11 @@
     
     WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
     WaterNowZone *waterZone = [self.zones objectAtIndex:indexPath.row];
+    if ([Utils isZoneWatering:waterZone]) {
+        if ((self.wateringZone) && (self.wateringZone.counter)) {
+            waterZone = self.wateringZone;
+        }
+    }
     waterNowZoneVC.wateringZone = waterZone;
     waterNowZoneVC.parent = self;
     [self.navigationController pushViewController:waterNowZoneVC animated:YES];
