@@ -291,7 +291,7 @@ typedef enum {
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == nameSectionIndex) {
-        return @"Name";
+        return [NSString stringWithFormat:@"Zone %d Name", self.zone.zoneId];
     }
     
     return nil;
