@@ -281,9 +281,12 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
 //    Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
+    if (indexPath.section == 0) {
+        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+        return (indexPath.section == 0) && (![sprinkler.isLocalDevice boolValue]);
+    }
     
-    Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
-    return (indexPath.section == 0) && (![sprinkler.isLocalDevice boolValue]);
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
