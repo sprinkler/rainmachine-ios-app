@@ -58,6 +58,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self refreshWithCurrentDevice];
+
     self.wateringCounterHelper = [[WaterNowCounterHelper alloc] initWithDelegate:self];
     self.indexPathOfWateringZone = nil;
     
@@ -129,9 +131,9 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
+    [super viewDidDisappear:animated];
     
     [self.wateringCounterHelper stopCounterTimer];
     

@@ -54,7 +54,9 @@ const float kHomeScreenCellHeight = 63;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
+
+    [self refreshWithCurrentDevice];
+
     self.waterImage = [Utils waterImage:kHomeScreenCellHeight];
     self.waterWavesImage = [Utils waterWavesImage:kHomeScreenCellHeight];
 
@@ -75,8 +77,8 @@ const float kHomeScreenCellHeight = 63;
     //else :
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     [self.serverProxy requestWeatherData];
     [self startHud:nil]; // @"Receiving data..."
@@ -84,9 +86,9 @@ const float kHomeScreenCellHeight = 63;
     [self refreshStatus];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
+    [super viewDidDisappear:animated];
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self.serverProxy cancelAllOperations];
