@@ -79,19 +79,12 @@ const float kHomeScreenCellHeight = 63;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.serverProxy requestWeatherData];
-    [self startHud:nil]; // @"Receiving data..."
+    if ([self.serverProxy operationCount] == 0) {
+        [self.serverProxy requestWeatherData];
+        [self startHud:nil]; // @"Receiving data..."
+    }
     
     [self refreshStatus];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self.serverProxy cancelAllOperations];
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 - (void)startHud:(NSString *)text {

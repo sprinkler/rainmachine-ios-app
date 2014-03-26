@@ -411,7 +411,7 @@ typedef enum {
         ProgramCellType1 *cell = (ProgramCellType1 *)[tableView dequeueReusableCellWithIdentifier:@"ProgramCellType1"];
 
         cell.delegate = self;
-        cell.theTextField.text = _zone.name;//[Utils fixedZoneName:_zone.name withId:[NSNumber numberWithInt:_zone.zoneId]];
+        cell.theTextField.text = [Utils fixedZoneName:_zone.name withId:[NSNumber numberWithInt:_zone.zoneId]];
         if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
             cell.theTextField.tintColor = [UIColor blackColor];
         }

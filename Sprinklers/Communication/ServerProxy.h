@@ -68,6 +68,7 @@
 - (void)requestUpdateStartForVersion:(int)version;
 
 - (void)cancelAllOperations;
+- (int)operationCount;
 
 - (void)requestWateringRestrictions;
 

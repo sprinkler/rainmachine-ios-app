@@ -53,6 +53,11 @@
 {
     [self.manager.operationQueue cancelAllOperations];
 }
+
+- (int)operationCount
+{
+    return (int)self.manager.operationQueue.operationCount;
+}
         
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe
 {
