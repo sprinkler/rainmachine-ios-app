@@ -50,7 +50,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
     }
     return self;
 }
@@ -284,8 +283,6 @@
     [self hideHud];
     
     [self handleLoggedOutSprinklerError];
-
-    [StorageManager current].currentSprinkler = nil;
 }
 
 #pragma mark - Table view

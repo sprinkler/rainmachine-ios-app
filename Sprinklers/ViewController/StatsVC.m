@@ -47,7 +47,6 @@ const float kHomeScreenCellHeight = 63;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Stats";
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshWithCurrentDevice) name:kNewSprinklerSelected object:nil];
     }
     return self;
 }
@@ -282,8 +281,6 @@ const float kHomeScreenCellHeight = 63;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     [self handleLoggedOutSprinklerError];
- 
-    [StorageManager current].currentSprinkler = nil;
 }
 
 #pragma mark - Core Data
