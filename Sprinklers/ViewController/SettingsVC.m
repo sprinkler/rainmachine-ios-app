@@ -125,10 +125,10 @@
     if (indexPath.section == 0)
     {
         if (indexPath.row == 0) {
-            cell.textLabel.text = @"Programs Properties";
+            cell.textLabel.text = @"Programs";
         }
         if (indexPath.row == 1) {
-            cell.textLabel.text = @"Zone Properties";
+            cell.textLabel.text = @"Zone";
         }
     }
     

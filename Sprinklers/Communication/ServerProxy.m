@@ -276,7 +276,6 @@
         if ([self passLoggedOutFilter:operation]) {
             [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self userInfo:nil];
         }
-
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     // TODO: comment out Debug server code
 //    NSArray *responseObject = [NSArray arrayWithObjects:

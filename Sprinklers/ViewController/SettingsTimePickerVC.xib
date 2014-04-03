@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsTimePickerVC">
             <connections>
                 <outlet property="datePicker" destination="Tcz-uK-Ipl" id="TG5-E5-atq"/>
+                <outlet property="separatorLabel" destination="meP-SI-63l" id="uM1-Vk-iGd"/>
                 <outlet property="verticalConstraint" destination="2xn-NM-ZjD" id="9RW-e7-gQa"/>
                 <outlet property="view" destination="1" id="3oF-5a-a2e"/>
             </connections>
@@ -25,12 +26,20 @@
                         <outlet property="delegate" destination="-1" id="2XM-1F-bBE"/>
                     </connections>
                 </pickerView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="meP-SI-63l">
+                    <rect key="frame" x="100" y="274" width="5" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="Tcz-uK-Ipl" secondAttribute="centerY" id="2xn-NM-ZjD"/>
                 <constraint firstItem="Tcz-uK-Ipl" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Jrq-TV-004"/>
+                <constraint firstAttribute="centerY" secondItem="meP-SI-63l" secondAttribute="centerY" id="Spr-Ie-ffc"/>
                 <constraint firstAttribute="trailing" secondItem="Tcz-uK-Ipl" secondAttribute="trailing" id="cK1-AC-LBj"/>
+                <constraint firstItem="meP-SI-63l" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="100" id="rh1-bN-Gim"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

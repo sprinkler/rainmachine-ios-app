@@ -12,6 +12,7 @@
 @interface TimePickerVC ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalConstraint;
+@property (weak, nonatomic) IBOutlet UILabel* separatorLabel;
 
 @end
 
@@ -87,10 +88,16 @@
 {
     if (component == 0) {
         // Hours
+        
+        if (row < 10)
+            return [NSString stringWithFormat:@"0%d", (int)row];
+        
         return [NSString stringWithFormat:@"%d", (int)row];
     }
     else if (component == 1) {
-        // Minutes
+        if (row < 10)
+            return [NSString stringWithFormat:@"0%d", (int)row];
+        
         return [NSString stringWithFormat:@"%d", (int)row];
     }
     else if (component == 2) {
@@ -100,12 +107,25 @@
     return @"";
 }
 
+/*
+-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+    if (component <= 1)
+    {
+        return (self.view.frame.size.width * 33 ) / 100  ;
+    }
+    else
+    {
+        return (self.view.frame.size.width * 33 ) / 100  ;
+    }   
+}*/
+
 #pragma mark - Picker data source
 
 // returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    return (_timeFormat == 0) ? 2 : 3;
+    return ((_timeFormat == 0) ? 2 : 3);
 }
 
 // returns the # of rows in each component..

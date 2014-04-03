@@ -21,6 +21,8 @@
     NSInteger year;
 }
 
+@property(weak, nonatomic) IBOutlet UILabel* separatorLabel;
+
 @property (strong, nonatomic) SettingsDate *settingsDate;
 @property (strong, nonatomic) ServerProxy *pullServerProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
@@ -49,9 +51,9 @@
 
     [self refreshUI];
     
+    self.separatorLabel.hidden = YES;
     self.title = @"Time";
 }
-
 
 - (NSDateFormatter*)dateFormatter
 {
@@ -166,6 +168,7 @@
         }
     }
     
+    self.separatorLabel.hidden = NO;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     [self.datePicker reloadAllComponents];

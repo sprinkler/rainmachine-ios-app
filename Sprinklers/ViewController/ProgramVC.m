@@ -615,13 +615,13 @@
 {
     SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
     if (row == 0) {
-        setDelayVC.minValuePicker1 = 0;
+        setDelayVC.minValuePicker1 = 2;
         setDelayVC.maxValuePicker1 = 5;
         setDelayVC.minValuePicker2 = 0;
         setDelayVC.maxValuePicker2 = 300;
         setDelayVC.userInfo = @"cycle_and_soak";
-        setDelayVC.titlePicker1 = @"cycles delayed";
-        setDelayVC.titlePicker2 = @"minutes";
+        setDelayVC.titlePicker1 = @"Cycles";
+        setDelayVC.titlePicker2 = @"Soak time";
         setDelayVC.valuePicker1 = self.program.cycles;
         setDelayVC.valuePicker2 = self.program.soak;
         setDelayVC.title = @"Cycles and soak duration";

@@ -141,8 +141,8 @@
 }
 
 - (void)shouldStartBroadcast {
-    [self startHud:nil]; // @"Looking for local sprinklers..."
-    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(shouldStopBroadcast) userInfo:nil repeats:NO];
+    //[self startHud:nil]; // @"Looking for local sprinklers..."
+    //timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(shouldStopBroadcast) userInfo:nil repeats:NO];
     [[ServiceManager current] startBroadcastForSprinklers:NO];
 }
 
@@ -317,7 +317,7 @@
             cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
         
         // TODO: decide upon local/remote type on runtime
-        cell.labelInfo.text = [sprinkler.isLocalDevice boolValue] ? @"local" : @"remote";
+        cell.labelInfo.text = @"";
 
         cell.disclosureImageView.hidden = tableView.isEditing;
         cell.labelInfo.hidden = tableView.isEditing;

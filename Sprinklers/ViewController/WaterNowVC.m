@@ -195,9 +195,9 @@
             [self toggleWateringOnZone:zone withCounter:zone.counter];
         }
     }
-
+    
     stopAllCounter = 2;
-        
+    
     [self startHud:nil];
 }
 
@@ -240,6 +240,7 @@
     [self handleSprinklerNetworkError:nil showErrorMessage:YES];
     
     if (serverProxy == self.pollServerProxy) {
+        
         self.lastScheduleRequestError = nil;
         
         self.zones = [self filteredZones:data];
@@ -256,6 +257,7 @@
             [self hideHud];
         }
         
+        
         [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
         
         int wzi = [self indexOfWateringZone];
@@ -268,6 +270,7 @@
         }
         
         [self refreshStopAllButton];
+        
         
         [self.tableView reloadData];
     }
@@ -367,11 +370,21 @@
 
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     [self.wateringCounterHelper stopCounterTimer];
-
+    
     [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
+    
+    // insntant refresh on UI, wait later for server response
+    if ([zone.state length] == 0)
+    {
+        zone.state = @"Pending";
+    }
+    else
+    {
+        zone.state = @"";
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Actions
