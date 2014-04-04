@@ -39,11 +39,11 @@
                     </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkA-0y-l2m">
-                    <rect key="frame" x="20" y="116" width="20" height="20"/>
+                    <rect key="frame" x="20" y="111" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="20" id="DvY-Z4-HWN"/>
-                        <constraint firstAttribute="width" constant="20" id="GcG-IA-u2B"/>
+                        <constraint firstAttribute="height" constant="30" id="DvY-Z4-HWN"/>
+                        <constraint firstAttribute="width" constant="30" id="GcG-IA-u2B"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" image="checkbox-unselected.png">
@@ -55,13 +55,13 @@
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doT-Ty-bXu">
-                    <rect key="frame" x="45" y="115" width="114" height="21"/>
+                    <rect key="frame" x="55" y="115" width="114" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVg-nK-f1I" customClass="ColoredBackgroundButton">
-                    <rect key="frame" x="20" y="150" width="280" height="40"/>
+                    <rect key="frame" x="20" y="155" width="280" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="SwH-SV-PHx"/>

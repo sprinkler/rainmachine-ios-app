@@ -68,6 +68,8 @@ static UpdateManager *current = nil;
 
 - (void)poll
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
     [self stop];
     
     BOOL checkUpdate = YES;
@@ -88,6 +90,7 @@ static UpdateManager *current = nil;
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     if ([userInfo isEqualToString:@"apiVer"]) {
+
         self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         Program *program = [Program new];
         program.programId = -1;

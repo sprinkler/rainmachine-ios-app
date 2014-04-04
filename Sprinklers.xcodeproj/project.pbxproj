@@ -20,6 +20,8 @@
 		3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB595188559E7005B79B9 /* RestrictionsCell.xib */; };
 		3A9AB59A18856615005B79B9 /* RestrictionsWeekDaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB59818856615005B79B9 /* RestrictionsWeekDaysVC.m */; };
 		3A9AB59B18856615005B79B9 /* RestrictionsWeekDaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */; };
+		3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */; };
+		3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */; };
 		3AAA6F4E188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAA6F4C188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m */; };
 		3AAA6F4F188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAA6F4D188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
@@ -403,6 +405,9 @@
 		3A9AB59718856615005B79B9 /* RestrictionsWeekDaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsWeekDaysVC.h; path = ViewController/RestrictionsWeekDaysVC.h; sourceTree = "<group>"; };
 		3A9AB59818856615005B79B9 /* RestrictionsWeekDaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsWeekDaysVC.m; path = ViewController/RestrictionsWeekDaysVC.m; sourceTree = "<group>"; };
 		3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsWeekDaysVC.xib; path = ViewController/RestrictionsWeekDaysVC.xib; sourceTree = "<group>"; };
+		3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsAboutVC.h; path = ViewController/SettingsAboutVC.h; sourceTree = "<group>"; };
+		3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsAboutVC.m; path = ViewController/SettingsAboutVC.m; sourceTree = "<group>"; };
+		3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsAboutVC.xib; path = ViewController/SettingsAboutVC.xib; sourceTree = "<group>"; };
 		3AAA6F4B188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsAddNewRestrictionVC.h; path = ViewController/SettingsAddNewRestrictionVC.h; sourceTree = "<group>"; };
 		3AAA6F4C188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsAddNewRestrictionVC.m; path = ViewController/SettingsAddNewRestrictionVC.m; sourceTree = "<group>"; };
 		3AAA6F4D188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsAddNewRestrictionVC.xib; path = ViewController/SettingsAddNewRestrictionVC.xib; sourceTree = "<group>"; };
@@ -1604,6 +1609,9 @@
 				AF04996018C601DA00D73860 /* VegetationTypeVC.h */,
 				AF04996118C601DA00D73860 /* VegetationTypeVC.m */,
 				AF04995E18C601C300D73860 /* VegetationTypeVC.xib */,
+				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
+				3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */,
+				3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1866,6 +1874,7 @@
 				AFF636DC186F55100005EDF1 /* main-screen_ovc@2x.png in Resources */,
 				AFF635D8186F54900005EDF1 /* daily_stats_raip.png in Resources */,
 				AFF6369D186F55100005EDF1 /* main-screen_blizzard.png in Resources */,
+				3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */,
 				AFF636EA186F55100005EDF1 /* main-screen_skc@2x.png in Resources */,
 				AFF636F0186F55100005EDF1 /* main-screen_tsra@2x.png in Resources */,
 				AFF636BC186F55100005EDF1 /* main-screen_mix@2x.png in Resources */,
@@ -2012,6 +2021,7 @@
 				3A9AB590188554A2005B79B9 /* RestrictedMonthsVC.m in Sources */,
 				AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
+				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,

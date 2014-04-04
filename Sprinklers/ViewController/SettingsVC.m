@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Tremend. All rights reserved.
 //
 
+#import "SettingsAboutVC.h"
 #import "SettingsVC.h"
 #import "Additions.h"
 #import "ProgramsVC.h"
@@ -79,7 +80,7 @@
         return 1;
     }
     else if (section == 2) {
-        return 5;
+        return 6;
     }
     
     return 0;
@@ -161,6 +162,10 @@
         if (indexPath.row == 4) {
             cell.textLabel.text = @"Security";
         }
+        
+        if (indexPath.row == 5) {
+            cell.textLabel.text = @"About";
+        }
     }
     
     if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
@@ -211,6 +216,10 @@
             SettingsPasswordVC *passwordVC = [[SettingsPasswordVC alloc] init];
             passwordVC.parent = self;
             [self.navigationController pushViewController:passwordVC animated:YES];
+        }
+        else if (indexPath.row == 5) {
+            SettingsAboutVC *settingsAboutVC = [[SettingsAboutVC alloc] init];
+            [self.navigationController pushViewController:settingsAboutVC animated:YES];
         }
     }
 }
