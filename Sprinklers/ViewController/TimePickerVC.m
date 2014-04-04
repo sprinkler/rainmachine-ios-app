@@ -107,19 +107,6 @@
     return @"";
 }
 
-/*
--(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
-{
-    if (component <= 1)
-    {
-        return (self.view.frame.size.width * 33 ) / 100  ;
-    }
-    else
-    {
-        return (self.view.frame.size.width * 33 ) / 100  ;
-    }   
-}*/
-
 #pragma mark - Picker data source
 
 // returns the number of 'columns' to display.

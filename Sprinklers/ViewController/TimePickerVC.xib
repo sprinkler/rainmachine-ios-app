@@ -26,8 +26,8 @@
                         <outlet property="delegate" destination="-1" id="HFP-1U-BV7"/>
                     </connections>
                 </pickerView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text=":" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOQ-Fj-geq">
-                    <rect key="frame" x="100" y="217" width="5" height="20"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOQ-Fj-geq">
+                    <rect key="frame" x="100" y="274" width="5" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
@@ -36,7 +36,9 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="knP-g4-Lle" secondAttribute="centerY" id="Ete-fi-FoD"/>
+                <constraint firstItem="FOQ-Fj-geq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="100" id="F13-v7-VCP"/>
                 <constraint firstAttribute="centerX" secondItem="knP-g4-Lle" secondAttribute="centerX" id="WLe-Zy-S5S"/>
+                <constraint firstAttribute="centerY" secondItem="FOQ-Fj-geq" secondAttribute="centerY" id="eMp-cp-zy9"/>
                 <constraint firstAttribute="trailing" secondItem="knP-g4-Lle" secondAttribute="trailing" id="uad-PH-hr3"/>
                 <constraint firstItem="knP-g4-Lle" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="vtq-71-bMH"/>
             </constraints>

@@ -93,17 +93,30 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInf{
     
     if (serverProxy == self.postServerProxy) {
         self.postServerProxy = nil;
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
             [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        }else
+        {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Password changed successufully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+    
+            [alertView show];
         }
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        [self.navigationController.tabBarController setSelectedIndex: 0];
+    }
 }
 
 - (void)loggedOut {
