@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface SettingsAboutVC : UIViewController
+{
+    IBOutlet UILabel* iosVersion;
+    IBOutlet UILabel* hwVersion;
+}
 
 @end

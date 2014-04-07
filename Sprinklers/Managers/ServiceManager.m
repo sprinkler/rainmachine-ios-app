@@ -77,7 +77,7 @@ static ServiceManager *current = nil;
     receiveUdpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
     
     NSError *udpError;
-    
+
     if (receiveUdpSocket == nil) {
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sprinklers autodiscovery cannot initialize discovery socket!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];

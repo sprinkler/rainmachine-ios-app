@@ -83,7 +83,7 @@
                                       BOOL success = NO;
                                       if ([[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[self.manager baseURL]] count] > 0) {
                                         if ([[[operation response] MIMEType] isEqualToString:@"text/html"]) {
-                                          success = YES;
+                                        success = YES;
                                         }
                                       }
                                       if (success) {

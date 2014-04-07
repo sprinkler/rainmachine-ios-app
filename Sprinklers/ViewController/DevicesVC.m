@@ -26,8 +26,6 @@
 #define kAlertView_DeleteDevice 1
 
 @interface DevicesVC () {
-    NSTimer *timer;
-    NSTimer *silentTimer;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -97,20 +95,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
-    [[ServiceManager current] stopBroadcast];
-    if (silentTimer)
-        [silentTimer invalidate];
+    [self shouldStopBroadcast];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.discoveredSprinklers = [NSMutableArray array];
-
     [self refreshSprinklerList];
-    
     [self shouldStartBroadcast];
-    
     [self.tableView reloadData];
     
     //If <isLoggedIn> (or use any other mechanism to detect LoginVC login, dismiss View.
@@ -140,16 +132,18 @@
     self.tableView.tableFooterView = label;
 }
 
+
 - (void)shouldStartBroadcast {
-    //[self startHud:nil]; // @"Looking for local sprinklers..."
-    //timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(shouldStopBroadcast) userInfo:nil repeats:NO];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SprinklersDiscovered) name:@"SprinklersUpdate" object:nil];
+    
     [[ServiceManager current] startBroadcastForSprinklers:NO];
 }
 
-- (void)shouldStopBroadcast {
-    [[ServiceManager current] stopBroadcast];
+-(void) SprinklersDiscovered
+{
     self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
-    
+ 
     // Mark all non-discovered sprinklers as not-alive
     NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersFromNetwork:NetworkType_Local onlyDiscoveredDevices:@YES]];
     for (Sprinkler *sprinkler in localSprinklers) {
@@ -167,35 +161,30 @@
         }
         sprinkler.isDiscovered = @YES;
     }
-
+    
     [[StorageManager current] saveData];
     
     [self refreshSprinklerList];
     
     // For now, the discovered sprinklers appear directly in the devices list, no need for wifi setup
     self.discoveredSprinklers = nil;
-    
-    [self hideHud];
-    
+
     [_tableView reloadData];
 }
 
+- (void)shouldStopBroadcast {
+    
+    [[ServiceManager current] stopBroadcast];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SprinklersUpdate" object:nil];
+}
+
 - (void)appDidBecomeActive {
-// Is current view visible?
-//    if (self.navigationController.visibleViewController == self) {
-        [self shouldStartBroadcast];
-//    }
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self shouldStartBroadcast];
 }
 
 - (void)appDidResignActive {
-    [[ServiceManager current] stopBroadcast];
-    if (timer) {
-        [timer invalidate];
-    }
-    if (silentTimer) {
-        [silentTimer invalidate];
-    }
-    [self hideHud];
+    [self shouldStopBroadcast];
 }
 
 - (void)startHud:(NSString *)text {
@@ -233,7 +222,7 @@
 }
 
 - (void)onRefresh:(id)notification {
-    [self shouldStartBroadcast];
+    //[self shouldStartBroadcast];
 }
 
 #pragma mark - UITableView delegate

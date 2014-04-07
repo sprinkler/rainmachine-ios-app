@@ -7,6 +7,7 @@
 //
 
 #import "SettingsAboutVC.h"
+#import "UpdateManager.h"
 
 @interface SettingsAboutVC ()
 
@@ -28,6 +29,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = @"About";
+    
+    NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
+    iosVersion.text = [NSString stringWithFormat: @"RainMachine iOS V %@", version];
+
+    int major = [UpdateManager current].serverAPIMainVersion;
+    int minor = [UpdateManager current].serverAPISubVersion;
+    
+    hwVersion.text = [NSString stringWithFormat: @"RainMachine Hardware V %d.%d", major, minor];
 }
 
 - (void)didReceiveMemoryWarning
