@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9D13616B0B56900E6152B /* ServiceManager.m */; };
+		3A3BF31918F40ABA008333C5 /* programs-checkbox-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A3BF31518F40ABA008333C5 /* programs-checkbox-selected.png */; };
+		3A3BF31A18F40ABA008333C5 /* programs-checkbox-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A3BF31618F40ABA008333C5 /* programs-checkbox-selected@2x.png */; };
+		3A3BF31B18F40ABA008333C5 /* programs-checkbox-unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A3BF31718F40ABA008333C5 /* programs-checkbox-unselected.png */; };
+		3A3BF31C18F40ABA008333C5 /* programs-checkbox-unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A3BF31818F40ABA008333C5 /* programs-checkbox-unselected@2x.png */; };
 		3A4437F3188A8705004F9E11 /* PickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437F2188A8705004F9E11 /* PickerVC.xib */; };
 		3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437FD188A93FD004F9E11 /* SettingsHoursVC.m */; };
 		3A443800188A93FD004F9E11 /* SettingsHoursVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437FE188A93FD004F9E11 /* SettingsHoursVC.xib */; };
@@ -385,6 +389,10 @@
 /* Begin PBXFileReference section */
 		1FD9D13516B0B56900E6152B /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Managers/ServiceManager.h; sourceTree = "<group>"; };
 		1FD9D13616B0B56900E6152B /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Managers/ServiceManager.m; sourceTree = "<group>"; };
+		3A3BF31518F40ABA008333C5 /* programs-checkbox-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "programs-checkbox-selected.png"; sourceTree = "<group>"; };
+		3A3BF31618F40ABA008333C5 /* programs-checkbox-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "programs-checkbox-selected@2x.png"; sourceTree = "<group>"; };
+		3A3BF31718F40ABA008333C5 /* programs-checkbox-unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "programs-checkbox-unselected.png"; sourceTree = "<group>"; };
+		3A3BF31818F40ABA008333C5 /* programs-checkbox-unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "programs-checkbox-unselected@2x.png"; sourceTree = "<group>"; };
 		3A4437ED188A7F1A004F9E11 /* PickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickerVC.h; path = ViewController/PickerVC.h; sourceTree = "<group>"; };
 		3A4437EE188A7F1A004F9E11 /* PickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickerVC.m; path = ViewController/PickerVC.m; sourceTree = "<group>"; };
 		3A4437F2188A8705004F9E11 /* PickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerVC.xib; path = ../PickerVC.xib; sourceTree = "<group>"; };
@@ -895,6 +903,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A3BF31418F40ABA008333C5 /* programs-cell */ = {
+			isa = PBXGroup;
+			children = (
+				3A3BF31518F40ABA008333C5 /* programs-checkbox-selected.png */,
+				3A3BF31618F40ABA008333C5 /* programs-checkbox-selected@2x.png */,
+				3A3BF31718F40ABA008333C5 /* programs-checkbox-unselected.png */,
+				3A3BF31818F40ABA008333C5 /* programs-checkbox-unselected@2x.png */,
+			);
+			name = "programs-cell";
+			path = "Resources/programs-cell";
+			sourceTree = "<group>";
+		};
 		AF167D63189AD711003E659D /* Update */ = {
 			isa = PBXGroup;
 			children = (
@@ -1334,6 +1354,7 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3A3BF31418F40ABA008333C5 /* programs-cell */,
 				AFCF47B9188D532100C34727 /* separator_line.png */,
 				AFA5FE281880740300C948F8 /* rainmachine.ttf */,
 				AFF63642186F55100005EDF1 /* main-screen */,
@@ -1730,6 +1751,7 @@
 				AFF636A0186F55100005EDF1 /* main-screen_cold@2x.png in Resources */,
 				AFF63596186F54900005EDF1 /* daily_stats_cold.png in Resources */,
 				AFF636ED186F55100005EDF1 /* main-screen_sn.png in Resources */,
+				3A3BF31B18F40ABA008333C5 /* programs-checkbox-unselected.png in Resources */,
 				AFF6359D186F54900005EDF1 /* daily_stats_fg@2x.png in Resources */,
 				B1EF21181860497B00D9CE26 /* SettingsVC.xib in Resources */,
 				AFF635A4186F54900005EDF1 /* daily_stats_hi_nshwrs.png in Resources */,
@@ -1902,10 +1924,13 @@
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AFF635C3186F54900005EDF1 /* daily_stats_nra@2x.png in Resources */,
 				AFF635E6186F54900005EDF1 /* daily_stats_tsra.png in Resources */,
+				3A3BF31C18F40ABA008333C5 /* programs-checkbox-unselected@2x.png in Resources */,
+				3A3BF31918F40ABA008333C5 /* programs-checkbox-selected.png in Resources */,
 				AFF636E2186F55100005EDF1 /* main-screen_raip@2x.png in Resources */,
 				AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */,
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,
 				AFF636D1186F55100005EDF1 /* main-screen_nskc.png in Resources */,
+				3A3BF31A18F40ABA008333C5 /* programs-checkbox-selected@2x.png in Resources */,
 				AFF636CB186F55100005EDF1 /* main-screen_nra.png in Resources */,
 				AFF635DA186F54900005EDF1 /* daily_stats_rasn.png in Resources */,
 				AFF635B3186F54900005EDF1 /* daily_stats_mix@2x.png in Resources */,

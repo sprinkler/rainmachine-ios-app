@@ -661,6 +661,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
     if (indexPath.section == nameSectionIndex) {
         ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];
         [cell.theTextField becomeFirstResponder];
@@ -705,10 +706,12 @@
     }
     else if (indexPath.section == startTimeSectionIndex) {
         if (indexPath.row == 0) {
-            TimePickerVC *timePickerVC = [[TimePickerVC alloc] init];
+
+            TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
             timePickerVC.timeFormat = self.program.timeFormat;
             timePickerVC.parent = self;
             timePickerVC.time = self.program.startTime;
+            [timePickerVC refreshTimeFormatConstraint];
 
             [self willPushChildView];
             [self.navigationController pushViewController:timePickerVC animated:YES];

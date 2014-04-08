@@ -129,7 +129,7 @@
             cell.textLabel.text = @"Programs";
         }
         if (indexPath.row == 1) {
-            cell.textLabel.text = @"Zone";
+            cell.textLabel.text = @"Zones";
         }
     }
     
@@ -208,7 +208,7 @@
             [self.navigationController pushViewController:datePickerVC animated:YES];
         }
         else if (indexPath.row == 3) {
-            SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] init];
+            SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] initWithNibName:@"SettingsTimePickerVC" bundle:nil];
             timePickerVC.parent = self;
             [self.navigationController pushViewController:timePickerVC animated:YES];
         }

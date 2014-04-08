@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TimePickerVC">
             <connections>
                 <outlet property="datePicker" destination="knP-g4-Lle" id="8Tg-Je-7mW"/>
+                <outlet property="leftConstraint" destination="F13-v7-VCP" id="vXC-QY-SSg"/>
                 <outlet property="separatorLabel" destination="FOQ-Fj-geq" id="DYy-ag-Bn7"/>
                 <outlet property="verticalConstraint" destination="Ete-fi-FoD" id="22U-Fz-U8p"/>
                 <outlet property="view" destination="1" id="4xD-NC-2kq"/>

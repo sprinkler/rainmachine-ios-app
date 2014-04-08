@@ -45,7 +45,7 @@
     
     if (![[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.view.backgroundColor = [UIColor blackColor];
-        
+
         NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.datePicker
                                                                       attribute:NSLayoutAttributeTop
                                                                       relatedBy:NSLayoutRelationEqual
@@ -57,8 +57,21 @@
         [self.view removeConstraint:self.verticalConstraint];
         [self.view addConstraint:constraint];
     }
-    
+
     self.title = @"Start time";
+    
+    [self refreshTimeFormatConstraint];
+}
+
+- (void) refreshTimeFormatConstraint
+{
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        self.leftConstraint.constant = 110;
+        if (_timeFormat == 0) // 24 hours
+        {
+            self.leftConstraint.constant = 160;
+        }
+    }
 }
 
 - (void)refreshUIWithHour:(int)h minutes:(int)m

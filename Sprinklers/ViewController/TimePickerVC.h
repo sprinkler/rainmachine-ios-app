@@ -17,9 +17,11 @@
 @property (weak, nonatomic) BaseVC<TimePickerDelegate> *parent;
 @property (strong, nonatomic) NSDate *time;
 @property (weak, nonatomic) IBOutlet UIPickerView *datePicker;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint* leftConstraint;
 
 - (int)hour24Format;
 - (int)minutes;
 - (void)refreshUIWithHour:(int)h minutes:(int)m;
+- (void) refreshTimeFormatConstraint;
 
 @end

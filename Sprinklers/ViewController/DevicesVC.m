@@ -179,7 +179,6 @@
 }
 
 - (void)appDidBecomeActive {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self shouldStartBroadcast];
 }
 

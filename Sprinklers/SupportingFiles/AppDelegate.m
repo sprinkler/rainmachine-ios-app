@@ -57,7 +57,7 @@
 {
     DevicesVC *devicesVC = [[DevicesVC alloc] init];
     UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:devicesVC];
-
+    
     if ([[StorageManager current] currentSprinkler]) {
         UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
         devicesVC.tabBarItem = tabBarItemDevices;

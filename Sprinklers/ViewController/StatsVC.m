@@ -349,9 +349,6 @@ const float kHomeScreenCellHeight = 63;
     
     if ([StorageManager current].currentSprinkler) {
         self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        
-        NSLog(@"%s", __PRETTY_FUNCTION__);
-        
         [[UpdateManager current] poll];
     }
 }

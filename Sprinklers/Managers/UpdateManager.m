@@ -68,8 +68,6 @@ static UpdateManager *current = nil;
 
 - (void)poll
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     [self stop];
     
     BOOL checkUpdate = YES;

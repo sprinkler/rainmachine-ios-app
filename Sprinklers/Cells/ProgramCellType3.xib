@@ -40,10 +40,10 @@
                             <constraint firstAttribute="height" constant="22" id="hEe-tt-EbX"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <state key="normal" image="checkbox-unselected.png">
+                        <state key="normal" image="programs-checkbox-unselected.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <state key="selected" image="checkbox-selected"/>
+                        <state key="selected" image="programs-checkbox-selected"/>
                         <connections>
                             <action selector="onCheckMark:" destination="F3V-sU-588" eventType="touchUpInside" id="T8d-lw-m9C"/>
                         </connections>
@@ -70,7 +70,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="checkbox-selected" width="48" height="48"/>
-        <image name="checkbox-unselected.png" width="48" height="48"/>
+        <image name="programs-checkbox-selected" width="48" height="48"/>
+        <image name="programs-checkbox-unselected.png" width="48" height="48"/>
     </resources>
 </document>

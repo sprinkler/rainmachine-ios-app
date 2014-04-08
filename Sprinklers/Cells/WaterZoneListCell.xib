@@ -14,6 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="raO-KG-ljk" customClass="UIButton">
+                        <rect key="frame" x="0.0" y="0.0" width="66" height="59"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="66" id="EAJ-Qt-O1D"/>
+                        </constraints>
+                    </view>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fi5-ou-rDF">
                         <rect key="frame" x="9" y="14" width="51" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -60,6 +68,9 @@
                     <constraint firstItem="ZHf-yk-9m8" firstAttribute="top" secondItem="fi5-ou-rDF" secondAttribute="top" constant="-2" id="HEG-FO-Oz2"/>
                     <constraint firstAttribute="trailing" secondItem="s6X-Dg-edw" secondAttribute="trailing" constant="39" id="HJU-fF-txo"/>
                     <constraint firstAttribute="centerY" secondItem="fi5-ou-rDF" secondAttribute="centerY" id="Juw-wc-zt0"/>
+                    <constraint firstItem="raO-KG-ljk" firstAttribute="centerX" secondItem="fi5-ou-rDF" secondAttribute="centerX" id="Mt5-w9-WV7"/>
+                    <constraint firstAttribute="centerY" secondItem="raO-KG-ljk" secondAttribute="centerY" id="RNj-Aw-ddY"/>
+                    <constraint firstItem="raO-KG-ljk" firstAttribute="top" secondItem="QYk-i8-blq" secondAttribute="top" id="RpF-od-nfG"/>
                     <constraint firstAttribute="centerY" secondItem="s6X-Dg-edw" secondAttribute="centerY" id="baz-or-B0a"/>
                     <constraint firstAttribute="trailing" secondItem="GCp-QO-fZS" secondAttribute="trailing" constant="13" id="cB5-hr-bYO"/>
                     <constraint firstItem="fi5-ou-rDF" firstAttribute="leading" secondItem="QYk-i8-blq" secondAttribute="leading" constant="9" id="ec3-rE-ELP"/>

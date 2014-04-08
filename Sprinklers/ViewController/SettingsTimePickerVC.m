@@ -13,6 +13,7 @@
 #import "ServerResponse.h"
 #import "SettingsVC.h"
 #import "Utils.h"
+#import "+UIDevice.h"
 
 @interface SettingsTimePickerVC ()
 {
@@ -155,8 +156,12 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     
     if (serverProxy == self.pullServerProxy) {
+
         self.settingsDate = data;
         self.timeFormat = [self.settingsDate.time_format integerValue] == 12 ? 1 : 0;
+        
+        [super refreshTimeFormatConstraint];
+        
         self.pullServerProxy = nil;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
     }
