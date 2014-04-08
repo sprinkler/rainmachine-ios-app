@@ -22,12 +22,17 @@
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *labelDays;
+@property (strong, nonatomic) IBOutlet UILabel *labelHours;
+@property (strong, nonatomic) IBOutlet UILabel *labelMinutes;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonUp;
 @property (weak, nonatomic) IBOutlet UIButton *buttonDown;
 @property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonSety;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) ServerProxy *pollServerProxy;
 @property (strong, nonatomic) NSNumber *rainDelay;
+@property (strong, nonatomic) NSNumber *rainDelayHours;
+@property (strong, nonatomic) NSNumber *rainDelayMinutes;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rainDelaySetActivityIndicator;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *initialTimerRequestActivityIndicator;
@@ -60,12 +65,17 @@
     [self.buttonUp setTitleColor:greenColor forState:UIControlStateNormal];
     
     [self.labelDays setTextColor:greenColor];
+    [self.labelHours setTextColor:greenColor];
+    [self.labelMinutes setTextColor:greenColor];
     
     self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
     self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
-
+    
+    self.rainDelayHours = [NSNumber numberWithInt: 0];
+    self.rainDelayMinutes = [NSNumber numberWithInt: 0];
+    
     [self.pollServerProxy getRainDelay];
-
+    
     [self refreshUI];
     [self updateStartButtonActiveStateTo:NO setActivityIndicator:NO];
 }
@@ -73,7 +83,7 @@
 - (void)refreshUI
 {
     [self.buttonSety setCustomBackgroundColorFromComponents:resumeMode ? kWateringRedButtonColor : kWateringGreenButtonColor];
-    [self.buttonSety setTitle:resumeMode ? @"Resume" : @"Set" forState:UIControlStateNormal];
+    [self.buttonSety setTitle:resumeMode ? @"Resume" : @"Resume" forState:UIControlStateNormal];
 
     self.buttonUp.enabled = !resumeMode;
     self.buttonDown.enabled = !resumeMode && ([self.rainDelay intValue] > 1);
@@ -96,16 +106,24 @@
 - (void)refreshCounterUI
 {
     self.labelDays.hidden = NO;
+    self.labelHours.hidden = NO;
+    self.labelMinutes.hidden = NO;
     
     if (_rainDelay) {
         if ([_rainDelay intValue] == 1) {
             self.labelDays.text = @"1 day";
+            self.labelHours.text = [NSString stringWithFormat:@"%@ hours", _rainDelayHours];
+            self.labelMinutes.text = [NSString stringWithFormat:@"%@ minutes", _rainDelayMinutes];
         } else {
             self.labelDays.text = [NSString stringWithFormat:@"%@ days", _rainDelay];
+            self.labelHours.text = [NSString stringWithFormat:@"%@ hours", _rainDelayHours];
+            self.labelMinutes.text = [NSString stringWithFormat:@"%@ minutes", _rainDelayMinutes];
         }
         self.initialTimerRequestActivityIndicator.hidden = YES;
     } else {
         self.labelDays.text = @"";
+        self.labelHours.text = @"";
+        self.labelMinutes.text = @"";
         self.initialTimerRequestActivityIndicator.hidden = NO;
     }
 }
@@ -151,6 +169,25 @@
 {
     if (serverProxy == self.pollServerProxy) {
         self.rainDelay = ((RainDelay*)data).rainDelay;
+    
+        NSLog(@"rainDelay=%d delayCounter=%d", (int)[((RainDelay*)data).rainDelay intValue], (int)[((RainDelay*)data).delayCounter intValue]);
+        
+        NSInteger timeStamp = [((RainDelay*)data).delayCounter intValue];
+        int hours = 0;
+        int minutes = 0;
+    
+        if (timeStamp >= 0)
+        {
+            NSDate* date = [NSDate dateWithTimeIntervalSince1970: timeStamp];
+            hours = (int)[date hour];
+            minutes = (int)[date minute];
+            
+            NSLog(@"hours=%d minutes=%d", hours, minutes);
+    
+            self.rainDelayHours = [NSNumber numberWithInt: hours];
+            self.rainDelayMinutes = [NSNumber numberWithInt: minutes];
+        }
+        
         [self updateResumeMode];
     }
     else if (serverProxy == self.postServerProxy) {
@@ -158,6 +195,7 @@
         if ([response.status isEqualToString:@"err"]) {
             [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         } else {
+            
             self.rainDelay = [userInfo objectForKey:@"rainDelay"];
             [self updateResumeMode];
         }

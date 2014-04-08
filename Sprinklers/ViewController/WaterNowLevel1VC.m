@@ -148,13 +148,13 @@
     if (isIdle) {
         self.buttonDown.alpha = 1;
         self.buttonUp.alpha = 1;
-        self.buttonDown.enabled = YES;
-        self.buttonUp.enabled = YES;
+        self.buttonDown.hidden = NO;
+        self.buttonUp.hidden = NO;
     } else {
         self.buttonDown.alpha = kButtonInactiveOpacity;
         self.buttonUp.alpha = kButtonInactiveOpacity;
-        self.buttonDown.enabled = NO;
-        self.buttonUp.enabled = NO;
+        self.buttonDown.hidden = YES;
+        self.buttonUp.hidden = YES;
     }
 }
 
