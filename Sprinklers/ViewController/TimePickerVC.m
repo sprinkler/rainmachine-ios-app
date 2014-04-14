@@ -102,12 +102,19 @@
     if (component == 0) {
         // Hours
         
+        if (self.timeFormat == 1)
+        {
+            if (row == 0)
+                row = 12;
+        }
+
         if (row < 10)
             return [NSString stringWithFormat:@"0%d", (int)row];
         
         return [NSString stringWithFormat:@"%d", (int)row];
     }
     else if (component == 1) {
+        
         if (row < 10)
             return [NSString stringWithFormat:@"0%d", (int)row];
         
