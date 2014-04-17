@@ -102,7 +102,7 @@
     if (component == 0) {
         // Hours
         
-        if (self.timeFormat == 1)
+        if (self.timeFormat == 1) // [0-11]. Show it on screen as [1-12]
         {
             if (row == 0)
                 row = 12;

@@ -150,7 +150,7 @@
     if (timeFormat == 0) {
         [formatter setDateFormat:@"H:mm"];
     } else {
-        [formatter setDateFormat:@"K:mm a"];
+        [formatter setDateFormat:@"h:mm a"];
     }
     
     NSString *hourAndMinute = [formatter stringFromDate:date];
