@@ -170,8 +170,6 @@
     if (serverProxy == self.pollServerProxy) {
         self.rainDelay = ((RainDelay*)data).rainDelay;
     
-        NSLog(@"rainDelay=%d delayCounter=%d", (int)[((RainDelay*)data).rainDelay intValue], (int)[((RainDelay*)data).delayCounter intValue]);
-        
         NSInteger timeStamp = [((RainDelay*)data).delayCounter intValue];
         int hours = 0;
         int minutes = 0;
@@ -182,8 +180,6 @@
             hours = (int)[date hour];
             minutes = (int)[date minute];
             
-            NSLog(@"hours=%d minutes=%d", hours, minutes);
-    
             self.rainDelayHours = [NSNumber numberWithInt: hours];
             self.rainDelayMinutes = [NSNumber numberWithInt: minutes];
         }

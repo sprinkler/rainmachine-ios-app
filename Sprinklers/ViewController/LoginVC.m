@@ -111,8 +111,6 @@
 }
 
 - (IBAction)login:(id)sender {
-    NSLog(@"adologin %s", __PRETTY_FUNCTION__);
-    
     serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
     [serverProxy loginWithUserName:@"admin" password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
     [self startHud:nil]; // @"Logging in..."
@@ -121,22 +119,16 @@
 #pragma mark - Communication callbacks
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    NSLog(@"adologin %s", __PRETTY_FUNCTION__);
-    
     [self hideHud];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    NSLog(@"adologin %s", __PRETTY_FUNCTION__);
-    
     [self hideHud];
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered {
-    
-    NSLog(@"adologin %s", __PRETTY_FUNCTION__);
     
     self.sprinkler.loginRememberMe = [NSNumber numberWithBool:remembered];
     self.sprinkler.username = _textUsername.text;
@@ -149,8 +141,6 @@
 }
 
 - (void)loggedOut {
-    
-    NSLog(@"adologin %s", __PRETTY_FUNCTION__);
     
     [self hideHud];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Your password is incorrect." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
