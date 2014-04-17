@@ -19,5 +19,8 @@
 @property (assign, nonatomic) BOOL delayedInitialListRefresh;
 
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
+- (void)addZoneToStateChangeObserver:(WaterNowZone*)zone;
+- (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone;
+- (void)userStartedAZone;
 
 @end

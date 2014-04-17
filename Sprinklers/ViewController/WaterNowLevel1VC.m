@@ -303,9 +303,12 @@
     }
     
     if (startRequest) {
+        [self.parent userStartedAZone];
+        [self.parent addZoneToStateChangeObserver:self.wateringZone];
         self.parent.delayedInitialListRefresh = YES;
         [self.navigationController popViewControllerAnimated:YES];
     } else {
+        [self.parent removeZoneFromStateChangeObserver:self.wateringZone];
         [self updateStartButtonActiveStateTo:NO];
         [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
     }

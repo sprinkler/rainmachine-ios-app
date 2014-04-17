@@ -37,6 +37,7 @@
 @property (strong, nonatomic) NSError *lastScheduleRequestError;
 @property (strong, nonatomic) WaterNowCounterHelper *wateringCounterHelper;
 @property (strong, nonatomic) WaterNowZone *wateringZone;
+@property (strong, nonatomic) NSMutableDictionary *stateChangeObserver;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -49,6 +50,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.stateChangeObserver = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -56,6 +58,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
+
     [self refreshWithCurrentDevice];
 
     self.wateringCounterHelper = [[WaterNowCounterHelper alloc] initWithDelegate:self];
@@ -259,6 +263,8 @@
         
         self.zones = [self filteredZones:data];
         
+        [self updateZonesStartObservers];
+        
         // Restore counters because unpacking the server response destroyed them
         for (int i = 0; i < previousZonesCopy.count; i++) {
             WaterNowZone *z = previousZonesCopy[i];
@@ -278,13 +284,11 @@
             [self hideHud];
         }
         
-        
         [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
         
         [self requestDetailsOfZones];
         
         [self refreshStopAllButton];
-        
         
         [self.tableView reloadData];
     }
@@ -296,6 +300,9 @@
         }
         
         if ([Utils isZoneWatering:zone]) {
+            if (![self.wateringZone.id isEqualToNumber:zone.id]) {
+                [self clearStateChangeObserver];
+            }
             self.wateringZone = zone;
             [self.wateringCounterHelper updateCounter];
             [self refreshCounterLabel:0];
@@ -307,7 +314,13 @@
                 }
             }
         }
+        [self.tableView reloadData];
     }
+}
+
+- (void)userStartedAZone
+{
+    [self clearStateChangeObserver];
 }
 
 - (void)loggedOut
@@ -361,7 +374,12 @@
     
     cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
     
-    if (isIdle) {
+    if ([self zoneFailedToStart:cell.zone]) {
+        [self hide:NO multipartTimeLabels:cell color:[UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1]];
+        cell.timeLabelMultipartTop.text = @"Failed";
+        cell.timeLabelMultipartBottom.text = @"to start";
+    }
+    else if (isIdle) {
         [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
         [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
         cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
@@ -420,7 +438,12 @@
 {
     //[self.wateringCounterHelper stopCounterTimer];
     
-    [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
+    if ([self.postServerProxy toggleWateringOnZone:zone withCounter:counter]) {
+        [self userStartedAZone];
+        [self addZoneToStateChangeObserver:zone];
+    } else {
+        [self removeZoneFromStateChangeObserver:zone];
+    }
     
     // insntant refresh on UI, wait later for server response
     if ([zone.state length] == 0)
@@ -450,6 +473,59 @@
 
 #pragma mark - Methods
 
+- (void)clearStateChangeObserver
+{
+    // Keep the "Failed to Start" message until:
+    // a. another pending zone becomes active
+    // b. user starts another zone or an automatic program starts a zone.
+    // c. user walks away from this screen or application is brought back from background.
+
+    [self.stateChangeObserver removeAllObjects];
+}
+
+- (void)addZoneToStateChangeObserver:(WaterNowZone*)zone
+{
+    [self.stateChangeObserver setObject:[NSNumber numberWithInt:2] forKey:zone.id];
+}
+
+- (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone
+{
+    [self.stateChangeObserver removeObjectForKey:zone.id];
+}
+
+- (BOOL)zoneFailedToStart:(WaterNowZone*)zone
+{
+    NSNumber *counter = [self.stateChangeObserver objectForKey:zone.id];
+    if (counter) {
+        return [Utils isZoneIdle:zone];
+    }
+    
+    return NO;
+}
+
+- (void)updateZonesStartObservers
+{
+    NSMutableArray *zoneWhichStarted = [NSMutableArray array];
+    
+    for (NSNumber *zoneId in self.stateChangeObserver) {
+        WaterNowZone *zone = [self zoneWithId:zoneId];
+        if ((zone) && (![Utils isZoneIdle:zone])) {
+            // Zone started
+            [zoneWhichStarted addObject:zone];
+        }
+    }
+    
+    for (WaterNowZone *zone in zoneWhichStarted) {
+        [self removeZoneFromStateChangeObserver:zone];
+    }
+    
+//    for (NSNumber *zoneId in [self.stateChangeObserver allKeys]) {
+//        NSNumber *n = [self.stateChangeObserver objectForKey:zoneId];
+//        NSNumber *newN = [NSNumber numberWithInt:MAX(0, [n intValue] - 1)];
+//        [self.stateChangeObserver setObject:newN forKey:zoneId];
+//    }
+}
+
 - (void)updateZoneAtIndex:(int)index withDetails:(WaterNowZone*)zone
 {
     WaterNowZone *destZone = self.zones[index];
@@ -465,6 +541,17 @@
         }
     }
     return -1;
+}
+
+- (WaterNowZone*)zoneWithId:(NSNumber*)theId
+{
+    for (int i = 0; i < self.zones.count; i++) {
+        WaterNowZone *zone = self.zones[i];
+        if ([zone.id isEqualToNumber:theId]) {
+            return zone;
+        }
+    }
+    return nil;
 }
 
 - (void)refreshWithCurrentDevice
@@ -504,6 +591,12 @@
 
 - (void)showCounterLabel
 {
+}
+
+- (void)appDidBecomeActive
+{
+    [self clearStateChangeObserver];
+    [self.tableView reloadData];
 }
 
 @end
