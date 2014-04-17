@@ -23,6 +23,13 @@
         zone.vegetation = [jsonObj nullProofedIntValueForKey:@"vegetation"];
         zone.forecastData = [jsonObj nullProofedIntValueForKey:@"forecastData"];
         zone.historicalAverage = [jsonObj nullProofedIntValueForKey:@"historicalAverage"];
+        
+        if (zone.before < 0)
+            zone.before = 0;
+        
+        if (zone.after < 0)
+            zone.after = 0;
+        
         return zone;
     }
     return nil;

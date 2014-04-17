@@ -679,7 +679,10 @@
         [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
     }
     else if (indexPath.section == frequencySectionIndex) {
-        [self checkFrequencyWithIndex:(int)indexPath.row];
+        // [self checkFrequencyWithIndex:(int)indexPath.row];
+        ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView cellForRowAtIndexPath:indexPath];
+        [cell onCheckMark: self];
+        
         if (indexPath.row == 3) {
             int nrDays;
             sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);

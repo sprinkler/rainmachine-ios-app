@@ -83,7 +83,7 @@
 - (void)refreshUI
 {
     [self.buttonSety setCustomBackgroundColorFromComponents:resumeMode ? kWateringRedButtonColor : kWateringGreenButtonColor];
-    [self.buttonSety setTitle:resumeMode ? @"Resume" : @"Resume" forState:UIControlStateNormal];
+    [self.buttonSety setTitle:resumeMode ? @"Resume" : @"Delay" forState:UIControlStateNormal];
 
     self.buttonUp.enabled = !resumeMode;
     self.buttonDown.enabled = !resumeMode && ([self.rainDelay intValue] > 1);

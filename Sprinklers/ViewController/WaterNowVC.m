@@ -370,7 +370,7 @@
 
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 {
-    [self.wateringCounterHelper stopCounterTimer];
+    //[self.wateringCounterHelper stopCounterTimer];
     
     [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
     
