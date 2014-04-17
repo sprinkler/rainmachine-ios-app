@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *zoneNameLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *onOffSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabelMultipartBottom;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabelMultipartTop;
 
 - (IBAction)onSwitch:(id)sender;
 

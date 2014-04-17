@@ -29,14 +29,13 @@
 }
 
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) ServerProxy *wateringZoneDetailsServerProxy;
+@property (strong, nonatomic) ServerProxy *zonesDetailsServerProxy;
 @property (strong, nonatomic) ServerProxy *pollServerProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 @property (strong, nonatomic) NSArray *zones;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
 @property (strong, nonatomic) NSError *lastScheduleRequestError;
 @property (strong, nonatomic) WaterNowCounterHelper *wateringCounterHelper;
-@property (strong, nonatomic) NSIndexPath *indexPathOfWateringZone;
 @property (strong, nonatomic) WaterNowZone *wateringZone;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -60,7 +59,6 @@
     [self refreshWithCurrentDevice];
 
     self.wateringCounterHelper = [[WaterNowCounterHelper alloc] initWithDelegate:self];
-    self.indexPathOfWateringZone = nil;
     
     self.delayedInitialListRefresh = NO;
     
@@ -103,6 +101,14 @@
     return -1;
 }
 
+- (void)requestDetailsOfZones
+{
+    for (int i = 0; i < [self.zones count]; i++) {
+        WaterNowZone *wateringZoneInList = self.zones[i];
+        [self.zonesDetailsServerProxy requestWaterActionsForZone:wateringZoneInList.id];
+    }
+}
+
 - (BOOL)areAllStopped
 {
     for (WaterNowZone *zone in self.zones) {
@@ -118,7 +124,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.tableView reloadData];
     [self resetServerProxies];
 
     if (self.delayedInitialListRefresh) {
@@ -128,6 +133,12 @@
     } else {
         [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:YES]];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -142,7 +153,7 @@
     
     [self.pollServerProxy cancelAllOperations];
     [self.postServerProxy cancelAllOperations];
-    [self.wateringZoneDetailsServerProxy cancelAllOperations];
+    [self.zonesDetailsServerProxy cancelAllOperations];
     
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
@@ -243,7 +254,17 @@
         
         self.lastScheduleRequestError = nil;
         
+        // Save value of previous counters
+        NSArray *previousZonesCopy = [self.zones copy];
+        
         self.zones = [self filteredZones:data];
+        
+        // Restore counters because unpacking the server response destroyed them
+        for (int i = 0; i < previousZonesCopy.count; i++) {
+            WaterNowZone *z = previousZonesCopy[i];
+            int indexInNewList = [self indexOfZoneWithId:z.id];
+            [self updateZoneAtIndex:indexInNewList withDetails:z];
+        }
         
         if (stopAllCounter > 0) {
             if ([self areAllStopped]) {
@@ -260,24 +281,32 @@
         
         [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
         
-        int wzi = [self indexOfWateringZone];
-        if (wzi != -1) {
-            self.indexPathOfWateringZone = [NSIndexPath indexPathForRow:wzi inSection:0];
-            WaterNowZone *wateringZoneInList = self.zones[wzi];
-            [self.wateringZoneDetailsServerProxy requestWaterActionsForZone:wateringZoneInList.id];
-        } else {
-            self.indexPathOfWateringZone = nil;
-        }
+        [self requestDetailsOfZones];
         
         [self refreshStopAllButton];
         
         
         [self.tableView reloadData];
     }
-    else if (serverProxy == self.wateringZoneDetailsServerProxy) {
-        self.wateringZone = (WaterNowZone*)data;
-        [self.wateringCounterHelper updateCounter];
-        [self refreshCounterLabel:0];
+    else if (serverProxy == self.zonesDetailsServerProxy) {
+        WaterNowZone *zone = (WaterNowZone*)data;
+        int index = [self indexOfZoneWithId:zone.id];
+        if (index != -1) {
+            [self updateZoneAtIndex:index withDetails:zone];
+        }
+        
+        if ([Utils isZoneWatering:zone]) {
+            self.wateringZone = zone;
+            [self.wateringCounterHelper updateCounter];
+            [self refreshCounterLabel:0];
+        } else {
+            if (index != -1) {
+                NSIndexPath *indexPathOfPendingZone = [NSIndexPath indexPathForRow:index inSection:0];
+                if (indexPathOfPendingZone) {
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPathOfPendingZone] withRowAnimation:UITableViewRowAnimationNone];
+                }
+            }
+        }
     }
 }
 
@@ -298,6 +327,21 @@
     return [self.zones count];
 }
 
+- (void)hide:(BOOL)hide multipartTimeLabels:(WaterZoneListCell *)cell color:(UIColor*)color
+{
+    cell.timeLabelMultipartBottom.hidden = hide;
+    cell.timeLabelMultipartTop.hidden = hide;
+    
+    cell.timeLabel.hidden = !hide;
+
+    if (hide) {
+        cell.timeLabel.textColor = color;
+    } else {
+        cell.timeLabelMultipartBottom.textColor = color;
+        cell.timeLabelMultipartTop.textColor = color;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"WaterZoneListCell";
     WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -316,21 +360,25 @@
     cell.onOffSwitch.on = isWatering || isPending;
     
     cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
-    cell.timeLabel.textColor = cell.onOffSwitch.onTintColor;
     
     if (isIdle) {
-        cell.timeLabel.text = @"";
+        [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+        [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
     } else {
         if (isPending) {
-            [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
-            cell.timeLabel.text = @"Pending";
+            [self hide:NO multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+            cell.timeLabelMultipartTop.text = @"Pending";
+            cell.timeLabelMultipartBottom.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
         } else {
             // Watering
             if (self.wateringZone) {
+                [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
                 [cell.timeLabel setFont:[UIFont systemFontOfSize:26]];
                 cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];//@"Watering";
             } else {
                 // Details (i.e.: counter field) did not yet arrive from the server
+                [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
                 cell.timeLabel.text = @"";
             }
         }
@@ -402,6 +450,23 @@
 
 #pragma mark - Methods
 
+- (void)updateZoneAtIndex:(int)index withDetails:(WaterNowZone*)zone
+{
+    WaterNowZone *destZone = self.zones[index];
+    destZone.counter = zone.counter;
+}
+
+- (int)indexOfZoneWithId:(NSNumber*)theId
+{
+    for (int i = 0; i < self.zones.count; i++) {
+        WaterNowZone *zone = self.zones[i];
+        if ([zone.id isEqualToNumber:theId]) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 - (void)refreshWithCurrentDevice
 {
     self.zones = nil;
@@ -414,7 +479,7 @@
 {
     if ([StorageManager current].currentSprinkler) {
         self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        self.wateringZoneDetailsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        self.zonesDetailsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
     }
 }
@@ -430,8 +495,10 @@
 
 - (void)refreshCounterLabel:(int)newCounter
 {
-    if (self.indexPathOfWateringZone) {
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.indexPathOfWateringZone] withRowAnimation:UITableViewRowAnimationNone];
+    int wzi = [self indexOfWateringZone];
+    NSIndexPath *indexPathOfWateringZone = [NSIndexPath indexPathForRow:wzi inSection:0];
+    if (indexPathOfWateringZone) {
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPathOfWateringZone] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
