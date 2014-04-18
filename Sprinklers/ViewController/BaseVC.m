@@ -19,6 +19,7 @@
 //    [self.navigationController popToRootViewControllerAnimated:NO];
     
     [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
+    [StorageManager current].currentSprinkler = nil;
     [[StorageManager current] saveData];
 }
 
@@ -57,9 +58,8 @@
     if (theAlertView.tag == kLoggedOut_AlertViewTag) {
         [self handleServerLoggedOutUser];
         
-        [StorageManager current].currentSprinkler = nil;
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate refreshRootViews];
+        [appDelegate refreshRootViews:nil];
     }
     
     self.alertView = nil;

@@ -13,6 +13,6 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) UITabBarController *tabBarController;
 
-- (void)refreshRootViews;
+- (void)refreshRootViews:(NSString*)unit;
 
 @end

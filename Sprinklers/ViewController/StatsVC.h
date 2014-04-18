@@ -16,4 +16,6 @@
 
 @interface StatsVC : BaseViewController<UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
+- (id)initWithUnits:(NSString*)units;
+
 @end

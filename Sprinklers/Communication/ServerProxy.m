@@ -78,7 +78,7 @@
     [self.manager POST:@"/ui.cgi" parameters:paramsDic
                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                          //DLog(@"Success code: %d", [[operation response] statusCode]);
-                                       [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler]];
+                                         [self step2LoginProcess];
                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                       BOOL success = NO;
                                       if ([[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[self.manager baseURL]] count] > 0) {
@@ -87,7 +87,7 @@
                                         }
                                       }
                                       if (success) {
-                                        [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler]];
+                                          [self step2LoginProcess];
                                       } else {
                                         NSHTTPURLResponse *response = operation.response;
                                         if ((NSUInteger)response.statusCode == 200) {
@@ -97,6 +97,22 @@
                                         }
                                       }
                                   }];
+}
+
+- (void)step2LoginProcess
+{
+    [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
+                                             @"what" : @"units"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                 
+                                                 if ([self passLoggedOutFilter:operation]) {
+                                                     NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsUnits class])];
+                                                     SettingsUnits *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                                                     [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler] unit:response.units];
+                                                 }
+                                                 
+                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                 [self handleError:error fromOperation:operation userInfo:nil];
+                                             }];
 }
 
 - (BOOL)isLoginRememberedForCurrentSprinkler

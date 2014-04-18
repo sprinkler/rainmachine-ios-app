@@ -11,6 +11,6 @@
 
 @interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate>
 
-- (void)done;
+- (void)done:(NSString*)unit;
 
 @end

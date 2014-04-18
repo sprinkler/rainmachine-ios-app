@@ -202,7 +202,7 @@
 
 #pragma mark - Actions
 
-- (void)done {
+- (void)done:(NSString*)unit {
     if (self.tableView.isEditing) {
         [self.tableView setEditing:NO animated:YES];
         [self updateNavigationbarButtons];
@@ -211,7 +211,7 @@
     }
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate refreshRootViews];
+    [appDelegate refreshRootViews:unit];
 }
 
 - (void)edit {
@@ -349,7 +349,7 @@
         if ([sprinkler.loginRememberMe boolValue]) {
             [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
             [[StorageManager current] saveData];
-            [self done];
+            [self done:nil];
         } else {
             LoginVC *login = [[LoginVC alloc] init];
             login.sprinkler = self.savedSprinklers[indexPath.row];

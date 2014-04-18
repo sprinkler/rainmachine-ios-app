@@ -36,7 +36,7 @@
         [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
     }
     
-    [self refreshRootViews];
+    [self refreshRootViews:nil];
   
 //    // TODO: remove this hack in production builds!
 //    NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
@@ -53,7 +53,7 @@
     return YES;
 }
 
-- (void)refreshRootViews
+- (void)refreshRootViews:(NSString*)unit
 {
     DevicesVC *devicesVC = [[DevicesVC alloc] init];
     UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:devicesVC];
@@ -62,7 +62,7 @@
         UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
         devicesVC.tabBarItem = tabBarItemDevices;
 
-        StatsVC *statsVC = [[StatsVC alloc] init];
+        StatsVC *statsVC = [[StatsVC alloc] initWithUnits:unit];
         UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:statsVC];
         UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
         statsVC.tabBarItem = tabBarItemStats;

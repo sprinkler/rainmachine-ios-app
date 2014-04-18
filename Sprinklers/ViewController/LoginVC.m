@@ -128,7 +128,7 @@
     [self hideHud];
 }
 
-- (void)loginSucceededAndRemembered:(BOOL)remembered {
+- (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
     
     self.sprinkler.loginRememberMe = [NSNumber numberWithBool:remembered];
     self.sprinkler.username = _textUsername.text;
@@ -137,7 +137,7 @@
     
     [self hideHud];
     
-    [self.parent done];
+    [self.parent done:unit];
 }
 
 - (void)loggedOut {

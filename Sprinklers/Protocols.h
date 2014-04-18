@@ -16,7 +16,7 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo;
 
 @optional
-- (void)loginSucceededAndRemembered:(BOOL)remembered;
+- (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit;
 
 @end
 

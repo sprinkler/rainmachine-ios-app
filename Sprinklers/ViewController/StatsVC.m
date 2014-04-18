@@ -46,11 +46,21 @@ const float kHomeScreenCellHeight = 63;
 
 #pragma mark - Init
 
+- (id)initWithUnits:(NSString*)units {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.units = units ? units : @"";
+    
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Stats";
-        self.units = @"";
     }
     return self;
 }
@@ -370,8 +380,10 @@ const float kHomeScreenCellHeight = 63;
     
     if ([StorageManager current].currentSprinkler) {
         self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        [self.unitsServerProxy requestSettingsUnits];
+        if (!self.units) {
+            self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+            [self.unitsServerProxy requestSettingsUnits];
+        }
         [[UpdateManager current] poll];
     }
 }

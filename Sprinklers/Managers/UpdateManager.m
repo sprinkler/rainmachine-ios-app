@@ -17,6 +17,10 @@
 #import "UpdaterVC.h"
 #import "StartStopProgramResponse.h"
 #import "Program.h"
+#import "AppDelegate.h"
+
+#define kAlertView_UpdateNow 1
+#define kAlertView_LoggedOut 2
 
 @interface UpdateManager () {
     int serverAPIMainVersion;
@@ -25,6 +29,7 @@
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *serverProxyDetect35x;
+@property (strong, nonatomic) UIAlertView *alertView;
 
 @end
 
@@ -87,6 +92,8 @@ static UpdateManager *current = nil;
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
+    [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
+
     if ([userInfo isEqualToString:@"apiVer"]) {
 
         self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
@@ -106,6 +113,8 @@ static UpdateManager *current = nil;
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
+    [self handleSprinklerNetworkError:nil showErrorMessage:YES];
+
     if (([userInfo isEqualToString:@"runNowProgram"]) && ([data isKindOfClass:[StartStopProgramResponse class]])) {
         serverAPIMainVersion = 3;
         StartStopProgramResponse *response = (StartStopProgramResponse*)data;
@@ -138,6 +147,7 @@ static UpdateManager *current = nil;
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Firmware Update Available"
                                                                 message:message delegate:self cancelButtonTitle:@"Later"
                                                       otherButtonTitles:@"Update Now", nil];
+                alert.tag = kAlertView_UpdateNow;
                 [alert show];
             }
         }
@@ -158,9 +168,39 @@ static UpdateManager *current = nil;
 }
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != theAlertView.cancelButtonIndex) {
-        [self.serverProxy requestUpdateStartForVersion:3];
+    if (theAlertView.tag == kAlertView_UpdateNow) {
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            [self.serverProxy requestUpdateStartForVersion:3];
+        }
     }
+    else if (theAlertView.tag == kAlertView_LoggedOut) {
+        [self handleServerLoggedOutUser];
+        
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate refreshRootViews:nil];
+        
+        self.alertView = nil;
+    }
+}
+
+- (void)handleSprinklerError:(NSString *)errorMessage title:(NSString*)titleMessage showErrorMessage:(BOOL)showErrorMessage{
+    if ((errorMessage) && (showErrorMessage)) {
+        self.alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.alertView.tag = kAlertView_LoggedOut;
+        [self.alertView show];
+    }
+}
+
+- (void)handleSprinklerNetworkError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
+    [self handleSprinklerError:errorMessage title:@"Network error" showErrorMessage:showErrorMessage];
+}
+
+#pragma mark - Alert view
+
+- (void)handleServerLoggedOutUser {
+    [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
+    [StorageManager current].currentSprinkler = nil;
+    [[StorageManager current] saveData];
 }
 
 @end
