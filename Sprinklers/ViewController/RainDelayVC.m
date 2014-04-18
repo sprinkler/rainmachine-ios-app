@@ -84,13 +84,16 @@
 {
     [self.buttonSety setCustomBackgroundColorFromComponents:resumeMode ? kWateringRedButtonColor : kWateringGreenButtonColor];
     [self.buttonSety setTitle:resumeMode ? @"Resume" : @"Delay" forState:UIControlStateNormal];
-
+    
     self.buttonUp.enabled = !resumeMode;
     self.buttonDown.enabled = !resumeMode && ([self.rainDelay intValue] > 1);
-
+    
     self.buttonUp.alpha = self.buttonUp.enabled ? 1 : kButtonInactiveOpacity;
     self.buttonDown.alpha = self.buttonDown.enabled ? 1 : kButtonInactiveOpacity;
-
+    
+    self.buttonUp.hidden = resumeMode;
+    self.buttonDown.hidden = resumeMode;
+    
     [self refreshCounterUI];
 }
 
@@ -106,8 +109,8 @@
 - (void)refreshCounterUI
 {
     self.labelDays.hidden = NO;
-    self.labelHours.hidden = NO;
-    self.labelMinutes.hidden = NO;
+    self.labelHours.hidden = !resumeMode;
+    self.labelMinutes.hidden = !resumeMode;
     
     if (_rainDelay) {
         if ([_rainDelay intValue] == 1) {
