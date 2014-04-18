@@ -18,6 +18,10 @@
 #import "UpdateManager.h"
 #import "RMNavigationController.h"
 
+@interface AppDelegate()
+
+@end
+
 @implementation AppDelegate
 
 #pragma mark - Init
@@ -62,10 +66,10 @@
         UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
         devicesVC.tabBarItem = tabBarItemDevices;
 
-        StatsVC *statsVC = [[StatsVC alloc] initWithUnits:unit];
-        UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:statsVC];
+        self.statsVC = [[StatsVC alloc] initWithUnits:unit];
+        UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:self.statsVC];
         UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
-        statsVC.tabBarItem = tabBarItemStats;
+        self.statsVC.tabBarItem = tabBarItemStats;
         
         WaterNowVC *waterVC = [[WaterNowVC alloc] init];
         UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
@@ -84,6 +88,7 @@
         self.window.rootViewController = _tabBarController;
     } else {
         self.window.rootViewController = navDevices;
+        self.statsVC = nil;
     }
 }
 

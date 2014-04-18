@@ -14,6 +14,8 @@
 #import "SettingsVC.h"
 #import "Utils.h"
 #import "+UIDevice.h"
+#import "AppDelegate.h"
+#import "StatsVC.h"
 
 @interface UnitsVC ()
 {
@@ -149,6 +151,9 @@
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
             [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        } else {
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate.statsVC setUnitsText:self.settingsUnits.units];
         }
     }
     
