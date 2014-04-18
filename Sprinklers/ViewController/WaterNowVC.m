@@ -258,11 +258,12 @@
         
         self.lastScheduleRequestError = nil;
         
-        // Save value of previous counters
+        // Preserv the previous values of the counters
         NSArray *previousZonesCopy = [self.zones copy];
         
         self.zones = [self filteredZones:data];
-        
+
+        // Restore the values of the counters
         [self updateZonesStartObservers];
         
         // Restore counters because unpacking the server response destroyed them

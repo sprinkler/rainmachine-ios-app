@@ -33,16 +33,19 @@
     
     if (self.waterWavesImageView.image) {
         float waterWavesWidth = (self.waterWavesImageView.image.size.width * self.frame.size.height) / self.waterWavesImageView.image.size.height;
-        int w = 120 * self.waterPercentage;
+        CGFloat paddingBetweenWaterAndWeatherImage = 5;
+        CGFloat maxWaterImageWidth = 130;
+        int w = maxWaterImageWidth * self.waterPercentage;
         
         float padding = 0;
         self.daylabel.center = CGPointMake(self.daylabel.center.x, roundf(self.frame.size.height / 2 - self.daylabel.frame.size.height / 2 - padding));
         self.temperatureLabel.frame = CGRectMake(self.daylabel.frame.origin.x, roundf(self.frame.size.height / 2 + padding), evenValue(self.temperatureLabel.frame.size.width), self.temperatureLabel.frame.size.height);
         self.percentageLabel.center = CGPointMake(self.percentageLabel.center.x, roundf(self.frame.size.height / 2));
-        self.weatherImage.center = CGPointMake(self.weatherImage.center.x, self.percentageLabel.center.y);
         self.percentageNotAvailableLabel.center = CGPointMake(30, self.weatherImage.center.y);
         
         self.waterImage.frame = CGRectMake(0, 0, w, self.waterImage.frame.size.height);
+        self.weatherImage.center = CGPointMake(self.waterImage.frame.origin.x + maxWaterImageWidth + self.weatherImage.frame.size.width / 2 + paddingBetweenWaterAndWeatherImage,
+                                               self.percentageLabel.center.y);
         self.waterWavesImageView.frame = CGRectMake(self.waterImage.frame.origin.x + self.waterImage.frame.size.width,
                                                     0,
                                                     waterWavesWidth,
@@ -54,17 +57,34 @@
         const float yPadding = 6;
         float y = self.daylabel.frame.origin.y + self.daylabel.frame.size.height + kWheatherValueFontSize / 2 + yPadding;
         
-        int paddingPart2 = [self.temperatureLabelPart2.font.fontName isEqualToString:kCustomRMFontName] ? kXCorrectionbetweenCustomAndNormalWheatherFont : 0;
-        self.temperatureLabelPart2.frame = CGRectMake(paddingPart2 + self.daylabel.frame.origin.x,
-                                                      y - evenValue(self.temperatureLabelPart2.frame.size.height / 2),
-                                                      evenValue(self.temperatureLabelPart2.frame.size.width),
-                                                      self.temperatureLabelPart2.frame.size.height);
+        BOOL mintValid = ![self.temperatureLabelPart4.font.fontName isEqualToString:kCustomRMFontName];
+        BOOL maxtValid = ![self.temperatureLabelPart2.font.fontName isEqualToString:kCustomRMFontName];
+        CGFloat distanceBetweenTemperatures = 5;
+        if (!mintValid) {
+            if (!maxtValid) {
+                distanceBetweenTemperatures = -1;
+            } else {
+                distanceBetweenTemperatures = -2;
+            }
+        } else {
+            if (!maxtValid) {
+                distanceBetweenTemperatures = 6;
+            }
+        }
         
-        int paddingPart4 = [self.temperatureLabelPart4.font.fontName isEqualToString:kCustomRMFontName] ? kXCorrectionbetweenCustomAndNormalWheatherFont : 0;
-        self.temperatureLabelPart4.frame = CGRectMake(paddingPart4 + self.temperatureLabelPart2.frame.origin.x + self.temperatureLabelPart2.frame.size.width,
+        CGFloat width4 = evenValue(self.temperatureLabelPart4.frame.size.width);
+        int paddingPart4 = !mintValid ? kXCorrectionbetweenCustomAndNormalWheatherFont : 0;
+        self.temperatureLabelPart4.frame = CGRectMake(-paddingPart4 + self.daylabel.frame.origin.x + self.daylabel.frame.size.width - width4,
                                                       y - evenValue(self.temperatureLabelPart4.frame.size.height / 2),
-                                                      evenValue(self.temperatureLabelPart4.frame.size.width),
+                                                      width4,
                                                       self.temperatureLabelPart4.frame.size.height);
+        
+        CGFloat width2 = evenValue(self.temperatureLabelPart2.frame.size.width);
+        int paddingPart2 = !maxtValid ? kXCorrectionbetweenCustomAndNormalWheatherFont : 0;
+        self.temperatureLabelPart2.frame = CGRectMake(-paddingPart2 + self.temperatureLabelPart4.frame.origin.x - width2 - distanceBetweenTemperatures,
+                                                      y - evenValue(self.temperatureLabelPart2.frame.size.height / 2),
+                                                      width2,
+                                                      self.temperatureLabelPart2.frame.size.height);
     }
 }
 
