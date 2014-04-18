@@ -258,7 +258,7 @@
         
         self.lastScheduleRequestError = nil;
         
-        // Preserv the previous values of the counters
+        // Preserve the previous values of the counters
         NSArray *previousZonesCopy = [self.zones copy];
         
         self.zones = [self filteredZones:data];
@@ -296,9 +296,7 @@
     else if (serverProxy == self.zonesDetailsServerProxy) {
         WaterNowZone *zone = (WaterNowZone*)data;
         int index = [self indexOfZoneWithId:zone.id];
-        if (index != -1) {
-            [self updateZoneAtIndex:index withDetails:zone];
-        }
+        [self updateZoneAtIndex:index withDetails:zone];
         
         if ([Utils isZoneWatering:zone]) {
             if (![self.wateringZone.id isEqualToNumber:zone.id]) {
@@ -529,8 +527,10 @@
 
 - (void)updateZoneAtIndex:(int)index withDetails:(WaterNowZone*)zone
 {
-    WaterNowZone *destZone = self.zones[index];
-    destZone.counter = zone.counter;
+    if (index != -1) {
+        WaterNowZone *destZone = self.zones[index];
+        destZone.counter = zone.counter;
+    }
 }
 
 - (int)indexOfZoneWithId:(NSNumber*)theId
