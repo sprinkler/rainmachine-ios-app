@@ -194,14 +194,14 @@ const float kHomeScreenCellHeight = 63;
         }
     }
     
-    if ([weatherData.day intValue] == 0) {
+    if ([weatherData.id intValue] == 0) {
         cell.daylabel.text = @"Today";
         cell.daylabel.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
     }
     else {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"LLL d";
-        NSDate *dayDate = [[NSDate date] dateByAddingDays:[weatherData.day intValue]];
+        NSDate *dayDate = [[NSDate date] dateByAddingDays:[weatherData.id intValue]];
         cell.daylabel.text = [formatter stringFromDate:dayDate];
         cell.daylabel.textColor = [UIColor blackColor];
     }
@@ -260,6 +260,7 @@ const float kHomeScreenCellHeight = 63;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     if (serverProxy == self.unitsServerProxy) {
+        [self handleSprinklerNetworkError:nil showErrorMessage:YES];
         SettingsUnits *settingsUnits = (SettingsUnits*)data;
         self.units = [NSString stringWithFormat:@"°%@", settingsUnits.units];
         self.unitsServerProxy = nil;
@@ -272,8 +273,8 @@ const float kHomeScreenCellHeight = 63;
             
             self.data = dataArray;
             
-            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"day" ascending:YES selector:@selector(compare:)];
-            self.data = [self.data sortedArrayUsingDescriptors:@[ sortDescriptor ]];
+//            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"day" ascending:YES selector:@selector(compare:)];
+//            self.data = [self.data sortedArrayUsingDescriptors:@[ sortDescriptor ]];
 
             WeatherData *lastWeatherData = [self.data lastObject];
             [self rescaleDataIfNeeded];
