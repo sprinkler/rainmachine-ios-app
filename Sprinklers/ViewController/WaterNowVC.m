@@ -486,9 +486,7 @@
     for (int i = 0; i < previousZonesCopy.count; i++) {
         WaterNowZone *z = previousZonesCopy[i];
         int indexInNewList = [self indexOfZoneWithId:z.id];
-        if (![Utils isZoneWatering:self.zones[indexInNewList]]) {
-            [self updateZoneAtIndex:indexInNewList withCounter:z.counter];
-        }
+        [self updateZoneAtIndex:indexInNewList withCounter:z.counter];
     }
     
     // Set the persistent counters for any other zone left with counter 0
@@ -569,8 +567,10 @@
 
 - (void)updateCounterFromDBForZone:(WaterNowZone*)zone
 {
-    DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
-    zone.counter = dbZone.counter;
+    if (![Utils isZoneWatering:zone]) {
+        DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
+        zone.counter = dbZone.counter;
+    }
 }
 
 - (int)indexOfZoneWithId:(NSNumber*)theId
