@@ -97,20 +97,14 @@
     return YES;
 }
 
-+ (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays
++ (NSString*)daysStringFromWeekdaysFrequency:(NSString *)selectedWeekdays
 {
-    NSArray *vals = [weekdays componentsSeparatedByString:@","];
+    NSArray *vals = [selectedWeekdays componentsSeparatedByString:@","];
     if (vals && vals.count == 7) {
-        NSDateFormatter * df = [[NSDateFormatter alloc] init];
-        [df setLocale: [NSLocale currentLocale]];
-        [df setDateStyle:NSDateFormatterShortStyle];
-        [df setTimeStyle:NSDateFormatterShortStyle];
-        NSArray *weekdays = [df weekdaySymbols];
-        NSMutableArray *lowerCaseShortWeekdays = [NSMutableArray array];
-        for (NSString *d in weekdays) {
-            [lowerCaseShortWeekdays addObject:[d substringToIndex:3]];
+        NSMutableArray *weekdays = [NSMutableArray array];
+        for (int i = 0; i < 7; i++) {
+            [weekdays addObject:[daysOfTheWeek[i] substringToIndex:3]];
         }
-        weekdays = lowerCaseShortWeekdays;
         
         NSString *daysString = @"";
         if ([vals[0] isEqualToString:@"1"]) {

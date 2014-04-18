@@ -33,9 +33,7 @@
 {
     [super viewDidLoad];
 
-    NSDateFormatter * df = [[NSDateFormatter alloc] init];
-    [df setLocale: [NSLocale currentLocale]];
-    self.weekdaysNames = [df weekdaySymbols];
+    self.weekdaysNames = @[daysOfTheWeek[0], daysOfTheWeek[1], daysOfTheWeek[2], daysOfTheWeek[3], daysOfTheWeek[4], daysOfTheWeek[5], daysOfTheWeek[6]];
     if ((!self.selectedWeekdays) || ([self.selectedWeekdays count] == 0)) {
         self.selectedWeekdays = [NSMutableArray arrayWithObjects:
                                  @"0",
