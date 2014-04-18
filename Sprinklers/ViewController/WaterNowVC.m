@@ -484,7 +484,7 @@
 
 - (void)addZoneToStateChangeObserver:(WaterNowZone*)zone
 {
-    [self.stateChangeObserver setObject:[NSNumber numberWithInt:2] forKey:zone.id];
+    [self.stateChangeObserver setObject:[NSNumber numberWithInt:1] forKey:zone.id];
 }
 
 - (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone
@@ -495,7 +495,7 @@
 - (BOOL)zoneFailedToStart:(WaterNowZone*)zone
 {
     NSNumber *counter = [self.stateChangeObserver objectForKey:zone.id];
-    if (counter) {
+    if ((counter) && ([counter intValue] == 0)) {
         return [Utils isZoneIdle:zone];
     }
     
@@ -518,11 +518,11 @@
         [self removeZoneFromStateChangeObserver:zone];
     }
     
-//    for (NSNumber *zoneId in [self.stateChangeObserver allKeys]) {
-//        NSNumber *n = [self.stateChangeObserver objectForKey:zoneId];
-//        NSNumber *newN = [NSNumber numberWithInt:MAX(0, [n intValue] - 1)];
-//        [self.stateChangeObserver setObject:newN forKey:zoneId];
-//    }
+    for (NSNumber *zoneId in [self.stateChangeObserver allKeys]) {
+        NSNumber *n = [self.stateChangeObserver objectForKey:zoneId];
+        NSNumber *newN = [NSNumber numberWithInt:MAX(0, [n intValue] - 1)];
+        [self.stateChangeObserver setObject:newN forKey:zoneId];
+    }
 }
 
 - (void)updateZoneAtIndex:(int)index withDetails:(WaterNowZone*)zone
