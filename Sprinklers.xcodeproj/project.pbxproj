@@ -69,7 +69,6 @@
 		AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9DF184E3E080047BD9E /* AFSecurityPolicy.m */; };
 		AF7AC9E2184E3ECE0047BD9E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */; };
 		AF7AC9E4184E3EDF0047BD9E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */; };
-		AF7BFAF118B638210013F337 /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7BFAF018B638210013F337 /* Sprinkler.m */; };
 		AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */; };
 		AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF81E6DE18BA3216007E9A03 /* ButtonCell.m */; };
 		AF81E6E118BA3237007E9A03 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF81E6E018BA3237007E9A03 /* ButtonCell.xib */; };
@@ -87,6 +86,8 @@
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
 		AFA9B58018DADB4F00DB40E8 /* icon_devices.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */; };
 		AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */; };
+		AFB6942C1901A5A20067CD7F /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6942B1901A5A20067CD7F /* Sprinkler.m */; };
+		AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6942E1901A5A20067CD7F /* DBZone.m */; };
 		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
 		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
 		AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760018BBDFC3007200BF /* SimpleCell.xib */; };
@@ -495,8 +496,6 @@
 		AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 5.xcdatamodel"; sourceTree = "<group>"; };
-		AF7BFAEF18B638210013F337 /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
-		AF7BFAF018B638210013F337 /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AF81E6DA18BA24D2007E9A03 /* ProgramVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramVC.h; path = ViewController/ProgramVC.h; sourceTree = "<group>"; };
 		AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramVC.m; path = ViewController/ProgramVC.m; sourceTree = "<group>"; };
 		AF81E6DD18BA3216007E9A03 /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonCell.h; path = Cells/ButtonCell.h; sourceTree = "<group>"; };
@@ -524,6 +523,11 @@
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
 		AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_devices.png; path = Resources/icon_devices.png; sourceTree = "<group>"; };
 		AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_devices@2x.png"; path = "Resources/icon_devices@2x.png"; sourceTree = "<group>"; };
+		AFB694291901A2A10067CD7F /* Sprinklers 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 6.xcdatamodel"; sourceTree = "<group>"; };
+		AFB6942A1901A5A20067CD7F /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
+		AFB6942B1901A5A20067CD7F /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
+		AFB6942D1901A5A20067CD7F /* DBZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBZone.h; path = Model/DBZone.h; sourceTree = "<group>"; };
+		AFB6942E1901A5A20067CD7F /* DBZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBZone.m; path = Model/DBZone.m; sourceTree = "<group>"; };
 		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
 		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
 		AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeekdaysVC.m; path = ViewController/WeekdaysVC.m; sourceTree = "<group>"; };
@@ -1308,9 +1312,11 @@
 		B111984216A7E1E60094EF9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AF7BFAEF18B638210013F337 /* Sprinkler.h */,
-				AF7BFAF018B638210013F337 /* Sprinkler.m */,
 				B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */,
+				AFB6942A1901A5A20067CD7F /* Sprinkler.h */,
+				AFB6942B1901A5A20067CD7F /* Sprinkler.m */,
+				AFB6942D1901A5A20067CD7F /* DBZone.h */,
+				AFB6942E1901A5A20067CD7F /* DBZone.m */,
 				B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */,
 				B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */,
 				B1254CA2187ADCB3004E2F0E /* Program.h */,
@@ -1971,6 +1977,7 @@
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
+				AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
@@ -1980,7 +1987,6 @@
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
-				AF7BFAF118B638210013F337 /* Sprinkler.m in Sources */,
 				B1254CB6187D7A33004E2F0E /* Zone.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
@@ -2040,6 +2046,7 @@
 				AF73880918E08ADE00F184A9 /* BaseVC.m in Sources */,
 				3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
+				AFB6942C1901A5A20067CD7F /* Sprinkler.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
@@ -2203,11 +2210,12 @@
 			children = (
 				AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */,
 				AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */,
+				AFB694291901A2A10067CD7F /* Sprinklers 6.xcdatamodel */,
 				AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */,
 				AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */,
 				B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */;
+			currentVersion = AFB694291901A2A10067CD7F /* Sprinklers 6.xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

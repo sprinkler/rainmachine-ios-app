@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Sprinkler.h"
 
+@class DBZone;
+@class WaterNowZone;
+
 typedef enum {
     NetworkType_Local,
     NetworkType_Remote,
@@ -28,6 +31,8 @@ typedef enum {
 - (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local;
 - (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local;
 - (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType onlyDiscoveredDevices:(NSNumber*)onlyDiscoveredDevices;
+- (DBZone*)zoneWithId:(NSNumber*)theId;
+- (void)setZoneCounter:(WaterNowZone*)zone;
 
 - (void)saveData;
 

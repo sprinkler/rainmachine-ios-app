@@ -2,16 +2,18 @@
 //  Sprinkler.m
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 20/02/14.
+//  Created by Fabian Matyas on 18/04/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
 #import "Sprinkler.h"
+#import "DBZone.h"
 
 
 @implementation Sprinkler
 
 @dynamic address;
+@dynamic isDiscovered;
 @dynamic isLocalDevice;
 @dynamic lastError;
 @dynamic lastSprinklerVersionRequest;
@@ -20,6 +22,6 @@
 @dynamic name;
 @dynamic port;
 @dynamic username;
-@dynamic isDiscovered;
+@dynamic zones;
 
 @end

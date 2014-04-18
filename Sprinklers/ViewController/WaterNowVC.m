@@ -20,6 +20,7 @@
 #import "Utils.h"
 #import "StorageManager.h"
 #import "WaterNowCounterHelper.h"
+#import "DBZone.h"
 
 @interface WaterNowVC () {
     UIColor *switchOnOrangeColor;
@@ -258,20 +259,7 @@
         
         self.lastScheduleRequestError = nil;
         
-        // Preserve the previous values of the counters
-        NSArray *previousZonesCopy = [self.zones copy];
-        
-        self.zones = [self filteredZones:data];
-
-        // Restore the values of the counters
-        [self updateZonesStartObservers];
-        
-        // Restore counters because unpacking the server response destroyed them
-        for (int i = 0; i < previousZonesCopy.count; i++) {
-            WaterNowZone *z = previousZonesCopy[i];
-            int indexInNewList = [self indexOfZoneWithId:z.id];
-            [self updateZoneAtIndex:indexInNewList withDetails:z];
-        }
+        [self setZones:data];
         
         if (stopAllCounter > 0) {
             if ([self areAllStopped]) {
@@ -296,29 +284,39 @@
     else if (serverProxy == self.zonesDetailsServerProxy) {
         WaterNowZone *zone = (WaterNowZone*)data;
         int index = [self indexOfZoneWithId:zone.id];
-        [self updateZoneAtIndex:index withDetails:zone];
-        
-        if ([Utils isZoneWatering:zone]) {
-            if (![self.wateringZone.id isEqualToNumber:zone.id]) {
-                [self clearStateChangeObserver];
-            }
-            self.wateringZone = zone;
-            [self.wateringCounterHelper updateCounter];
-            [self refreshCounterLabel:0];
-        } else {
-            if (index != -1) {
-                NSIndexPath *indexPathOfPendingZone = [NSIndexPath indexPathForRow:index inSection:0];
-                if (indexPathOfPendingZone) {
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPathOfPendingZone] withRowAnimation:UITableViewRowAnimationNone];
+        if (index != -1) {
+            [self updateZoneAtIndex:index withCounter:zone.counter];
+            
+            if ([Utils isZoneWatering:zone]) {
+                if (![self.wateringZone.id isEqualToNumber:zone.id]) {
+                    [self clearStateChangeObserver];
+                }
+                self.wateringZone = self.zones[index];
+                [self.wateringCounterHelper updateCounter];
+                [self refreshCounterLabel:0];
+            } else {
+                if (index != -1) {
+                    NSIndexPath *indexPathOfPendingZone = [NSIndexPath indexPathForRow:index inSection:0];
+                    if (indexPathOfPendingZone) {
+                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPathOfPendingZone] withRowAnimation:UITableViewRowAnimationNone];
+                    }
                 }
             }
         }
-        [self.tableView reloadData];
     }
 }
 
-- (void)userStartedAZone
+- (void)userStoppedZone:(WaterNowZone*)zone
 {
+    int index = [self indexOfZoneWithId:zone.id];
+    [self updateZoneAtIndex:index withCounter:nil];
+    [self.tableView reloadData];
+}
+
+- (void)userStartedZone:(WaterNowZone*)zone
+{
+    [[StorageManager current] setZoneCounter:zone];
+    
     [self clearStateChangeObserver];
 }
 
@@ -438,9 +436,10 @@
     //[self.wateringCounterHelper stopCounterTimer];
     
     if ([self.postServerProxy toggleWateringOnZone:zone withCounter:counter]) {
-        [self userStartedAZone];
+        [self userStartedZone:zone];
         [self addZoneToStateChangeObserver:zone];
     } else {
+        [self userStoppedZone:zone];
         [self removeZoneFromStateChangeObserver:zone];
     }
     
@@ -471,6 +470,32 @@
 }
 
 #pragma mark - Methods
+
+- (void)setZones:(NSArray*)data
+{
+    // Preserve the previous values of the counters
+    NSArray *previousZonesCopy = [self.zones copy];
+    
+    _zones = [self filteredZones:data];
+    
+    // Restore the values of the counters
+    [self updateZonesStartObservers];
+    
+    // Restore counters because unpacking the server response destroyed them
+    for (int i = 0; i < previousZonesCopy.count; i++) {
+        WaterNowZone *z = previousZonesCopy[i];
+        int indexInNewList = [self indexOfZoneWithId:z.id];
+        [self updateZoneAtIndex:indexInNewList withCounter:z.counter];
+    }
+    
+    // Set the persistent counters for any other zone left with counter 0
+    for (int i = 0; i < self.zones.count; i++) {
+        WaterNowZone *z = self.zones[i];
+        if ([z.counter intValue] == 0) {
+            [self updateCounterFromDBForZone:z];
+        }
+    }
+}
 
 - (void)clearStateChangeObserver
 {
@@ -525,11 +550,22 @@
     }
 }
 
-- (void)updateZoneAtIndex:(int)index withDetails:(WaterNowZone*)zone
+- (void)updateZoneAtIndex:(int)index withCounter:(NSNumber*)counter
 {
     if (index != -1) {
         WaterNowZone *destZone = self.zones[index];
-        destZone.counter = zone.counter;
+        destZone.counter = counter;
+        if ([destZone.counter intValue] == 0) {
+            [self updateCounterFromDBForZone:destZone];
+        }
+    }
+}
+
+- (void)updateCounterFromDBForZone:(WaterNowZone*)zone
+{
+    if (![Utils isZoneWatering:zone]) {
+        DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
+        zone.counter = dbZone.counter;
     }
 }
 

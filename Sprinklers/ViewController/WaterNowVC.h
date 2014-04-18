@@ -21,6 +21,7 @@
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
 - (void)addZoneToStateChangeObserver:(WaterNowZone*)zone;
 - (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone;
-- (void)userStartedAZone;
+- (void)userStartedZone:(WaterNowZone*)zone;
+- (void)userStoppedZone:(WaterNowZone*)zone;
 
 @end

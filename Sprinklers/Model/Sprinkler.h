@@ -2,17 +2,19 @@
 //  Sprinkler.h
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 20/02/14.
+//  Created by Fabian Matyas on 18/04/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class DBZone;
 
 @interface Sprinkler : NSManagedObject
 
 @property (nonatomic, retain) NSString * address;
+@property (nonatomic, retain) NSNumber * isDiscovered;
 @property (nonatomic, retain) NSNumber * isLocalDevice;
 @property (nonatomic, retain) NSString * lastError;
 @property (nonatomic, retain) NSDate * lastSprinklerVersionRequest;
@@ -21,6 +23,14 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * port;
 @property (nonatomic, retain) NSString * username;
-@property (nonatomic, retain) NSNumber * isDiscovered;
+@property (nonatomic, retain) NSSet *zones;
+@end
+
+@interface Sprinkler (CoreDataGeneratedAccessors)
+
+- (void)addZonesObject:(DBZone *)value;
+- (void)removeZonesObject:(DBZone *)value;
+- (void)addZones:(NSSet *)values;
+- (void)removeZones:(NSSet *)values;
 
 @end

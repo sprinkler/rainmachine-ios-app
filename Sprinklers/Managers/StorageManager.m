@@ -9,6 +9,8 @@
 #import "StorageManager.h"
 #import "Utils.h"
 #import "Constants.h"
+#import "DBZone.h"
+#import "WaterNowZone.h"
 
 static StorageManager *current = nil;
 
@@ -130,6 +132,37 @@ static StorageManager *current = nil;
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sort0, sort1, nil]];
     
     return [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+}
+
+- (DBZone*)addZoneWithId:(NSNumber*)theId
+{
+    DBZone *dbZone = [NSEntityDescription insertNewObjectForEntityForName:@"DBZone" inManagedObjectContext:self.managedObjectContext];
+    dbZone.id = theId;
+    dbZone.sprinkler = self.currentSprinkler;
+    
+    return dbZone;
+}
+
+- (DBZone*)zoneWithId:(NSNumber*)theId
+{
+    for (DBZone *zone in self.currentSprinkler.zones) {
+        if ([zone.id isEqualToNumber:theId]) {
+            return zone;
+        }
+    }
+    return nil;
+}
+
+- (void)setZoneCounter:(WaterNowZone*)zone
+{
+    DBZone *dbZone = [self zoneWithId:zone.id];
+    if (!dbZone) {
+        dbZone = [self addZoneWithId:zone.id];
+    }
+    
+    dbZone.counter = zone.counter;
+    
+    [self saveData];
 }
 
 #pragma mark - Core Data Stack
