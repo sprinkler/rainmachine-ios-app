@@ -52,7 +52,7 @@ const float kHomeScreenCellHeight = 63;
         return nil;
     }
     
-    self.units = units ? units : @"";
+    [self setUnitsText:units ? units : @"" ];
     
     return self;
 }
@@ -272,7 +272,7 @@ const float kHomeScreenCellHeight = 63;
     if (serverProxy == self.unitsServerProxy) {
         [self handleSprinklerNetworkError:nil showErrorMessage:YES];
         SettingsUnits *settingsUnits = (SettingsUnits*)data;
-        self.units = [NSString stringWithFormat:@"°%@", settingsUnits.units];
+        [self setUnitsText:settingsUnits.units];
         self.unitsServerProxy = nil;
         [self.tableView reloadData];
     } else {
@@ -386,6 +386,11 @@ const float kHomeScreenCellHeight = 63;
         }
         [[UpdateManager current] poll];
     }
+}
+
+- (void)setUnitsText:(NSString*)u
+{
+    self.units = [NSString stringWithFormat:@"°%@", u];
 }
 
 #pragma mark - Actions
