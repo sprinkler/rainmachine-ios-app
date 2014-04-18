@@ -309,7 +309,8 @@
 - (void)userStoppedZone:(WaterNowZone*)zone
 {
     int index = [self indexOfZoneWithId:zone.id];
-    [self updateZoneAtIndex:index withCounter:nil];
+    [self updateCounterFromDBForZone:self.zones[index]];
+
     [self.tableView reloadData];
 }
 
@@ -431,9 +432,10 @@
 
 #pragma mark - Table View Cell callback
 
-- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter;
+- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
     //[self.wateringCounterHelper stopCounterTimer];
+    zone.counter = counter;
     
     if ([self.postServerProxy toggleWateringOnZone:zone withCounter:counter]) {
         [self userStartedZone:zone];
@@ -478,21 +480,25 @@
     
     _zones = [self filteredZones:data];
     
-    // Restore the values of the counters
     [self updateZonesStartObservers];
-    
+
     // Restore counters because unpacking the server response destroyed them
     for (int i = 0; i < previousZonesCopy.count; i++) {
         WaterNowZone *z = previousZonesCopy[i];
         int indexInNewList = [self indexOfZoneWithId:z.id];
-        [self updateZoneAtIndex:indexInNewList withCounter:z.counter];
+        if (![Utils isZoneWatering:self.zones[indexInNewList]]) {
+            [self updateZoneAtIndex:indexInNewList withCounter:z.counter];
+        }
     }
     
     // Set the persistent counters for any other zone left with counter 0
     for (int i = 0; i < self.zones.count; i++) {
-        WaterNowZone *z = self.zones[i];
-        if ([z.counter intValue] == 0) {
-            [self updateCounterFromDBForZone:z];
+        WaterNowZone *zone = self.zones[i];
+        if ([Utils isZoneWatering:zone]) {
+            self.wateringZone = zone;
+        }
+        if ([zone.counter intValue] == 0) {
+            [self updateCounterFromDBForZone:zone];
         }
     }
 }
@@ -509,7 +515,7 @@
 
 - (void)addZoneToStateChangeObserver:(WaterNowZone*)zone
 {
-    [self.stateChangeObserver setObject:[NSNumber numberWithInt:1] forKey:zone.id];
+    [self.stateChangeObserver setObject:[NSNumber numberWithInt:2] forKey:zone.id];
 }
 
 - (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone
@@ -563,10 +569,8 @@
 
 - (void)updateCounterFromDBForZone:(WaterNowZone*)zone
 {
-    if (![Utils isZoneWatering:zone]) {
-        DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
-        zone.counter = dbZone.counter;
-    }
+    DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
+    zone.counter = dbZone.counter;
 }
 
 - (int)indexOfZoneWithId:(NSNumber*)theId

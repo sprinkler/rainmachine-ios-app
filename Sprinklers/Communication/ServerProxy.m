@@ -334,6 +334,8 @@
     startStopWatering.id = zone.id;
     startStopWatering.counter = isIdle ? [Utils fixedZoneCounter:counter isIdle:isIdle] : [NSNumber numberWithInteger:0];
 
+    zone.counter = startStopWatering.counter;
+    
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
     [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zone.id] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // The server returns an empty response when success
