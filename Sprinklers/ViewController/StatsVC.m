@@ -22,6 +22,7 @@
 #import "Sprinkler.h"
 #import "Utils.h"
 #import "UpdateManager.h"
+#import "SettingsUnits.h"
 
 const float kHomeScreenCellHeight = 63;
 
@@ -30,6 +31,8 @@ const float kHomeScreenCellHeight = 63;
 @property (strong, nonatomic) UIImage *waterImage;
 @property (strong, nonatomic) UIImage *waterWavesImage;
 @property (strong, nonatomic) ServerProxy *serverProxy;
+@property (strong, nonatomic) ServerProxy *unitsServerProxy;
+@property (strong, nonatomic) NSString *units;
 @property (strong, nonatomic) NSArray *data;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableView *dataSourceTableView;
@@ -47,6 +50,7 @@ const float kHomeScreenCellHeight = 63;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Stats";
+        self.units = @"";
     }
     return self;
 }
@@ -168,9 +172,9 @@ const float kHomeScreenCellHeight = 63;
     
     if ((maxtValid) && (mintValid)) {
         cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@  ", weatherData.maxt];
+        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@%@", weatherData.maxt, self.units];
         cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@", weatherData.mint];
+        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@%@", weatherData.mint, self.units];
 
     } else {
         if ((!maxtValid) && (!mintValid)) {
@@ -180,24 +184,26 @@ const float kHomeScreenCellHeight = 63;
             if (!maxtValid) {
                 [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
                 cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@", weatherData.mint];
+                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@%@", weatherData.mint, self.units];
             } else {
                 // !mintValid
                 cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@  ", weatherData.maxt];
+                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@%@", weatherData.maxt, self.units];
                 [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
             }
         }
     }
     
-    if ([weatherData.id intValue] == 0) {
+    if ([weatherData.day intValue] == 0) {
         cell.daylabel.text = @"Today";
+        cell.daylabel.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
     }
     else {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"LLL d";
         NSDate *dayDate = [[NSDate date] dateByAddingDays:[weatherData.day intValue]];
         cell.daylabel.text = [formatter stringFromDate:dayDate];
+        cell.daylabel.textColor = [UIColor blackColor];
     }
     
     UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
@@ -242,6 +248,10 @@ const float kHomeScreenCellHeight = 63;
     
     [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
     
+    if (serverProxy == self.unitsServerProxy) {
+        self.unitsServerProxy = nil;
+    }
+    
     [self refreshStatus];
 }
 
@@ -249,23 +259,33 @@ const float kHomeScreenCellHeight = 63;
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-    NSArray *dataArray = (NSArray*)data;
-    if ([dataArray count] > 0) {
-        
-        [self handleSprinklerNetworkError:nil showErrorMessage:YES];
-        
-        self.data = dataArray;
-        
-        WeatherData *lastWeatherData = [self.data lastObject];
-        [self rescaleDataIfNeeded];
-        
-        [self storeSprinklerLastUpdateAndError:lastWeatherData];
-        
+    if (serverProxy == self.unitsServerProxy) {
+        SettingsUnits *settingsUnits = (SettingsUnits*)data;
+        self.units = [NSString stringWithFormat:@"°%@", settingsUnits.units];
+        self.unitsServerProxy = nil;
         [self.tableView reloadData];
-        [self.dataSourceTableView reloadData];
     } else {
-        // For some reason sometimes the server sends wrongly an empty list
-        DLog(@"Warning. Empty response received from server (Stats screen).");
+        NSArray *dataArray = (NSArray*)data;
+        if ([dataArray count] > 0) {
+            
+            [self handleSprinklerNetworkError:nil showErrorMessage:YES];
+            
+            self.data = dataArray;
+            
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"day" ascending:YES selector:@selector(compare:)];
+            self.data = [self.data sortedArrayUsingDescriptors:@[ sortDescriptor ]];
+
+            WeatherData *lastWeatherData = [self.data lastObject];
+            [self rescaleDataIfNeeded];
+            
+            [self storeSprinklerLastUpdateAndError:lastWeatherData];
+            
+            [self.tableView reloadData];
+            [self.dataSourceTableView reloadData];
+        } else {
+            // For some reason sometimes the server sends wrongly an empty list
+            DLog(@"Warning. Empty response received from server (Stats screen).");
+        }
     }
 }
 
@@ -349,6 +369,8 @@ const float kHomeScreenCellHeight = 63;
     
     if ([StorageManager current].currentSprinkler) {
         self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        [self.unitsServerProxy requestSettingsUnits];
         [[UpdateManager current] poll];
     }
 }
