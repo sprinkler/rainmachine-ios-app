@@ -346,8 +346,15 @@
     cell.timeLabel.hidden = !hide;
 
     if (hide) {
+        // Set text to nil because constraints work even if the view is hidden (and the text influences the view size)
+        cell.timeLabelMultipartBottom.text = nil;
+        cell.timeLabelMultipartTop.text = nil;
+        
         cell.timeLabel.textColor = color;
     } else {
+        // Set text to nil because constraints work even if the view is hidden (and the text influences the view size)
+        cell.timeLabel.text = nil;
+
         cell.timeLabelMultipartBottom.textColor = color;
         cell.timeLabelMultipartTop.textColor = color;
     }
@@ -434,18 +441,20 @@
 
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
+    [self.pollServerProxy cancelAllOperations];
+    [self.zonesDetailsServerProxy cancelAllOperations];
+    
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [self resetServerProxies];
+    [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:4];
+    
     //[self.wateringCounterHelper stopCounterTimer];
     zone.counter = counter;
     
-    if ([self.postServerProxy toggleWateringOnZone:zone withCounter:counter]) {
-        [self userStartedZone:zone];
-        [self addZoneToStateChangeObserver:zone];
-    } else {
-        [self userStoppedZone:zone];
-        [self removeZoneFromStateChangeObserver:zone];
-    }
-    
-    // insntant refresh on UI, wait later for server response
+    BOOL succeededWatering = [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
+
+    // Force instant refresh on UI, wait later for server response
     if ([zone.state length] == 0)
     {
         zone.state = @"Pending";
@@ -455,6 +464,18 @@
         zone.state = @"";
     }
     
+    if (succeededWatering) {
+        [self userStartedZone:zone];
+        [self addZoneToStateChangeObserver:zone];
+    } else {
+        if ([zone.id isEqualToNumber:self.wateringZone.id]) {
+            self.wateringZone = nil;
+        }
+        [self userStoppedZone:zone];
+        [self removeZoneFromStateChangeObserver:zone];
+    }
+    
+    [self refreshStopAllButton];
     [self.tableView reloadData];
 }
 

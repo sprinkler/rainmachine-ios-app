@@ -173,12 +173,7 @@ static UpdateManager *current = nil;
             [self.serverProxy requestUpdateStartForVersion:3];
         }
     }
-    else if (theAlertView.tag == kAlertView_LoggedOut) {
-        [self handleServerLoggedOutUser];
-        
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate refreshRootViews:nil];
-        
+    else if (theAlertView.tag == kError_AlertViewTag) {
         self.alertView = nil;
     }
 }
@@ -186,7 +181,7 @@ static UpdateManager *current = nil;
 - (void)handleSprinklerError:(NSString *)errorMessage title:(NSString*)titleMessage showErrorMessage:(BOOL)showErrorMessage{
     if ((errorMessage) && (showErrorMessage)) {
         self.alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        self.alertView.tag = kAlertView_LoggedOut;
+        self.alertView.tag = kError_AlertViewTag;
         [self.alertView show];
     }
 }
