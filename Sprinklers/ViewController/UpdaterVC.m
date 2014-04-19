@@ -12,9 +12,7 @@
 #import "Constants.h"
 #import "Additions.h"
 #import "Utils.h"
-
-#define kAlertViewTag_Finished 1
-#define kAlertViewTag_Timeout 2
+#import "Constants.h"
 
 @interface UpdaterVC ()
 
@@ -73,7 +71,7 @@
                                                         message:@"The firmware update timed out." delegate:self cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-        alert.tag = kAlertViewTag_Timeout;
+        alert.tag = kAlertView_Timeout;
     } else {
         [self.serverProxy cancelAllOperations];
         [self.serverProxy requestUpdateCheckForVersion:self.serverAPIMainVersion];
@@ -123,13 +121,12 @@
                 alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                    message:@"The firmware update encounter an error during installing!" delegate:self cancelButtonTitle:@"OK"
                                          otherButtonTitles:nil];
-                alert.tag = kAlertViewTag_Finished;
             } else {
                 alert = [[UIAlertView alloc] initWithTitle:@"Success"
                                                                 message:@"The firmware update has been succesfully installed." delegate:self cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
-                alert.tag = kAlertViewTag_Finished;
             }
+            alert.tag = kAlertView_Finished;
             [alert show];
         }
     }
@@ -140,10 +137,10 @@
 }
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (theAlertView.tag == kAlertViewTag_Timeout) {
+    if (theAlertView.tag == kAlertView_Timeout) {
         [self stopTimer];
     }
-    else if (theAlertView.tag == kAlertViewTag_Finished) {
+    else if (theAlertView.tag == kAlertView_Finished) {
         [self stopTimer];
     }
     

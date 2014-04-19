@@ -26,9 +26,6 @@
 #define kZoneProperties_ForecastData 3
 #define kZoneProperties_HistoricalAverages 4
 
-#define kAlertViewTag_InvalidZone 1
-#define kAlertViewTag_UnsavedChanges 2
-
 typedef enum {
     MasterValve = 0,
     Active = 1,
@@ -142,7 +139,7 @@ typedef enum {
                                                        delegate:self
                                               cancelButtonTitle:@"Leave screen"
                                               otherButtonTitles:@"Stay", nil];
-    alertView.tag = kAlertViewTag_UnsavedChanges;
+    alertView.tag = kAlertView_UnsavedChanges;
     [alertView show];
 }
 
@@ -584,13 +581,11 @@ typedef enum {
 #pragma mark - Alert view delegate
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == kAlertViewTag_UnsavedChanges) {
+    if (alertView.tag == kAlertView_UnsavedChanges) {
         if (alertView.cancelButtonIndex == buttonIndex) {
             [CCTBackButtonActionHelper sharedInstance].delegate = nil;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    }
-    else if (alertView.tag == kAlertViewTag_InvalidZone) {
     }
 }
 

@@ -28,9 +28,7 @@
 #import "TimePickerVC.h"
 #import "+UIDevice.h"
 #import "StartStopProgramResponse.h"
-
-#define kAlertViewTag_InvalidProgram 1
-#define kAlertViewTag_UnsavedChanges 2
+#import "Constants.h"
 
 @interface ProgramVC ()
 {
@@ -232,7 +230,7 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
-        alertView.tag = kAlertViewTag_InvalidProgram;
+        alertView.tag = kAlertView_InvalidProgram;
         [alertView show];
     } else {
         if (!self.postSaveServerProxy) {
@@ -892,7 +890,7 @@
                                                        delegate:self
                                               cancelButtonTitle:@"Leave screen"
                                               otherButtonTitles:@"Stay", nil];
-    alertView.tag = kAlertViewTag_UnsavedChanges;
+    alertView.tag = kAlertView_UnsavedChanges;
     [alertView show];
 }
 
@@ -934,12 +932,12 @@
 #pragma mark - Alert view delegate
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == kAlertViewTag_UnsavedChanges) {
+    if (alertView.tag == kAlertView_UnsavedChanges) {
         if (alertView.cancelButtonIndex == buttonIndex) {
             [self popWithoutQuestion];
         }
     }
-    else if (alertView.tag == kAlertViewTag_InvalidProgram) {
+    else if (alertView.tag == kAlertView_InvalidProgram) {
     }
 }
 

@@ -47,8 +47,13 @@ extern int const kXCorrectionbetweenCustomAndNormalWheatherFont;
 
 extern NSString *daysOfTheWeek[7];
 
-#define kLoggedOut_AlertViewTag   1
-#define kError_AlertViewTag  2
+#define kAlertView_LoggedOut 1
+#define kAlertView_Error 2
+#define kAlertView_UpdateNow 3
+#define kAlertView_InvalidProgram 4
+#define kAlertView_UnsavedChanges 5
+#define kAlertView_Timeout 6
+#define kAlertView_Finished 7
 
 #define kWaterNowRefreshTimeInterval 10 // Value is specified in seconds
 #define kWaterNowMaxRefreshInterval (kWaterNowRefreshTimeInterval * 4)

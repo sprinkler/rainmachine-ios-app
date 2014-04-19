@@ -29,7 +29,7 @@
     
     if ((errorMessage) && (showErrorMessage)) {
         self.alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        self.alertView.tag = kError_AlertViewTag;
+        self.alertView.tag = kAlertView_Error;
         [self.alertView show];
     }
 }
@@ -48,14 +48,14 @@
     //    [[StorageManager current] saveData];
     
     self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    self.alertView.tag = kLoggedOut_AlertViewTag;
+    self.alertView.tag = kAlertView_LoggedOut;
     [self.alertView show];
 }
 
 #pragma mark - Alert view
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (theAlertView.tag == kLoggedOut_AlertViewTag) {
+    if (theAlertView.tag == kAlertView_LoggedOut) {
         [self handleServerLoggedOutUser];
         
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];

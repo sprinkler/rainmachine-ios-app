@@ -288,12 +288,13 @@
             [self updateZoneAtIndex:index withCounter:zone.counter];
             
             if ([Utils isZoneWatering:zone]) {
-                if (![self.wateringZone.id isEqualToNumber:zone.id]) {
-                    [self clearStateChangeObserver];
-                }
+                [self clearStateChangeObserver];
                 self.wateringZone = self.zones[index];
                 [self.wateringCounterHelper updateCounter];
                 [self refreshCounterLabel:0];
+                
+                // Force whole table reload because the "Failed to Start" labelled cell should also be updated
+                [self.tableView reloadData];
             } else {
                 if (index != -1) {
                     NSIndexPath *indexPathOfPendingZone = [NSIndexPath indexPathForRow:index inSection:0];
@@ -399,6 +400,9 @@
                 [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
                 [cell.timeLabel setFont:[UIFont systemFontOfSize:26]];
                 cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];//@"Watering";
+                if ([cell.timeLabel.text isEqualToString:@"00:00"]) {
+                    cell.timeLabel.text = @"";
+                }
             } else {
                 // Details (i.e.: counter field) did not yet arrive from the server
                 [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
@@ -534,7 +538,8 @@
 
 - (void)addZoneToStateChangeObserver:(WaterNowZone*)zone
 {
-    [self.stateChangeObserver setObject:[NSNumber numberWithInt:2] forKey:zone.id];
+    int stateObserverCountdown = 1;
+    [self.stateChangeObserver setObject:[NSNumber numberWithInt:stateObserverCountdown] forKey:zone.id];
 }
 
 - (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone

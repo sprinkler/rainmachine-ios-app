@@ -19,9 +19,6 @@
 #import "Program.h"
 #import "AppDelegate.h"
 
-#define kAlertView_UpdateNow 1
-#define kAlertView_LoggedOut 2
-
 @interface UpdateManager () {
     int serverAPIMainVersion;
     int serverAPISubVersion;
@@ -173,7 +170,7 @@ static UpdateManager *current = nil;
             [self.serverProxy requestUpdateStartForVersion:3];
         }
     }
-    else if (theAlertView.tag == kError_AlertViewTag) {
+    else if (theAlertView.tag == kAlertView_Error) {
         self.alertView = nil;
     }
 }
@@ -181,7 +178,7 @@ static UpdateManager *current = nil;
 - (void)handleSprinklerError:(NSString *)errorMessage title:(NSString*)titleMessage showErrorMessage:(BOOL)showErrorMessage{
     if ((errorMessage) && (showErrorMessage)) {
         self.alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        self.alertView.tag = kError_AlertViewTag;
+        self.alertView.tag = kAlertView_Error;
         [self.alertView show];
     }
 }
