@@ -42,10 +42,11 @@
 
 @end
 
-@protocol WaterNowCounterHelperDelegate<NSObject>
+@protocol CounterHelperDelegate<NSObject>
 
-- (void)refreshCounterLabel:(int)counter;
 - (void)showCounterLabel;
 - (WaterNowZone*)wateringZone;
+- (int)counterValue;
+- (void)setCounterValue:(int)value;
 
 @end

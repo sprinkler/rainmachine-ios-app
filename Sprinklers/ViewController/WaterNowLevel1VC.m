@@ -16,7 +16,7 @@
 #import "Additions.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
-#import "WaterNowCounterHelper.h"
+#import "CounterHelper.h"
 
 @interface WaterNowLevel1VC ()
 {
@@ -32,7 +32,7 @@
 @property (strong, nonatomic) UIColor *greenColor;
 @property (strong, nonatomic) UIColor *redColor;
 @property (strong, nonatomic) UIColor *orangeColor;
-@property (strong, nonatomic) WaterNowCounterHelper *wateringCounterHelper;
+@property (strong, nonatomic) CounterHelper *wateringCounterHelper;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *startStopActivityIndicator;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *initialTimerRequestActivityIndicator;
@@ -58,7 +58,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.wateringCounterHelper = [[WaterNowCounterHelper alloc] initWithDelegate:self];
+    self.wateringCounterHelper = [[CounterHelper alloc] initWithDelegate:self interval:1];
     
     self.greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
     self.orangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
@@ -170,6 +170,17 @@
 }
 
 #pragma - WaterNowCounterHelper callbacks
+
+- (int)counterValue
+{
+    return [self.wateringZone.counter intValue];
+}
+
+- (void)setCounterValue:(int)value
+{
+    self.wateringZone.counter = [NSNumber numberWithInt:value];
+    [self refreshCounterLabel:value];
+}
 
 - (void)refreshCounterLabel:(int)newCounter
 {

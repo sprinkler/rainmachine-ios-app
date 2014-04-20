@@ -14,7 +14,7 @@
 @class ServerProxy;
 @class WaterNowVC;
 
-@interface WaterNowLevel1VC : BaseLevel2ViewController<SprinklerResponseProtocol, WaterNowCounterHelperDelegate>
+@interface WaterNowLevel1VC : BaseLevel2ViewController<SprinklerResponseProtocol, CounterHelperDelegate>
 
 @property (strong, nonatomic) WaterNowVC *parent;
 @property (strong, nonatomic) WaterNowZone *wateringZone;

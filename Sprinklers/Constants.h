@@ -55,7 +55,7 @@ extern NSString *daysOfTheWeek[7];
 #define kAlertView_Timeout 6
 #define kAlertView_Finished 7
 
-#define kRainDelayRefreshTimeInterval 15 // Value is specified in seconds
+#define kRainDelayRefreshTimeInterval 30 // Value is specified in seconds
 #define kWaterNowRefreshTimeInterval 10 // Value is specified in seconds
 #define kWaterNowMaxRefreshInterval (kWaterNowRefreshTimeInterval * 4)
 

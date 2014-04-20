@@ -83,8 +83,6 @@ const int kOneDayInSeconds = 24 * 60 * 60;
     self.pollServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
     self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
     
-    [self.pollServerProxy getRainDelay];
-    
     [self updateStartButtonActiveStateTo:NO];
     [self hideUI];
 }

@@ -14,7 +14,7 @@
 @class ServerProxy;
 @class WaterNowZone;
 
-@interface WaterNowVC : BaseViewController<SprinklerResponseProtocol, WaterNowCounterHelperDelegate>
+@interface WaterNowVC : BaseViewController<SprinklerResponseProtocol, CounterHelperDelegate>
 
 @property (assign, nonatomic) BOOL delayedInitialListRefresh;
 

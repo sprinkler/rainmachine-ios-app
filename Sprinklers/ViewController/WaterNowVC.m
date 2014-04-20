@@ -19,7 +19,7 @@
 #import "WaterNowZone.h"
 #import "Utils.h"
 #import "StorageManager.h"
-#import "WaterNowCounterHelper.h"
+#import "CounterHelper.h"
 #import "DBZone.h"
 
 @interface WaterNowVC () {
@@ -36,7 +36,7 @@
 @property (strong, nonatomic) NSArray *zones;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
 @property (strong, nonatomic) NSError *lastScheduleRequestError;
-@property (strong, nonatomic) WaterNowCounterHelper *wateringCounterHelper;
+@property (strong, nonatomic) CounterHelper *wateringCounterHelper;
 @property (strong, nonatomic) WaterNowZone *wateringZone;
 @property (strong, nonatomic) NSMutableDictionary *stateChangeObserver;
 
@@ -63,7 +63,7 @@
 
     [self refreshWithCurrentDevice];
 
-    self.wateringCounterHelper = [[WaterNowCounterHelper alloc] initWithDelegate:self];
+    self.wateringCounterHelper = [[CounterHelper alloc] initWithDelegate:self interval:1];
     
     self.delayedInitialListRefresh = NO;
     
@@ -646,6 +646,17 @@
 }
 
 #pragma - WaterNowCounterHelper callbacks
+
+- (int)counterValue
+{
+    return self.wateringZone.counter;
+}
+
+- (void)setCounterValue:(int)value
+{
+    self.wateringZone.counter = [NSNumber numberWithInt:value];
+    [self refreshCounterLabel:value];
+}
 
 - (void)refreshCounterLabel:(int)newCounter
 {

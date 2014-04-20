@@ -6,22 +6,24 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "WaterNowCounterHelper.h"
+#import "CounterHelper.h"
 #import "Utils.h"
 
-@interface WaterNowCounterHelper()
+@interface CounterHelper()
 
-@property (weak, nonatomic) id<WaterNowCounterHelperDelegate> delegate;
+@property (weak, nonatomic) id<CounterHelperDelegate> delegate;
+@property (assign, nonatomic) int interval;
 
 @end
 
-@implementation WaterNowCounterHelper
+@implementation CounterHelper
 
-- (id)initWithDelegate:(id<WaterNowCounterHelperDelegate>)del
+- (id)initWithDelegate:(id<CounterHelperDelegate>)del interval:(int)interval
 {
     self = [super init];
     if (self) {
         self.delegate = del;
+        self.interval = interval;
     }
     return self;
 }
@@ -29,7 +31,7 @@
 - (void)startCounterTimer
 {
     [self stopCounterTimer];
-    self.counterTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.counterTimer = [NSTimer scheduledTimerWithTimeInterval:self.interval
                                                          target:self
                                                        selector:@selector(counterTimer:)
                                                        userInfo:nil
@@ -38,10 +40,9 @@
 
 - (void)counterTimer:(id)notif
 {
-    int counter = [self.delegate.wateringZone.counter intValue] - 1;
+    int counter = [self.delegate counterValue] - self.interval;
     int newCounter = MAX(0, counter);
-    self.delegate.wateringZone.counter = [NSNumber numberWithInt:newCounter];
-    [self.delegate refreshCounterLabel:newCounter];
+    [self.delegate setCounterValue:newCounter];
 }
 
 - (void)stopCounterTimer

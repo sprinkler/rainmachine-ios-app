@@ -10,12 +10,11 @@
 #import "Protocols.h"
 #import "WaterNowZone.h"
 
-@interface WaterNowCounterHelper : NSObject
+@interface CounterHelper : NSObject
 
 @property (strong, nonatomic) NSTimer *counterTimer;
-@property (strong, nonatomic) NSNumber *counterValue;
 
-- (id)initWithDelegate:(id<WaterNowCounterHelperDelegate>)delegate;
+- (id)initWithDelegate:(id<CounterHelperDelegate>)delegate interval:(int)interval;
 - (void)updateCounter;
 - (void)stopCounterTimer;
 
