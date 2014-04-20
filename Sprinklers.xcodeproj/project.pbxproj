@@ -15,7 +15,6 @@
 		3A4437F3188A8705004F9E11 /* PickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437F2188A8705004F9E11 /* PickerVC.xib */; };
 		3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437FD188A93FD004F9E11 /* SettingsHoursVC.m */; };
 		3A443800188A93FD004F9E11 /* SettingsHoursVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437FE188A93FD004F9E11 /* SettingsHoursVC.xib */; };
-		3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A46A3681887FD9E00B59F1F /* RestrictionsData.m */; };
 		3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB58418854521005B79B9 /* RestrictionsVC.m */; };
 		3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB58518854521005B79B9 /* RestrictionsVC.xib */; };
 		3A9AB590188554A2005B79B9 /* RestrictedMonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB58E188554A2005B79B9 /* RestrictedMonthsVC.m */; };
@@ -88,6 +87,8 @@
 		AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */; };
 		AFB6942C1901A5A20067CD7F /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6942B1901A5A20067CD7F /* Sprinkler.m */; };
 		AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6942E1901A5A20067CD7F /* DBZone.m */; };
+		AFB69438190289440067CD7F /* Zone.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB69437190289440067CD7F /* Zone.m */; };
+		AFB6943B190289670067CD7F /* RestrictionsData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6943A190289670067CD7F /* RestrictionsData.m */; };
 		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
 		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
 		AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760018BBDFC3007200BF /* SimpleCell.xib */; };
@@ -319,7 +320,6 @@
 		B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */; };
 		B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CB0187D77EB004E2F0E /* ZonesVC.m */; };
 		B1254CB3187D77EB004E2F0E /* ZonesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1254CB1187D77EB004E2F0E /* ZonesVC.xib */; };
-		B1254CB6187D7A33004E2F0E /* Zone.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CB5187D7A33004E2F0E /* Zone.m */; };
 		B1254CBB187DB542004E2F0E /* ZoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CBA187DB542004E2F0E /* ZoneCell.m */; };
 		B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1254CBC187DB55A004E2F0E /* ZoneCell.xib */; };
 		B1254CC1187DBD61004E2F0E /* RainDelayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1254CBF187DBD61004E2F0E /* RainDelayVC.m */; };
@@ -400,8 +400,6 @@
 		3A4437FC188A93FD004F9E11 /* SettingsHoursVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsHoursVC.h; path = ViewController/SettingsHoursVC.h; sourceTree = "<group>"; };
 		3A4437FD188A93FD004F9E11 /* SettingsHoursVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsHoursVC.m; path = ViewController/SettingsHoursVC.m; sourceTree = "<group>"; };
 		3A4437FE188A93FD004F9E11 /* SettingsHoursVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsHoursVC.xib; path = ViewController/SettingsHoursVC.xib; sourceTree = "<group>"; };
-		3A46A3671887FD9E00B59F1F /* RestrictionsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsData.h; path = Model/RestrictionsData.h; sourceTree = "<group>"; };
-		3A46A3681887FD9E00B59F1F /* RestrictionsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsData.m; path = Model/RestrictionsData.m; sourceTree = "<group>"; };
 		3A9AB58318854521005B79B9 /* RestrictionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsVC.h; path = ViewController/RestrictionsVC.h; sourceTree = "<group>"; };
 		3A9AB58418854521005B79B9 /* RestrictionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsVC.m; path = ViewController/RestrictionsVC.m; sourceTree = "<group>"; };
 		3A9AB58518854521005B79B9 /* RestrictionsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsVC.xib; path = ViewController/RestrictionsVC.xib; sourceTree = "<group>"; };
@@ -528,6 +526,10 @@
 		AFB6942B1901A5A20067CD7F /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
 		AFB6942D1901A5A20067CD7F /* DBZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBZone.h; path = Model/DBZone.h; sourceTree = "<group>"; };
 		AFB6942E1901A5A20067CD7F /* DBZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBZone.m; path = Model/DBZone.m; sourceTree = "<group>"; };
+		AFB69436190289440067CD7F /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zone.h; path = "Communication/Response objects/Zone.h"; sourceTree = "<group>"; };
+		AFB69437190289440067CD7F /* Zone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Zone.m; path = "Communication/Response objects/Zone.m"; sourceTree = "<group>"; };
+		AFB69439190289670067CD7F /* RestrictionsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsData.h; path = "Communication/Response objects/RestrictionsData.h"; sourceTree = "<group>"; };
+		AFB6943A190289670067CD7F /* RestrictionsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsData.m; path = "Communication/Response objects/RestrictionsData.m"; sourceTree = "<group>"; };
 		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
 		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
 		AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeekdaysVC.m; path = ViewController/WeekdaysVC.m; sourceTree = "<group>"; };
@@ -780,8 +782,6 @@
 		B1254CAF187D77EB004E2F0E /* ZonesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZonesVC.h; path = ViewController/ZonesVC.h; sourceTree = "<group>"; };
 		B1254CB0187D77EB004E2F0E /* ZonesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZonesVC.m; path = ViewController/ZonesVC.m; sourceTree = "<group>"; };
 		B1254CB1187D77EB004E2F0E /* ZonesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZonesVC.xib; path = ViewController/ZonesVC.xib; sourceTree = "<group>"; };
-		B1254CB4187D7A33004E2F0E /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zone.h; path = Model/Zone.h; sourceTree = "<group>"; };
-		B1254CB5187D7A33004E2F0E /* Zone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Zone.m; path = Model/Zone.m; sourceTree = "<group>"; };
 		B1254CB9187DB542004E2F0E /* ZoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneCell.h; path = Cells/ZoneCell.h; sourceTree = "<group>"; };
 		B1254CBA187DB542004E2F0E /* ZoneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneCell.m; path = Cells/ZoneCell.m; sourceTree = "<group>"; };
 		B1254CBC187DB55A004E2F0E /* ZoneCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZoneCell.xib; path = Cells/ZoneCell.xib; sourceTree = "<group>"; };
@@ -1333,10 +1333,10 @@
 				AF91C7EF1858D047005888AA /* WaterNowZone.m */,
 				AFC58170184E58FD00C8D06A /* WeatherData.h */,
 				AFC58171184E58FD00C8D06A /* WeatherData.m */,
-				B1254CB4187D7A33004E2F0E /* Zone.h */,
-				B1254CB5187D7A33004E2F0E /* Zone.m */,
-				3A46A3671887FD9E00B59F1F /* RestrictionsData.h */,
-				3A46A3681887FD9E00B59F1F /* RestrictionsData.m */,
+				AFB69439190289670067CD7F /* RestrictionsData.h */,
+				AFB6943A190289670067CD7F /* RestrictionsData.m */,
+				AFB69436190289440067CD7F /* Zone.h */,
+				AFB69437190289440067CD7F /* Zone.m */,
 				AF167D50189A8520003E659D /* APIVersion.h */,
 				AF167D51189A8520003E659D /* APIVersion.m */,
 				AF167D57189ABF6C003E659D /* UpdateInfo.h */,
@@ -1978,6 +1978,7 @@
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
 				AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */,
+				AFB6943B190289670067CD7F /* RestrictionsData.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
@@ -1987,7 +1988,6 @@
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
-				B1254CB6187D7A33004E2F0E /* Zone.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
@@ -2044,7 +2044,6 @@
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */,
 				AF73880918E08ADE00F184A9 /* BaseVC.m in Sources */,
-				3A46A3691887FD9E00B59F1F /* RestrictionsData.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
 				AFB6942C1901A5A20067CD7F /* Sprinkler.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
@@ -2054,6 +2053,7 @@
 				AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
+				AFB69438190289440067CD7F /* Zone.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,
