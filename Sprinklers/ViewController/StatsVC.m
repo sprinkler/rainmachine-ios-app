@@ -23,6 +23,9 @@
 #import "Utils.h"
 #import "UpdateManager.h"
 #import "SettingsUnits.h"
+#import "RainDelayPoller.h"
+#import "RainDelay.h"
+#import "ServerResponse.h"
 
 const float kHomeScreenCellHeight = 63;
 
@@ -35,8 +38,9 @@ const float kHomeScreenCellHeight = 63;
 @property (strong, nonatomic) NSString *units;
 @property (strong, nonatomic) NSArray *data;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UITableView *dataSourceTableView;
+@property (weak, nonatomic) IBOutlet UITableView *statusTableView;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *constrainTableBotom;
 
@@ -69,11 +73,13 @@ const float kHomeScreenCellHeight = 63;
     [super viewDidLoad];
 
     [self refreshWithCurrentDevice];
+    
+    self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
 
     self.waterImage = [Utils waterImage:kHomeScreenCellHeight];
     self.waterWavesImage = [Utils waterWavesImage:kHomeScreenCellHeight];
 
-    [_dataSourceTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
+    [_statusTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"HomeScreenCell" bundle:nil] forCellReuseIdentifier:@"HomeScreenCell"];
 
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
@@ -97,8 +103,17 @@ const float kHomeScreenCellHeight = 63;
         [self.serverProxy requestWeatherData];
         [self startHud:nil]; // @"Receiving data..."
     }
+
+    [self.rainDelayPoller scheduleNextPoll:0];
     
     [self refreshStatus];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.rainDelayPoller stopPollRequests];
 }
 
 - (void)startHud:(NSString *)text {
@@ -106,15 +121,17 @@ const float kHomeScreenCellHeight = 63;
     self.hud.labelText = text;
 }
 
-- (void)refreshStatus
-{
-    [self.dataSourceTableView reloadData];
-}
-
 #pragma mark - Alert view
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    if (theAlertView.tag == kAlertView_ResumeRainDelay) {
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            [self setRainDelay];
+        }
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    }
+    
     self.alertView = nil;
 }
 
@@ -125,7 +142,7 @@ const float kHomeScreenCellHeight = 63;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.dataSourceTableView) {
+    if (tableView == self.statusTableView) {
         return 1;
     }
     return [self.data count];
@@ -133,33 +150,40 @@ const float kHomeScreenCellHeight = 63;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.dataSourceTableView) {
+    if (tableView == self.statusTableView) {
         return 54;
     }
     return kHomeScreenCellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView == self.dataSourceTableView) {
+    if (tableView == self.statusTableView) {
         static NSString *CellIdentifier = @"HomeDataSourceCell";
         HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.dataSourceLabel.text = [StorageManager current].currentSprinkler.address;
         
-        // This is the old formatting style: <x> hours ago / Yesterday / ...
-        // cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate] : @""];
-
-        // This is the new date formatting for Last update
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateStyle:NSDateFormatterShortStyle];
-        [formatter setTimeStyle:NSDateFormatterShortStyle];
-        
-        cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [formatter stringFromDate:[StorageManager current].currentSprinkler.lastUpdate] : @""];
-
-        cell.statusImageView.image = [UIImage imageNamed:([[StorageManager current].currentSprinkler.lastError isEqualToString:@"1"]) ? @"icon_status_warning" : @"icon_status_ok"];
-        if ([[StorageManager current].currentSprinkler.lastError isEqualToString:@"1"]) {
-            cell.wheatherUpdateLabel.text = @"Wheather update: failure";
+        if ([self.rainDelayPoller rainDelayMode]) {
+            [cell setRainDelayUITo:YES withValue:[self.rainDelayPoller.rainDelayData.delayCounter intValue]];
         } else {
-            cell.wheatherUpdateLabel.text = @"NOAA";
+            [cell setRainDelayUITo:NO withValue:0];
+            
+            // This is the old formatting style: <x> hours ago / Yesterday / ...
+            // cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate] : @""];
+            
+            // This is the new date formatting for Last update
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateStyle:NSDateFormatterShortStyle];
+            [formatter setTimeStyle:NSDateFormatterShortStyle];
+            
+            cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [formatter stringFromDate:[StorageManager current].currentSprinkler.lastUpdate] : @""];
+            
+            cell.statusImageView.image = [UIImage imageNamed:([[StorageManager current].currentSprinkler.lastError isEqualToString:@"1"]) ? @"icon_status_warning" : @"icon_status_ok"];
+            if ([[StorageManager current].currentSprinkler.lastError isEqualToString:@"1"]) {
+                cell.wheatherUpdateLabel.text = @"Wheather update: failure";
+            } else {
+                cell.wheatherUpdateLabel.text = @"NOAA";
+            }
+
+            cell.dataSourceLabel.text = [StorageManager current].currentSprinkler.address;
         }
 
         return cell;
@@ -243,10 +267,14 @@ const float kHomeScreenCellHeight = 63;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (tableView == self.dataSourceTableView) {
-        
-        SettingsViewController *settingsViewController = (SettingsViewController*)[[self.tabBarController viewControllers] lastObject];
-        self.tabBarController.selectedViewController = settingsViewController;
+    if (tableView == self.statusTableView) {
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:indexPath];
+        if (cell.selectionStyle != UITableViewCellSelectionStyleNone) {
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Resume sprinkler operation?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Resume", nil];
+            alertView.tag = kAlertView_ResumeRainDelay;
+            [alertView show];
+        }
     }
 }
 
@@ -292,7 +320,7 @@ const float kHomeScreenCellHeight = 63;
             [self storeSprinklerLastUpdateAndError:lastWeatherData];
             
             [self.tableView reloadData];
-            [self.dataSourceTableView reloadData];
+            [self.statusTableView reloadData];
         } else {
             // For some reason sometimes the server sends wrongly an empty list
             DLog(@"Warning. Empty response received from server (Stats screen).");
@@ -399,6 +427,31 @@ const float kHomeScreenCellHeight = 63;
     
     StatsTestLevel1VC *stats = [[StatsTestLevel1VC alloc] init];
     [self.navigationController pushViewController:stats animated:YES];
+}
+
+#pragma mark - RainDelayPollerDelegate
+
+- (void)setRainDelay
+{
+    [self hideRainDelayActivityIndicator:NO];
+
+    [self.rainDelayPoller setRainDelay];
+}
+
+- (void)hideRainDelayActivityIndicator:(BOOL)hide
+{
+    HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    cell.setRainDelayActivityIndicator.hidden = hide;
+}
+
+- (void)hideHUD
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)refreshStatus
+{
+    [self.statusTableView reloadData];
 }
 
 @end

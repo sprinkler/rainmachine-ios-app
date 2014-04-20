@@ -55,7 +55,7 @@
 {
     [self.delegate showCounterLabel];
     
-    if (![Utils isZoneWatering:self.delegate.wateringZone]) {
+    if (![self.delegate isCounteringActive]) {
         [self stopCounterTimer];
     } else {
         [self startCounterTimer];

@@ -8,8 +8,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RainDelayVC">
             <connections>
+                <outlet property="buttonDelayResume" destination="zRk-US-0V3" id="uhb-jo-64N"/>
                 <outlet property="buttonDown" destination="b1Q-wB-XjM" id="nL6-lM-2ea"/>
-                <outlet property="buttonSety" destination="zRk-US-0V3" id="QJ7-rq-5Ui"/>
                 <outlet property="buttonUp" destination="uNC-5B-H7o" id="Dq9-7B-iqh"/>
                 <outlet property="initialRequestActivityIndicator" destination="PMZ-nm-Pyc" id="2S0-DW-7hP"/>
                 <outlet property="labelCounter" destination="Igc-DE-Rpf" id="s5i-IV-isq"/>

@@ -45,8 +45,18 @@
 @protocol CounterHelperDelegate<NSObject>
 
 - (void)showCounterLabel;
-- (WaterNowZone*)wateringZone;
+- (BOOL)isCounteringActive;
 - (int)counterValue;
 - (void)setCounterValue:(int)value;
+
+@end
+
+@protocol RainDelayPollerDelegate <NSObject>
+
+- (void)handleSprinklerNetworkError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage;
+- (void)hideHUD;
+- (void)refreshStatus;
+- (void)hideRainDelayActivityIndicator:(BOOL)hide;
+- (void)loggedOut;
 
 @end

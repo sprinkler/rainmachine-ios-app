@@ -12,9 +12,8 @@
 
 @class SettingsVC;
 
-@interface RainDelayVC : BaseLevel2ViewController <SprinklerResponseProtocol>
+@interface RainDelayVC : BaseLevel2ViewController <RainDelayPollerDelegate>
 
 @property (weak, nonatomic) SettingsVC *parent;
-
 
 @end

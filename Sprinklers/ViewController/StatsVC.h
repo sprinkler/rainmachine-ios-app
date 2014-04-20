@@ -14,7 +14,7 @@
 @class MBProgressHUD;
 @class SettingsUnits;
 
-@interface StatsVC : BaseViewController<UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
+@interface StatsVC : BaseViewController<UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, RainDelayPollerDelegate>
 
 - (id)initWithUnits:(NSString*)units;
 - (void)setUnitsText:(NSString*)u;

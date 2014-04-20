@@ -647,9 +647,14 @@
 
 #pragma - WaterNowCounterHelper callbacks
 
+- (BOOL)isCounteringActive
+{
+    return [Utils isZoneWatering:self.wateringZone];
+}
+
 - (int)counterValue
 {
-    return self.wateringZone.counter;
+    return [self.wateringZone.counter intValue];
 }
 
 - (void)setCounterValue:(int)value

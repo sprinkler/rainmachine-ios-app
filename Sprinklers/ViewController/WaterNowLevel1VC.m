@@ -193,6 +193,11 @@
     self.counterLabel.hidden = NO;
 }
 
+- (BOOL)isCounteringActive
+{
+    return [Utils isZoneWatering:self.wateringZone];
+}
+
 #pragma mark - Requests
 
 - (void)stopPollRequests

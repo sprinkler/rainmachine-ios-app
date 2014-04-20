@@ -89,6 +89,7 @@
 		AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6942E1901A5A20067CD7F /* DBZone.m */; };
 		AFB69438190289440067CD7F /* Zone.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB69437190289440067CD7F /* Zone.m */; };
 		AFB6943B190289670067CD7F /* RestrictionsData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6943A190289670067CD7F /* RestrictionsData.m */; };
+		AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6943D190427A20067CD7F /* RainDelayPoller.m */; };
 		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
 		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
 		AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760018BBDFC3007200BF /* SimpleCell.xib */; };
@@ -530,6 +531,8 @@
 		AFB69437190289440067CD7F /* Zone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Zone.m; path = "Communication/Response objects/Zone.m"; sourceTree = "<group>"; };
 		AFB69439190289670067CD7F /* RestrictionsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsData.h; path = "Communication/Response objects/RestrictionsData.h"; sourceTree = "<group>"; };
 		AFB6943A190289670067CD7F /* RestrictionsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsData.m; path = "Communication/Response objects/RestrictionsData.m"; sourceTree = "<group>"; };
+		AFB6943C190427A20067CD7F /* RainDelayPoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainDelayPoller.h; sourceTree = "<group>"; };
+		AFB6943D190427A20067CD7F /* RainDelayPoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainDelayPoller.m; sourceTree = "<group>"; };
 		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
 		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
 		AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeekdaysVC.m; path = ViewController/WeekdaysVC.m; sourceTree = "<group>"; };
@@ -939,6 +942,8 @@
 				AF7AC9BA184E3D1A0047BD9E /* Protocols.h */,
 				AFCDF79D185DBE2700F9C57E /* Utils.h */,
 				AFCDF79E185DBE2700F9C57E /* Utils.m */,
+				AFB6943C190427A20067CD7F /* RainDelayPoller.h */,
+				AFB6943D190427A20067CD7F /* RainDelayPoller.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1995,6 +2000,7 @@
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
+				AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */,
 				AF81E6E618BA32D8007E9A03 /* ProgramCellType1.m in Sources */,
 				B1EF20F4186046D300D9CE26 /* +UIDevice.m in Sources */,
 				AF167D52189A8520003E659D /* APIVersion.m in Sources */,

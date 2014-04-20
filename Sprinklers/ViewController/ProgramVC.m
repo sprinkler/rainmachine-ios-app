@@ -29,6 +29,9 @@
 #import "+UIDevice.h"
 #import "StartStopProgramResponse.h"
 #import "Constants.h"
+#import "RainDelayPoller.h"
+#import "RainDelay.h"
+#import "HomeScreenDataSourceCell.h"
 
 @interface ProgramVC ()
 {
@@ -60,6 +63,10 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *startButtonItem;
 @property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
 
+@property (weak, nonatomic) IBOutlet UITableView *statusTableView;
+@property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusTableViewHeightConstraint;
+
 @end
 
 @implementation ProgramVC
@@ -67,6 +74,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     self.title = @"Program";
     
     isNewProgram = (self.program == nil);
@@ -110,6 +120,8 @@
         self.program.timeFormat = [self.parent serverTimeFormat];
     }
     
+    [_statusTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
+
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType1" bundle:nil] forCellReuseIdentifier:@"ProgramCellType1"];
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType2" bundle:nil] forCellReuseIdentifier:@"ProgramCellType2"];
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType3" bundle:nil] forCellReuseIdentifier:@"ProgramCellType3"];
@@ -196,14 +208,18 @@
     }
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [CCTBackButtonActionHelper sharedInstance].delegate = self;
+    
+    [self.rainDelayPoller scheduleNextPoll:0];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+
+    [self.rainDelayPoller stopPollRequests];
 }
 
 - (void)updateRunNowButtonActiveStateTo:(BOOL)state setActivityIndicator:(BOOL)setActivityIndicator
@@ -374,11 +390,23 @@
 #pragma mark - Table view
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView == self.statusTableView) {
+        if ([self.rainDelayPoller rainDelayMode]) {
+            return 1;
+        }
+        
+        return 0;
+    }
+
     return wateringTimesSectionIndex + 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    if (tableView == self.statusTableView) {
+        return nil;
+    }
+    
     if (section == nameSectionIndex) {
         return @"Name";
     }
@@ -404,6 +432,14 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.statusTableView) {
+        if ([self.rainDelayPoller rainDelayMode]) {
+            return 1;
+        }
+        
+        return 0;
+    }
+
     if (section == runNowSectionIndex) {
         return 1;
     }
@@ -433,6 +469,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.statusTableView) {
+        return 54;
+    }
+
     if (indexPath.section == runNowSectionIndex) {
         return 60;
     }
@@ -459,151 +499,168 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == runNowSectionIndex) {
-        static NSString *CellIdentifier = @"ButtonCell";
-        ButtonCell *cell = (ButtonCell*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        BOOL isStopped = [self.program.state isEqualToString:@"stopped"];
-        [cell.button setCustomBackgroundColorFromComponents:isStopped ? kSprinklerBlueColor : kWateringRedButtonColor];
-        [cell.button setTitle:isStopped ? @"Run Now" : @"Stop" forState:UIControlStateNormal];
+    if (tableView == self.statusTableView) {
+        static NSString *CellIdentifier = @"HomeDataSourceCell";
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
-        if (setRunNowActivityIndicator) {
-            cell.buttonActivityIndicator.hidden = runNowButtonEnabledState;
-        }
-        cell.button.enabled = runNowButtonEnabledState;
-        cell.button.alpha = runNowButtonEnabledState ? 1 : 0.66;
-        
-        return cell;
-    }
-    else if (indexPath.section == nameSectionIndex) {
-        static NSString *CellIdentifier = @"ProgramCellType1";
-        ProgramCellType1 *cell = (ProgramCellType1*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-            cell.theTextField.tintColor = [UIColor blackColor];
-        }
-        cell.theTextField.enabled = [Utils isDevice357Plus];
-        cell.theTextField.text = self.program.name;
-        cell.delegate = self;
-        if (resignKeyboard) {
-            [cell.theTextField resignFirstResponder];
-        }
-        return cell;
-    }
-    else if (indexPath.section == activeSectionIndex) {
-        static NSString *CellIdentifier = @"ProgramCellType2";
-        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.theSwitch.on = self.program.active;
-        cell.theTextLabel.text = @"Active";
-        cell.theDetailLabel.text = nil;
-        cell.delegate = self;
-        cell.ignoreWeatherDataCellType = NO;
-        return cell;
-    }
-    else if (indexPath.section == ignoreWeatherDataSectionIndex) {
-        static NSString *CellIdentifier = @"ProgramCellType2";
-        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.theSwitch.on = self.program.ignoreWeatherData;
-        cell.theTextLabel.text = @"Ignore weather data";
-        cell.theDetailLabel.text = nil;
-        cell.delegate = self;
-        cell.ignoreWeatherDataCellType = YES;
-        return cell;
-    }
-    else if (indexPath.section == frequencySectionIndex) {
-        static NSString *CellIdentifier = @"ProgramCellType3";
-        ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.theCenteredTextLabel.hidden = NO;
-        cell.theTextLabel.hidden = YES;
-        cell.theDetailTextLabel.hidden = YES;
-        
-        BOOL check = NO;
-        if (indexPath.row == 0) {
-            check = [self.program.weekdays isEqualToString:@"D"];
-            cell.theCenteredTextLabel.text = @"Daily";
-            cell.index = 0;
-        }
-        else if (indexPath.row == 1) {
-            check = [self.program.weekdays isEqualToString:@"ODD"];
-            cell.theCenteredTextLabel.text = @"Odd days";
-            cell.index = 1;
-        }
-        else if (indexPath.row == 2) {
-            check = [self.program.weekdays isEqualToString:@"EVD"];
-            cell.theCenteredTextLabel.text = @"Even days";
-            cell.index = 2;
-        }
-        else if (indexPath.row == 3) {
-            check = [self.program.weekdays containsString:@"INT"];
-            int nrDays;
-            sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
-            cell.theCenteredTextLabel.text = [NSString stringWithFormat:@"Every %d days", nrDays];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.index = 3;
-        }
-        else if (indexPath.row == 4) {
-            check = [self.program.weekdays containsString:@","];
-            cell.theTextLabel.text = @"Weekdays";
-            cell.theCenteredTextLabel.text = @"Weekdays";
-            cell.theDetailTextLabel.text = [Utils daysStringFromWeekdaysFrequency:self.frequencyWeekdays];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            if ([cell.theDetailTextLabel.text length] > 0) {
-                cell.theCenteredTextLabel.hidden = YES;
-                cell.theTextLabel.hidden = NO;
-                cell.theDetailTextLabel.hidden = NO;
-            }
-            cell.index = 4;
-        }
-
-        cell.checkmark.selected = check;
-        
-        return cell;
-    }
-    
-    else if (indexPath.section == startTimeSectionIndex) {
-        static NSString *CellIdentifier = @"ProgramCellType4";
-        ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
-        cell.theTextLabel.text = @"START TIME";
-        cell.timeLabel.text = startHourAndMinute;
-        cell.timeLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
-        return cell;
-    }
-
-    else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
-        static NSString *CellIdentifier = @"ProgramCellType5";
-        ProgramCellType5 *cell = (ProgramCellType5*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.delegate = self;
-        if (indexPath.row == 0) {
-            cell.theSwitch.on = self.program.csOn;
-            cell.theTextLabel.text = @"Cycle & Soak";
-            cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soak];
-            cell.cycleAndSoak = YES;
-        }
-        else if (indexPath.row == 1) {
-            cell.theSwitch.on = self.program.delayOn;
-            cell.theTextLabel.text = @"Station Delay";
-            cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
-            cell.cycleAndSoak = NO;
-        }
-        if (!cell.theActivityIndicator.hidden) {
-            [cell.theActivityIndicator startAnimating];
+        if ([self.rainDelayPoller rainDelayMode]) {
+            self.statusTableViewHeightConstraint.constant = 54;
+            self.startButtonItem.enabled = NO;
+            [cell setRainDelayUITo:YES withValue:[self.rainDelayPoller.rainDelayData.delayCounter intValue]];
         } else {
-            [cell.theActivityIndicator stopAnimating];
+            self.statusTableViewHeightConstraint.constant = 0;
+            self.startButtonItem.enabled = YES;
+            [cell setRainDelayUITo:NO withValue:0];
         }
+        
         return cell;
-    }
-    
-    else if (indexPath.section == wateringTimesSectionIndex) {
-        static NSString *CellIdentifier = @"ProgramCellType4";
-        ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
-        cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
-        cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
-        cell.timeLabel.textColor = [UIColor blackColor];
-        return cell;
+    } else {
+        if (indexPath.section == runNowSectionIndex) {
+            static NSString *CellIdentifier = @"ButtonCell";
+            ButtonCell *cell = (ButtonCell*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            cell.delegate = self;
+            BOOL isStopped = [self.program.state isEqualToString:@"stopped"];
+            [cell.button setCustomBackgroundColorFromComponents:isStopped ? kSprinklerBlueColor : kWateringRedButtonColor];
+            [cell.button setTitle:isStopped ? @"Run Now" : @"Stop" forState:UIControlStateNormal];
+            
+            if (setRunNowActivityIndicator) {
+                cell.buttonActivityIndicator.hidden = runNowButtonEnabledState;
+            }
+            cell.button.enabled = runNowButtonEnabledState;
+            cell.button.alpha = runNowButtonEnabledState ? 1 : 0.66;
+            
+            return cell;
+        }
+        else if (indexPath.section == nameSectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType1";
+            ProgramCellType1 *cell = (ProgramCellType1*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+                cell.theTextField.tintColor = [UIColor blackColor];
+            }
+            cell.theTextField.enabled = [Utils isDevice357Plus];
+            cell.theTextField.text = self.program.name;
+            cell.delegate = self;
+            if (resignKeyboard) {
+                [cell.theTextField resignFirstResponder];
+            }
+            return cell;
+        }
+        else if (indexPath.section == activeSectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType2";
+            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            cell.theSwitch.on = self.program.active;
+            cell.theTextLabel.text = @"Active";
+            cell.theDetailLabel.text = nil;
+            cell.delegate = self;
+            cell.ignoreWeatherDataCellType = NO;
+            return cell;
+        }
+        else if (indexPath.section == ignoreWeatherDataSectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType2";
+            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            cell.theSwitch.on = self.program.ignoreWeatherData;
+            cell.theTextLabel.text = @"Ignore weather data";
+            cell.theDetailLabel.text = nil;
+            cell.delegate = self;
+            cell.ignoreWeatherDataCellType = YES;
+            return cell;
+        }
+        else if (indexPath.section == frequencySectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType3";
+            ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            cell.delegate = self;
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.theCenteredTextLabel.hidden = NO;
+            cell.theTextLabel.hidden = YES;
+            cell.theDetailTextLabel.hidden = YES;
+            
+            BOOL check = NO;
+            if (indexPath.row == 0) {
+                check = [self.program.weekdays isEqualToString:@"D"];
+                cell.theCenteredTextLabel.text = @"Daily";
+                cell.index = 0;
+            }
+            else if (indexPath.row == 1) {
+                check = [self.program.weekdays isEqualToString:@"ODD"];
+                cell.theCenteredTextLabel.text = @"Odd days";
+                cell.index = 1;
+            }
+            else if (indexPath.row == 2) {
+                check = [self.program.weekdays isEqualToString:@"EVD"];
+                cell.theCenteredTextLabel.text = @"Even days";
+                cell.index = 2;
+            }
+            else if (indexPath.row == 3) {
+                check = [self.program.weekdays containsString:@"INT"];
+                int nrDays;
+                sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
+                cell.theCenteredTextLabel.text = [NSString stringWithFormat:@"Every %d days", nrDays];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.index = 3;
+            }
+            else if (indexPath.row == 4) {
+                check = [self.program.weekdays containsString:@","];
+                cell.theTextLabel.text = @"Weekdays";
+                cell.theCenteredTextLabel.text = @"Weekdays";
+                cell.theDetailTextLabel.text = [Utils daysStringFromWeekdaysFrequency:self.frequencyWeekdays];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                if ([cell.theDetailTextLabel.text length] > 0) {
+                    cell.theCenteredTextLabel.hidden = YES;
+                    cell.theTextLabel.hidden = NO;
+                    cell.theDetailTextLabel.hidden = NO;
+                }
+                cell.index = 4;
+            }
+
+            cell.checkmark.selected = check;
+            
+            return cell;
+        }
+        
+        else if (indexPath.section == startTimeSectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType4";
+            ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            
+            NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
+            cell.theTextLabel.text = @"START TIME";
+            cell.timeLabel.text = startHourAndMinute;
+            cell.timeLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
+            return cell;
+        }
+
+        else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType5";
+            ProgramCellType5 *cell = (ProgramCellType5*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            cell.delegate = self;
+            if (indexPath.row == 0) {
+                cell.theSwitch.on = self.program.csOn;
+                cell.theTextLabel.text = @"Cycle & Soak";
+                cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soak];
+                cell.cycleAndSoak = YES;
+            }
+            else if (indexPath.row == 1) {
+                cell.theSwitch.on = self.program.delayOn;
+                cell.theTextLabel.text = @"Station Delay";
+                cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
+                cell.cycleAndSoak = NO;
+            }
+            if (!cell.theActivityIndicator.hidden) {
+                [cell.theActivityIndicator startAnimating];
+            } else {
+                [cell.theActivityIndicator stopAnimating];
+            }
+            return cell;
+        }
+        
+        else if (indexPath.section == wateringTimesSectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType4";
+            ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
+            cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
+            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
+            cell.timeLabel.textColor = [UIColor blackColor];
+            return cell;
+        }
     }
     
     return nil;
@@ -660,82 +717,92 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == nameSectionIndex) {
-        ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];
-        [cell.theTextField becomeFirstResponder];
-    }
-    else if (indexPath.section == activeSectionIndex) {
-        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
-        cell.theSwitch.on = !cell.theSwitch.on;
-        self.program.active = cell.theSwitch.on;
-        [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
-    }
-    else if (indexPath.section == ignoreWeatherDataSectionIndex) {
-        ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
-        cell.theSwitch.on = !cell.theSwitch.on;
-        self.program.ignoreWeatherData = cell.theSwitch.on;
-        [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
-    }
-    else if (indexPath.section == frequencySectionIndex) {
-        // [self checkFrequencyWithIndex:(int)indexPath.row];
-        ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView cellForRowAtIndexPath:indexPath];
-        [cell onCheckMark: self];
-        
-        if (indexPath.row == 3) {
-            int nrDays;
-            sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
-
-            SetDelayVC *setIntervalFrequencyVC = [[SetDelayVC alloc] init];
-            setIntervalFrequencyVC.parent = self;
-            setIntervalFrequencyVC.userInfo = @"interval_frequency";
-            setIntervalFrequencyVC.titlePicker1 = @"days";
-            setIntervalFrequencyVC.valuePicker1 = nrDays;
-            setIntervalFrequencyVC.title = @"Set days frequency";
-
-            [self willPushChildView];
-            [self.navigationController pushViewController:setIntervalFrequencyVC animated:YES];
+    if (tableView == self.statusTableView) {
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:indexPath];
+        if (cell.selectionStyle != UITableViewCellSelectionStyleNone) {
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Resume sprinkler operation?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Resume", nil];
+            alertView.tag = kAlertView_ResumeRainDelay;
+            [alertView show];
         }
-        else if (indexPath.row == 4) {
-            WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
-            weekdaysVC.selectedWeekdays = [[_program.weekdays componentsSeparatedByString:@","] mutableCopy];
-            weekdaysVC.parent = self;
-
-            [self willPushChildView];
-            [self.navigationController pushViewController:weekdaysVC animated:YES];
+    } else {
+        if (indexPath.section == nameSectionIndex) {
+            ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];
+            [cell.theTextField becomeFirstResponder];
         }
-
-    }
-    else if (indexPath.section == startTimeSectionIndex) {
-        if (indexPath.row == 0) {
-
-            TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
-            timePickerVC.timeFormat = self.program.timeFormat;
-            timePickerVC.parent = self;
-            timePickerVC.time = self.program.startTime;
-            [timePickerVC refreshTimeFormatConstraint];
-
-            [self willPushChildView];
-            [self.navigationController pushViewController:timePickerVC animated:YES];
+        else if (indexPath.section == activeSectionIndex) {
+            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
+            cell.theSwitch.on = !cell.theSwitch.on;
+            self.program.active = cell.theSwitch.on;
+            [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
         }
-    }
-    else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
-        [self showSection4Screen:(int)indexPath.row];
-    }
-    else if (indexPath.section == wateringTimesSectionIndex) {
-        SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
-        ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
-        setDelayVC.userInfo = @{@"name" : @"zoneDelay",
-                                @"zoneId" : [NSNumber numberWithInteger:indexPath.row],
-                                @"mins" : [NSNumber numberWithInt:programWateringTime.minutes],
-                                };
-        setDelayVC.titlePicker1 = @"minutes";
-        setDelayVC.valuePicker1 = programWateringTime.minutes;
-        
-        setDelayVC.title = @"Zone watering duration";
-        setDelayVC.parent = self;
-        
-        [self willPushChildView];
-        [self.navigationController pushViewController:setDelayVC animated:YES];
+        else if (indexPath.section == ignoreWeatherDataSectionIndex) {
+            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
+            cell.theSwitch.on = !cell.theSwitch.on;
+            self.program.ignoreWeatherData = cell.theSwitch.on;
+            [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
+        }
+        else if (indexPath.section == frequencySectionIndex) {
+            // [self checkFrequencyWithIndex:(int)indexPath.row];
+            ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView cellForRowAtIndexPath:indexPath];
+            [cell onCheckMark: self];
+            
+            if (indexPath.row == 3) {
+                int nrDays;
+                sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
+
+                SetDelayVC *setIntervalFrequencyVC = [[SetDelayVC alloc] init];
+                setIntervalFrequencyVC.parent = self;
+                setIntervalFrequencyVC.userInfo = @"interval_frequency";
+                setIntervalFrequencyVC.titlePicker1 = @"days";
+                setIntervalFrequencyVC.valuePicker1 = nrDays;
+                setIntervalFrequencyVC.title = @"Set days frequency";
+
+                [self willPushChildView];
+                [self.navigationController pushViewController:setIntervalFrequencyVC animated:YES];
+            }
+            else if (indexPath.row == 4) {
+                WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
+                weekdaysVC.selectedWeekdays = [[_program.weekdays componentsSeparatedByString:@","] mutableCopy];
+                weekdaysVC.parent = self;
+
+                [self willPushChildView];
+                [self.navigationController pushViewController:weekdaysVC animated:YES];
+            }
+
+        }
+        else if (indexPath.section == startTimeSectionIndex) {
+            if (indexPath.row == 0) {
+
+                TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
+                timePickerVC.timeFormat = self.program.timeFormat;
+                timePickerVC.parent = self;
+                timePickerVC.time = self.program.startTime;
+                [timePickerVC refreshTimeFormatConstraint];
+
+                [self willPushChildView];
+                [self.navigationController pushViewController:timePickerVC animated:YES];
+            }
+        }
+        else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
+            [self showSection4Screen:(int)indexPath.row];
+        }
+        else if (indexPath.section == wateringTimesSectionIndex) {
+            SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
+            ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
+            setDelayVC.userInfo = @{@"name" : @"zoneDelay",
+                                    @"zoneId" : [NSNumber numberWithInteger:indexPath.row],
+                                    @"mins" : [NSNumber numberWithInt:programWateringTime.minutes],
+                                    };
+            setDelayVC.titlePicker1 = @"minutes";
+            setDelayVC.valuePicker1 = programWateringTime.minutes;
+            
+            setDelayVC.title = @"Zone watering duration";
+            setDelayVC.parent = self;
+            
+            [self willPushChildView];
+            [self.navigationController pushViewController:setDelayVC animated:YES];
+        }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -931,14 +998,44 @@
 
 #pragma mark - Alert view delegate
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == kAlertView_UnsavedChanges) {
-        if (alertView.cancelButtonIndex == buttonIndex) {
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (theAlertView.tag == kAlertView_ResumeRainDelay) {
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            [self setRainDelay];
+        }
+    }
+    else if (theAlertView.tag == kAlertView_UnsavedChanges) {
+        if (theAlertView.cancelButtonIndex == buttonIndex) {
             [self popWithoutQuestion];
         }
     }
-    else if (alertView.tag == kAlertView_InvalidProgram) {
+    else if (theAlertView.tag == kAlertView_InvalidProgram) {
     }
+}
+
+#pragma mark - RainDelayPollerDelegate
+
+- (void)setRainDelay
+{
+    [self hideRainDelayActivityIndicator:NO];
+    
+    [self.rainDelayPoller setRainDelay];
+}
+
+- (void)hideRainDelayActivityIndicator:(BOOL)hide
+{
+    HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    cell.setRainDelayActivityIndicator.hidden = hide;
+}
+
+- (void)hideHUD
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)refreshStatus
+{
+    [self.statusTableView reloadData];
 }
 
 @end

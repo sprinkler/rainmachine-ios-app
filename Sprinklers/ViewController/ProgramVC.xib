@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -8,6 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProgramVC">
             <connections>
                 <outlet property="startButtonItem" destination="vEC-xm-ppZ" id="1cw-8a-3Fg"/>
+                <outlet property="statusTableView" destination="ZKu-QN-bri" id="H3r-YN-7O8"/>
+                <outlet property="statusTableViewHeightConstraint" destination="92J-pT-oQq" id="nxt-9E-t5g"/>
                 <outlet property="tableView" destination="hgl-eJ-Yy7" id="U7j-IO-eJC"/>
                 <outlet property="topToolbar" destination="fZt-WL-59C" id="1HU-nV-fK7"/>
                 <outlet property="view" destination="1" id="Qj9-bE-LoV"/>
@@ -19,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="hgl-eJ-Yy7">
-                    <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="470"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
@@ -55,15 +57,30 @@
                         <barButtonItem systemItem="flexibleSpace" id="xYR-KC-weS"/>
                     </items>
                 </toolbar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZKu-QN-bri">
+                    <rect key="frame" x="0.0" y="514" width="320" height="54"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="54" id="92J-pT-oQq"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="IlR-m7-lHa"/>
+                        <outlet property="delegate" destination="-1" id="m0f-XS-X3X"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="deviceRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="fZt-WL-59C" secondAttribute="trailing" id="0kt-hY-drf"/>
                 <constraint firstItem="fZt-WL-59C" firstAttribute="top" secondItem="1" secondAttribute="top" id="4tr-JX-X3e"/>
+                <constraint firstAttribute="bottom" secondItem="ZKu-QN-bri" secondAttribute="bottom" id="9Da-yY-nfX"/>
                 <constraint firstItem="hgl-eJ-Yy7" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="ElQ-HE-wj9"/>
-                <constraint firstAttribute="bottom" secondItem="hgl-eJ-Yy7" secondAttribute="bottom" id="RPh-zv-glB"/>
+                <constraint firstItem="ZKu-QN-bri" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="M69-eF-zrN"/>
                 <constraint firstItem="fZt-WL-59C" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Vel-GX-N5b"/>
+                <constraint firstItem="ZKu-QN-bri" firstAttribute="top" secondItem="hgl-eJ-Yy7" secondAttribute="bottom" id="Wn5-4X-6cF"/>
                 <constraint firstItem="hgl-eJ-Yy7" firstAttribute="top" secondItem="fZt-WL-59C" secondAttribute="bottom" id="Wvi-dH-qki"/>
+                <constraint firstAttribute="trailing" secondItem="ZKu-QN-bri" secondAttribute="trailing" id="YaD-bw-rzJ"/>
                 <constraint firstAttribute="trailing" secondItem="hgl-eJ-Yy7" secondAttribute="trailing" id="ocr-ue-hg9"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

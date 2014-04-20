@@ -13,5 +13,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
 @property (weak, nonatomic) IBOutlet UILabel *wheatherUpdateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *statusImageView;
+@property (weak, nonatomic) IBOutlet UILabel *rainDelayLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *setRainDelayActivityIndicator;
+
+- (void)setRainDelayUITo:(BOOL)visible withValue:(int)value;
 
 @end
