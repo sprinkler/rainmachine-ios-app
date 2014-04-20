@@ -74,8 +74,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    // Hide the status table view initially
+    self.statusTableViewHeightConstraint.constant = 0;
 
     self.title = @"Program";
     
@@ -133,6 +133,9 @@
 
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
 
+    self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     if ([self.program.weekdays containsString:@"INT"]) {
         self.frequencyEveryXDays = self.program.weekdays;
     } else {
@@ -504,12 +507,8 @@
         HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
         if ([self.rainDelayPoller rainDelayMode]) {
-            self.statusTableViewHeightConstraint.constant = 54;
-            self.startButtonItem.enabled = NO;
             [cell setRainDelayUITo:YES withValue:[self.rainDelayPoller.rainDelayData.delayCounter intValue]];
         } else {
-            self.statusTableViewHeightConstraint.constant = 0;
-            self.startButtonItem.enabled = YES;
             [cell setRainDelayUITo:NO withValue:0];
         }
         
@@ -1035,6 +1034,14 @@
 
 - (void)refreshStatus
 {
+    if ([self.rainDelayPoller rainDelayMode]) {
+        self.statusTableViewHeightConstraint.constant = 54;
+        self.startButtonItem.enabled = NO;
+    } else {
+        self.statusTableViewHeightConstraint.constant = 0;
+        self.startButtonItem.enabled = YES;
+    }
+    
     [self.statusTableView reloadData];
 }
 
