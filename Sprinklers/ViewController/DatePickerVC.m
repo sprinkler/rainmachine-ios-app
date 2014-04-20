@@ -97,12 +97,18 @@
 
 - (NSDate*)constructDateFromPicker
 {
+    NSDate *date;
+    if ([self.settingsDate.appDate length] > 0) {
+        date = [self dateFromString:self.settingsDate.appDate timeFormat:[self.settingsDate.time_format intValue]];
+    } else {
+        date = [NSDate date];
+    }
     NSCalendar* timeCal = [NSCalendar currentCalendar];
     NSDateComponents* timeComp = [timeCal components:(
                                                       NSHourCalendarUnit |
                                                       NSMinuteCalendarUnit
                                                       )
-                                            fromDate:[self dateFromString:self.settingsDate.appDate timeFormat:[self.settingsDate.time_format intValue]]];
+                                            fromDate:date];
     
     NSCalendar* dateCal = [NSCalendar currentCalendar];
     NSDateComponents* dateComp = [dateCal components:(
@@ -140,7 +146,13 @@
 {
     if (self.settingsDate) {
         int timeFormat = [self.settingsDate.time_format intValue];
-        NSDate *date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
+        NSDate *date;
+        if ([self.settingsDate.appDate length] > 0) {
+            date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
+        } else {
+            date = [NSDate date];
+        }
+        
         if (!date) {
             // Starting form Sprinkler v3.59 the comes in am/pm format regardless of time_format
             // This is a workaround for that case
@@ -186,15 +198,6 @@
     
     if (serverProxy == self.pullServerProxy) {
         self.settingsDate = data;
-        
-//        NSCalendar* cal = [NSCalendar currentCalendar];
-//        NSDateComponents* dateComp = [cal components:(
-//                                                      NSHourCalendarUnit |
-//                                                      NSMinuteCalendarUnit
-//                                                      )
-//                                            fromDate:[self dateFromString:self.settingsDate.appDate ]];
-//        hours = dateComp.hour;
-//        minutes = dateComp.minute;
         
         self.pullServerProxy = nil;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];

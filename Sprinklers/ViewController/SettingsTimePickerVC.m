@@ -83,13 +83,14 @@
 
 - (NSDate*)constructDateFromPicker
 {
+    NSDate *date = ([self.settingsDate.appDate length] > 0) ? [self dateFromString:self.settingsDate.appDate] : [NSDate date];
     NSCalendar* dateCal = [NSCalendar currentCalendar];
     NSDateComponents* dateComp = [dateCal components:(
                                                       NSYearCalendarUnit |
                                                       NSMonthCalendarUnit |
                                                       NSDayCalendarUnit
                                                       )
-                                            fromDate:[self dateFromString:self.settingsDate.appDate]];
+                                            fromDate:date];
     
 
     dateComp.hour = [self hour24Format];
@@ -121,12 +122,13 @@
     self.datePicker.hidden = (self.settingsDate == nil);
 
     if (self.settingsDate) {
+        NSDate *date = ([self.settingsDate.appDate length] > 0) ? [self dateFromString:self.settingsDate.appDate] : [NSDate date];
         NSCalendar* cal = [NSCalendar currentCalendar];
         NSDateComponents* dateComp = [cal components:(
                                                       NSHourCalendarUnit |
                                                       NSMinuteCalendarUnit
                                                       )
-                                            fromDate:[self dateFromString:self.settingsDate.appDate]];
+                                            fromDate:date];
 
         [super refreshUIWithHour:(int)dateComp.hour minutes:(int)dateComp.minute];
     }

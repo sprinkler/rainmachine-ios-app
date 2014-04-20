@@ -145,14 +145,13 @@
         [self.startButton setTitle:isPending ? @"Cancel" : @"Start" forState:UIControlStateNormal];
     }
     
+    self.buttonDown.enabled = ([self.wateringZone.counter intValue] > 60);
+    self.buttonDown.alpha = self.buttonDown.enabled ? 1 : kButtonInactiveOpacity;
+
     if (isIdle) {
-        self.buttonDown.alpha = 1;
-        self.buttonUp.alpha = 1;
         self.buttonDown.hidden = NO;
         self.buttonUp.hidden = NO;
     } else {
-        self.buttonDown.alpha = kButtonInactiveOpacity;
-        self.buttonUp.alpha = kButtonInactiveOpacity;
         self.buttonDown.hidden = YES;
         self.buttonUp.hidden = YES;
     }
