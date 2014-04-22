@@ -80,6 +80,7 @@ static UpdateManager *current = nil;
     }
     
     if (checkUpdate) {
+
         if ([StorageManager current].currentSprinkler) {
             self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
             [self.serverProxy requestAPIVersion];
@@ -89,10 +90,8 @@ static UpdateManager *current = nil;
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
-
     if ([userInfo isEqualToString:@"apiVer"]) {
-
+        
         self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
         Program *program = [Program new];
         program.programId = -1;
@@ -103,6 +102,10 @@ static UpdateManager *current = nil;
         serverAPIMainVersion = 3;
         serverAPISubVersion = 56; // or 55;
     }
+    else
+    {
+        [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
+    }
     
     [self.serverProxy cancelAllOperations];
     self.serverProxy = nil;
@@ -111,7 +114,7 @@ static UpdateManager *current = nil;
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [self handleSprinklerNetworkError:nil showErrorMessage:YES];
-
+    
     if (([userInfo isEqualToString:@"runNowProgram"]) && ([data isKindOfClass:[StartStopProgramResponse class]])) {
         serverAPIMainVersion = 3;
         StartStopProgramResponse *response = (StartStopProgramResponse*)data;
@@ -122,6 +125,10 @@ static UpdateManager *current = nil;
         }
         
         self.serverProxyDetect35x = nil;
+        
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
+                        message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alertView show];
     }
     else if ([data isKindOfClass:[APIVersion class]]) {
         APIVersion *apiVersion = (APIVersion*)data;
