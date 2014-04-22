@@ -206,7 +206,7 @@
     if (self.tableView.isEditing) {
         [self.tableView setEditing:NO animated:YES];
         [self updateNavigationbarButtons];
-//        [self.tableView reloadData];
+        [self shouldStartBroadcast];
         return;
     }
     
@@ -217,7 +217,7 @@
 - (void)edit {
     [self.tableView setEditing:YES animated:YES];
     [self updateNavigationbarButtons];
-//    [self.tableView reloadData];
+    [self shouldStopBroadcast];
 }
 
 - (void)onRefresh:(id)notification {
