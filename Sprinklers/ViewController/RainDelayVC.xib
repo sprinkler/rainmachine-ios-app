@@ -11,7 +11,6 @@
                 <outlet property="buttonDelayResume" destination="zRk-US-0V3" id="uhb-jo-64N"/>
                 <outlet property="buttonDown" destination="b1Q-wB-XjM" id="nL6-lM-2ea"/>
                 <outlet property="buttonUp" destination="uNC-5B-H7o" id="Dq9-7B-iqh"/>
-                <outlet property="initialRequestActivityIndicator" destination="PMZ-nm-Pyc" id="2S0-DW-7hP"/>
                 <outlet property="labelCounter" destination="Igc-DE-Rpf" id="s5i-IV-isq"/>
                 <outlet property="labelDays" destination="KtC-hz-C14" id="Ofb-X4-Fwg"/>
                 <outlet property="labelHours" destination="VRa-VN-03Z" id="cPy-pO-Ca5"/>
@@ -77,10 +76,6 @@
                         <action selector="set:" destination="-1" eventType="touchUpInside" id="F41-DL-ZOK"/>
                     </connections>
                 </button>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PMZ-nm-Pyc">
-                    <rect key="frame" x="150" y="230" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </activityIndicatorView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uNC-5B-H7o">
                     <rect key="frame" x="175" y="249" width="85" height="85"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -212,7 +207,6 @@
                 <constraint firstItem="ROs-Cp-aQ0" firstAttribute="top" secondItem="1" secondAttribute="top" constant="-20" id="dyK-9l-nZA"/>
                 <constraint firstItem="KtC-hz-C14" firstAttribute="centerY" secondItem="AIX-a7-o6J" secondAttribute="centerY" id="eIL-BA-4xO"/>
                 <constraint firstItem="dV6-8W-Xur" firstAttribute="top" secondItem="1" secondAttribute="top" id="fbJ-QY-vhf"/>
-                <constraint firstAttribute="centerX" secondItem="PMZ-nm-Pyc" secondAttribute="centerX" id="gUd-uM-Y5S"/>
                 <constraint firstItem="hT0-lZ-vzE" firstAttribute="top" secondItem="1" secondAttribute="top" id="ixb-TD-IN4"/>
                 <constraint firstItem="zRk-US-0V3" firstAttribute="top" secondItem="mM1-iQ-p9S" secondAttribute="bottom" constant="63" id="lt9-MO-KDF"/>
                 <constraint firstItem="AIX-a7-o6J" firstAttribute="leading" secondItem="ROs-Cp-aQ0" secondAttribute="trailing" constant="-1" id="mPZ-di-bl1"/>
@@ -220,7 +214,6 @@
                 <constraint firstItem="uNC-5B-H7o" firstAttribute="leading" secondItem="mM1-iQ-p9S" secondAttribute="trailing" constant="10" id="oe2-ze-KuJ"/>
                 <constraint firstItem="FhS-VU-2Eh" firstAttribute="top" secondItem="AIX-a7-o6J" secondAttribute="bottom" id="rrO-QA-R1g"/>
                 <constraint firstItem="AIX-a7-o6J" firstAttribute="top" secondItem="ROs-Cp-aQ0" secondAttribute="top" id="td6-So-JoO"/>
-                <constraint firstAttribute="centerY" secondItem="PMZ-nm-Pyc" secondAttribute="centerY" id="uXT-VB-Lvd"/>
                 <constraint firstItem="mM1-iQ-p9S" firstAttribute="leading" secondItem="b1Q-wB-XjM" secondAttribute="trailing" constant="10" id="ueH-fq-3xd"/>
                 <constraint firstAttribute="centerX" secondItem="VRa-VN-03Z" secondAttribute="centerX" id="w5K-lG-HIG"/>
                 <constraint firstItem="mM1-iQ-p9S" firstAttribute="centerY" secondItem="uNC-5B-H7o" secondAttribute="centerY" constant="0.5" id="wMl-7O-yrk"/>
