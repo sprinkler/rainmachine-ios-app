@@ -911,6 +911,8 @@
     
     [self.tableView reloadData];
     [self refreshToolBarButtonTitles];
+    
+    [self refreshStatus];
 }
 
 - (void)loggedOut {
