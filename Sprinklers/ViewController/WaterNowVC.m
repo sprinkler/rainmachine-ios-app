@@ -472,7 +472,7 @@
         [self userStartedZone:zone];
         [self addZoneToStateChangeObserver:zone];
     } else {
-        if ([zone.id isEqualToNumber:self.wateringZone.id]) {
+        if ((self.wateringZone) && ([zone.id isEqualToNumber:self.wateringZone.id])) {
             self.wateringZone = nil;
         }
         [self userStoppedZone:zone];

@@ -344,17 +344,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
     if (indexPath.section == 0) {
-        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         if ([sprinkler.loginRememberMe boolValue]) {
             [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
             [[StorageManager current] saveData];
             [self done:nil];
         } else {
-            LoginVC *login = [[LoginVC alloc] init];
-            login.sprinkler = self.savedSprinklers[indexPath.row];
-            login.parent = self;
-            [self.navigationController pushViewController:login animated:YES];
+            if ([NetworkUtilities isCookieActiveForBaseUrl:sprinkler.address]) {
+                [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
+                [[StorageManager current] saveData];
+                [self done:nil];
+            } else {
+                LoginVC *login = [[LoginVC alloc] init];
+                login.sprinkler = self.savedSprinklers[indexPath.row];
+                login.parent = self;
+                [self.navigationController pushViewController:login animated:YES];
+            }
         }
     } else if (indexPath.section == 1) {
         if (indexPath.row < self.discoveredSprinklers.count) {
