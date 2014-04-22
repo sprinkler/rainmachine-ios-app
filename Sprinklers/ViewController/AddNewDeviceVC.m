@@ -90,6 +90,13 @@
     NSURL *url = [NSURL URLWithString:address];
     NSString *port = [[url port] stringValue];
     
+    NSURL *baseURL = [NSURL URLWithString:address];
+    if (!baseURL) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid URL" message:@"It looks like you entered an invalid URL for the sprinkler. Please check your syntax and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        return;
+    }
+
     if ([address length] == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete fields." message:@"Please provide a value for the IP address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
