@@ -16,6 +16,7 @@
 #import "RainDelayPoller.h"
 #import "RainDelay.h"
 #import "SettingsVC.h"
+#import "MBProgressHUD.h"
 
 @interface RainDelayVC ()
 
@@ -32,7 +33,6 @@
 @property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rainDelaySetActivityIndicator;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *initialRequestActivityIndicator;
 
 @end
 
@@ -71,6 +71,7 @@
     [self.labelHours_0Days setTextColor:greenColor];
     [self.labelMinutes_0Days setTextColor:greenColor];
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self hideUI];
 }
 
@@ -90,7 +91,6 @@
 
 - (void)hideUI
 {
-    self.initialRequestActivityIndicator.hidden = NO;
     self.rainDelaySetActivityIndicator.hidden = YES;
 
     self.buttonDelayResume.hidden = YES;
@@ -118,7 +118,7 @@
 {
     BOOL rainDelayMode = [self.rainDelayPoller rainDelayMode];
     
-    self.initialRequestActivityIndicator.hidden = YES;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     [self.buttonDelayResume setCustomBackgroundColorFromComponents:rainDelayMode ? kWateringRedButtonColor : kWateringGreenButtonColor];
     [self.buttonDelayResume setTitle:rainDelayMode ? @"Resume" : @"Delay" forState:UIControlStateNormal];
@@ -239,7 +239,7 @@
 
 - (void)hideHUD
 {
-    self.initialRequestActivityIndicator.hidden = YES;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 #pragma mark - Rain Delay related
