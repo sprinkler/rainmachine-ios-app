@@ -145,11 +145,9 @@
         [self.startButton setTitle:isPending ? @"Cancel" : @"Start" forState:UIControlStateNormal];
     }
     
-    if (self.wateringZone.counter > 0)
-    {
-        self.buttonDown.enabled = ([self.wateringZone.counter intValue] > 60);
-        self.buttonDown.alpha = self.buttonDown.enabled ? 1 : kButtonInactiveOpacity;
-    }
+    NSNumber *fixedCounterValue = [Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle];
+    self.buttonDown.enabled = ([fixedCounterValue intValue] > 60);
+    self.buttonDown.alpha = self.buttonDown.enabled ? 1 : kButtonInactiveOpacity;
     
     if (isIdle) {
         self.buttonDown.hidden = NO;
@@ -175,7 +173,8 @@
 
 - (int)counterValue
 {
-    return [self.wateringZone.counter intValue];
+    BOOL isIdle = [Utils isZoneIdle:self.wateringZone];
+    return [[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue];
 }
 
 - (void)setCounterValue:(int)value
