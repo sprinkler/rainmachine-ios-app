@@ -33,6 +33,7 @@
 
 + (int)checkOSVersion;
 + (BOOL)isDevice357Plus;
++ (BOOL)isDevice359Plus;
 + (BOOL)isDevice360Plus;
 
 @end
