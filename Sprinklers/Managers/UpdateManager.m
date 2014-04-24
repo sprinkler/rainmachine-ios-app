@@ -151,10 +151,7 @@ static UpdateManager *current = nil;
             NSDate *lastUpdateCheck = [NSDate dateWithTimeIntervalSince1970:[updateInfo.last_update_check longLongValue]];
             NSTimeInterval intervalSinceLastUpdate = -[lastUpdateCheck timeIntervalSinceNow];
             // When there is a delegate alert it anyway with the update-now notification
-            BOOL checkUpdate = YES;
-            if (!self.delegate) {
-                checkUpdate = (intervalSinceLastUpdate >= kSprinklerUpdateCheckInterval);
-            }
+            BOOL checkUpdate = (intervalSinceLastUpdate >= kSprinklerUpdateCheckInterval);
             
             if (checkUpdate) {
                 if (!self.delegate) {
