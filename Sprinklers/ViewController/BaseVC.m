@@ -50,11 +50,10 @@
     //    [StorageManager current].currentSprinkler.lastError = errorTitle;
     //    [[StorageManager current] saveData];
     
+    [NetworkUtilities invalidateLoginForBaseUrl: [StorageManager current].currentSprinkler.address];
+    
     if ((!self.alertView) || (self.alertView.tag != kAlertView_LoggedOut)) {
         self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [NetworkUtilities invalidateLoginForBaseUrl: [StorageManager current].currentSprinkler.address];
-        
         self.alertView.tag = kAlertView_LoggedOut;
         [self.alertView show];
     }
