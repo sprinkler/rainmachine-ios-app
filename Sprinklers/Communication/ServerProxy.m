@@ -101,6 +101,7 @@
 
 - (void)step2LoginProcess
 {
+    // This step is in fact a test for the case when the device logs the user out immediately after login
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
                                              @"what" : @"units"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                  

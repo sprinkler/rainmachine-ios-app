@@ -198,17 +198,17 @@ const float kHomeScreenCellHeight = 63;
     cell.waterImage.image = self.waterImage;
     cell.waterWavesImageView.image = self.waterWavesImage;
     cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(100 * [weatherData.percentage floatValue])];
-    BOOL maxtValid = ((!error) && (weatherData.maxt));
-    BOOL mintValid = ((!error) && (weatherData.mint));
+    BOOL maxtValid = ((!error) && (weatherData.maxt) && ([weatherData.maxt intValue] != 32000) && ([weatherData.maxt intValue] != -32000));
+    BOOL mintValid = ((!error) && (weatherData.mint) && ([weatherData.mint intValue] != 32000) && ([weatherData.mint intValue] != -32000));
     
     cell.temperatureLabel.hidden = YES;
     cell.temperatureLabelPart3.hidden = YES;
     
     if ((maxtValid) && (mintValid)) {
         cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@%@", weatherData.maxt, self.units];
+        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", weatherData.maxt, weatherData.units];
         cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@%@", weatherData.mint, self.units];
+        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", weatherData.mint, weatherData.units];
 
     } else {
         if ((!maxtValid) && (!mintValid)) {
@@ -218,11 +218,11 @@ const float kHomeScreenCellHeight = 63;
             if (!maxtValid) {
                 [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
                 cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@%@", weatherData.mint, self.units];
+                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", weatherData.mint, weatherData.units];
             } else {
                 // !mintValid
                 cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@%@", weatherData.maxt, self.units];
+                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", weatherData.maxt, weatherData.units];
                 [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
             }
         }
@@ -408,10 +408,10 @@ const float kHomeScreenCellHeight = 63;
     
     if ([StorageManager current].currentSprinkler) {
         self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        if (!self.units) {
-            self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-            [self.unitsServerProxy requestSettingsUnits];
-        }
+//        if (![self areUnitsRetrieved]) {
+//            self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+//            [self.unitsServerProxy requestSettingsUnits];
+//        }
         [[UpdateManager current] poll];
     }
 }
