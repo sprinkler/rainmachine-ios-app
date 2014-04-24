@@ -27,6 +27,7 @@
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *serverProxyDetect35x;
 @property (strong, nonatomic) UIAlertView *alertView;
+@property (weak, nonatomic) id<UpdateManagerDelegate> delegate;
 
 @end
 
@@ -35,16 +36,6 @@ static UpdateManager *current = nil;
 @implementation UpdateManager
 
 @synthesize serverAPIMainVersion, serverAPISubVersion;
-
-#pragma mark - Singleton
-
-+ (UpdateManager*)current {
-	@synchronized(self) {
-		if (current == nil)
-			current = [[super alloc] init];
-	}
-	return current;
-}
 
 - (instancetype)init {
     self = [super init];
@@ -68,8 +59,9 @@ static UpdateManager *current = nil;
     self.serverProxy = nil;
 }
 
-- (void)poll
+- (void)poll:(id<UpdateManagerDelegate>)delegate
 {
+    self.delegate = delegate;
     [self stop];
     
     BOOL checkUpdate = YES;
@@ -102,9 +94,13 @@ static UpdateManager *current = nil;
         serverAPIMainVersion = 3;
         serverAPISubVersion = 56; // or 55;
         
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
-                                                            message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-        [alertView show];
+        if (!self.delegate) {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
+                                                                message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alertView show];
+        } else {
+            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+        }
     }
     else
     {
@@ -130,9 +126,13 @@ static UpdateManager *current = nil;
         
         self.serverProxyDetect35x = nil;
         
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
-                        message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-        [alertView show];
+        if (!self.delegate) {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
+                            message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alertView show];
+        } else {
+            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+        }
     }
     else if ([data isKindOfClass:[APIVersion class]]) {
         APIVersion *apiVersion = (APIVersion*)data;
@@ -141,6 +141,7 @@ static UpdateManager *current = nil;
             // Firmware update is supported by server
             serverAPIMainVersion = [versionComponents[0] intValue];
             serverAPISubVersion = [versionComponents[1] intValue];
+            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
             [self.serverProxy requestUpdateCheckForVersion:serverAPIMainVersion];
         }
     }
@@ -151,12 +152,16 @@ static UpdateManager *current = nil;
             NSTimeInterval intervalSinceLastUpdate = -[lastUpdateCheck timeIntervalSinceNow];
             BOOL checkUpdate = (intervalSinceLastUpdate >= kSprinklerUpdateCheckInterval);
             if (checkUpdate) {
-                NSString *message = [NSString stringWithFormat:@"Please update your device firmware to version %@.", updateInfo.the_new_version];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Firmware Update Available"
-                                                                message:message delegate:self cancelButtonTitle:@"Later"
-                                                      otherButtonTitles:@"Update Now", nil];
-                alert.tag = kAlertView_UpdateNow;
-                [alert show];
+                if (!self.delegate) {
+                    NSString *message = [NSString stringWithFormat:@"Please update your device firmware to version %@.", updateInfo.the_new_version];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Firmware Update Available"
+                                                                    message:message delegate:self cancelButtonTitle:@"Later"
+                                                          otherButtonTitles:@"Update Now", nil];
+                    alert.tag = kAlertView_UpdateNow;
+                    [alert show];
+                } else {
+                    [self.delegate updateNowAvailable:updateInfo.the_new_version];
+                }
             }
         }
     }

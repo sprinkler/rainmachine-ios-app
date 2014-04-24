@@ -26,6 +26,7 @@
 #import "RainDelayPoller.h"
 #import "RainDelay.h"
 #import "ServerResponse.h"
+#import "AppDelegate.h"
 
 const float kHomeScreenCellHeight = 63;
 
@@ -412,7 +413,8 @@ const float kHomeScreenCellHeight = 63;
 //            self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
 //            [self.unitsServerProxy requestSettingsUnits];
 //        }
-        [[UpdateManager current] poll];
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.updateManager poll:nil];
     }
 }
 

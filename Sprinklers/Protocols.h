@@ -60,3 +60,10 @@
 - (void)loggedOut;
 
 @end
+
+@protocol UpdateManagerDelegate <NSObject>
+
+- (void)sprinklerVersionReceivedMajor:(int)major minor:(int)minor;
+- (void)updateNowAvailable:(NSString *)the_new_version;
+
+@end

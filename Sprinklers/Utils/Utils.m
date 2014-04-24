@@ -13,6 +13,7 @@
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "UpdateManager.h"
+#import "AppDelegate.h"
 
 @implementation Utils
 
@@ -90,8 +91,9 @@
 
 + (BOOL)isDevice357Plus
 {
-    if ([UpdateManager current].serverAPIMainVersion == 3) {
-        return ([UpdateManager current].serverAPISubVersion >= 57);
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.updateManager.serverAPIMainVersion == 3) {
+        return (appDelegate.updateManager.serverAPISubVersion >= 57);
     }
     
     return YES;
@@ -99,8 +101,9 @@
 
 + (BOOL)isDevice360Plus
 {
-    if ([UpdateManager current].serverAPIMainVersion == 3) {
-        return ([UpdateManager current].serverAPISubVersion >= 60);
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.updateManager.serverAPIMainVersion == 3) {
+        return (appDelegate.updateManager.serverAPISubVersion >= 60);
     }
     
     return YES;

@@ -11,12 +11,10 @@
 
 @interface UpdateManager : NSObject<SprinklerResponseProtocol>
 
-@property (readonly, nonatomic) int serverAPIMainVersion;
-@property (readonly, nonatomic)int serverAPISubVersion;
-
-+ (UpdateManager*)current;
+@property (assign, nonatomic) int serverAPIMainVersion;
+@property (assign, nonatomic)int serverAPISubVersion;
 
 - (void)initUpdaterManager;
-- (void)poll;
+- (void)poll:(id<UpdateManagerDelegate>)delegate;
 
 @end

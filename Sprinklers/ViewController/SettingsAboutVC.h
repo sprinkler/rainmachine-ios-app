@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
-@interface SettingsAboutVC : UIViewController
+@interface SettingsAboutVC : UIViewController<UpdateManagerDelegate>
 {
     IBOutlet UILabel* iosVersion;
     IBOutlet UILabel* hwVersion;

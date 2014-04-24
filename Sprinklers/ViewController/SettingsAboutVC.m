@@ -8,8 +8,11 @@
 
 #import "SettingsAboutVC.h"
 #import "UpdateManager.h"
+#import "AppDelegate.h"
 
 @interface SettingsAboutVC ()
+
+@property (strong, nonatomic) UpdateManager *updateManager;
 
 @end
 
@@ -33,16 +36,30 @@
     NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
     iosVersion.text = [NSString stringWithFormat: @"RainMachine iOS V %@", version];
 
-    int major = [UpdateManager current].serverAPIMainVersion;
-    int minor = [UpdateManager current].serverAPISubVersion;
-    
-    hwVersion.text = [NSString stringWithFormat: @"RainMachine Hardware V %d.%d", major, minor];
+    self.updateManager = [UpdateManager new];
+    [self.updateManager poll:self];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UpdateManagerDelegate
+
+- (void)sprinklerVersionReceivedMajor:(int)major minor:(int)minor
+{
+    // Update the values from AppDelegate's UpdateManager too
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.updateManager.serverAPIMainVersion = major;
+    appDelegate.updateManager.serverAPISubVersion = minor;
+    
+    hwVersion.text = [NSString stringWithFormat: @"RainMachine Hardware V %d.%d", major, minor];
+}
+
+- (void)updateNowAvailable:(NSString *)the_new_version
+{
 }
 
 @end
