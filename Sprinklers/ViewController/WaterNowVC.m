@@ -26,6 +26,7 @@
     UIColor *switchOnOrangeColor;
     UIColor *switchOnGreenColor;
     NSTimeInterval retryInterval;
+    int scheduleIntervalResetCounter;
     int stopAllCounter;
 }
 
@@ -52,6 +53,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.stateChangeObserver = [NSMutableDictionary dictionary];
+        scheduleIntervalResetCounter = 0;
     }
     return self;
 }
@@ -132,6 +134,8 @@
     [self resetServerProxies];
 
     if (self.delayedInitialListRefresh) {
+        [self setDensePollingInterval];
+        
         self.delayedInitialListRefresh = NO;
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:2];
@@ -181,6 +185,12 @@
 
 - (void)requestListRefreshWithShowingHud:(NSNumber*)showHud
 {
+    if (scheduleIntervalResetCounter <= 0) {
+        retryInterval = kWaterNowRefreshTimeInterval;
+    } else {
+        scheduleIntervalResetCounter--;
+    }
+
     [self.pollServerProxy requestWaterNowZoneList];
     
     self.lastListRefreshDate = [NSDate date];
@@ -273,7 +283,7 @@
             [self hideHud];
         }
         
-        [self scheduleNextListRefreshRequest:kWaterNowRefreshTimeInterval];
+        [self scheduleNextListRefreshRequest:retryInterval];
         
         [self requestDetailsOfZones];
         
@@ -320,6 +330,8 @@
     [[StorageManager current] setZoneCounter:zone];
     
     [self clearStateChangeObserver];
+    
+    [self.tableView reloadData];
 }
 
 - (void)loggedOut
@@ -441,6 +453,13 @@
     return rez;
 }
 
+- (void)setDensePollingInterval
+{
+    // Poll more often for a couple of times after a user action
+    scheduleIntervalResetCounter = 3;
+    retryInterval = kWaterNowRefreshTimeInterval_AfterUserAction;
+}
+
 #pragma mark - Table View Cell callback
 
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
@@ -451,7 +470,10 @@
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
     
     [self resetServerProxies];
-    [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:4];
+
+    [self setDensePollingInterval];
+    
+    [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:retryInterval];
     
     //[self.wateringCounterHelper stopCounterTimer];
     zone.counter = counter;
