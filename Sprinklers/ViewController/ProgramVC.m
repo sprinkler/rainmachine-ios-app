@@ -536,7 +536,7 @@
             if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
                 cell.theTextField.tintColor = [UIColor blackColor];
             }
-            cell.theTextField.enabled = [Utils isDevice360Plus];
+            cell.theTextField.enabled = [Utils isDevice359Plus];
             cell.theTextField.text = self.program.name;
             cell.delegate = self;
             if (resignKeyboard) {

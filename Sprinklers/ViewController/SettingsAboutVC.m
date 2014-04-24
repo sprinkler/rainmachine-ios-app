@@ -94,7 +94,7 @@
     hwVersion.hidden = NO;
     
     if (![Utils isDevice359Plus]) {
-        // When device os lower than 3.59 stop the activity indicator because the update available
+        // When device is lower than 3.59 stop the activity indicator because the update-available API won't be called
         [self stopUpdateRefreshUI];
     }
 }
