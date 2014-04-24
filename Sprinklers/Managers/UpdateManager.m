@@ -150,7 +150,12 @@ static UpdateManager *current = nil;
         if ([updateInfo.update boolValue]) {
             NSDate *lastUpdateCheck = [NSDate dateWithTimeIntervalSince1970:[updateInfo.last_update_check longLongValue]];
             NSTimeInterval intervalSinceLastUpdate = -[lastUpdateCheck timeIntervalSinceNow];
-            BOOL checkUpdate = (intervalSinceLastUpdate >= kSprinklerUpdateCheckInterval);
+            // When there is a delegate alert it anyway with the update-now notification
+            BOOL checkUpdate = YES;
+            if (!self.delegate) {
+                checkUpdate = (intervalSinceLastUpdate >= kSprinklerUpdateCheckInterval);
+            }
+            
             if (checkUpdate) {
                 if (!self.delegate) {
                     NSString *message = [NSString stringWithFormat:@"Please update your device firmware to version %@.", updateInfo.the_new_version];
@@ -159,11 +164,11 @@ static UpdateManager *current = nil;
                                                           otherButtonTitles:@"Update Now", nil];
                     alert.tag = kAlertView_UpdateNow;
                     [alert show];
-                } else {
-                    [self.delegate updateNowAvailable:updateInfo.the_new_version];
                 }
             }
         }
+        
+        [self.delegate updateNowAvailable:[updateInfo.update boolValue] withVersion:updateInfo.the_new_version];
     }
     else if ([data isKindOfClass:[UpdateStartInfo class]]) {
         [self stop];
@@ -180,10 +185,15 @@ static UpdateManager *current = nil;
     self.serverProxy = nil;
 }
 
+- (void)startUpdate
+{
+    [self.serverProxy requestUpdateStartForVersion:serverAPIMainVersion];
+}
+
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (theAlertView.tag == kAlertView_UpdateNow) {
         if (buttonIndex != theAlertView.cancelButtonIndex) {
-            [self.serverProxy requestUpdateStartForVersion:3];
+            [self startUpdate];
         }
     }
     else if (theAlertView.tag == kAlertView_Error) {

@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.h"
 
+@class ColoredBackgroundButton;
+
 @interface SettingsAboutVC : UIViewController<UpdateManagerDelegate>
 {
     IBOutlet UILabel* iosVersion;
     IBOutlet UILabel* hwVersion;
     
-    IBOutlet UIButton* doUpdate;
+    IBOutlet ColoredBackgroundButton* doUpdate;
 }
 
 @end

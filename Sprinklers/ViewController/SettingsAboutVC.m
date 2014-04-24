@@ -8,7 +8,11 @@
 
 #import "SettingsAboutVC.h"
 #import "UpdateManager.h"
+#import "Utils.h"
+#import "MBProgressHUD.h"
 #import "AppDelegate.h"
+#import "ColoredBackgroundButton.h"
+#import "Constants.h"
 
 @interface SettingsAboutVC ()
 
@@ -36,8 +40,34 @@
     NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
     iosVersion.text = [NSString stringWithFormat: @"RainMachine iOS V %@", version];
 
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    int major = appDelegate.updateManager.serverAPIMainVersion;
+    int minor = appDelegate.updateManager.serverAPISubVersion;
+    
+    if ((major > 0) && (minor > 0)) {
+        // At first, fill the values with what we have available
+        [self sprinklerVersionReceivedMajor:major minor:minor];
+    } else {
+        hwVersion.hidden = YES;
+    }
+    
+    doUpdate.hidden = YES;
+    [doUpdate setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
+
     self.updateManager = [UpdateManager new];
     [self.updateManager poll:self];
+    
+    [self startUpdateRefreshUI];
+}
+
+- (void)startUpdateRefreshUI
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void)stopUpdateRefreshUI
+{   
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,6 +78,11 @@
 
 #pragma mark - UpdateManagerDelegate
 
+- (IBAction) doUpdate
+{
+    [self.updateManager startUpdate];
+}
+
 - (void)sprinklerVersionReceivedMajor:(int)major minor:(int)minor
 {
     // Update the values from AppDelegate's UpdateManager too
@@ -56,10 +91,21 @@
     appDelegate.updateManager.serverAPISubVersion = minor;
     
     hwVersion.text = [NSString stringWithFormat: @"RainMachine Hardware V %d.%d", major, minor];
+    hwVersion.hidden = NO;
+    
+    if (![Utils isDevice359Plus]) {
+        // When device os lower than 3.59 stop the activity indicator because the update available
+        [self stopUpdateRefreshUI];
+    }
 }
 
-- (void)updateNowAvailable:(NSString *)the_new_version
+- (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version
 {
+    if (available) {
+        doUpdate.hidden = NO;
+    }
+
+    [self stopUpdateRefreshUI];
 }
 
 @end

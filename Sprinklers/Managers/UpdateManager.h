@@ -16,5 +16,6 @@
 
 - (void)initUpdaterManager;
 - (void)poll:(id<UpdateManagerDelegate>)delegate;
+- (void)startUpdate;
 
 @end

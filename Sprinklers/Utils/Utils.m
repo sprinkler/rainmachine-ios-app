@@ -101,8 +101,9 @@
 
 + (BOOL)isDevice359Plus
 {
-    if ([UpdateManager current].serverAPIMainVersion == 3) {
-        return ([UpdateManager current].serverAPISubVersion >= 59);
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.updateManager.serverAPIMainVersion == 3) {
+        return (appDelegate.updateManager.serverAPISubVersion >= 59);
     }
     
     return YES;

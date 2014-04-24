@@ -61,7 +61,7 @@
 {
     // Are we the top most VC?
     // This test filters the case when for ex. DevicesVC is on screen
-    if (self.navigationController.visibleViewController == self) {
+    if (self.navigationController.viewControllers[0] == self) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         UINavigationController *navC = (UINavigationController*)(appDelegate.tabBarController.selectedViewController);
         // Are we the selected VC in the tab view?
