@@ -101,6 +101,10 @@ static UpdateManager *current = nil;
         self.serverProxyDetect35x = nil;
         serverAPIMainVersion = 3;
         serverAPISubVersion = 56; // or 55;
+        
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
+                                                            message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alertView show];
     }
     else
     {
