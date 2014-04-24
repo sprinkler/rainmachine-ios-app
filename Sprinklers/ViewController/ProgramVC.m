@@ -96,7 +96,7 @@
         cycleSoakAndStationDelaySectionIndex = 5;
         wateringTimesSectionIndex = 6;
         
-        if ((![Utils isDevice360Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
+        if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
             // 3.55 and 3.56 can only Stop programs
             [self createTwoButtonToolbar];
         }

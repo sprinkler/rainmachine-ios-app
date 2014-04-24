@@ -427,8 +427,9 @@
 
 - (void)runNowProgram:(Program*)program {
     if (program) {
+        // 3.55 and 3.56 can only Stop programs
         [self.manager POST:@"/ui.cgi" parameters:@{@"action" : @"settings",
-                                                   @"what" : [Utils isDevice360Plus] ? @"run_now" : @"stop_now",
+                                                   @"what" : [Utils isDevice357Plus] ? @"run_now" : @"stop_now",
                                                    @"pid" : [NSNumber numberWithInt:program.programId]}
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
             if ([self passLoggedOutFilter:operation]) {
