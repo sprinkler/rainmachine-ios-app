@@ -16,5 +16,6 @@
 + (NSString *)netmaskForInterface:(NSString *)ifName;
 + (NSString *)netmaskForWifi;
 + (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl;
++ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl;
 
 @end
