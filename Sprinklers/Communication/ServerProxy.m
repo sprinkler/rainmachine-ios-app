@@ -578,7 +578,6 @@
     }];
 }
 
-
 - (void)requestUpdateCheckForVersion:(int)version
 {
     NSString *requestUrl = [NSString stringWithFormat:@"api/%d/update", version];

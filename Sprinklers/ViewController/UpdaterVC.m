@@ -13,6 +13,8 @@
 #import "Additions.h"
 #import "Utils.h"
 #import "Constants.h"
+#import "AppDelegate.h"
+#import "UpdateManager.h"
 
 @interface UpdaterVC ()
 
@@ -122,6 +124,12 @@
                                                    message:@"The firmware update encounter an error during installing!" delegate:self cancelButtonTitle:@"OK"
                                          otherButtonTitles:nil];
             } else {
+                // Update AppDelegate's sprinkler version
+                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                NSArray *versionComponents = [updateInfo.the_new_version componentsSeparatedByString:@"."];
+                appDelegate.updateManager.serverAPIMainVersion = [versionComponents[0] intValue];
+                appDelegate.updateManager.serverAPISubVersion = [versionComponents[1] intValue];
+
                 alert = [[UIAlertView alloc] initWithTitle:@"Success"
                                                                 message:@"The firmware update has been succesfully installed." delegate:self cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
@@ -143,6 +151,10 @@
     else if (theAlertView.tag == kAlertView_Finished) {
         [self stopTimer];
     }
+    
+    // Poll again the sprinkler version to be sure we are up to date
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.updateManager poll:nil];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
