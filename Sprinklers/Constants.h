@@ -60,6 +60,7 @@ extern NSString *daysOfTheWeek[7];
 
 #define kRainDelayRefreshTimeInterval 30 // Value is specified in seconds
 #define kWaterNowRefreshTimeInterval 10 // Value is specified in seconds
+#define kWaterNowRefreshTimeInterval_AfterUserAction 3 // Value is specified in seconds
 #define kWaterNowMaxRefreshInterval (kWaterNowRefreshTimeInterval * 4)
 
 // ---- Custom font glyphs ----

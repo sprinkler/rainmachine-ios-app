@@ -21,6 +21,7 @@
 @interface WaterNowLevel1VC ()
 {
     NSTimeInterval retryInterval;
+    int scheduleIntervalResetCounter;
 }
 
 @property (strong, nonatomic) ServerProxy *pollServerProxy;
@@ -58,6 +59,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    scheduleIntervalResetCounter = 0;
     self.wateringCounterHelper = [[CounterHelper alloc] initWithDelegate:self interval:1];
     
     self.greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
@@ -216,6 +218,12 @@
 
 - (void)scheduleNextPollRequest:(NSTimeInterval)scheduleInterval withServerProxy:(ServerProxy*)serverProxy referenceDate:(NSDate*)referenceDate
 {
+    if (scheduleIntervalResetCounter <= 0) {
+        retryInterval = kWaterNowRefreshTimeInterval;
+    } else {
+        scheduleIntervalResetCounter--;
+    }
+    
     if (serverProxy == self.pollServerProxy) {
         // Clear previously scheduled pollServerProxy requests
         [self stopPollRequests];
@@ -271,7 +279,7 @@
         self.wateringZone = data;
 
         [self.wateringCounterHelper updateCounter];
-        [self updatePollStateWithDelay:kWaterNowRefreshTimeInterval];
+        [self updatePollStateWithDelay:retryInterval];
         
         [self updateStartButtonActiveStateTo:YES];
 
@@ -328,7 +336,12 @@
         [self.parent userStoppedZone:self.wateringZone];
         [self.parent removeZoneFromStateChangeObserver:self.wateringZone];
         [self updateStartButtonActiveStateTo:NO];
-        [self scheduleNextPollRequest:kWaterNowRefreshTimeInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
+
+        // Poll more often for a couple of times after a user action
+        scheduleIntervalResetCounter = 3;
+        retryInterval = kWaterNowRefreshTimeInterval_AfterUserAction;
+        
+        [self scheduleNextPollRequest:retryInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
     }
 }
 
