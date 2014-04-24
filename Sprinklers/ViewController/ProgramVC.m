@@ -96,7 +96,7 @@
         cycleSoakAndStationDelaySectionIndex = 5;
         wateringTimesSectionIndex = 6;
         
-        if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
+        if ((![Utils isDevice360Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
             // 3.55 and 3.56 can only Stop programs
             [self createTwoButtonToolbar];
         }
@@ -536,7 +536,7 @@
             if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
                 cell.theTextField.tintColor = [UIColor blackColor];
             }
-            cell.theTextField.enabled = [Utils isDevice357Plus];
+            cell.theTextField.enabled = [Utils isDevice360Plus];
             cell.theTextField.text = self.program.name;
             cell.delegate = self;
             if (resignKeyboard) {

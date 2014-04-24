@@ -32,7 +32,7 @@
 + (UIImage*)waterImage:(float)height;
 
 + (int)checkOSVersion;
-+ (BOOL)isDevice357Plus;
++ (BOOL)isDevice360Plus;
 
 @end
 

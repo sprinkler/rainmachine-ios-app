@@ -88,10 +88,10 @@
     return [zone.state isEqualToString:@"Pending"];
 }
 
-+ (BOOL)isDevice357Plus
++ (BOOL)isDevice360Plus
 {
     if ([UpdateManager current].serverAPIMainVersion == 3) {
-        return ([UpdateManager current].serverAPISubVersion >= 57);
+        return ([UpdateManager current].serverAPISubVersion >= 60);
     }
     
     return YES;
