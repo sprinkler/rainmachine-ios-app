@@ -133,7 +133,6 @@ static ServiceManager *current = nil;
 
 - (void)resendBroadcast {
     for (int i = 0; i < burstBroadcasts; i++) {
-       //NSLog(@"Resending broadcast...");
        [broadcastUdpSocket sendData:broadcastMessage toHost:broadcastAddress port:broadcastPort withTimeout:-1 tag:0];
     }
         

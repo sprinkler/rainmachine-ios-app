@@ -14,6 +14,7 @@
 #import "Utils.h"
 #import "StorageManager.h"
 #import "+UIDevice.h"
+#import "NetworkUtilities.h"
 
 @interface SettingsPasswordVC ()
 
@@ -108,8 +109,7 @@
             [[StorageManager current] currentSprinkler].loginRememberMe = NO;
             [[StorageManager current] saveData];
             
-            ServerProxy* serverProxy = [[ServerProxy alloc] init];
-            [serverProxy invalidateLogin];
+            [NetworkUtilities invalidateLoginForBaseUrl:[[StorageManager current] currentSprinkler].address];
             
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Password changed successufully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
     

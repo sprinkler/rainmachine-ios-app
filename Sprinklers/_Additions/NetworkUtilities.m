@@ -112,4 +112,14 @@ static NSString *kWifiInterface = @"en0";
     return NO;
 }
 
++ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl
+{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *cookies = [cookieStorage cookiesForURL:[NSURL URLWithString:baseUrl]];
+    for (NSHTTPCookie *cookie in cookies) {
+        [cookieStorage deleteCookie:cookie];
+        DLog(@"Deleted cookie: %@", cookie);
+    }
+}
+
 @end
