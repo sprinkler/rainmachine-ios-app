@@ -351,11 +351,14 @@
             [[StorageManager current] saveData];
             [self done:nil];
         } else {
+
             if ([NetworkUtilities isCookieActiveForBaseUrl:sprinkler.address]) {
+
                 [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
                 [[StorageManager current] saveData];
                 [self done:nil];
             } else {
+
                 LoginVC *login = [[LoginVC alloc] init];
                 login.sprinkler = self.savedSprinklers[indexPath.row];
                 login.parent = self;

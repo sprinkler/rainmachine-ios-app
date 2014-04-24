@@ -133,7 +133,7 @@ static ServiceManager *current = nil;
 
 - (void)resendBroadcast {
     for (int i = 0; i < burstBroadcasts; i++) {
-       NSLog(@"Resending broadcast...");
+       //NSLog(@"Resending broadcast...");
        [broadcastUdpSocket sendData:broadcastMessage toHost:broadcastAddress port:broadcastPort withTimeout:-1 tag:0];
     }
         
@@ -173,7 +173,7 @@ static ServiceManager *current = nil;
     // Overwrite port value. For the discovered sprinklers we will set a default port
     port = 443;
     
-    NSLog(@"UDP message received from sprinkler: %@, %@:%d", string, host, port);
+    //NSLog(@"UDP message received from sprinkler: %@, %@:%d", string, host, port);
     
     NSArray *splits = [string componentsSeparatedByString:messageDelimiter];
     if (splits && splits.count >= 4 && [splits[0] isEqualToString:@"SPRINKLER"]) {

@@ -72,4 +72,6 @@
 
 - (void)requestWateringRestrictions;
 
+- (void) invalidateLogin;
+
 @end

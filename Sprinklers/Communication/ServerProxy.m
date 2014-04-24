@@ -127,6 +127,17 @@
     return NO;
 }
 
+- (void) invalidateLogin
+{
+    DLog(@"%s", __PRETTY_FUNCTION__);
+    
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *each in cookieStorage.cookies) {
+        NSLog(@"Deleted cookie.name %@ - %@", [each name], each);
+        [cookieStorage deleteCookie:each];
+    }
+}
+
 - (void)requestWateringRestrictions
 {
     DLog(@"%s", __PRETTY_FUNCTION__);
