@@ -356,7 +356,6 @@
                 [[StorageManager current] saveData];
                 [self done:nil];
             } else {
-
                 LoginVC *login = [[LoginVC alloc] init];
                 login.sprinkler = self.savedSprinklers[indexPath.row];
                 login.parent = self;
