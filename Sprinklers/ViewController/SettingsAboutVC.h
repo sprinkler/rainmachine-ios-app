@@ -13,6 +13,8 @@
 {
     IBOutlet UILabel* iosVersion;
     IBOutlet UILabel* hwVersion;
+    
+    IBOutlet UIButton* doUpdate;
 }
 
 @end

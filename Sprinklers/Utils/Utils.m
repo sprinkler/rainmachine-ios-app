@@ -99,6 +99,15 @@
     return YES;
 }
 
++ (BOOL)isDevice359Plus
+{
+    if ([UpdateManager current].serverAPIMainVersion == 3) {
+        return ([UpdateManager current].serverAPISubVersion >= 59);
+    }
+    
+    return YES;
+}
+
 + (BOOL)isDevice360Plus
 {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
