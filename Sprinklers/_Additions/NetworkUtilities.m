@@ -100,7 +100,7 @@ static NSString *kWifiInterface = @"en0";
     return [NetworkUtilities netmaskForInterface:kWifiInterface];
 }
 
-+ (BOOL)isCookieActiveForBaseUrl:(NSString*)baseUrl
++ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl
 {
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:baseUrl]];
     for (NSHTTPCookie *cookie in cookies) {
