@@ -351,9 +351,7 @@
             [[StorageManager current] saveData];
             [self done:nil];
         } else {
-
-            if ([NetworkUtilities isCookieActiveForBaseUrl:sprinkler.address]) {
-
+            if ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address]) {
                 [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
                 [[StorageManager current] saveData];
                 [self done:nil];
