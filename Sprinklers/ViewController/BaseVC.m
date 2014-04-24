@@ -10,6 +10,7 @@
 #import "StorageManager.h"
 #import "Constants.h"
 #import "AppDelegate.h"
+#import "NetworkUtilities.h"
 
 @implementation BaseVC
 
@@ -26,11 +27,13 @@
 - (void)handleSprinklerError:(NSString *)errorMessage title:(NSString*)titleMessage showErrorMessage:(BOOL)showErrorMessage{
     //    [StorageManager current].currentSprinkler.lastError = errorMessage;
     //    [[StorageManager current] saveData];
-    
+
     if ((errorMessage) && (showErrorMessage)) {
-        self.alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        self.alertView.tag = kAlertView_Error;
-        [self.alertView show];
+        if ((!self.alertView) || (self.alertView.tag != kAlertView_Error)) {
+            self.alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.alertView.tag = kAlertView_Error;
+            [self.alertView show];
+        }
     }
 }
 
@@ -47,9 +50,14 @@
     //    [StorageManager current].currentSprinkler.lastError = errorTitle;
     //    [[StorageManager current] saveData];
     
-    self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    self.alertView.tag = kAlertView_LoggedOut;
-    [self.alertView show];
+    if ((!self.alertView) || (self.alertView.tag != kAlertView_LoggedOut)) {
+        self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [NetworkUtilities invalidateLoginForBaseUrl: [StorageManager current].currentSprinkler.address];
+        
+        self.alertView.tag = kAlertView_LoggedOut;
+        [self.alertView show];
+    }
 }
 
 #pragma mark - Alert view

@@ -345,6 +345,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+   
     if (indexPath.section == 0) {
         if ([sprinkler.loginRememberMe boolValue]) {
             [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
