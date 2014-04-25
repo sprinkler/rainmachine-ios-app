@@ -36,6 +36,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = @"About";
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
     NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
     iosVersion.text = [NSString stringWithFormat: @"RainMachine iOS V %@", version];
