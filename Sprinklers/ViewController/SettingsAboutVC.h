@@ -15,6 +15,7 @@
 {
     IBOutlet UILabel* iosVersion;
     IBOutlet UILabel* hwVersion;
+    IBOutlet UILabel* consoleUpdate;
     
     IBOutlet ColoredBackgroundButton* doUpdate;
 }

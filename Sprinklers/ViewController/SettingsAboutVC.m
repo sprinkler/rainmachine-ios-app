@@ -51,6 +51,7 @@
         hwVersion.hidden = YES;
     }
     
+    consoleUpdate.hidden = YES;
     doUpdate.hidden = YES;
     [doUpdate setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
 
@@ -94,13 +95,16 @@
     hwVersion.hidden = NO;
     
     if (![Utils isDevice359Plus]) {
-        // When device is lower than 3.59 stop the activity indicator because the update-available API won't be called
+        // When device is lower than 3.59 show a label saying the update is available from the rain machine console
         [self stopUpdateRefreshUI];
+        consoleUpdate.hidden = NO;
     }
 }
 
 - (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
     if (available) {
         doUpdate.hidden = NO;
     }
