@@ -103,7 +103,7 @@
 
 - (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     if (available) {
         doUpdate.hidden = NO;
