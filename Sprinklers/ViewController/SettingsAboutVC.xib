@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsAboutVC">
             <connections>
+                <outlet property="consoleUpdate" destination="phe-tX-OAM" id="ruQ-eq-xeg"/>
                 <outlet property="doUpdate" destination="R1a-j7-yZP" id="YAZ-om-bzR"/>
                 <outlet property="hwVersion" destination="ULz-WJ-YA1" id="Nad-v5-h7F"/>
                 <outlet property="iosVersion" destination="jzN-ID-gfX" id="qPw-Qj-JXZ"/>
@@ -19,19 +20,28 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cuf-Eu-7YN">
-                    <rect key="frame" x="0.0" y="216" width="320" height="135"/>
+                    <rect key="frame" x="0.0" y="217" width="320" height="135"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RainMachine iOS V 0.0.12" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzN-ID-gfX">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RainMachine iOS V 0.0.12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzN-ID-gfX">
                             <rect key="frame" x="59" y="28" width="201" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RainMachine Firmware V 3.60" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULz-WJ-YA1">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RainMachine Firmware V 3.60" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULz-WJ-YA1">
                             <rect key="frame" x="46" y="70" width="229" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please go to your Rain Machine console and update to the latest version" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="310" translatesAutoresizingMaskIntoConstraints="NO" id="phe-tX-OAM">
+                            <rect key="frame" x="5" y="95" width="310" height="55"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="6rU-Y3-WMB"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -42,12 +52,14 @@
                         <constraint firstAttribute="width" constant="320" id="Lq8-C1-VBK"/>
                         <constraint firstItem="jzN-ID-gfX" firstAttribute="leading" secondItem="cuf-Eu-7YN" secondAttribute="leading" constant="59" id="U65-8u-cen"/>
                         <constraint firstItem="ULz-WJ-YA1" firstAttribute="top" secondItem="jzN-ID-gfX" secondAttribute="bottom" constant="21" id="Xri-3W-p4P"/>
+                        <constraint firstItem="phe-tX-OAM" firstAttribute="top" secondItem="ULz-WJ-YA1" secondAttribute="top" constant="25" id="cQx-Bw-HxB"/>
+                        <constraint firstAttribute="centerX" secondItem="phe-tX-OAM" secondAttribute="centerX" id="elY-7p-06j"/>
                         <constraint firstItem="jzN-ID-gfX" firstAttribute="top" secondItem="cuf-Eu-7YN" secondAttribute="top" constant="28" id="gUV-BX-glP"/>
                         <constraint firstAttribute="height" constant="135" id="xsx-ei-YPG"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1a-j7-yZP" customClass="ColoredBackgroundButton">
-                    <rect key="frame" x="100" y="347" width="120" height="30"/>
+                    <rect key="frame" x="100" y="348" width="120" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
