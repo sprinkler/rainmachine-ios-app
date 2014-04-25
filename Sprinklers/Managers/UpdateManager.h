@@ -14,8 +14,9 @@
 @property (assign, nonatomic) int serverAPIMainVersion;
 @property (assign, nonatomic)int serverAPISubVersion;
 
-- (void)initUpdaterManager;
-- (void)poll:(id<UpdateManagerDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<UpdateManagerDelegate>)delegate;
+- (void)poll;
+- (void)stop;
 - (void)startUpdate;
 
 @end

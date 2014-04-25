@@ -37,20 +37,15 @@ static UpdateManager *current = nil;
 
 @synthesize serverAPIMainVersion, serverAPISubVersion;
 
-- (instancetype)init {
+- (instancetype)initWithDelegate:(id<UpdateManagerDelegate>)delegate {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(poll) name:@"ApplicationDidBecomeActive" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stop) name:@"ApplicationDidResignActive" object:nil];
-    
-    return self;
-}
+    self.delegate = delegate;
 
-- (void)initUpdaterManager
-{
+    return self;
 }
 
 - (void)stop
@@ -59,9 +54,8 @@ static UpdateManager *current = nil;
     self.serverProxy = nil;
 }
 
-- (void)poll:(id<UpdateManagerDelegate>)delegate
+- (void)poll
 {
-    self.delegate = delegate;
     [self stop];
     
     BOOL checkUpdate = YES;

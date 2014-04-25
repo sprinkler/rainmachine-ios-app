@@ -414,7 +414,7 @@ const float kHomeScreenCellHeight = 63;
 //            [self.unitsServerProxy requestSettingsUnits];
 //        }
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate.updateManager poll:nil];
+        [appDelegate.updateManager poll];
     }
 }
 

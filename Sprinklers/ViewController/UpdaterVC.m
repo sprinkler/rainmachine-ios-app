@@ -154,7 +154,7 @@
     
     // Poll again the sprinkler version to be sure we are up to date
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.updateManager poll:nil];
+    [appDelegate.updateManager poll];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

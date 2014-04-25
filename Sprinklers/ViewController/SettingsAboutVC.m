@@ -60,8 +60,8 @@
     doUpdate.hidden = YES;
     [doUpdate setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
 
-    self.updateManager = [UpdateManager new];
-    [self.updateManager poll:self];
+    self.updateManager = [[UpdateManager alloc] initWithDelegate:self];
+    [self.updateManager poll];
     
     [self startUpdateRefreshUI];
 }
