@@ -344,9 +344,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
-   
     if (indexPath.section == 0) {
+        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+        
         if ([sprinkler.loginRememberMe boolValue]) {
             [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
             [[StorageManager current] saveData];
