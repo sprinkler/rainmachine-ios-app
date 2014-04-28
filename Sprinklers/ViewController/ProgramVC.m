@@ -308,7 +308,7 @@
     else if ([object isKindOfClass:[ProgramCellType2 class]]) {
         ProgramCellType2 *cell = (ProgramCellType2*)object;
         if (cell.ignoreWeatherDataCellType) {
-            self.program.ignoreWeatherData = cell.theSwitch.on;
+            self.program.ignoreWeatherData = !cell.theSwitch.on;
         } else {
             self.program.active = cell.theSwitch.on;
         }
@@ -557,8 +557,8 @@
         else if (indexPath.section == ignoreWeatherDataSectionIndex) {
             static NSString *CellIdentifier = @"ProgramCellType2";
             ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            cell.theSwitch.on = self.program.ignoreWeatherData;
-            cell.theTextLabel.text = @"Ignore weather data";
+            cell.theSwitch.on = !self.program.ignoreWeatherData;
+            cell.theTextLabel.text = @"Weather data";
             cell.theDetailLabel.text = nil;
             cell.delegate = self;
             cell.ignoreWeatherDataCellType = YES;
@@ -599,8 +599,8 @@
             }
             else if (indexPath.row == 4) {
                 check = [self.program.weekdays containsString:@","];
-                cell.theTextLabel.text = @"Weekdays";
-                cell.theCenteredTextLabel.text = @"Weekdays";
+                cell.theTextLabel.text = @"Selected days";
+                cell.theCenteredTextLabel.text = @"Selected days";
                 cell.theDetailTextLabel.text = [Utils daysStringFromWeekdaysFrequency:self.frequencyWeekdays];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 if ([cell.theDetailTextLabel.text length] > 0) {
@@ -639,7 +639,7 @@
             }
             else if (indexPath.row == 1) {
                 cell.theSwitch.on = self.program.delayOn;
-                cell.theTextLabel.text = @"Station Delay";
+                cell.theTextLabel.text = @"Delay between zones";
                 cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
                 cell.cycleAndSoak = NO;
             }
@@ -738,7 +738,7 @@
         else if (indexPath.section == ignoreWeatherDataSectionIndex) {
             ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
             cell.theSwitch.on = !cell.theSwitch.on;
-            self.program.ignoreWeatherData = cell.theSwitch.on;
+            self.program.ignoreWeatherData = !cell.theSwitch.on;
             [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
         }
         else if (indexPath.section == frequencySectionIndex) {
