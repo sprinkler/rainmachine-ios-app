@@ -96,7 +96,7 @@
     appDelegate.updateManager.serverAPIMainVersion = major;
     appDelegate.updateManager.serverAPISubVersion = minor;
     
-    hwVersion.text = [NSString stringWithFormat: @"RainMachine Hardware V %d.%d", major, minor];
+    hwVersion.text = [NSString stringWithFormat: @"RainMachine Firmware V %d.%d", major, minor];
     hwVersion.hidden = NO;
     
     if (![Utils isDevice359Plus]) {
