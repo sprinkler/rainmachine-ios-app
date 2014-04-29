@@ -19,4 +19,6 @@
 - (id)initWithUnits:(NSString*)units;
 - (void)setUnitsText:(NSString*)u;
 
+@property float weatherDataMaxPercentage;
+
 @end

@@ -194,11 +194,13 @@ const float kHomeScreenCellHeight = 63;
     HomeScreenTableViewCell *cell = (HomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     WeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
     BOOL error = (weatherData.error) && ([weatherData.error intValue] == 1);
-   
-    cell.waterPercentage = [weatherData.percentage floatValue];
+    
+    cell.waterPercentage = [weatherData.percentage floatValue] / self.weatherDataMaxPercentage;
     cell.waterImage.image = self.waterImage;
     cell.waterWavesImageView.image = self.waterWavesImage;
+
     cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(100 * [weatherData.percentage floatValue])];
+    
     BOOL maxtValid = ((!error) && (weatherData.maxt) && ([weatherData.maxt intValue] != 32000) && ([weatherData.maxt intValue] != -32000));
     BOOL mintValid = ((!error) && (weatherData.mint) && ([weatherData.mint intValue] != 32000) && ([weatherData.mint intValue] != -32000));
     
@@ -386,17 +388,17 @@ const float kHomeScreenCellHeight = 63;
 
 - (void)rescaleDataIfNeeded
 {
+    self.weatherDataMaxPercentage = 1.0f;
+    
     float maxPercentage = FLT_MIN;
     for (WeatherData *weatherData in self.data) {
         if ([weatherData.percentage floatValue] > maxPercentage) {
             maxPercentage = [weatherData.percentage floatValue];
         }
     }
-
+    
     if (maxPercentage > 1) {
-        for (WeatherData *weatherData in self.data) {
-            weatherData.percentage = [NSNumber numberWithFloat:[weatherData.percentage floatValue] / maxPercentage];
-        }
+        self.weatherDataMaxPercentage = maxPercentage;
     }
 }
 
