@@ -347,7 +347,7 @@
     if (indexPath.section == 0) {
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         
-        if ([sprinkler.loginRememberMe boolValue]) {
+        if (([sprinkler.loginRememberMe boolValue]) && ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address])) {
             [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
             [[StorageManager current] saveData];
             [self done:nil];

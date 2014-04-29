@@ -20,6 +20,7 @@ extern NSString* const TestServerPort;
 
 extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
+extern NSString *const kLoggedOutDetectedNotification;
 
 extern NSString *const kShowSettingsZones;
 

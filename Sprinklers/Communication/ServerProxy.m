@@ -645,8 +645,9 @@
         NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:&jsonError];
         if (!jsonError) {
             if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+                // On Android, the 'status' field length is tested. Make it so on iOS too. (See mail on Apr 29)
                 if (([[jsonObject objectForKey:@"message"] isEqualToString:@"LOgged OUT"]) &&
-                    ([[jsonObject objectForKey:@"status"] isEqualToString:@"OUT"])) {
+                    ([[jsonObject objectForKey:@"status"] length] > 0)) {
                     isLoggedOut = YES;
                 }
             }

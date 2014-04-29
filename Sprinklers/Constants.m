@@ -10,6 +10,7 @@ NSString *const TestServerPort = @"2443"; // 3.59
 
 NSString *const kNewSprinklerSelected = @"NewSprinklerSelected";
 NSString *const kFirmwareUpdateNeeded = @"FirmwareUpdateNeeded";
+NSString *const kLoggedOutDetectedNotification = @"kLoggedOutDetectedNotification";
 
 NSString *const kShowSettingsZones = @"kShowSettingsZones";
 

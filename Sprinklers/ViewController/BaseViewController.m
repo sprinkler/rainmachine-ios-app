@@ -33,7 +33,8 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firmwareUpdateNeeded:) name:kFirmwareUpdateNeeded object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleLoggedOutSprinklerError) name:kLoggedOutDetectedNotification object:nil];
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {

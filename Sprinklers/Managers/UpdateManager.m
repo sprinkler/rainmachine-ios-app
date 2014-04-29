@@ -96,8 +96,7 @@ static UpdateManager *current = nil;
             [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
         }
     }
-    else
-    {
+    else {
         [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
     }
     
@@ -172,8 +171,9 @@ static UpdateManager *current = nil;
 
 - (void)loggedOut
 {
-    [self.serverProxy cancelAllOperations];
-    self.serverProxy = nil;
+    [self stop];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLoggedOutDetectedNotification object:nil];
 }
 
 - (void)startUpdate
@@ -204,12 +204,8 @@ static UpdateManager *current = nil;
     [self handleSprinklerError:errorMessage title:@"Network error" showErrorMessage:showErrorMessage];
 }
 
-#pragma mark - Alert view
-
 - (void)handleServerLoggedOutUser {
-    [StorageManager current].currentSprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
-    [StorageManager current].currentSprinkler = nil;
-    [[StorageManager current] saveData];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLoggedOutDetectedNotification object:nil];
 }
 
 @end
