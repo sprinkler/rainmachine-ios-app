@@ -36,6 +36,8 @@
 + (BOOL)isDevice359Plus;
 + (BOOL)isDevice360Plus;
 
++ (void)invalidateLoginForCurrentSprinkler;
+
 @end
 
 float evenValue(float value);

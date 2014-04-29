@@ -14,6 +14,7 @@
 #import "StorageManager.h"
 #import "UpdateManager.h"
 #import "AppDelegate.h"
+#import "NetworkUtilities.h"
 
 @implementation Utils
 
@@ -61,6 +62,15 @@
 +(NSString*)currentSprinklerURL
 {
     return [Utils sprinklerURL:[StorageManager current].currentSprinkler];
+}
+
++ (void)invalidateLoginForCurrentSprinkler
+{
+    [NetworkUtilities invalidateLoginForBaseUrl:[[StorageManager current] currentSprinkler].address];
+
+    [[StorageManager current] currentSprinkler].loginRememberMe = NO;
+    [StorageManager current].currentSprinkler = nil;
+    [[StorageManager current] saveData];
 }
 
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle
