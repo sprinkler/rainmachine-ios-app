@@ -15,6 +15,7 @@
 #import "StorageManager.h"
 #import "+UIDevice.h"
 #import "NetworkUtilities.h"
+#import "AppDelegate.h"
 
 @interface SettingsPasswordVC ()
 
@@ -103,16 +104,10 @@
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
             [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
-        }else
-        {
-            // also invalidate local cookie
-            [[StorageManager current] currentSprinkler].loginRememberMe = NO;
-            [[StorageManager current] saveData];
-            
-            [NetworkUtilities invalidateLoginForBaseUrl:[[StorageManager current] currentSprinkler].address];
+        } else {
+            [Utils invalidateLoginForCurrentSprinkler];
             
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Password changed successufully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-    
             [alertView show];
         }
     }
@@ -122,9 +117,9 @@
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0)
-    {
-        [self.navigationController.tabBarController setSelectedIndex: 0];
+    if (buttonIndex == 0) {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate refreshRootViews:nil];
     }
 }
 
