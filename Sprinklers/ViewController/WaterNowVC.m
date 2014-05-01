@@ -235,7 +235,7 @@
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
 {
     BOOL showErrorMessage = YES;
     if (serverProxy == self.pollServerProxy) {
@@ -247,7 +247,7 @@
         self.lastScheduleRequestError = error;
     }
     
-    [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:showErrorMessage];
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:showErrorMessage];
     
     if (serverProxy == self.pollServerProxy) {
         
@@ -263,7 +263,7 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    [self handleSprinklerNetworkError:nil showErrorMessage:YES];
+    [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (serverProxy == self.pollServerProxy) {
         

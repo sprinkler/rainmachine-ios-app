@@ -258,8 +258,8 @@ typedef enum {
     [self.tableView reloadData];
 }
 
-- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
     if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;

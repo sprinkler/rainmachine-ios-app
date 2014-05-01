@@ -123,10 +123,10 @@
     [_tableView reloadData];
 }
 
-- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 
 //    if (serverProxy == self.postDeleteServerProxy) {
 //        [self requestPrograms];

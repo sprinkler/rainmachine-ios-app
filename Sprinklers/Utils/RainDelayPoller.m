@@ -41,11 +41,11 @@
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
 {
     [self.delegate hideHUD];
     
-    [self.delegate handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
+    [self.delegate handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
     if (serverProxy == self.rainDelayPostServerProxy) {
         self.rainDelayData = nil;
@@ -63,7 +63,7 @@
     if (serverProxy == self.rainDelayPostServerProxy) {
         ServerResponse *response = (ServerResponse*)data;
         if ([response.status isEqualToString:@"err"]) {
-            [self.delegate handleSprinklerNetworkError:response.message showErrorMessage:YES];
+            [self.delegate handleSprinklerGeneralError:response.message showErrorMessage:YES];
         } else {
             self.rainDelayData.rainDelay = [userInfo objectForKey:@"rainDelay"];
             if ([self.rainDelayData.rainDelay intValue] == 0)
@@ -80,7 +80,7 @@
         [self.delegate refreshStatus];
     }
     else if (serverProxy == self.rainDelayServerProxy) {
-        [self.delegate handleSprinklerNetworkError:nil showErrorMessage:YES];
+        [self.delegate handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
         self.rainDelayData = (RainDelay*)data;
         if ([self.rainDelayData.rainDelay intValue] == 0)
         {

@@ -93,7 +93,7 @@
     [_tableView reloadData];
 }
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self.hud hide:YES];
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

@@ -218,9 +218,14 @@
 
 #pragma mark - RainDelayPollerDelegate
 
-- (void)handleSprinklerNetworkError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
-    [self.parent handleSprinklerNetworkError:errorMessage showErrorMessage:YES];
+- (void)handleSprinklerNetworkError:(NSError*)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage {
+    [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 }
+
+- (void)handleSprinklerGeneralError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
+    [self.parent handleSprinklerGeneralError:errorMessage showErrorMessage:YES];
+}
+
 
 - (void)hideRainDelayActivityIndicator:(BOOL)hide
 {

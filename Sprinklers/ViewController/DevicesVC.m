@@ -359,6 +359,11 @@
             } else {
                 LoginVC *login = [[LoginVC alloc] init];
                 login.sprinkler = self.savedSprinklers[indexPath.row];
+                
+                if ([login.sprinkler.loginRememberMe boolValue] == YES) {
+                    [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
+                }
+                
                 login.parent = self;
                 [self.navigationController pushViewController:login animated:YES];
             }

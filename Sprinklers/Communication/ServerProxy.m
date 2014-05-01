@@ -614,7 +614,7 @@
         DLog(@"NetworkError: %@", error);
         BOOL cancelled = ([error code] == NSURLErrorCancelled) && ([[error domain] isEqualToString:NSURLErrorDomain]);
         if (!cancelled) {
-            [_delegate serverErrorReceived:error serverProxy:self userInfo:userInfo];
+            [_delegate serverErrorReceived:error serverProxy:self operation:operation userInfo:userInfo];
         }
     }
 }

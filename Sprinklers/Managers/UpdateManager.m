@@ -22,6 +22,7 @@
 @interface UpdateManager () {
     int serverAPIMainVersion;
     int serverAPISubVersion;
+    int retryCount;
 }
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
@@ -44,6 +45,7 @@ static UpdateManager *current = nil;
     }
     
     self.delegate = delegate;
+    retryCount = 0;
 
     return self;
 }
@@ -54,8 +56,30 @@ static UpdateManager *current = nil;
     self.serverProxy = nil;
 }
 
+- (void)retry
+{
+    DLog(@"UpdateManager: retry...");
+    if (retryCount > 0) {
+        retryCount--;
+        [self internalPoll];
+    }
+}
+
+// This method is called from outside this class
 - (void)poll
 {
+    retryCount = 1;
+    
+    [self internalPoll];
+}
+
+// This method is called from inside this class
+- (void)internalPoll
+{
+    // Initialize with lowest sprinkler type
+    serverAPIMainVersion = 3;
+    serverAPISubVersion = 56; // or 55;
+
     [self stop];
     
     BOOL checkUpdate = YES;
@@ -74,31 +98,52 @@ static UpdateManager *current = nil;
     }
 }
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
 {
-    if ([userInfo isEqualToString:@"apiVer"]) {
-    
-        self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        Program *program = [Program new];
-        program.programId = -1;
-        [self.serverProxyDetect35x runNowProgram:program];
-    }
-    else if ([userInfo isEqualToString:@"runNowProgram"]) {
-        self.serverProxyDetect35x = nil;
-        serverAPIMainVersion = 3;
-        serverAPISubVersion = 56; // or 55;
-        
-        if (!self.delegate) {
-            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
-                                                                message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-            [alertView show];
-        } else {
-            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+//    if ([Utils isConnectionFailToServerError:error]) {
+//        [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+//    } else {
+        if ([userInfo isEqualToString:@"apiVer"]) {
+            if ([[operation response] statusCode] == 404) {
+                // Device is 3.57 or lower. For now, suppose it is lower
+                serverAPIMainVersion = 3;
+                serverAPISubVersion = 56; // or 55;
+
+                self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+                Program *program = [Program new];
+                program.programId = -1;
+                [self.serverProxyDetect35x runNowProgram:program];
+            } else {
+                // statusCode == 500 or other. In this case the Sprinkler version is unknown for us.
+                serverAPIMainVersion = 0;
+                serverAPISubVersion = 0;
+                [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+                [self.delegate updateNowAvailable:NO withVersion:nil];
+                
+                [self performSelector:@selector(retry) withObject:nil afterDelay:2.0];
+            }
         }
-    }
-    else {
-        [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
-    }
+        else if ([userInfo isEqualToString:@"runNowProgram"]) {
+            self.serverProxyDetect35x = nil;
+
+            // Error was received for some reason. Don't continue the update detection process
+            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+            [self.delegate updateNowAvailable:NO withVersion:nil];
+//            serverAPIMainVersion = 3;
+//            serverAPISubVersion = 56; // or 55;
+//            
+//            if (!self.delegate) {
+//                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Firmware update available"
+//                                                                    message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+//                [alertView show];
+//            } else {
+//                [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+//            }
+        }
+        else {
+            [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+        }
+//    }
     
     [self.serverProxy cancelAllOperations];
     self.serverProxy = nil;
@@ -106,7 +151,7 @@ static UpdateManager *current = nil;
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    [self handleSprinklerNetworkError:nil showErrorMessage:YES];
+    [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (([userInfo isEqualToString:@"runNowProgram"]) && ([data isKindOfClass:[StartStopProgramResponse class]])) {
         serverAPIMainVersion = 3;
@@ -200,8 +245,11 @@ static UpdateManager *current = nil;
     }
 }
 
-- (void)handleSprinklerNetworkError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage {
-    [self handleSprinklerError:errorMessage title:@"Network error" showErrorMessage:showErrorMessage];
+- (void)handleSprinklerNetworkError:(NSError*)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage {
+    if (error) {
+        NSDictionary *o = [NSDictionary dictionaryWithObjectsAndKeys:error, @"error", operation, @"operation", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSprinklerNetworkError object:o];
+    }
 }
 
 - (void)handleServerLoggedOutUser {

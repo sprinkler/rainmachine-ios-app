@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "WaterNowZone.h"
+#import "AFHTTPRequestOperation.h"
 
 @protocol SprinklerResponseProtocol <NSObject>
 
 - (void)loggedOut;
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo;
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo;
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo;
 
 @optional
@@ -53,7 +54,8 @@
 
 @protocol RainDelayPollerDelegate <NSObject>
 
-- (void)handleSprinklerNetworkError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage;
+- (void)handleSprinklerNetworkError:(NSError*)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage;
+- (void)handleSprinklerGeneralError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage;
 - (void)hideHUD;
 - (void)refreshStatus;
 - (void)hideRainDelayActivityIndicator:(BOOL)hide;

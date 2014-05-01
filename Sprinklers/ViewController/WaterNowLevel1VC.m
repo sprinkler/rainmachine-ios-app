@@ -238,7 +238,7 @@
     }
 }
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
 {
     BOOL showErrorMessage = YES;
     if (serverProxy == self.pollServerProxy) {
@@ -250,7 +250,7 @@
         self.lastPollRequestError = error;
     }
     
-    [self.parent handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:showErrorMessage];
+    [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:showErrorMessage];
 
 //    if ((serverProxy == self.pollServerProxy) || (serverProxy == self.quickRefreshServerProxy)) {
 //        [self updateCounterAndPollState];
@@ -269,7 +269,7 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    [self.parent handleSprinklerNetworkError:nil showErrorMessage:YES];
+    [self.parent handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (serverProxy == self.postServerProxy) {
 //        [self scheduleNextPollRequest:5 withServerProxy:self.quickRefreshServerProxy];

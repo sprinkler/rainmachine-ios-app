@@ -118,9 +118,14 @@
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self hideHud];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = nil;
+    if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
+        alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    } else {
+        alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
     [alertView show];
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFHTTPRequestOperation.h"
 
 @class WaterNowZone;
 @class Sprinkler;
@@ -37,6 +38,9 @@
 + (BOOL)isDevice360Plus;
 
 + (void)invalidateLoginForCurrentSprinkler;
++ (void)clearRememberMeFlagForSprinkler:(Sprinkler*)sprinkler;
++ (BOOL)isConnectionFailToServerError:(NSError*)error;
++ (BOOL)hasOperationInternalServerErrorStatusCode:(AFHTTPRequestOperation *)operation;
 
 @end
 

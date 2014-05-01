@@ -109,7 +109,7 @@
     [_tableView reloadData];
 }
 
-- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 

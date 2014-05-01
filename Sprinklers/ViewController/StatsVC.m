@@ -283,11 +283,11 @@ const float kHomeScreenCellHeight = 63;
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy userInfo:(id)userInfo
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
-    [self handleSprinklerNetworkError:[error localizedDescription] showErrorMessage:YES];
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
     if (serverProxy == self.unitsServerProxy) {
         self.unitsServerProxy = nil;
@@ -301,7 +301,7 @@ const float kHomeScreenCellHeight = 63;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     if (serverProxy == self.unitsServerProxy) {
-        [self handleSprinklerNetworkError:nil showErrorMessage:YES];
+        [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
         SettingsUnits *settingsUnits = (SettingsUnits*)data;
         [self setUnitsText:settingsUnits.units];
         self.unitsServerProxy = nil;
@@ -310,7 +310,7 @@ const float kHomeScreenCellHeight = 63;
         NSArray *dataArray = (NSArray*)data;
         if ([dataArray count] > 0) {
             
-            [self handleSprinklerNetworkError:nil showErrorMessage:YES];
+            [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
             
             self.data = dataArray;
             

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AFHTTPRequestOperation.h"
 
 @interface BaseVC : UIViewController
 
@@ -14,7 +15,7 @@
 
 - (void)handleServerLoggedOutUser;
 - (void)handleSprinklerGeneralError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage;
-- (void)handleSprinklerNetworkError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage;
+- (void)handleSprinklerNetworkError:(NSError*)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage;
 - (void)handleLoggedOutSprinklerError;
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex;

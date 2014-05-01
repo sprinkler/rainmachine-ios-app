@@ -64,6 +64,12 @@
     return [Utils sprinklerURL:[StorageManager current].currentSprinkler];
 }
 
++ (void)clearRememberMeFlagForSprinkler:(Sprinkler*)sprinkler
+{
+    sprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
+    [[StorageManager current] saveData];
+}
+
 + (void)invalidateLoginForCurrentSprinkler
 {
     [NetworkUtilities invalidateLoginForBaseUrl:[[StorageManager current] currentSprinkler].address];
@@ -71,6 +77,22 @@
     [[StorageManager current] currentSprinkler].loginRememberMe = NO;
     [StorageManager current].currentSprinkler = nil;
     [[StorageManager current] saveData];
+}
+
++ (BOOL)isConnectionFailToServerError:(NSError*)error
+{
+    return ( ((error.code == NSURLErrorCannotConnectToHost) ||
+              (error.code == NSURLErrorCannotFindHost))
+        && ([[error domain] isEqualToString:NSURLErrorDomain]));
+}
+
++ (BOOL)hasOperationInternalServerErrorStatusCode:(AFHTTPRequestOperation *)operation
+{
+    if (!operation) {
+        return NO;
+    }
+    
+    return ([[operation response] statusCode] == 500);
 }
 
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle
