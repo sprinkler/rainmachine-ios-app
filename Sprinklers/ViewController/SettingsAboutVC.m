@@ -96,8 +96,8 @@
     appDelegate.updateManager.serverAPIMainVersion = major;
     appDelegate.updateManager.serverAPISubVersion = minor;
     
-    hwVersion.text = [NSString stringWithFormat: @"RainMachine Hardware V %d.%d", major, minor];
-    hwVersion.hidden = ((major == 0) || (minor == 0));
+    hwVersion.text = [NSString stringWithFormat: @"RainMachine Firmware V %d.%d", major, minor];
+    hwVersion.hidden = ((major == 0) || (minor != 0));
     
     if (![Utils isDevice359Plus]) {
         // When device is lower than 3.59 show a label saying the update is available from the rain machine console

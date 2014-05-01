@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "BaseVC.h"
+#import "BaseNetworkHandlingVC.h"
 #import "StorageManager.h"
 #import "Constants.h"
 #import "AppDelegate.h"
 #import "NetworkUtilities.h"
 #import "Utils.h"
 
-@implementation BaseVC
+@implementation BaseNetworkHandlingVC
 
 #pragma mark - Error handling
 

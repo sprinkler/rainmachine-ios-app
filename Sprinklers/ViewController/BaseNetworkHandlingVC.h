@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AFHTTPRequestOperation.h"
 
-@interface BaseVC : UIViewController
+@interface BaseNetworkHandlingVC : UIViewController
 
 @property (strong, nonatomic) UIAlertView *alertView;
 

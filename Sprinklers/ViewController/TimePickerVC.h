@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.h"
 #import "BaseLevel2ViewController.h"
-#import "BaseVC.h"
+#import "BaseNetworkHandlingVC.h"
 
 @interface TimePickerVC : BaseLevel2ViewController
 
 @property (assign) int timeFormat;
-@property (weak, nonatomic) BaseVC<TimePickerDelegate> *parent;
+@property (weak, nonatomic) BaseNetworkHandlingVC<TimePickerDelegate> *parent;
 @property (strong, nonatomic) NSDate *time;
 @property (weak, nonatomic) IBOutlet UIPickerView *datePicker;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* leftConstraint;

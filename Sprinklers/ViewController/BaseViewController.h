@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
-#import "BaseVC.h"
+#import "BaseNetworkHandlingVC.h"
 
 @class Sprinkler;
 
-@interface BaseViewController : BaseVC
+@interface BaseViewController : BaseNetworkHandlingVC
 
 @end

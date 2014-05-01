@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
-#import "BaseVC.h"
+#import "BaseNetworkHandlingVC.h"
 
-@interface BaseLevel2ViewController : BaseVC
+@interface BaseLevel2ViewController : BaseNetworkHandlingVC
 
 @end
