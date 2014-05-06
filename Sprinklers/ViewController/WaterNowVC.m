@@ -21,6 +21,9 @@
 #import "StorageManager.h"
 #import "CounterHelper.h"
 #import "DBZone.h"
+#import "RainDelayPoller.h"
+#import "RainDelay.h"
+#import "HomeScreenDataSourceCell.h"
 
 @interface WaterNowVC () {
     UIColor *switchOnOrangeColor;
@@ -40,8 +43,12 @@
 @property (strong, nonatomic) CounterHelper *wateringCounterHelper;
 @property (strong, nonatomic) WaterNowZone *wateringZone;
 @property (strong, nonatomic) NSMutableDictionary *stateChangeObserver;
+@property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
 
+@property (weak, nonatomic) IBOutlet UITableView *statusTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusTableViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *rainDelayMessage;
 
 @end
 
@@ -61,31 +68,55 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupRainDelayMode:NO];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
 
     [self refreshWithCurrentDevice];
 
+    self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
+    
     self.wateringCounterHelper = [[CounterHelper alloc] initWithDelegate:self interval:1];
     
     self.delayedInitialListRefresh = NO;
     
+    [_statusTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"WaterZoneListCell" bundle:nil] forCellReuseIdentifier:@"WaterZoneListCell"];
 
     switchOnGreenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
     switchOnOrangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
 
-    [self refreshStopAllButton];
+    [self refreshNavBarButtons];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
-
     if ([StorageManager current].currentSprinkler) {
         [self refreshWithCurrentDevice];
     }
 }
 
+- (void)refreshNavBarButtons
+{
+    [self refreshStopAllButton];
+    [self refreshEditButton];
+}
+
+- (void)refreshEditButton
+{
+    if ([self.rainDelayPoller rainDelayMode]) {
+        self.navigationItem.rightBarButtonItem = nil;
+    } else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
+    }
+}
+
 - (void)refreshStopAllButton
 {
-    if (![self areAllStopped]) {
+    BOOL leftBarButtonActive = ![self areAllStopped];
+    
+    if ([self.rainDelayPoller rainDelayMode]) {
+        leftBarButtonActive = nil;
+    }
+
+    if (leftBarButtonActive) {
         if (!self.navigationItem.leftBarButtonItem) {
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Stop All" style:UIBarButtonItemStylePlain target:self action:@selector(stopAll)];
         }
@@ -142,6 +173,8 @@
     } else {
         [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:YES]];
     }
+
+    [self.rainDelayPoller scheduleNextPoll:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -163,6 +196,8 @@
     [self.pollServerProxy cancelAllOperations];
     [self.postServerProxy cancelAllOperations];
     [self.zonesDetailsServerProxy cancelAllOperations];
+    
+    [self.rainDelayPoller stopPollRequests];
     
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
@@ -228,8 +263,16 @@
 }
 
 #pragma mark - Alert view
+
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    if (theAlertView.tag == kAlertView_ResumeRainDelay) {
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            [self setRainDelay];
+        }
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    }
+    
     self.alertView = nil;
 }
 
@@ -348,7 +391,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.statusTableView) {
+        return 1;
+    }
     return [self.zones count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.statusTableView) {
+        return 54;
+    }
+    return 60;
 }
 
 - (void)hide:(BOOL)hide multipartTimeLabels:(WaterZoneListCell *)cell color:(UIColor*)color
@@ -374,72 +428,100 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"WaterZoneListCell";
-    WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    WaterNowZone *waterNowZone = [self.zones objectAtIndex:indexPath.row];
-    BOOL isPending = [Utils isZonePending:waterNowZone];
-    BOOL isWatering = [Utils isZoneWatering:waterNowZone];
-    BOOL isIdle = [Utils isZoneIdle:waterNowZone];
-    //  BOOL unkownState = (!pending) && (!watering);
+    UITableViewCell *theCell = nil;
     
-    cell.delegate = self;
-    cell.zone = waterNowZone;
-    
-    cell.zoneNameLabel.text = [Utils fixedZoneName:waterNowZone.name withId:waterNowZone.id];
-    cell.descriptionLabel.text = [waterNowZone.type isEqualToString:@"Unknown"] ? @"Other" : waterNowZone.type;
-    cell.onOffSwitch.on = isWatering || isPending;
-    
-    cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
-    
-    if ([self zoneFailedToStart:cell.zone]) {
-        [self hide:NO multipartTimeLabels:cell color:[UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1]];
-        cell.timeLabelMultipartTop.text = @"Failed";
-        cell.timeLabelMultipartBottom.text = @"to start";
-    }
-    else if (isIdle) {
-        [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-        [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
-        cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
-    } else {
-        if (isPending) {
-            [self hide:NO multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-            cell.timeLabelMultipartTop.text = @"Pending";
-            cell.timeLabelMultipartBottom.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
+    if (tableView == self.statusTableView) {
+        static NSString *CellIdentifier = @"HomeDataSourceCell";
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        if ([self.rainDelayPoller rainDelayMode]) {
+            [cell setRainDelayUITo:YES withValue:[self.rainDelayPoller.rainDelayData.delayCounter intValue]];
         } else {
-            // Watering
-            if (self.wateringZone) {
-                [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-                [cell.timeLabel setFont:[UIFont systemFontOfSize:26]];
-                cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];//@"Watering";
-                if ([cell.timeLabel.text isEqualToString:@"00:00"]) {
+            [cell setRainDelayUITo:NO withValue:0];
+        }
+        
+        theCell = cell;
+    } else {
+        static NSString *CellIdentifier = @"WaterZoneListCell";
+        WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        WaterNowZone *waterNowZone = [self.zones objectAtIndex:indexPath.row];
+        BOOL isPending = [Utils isZonePending:waterNowZone];
+        BOOL isWatering = [Utils isZoneWatering:waterNowZone];
+        BOOL isIdle = [Utils isZoneIdle:waterNowZone];
+        //  BOOL unkownState = (!pending) && (!watering);
+        
+        cell.delegate = self;
+        cell.zone = waterNowZone;
+        
+        cell.zoneNameLabel.text = [Utils fixedZoneName:waterNowZone.name withId:waterNowZone.id];
+        cell.descriptionLabel.text = [waterNowZone.type isEqualToString:@"Unknown"] ? @"Other" : waterNowZone.type;
+        cell.onOffSwitch.on = isWatering || isPending;
+        
+        cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
+        
+        if ([self zoneFailedToStart:cell.zone]) {
+            [self hide:NO multipartTimeLabels:cell color:[UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1]];
+            cell.timeLabelMultipartTop.text = @"Failed";
+            cell.timeLabelMultipartBottom.text = @"to start";
+        }
+        else if (isIdle) {
+            [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+            [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
+            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
+        } else {
+            if (isPending) {
+                [self hide:NO multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+                cell.timeLabelMultipartTop.text = @"Pending";
+                cell.timeLabelMultipartBottom.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
+            } else {
+                // Watering
+                if (self.wateringZone) {
+                    [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+                    [cell.timeLabel setFont:[UIFont systemFontOfSize:26]];
+                    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];//@"Watering";
+                    if ([cell.timeLabel.text isEqualToString:@"00:00"]) {
+                        cell.timeLabel.text = @"";
+                    }
+                } else {
+                    // Details (i.e.: counter field) did not yet arrive from the server
+                    [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
                     cell.timeLabel.text = @"";
                 }
-            } else {
-                // Details (i.e.: counter field) did not yet arrive from the server
-                [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-                cell.timeLabel.text = @"";
             }
         }
+        
+        theCell = cell;
     }
     
-    return cell;
+    return theCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
-    WaterNowZone *waterZone = [self.zones objectAtIndex:indexPath.row];
-    if ([Utils isZoneWatering:waterZone]) {
-        if ((self.wateringZone) && (self.wateringZone.counter)) {
-            waterZone = self.wateringZone;
+    if (tableView == self.statusTableView) {
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:indexPath];
+        if (cell.selectionStyle != UITableViewCellSelectionStyleNone) {
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Resume sprinkler operation?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Resume", nil];
+            alertView.tag = kAlertView_ResumeRainDelay;
+            [alertView show];
         }
+    } else {
+        WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
+        WaterNowZone *waterZone = [self.zones objectAtIndex:indexPath.row];
+        if ([Utils isZoneWatering:waterZone]) {
+            if ((self.wateringZone) && (self.wateringZone.counter)) {
+                waterZone = self.wateringZone;
+            }
+        }
+        waterNowZoneVC.wateringZone = waterZone;
+        waterNowZoneVC.parent = self;
+        [self.navigationController pushViewController:waterNowZoneVC animated:YES];
     }
-    waterNowZoneVC.wateringZone = waterZone;
-    waterNowZoneVC.parent = self;
-    [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }
 
 #pragma mark - Backend
@@ -702,6 +784,43 @@
 {
     [self clearStateChangeObserver];
     [self.tableView reloadData];
+}
+
+#pragma mark - RainDelayPollerDelegate
+
+- (void)setRainDelay
+{
+    [self hideRainDelayActivityIndicator:NO];
+    
+    [self.rainDelayPoller setRainDelay];
+}
+
+- (void)hideRainDelayActivityIndicator:(BOOL)hide
+{
+    HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    cell.setRainDelayActivityIndicator.hidden = hide;
+}
+
+- (void)hideHUD
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)refreshStatus
+{
+    [self setupRainDelayMode:[self.rainDelayPoller rainDelayMode]];
+    
+    [self.statusTableView reloadData];
+}
+
+- (void)setupRainDelayMode:(BOOL)rainDelayMode
+{
+    [self refreshNavBarButtons];
+    
+    self.tableView.hidden = rainDelayMode;
+    self.statusTableViewHeightConstraint.constant = rainDelayMode ? 54 : 0;
+    self.statusTableView.hidden = !rainDelayMode;
+    self.rainDelayMessage.hidden = !rainDelayMode;
 }
 
 @end

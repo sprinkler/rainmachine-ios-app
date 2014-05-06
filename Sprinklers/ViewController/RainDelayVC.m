@@ -71,7 +71,6 @@
     [self.labelHours_0Days setTextColor:greenColor];
     [self.labelMinutes_0Days setTextColor:greenColor];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self hideUI];
 }
 
@@ -79,6 +78,7 @@
 {
     [super viewDidAppear:animated];
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.rainDelayPoller scheduleNextPoll:0];
 }
 
