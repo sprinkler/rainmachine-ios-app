@@ -69,7 +69,7 @@
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -80,9 +80,6 @@
         return 1;
     }
     else if (section == 2) {
-        return 1;
-    }
-    else if (section == 3) {
         return 6;
     }
     
@@ -101,6 +98,15 @@
 //    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
 //    return view;
 //}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 2) {
+        return @"Device Settings";
+    }
+    
+    return @"";
+}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
@@ -141,21 +147,8 @@
             cell.textLabel.text = @"Rain Delay";
         }
     }
-    
+
     if (indexPath.section == 2)
-    {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"Device Settings";
-            cell.textLabel.textColor = [UIColor lightGrayColor];
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
-                cell.separatorInset = UIEdgeInsetsZero;
-            }
-        }
-    }
-    
-    if (indexPath.section == 3)
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Units";
@@ -203,7 +196,7 @@
             [self.navigationController pushViewController:rainDelay animated:YES];
         }
     }
-    else if (indexPath.section == 3) {
+    else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             UnitsVC *unitsVC = [[UnitsVC alloc] init];
             unitsVC.parent = self;

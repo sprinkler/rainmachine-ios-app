@@ -74,6 +74,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
     // Hide the status table view initially
     self.statusTableViewHeightConstraint.constant = 0;
 
@@ -87,6 +89,9 @@
     }
     
     if (self.program) {
+        
+        NSLog(@"%s - self.program", __PRETTY_FUNCTION__);
+        
         runNowSectionIndex = -1;
         nameSectionIndex = 0;
         activeSectionIndex = 1;
@@ -101,6 +106,9 @@
             [self createTwoButtonToolbar];
         }
     } else {
+        
+        NSLog(@"%s - !self.program", __PRETTY_FUNCTION__);
+        
         runNowSectionIndex = -1;
         nameSectionIndex = 0;
         activeSectionIndex = 1;
@@ -112,6 +120,8 @@
     
         [self createTwoButtonToolbar];
     }
+    
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     [self refreshToolBarButtonTitles];
     
@@ -129,6 +139,8 @@
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType5" bundle:nil] forCellReuseIdentifier:@"ProgramCellType5"];
     [_tableView registerNib:[UINib nibWithNibName:@"ButtonCell" bundle:nil] forCellReuseIdentifier:@"ButtonCell"];
 
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
 
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
@@ -152,6 +164,8 @@
         [self showUnsavedChangesPopup:nil];
         self.showInitialUnsavedAlert = NO;
     }
+    
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)refreshToolBarButtonTitles
@@ -161,6 +175,8 @@
 
 - (void)createTwoButtonToolbar
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
     UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -177,20 +193,22 @@
 
 - (void)createThreeButtonToolbar
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
-    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
-    UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
+    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Ssave" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+ //   UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
         buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        buttonStart.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+   //     buttonStart.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
     }
     
     //set the toolbar buttons
-    self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, buttonStart, flexibleSpace, nil];
-    self.startButtonItem = buttonStart;
+    self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, nil];
+    self.startButtonItem = buttonSave;
 }
 
 - (void)willPushChildView
