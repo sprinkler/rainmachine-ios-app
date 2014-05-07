@@ -11,6 +11,7 @@
 
 @class WaterNowZone;
 @class Sprinkler;
+@class SettingsDate;
 
 @interface Utils : NSObject
 
@@ -26,6 +27,7 @@
 + (NSArray*)remoteSprinklersFilter:(NSArray*)sprinklers;
 + (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays;
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat;
++ (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate;
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 

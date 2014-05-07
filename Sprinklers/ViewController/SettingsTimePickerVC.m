@@ -159,7 +159,7 @@
     
     if (serverProxy == self.pullServerProxy) {
 
-        self.settingsDate = data;
+        self.settingsDate = [Utils fixedSettingsDate:data];
         self.timeFormat = [self.settingsDate.time_format integerValue] == 12 ? 1 : 0;
         
         [super refreshTimeFormatConstraint];

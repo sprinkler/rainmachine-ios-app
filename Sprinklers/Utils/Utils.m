@@ -15,6 +15,7 @@
 #import "UpdateManager.h"
 #import "AppDelegate.h"
 #import "NetworkUtilities.h"
+#import "SettingsDate.h"
 
 @implementation Utils
 
@@ -204,6 +205,24 @@
     NSString *hourAndMinute = [formatter stringFromDate:date];
     
     return hourAndMinute;
+}
+
++ (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate
+{
+    // The sprinkler returns inconsistently the fields am_pm and time_format.
+    // This fix manually checks the date format and sets the correct value in time_format.
+    
+    if (([settingsDate.appDate hasSuffix:@"am"]) ||
+        ([settingsDate.appDate hasSuffix:@"AM"]) ||
+        ([settingsDate.appDate hasSuffix:@"pm"]) ||
+        ([settingsDate.appDate hasSuffix:@"PM"]))
+    {
+        settingsDate.time_format = [NSNumber numberWithInt:12];
+    } else {
+        settingsDate.time_format = [NSNumber numberWithInt:24];
+    }
+    
+    return settingsDate;
 }
 
 # pragma mark - Sprinkler related views
