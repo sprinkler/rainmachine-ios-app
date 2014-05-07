@@ -80,7 +80,7 @@
         return 1;
     }
     else if (section == 2) {
-        return 6;
+        return 5;
     }
     
     return 0;
