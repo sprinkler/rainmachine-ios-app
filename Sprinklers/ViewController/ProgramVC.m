@@ -684,14 +684,12 @@
         setDelayVC.title = @"Cycles and soak duration";
     }
     else if (row == 1) {
-
-        setDelayVC.moveLabelsLeftOfPicker = NO;
         setDelayVC.minValuePicker1 = 0;
         setDelayVC.maxValuePicker1 = 300;
         setDelayVC.userInfo = @"station_delay";
         setDelayVC.titlePicker1 = @"minutes";
         setDelayVC.valuePicker1 = self.program.delay;
-        setDelayVC.title = @"Station delay duration";
+        setDelayVC.title = @"Delay between zones";
     }
     
     setDelayVC.parent = self;
