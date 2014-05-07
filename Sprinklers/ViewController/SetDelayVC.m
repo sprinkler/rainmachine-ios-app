@@ -89,6 +89,8 @@
 
 - (void)updateViewConstraints {
 
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
     if (_moveLabelsLeftOfPicker == YES )
     {
         if (!_hasLoadedConstraints) {
@@ -97,7 +99,7 @@
             {
                 NSLayoutConstraint* constraint = [self.view.constraints objectAtIndex: i];
                 if (constraint.constant == -33.0f)
-                    constraint.constant = 100.0f;
+                    constraint.constant = 145.0f;
             }
             
             _hasLoadedConstraints = TRUE;
@@ -136,6 +138,14 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
+    if (_moveLabelsLeftOfPicker) {
+        if ((![[UIDevice currentDevice] iOSGreaterThan:7])) { // iOS 6: Make picker snap to top
+            if (component == 0) {
+                return @"";
+            }
+        }
+    }
+    
     if (pickerView == _picker1) {
         return [NSString stringWithFormat:@"%d", (int)(_minValuePicker1 + row)];
     }
@@ -151,12 +161,26 @@
 // returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
+    if (_moveLabelsLeftOfPicker) {
+        if ((![[UIDevice currentDevice] iOSGreaterThan:7])) { // iOS 6: Make picker snap to top
+            return 2;
+        }
+    }
+    
     return 1;
 }
 
 // returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
 {
+    if (_moveLabelsLeftOfPicker) {
+        if ((![[UIDevice currentDevice] iOSGreaterThan:7])) { // iOS 6: Make picker snap to top
+            if (component == 0) {
+                return 1;
+            }
+        }
+    }
+    
     if (pickerView == _picker1) {
         return _maxValuePicker1 - _minValuePicker1+ 1;
     }

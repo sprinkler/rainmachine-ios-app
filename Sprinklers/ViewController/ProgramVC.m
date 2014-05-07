@@ -677,8 +677,8 @@
         setDelayVC.minValuePicker2 = 0;
         setDelayVC.maxValuePicker2 = 300;
         setDelayVC.userInfo = @"cycle_and_soak";
-        setDelayVC.titlePicker1 = @"Cycles";
-        setDelayVC.titlePicker2 = @"Soak time";
+        setDelayVC.titlePicker1 = @"Number of cycles:";
+        setDelayVC.titlePicker2 = @"Soak time:";
         setDelayVC.valuePicker1 = self.program.cycles;
         setDelayVC.valuePicker2 = self.program.soak;
         setDelayVC.title = @"Cycles and soak duration";
