@@ -621,6 +621,7 @@
             ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
             
             NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
+            cell.theTextLabel.font = [UIFont systemFontOfSize: 22.0f];
             cell.theTextLabel.text = @"START TIME";
             cell.timeLabel.text = startHourAndMinute;
             cell.timeLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
@@ -655,6 +656,7 @@
             static NSString *CellIdentifier = @"ProgramCellType4";
             ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
             ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
+            cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
             cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
             cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
             cell.timeLabel.textColor = [UIColor blackColor];
