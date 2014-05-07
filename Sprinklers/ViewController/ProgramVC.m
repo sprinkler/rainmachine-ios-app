@@ -671,6 +671,7 @@
 {
     SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
     if (row == 0) {
+        setDelayVC.moveLabelsLeftOfPicker = YES;
         setDelayVC.minValuePicker1 = 2;
         setDelayVC.maxValuePicker1 = 5;
         setDelayVC.minValuePicker2 = 0;
@@ -683,6 +684,8 @@
         setDelayVC.title = @"Cycles and soak duration";
     }
     else if (row == 1) {
+
+        setDelayVC.moveLabelsLeftOfPicker = NO;
         setDelayVC.minValuePicker1 = 0;
         setDelayVC.maxValuePicker1 = 300;
         setDelayVC.userInfo = @"station_delay";

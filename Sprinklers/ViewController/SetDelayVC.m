@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIView *helperView2;
 @property (weak, nonatomic) IBOutlet UIView *helperView1;
 
+@property BOOL hasLoadedConstraints;
+
 @end
 
 @implementation SetDelayVC
@@ -27,6 +29,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        _hasLoadedConstraints = NO;
+        _moveLabelsLeftOfPicker = NO;
     }
     return self;
 }
@@ -80,6 +84,27 @@
     
     _title1.text = _titlePicker1;
     _title2.text = _titlePicker2;
+
+}
+
+- (void)updateViewConstraints {
+
+    if (_moveLabelsLeftOfPicker == YES )
+    {
+        if (!_hasLoadedConstraints) {
+            // change contraint to have labels on the left
+            for (int i=0; i<self.view.constraints.count; i++)
+            {
+                NSLayoutConstraint* constraint = [self.view.constraints objectAtIndex: i];
+                if (constraint.constant == -33.0f)
+                    constraint.constant = 100.0f;
+            }
+            
+            _hasLoadedConstraints = TRUE;
+        }
+    }
+    
+    [super updateViewConstraints];
 }
 
 - (void)didReceiveMemoryWarning

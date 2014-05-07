@@ -24,6 +24,8 @@
 @property (assign) int maxValuePicker1;
 @property (assign) int maxValuePicker2;
 
+@property (assign) BOOL moveLabelsLeftOfPicker;
+
 @property (weak, nonatomic) id<SetDelayVCDelegate> parent;
 
 @end
