@@ -90,8 +90,6 @@
 
 - (void)updateViewConstraints {
 
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     if (_moveLabelsLeftOfPicker == YES )
     {
         if (!_hasLoadedConstraints) {

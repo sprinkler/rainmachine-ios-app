@@ -50,6 +50,8 @@
     int startTimeSectionIndex;
     int cycleSoakAndStationDelaySectionIndex;
     int wateringTimesSectionIndex;
+    
+    int didEdit;
 }
 
 @property (strong, nonatomic) ServerProxy *getProgramListServerProxy;
@@ -73,14 +75,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
+
     // Hide the status table view initially
     self.statusTableViewHeightConstraint.constant = 0;
-
     self.title = @"Program";
-    
     isNewProgram = (self.program == nil);
     
     if (!self.showInitialUnsavedAlert) {
@@ -89,9 +87,7 @@
     }
     
     if (self.program) {
-        
-        NSLog(@"%s - self.program", __PRETTY_FUNCTION__);
-        
+
         runNowSectionIndex = -1;
         nameSectionIndex = 0;
         activeSectionIndex = 1;
@@ -106,9 +102,6 @@
             [self createTwoButtonToolbar];
         }
     } else {
-        
-        NSLog(@"%s - !self.program", __PRETTY_FUNCTION__);
-        
         runNowSectionIndex = -1;
         nameSectionIndex = 0;
         activeSectionIndex = 1;
@@ -120,9 +113,7 @@
     
         [self createTwoButtonToolbar];
     }
-    
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
+
     [self refreshToolBarButtonTitles];
     
     if (!self.program) {
@@ -138,8 +129,6 @@
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType4" bundle:nil] forCellReuseIdentifier:@"ProgramCellType4"];
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType5" bundle:nil] forCellReuseIdentifier:@"ProgramCellType5"];
     [_tableView registerNib:[UINib nibWithNibName:@"ButtonCell" bundle:nil] forCellReuseIdentifier:@"ButtonCell"];
-
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
 
@@ -165,7 +154,29 @@
         self.showInitialUnsavedAlert = NO;
     }
     
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    didEdit = 0;
+}
+
+- (void) refreshToolbarEdited
+{
+    didEdit ++;
+    
+    // don't recreate toolbar multiple times
+    if (didEdit > 1)
+        return;
+    
+    if (self.program) {
+        if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
+            // 3.55 and 3.56 can only Stop programs
+            [self createTwoButtonToolbar];
+        }
+        else
+        {
+           [self createThreeButtonToolbar];
+        }
+    } else {
+            [self createTwoButtonToolbar];
+    }
 }
 
 - (void)refreshToolBarButtonTitles
@@ -175,10 +186,9 @@
 
 - (void)createTwoButtonToolbar
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
-    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:
+                                   didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
@@ -193,22 +203,20 @@
 
 - (void)createThreeButtonToolbar
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
-    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Ssave" style:UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
- //   UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
+    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+    UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:didEdit ? UIBarButtonItemStyleBordered : UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
         buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-   //     buttonStart.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        buttonStart.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
     }
     
     //set the toolbar buttons
-    self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, nil];
-    self.startButtonItem = buttonSave;
+    self.topToolbar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, buttonStart, flexibleSpace, nil];
+    self.startButtonItem = buttonStart;
 }
 
 - (void)willPushChildView
@@ -331,6 +339,8 @@
             self.program.active = cell.theSwitch.on;
         }
     }
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)onCell:(UITableViewCell*)theCell checkmarkState:(BOOL)sel
@@ -340,11 +350,15 @@
     [self checkFrequencyWithIndex:cell.index];
     
     [self.tableView reloadData];
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)cellTextFieldChanged:(NSString*)text
 {
     self.program.name = text;
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)save
@@ -746,6 +760,9 @@
             [alertView show];
         }
     } else {
+        
+        [self refreshToolbarEdited];
+        
         if (indexPath.section == nameSectionIndex) {
             ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];
             [cell.theTextField becomeFirstResponder];
