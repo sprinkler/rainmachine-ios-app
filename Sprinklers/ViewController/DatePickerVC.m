@@ -197,7 +197,7 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     
     if (serverProxy == self.pullServerProxy) {
-        self.settingsDate = data;
+        self.settingsDate = [Utils fixedSettingsDate:data];
         
         self.pullServerProxy = nil;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
