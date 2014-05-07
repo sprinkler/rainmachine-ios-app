@@ -11,6 +11,7 @@
 
 @interface SetDelayVC ()
 
+@property (weak, nonatomic) IBOutlet UILabel *title1Right;
 @property (weak, nonatomic) IBOutlet UILabel *title1;
 @property (weak, nonatomic) IBOutlet UILabel *title2;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker1;
@@ -101,9 +102,12 @@
                 if (constraint.constant == -33.0f)
                     constraint.constant = 145.0f;
             }
-            
+        
             _hasLoadedConstraints = TRUE;
         }
+    }else
+    {
+        _title1Right.hidden = YES;
     }
     
     [super updateViewConstraints];

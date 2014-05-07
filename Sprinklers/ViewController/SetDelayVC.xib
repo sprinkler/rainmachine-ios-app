@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -11,6 +11,7 @@
                 <outlet property="picker1" destination="i7D-Dy-SZs" id="6qw-0c-CMr"/>
                 <outlet property="picker2" destination="o73-bd-rEm" id="b85-iL-OfE"/>
                 <outlet property="title1" destination="61x-5S-ReG" id="b32-WP-CMm"/>
+                <outlet property="title1Right" destination="Ag2-3M-ceA" id="g14-bt-DBg"/>
                 <outlet property="title2" destination="lwq-I0-v1x" id="Aue-WV-IYg"/>
                 <outlet property="view" destination="1" id="ZkF-WL-eWv"/>
             </connections>
@@ -20,16 +21,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KiS-jU-gPK">
-                    <rect key="frame" x="160" y="0.0" width="0.0" height="240"/>
+                <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KiS-jU-gPK">
+                    <rect key="frame" x="160" y="0.0" width="0.0" height="239"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.25098040700000002" green="0.69411766529999996" blue="0.85490202900000001" alpha="1" colorSpace="deviceRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" id="ddP-gw-zTt"/>
                     </constraints>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZJ-hk-p41">
-                    <rect key="frame" x="160" y="240" width="0.0" height="240"/>
+                <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kZJ-hk-p41">
+                    <rect key="frame" x="160" y="239" width="0.0" height="239"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="0.0761146989" blue="0.15216917620000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -50,16 +51,22 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o73-bd-rEm">
-                    <rect key="frame" x="0.0" y="279" width="320" height="162"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="minutes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ag2-3M-ceA">
+                    <rect key="frame" x="193" y="110" width="42" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o73-bd-rEm">
+                    <rect key="frame" x="0.0" y="278" width="320" height="162"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="bEJ-00-oSI"/>
                         <outlet property="delegate" destination="-1" id="Gbr-vt-jNh"/>
                     </connections>
                 </pickerView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwq-I0-v1x">
-                    <rect key="frame" x="193" y="350" width="42" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwq-I0-v1x">
+                    <rect key="frame" x="193" y="349" width="42" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -68,7 +75,9 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="kZJ-hk-p41" firstAttribute="leading" secondItem="Ag2-3M-ceA" secondAttribute="leading" constant="-35" id="0Ij-g6-q6n"/>
                 <constraint firstItem="KiS-jU-gPK" firstAttribute="top" secondItem="1" secondAttribute="top" id="1E0-KD-f42"/>
+                <constraint firstItem="Ag2-3M-ceA" firstAttribute="centerY" secondItem="i7D-Dy-SZs" secondAttribute="centerY" constant="0.5" id="50H-fK-qrG"/>
                 <constraint firstAttribute="centerX" secondItem="KiS-jU-gPK" secondAttribute="centerX" id="7nN-EW-RKB"/>
                 <constraint firstAttribute="trailing" secondItem="i7D-Dy-SZs" secondAttribute="trailing" id="DuV-gx-Qby"/>
                 <constraint firstItem="lwq-I0-v1x" firstAttribute="centerY" secondItem="o73-bd-rEm" secondAttribute="centerY" id="EIk-aa-nW6"/>
@@ -78,6 +87,7 @@
                 <constraint firstAttribute="centerX" secondItem="kZJ-hk-p41" secondAttribute="centerX" id="S05-jv-1gh"/>
                 <constraint firstItem="61x-5S-ReG" firstAttribute="centerY" secondItem="i7D-Dy-SZs" secondAttribute="centerY" id="T3m-Xg-62f"/>
                 <constraint firstItem="kZJ-hk-p41" firstAttribute="top" secondItem="KiS-jU-gPK" secondAttribute="bottom" id="Zab-Ye-5I1"/>
+                <constraint firstItem="Ag2-3M-ceA" firstAttribute="leading" secondItem="lwq-I0-v1x" secondAttribute="trailing" constant="-42" id="ab4-Nu-Uow"/>
                 <constraint firstAttribute="trailing" secondItem="o73-bd-rEm" secondAttribute="trailing" id="dX4-Og-bN2"/>
                 <constraint firstItem="i7D-Dy-SZs" firstAttribute="centerY" secondItem="KiS-jU-gPK" secondAttribute="centerY" id="oRD-aX-xeh"/>
                 <constraint firstAttribute="centerX" secondItem="i7D-Dy-SZs" secondAttribute="centerX" id="pgC-uT-o7c"/>
