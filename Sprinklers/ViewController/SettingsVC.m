@@ -69,7 +69,7 @@
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -80,6 +80,9 @@
         return 1;
     }
     else if (section == 2) {
+        return 1;
+    }
+    else if (section == 3) {
         return 6;
     }
     
@@ -150,20 +153,24 @@
                 cell.separatorInset = UIEdgeInsetsZero;
             }
         }
-        if (indexPath.row == 1) {
+    }
+    
+    if (indexPath.section == 3)
+    {
+        if (indexPath.row == 0) {
             cell.textLabel.text = @"Units";
         }
-        if (indexPath.row == 2) {
+        if (indexPath.row == 1) {
             cell.textLabel.text = @"Date";
         }
-        if (indexPath.row == 3) {
+        if (indexPath.row == 2) {
             cell.textLabel.text = @"Time";
         }
-        if (indexPath.row == 4) {
+        if (indexPath.row == 3) {
             cell.textLabel.text = @"Security";
         }
-        
-        if (indexPath.row == 5) {
+    
+        if (indexPath.row == 4) {
             cell.textLabel.text = @"About";
         }
     }
@@ -196,28 +203,28 @@
             [self.navigationController pushViewController:rainDelay animated:YES];
         }
     }
-    else if (indexPath.section == 2) {
-        if (indexPath.row == 1) {
+    else if (indexPath.section == 3) {
+        if (indexPath.row == 0) {
             UnitsVC *unitsVC = [[UnitsVC alloc] init];
             unitsVC.parent = self;
             [self.navigationController pushViewController:unitsVC animated:YES];
         }
-        else if (indexPath.row == 2) {
+        else if (indexPath.row == 1) {
             DatePickerVC *datePickerVC = [[DatePickerVC alloc] init];
             datePickerVC.parent = self;
             [self.navigationController pushViewController:datePickerVC animated:YES];
         }
-        else if (indexPath.row == 3) {
+        else if (indexPath.row == 2) {
             SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] initWithNibName:@"SettingsTimePickerVC" bundle:nil];
             timePickerVC.parent = self;
             [self.navigationController pushViewController:timePickerVC animated:YES];
         }
-        else if (indexPath.row == 4) {
+        else if (indexPath.row == 3) {
             SettingsPasswordVC *passwordVC = [[SettingsPasswordVC alloc] init];
             passwordVC.parent = self;
             [self.navigationController pushViewController:passwordVC animated:YES];
         }
-        else if (indexPath.row == 5) {
+        else if (indexPath.row == 4) {
             SettingsAboutVC *settingsAboutVC = [[SettingsAboutVC alloc] init];
             [self.navigationController pushViewController:settingsAboutVC animated:YES];
         }
