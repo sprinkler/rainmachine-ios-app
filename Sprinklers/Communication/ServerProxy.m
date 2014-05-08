@@ -205,7 +205,8 @@
                                                  
                                                  if ([self passLoggedOutFilter:operation]) {
                                                      NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsDate class])];
-                                                     ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                                                     SettingsDate *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                                                     response = [Utils fixedSettingsDate:response];
                                                      [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
                                                  }
                                                  
