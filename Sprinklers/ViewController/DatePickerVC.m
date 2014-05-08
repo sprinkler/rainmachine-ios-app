@@ -158,6 +158,8 @@
             // This is a workaround for that case
             timeFormat = (timeFormat == 24) ? 12 : 24;
             date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
+        } else {
+            date = [NSDate date];
         }
         
         if (date) {
