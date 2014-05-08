@@ -94,18 +94,26 @@ typedef enum {
     }
     
     didEdit = 0;
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)createTwoButtonToolbar
 {
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
     UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:
-                                   didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+                                   UIBarButtonItemStyleDone target:self action:@selector(onSave:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        if (didEdit) {
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonRedTintColor[0] green:kButtonRedTintColor[1] blue:kButtonRedTintColor[2] alpha:1];
+        }
+        else
+        {
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        }
     }
     
     //set the toolbar buttons
@@ -114,13 +122,18 @@ typedef enum {
 
 - (void) refreshToolbarEdited
 {
+    [self createTwoButtonToolbar];
+}
+
+- (void) onDidEdit
+{
     didEdit ++;
     
     // don't recreate toolbar multiple times
     if (didEdit > 1)
         return;
-    
-    [self createTwoButtonToolbar];
+
+    [self refreshToolbarEdited];
 }
 
 - (void)willPushChildView
@@ -161,6 +174,8 @@ typedef enum {
 - (void)cellTextFieldChanged:(NSString*)text
 {
     self.zone.name = text;
+    
+    [self onDidEdit];
 }
 
 - (void)showUnsavedChangesPopup:(id)notif
@@ -259,7 +274,7 @@ typedef enum {
         _zone.historicalAverage = !_zone.historicalAverage;
     }
     
-    [self refreshToolbarEdited];
+    [self onDidEdit];
 }
 
 - (void)startHud:(NSString *)text {
@@ -530,7 +545,7 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [self refreshToolbarEdited];
+    [self onDidEdit];
     
     if (_zone.masterValve == 0) {
         if (indexPath.section == masterValveSectionIndex) {
