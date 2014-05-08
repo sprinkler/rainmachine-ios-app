@@ -108,7 +108,7 @@ typedef enum {
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
         if (didEdit) {
-            buttonSave.tintColor = [UIColor colorWithRed:kButtonRedTintColor[0] green:kButtonRedTintColor[1] blue:kButtonRedTintColor[2] alpha:1];
+            buttonSave.tintColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
         }
         else
         {
@@ -300,6 +300,10 @@ typedef enum {
                 [self.tableView reloadData];
             }
             self.zoneCopyBeforeSave = self.zone;
+            
+            // reset toolbar state
+            didEdit = 0;
+            [self refreshToolbarEdited];
         }
     }
     
