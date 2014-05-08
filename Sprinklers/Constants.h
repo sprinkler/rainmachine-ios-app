@@ -37,6 +37,7 @@ extern CGFloat kWateringRedButtonColor[3];
 extern CGFloat kWaterImageFillColor[3];
 extern CGFloat kWaterImageStrokeColor[3];
 extern CGFloat kButtonBlueTintColor[3];
+extern CGFloat kButtonRedTintColor[3];
 
 extern NSString* const kCustomRMFontName;
 

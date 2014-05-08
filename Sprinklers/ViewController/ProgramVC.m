@@ -155,16 +155,12 @@
     }
     
     didEdit = 0;
+    
+    [self refreshToolbarEdited];
 }
 
 - (void) refreshToolbarEdited
 {
-    didEdit ++;
-    
-    // don't recreate toolbar multiple times
-    if (didEdit > 1)
-        return;
-    
     if (self.program) {
         if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
             // 3.55 and 3.56 can only Stop programs
@@ -172,11 +168,22 @@
         }
         else
         {
-           [self createThreeButtonToolbar];
+            [self createThreeButtonToolbar];
         }
     } else {
-            [self createTwoButtonToolbar];
+        [self createTwoButtonToolbar];
     }
+}
+
+- (void) onDidEdit
+{
+    didEdit ++;
+    
+    // don't recreate toolbar multiple times
+    if (didEdit > 1)
+        return;
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)refreshToolBarButtonTitles
@@ -193,7 +200,13 @@
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        if (didEdit) {
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonRedTintColor[0] green:kButtonRedTintColor[1] blue:kButtonRedTintColor[2] alpha:1];
+        }
+        else
+        {
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        }
     }
     
     //set the toolbar buttons
@@ -203,6 +216,8 @@
 
 - (void)createThreeButtonToolbar
 {
+    NSLog(@"didEdit=%d", didEdit);
+    
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
     UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
     UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:didEdit ? UIBarButtonItemStyleBordered : UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
@@ -210,8 +225,18 @@
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        buttonStart.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        
+        if (didEdit) {
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonRedTintColor[0] green:kButtonRedTintColor[1] blue:kButtonRedTintColor[2] alpha:1];
+            
+            buttonStart.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        }
+        else
+        {
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+            
+            buttonStart.tintColor = [UIColor colorWithRed:kButtonRedTintColor[0] green:kButtonRedTintColor[1] blue:kButtonRedTintColor[2] alpha:1];
+        }
     }
     
     //set the toolbar buttons
@@ -340,7 +365,7 @@
         }
     }
     
-    [self refreshToolbarEdited];
+    [self onDidEdit];
 }
 
 - (void)onCell:(UITableViewCell*)theCell checkmarkState:(BOOL)sel
@@ -351,14 +376,14 @@
     
     [self.tableView reloadData];
     
-    [self refreshToolbarEdited];
+    [self onDidEdit];
 }
 
 - (void)cellTextFieldChanged:(NSString*)text
 {
     self.program.name = text;
     
-    [self refreshToolbarEdited];
+    [self onDidEdit];
 }
 
 - (void)save
@@ -761,7 +786,7 @@
         }
     } else {
         
-        [self refreshToolbarEdited];
+        [self onDidEdit];
         
         if (indexPath.section == nameSectionIndex) {
             ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];

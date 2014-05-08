@@ -37,6 +37,7 @@ CGFloat kMasterValveOrangeColor[3] = {253/255.0, 136/255.0, 36/255.0};
 CGFloat kWaterImageStrokeColor[3] = {56 / 255.0, 136 / 255.0, 194 / 255.0};
 CGFloat kWaterImageFillColor[3] = {107 / 255.0, 168 / 255.0, 207 / 255.0};
 CGFloat kButtonBlueTintColor[3] = {21.0/255, 122.0/255, 251.0/255};
+CGFloat kButtonRedTintColor[3] = {251.0/255, 122.0/255, 21.0/255};
 
 NSString *const kCustomRMFontName = @"rainmachine";
 
