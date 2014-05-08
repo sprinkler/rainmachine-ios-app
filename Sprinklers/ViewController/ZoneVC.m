@@ -284,7 +284,7 @@ typedef enum {
 
 #pragma mark - ProxyService delegate
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     if (serverProxy == self.postSaveServerProxy) {

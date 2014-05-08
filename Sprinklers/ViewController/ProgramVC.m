@@ -216,8 +216,6 @@
 
 - (void)createThreeButtonToolbar
 {
-    NSLog(@"didEdit=%d", didEdit);
-    
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
     UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
     UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:didEdit ? UIBarButtonItemStyleBordered : UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
