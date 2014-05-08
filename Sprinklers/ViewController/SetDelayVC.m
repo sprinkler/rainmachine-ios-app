@@ -11,9 +11,9 @@
 
 @interface SetDelayVC ()
 
-@property (weak, nonatomic) IBOutlet UILabel *title1Right;
 @property (weak, nonatomic) IBOutlet UILabel *title1;
 @property (weak, nonatomic) IBOutlet UILabel *title2;
+@property (weak, nonatomic) IBOutlet UILabel *title2Right;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker1;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker2;
 @property (weak, nonatomic) IBOutlet UIView *helperView2;
@@ -105,7 +105,7 @@
         }
     }else
     {
-        _title1Right.hidden = YES;
+        _title2Right.hidden = YES;
     }
     
     [super updateViewConstraints];
