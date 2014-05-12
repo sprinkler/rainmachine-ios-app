@@ -68,6 +68,9 @@
 		B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DF327616A6AA5100A1BF38 /* GCDAsyncUdpSocket.m */; };
 		B1DF327C16A6AA6C00A1BF38 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1DF327B16A6AA6C00A1BF38 /* CFNetwork.framework */; };
 		B1DF327E16A6AAEA00A1BF38 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1DF327D16A6AAEA00A1BF38 /* Security.framework */; };
+		B1E449371920B2E600525D93 /* Sprinkler_Icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = B1E449351920B2E600525D93 /* Sprinkler_Icon_120.png */; };
+		B1E449381920B2E600525D93 /* Sprinkler_Icon_152.png in Resources */ = {isa = PBXBuildFile; fileRef = B1E449361920B2E600525D93 /* Sprinkler_Icon_152.png */; };
+		B1E4493A1920B33700525D93 /* Sprinkler_Icon_76.png in Resources */ = {isa = PBXBuildFile; fileRef = B1E449391920B33700525D93 /* Sprinkler_Icon_76.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -167,6 +170,9 @@
 		B1DF327616A6AA5100A1BF38 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Sprinklers/AsyncSocket/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		B1DF327B16A6AA6C00A1BF38 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B1DF327D16A6AAEA00A1BF38 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B1E449351920B2E600525D93 /* Sprinkler_Icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_120.png; path = Resources/Sprinkler_Icon_120.png; sourceTree = "<group>"; };
+		B1E449361920B2E600525D93 /* Sprinkler_Icon_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_152.png; path = Resources/Sprinkler_Icon_152.png; sourceTree = "<group>"; };
+		B1E449391920B33700525D93 /* Sprinkler_Icon_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sprinkler_Icon_76.png; path = Resources/Sprinkler_Icon_76.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,18 +280,21 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B1583E7A16A804E60051B480 /* web-back-on-btn.png */,
-				B1583E7B16A804E60051B480 /* web-forward-on-btn.png */,
-				B1583E5B16A7F9640051B480 /* rose.png */,
+				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
 				B1DF325F16A6A68700A1BF38 /* Default.png */,
 				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
-				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
-				B173B4FA16B2C459000EB72D /* Sprinkler_Icon_57.png */,
-				B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */,
-				B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */,
-				B173B4FD16B2C459000EB72D /* Sprinkler_Icon_144.png */,
 				B11F7DB016BA6F3B00E36D00 /* form_inputbox_one.png */,
 				B11F7DB116BA6F3B00E36D00 /* form_inputbox_one@2x.png */,
+				B1583E5B16A7F9640051B480 /* rose.png */,
+				B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */,
+				B1E449351920B2E600525D93 /* Sprinkler_Icon_120.png */,
+				B173B4FD16B2C459000EB72D /* Sprinkler_Icon_144.png */,
+				B1E449361920B2E600525D93 /* Sprinkler_Icon_152.png */,
+				B1E449391920B33700525D93 /* Sprinkler_Icon_76.png */,
+				B173B4FA16B2C459000EB72D /* Sprinkler_Icon_57.png */,
+				B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */,
+				B1583E7A16A804E60051B480 /* web-back-on-btn.png */,
+				B1583E7B16A804E60051B480 /* web-forward-on-btn.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -476,7 +485,9 @@
 				B111984D16A7E3220094EF9F /* SprinklerListViewController_iPhone.xib in Resources */,
 				B111986D16A7ECBE0094EF9F /* AddSprinklerViewController_iPhone.xib in Resources */,
 				B1583E5C16A7F9640051B480 /* rose.png in Resources */,
+				B1E4493A1920B33700525D93 /* Sprinkler_Icon_76.png in Resources */,
 				B1583E6C16A803830051B480 /* WebPageViewController.xib in Resources */,
+				B1E449371920B2E600525D93 /* Sprinkler_Icon_120.png in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
 				B1583E7316A803970051B480 /* arrow@2x.png in Resources */,
 				B1583E7C16A804E60051B480 /* web-back-on-btn.png in Resources */,
@@ -486,6 +497,7 @@
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
 				B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */,
 				B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */,
+				B1E449381920B2E600525D93 /* Sprinkler_Icon_152.png in Resources */,
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				B11F7DA916B9340B00E36D00 /* SprinklerStaticListViewController_iPhone.xib in Resources */,
 				B11F7DAE16B99B0A00E36D00 /* SprinklerStaticListViewController.xib in Resources */,
@@ -605,15 +617,15 @@
 		B1DF326B16A6A68700A1BF38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Tremend Software Consulting";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Daniel Cristolovean (5G9HAEMS6R)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "7535D730-902C-4956-AD3C-E013235829DE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADAF2B35-DBC5-4AB6-95B0-870137D2C437";
+				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -621,15 +633,15 @@
 		B1DF326C16A6A68700A1BF38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Tremend Software Consulting";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tremend Software Consulting";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "7535D730-902C-4956-AD3C-E013235829DE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7535D730-902C-4956-AD3C-E013235829DE";
+				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
