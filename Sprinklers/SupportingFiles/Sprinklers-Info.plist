@@ -14,6 +14,25 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>Sprinkler_Icon_120</string>
+				<string>Sprinkler_Icon_57.png</string>
+				<string>Sprinkler_Icon_72.png</string>
+				<string>Sprinkler_Icon_114.png</string>
+				<string>Sprinkler_Icon_144.png</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Sprinkler_Icon_152</string>
+				<string>Sprinkler_Icon_76</string>
+				<string>Sprinkler_Icon_120</string>
 				<string>Sprinkler_Icon_57.png</string>
 				<string>Sprinkler_Icon_72.png</string>
 				<string>Sprinkler_Icon_114.png</string>
@@ -32,13 +51,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.3</string>
+	<string>2.0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>rainmachine.ttf</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -54,10 +77,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>rainmachine.ttf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
