@@ -65,11 +65,17 @@
 
 - (void) refreshTimeFormatConstraint
 {
-    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-        self.leftConstraint.constant = 110;
-        if (_timeFormat == 0) // 24 hours
-        {
-            self.leftConstraint.constant = 160;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        _separatorLabel.hidden = YES;
+    }
+    else {
+        _timeFormat = 1;
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            self.leftConstraint.constant = 110;
+            if (_timeFormat == 0) // 24 hours
+            {
+                self.leftConstraint.constant = 160;
+            }
         }
     }
 }

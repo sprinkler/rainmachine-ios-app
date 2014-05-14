@@ -20,8 +20,10 @@
 #import "MBProgressHUD.h"
 #import "Utils.h"
 #import "LoginVC.h"
+#import "SetDelayVC.h"
 #import "AddNewDeviceVC.h"
 #import "AppDelegate.h"
+#import "TimePickerVC.h"
 
 #define kAlertView_DeleteDevice 1
 
@@ -374,6 +376,30 @@
         } else {
             AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
             [self.navigationController pushViewController:addNewDeviceVC animated:YES];
+            
+//            
+//            TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
+//            [timePickerVC refreshTimeFormatConstraint];
+//            
+//
+//            [self.navigationController pushViewController:timePickerVC animated:YES];
+            
+            
+//            SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
+//                setDelayVC.moveLabelsLeftOfPicker = YES;
+//                setDelayVC.minValuePicker1 = 2;
+//                setDelayVC.maxValuePicker1 = 5;
+//                setDelayVC.minValuePicker2 = 0;
+//                setDelayVC.maxValuePicker2 = 300;
+//                setDelayVC.userInfo = @"cycle_and_soak";
+//                setDelayVC.titlePicker1 = @"Number of cycles:";
+//                setDelayVC.titlePicker2 = @"Soak time:";
+//            setDelayVC.valuePicker1 = 5;//self.program.cycles;
+//            setDelayVC.valuePicker2 = 5; //self.program.soak;
+//                setDelayVC.title = @"Cycles and soak duration";
+//            
+//            [self.navigationController pushViewController:setDelayVC animated:YES];
+
         }
     }
 }
