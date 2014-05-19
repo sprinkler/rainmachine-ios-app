@@ -592,7 +592,7 @@ typedef enum {
             setDelayVC.minValuePicker1 = 0;
             setDelayVC.maxValuePicker1 = 300;
             setDelayVC.titlePicker1 = @"minutes";
-                
+            
             setDelayVC.parent = self;
             
             [self willPushChildView];

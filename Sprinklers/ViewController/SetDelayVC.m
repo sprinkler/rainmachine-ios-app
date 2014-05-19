@@ -40,18 +40,10 @@
 {
     [super viewDidLoad];
     
-    if ((![[UIDevice currentDevice] iOSGreaterThan:7]) && (_titlePicker2 == nil)) {
+    if ((![[UIDevice currentDevice] iOSGreaterThan:7]) && (_titlePicker2 == nil) && [[UIDevice currentDevice] isIpad]) {
         // iOS 6: Make picker snap to top
         [_picker2 removeFromSuperview];
-
-        NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_picker1
-                                                                      attribute:NSLayoutAttributeTop
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:self.view
-                                                                      attribute:NSLayoutAttributeTop
-                                                                     multiplier:1.0
-                                                                       constant:0];
-        [self.view addConstraint:constraint];
+        
         self.view.backgroundColor = [UIColor blackColor];
     }
     
