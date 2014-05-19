@@ -92,4 +92,13 @@
     return [[self systemVersion] floatValue] >= version;
 }
 
+- (BOOL) isIpad {
+    
+#ifdef UI_USER_INTERFACE_IDIOM
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+#endif
+    
+    return NO;
+}
+
 @end

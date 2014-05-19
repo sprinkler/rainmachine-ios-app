@@ -12,4 +12,6 @@
 
 - (BOOL)iOSGreaterThan:(float)version;
 
+- (BOOL) isIpad;
+
 @end

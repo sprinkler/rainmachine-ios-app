@@ -25,6 +25,7 @@
 		3A9AB59B18856615005B79B9 /* RestrictionsWeekDaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */; };
 		3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */; };
 		3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */; };
+		3AA91201192A1ACB0057B9B9 /* SetDelayVC-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AA91200192A1ACB0057B9B9 /* SetDelayVC-iPad.xib */; };
 		3AAA6F4E188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAA6F4C188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m */; };
 		3AAA6F4F188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAA6F4D188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
@@ -419,6 +420,7 @@
 		3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsAboutVC.h; path = ViewController/SettingsAboutVC.h; sourceTree = "<group>"; };
 		3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsAboutVC.m; path = ViewController/SettingsAboutVC.m; sourceTree = "<group>"; };
 		3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsAboutVC.xib; path = ViewController/SettingsAboutVC.xib; sourceTree = "<group>"; };
+		3AA91200192A1ACB0057B9B9 /* SetDelayVC-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SetDelayVC-iPad.xib"; sourceTree = "<group>"; };
 		3AAA6F4B188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsAddNewRestrictionVC.h; path = ViewController/SettingsAddNewRestrictionVC.h; sourceTree = "<group>"; };
 		3AAA6F4C188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsAddNewRestrictionVC.m; path = ViewController/SettingsAddNewRestrictionVC.m; sourceTree = "<group>"; };
 		3AAA6F4D188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsAddNewRestrictionVC.xib; path = ViewController/SettingsAddNewRestrictionVC.xib; sourceTree = "<group>"; };
@@ -1617,6 +1619,7 @@
 				AFC0760418BC9DEB007200BF /* SetDelayVC.h */,
 				AFC0760518BC9DEB007200BF /* SetDelayVC.m */,
 				AFC0760218BC9C99007200BF /* SetDelayVC.xib */,
+				3AA91200192A1ACB0057B9B9 /* SetDelayVC-iPad.xib */,
 				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
 				3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */,
 				3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */,
@@ -1846,6 +1849,7 @@
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
 				B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */,
 				AFF635CF186F54900005EDF1 /* daily_stats_ntsra@2x.png in Resources */,
+				3AA91201192A1ACB0057B9B9 /* SetDelayVC-iPad.xib in Resources */,
 				AFF636B9186F55100005EDF1 /* main-screen_mist.png in Resources */,
 				AFF635A0186F54900005EDF1 /* daily_stats_fu.png in Resources */,
 				AFF636A2186F55100005EDF1 /* main-screen_du@2x.png in Resources */,
@@ -2168,15 +2172,15 @@
 		B1DF326B16A6A68700A1BF38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
@@ -2187,15 +2191,15 @@
 		B1DF326C16A6A68700A1BF38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";

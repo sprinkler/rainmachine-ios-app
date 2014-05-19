@@ -724,7 +724,8 @@
 
 - (void)showSection4Screen:(int)row
 {
-    SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
+    SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" :
+                                                          @"SetDelayVC" bundle: nil];
     if (row == 0) {
         setDelayVC.moveLabelsLeftOfPicker = YES;
         setDelayVC.minValuePicker1 = 2;
@@ -737,7 +738,7 @@
         setDelayVC.valuePicker1 = self.program.cycles;
         setDelayVC.valuePicker2 = self.program.soak;
         setDelayVC.title = @"Cycles and soak duration";
-    }
+    }   
     else if (row == 1) {
         setDelayVC.minValuePicker1 = 0;
         setDelayVC.maxValuePicker1 = 300;
@@ -811,7 +812,7 @@
                 int nrDays;
                 sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
 
-                SetDelayVC *setIntervalFrequencyVC = [[SetDelayVC alloc] init];
+                SetDelayVC *setIntervalFrequencyVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
                 setIntervalFrequencyVC.parent = self;
                 setIntervalFrequencyVC.userInfo = @"interval_frequency";
                 setIntervalFrequencyVC.titlePicker1 = @"days";
@@ -848,7 +849,8 @@
             [self showSection4Screen:(int)indexPath.row];
         }
         else if (indexPath.section == wateringTimesSectionIndex) {
-            SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
+            SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
+            
             ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
             setDelayVC.userInfo = @{@"name" : @"zoneDelay",
                                     @"zoneId" : [NSNumber numberWithInteger:indexPath.row],

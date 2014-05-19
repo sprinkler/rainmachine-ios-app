@@ -11,13 +11,13 @@
 
 @interface SetDelayVC ()
 
-@property (weak, nonatomic) IBOutlet UILabel *title1;
-@property (weak, nonatomic) IBOutlet UILabel *title2;
-@property (weak, nonatomic) IBOutlet UILabel *title2Right;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker1;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker2;
-@property (weak, nonatomic) IBOutlet UIView *helperView2;
-@property (weak, nonatomic) IBOutlet UIView *helperView1;
+
+@property (weak, nonatomic) IBOutlet UILabel *label1;
+@property (weak, nonatomic) IBOutlet UILabel *label2;
+@property (weak, nonatomic) IBOutlet UILabel *label3;
+@property (weak, nonatomic) IBOutlet UILabel *label4;
 
 @property BOOL hasLoadedConstraints;
 
@@ -43,9 +43,6 @@
     if ((![[UIDevice currentDevice] iOSGreaterThan:7]) && (_titlePicker2 == nil)) {
         // iOS 6: Make picker snap to top
         [_picker2 removeFromSuperview];
-        [_title2 removeFromSuperview];
-        [_helperView1 removeFromSuperview];
-        [_helperView2 removeFromSuperview];
 
         NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_picker1
                                                                       attribute:NSLayoutAttributeTop
@@ -68,47 +65,25 @@
 	// Do any additional setup after loading the view.
     _picker1.hidden = (_titlePicker1 == nil);
     _picker2.hidden = (_titlePicker2 == nil);
-    
+        
     if (_picker2.hidden) {
-        [_helperView2 removeFromSuperview];
         [_picker2 removeFromSuperview];
-    }
     
-    _title1.hidden = _picker1.hidden;
-    _title2.hidden = _picker2.hidden;
+        _label1.hidden = _label3.hidden = _label4.hidden = YES;
+        _label2.text = _titlePicker1;
+    }else
+    {
+        _label2.hidden = YES;
+        _label1.text = _titlePicker1;
+        _label3.text = _titlePicker2;
+        _label4.text = @"minutes";
+    }
     
     _valuePicker1 = MAX(_valuePicker1, _minValuePicker1);
     _valuePicker2 = MAX(_valuePicker2, _minValuePicker2);
     
     [_picker1 selectRow:(_valuePicker1 - _minValuePicker1) inComponent:0 animated:NO];
     [_picker2 selectRow:(_valuePicker2 - _minValuePicker2) inComponent:0 animated:NO];
-    
-    _title1.text = _titlePicker1;
-    _title2.text = _titlePicker2;
-
-}
-
-- (void)updateViewConstraints {
-
-    if (_moveLabelsLeftOfPicker == YES )
-    {
-        if (!_hasLoadedConstraints) {
-            // change contraint to have labels on the left
-            for (int i=0; i<self.view.constraints.count; i++)
-            {
-                NSLayoutConstraint* constraint = [self.view.constraints objectAtIndex: i];
-                if (constraint.constant == -33.0f)
-                    constraint.constant = 145.0f;
-            }
-        
-            _hasLoadedConstraints = TRUE;
-        }
-    }else
-    {
-        _title2Right.hidden = YES;
-    }
-    
-    [super updateViewConstraints];
 }
 
 - (void)didReceiveMemoryWarning
@@ -129,11 +104,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    if ([[UIDevice currentDevice] isIpad])
+        return;
+    
     float yCompressionValue = ((self.view.frame.size.height / 2.0) / 216) * 1.02;
     _picker1.transform = CGAffineTransformMakeScale(1, yCompressionValue);
     _picker2.transform = CGAffineTransformMakeScale(1, yCompressionValue);
-    
-//    NSLog(@"");
 }
 
 #pragma mark - Picker delegate

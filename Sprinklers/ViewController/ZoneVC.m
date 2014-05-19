@@ -588,11 +588,11 @@ typedef enum {
             [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
         }
         else if (indexPath.section == 1) {
-            SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
+            SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
             setDelayVC.minValuePicker1 = 0;
             setDelayVC.maxValuePicker1 = 300;
             setDelayVC.titlePicker1 = @"minutes";
-            
+                
             setDelayVC.parent = self;
             
             [self willPushChildView];
