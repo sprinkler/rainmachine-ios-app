@@ -186,6 +186,11 @@
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
+    // -- TODO: Remove this debug alert view (#106 related) --
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Debug - error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    // ----
+    
     if (serverProxy == self.pullServerProxy) {
         self.pullServerProxy = nil;
     }
@@ -200,6 +205,12 @@
     
     if (serverProxy == self.pullServerProxy) {
         self.settingsDate = data;
+        
+        // -- TODO: Remove this debug alert view (#106 related) --
+        NSString *debugString = [NSString stringWithFormat:@"%@ - %@ - %@", self.settingsDate.appDate, self.settingsDate.time_format, self.settingsDate.am_pm];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Debug" message:debugString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        // ----
         
         self.pullServerProxy = nil;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
@@ -218,6 +229,11 @@
 }
 
 - (void)loggedOut {
+    // -- TODO: Remove this debug alert view (#106 related) --
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Debug - error" message:@"Logged out" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    // ----
+
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self handleLoggedOutSprinklerError];
 }
