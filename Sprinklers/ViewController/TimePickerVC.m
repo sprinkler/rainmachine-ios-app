@@ -66,7 +66,12 @@
 - (void) refreshTimeFormatConstraint
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        _separatorLabel.hidden = YES;
+
+        self.leftConstraint.constant = 250;
+        if (_timeFormat == 0) // 24 hours
+        {
+            self.leftConstraint.constant = 384;
+        }
     }
     else {
         _timeFormat = 1;

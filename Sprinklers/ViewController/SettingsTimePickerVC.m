@@ -52,8 +52,9 @@
 
     [self refreshUI];
     
-    self.separatorLabel.hidden = YES;
     self.title = @"Time";
+    
+    [super refreshTimeFormatConstraint];
 }
 
 - (NSDateFormatter*)dateFormatter
