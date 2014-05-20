@@ -19,8 +19,6 @@
 #import "+UIDevice.h"
 
 @interface LoginVC () {
-    ServerProxy *serverProxy;
-    MBProgressHUD *hud;
 }
 
 @property (strong, nonatomic) IBOutlet UITextField *textPassword;
@@ -28,6 +26,9 @@
 @property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonLogin;
 @property (weak, nonatomic) IBOutlet UILabel *bucketLabel;
 @property (weak, nonatomic) IBOutlet UITextField *textUsername;
+
+@property (strong, nonatomic) ServerProxy *serverProxy;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -95,8 +96,8 @@
 #pragma mark - Methods
 
 - (void)startHud:(NSString *)text {
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = text;
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.labelText = text;
     self.view.userInteractionEnabled = NO;
 }
 
@@ -111,8 +112,8 @@
 }
 
 - (IBAction)login:(id)sender {
-    serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
-    [serverProxy loginWithUserName: _textUsername.text password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
+    [self.serverProxy loginWithUserName: _textUsername.text password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
     [self startHud:nil]; // @"Logging in..."
 }
 
