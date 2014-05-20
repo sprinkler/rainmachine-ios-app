@@ -282,8 +282,6 @@ static StorageManager *current = nil;
                                               destinationModel:targetModel];
         //If we found a mapping model then proceed
         if (mappingModel) break;
-        //Release the target model and keep looking
-        targetModel = nil;
     }
     //We have tested every model, if nil here we failed
     if (!mappingModel) {
@@ -370,8 +368,8 @@ static StorageManager *current = nil;
     NSURL *storeURL = [NSURL fileURLWithPath:storePath];
     
     NSError *error = nil;
-    //[self progressivelyMigrateURL:storeURL ofType:NSSQLiteStoreType toModel:[self managedObjectModel] error:&error];
-
+    [self progressivelyMigrateURL:storeURL ofType:NSSQLiteStoreType toModel:[self managedObjectModel] error:&error];
+    
     error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     
