@@ -126,7 +126,7 @@ static StorageManager *current = nil;
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isDiscovered == YES", onlyDiscoveredDevices];
         [fetchRequest setPredicate:predicate];
     }
-
+    
     NSSortDescriptor *sort0 = [[NSSortDescriptor alloc] initWithKey:@"isLocalDevice" ascending:NO];
     NSSortDescriptor *sort1 = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sort0, sort1, nil]];
@@ -214,6 +214,154 @@ static StorageManager *current = nil;
     return __managedObjectModel;
 }
 
+//START:progressivelyMigrateURLMethodName
+- (BOOL)progressivelyMigrateURL:(NSURL*)sourceStoreURL
+                         ofType:(NSString*)type
+                        toModel:(NSManagedObjectModel*)finalModel
+                          error:(NSError**)error
+{
+    //END:progressivelyMigrateURLMethodName
+    //START:progressivelyMigrateURLHappyCheck
+    NSDictionary *sourceMetadata =
+    [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
+                                                               URL:sourceStoreURL
+                                                             error:error];
+    if (!sourceMetadata) return NO;
+    
+    if ([finalModel isConfiguration:nil
+        compatibleWithStoreMetadata:sourceMetadata]) {
+        *error = nil;
+        return YES;
+    }
+    //END:progressivelyMigrateURLHappyCheck
+    //START:progressivelyMigrateURLFindModels
+    //Find the source model
+    NSManagedObjectModel *sourceModel = [NSManagedObjectModel
+                                         mergedModelFromBundles:nil
+                                         forStoreMetadata:sourceMetadata];
+    NSAssert(sourceModel != nil, ([NSString stringWithFormat:
+                                   @"Failed to find source model\n%@",
+                                   sourceMetadata]));
+    
+    //Find all of the mom and momd files in the Resources directory
+    NSMutableArray *modelPaths = [NSMutableArray array];
+    NSArray *momdArray = [[NSBundle mainBundle] pathsForResourcesOfType:@"momd"
+                                                            inDirectory:nil];
+    for (NSString *momdPath in momdArray) {
+        NSString *resourceSubpath = [momdPath lastPathComponent];
+        NSArray *array = [[NSBundle mainBundle]
+                          pathsForResourcesOfType:@"mom"
+                          inDirectory:resourceSubpath];
+        [modelPaths addObjectsFromArray:array];
+    }
+    NSArray* otherModels = [[NSBundle mainBundle] pathsForResourcesOfType:@"mom"
+                                                              inDirectory:nil];
+    [modelPaths addObjectsFromArray:otherModels];
+    
+    if (!modelPaths || ![modelPaths count]) {
+        //Throw an error if there are no models
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setValue:@"No models found in bundle"
+                forKey:NSLocalizedDescriptionKey];
+        //Populate the error
+        *error = [NSError errorWithDomain:@"Zarra" code:8001 userInfo:dict];
+        return NO;
+    }
+    //END:progressivelyMigrateURLFindModels
+    
+    //See if we can find a matching destination model
+    //START:progressivelyMigrateURLFindMap
+    NSMappingModel *mappingModel = nil;
+    NSManagedObjectModel *targetModel = nil;
+    NSString *modelPath = nil;
+    for (modelPath in modelPaths) {
+        targetModel = [[NSManagedObjectModel alloc]
+                       initWithContentsOfURL:[NSURL fileURLWithPath:modelPath]];
+        mappingModel = [NSMappingModel mappingModelFromBundles:nil
+                                                forSourceModel:sourceModel
+                                              destinationModel:targetModel];
+        //If we found a mapping model then proceed
+        if (mappingModel) break;
+        //Release the target model and keep looking
+        targetModel = nil;
+    }
+    //We have tested every model, if nil here we failed
+    if (!mappingModel) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setValue:@"No models found in bundle"
+                forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Zarra"
+                                     code:8001
+                                 userInfo:dict];
+        return NO;
+    }
+    //END:progressivelyMigrateURLFindMap
+    //We have a mapping model and a destination model.  Time to migrate
+    //START:progressivelyMigrateURLMigrate
+    NSMigrationManager *manager = [[NSMigrationManager alloc]
+                                   initWithSourceModel:sourceModel
+                                   destinationModel:targetModel];
+    
+    NSString *modelName = [[modelPath lastPathComponent]
+                           stringByDeletingPathExtension];
+    NSString *storeExtension = [[sourceStoreURL path] pathExtension];
+    NSString *storePath = [[sourceStoreURL path] stringByDeletingPathExtension];
+    //Build a path to write the new store
+    storePath = [NSString stringWithFormat:@"%@.%@.%@", storePath,
+                 modelName, storeExtension];
+    NSURL *destinationStoreURL = [NSURL fileURLWithPath:storePath];
+    
+    if (![manager migrateStoreFromURL:sourceStoreURL
+                                 type:type
+                              options:nil
+                     withMappingModel:mappingModel
+                     toDestinationURL:destinationStoreURL
+                      destinationType:type
+                   destinationOptions:nil
+                                error:error]) {
+        return NO;
+    }
+    //END:progressivelyMigrateURLMigrate
+    //Migration was successful, move the files around to preserve the source
+    //START:progressivelyMigrateURLMoveAndRecurse
+    NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString];
+    guid = [guid stringByAppendingPathExtension:modelName];
+    guid = [guid stringByAppendingPathExtension:storeExtension];
+    NSString *appSupportPath = [storePath stringByDeletingLastPathComponent];
+    NSString *backupPath = [appSupportPath stringByAppendingPathComponent:guid];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager moveItemAtPath:[sourceStoreURL path]
+                              toPath:backupPath
+                               error:error]) {
+        //Failed to copy the file
+        return NO;
+    }
+    //Move the destination to the source path
+    if (![fileManager moveItemAtPath:storePath
+                              toPath:[sourceStoreURL path]
+                               error:error]) {
+        //Try to back out the source move first, no point in checking it for errors
+        [fileManager moveItemAtPath:backupPath
+                             toPath:[sourceStoreURL path]
+                              error:nil];
+        return NO;
+    }
+    //We may not be at the "current" model yet, so recurse
+    return [self progressivelyMigrateURL:sourceStoreURL
+                                  ofType:type 
+                                 toModel:finalModel 
+                                   error:error];
+    //END:progressivelyMigrateURLMoveAndRecurse
+}
+
+- (NSManagedObjectModel *)managedObjectModelForVersion:(NSString *)version
+{
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"Sprinklers.momd/Sprinklers %@",version] withExtension:@"mom"];
+    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return model;
+}
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     if (__persistentStoreCoordinator != nil) {
         return __persistentStoreCoordinator;
@@ -222,9 +370,13 @@ static StorageManager *current = nil;
     NSURL *storeURL = [NSURL fileURLWithPath:storePath];
     
     NSError *error = nil;
+    //[self progressivelyMigrateURL:storeURL ofType:NSSQLiteStoreType toModel:[self managedObjectModel] error:&error];
+
+    error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     
     if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
