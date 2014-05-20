@@ -93,7 +93,7 @@
         return NO;
     }
     
-    return ([[operation response] statusCode] == 500);
+    return (([[operation response] statusCode] >= 500) && ([[operation response] statusCode] <= 599));
 }
 
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle

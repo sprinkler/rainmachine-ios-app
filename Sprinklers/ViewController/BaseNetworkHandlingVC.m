@@ -60,15 +60,15 @@
 
 - (void)handleSprinklerNetworkError:(NSError *)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage
 {
+    // Don't show error type: 5xx Internal Server Error
     if (![Utils hasOperationInternalServerErrorStatusCode:operation]) {
-        int tag = kAlertView_Error;
-        
-//        if ([Utils isConnectionFailToServerError:error]) {
-//            [Utils invalidateLoginForCurrentSprinkler];
-//            tag = kAlertView_LoggedOut;
-//        }
-
-        [self handleSprinklerError:[error localizedDescription] title:@"Network error" showErrorMessage:showErrorMessage tag:tag];
+        // Don't show error cases of malformed JSON: Error Domain=NSCocoaErrorDomain Code=3840 "The operation couldn’t be completed. (Cocoa error 3840.)" (JSON text did not start with array or object and option to allow fragments not set.) UserInfo=0xad9b5a0 {NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
+        BOOL malformedJSON = ([error.domain isEqualToString:NSCocoaErrorDomain] && error.code == NSPropertyListReadCorruptError);
+        if (!malformedJSON) {
+            int tag = kAlertView_Error;
+            
+            [self handleSprinklerError:[error localizedDescription] title:@"Network error" showErrorMessage:showErrorMessage tag:tag];
+        }
     }
 }
 
