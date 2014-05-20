@@ -68,6 +68,33 @@
     return nil;
 }
 
+- (void)setWeekdays:(NSString *)weekdays
+{
+    _weekdays = weekdays;
+
+    // _frequency is based on _weekdays, so just set its value here in order to eliminate the possibility of inconsistencies (#112 related)
+    // The reason _frequency is set based on _weekdays and not the other way around, is because until now all calculations in the app used exclusively _weekdays
+    if ([_weekdays isEqualToString:@"D"]) {
+        self.frequency = ProgramFrequency_Daily;
+    }
+    else if ([_weekdays isEqualToString:@"ODD"]) {
+        self.frequency = ProgramFrequency_OddDays;
+    }
+    else if ([_weekdays isEqualToString:@"EVD"]) {
+        self.frequency = ProgramFrequency_EvenDays;
+    }
+    else if ([_weekdays containsString:@"INT"]) {
+        self.frequency = ProgramFrequency_INT;
+    }
+    else if ([_weekdays containsString:@","]) {
+        self.frequency = ProgramFrequency_Weekdays;
+    }
+    else {
+        // Default value
+        self.frequency = ProgramFrequency_Daily;
+    }
+}
+
 - (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dic = [NSMutableDictionary new];
@@ -96,7 +123,7 @@
         [dic setObject:_state forKey:@"state"];
     }
     
-    [dic setObject:[NSNumber numberWithInt:_timeFormat] forKey:@"timeFormat"];
+    [dic setObject:[NSNumber numberWithInt:_timeFormat] forKey:@"time_format"];
     [dic setObject:_weekdays forKey:@"weekdays"];
     
     NSMutableArray *wateringTimesArray = [NSMutableArray array];

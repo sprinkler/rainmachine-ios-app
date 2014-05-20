@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    ProgramFrequency_Daily = 0,
+    ProgramFrequency_Weekdays = 2,
+    ProgramFrequency_OddDays = 4,
+    ProgramFrequency_EvenDays = 5,
+    ProgramFrequency_INT = 7
+} ProgramFrequency;
+
 @interface Program : NSObject<NSCopying>
 
 @property (nonatomic) int active;
