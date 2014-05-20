@@ -114,7 +114,7 @@ static UpdateManager *current = nil;
                 program.programId = -1;
                 [self.serverProxyDetect35x runNowProgram:program];
             } else {
-                // statusCode == 500 or other. In this case the Sprinkler version is unknown for us.
+                // statusCode == 5xx or other. In this case the Sprinkler version is unknown for us.
                 serverAPIMainVersion = 0;
                 serverAPISubVersion = 0;
                 [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
