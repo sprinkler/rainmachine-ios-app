@@ -282,9 +282,20 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 //        [[StorageManager current] deleteSprinkler:[self.remoteSprinklers[indexPath.row] name]];
+        BOOL currentSprinklerDeleted = self.savedSprinklers[indexPath.row] == [StorageManager current].currentSprinkler;
+        if (currentSprinklerDeleted) {
+            [Utils invalidateLoginForCurrentSprinkler];
+        }
+
         [[StorageManager current] deleteSprinkler:[self.savedSprinklers[indexPath.row] name]];
-        [self refreshSprinklerList];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+        
+        if (currentSprinklerDeleted) {
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate refreshRootViews:nil];
+        } else {
+            [self refreshSprinklerList];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+        }
     }
 }
 
