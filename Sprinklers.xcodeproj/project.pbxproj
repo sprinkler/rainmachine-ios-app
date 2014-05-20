@@ -12,7 +12,6 @@
 		3A3BF31A18F40ABA008333C5 /* programs-checkbox-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A3BF31618F40ABA008333C5 /* programs-checkbox-selected@2x.png */; };
 		3A3BF31B18F40ABA008333C5 /* programs-checkbox-unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A3BF31718F40ABA008333C5 /* programs-checkbox-unselected.png */; };
 		3A3BF31C18F40ABA008333C5 /* programs-checkbox-unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A3BF31818F40ABA008333C5 /* programs-checkbox-unselected@2x.png */; };
-		3A4437F3188A8705004F9E11 /* PickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437F2188A8705004F9E11 /* PickerVC.xib */; };
 		3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437FD188A93FD004F9E11 /* SettingsHoursVC.m */; };
 		3A443800188A93FD004F9E11 /* SettingsHoursVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A4437FE188A93FD004F9E11 /* SettingsHoursVC.xib */; };
 		3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AB58418854521005B79B9 /* RestrictionsVC.m */; };
@@ -25,9 +24,10 @@
 		3A9AB59B18856615005B79B9 /* RestrictionsWeekDaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9AB59918856615005B79B9 /* RestrictionsWeekDaysVC.xib */; };
 		3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */; };
 		3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */; };
-		3AA91201192A1ACB0057B9B9 /* SetDelayVC-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AA91200192A1ACB0057B9B9 /* SetDelayVC-iPad.xib */; };
 		3AAA6F4E188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAA6F4C188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m */; };
 		3AAA6F4F188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAA6F4D188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib */; };
+		3AC64A03192B39C10009061D /* SetDelayVC-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */; };
+		3AC64A05192B39F10009061D /* PickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC64A04192B39F10009061D /* PickerVC.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -401,7 +401,6 @@
 		3A3BF31818F40ABA008333C5 /* programs-checkbox-unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "programs-checkbox-unselected@2x.png"; sourceTree = "<group>"; };
 		3A4437ED188A7F1A004F9E11 /* PickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickerVC.h; path = ViewController/PickerVC.h; sourceTree = "<group>"; };
 		3A4437EE188A7F1A004F9E11 /* PickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickerVC.m; path = ViewController/PickerVC.m; sourceTree = "<group>"; };
-		3A4437F2188A8705004F9E11 /* PickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerVC.xib; path = ../PickerVC.xib; sourceTree = "<group>"; };
 		3A4437FC188A93FD004F9E11 /* SettingsHoursVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsHoursVC.h; path = ViewController/SettingsHoursVC.h; sourceTree = "<group>"; };
 		3A4437FD188A93FD004F9E11 /* SettingsHoursVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsHoursVC.m; path = ViewController/SettingsHoursVC.m; sourceTree = "<group>"; };
 		3A4437FE188A93FD004F9E11 /* SettingsHoursVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsHoursVC.xib; path = ViewController/SettingsHoursVC.xib; sourceTree = "<group>"; };
@@ -420,10 +419,11 @@
 		3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsAboutVC.h; path = ViewController/SettingsAboutVC.h; sourceTree = "<group>"; };
 		3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsAboutVC.m; path = ViewController/SettingsAboutVC.m; sourceTree = "<group>"; };
 		3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsAboutVC.xib; path = ViewController/SettingsAboutVC.xib; sourceTree = "<group>"; };
-		3AA91200192A1ACB0057B9B9 /* SetDelayVC-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SetDelayVC-iPad.xib"; sourceTree = "<group>"; };
 		3AAA6F4B188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsAddNewRestrictionVC.h; path = ViewController/SettingsAddNewRestrictionVC.h; sourceTree = "<group>"; };
 		3AAA6F4C188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsAddNewRestrictionVC.m; path = ViewController/SettingsAddNewRestrictionVC.m; sourceTree = "<group>"; };
 		3AAA6F4D188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsAddNewRestrictionVC.xib; path = ViewController/SettingsAddNewRestrictionVC.xib; sourceTree = "<group>"; };
+		3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SetDelayVC-iPad.xib"; path = "ViewController/SetDelayVC-iPad.xib"; sourceTree = "<group>"; };
+		3AC64A04192B39F10009061D /* PickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerVC.xib; path = ViewController/PickerVC.xib; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -1595,12 +1595,13 @@
 		B1EF21131860495E00D9CE26 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */,
+				3AC64A04192B39F10009061D /* PickerVC.xib */,
 				AF7A72B518C4AA8500596148 /* DatePickerVC.h */,
 				AF7A72B618C4AA8500596148 /* DatePickerVC.m */,
 				AF7A72B818C4AAA300596148 /* DatePickerVC.xib */,
 				3A4437ED188A7F1A004F9E11 /* PickerVC.h */,
 				3A4437EE188A7F1A004F9E11 /* PickerVC.m */,
-				3A4437F2188A8705004F9E11 /* PickerVC.xib */,
 				B1B60617187958990046FDDC /* ProgramsVC.h */,
 				B1B60618187958990046FDDC /* ProgramsVC.m */,
 				B1B60619187958990046FDDC /* ProgramsVC.xib */,
@@ -1619,7 +1620,6 @@
 				AFC0760418BC9DEB007200BF /* SetDelayVC.h */,
 				AFC0760518BC9DEB007200BF /* SetDelayVC.m */,
 				AFC0760218BC9C99007200BF /* SetDelayVC.xib */,
-				3AA91200192A1ACB0057B9B9 /* SetDelayVC-iPad.xib */,
 				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
 				3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */,
 				3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */,
@@ -1849,7 +1849,6 @@
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
 				B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */,
 				AFF635CF186F54900005EDF1 /* daily_stats_ntsra@2x.png in Resources */,
-				3AA91201192A1ACB0057B9B9 /* SetDelayVC-iPad.xib in Resources */,
 				AFF636B9186F55100005EDF1 /* main-screen_mist.png in Resources */,
 				AFF635A0186F54900005EDF1 /* daily_stats_fu.png in Resources */,
 				AFF636A2186F55100005EDF1 /* main-screen_du@2x.png in Resources */,
@@ -1926,6 +1925,7 @@
 				3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */,
 				AFF636EA186F55100005EDF1 /* main-screen_skc@2x.png in Resources */,
 				AFF636F0186F55100005EDF1 /* main-screen_tsra@2x.png in Resources */,
+				3AC64A05192B39F10009061D /* PickerVC.xib in Resources */,
 				AFF636BC186F55100005EDF1 /* main-screen_mix@2x.png in Resources */,
 				AFF6A6B6188834E400825A37 /* icon_disclosure_triangle@2x.png in Resources */,
 				AFF636D7186F55100005EDF1 /* main-screen_ntsra.png in Resources */,
@@ -1935,7 +1935,6 @@
 				AFF636EC186F55100005EDF1 /* main-screen_smoke@2x.png in Resources */,
 				AFF636AC186F55100005EDF1 /* main-screen_fzrara@2x.png in Resources */,
 				AFF635B5186F54900005EDF1 /* daily_stats_na@2x.png in Resources */,
-				3A4437F3188A8705004F9E11 /* PickerVC.xib in Resources */,
 				AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */,
 				B1EF210B1860492B00D9CE26 /* AddNewDeviceVC.xib in Resources */,
 				AFF636CA186F55100005EDF1 /* main-screen_novc@2x.png in Resources */,
@@ -1967,6 +1966,7 @@
 				AFF635BF186F54900005EDF1 /* daily_stats_nmix@2x.png in Resources */,
 				AFF635D3186F54900005EDF1 /* daily_stats_ovc@2x.png in Resources */,
 				AFF635AF186F54900005EDF1 /* daily_stats_ip@2x.png in Resources */,
+				3AC64A03192B39C10009061D /* SetDelayVC-iPad.xib in Resources */,
 				AFF636AB186F55100005EDF1 /* main-screen_fzrara.png in Resources */,
 				B11F7DB216BA6F3B00E36D00 /* form_inputbox_one.png in Resources */,
 				AFF6A6B91888350400825A37 /* icon_status_ok@2x.png in Resources */,
