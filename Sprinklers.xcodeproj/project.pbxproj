@@ -2172,16 +2172,16 @@
 		B1DF326B16A6A68700A1BF38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Oana Adrian (YZH2B4G93P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oana Adrian (BR24DF5Q5N)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				PROVISIONING_PROFILE = "1A5FB8E0-40A1-4167-941F-04C65922A729";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1A5FB8E0-40A1-4167-941F-04C65922A729";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -2191,16 +2191,16 @@
 		B1DF326C16A6A68700A1BF38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Oana Adrian (BR24DF5Q5N)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oana Adrian (BR24DF5Q5N)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				PROVISIONING_PROFILE = "1A5FB8E0-40A1-4167-941F-04C65922A729";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1A5FB8E0-40A1-4167-941F-04C65922A729";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
