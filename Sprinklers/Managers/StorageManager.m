@@ -127,6 +127,21 @@ static StorageManager *current = nil;
         [fetchRequest setPredicate:predicate];
     }
     
+    
+    NSSortDescriptor *sort0 = [[NSSortDescriptor alloc] initWithKey:@"isLocalDevice" ascending:NO];
+    NSSortDescriptor *sort1 = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sort0, sort1, nil]];
+    
+    return [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+}
+
+- (NSArray *)getAllSprinklersFromNetwork{
+    NSError *error;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
     NSSortDescriptor *sort0 = [[NSSortDescriptor alloc] initWithKey:@"isLocalDevice" ascending:NO];
     NSSortDescriptor *sort1 = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sort0, sort1, nil]];
@@ -174,8 +189,12 @@ static StorageManager *current = nil;
     }
 }
 
-- (NSString *)stringApplicationDocumentsDirectory {
+- (NSString *)stringApplicationCachesDirectory {
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+- (NSString *)stringApplicationDocumentsDirectory {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
 - (NSURL *)applicationDocumentsDirectory {
@@ -360,27 +379,142 @@ static StorageManager *current = nil;
     return model;
 }
 
+- (void) setAllSprinklersDiscovered
+{
+    NSArray* array = [self getAllSprinklersFromNetwork];
+    BOOL doSave = NO;
+    for (int i=0; i<array.count; i++) {
+        Sprinkler* sprinkler = [array objectAtIndex: i];
+        if ([sprinkler.isDiscovered intValue] == 0) {
+            sprinkler.isDiscovered = [NSNumber numberWithInt: 1];
+            doSave = YES;
+        }
+    }
+    
+    if (doSave)
+        [self saveData];
+}
+    
+- (BOOL) persistenStoreExistsInCaches {
+    NSString *storePath = [[self stringApplicationCachesDirectory] stringByAppendingPathComponent:@"sprinklers.sqlite"];
+ 
+    if ([[NSFileManager defaultManager] fileExistsAtPath:storePath] == YES) {
+        
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL) persistenStoreExistsInDocuments {
+    NSString *storePath = [self persistentStoreLocation];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:storePath] == YES) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (NSString*) sprinklerStoreDirectory {
+    return @"sprinkler_store";
+}
+
+- (NSString*) persistentStoreLocation
+{  
+    return [[[self stringApplicationDocumentsDirectory] stringByAppendingPathComponent: [self sprinklerStoreDirectory]]
+     stringByAppendingPathComponent:@"sprinklers.sqlite"];
+}
+
+- (void) createStoreDataDirectory {
+    
+    NSError* error;
+    NSString* directoryPath = [[self stringApplicationDocumentsDirectory] stringByAppendingPathComponent:[self sprinklerStoreDirectory]];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:directoryPath] == NO)
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath: directoryPath withIntermediateDirectories:YES attributes:nil error:&error];
+    }
+}
+
+- (void) migrateStoreFromCachesToDocuments:(NSPersistentStoreCoordinator*) storeCoordinator andStore: (NSPersistentStore*) store{
+
+    NSError* error = nil;
+    NSString *storePath = [self persistentStoreLocation];
+    NSURL *storeURL = [NSURL fileURLWithPath:storePath];
+    
+    [storeCoordinator migratePersistentStore:store toURL:storeURL options:nil withType:NSSQLiteStoreType error:&error];
+}
+
+- (void) moveStoreFromCachesToDocuments {
+
+    [self createStoreDataDirectory];
+    
+    NSString *storePath = nil;
+    // load store
+    storePath = [[self stringApplicationCachesDirectory] stringByAppendingPathComponent: @"sprinklers.sqlite"];
+    
+    NSURL *storeURL = [NSURL fileURLWithPath:storePath];
+    NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+    NSError *error = nil;
+    NSPersistentStore* store = nil;
+    if (!(store=[persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    [self migrateStoreFromCachesToDocuments:persistentStoreCoordinator andStore:store];
+    
+    // delete old persistent store
+    if ([[NSFileManager defaultManager] fileExistsAtPath: storePath]) {
+        if (![[NSFileManager defaultManager] removeItemAtPath:storePath error:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+}
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    
     if (__persistentStoreCoordinator != nil) {
         return __persistentStoreCoordinator;
     }
-    NSString *storePath = [[self stringApplicationDocumentsDirectory] stringByAppendingPathComponent:@"sprinklers.sqlite"];
+    
+    BOOL storeNeedsToRelocate = NO;
+    
+    NSString *storePath = [self persistentStoreLocation];
+    
+    // run once code
+    if ([self persistenStoreExistsInCaches] && ![self persistenStoreExistsInDocuments]) {
+        storeNeedsToRelocate = YES;
+        storePath = [[self stringApplicationCachesDirectory] stringByAppendingPathComponent:@"sprinklers.sqlite"];
+    }
+    
     NSURL *storeURL = [NSURL fileURLWithPath:storePath];
-    
     NSError *error = nil;
-    [self progressivelyMigrateURL:storeURL ofType:NSSQLiteStoreType toModel:[self managedObjectModel] error:&error];
-    
-    error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
+    NSPersistentStore* store = nil;
+    if (!(store=[__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    
+    // run once code
+    if (storeNeedsToRelocate) {
+        [self setAllSprinklersDiscovered];
+        
+        [self moveStoreFromCachesToDocuments];
+    }
+    
     return __persistentStoreCoordinator;
 }
 
