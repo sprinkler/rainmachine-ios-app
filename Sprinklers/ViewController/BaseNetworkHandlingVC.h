@@ -11,8 +11,6 @@
 
 @interface BaseNetworkHandlingVC : UIViewController
 
-@property (strong, nonatomic) UIAlertView *alertView;
-
 - (void)handleServerLoggedOutUser;
 - (void)handleSprinklerGeneralError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage;
 - (void)handleSprinklerNetworkError:(NSError*)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage;

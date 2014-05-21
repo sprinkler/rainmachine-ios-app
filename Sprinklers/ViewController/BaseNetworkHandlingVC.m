@@ -13,6 +13,8 @@
 #import "NetworkUtilities.h"
 #import "Utils.h"
 
+static UIAlertView *alertView;
+
 @implementation BaseNetworkHandlingVC
 
 #pragma mark - Error handling
@@ -37,10 +39,10 @@
     //    [[StorageManager current] saveData];
 
     if ((errorMessage) && (showErrorMessage)) {
-        if ((!self.alertView) || (self.alertView.tag != kAlertView_Error)) {
-            self.alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            self.alertView.tag = tag;
-            [self.alertView show];
+        if ((!alertView) || (alertView.tag != kAlertView_Error)) {
+            alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            alertView.tag = tag;
+            [alertView show];
         }
     }
 }
@@ -77,10 +79,10 @@
     
     [Utils invalidateLoginForCurrentSprinkler];
     
-    if ((!self.alertView) || (self.alertView.tag != kAlertView_LoggedOut)) {
-        self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        self.alertView.tag = kAlertView_LoggedOut;
-        [self.alertView show];
+    if ((!alertView) || (alertView.tag != kAlertView_LoggedOut)) {
+        alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        alertView.tag = kAlertView_LoggedOut;
+        [alertView show];
     }
 }
 
@@ -92,7 +94,7 @@
         [appDelegate refreshRootViews:nil];
     }
     
-    self.alertView = nil;
+    alertView = nil;
 }
 
 @end

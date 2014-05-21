@@ -136,8 +136,6 @@ const float kHomeScreenCellHeight = 63;
     } else {
         [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     }
-    
-    self.alertView = nil;
 }
 
 #pragma mark - Table view

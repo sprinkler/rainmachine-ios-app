@@ -272,8 +272,6 @@
     } else {
         [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     }
-    
-    self.alertView = nil;
 }
 
 #pragma mark - Communication callbacks
