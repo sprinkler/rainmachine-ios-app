@@ -1383,42 +1383,42 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B1E1EE4019227E1C004C8F5B /* Sprinkler_Icon_76.png */,
-				B1E1EE4119227E1C004C8F5B /* Sprinkler_Icon_152.png */,
-				B1E791961922738900BE8C1A /* Sprinkler_Icon_120.png */,
-				3A3BF31418F40ABA008333C5 /* programs-cell */,
-				AFCF47B9188D532100C34727 /* separator_line.png */,
-				AFA5FE281880740300C948F8 /* rainmachine.ttf */,
-				AFF63642186F55100005EDF1 /* main-screen */,
-				AFF634E0186F54900005EDF1 /* daily-stats */,
-				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
-				B1DF325F16A6A68700A1BF38 /* Default.png */,
-				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
-				AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */,
-				AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */,
-				AFC5CEDA18893A5B005191DE /* icon_settings.png */,
-				AFC5CEDB18893A5B005191DE /* icon_settings@2x.png */,
-				AFC5CEDC18893A5B005191DE /* icon_stats.png */,
-				AFC5CEDD18893A5B005191DE /* icon_stats@2x.png */,
-				AFC5CEDE18893A5B005191DE /* icon_waternow.png */,
-				AFC5CEDF18893A5B005191DE /* icon_waternow@2x.png */,
-				AFC7E93618579D7600ACA626 /* icon_status_ok.png */,
-				AFF6A6B71888350400825A37 /* icon_status_ok@2x.png */,
-				AFCC57B3185860FD001F48F0 /* icon_status_warning.png */,
-				AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */,
-				AFF6A6B3188834E300825A37 /* icon_disclosure_triangle.png */,
-				AFF6A6B4188834E400825A37 /* icon_disclosure_triangle@2x.png */,
 				AFF6A6AB188834AC00825A37 /* checkbox-selected.png */,
 				AFF6A6AC188834AC00825A37 /* checkbox-selected@2x.png */,
 				AFF6A6AD188834AC00825A37 /* checkbox-unselected.png */,
 				AFF6A6AE188834AC00825A37 /* checkbox-unselected@2x.png */,
+				AFF634E0186F54900005EDF1 /* daily-stats */,
+				B1DF326316A6A68700A1BF38 /* Default-568h@2x.png */,
+				B1DF325F16A6A68700A1BF38 /* Default.png */,
+				B1DF326116A6A68700A1BF38 /* Default@2x.png */,
 				B11F7DB016BA6F3B00E36D00 /* form_inputbox_one.png */,
 				B11F7DB116BA6F3B00E36D00 /* form_inputbox_one@2x.png */,
+				AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */,
+				AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */,
+				AFF6A6B3188834E300825A37 /* icon_disclosure_triangle.png */,
+				AFF6A6B4188834E400825A37 /* icon_disclosure_triangle@2x.png */,
+				AFC5CEDA18893A5B005191DE /* icon_settings.png */,
+				AFC5CEDB18893A5B005191DE /* icon_settings@2x.png */,
+				AFC5CEDC18893A5B005191DE /* icon_stats.png */,
+				AFC5CEDD18893A5B005191DE /* icon_stats@2x.png */,
+				AFC7E93618579D7600ACA626 /* icon_status_ok.png */,
+				AFF6A6B71888350400825A37 /* icon_status_ok@2x.png */,
+				AFCC57B3185860FD001F48F0 /* icon_status_warning.png */,
+				AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */,
+				AFC5CEDE18893A5B005191DE /* icon_waternow.png */,
+				AFC5CEDF18893A5B005191DE /* icon_waternow@2x.png */,
+				AFF63642186F55100005EDF1 /* main-screen */,
 				B1213EA71860796A009D97F4 /* nav_menu_icon@2x.png */,
+				3A3BF31418F40ABA008333C5 /* programs-cell */,
+				AFA5FE281880740300C948F8 /* rainmachine.ttf */,
+				AFCF47B9188D532100C34727 /* separator_line.png */,
 				B173B4FC16B2C459000EB72D /* Sprinkler_Icon_114.png */,
+				B1E791961922738900BE8C1A /* Sprinkler_Icon_120.png */,
 				B173B4FD16B2C459000EB72D /* Sprinkler_Icon_144.png */,
+				B1E1EE4119227E1C004C8F5B /* Sprinkler_Icon_152.png */,
 				B173B4FA16B2C459000EB72D /* Sprinkler_Icon_57.png */,
 				B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */,
+				B1E1EE4019227E1C004C8F5B /* Sprinkler_Icon_76.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2185,16 +2185,16 @@
 		B1DF326B16A6A68700A1BF38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Oana Adrian (YZH2B4G93P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oana Adrian (BR24DF5Q5N)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "1A5FB8E0-40A1-4167-941F-04C65922A729";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1A5FB8E0-40A1-4167-941F-04C65922A729";
+				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -2204,16 +2204,16 @@
 		B1DF326C16A6A68700A1BF38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Oana Adrian (BR24DF5Q5N)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oana Adrian (BR24DF5Q5N)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sprinklers/SupportingFiles/Sprinklers-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "1A5FB8E0-40A1-4167-941F-04C65922A729";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1A5FB8E0-40A1-4167-941F-04C65922A729";
+				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
