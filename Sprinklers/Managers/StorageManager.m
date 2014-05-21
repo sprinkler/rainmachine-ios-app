@@ -119,11 +119,16 @@ static StorageManager *current = nil;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
+    NSString *isDiscoveredFilter = [aliveDevices boolValue] ? @"isDiscovered == YES" : @"(isDiscovered == NO OR isDiscovered == nil)";
+    
     if (networkType != NetworkType_All) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isLocalDevice == %@ AND isDiscovered == %@", [NSNumber numberWithBool:networkType == NetworkType_Local], aliveDevices];
+        NSString *isLocalDeviceFilter = (networkType == NetworkType_Local) ? @"isLocalDevice == YES" : @"(isLocalDevice == NO OR isLocalDevice == nil)";
+        NSString *predicateFormat = [NSString stringWithFormat:@"%@ AND %@", isLocalDeviceFilter, isDiscoveredFilter];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
         [fetchRequest setPredicate:predicate];
     } else {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isDiscovered == %@", aliveDevices];
+        NSString *predicateFormat = [NSString stringWithFormat:@"%@", isDiscoveredFilter];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
         [fetchRequest setPredicate:predicate];
     }
     
@@ -173,6 +178,7 @@ static StorageManager *current = nil;
     NSArray *remoteSprinklers = [self getSprinklersFromNetwork:NetworkType_Remote aliveDevices:NO];
     for (Sprinkler *sprinkler in remoteSprinklers) {
         sprinkler.isDiscovered = @YES;
+        sprinkler.isLocalDevice = @NO;
     }
     
     if (remoteSprinklers.count > 0) {
