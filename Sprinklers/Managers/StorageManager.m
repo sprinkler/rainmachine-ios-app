@@ -115,10 +115,10 @@ static StorageManager *current = nil;
 - (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType aliveDevices:(NSNumber*)aliveDevices {
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
+
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    
+
     if (networkType != NetworkType_All) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isLocalDevice == %@ AND isDiscovered == %@", [NSNumber numberWithBool:networkType == NetworkType_Local], aliveDevices];
         [fetchRequest setPredicate:predicate];
@@ -126,7 +126,6 @@ static StorageManager *current = nil;
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isDiscovered == %@", aliveDevices];
         [fetchRequest setPredicate:predicate];
     }
-    
     
     NSSortDescriptor *sort0 = [[NSSortDescriptor alloc] initWithKey:@"isLocalDevice" ascending:NO];
     NSSortDescriptor *sort1 = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
@@ -436,12 +435,14 @@ static StorageManager *current = nil;
 }
 
 - (NSString*) persistentStoreLocation
-{  
+{
+    [self createStoreDataDirectoryIfNeeded];
+
     return [[[self stringApplicationDocumentsDirectory] stringByAppendingPathComponent: [self sprinklerStoreDirectory]]
      stringByAppendingPathComponent:@"sprinklers.sqlite"];
 }
 
-- (void) createStoreDataDirectory {
+- (void) createStoreDataDirectoryIfNeeded {
     
     NSError* error;
     NSString* directoryPath = [[self stringApplicationDocumentsDirectory] stringByAppendingPathComponent:[self sprinklerStoreDirectory]];
@@ -463,8 +464,6 @@ static StorageManager *current = nil;
 
 - (void) moveStoreFromCachesToDocuments {
 
-    [self createStoreDataDirectory];
-    
     NSString *storePath = nil;
     // load store
     storePath = [[self stringApplicationCachesDirectory] stringByAppendingPathComponent: @"sprinklers.sqlite"];
@@ -491,6 +490,20 @@ static StorageManager *current = nil;
             abort();
         }
     }
+}
+
+- (void) removeDuplicates {
+    
+    NSArray* array = [self getAllSprinklersFromNetwork];
+    BOOL doSave = NO;
+    for (int i=0; i<array.count; i++) {
+        Sprinkler* sprinkler = [array objectAtIndex: i];
+        if ([sprinkler.isDiscovered intValue] == 0) {
+            sprinkler.isDiscovered = [NSNumber numberWithInt: 1];
+            doSave = YES;
+        }
+    }
+    
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
@@ -526,7 +539,7 @@ static StorageManager *current = nil;
     // run once code
     if (storeNeedsToRelocate) {
         [self setAllSprinklersDiscovered];
-        
+    
         [self moveStoreFromCachesToDocuments];
     }
     
