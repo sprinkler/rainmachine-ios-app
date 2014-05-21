@@ -27,10 +27,14 @@
 #import "RainDelay.h"
 #import "ServerResponse.h"
 #import "AppDelegate.h"
+#import "+NSDate.h"
 
 const float kHomeScreenCellHeight = 63;
 
 @interface StatsVC ()
+{
+    int timeFormatOfLastUpdate;
+}
 
 @property (strong, nonatomic) UIImage *waterImage;
 @property (strong, nonatomic) UIImage *waterWavesImage;
@@ -171,10 +175,18 @@ const float kHomeScreenCellHeight = 63;
             // cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [[StorageManager current].currentSprinkler.lastUpdate getTimeSinceDate] : @""];
             
             // This is the new date formatting for Last update
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            NSDateFormatter *formatter = [NSDate getDateFormaterFixedFormatParsing];
             [formatter setDateStyle:NSDateFormatterShortStyle];
             [formatter setTimeStyle:NSDateFormatterShortStyle];
             
+            [formatter setAMSymbol:@"AM"];
+            [formatter setPMSymbol:@"PM"];
+            if (timeFormatOfLastUpdate == 12) {
+                [formatter setDateFormat:@"MM/dd/yy hh:mm a"];
+            } else {
+                [formatter setDateFormat:@"MM/dd/yy hh:mm"];
+            }
+
             cell.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last update: %@", [StorageManager current].currentSprinkler.lastUpdate ? [formatter stringFromDate:[StorageManager current].currentSprinkler.lastUpdate] : @""];
             
             cell.statusImageView.image = [UIImage imageNamed:([[StorageManager current].currentSprinkler.lastError isEqualToString:@"1"]) ? @"icon_status_warning" : @"icon_status_ok"];
@@ -350,24 +362,32 @@ const float kHomeScreenCellHeight = 63;
     }
     
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    // Sprinkler 3.5x support
-    [dateFormatter setDateFormat:@"K:mm a, LLL d, yyyy"];
-    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+    NSDateFormatter *dateFormatter = [NSDate getDateFormaterFixedFormatParsing];
+    timeFormatOfLastUpdate = 12;
+    // Sprinkler 3.60 support
+    [dateFormatter setDateFormat:@"MM/dd/yy K:mm a"];
     NSDate *myDate = [dateFormatter dateFromString:dateAsString];
-    if (!myDate) {
-        // Sprinkler 3.5x support
-        [dateFormatter setDateFormat:@"H:mm, LLL d, yyyy"];
+    if (myDate) {
+        timeFormatOfLastUpdate = 12;
+    } else {
+        // Sprinkler 3.60 support
+        [dateFormatter setDateFormat:@"MM/dd/yy H:mm"];
         myDate = [dateFormatter dateFromString:dateAsString];
-        if (!myDate) {
-            // Sprinkler 3.60 support
-            [dateFormatter setDateFormat:@"MM/dd/yy H:mm"];
+        if (myDate) {
+            timeFormatOfLastUpdate = 24;
+        } else {
+            // Sprinkler 3.5x support
+            [dateFormatter setDateFormat:@"K:mm a, LLL d, yyyy"];
             myDate = [dateFormatter dateFromString:dateAsString];
-            if (!myDate) {
-                // Sprinkler 3.60 support
-                [dateFormatter setDateFormat:@"MM/dd/yy K:mm a"];
+            if (myDate) {
+                timeFormatOfLastUpdate = 12;
+            } else {
+                // Sprinkler 3.5x support
+                [dateFormatter setDateFormat:@"H:mm, LLL d, yyyy"];
                 myDate = [dateFormatter dateFromString:dateAsString];
-                if (!myDate) {
+                if (myDate) {
+                    timeFormatOfLastUpdate = 24;
+                } else {
                     DLog(@"Error: failed parsing string: %@", dateAsString);
                 }
             }

@@ -7,6 +7,7 @@
 //
 
 #import "PullToRefreshView.h"
+#import "+NSDate.h"
 
 //#define TEXT_COLOR [UIColor colorWithRed:(87.0/255.0) green:(108.0/255.0) blue:(137.0/255.0) alpha:1.0]
 #define TEXT_COLOR [UIColor blackColor]
@@ -103,7 +104,7 @@
     if ([delegate respondsToSelector:@selector(pullToRefreshViewLastUpdated:)])
         date = [delegate pullToRefreshViewLastUpdated:self];
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *formatter = [NSDate getDateFormaterFixedFormatParsing];
     [formatter setAMSymbol:@"AM"];
     [formatter setPMSymbol:@"PM"];
     [formatter setDateFormat:@"MM/dd/yy hh:mm a"];

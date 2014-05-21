@@ -33,7 +33,7 @@
         
         //Check API version here for different date formats
         //This one is for API3
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        NSDateFormatter *df = [NSDate getDateFormaterFixedFormatParsing];
 
         // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
         if (program.timeFormat == 0) {

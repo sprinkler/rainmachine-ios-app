@@ -16,6 +16,7 @@
 #import "AppDelegate.h"
 #import "NetworkUtilities.h"
 #import "SettingsDate.h"
+#import "+NSDate.h"
 
 @implementation Utils
 
@@ -195,7 +196,7 @@
 
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat
 {
-    NSDateFormatter *formatter = [NSDateFormatter new];
+    NSDateFormatter *formatter = [NSDate getDateFormaterFixedFormatParsing];
     if (timeFormat == 0) {
         [formatter setDateFormat:@"H:mm"];
     } else {

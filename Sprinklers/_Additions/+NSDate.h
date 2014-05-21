@@ -67,6 +67,8 @@
 
 -(NSString*)getTimeSinceDate;
 
++(NSDateFormatter*)getDateFormaterFixedFormatParsing;
+
 // Decomposing dates
 @property (readonly) NSInteger nearestHour;
 @property (readonly) NSInteger hour;

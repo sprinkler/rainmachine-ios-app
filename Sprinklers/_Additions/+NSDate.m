@@ -350,6 +350,19 @@ static NSDateFormatter* formatter;
   return formatter;
 }
 
++(NSDateFormatter*)getDateFormaterFixedFormatParsing {
+    // NSDateFormatter has two common roles: generate&parse user-visible dates OR fixed-format dates.
+    // For fixed-date parsing is not sufficient to set the correct date format string in NSDateFormatter. Locale should also be set.
+    // https://developer.apple.com/library/ios/qa/qa1480/_index.html
+    @synchronized([NSDate class]) {
+        if (formatter == nil) {
+            formatter = [[NSDateFormatter alloc] init];
+            [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+        }
+    }
+    return formatter;
+}
+
 -(NSDate*)startOfDay:(NSDate*)date {
   NSCalendar* cal = [NSCalendar currentCalendar];
   NSDateComponents* dateComp = [cal components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:date];

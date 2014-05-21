@@ -14,6 +14,7 @@
 #import "SettingsVC.h"
 #import "Utils.h"
 #import "+UIDevice.h"
+#import "+NSDate.h"
 
 @interface SettingsTimePickerVC ()
 {
@@ -59,7 +60,7 @@
 
 - (NSDateFormatter*)dateFormatter
 {
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    NSDateFormatter *df = [NSDate getDateFormaterFixedFormatParsing];
     
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
     if ([self.settingsDate.time_format intValue] == 24) {
@@ -121,6 +122,7 @@
 - (void)refreshUI
 {
     self.datePicker.hidden = (self.settingsDate == nil);
+    self.separatorLabel.hidden = self.datePicker.hidden;
 
     if (self.settingsDate) {
         NSDate *date = ([self.settingsDate.appDate length] > 0) ? [self dateFromString:self.settingsDate.appDate] : [NSDate date];
