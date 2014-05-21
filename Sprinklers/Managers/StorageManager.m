@@ -118,7 +118,9 @@ static StorageManager *current = nil;
 
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-
+    
+    NSString *isDiscoveredFilter = [aliveDevices boolValue] ? @"isDiscovered == YES" : @"(isDiscovered == NO OR isDiscovered == nil)";
+    
     if (networkType != NetworkType_All) {
         NSString *isLocalDeviceFilter = (networkType == NetworkType_Local) ? @"isLocalDevice == YES" : @"(isLocalDevice == NO OR isLocalDevice == nil)";
         NSString *predicateFormat = [NSString stringWithFormat:@"%@ AND %@", isLocalDeviceFilter, isDiscoveredFilter];
