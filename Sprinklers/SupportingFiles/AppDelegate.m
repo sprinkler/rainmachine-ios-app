@@ -30,6 +30,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    [[StorageManager current] applyMigrationFix];
+    
     self.updateManager = [[UpdateManager alloc] initWithDelegate:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
