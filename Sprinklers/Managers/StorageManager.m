@@ -118,9 +118,9 @@ static StorageManager *current = nil;
 
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    
+
     NSString *isDiscoveredFilter = [aliveDevices boolValue] ? @"isDiscovered == YES" : @"(isDiscovered == NO OR isDiscovered == nil)";
-    
+
     if (networkType != NetworkType_All) {
         NSString *isLocalDeviceFilter = (networkType == NetworkType_Local) ? @"isLocalDevice == YES" : @"(isLocalDevice == NO OR isLocalDevice == nil)";
         NSString *predicateFormat = [NSString stringWithFormat:@"%@ AND %@", isLocalDeviceFilter, isDiscoveredFilter];
@@ -501,15 +501,37 @@ static StorageManager *current = nil;
 - (void) removeDuplicates {
     
     NSArray* array = [self getAllSprinklersFromNetwork];
-    BOOL doSave = NO;
+    
+    NSMutableArray* sprinklersToDelete = [NSMutableArray array];
+
     for (int i=0; i<array.count; i++) {
         Sprinkler* sprinkler = [array objectAtIndex: i];
         if ([sprinkler.isDiscovered intValue] == 0) {
-            sprinkler.isDiscovered = [NSNumber numberWithInt: 1];
-            doSave = YES;
+            
+            // this is an old sprinkler, if something else with the same name exists, delete it
+            for (int j=0; j<array.count; j++) {
+                if (i != j) {
+                    Sprinkler* sprinkler2 = [array objectAtIndex: j];
+                    if ([sprinkler2.isDiscovered intValue] == 1) { // this is a new sprinkler
+                        if ([sprinkler.name isEqualToString: sprinkler2.name] == YES) {
+                            // first sprinkler must be deleted from
+                            
+                            [sprinklersToDelete addObject: sprinkler];
+                        }
+                    }
+                }
+            }
+            
         }
     }
     
+    for (Sprinkler* sprinkler in sprinklersToDelete) {
+        [self.managedObjectContext deleteObject:sprinkler];
+    }
+    
+    if (sprinklersToDelete.count > 0) {
+        [self saveData];
+    }
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
@@ -531,7 +553,7 @@ static StorageManager *current = nil;
     NSURL *storeURL = [NSURL fileURLWithPath:storePath];
     NSError *error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    
+        
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
@@ -544,6 +566,8 @@ static StorageManager *current = nil;
     
     // run once code
     if (storeNeedsToRelocate) {
+        [self removeDuplicates];
+        
         [self setAllSprinklersDiscovered];
     
         [self moveStoreFromCachesToDocuments];
