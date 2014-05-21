@@ -50,7 +50,7 @@ static StorageManager *current = nil;
 
 - (void)deleteLocalSprinklers
 {
-    NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersFromNetwork:NetworkType_Local onlyDiscoveredDevices:@NO]];
+    NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersFromNetwork:NetworkType_Local aliveDevices:@NO]];
     for (Sprinkler *sprinkler in localSprinklers) {
         [self.managedObjectContext deleteObject:sprinkler];
     }
@@ -112,7 +112,7 @@ static StorageManager *current = nil;
     return nil;
 }
 
-- (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType onlyDiscoveredDevices:(NSNumber*)onlyDiscoveredDevices {
+- (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType aliveDevices:(NSNumber*)aliveDevices {
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
@@ -120,10 +120,10 @@ static StorageManager *current = nil;
     [fetchRequest setEntity:entity];
     
     if (networkType != NetworkType_All) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isLocalDevice == %@ AND isDiscovered == YES", [NSNumber numberWithBool:networkType == NetworkType_Local]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isLocalDevice == %@ AND isDiscovered == %@", [NSNumber numberWithBool:networkType == NetworkType_Local], aliveDevices];
         [fetchRequest setPredicate:predicate];
     } else {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isDiscovered == YES", onlyDiscoveredDevices];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isDiscovered == %@", aliveDevices];
         [fetchRequest setPredicate:predicate];
     }
     
@@ -178,6 +178,21 @@ static StorageManager *current = nil;
     dbZone.counter = zone.counter;
     
     [self saveData];
+}
+
+- (void)applyMigrationFix
+{
+    // This fix is done to work around the case when during the default migration from model1->model6 (app v1->v2) the isDiscovered field took the default NO value.
+    // For remote sprinklers isDiscovered's value should always be YES. This fix walks through all remote devices which migrated wrongly during model1->model6 and fixes them.
+    // Get list of remote sprinklers with isDiscovered == NO
+    NSArray *remoteSprinklers = [self getSprinklersFromNetwork:NetworkType_Remote aliveDevices:NO];
+    for (Sprinkler *sprinkler in remoteSprinklers) {
+        sprinkler.isDiscovered = @YES;
+    }
+    
+    if (remoteSprinklers.count > 0) {
+        [self saveData];
+    }
 }
 
 #pragma mark - Core Data Stack

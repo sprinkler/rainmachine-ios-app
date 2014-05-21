@@ -120,7 +120,7 @@
 
 - (void)refreshSprinklerList
 {
-    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All onlyDiscoveredDevices:@YES];
+    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All aliveDevices:@YES];
 }
 
 - (void)createFooter {
@@ -147,7 +147,7 @@
     self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
  
     // Mark all non-discovered sprinklers as not-alive
-    NSArray *localSprinklers = [NSMutableArray arrayWithArray:[[StorageManager current] getSprinklersFromNetwork:NetworkType_Local onlyDiscoveredDevices:@YES]];
+    NSArray *localSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Local aliveDevices:@YES];
     for (Sprinkler *sprinkler in localSprinklers) {
         sprinkler.isDiscovered = @NO;
     }
