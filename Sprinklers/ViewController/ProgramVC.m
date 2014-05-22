@@ -41,7 +41,8 @@
     BOOL resignKeyboard;
     
     BOOL isNewProgram;
-    
+    BOOL didSave;
+
     int runNowSectionIndex;
     int nameSectionIndex;
     int activeSectionIndex;
@@ -50,8 +51,6 @@
     int startTimeSectionIndex;
     int cycleSoakAndStationDelaySectionIndex;
     int wateringTimesSectionIndex;
-    
-    int didEdit;
 }
 
 @property (strong, nonatomic) ServerProxy *getProgramListServerProxy;
@@ -80,6 +79,7 @@
     self.statusTableViewHeightConstraint.constant = 0;
     self.title = @"Program";
     isNewProgram = (self.program == nil);
+    didSave = NO;
     
     if (!self.showInitialUnsavedAlert) {
         // In the case when 'showInitialUnsavedAlert' is YES, programCopyBeforeSave is set beforehand
@@ -154,36 +154,26 @@
         self.showInitialUnsavedAlert = NO;
     }
     
-    didEdit = 0;
-    
     [self refreshToolbarEdited];
 }
 
 - (void) refreshToolbarEdited
 {
-    if (self.program) {
+    if (isNewProgram && !didSave) {
+        [self createTwoButtonToolbar];
+    } else {
         if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
             // 3.55 and 3.56 can only Stop programs
             [self createTwoButtonToolbar];
-        }
-        else
-        {
+        } else {
             [self createThreeButtonToolbar];
         }
-    } else {
-        [self createTwoButtonToolbar];
     }
 }
 
-- (void) onDidEdit
+- (BOOL)didEdit
 {
-    didEdit ++;
-    
-    // don't recreate toolbar multiple times
-    if (didEdit > 1)
-        return;
-    
-    [self refreshToolbarEdited];
+    return ![self.programCopyBeforeSave isEqualToProgram:self.program];
 }
 
 - (void)refreshToolBarButtonTitles
@@ -194,19 +184,12 @@
 - (void)createTwoButtonToolbar
 {
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
-    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:
-                                   didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSave:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        if (didEdit) {
-            buttonSave.tintColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
-        }
-        else
-        {
-            buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
-        }
+        buttonSave.tintColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
     }
     
     //set the toolbar buttons
@@ -216,6 +199,8 @@
 
 - (void)createThreeButtonToolbar
 {
+    BOOL didEdit = [self didEdit];
+
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
     UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
     UIBarButtonItem* buttonStart = [[UIBarButtonItem alloc] initWithTitle:@"Start" style:didEdit ? UIBarButtonItemStyleBordered : UIBarButtonItemStyleDone target:self action:@selector(onStartOrStop:)];
@@ -265,6 +250,8 @@
     [CCTBackButtonActionHelper sharedInstance].delegate = self;
     
     [self.rainDelayPoller scheduleNextPoll:0];
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -283,6 +270,7 @@
         hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     } else {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        hud = nil;
     }
     self.startButtonItem.enabled = state;
 }
@@ -363,7 +351,7 @@
         }
     }
     
-    [self onDidEdit];
+    [self refreshToolbarEdited];
 }
 
 - (void)onCell:(UITableViewCell*)theCell checkmarkState:(BOOL)sel
@@ -374,14 +362,14 @@
     
     [self.tableView reloadData];
     
-    [self onDidEdit];
+    [self refreshToolbarEdited];
 }
 
 - (void)cellTextFieldChanged:(NSString*)text
 {
     self.program.name = text;
     
-    [self onDidEdit];
+    [self refreshToolbarEdited];
 }
 
 - (void)save
@@ -785,8 +773,6 @@
         }
     } else {
         
-        [self onDidEdit];
-        
         if (indexPath.section == nameSectionIndex) {
             ProgramCellType1 *cell = (ProgramCellType1 *)[tableView cellForRowAtIndexPath:indexPath];
             [cell.theTextField becomeFirstResponder];
@@ -898,7 +884,10 @@
     [self.tableView reloadData];
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
+{
+    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
+    
     if (serverProxy == self.getProgramListServerProxy) {
         self.getProgramListServerProxy = nil;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -911,6 +900,7 @@
 
             if (possibleAddedProgram) {
                 self.program = possibleAddedProgram;
+                didSave = YES;
             }
         }
         self.programCopyBeforeSave = self.program;
@@ -924,6 +914,7 @@
         } else {
             if (self.program.programId == -1) {
                 // Create a new program. We don't receive the new id from the server. That's why we have to do a new requestPrograms call and extract the new id from there.
+                hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 self.getProgramListServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
                 [_getProgramListServerProxy requestPrograms];
             } else {
@@ -933,9 +924,9 @@
                 self.programCopyBeforeSave = self.program;
                 
                 // reset toolbar state
-                didEdit = 0;
                 [self refreshToolbarEdited];
             }
+            didSave = YES;
         }
     }
     else if (serverProxy == self.runNowServerProxy) {
@@ -973,8 +964,6 @@
 //            self.program.csOn = [[paramsDic objectForKey:@"cs_on"] intValue];
 //        }
 //    }
-    
-    [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
     
     [self.tableView reloadData];
     [self refreshToolBarButtonTitles];
