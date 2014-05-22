@@ -88,7 +88,7 @@
     self.navigationItem.leftBarButtonItem = nil;
     
     if (self.tableView.isEditing) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     } else {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(edit)];
@@ -203,6 +203,11 @@
 }
 
 #pragma mark - Actions
+
+- (void)done
+{
+    [self done:nil];
+}
 
 - (void)done:(NSString*)unit {
     if (self.tableView.isEditing) {
@@ -413,6 +418,21 @@
 
         }
     }
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self shouldStopBroadcast];
+}
+
+- (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self shouldStartBroadcast];
+}
+
+- (void)dealloc
+{
+    [self shouldStopBroadcast];
 }
 
 @end
