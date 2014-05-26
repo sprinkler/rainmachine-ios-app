@@ -198,9 +198,9 @@
 {
     NSDateFormatter *formatter = [NSDate getDateFormaterFixedFormatParsing];
     if (timeFormat == 0) {
-        [formatter setDateFormat:@"H:mm"];
+        [formatter setDateFormat:@"H:m"];
     } else {
-        [formatter setDateFormat:@"h:mm a"];
+        [formatter setDateFormat:@"h:m a"];
     }
     
     NSString *hourAndMinute = [formatter stringFromDate:date];

@@ -116,8 +116,10 @@
     [dic setObject:[NSNumber numberWithInt:_programId] forKey:@"id"];
     [dic setObject:[NSNumber numberWithInt:_soak] forKey:@"soak"];
 
-    [dic setObject:[Utils formattedTime:_startTime forTimeFormat:_timeFormat] forKey:@"programStartTime"];
-//    [dic setObject:[NSNumber numberWithDouble:[_startTime timeIntervalSince1970]] forKey:@"startTime"];
+    // Force "programStartTime" to be encoded with H:m format
+    [dic setObject:[Utils formattedTime:_startTime forTimeFormat:0] forKey:@"programStartTime"];
+    // Send the nr. of seconds from epoch time (1970) in "startTime"
+    [dic setObject:[NSNumber numberWithDouble:[_startTime timeIntervalSince1970]] forKey:@"startTime"];
     
     if (_state) {
         [dic setObject:_state forKey:@"state"];
