@@ -7,6 +7,8 @@
 //
 
 #import "NetworkUtilities.h"
+#import "NSDictionary+Keychain.h"
+#import "Constants.h"
 
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -100,6 +102,148 @@ static NSString *kWifiInterface = @"en0";
     return [NetworkUtilities netmaskForInterface:kWifiInterface];
 }
 
+#pragma mark - Keychain
+
+// Structure of our dictionary saved in keychain
+// URL1
+// ...
+// URLn(dict) - Credentials(dict) - UserName(string)
+//                                - Password(string)
+//
+//            - Cookies(dict) - Port 1(array of cookies)
+//                            - ...
+//                            - Port n(array of cookies)
+
++ (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort username:(NSString*)username password:(NSString*)password
+{
+    NSString *port = thePort ? thePort : @"443";
+    
+    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey] mutableCopy];
+    if (!keychainDictionary) {
+        keychainDictionary = [NSMutableDictionary dictionary];
+    }
+    
+    NSMutableDictionary *urlDictionary = [[keychainDictionary objectForKey:baseUrl] mutableCopy];
+    if (!urlDictionary) {
+        urlDictionary = [NSMutableDictionary dictionary];
+    }
+    [keychainDictionary setObject:urlDictionary forKey:baseUrl];
+
+    NSMutableDictionary *cookiesDictionary = [[urlDictionary objectForKey:kSprinklerKeychain_CookiesKey] mutableCopy];
+    if (!cookiesDictionary) {
+        cookiesDictionary = [NSMutableDictionary dictionary];
+    }
+    [urlDictionary setObject:cookiesDictionary forKey:kSprinklerKeychain_CookiesKey];
+    
+    NSMutableDictionary *credentialsDictionary = [[urlDictionary objectForKey:kSprinklerKeychain_CredentialsKey] mutableCopy];
+    if (!credentialsDictionary) {
+        credentialsDictionary = [NSMutableDictionary dictionary];
+    }
+    [urlDictionary setObject:credentialsDictionary forKey:kSprinklerKeychain_CredentialsKey];
+
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:baseUrl]];
+    
+    [cookiesDictionary setObject:cookies forKey:port];
+    
+    [credentialsDictionary setObject:username forKey:kSprinklerKeychain_UsernameKey];
+    [credentialsDictionary setObject:password forKey:kSprinklerKeychain_PasswordKey];
+
+    [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+}
+
++ (void)restoreCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort
+{
+    NSString *port = thePort ? thePort : @"443";
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    NSArray *newCookiesForPort = [[[keychainDictionary objectForKey:baseUrl] objectForKey:kSprinklerKeychain_CookiesKey] objectForKey:port];
+    
+    // Delete old cookies associated with baseUrl
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:baseUrl]];
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    
+    // Set new cookies asociated with baseUrl and port
+    if (newCookiesForPort) {
+        for (NSHTTPCookie *cookie in newCookiesForPort) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+        }
+    }
+}
+
++ (NSDictionary*)keychainCredentialsForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort
+{
+    NSString *port = thePort ? thePort : @"443";
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    NSDictionary *credentialsDictionary = [[keychainDictionary objectForKey:baseUrl] objectForKey:kSprinklerKeychain_CredentialsKey];
+    NSDictionary *cookiesDictionary = [[keychainDictionary objectForKey:baseUrl] objectForKey:kSprinklerKeychain_CookiesKey];
+    
+    NSMutableDictionary *rez = nil;
+    if (credentialsDictionary) {
+        rez = [credentialsDictionary mutableCopy];
+        BOOL isSessionOnly = [NetworkUtilities containsDictionarySessionOnlyCookies:cookiesDictionary forPort:port];
+        [rez setObject:[NSNumber numberWithBool:isSessionOnly] forKey:kSprinklerKeychain_isSessionOnly];
+    }
+    
+    return rez;
+}
+
++ (void)clearCookiesFromKeychain
+{
+    NSDictionary *cookiesUrlDictionary = [NSDictionary dictionary];
+    [cookiesUrlDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+}
+
++ (void)clearKeychainCookieForBaseUrl:(NSString*)baseUrl
+{
+    NSMutableDictionary *cookiesUrlDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey] mutableCopy];
+    [cookiesUrlDictionary removeObjectForKey:baseUrl];
+}
+
++ (BOOL)containsDictionarySessionOnlyCookies:(NSDictionary*)cookiesDictionary forPort:(NSString*)port
+{
+    BOOL isSessionOnly = NO;
+    NSArray *cookies = [cookiesDictionary objectForKey:port];
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie isSessionOnly]) {
+            isSessionOnly = YES;
+            break;
+        }
+    }
+
+    return isSessionOnly;
+}
+
++ (void)clearSessionOnlyCookiesFromKeychain
+{
+    BOOL changed = NO;
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    NSMutableDictionary *newKeychainDictionary = [keychainDictionary mutableCopy];
+    
+    for (NSString *urlKey in keychainDictionary) {
+        NSDictionary *urlDictionary = [keychainDictionary objectForKey:urlKey];
+        NSDictionary *cookiesDictionary = [urlDictionary objectForKey:kSprinklerKeychain_CookiesKey];
+        for (NSString *portKey in cookiesDictionary) {
+            if ([self containsDictionarySessionOnlyCookies:cookiesDictionary forPort:portKey]) {
+                changed = YES;
+                NSMutableDictionary *newUrlDictionary = [newKeychainDictionary[urlKey] mutableCopy];
+                NSMutableDictionary *newCookiesDictionary = [[newUrlDictionary objectForKey:kSprinklerKeychain_CookiesKey] mutableCopy];
+                [newCookiesDictionary removeObjectForKey:portKey];
+                if ([newCookiesDictionary count] == 0) {
+                    [newUrlDictionary removeObjectForKey:kSprinklerKeychain_CookiesKey];
+                    [newUrlDictionary removeObjectForKey:kSprinklerKeychain_CredentialsKey];
+                }
+            }
+        }
+    }
+
+    if (changed) {
+        [newKeychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    }
+}
+
+#pragma mark - Cookies
+
 + (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl
 {
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:baseUrl]];
@@ -121,6 +265,7 @@ static NSString *kWifiInterface = @"en0";
             [cookieStorage deleteCookie:cookie];
             DLog(@"Deleted cookie: %@", cookie);
         }
+        [NetworkUtilities clearKeychainCookieForBaseUrl:baseUrl];
     }
 }
 

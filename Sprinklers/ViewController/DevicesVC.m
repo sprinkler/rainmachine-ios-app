@@ -365,6 +365,8 @@
     if (indexPath.section == 0) {
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         
+        [NetworkUtilities restoreCookieForBaseUrl:sprinkler.address port:sprinkler.port];
+        
         if (([sprinkler.loginRememberMe boolValue]) && ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address])) {
             [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
             [[StorageManager current] saveData];
@@ -375,15 +377,23 @@
                 [[StorageManager current] saveData];
                 [self done:nil];
             } else {
-                LoginVC *login = [[LoginVC alloc] init];
-                login.sprinkler = self.savedSprinklers[indexPath.row];
-                
-                if ([login.sprinkler.loginRememberMe boolValue] == YES) {
-                    [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
+                NSDictionary *keychainCredentials = [NetworkUtilities keychainCredentialsForBaseUrl:sprinkler.address port:sprinkler.port];
+                if (keychainCredentials) {
+                    LoginVC *login = [[LoginVC alloc] initWithAutomaticLoginInfo:keychainCredentials];
+                    login.sprinkler = self.savedSprinklers[indexPath.row];
+                    login.parent = self;
+                    [self.navigationController pushViewController:login animated:YES];
+                } else {
+                    LoginVC *login = [[LoginVC alloc] init];
+                    login.sprinkler = self.savedSprinklers[indexPath.row];
+                    
+                    if ([login.sprinkler.loginRememberMe boolValue] == YES) {
+                        [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
+                    }
+                    
+                    login.parent = self;
+                    [self.navigationController pushViewController:login animated:YES];
                 }
-                
-                login.parent = self;
-                [self.navigationController pushViewController:login animated:YES];
             }
         }
     } else if (indexPath.section == 1) {

@@ -17,6 +17,7 @@
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
 #import "+UIDevice.h"
+#import "Networkutilities.h"
 
 @interface LoginVC () {
 }
@@ -29,12 +30,22 @@
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) NSDictionary *automaticLoginInfo;
 
 @end
 
 @implementation LoginVC
 
 #pragma mark - Init
+
+- (id)initWithAutomaticLoginInfo:(NSDictionary*)info
+{
+    self = [super init];
+    if (self) {
+        self.automaticLoginInfo = info;
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -70,7 +81,18 @@
     // TODO: uncomment this line in case the device version is >= 4.0
 //    [self setup40SprinklerUI];
     
-    [_textPassword becomeFirstResponder];
+    if (self.automaticLoginInfo) {
+        BOOL isSessionOnly = [self.automaticLoginInfo[kSprinklerKeychain_isSessionOnly] boolValue];
+        NSString *username = self.automaticLoginInfo[kSprinklerKeychain_UsernameKey];
+        NSString *password = self.automaticLoginInfo[kSprinklerKeychain_PasswordKey];
+        
+        _textPassword.text = password;
+        _textUsername.text = username;
+        
+        [self loginWithUsername:username password:password rememberMe:!isSessionOnly];
+    } else {
+        [_textPassword becomeFirstResponder];
+    }
 }
 
 - (void)setup40SprinklerUI
@@ -102,6 +124,7 @@
 }
 
 - (void)hideHud {
+    self.hud = nil;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     self.view.userInteractionEnabled = YES;
 }
@@ -112,8 +135,13 @@
 }
 
 - (IBAction)login:(id)sender {
+    [self loginWithUsername:_textUsername.text password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
+}
+
+- (void)loginWithUsername:(NSString*)username password:(NSString*)password rememberMe:(BOOL)rememberMe
+{
     self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
-    [self.serverProxy loginWithUserName: _textUsername.text password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
+    [self.serverProxy loginWithUserName:username password:password rememberMe:rememberMe];
     [self startHud:nil]; // @"Logging in..."
 }
 
@@ -135,6 +163,8 @@
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
+    
+    [NetworkUtilities saveCookiesForBaseURL:self.sprinkler.address port:self.sprinkler.port username:_textUsername.text password:_textPassword.text];
     
     self.sprinkler.loginRememberMe = [NSNumber numberWithBool:remembered];
     self.sprinkler.username = _textUsername.text;

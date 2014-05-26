@@ -18,6 +18,7 @@
 #import "UpdateManager.h"
 #import "RMNavigationController.h"
 #import "UpdateManager.h"
+#import "NetworkUtilities.h"
 
 @interface AppDelegate()
 
@@ -27,7 +28,13 @@
 
 #pragma mark - Init
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+//    [NetworkUtilities clearCookiesFromKeychain]; // Use this line for debug purposes to clear the cookies form th keychain
+
+    // Clear the session-only cookies form keychain
+    [NetworkUtilities clearSessionOnlyCookiesFromKeychain];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     self.updateManager = [[UpdateManager alloc] initWithDelegate:nil];

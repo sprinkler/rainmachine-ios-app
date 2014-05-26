@@ -18,6 +18,13 @@
 extern NSString* const TestServerURL;
 extern NSString* const TestServerPort;
 
+extern NSString* const kSprinklerKeychain_CookieDictionaryStorageKey;
+extern NSString* const kSprinklerKeychain_CookiesKey;
+extern NSString* const kSprinklerKeychain_CredentialsKey;
+extern NSString* const kSprinklerKeychain_isSessionOnly;
+extern NSString* const kSprinklerKeychain_UsernameKey;
+extern NSString* const kSprinklerKeychain_PasswordKey;
+
 extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
 extern NSString *const kSprinklerNetworkError;

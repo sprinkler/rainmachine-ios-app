@@ -17,4 +17,7 @@
 @property (strong, nonatomic) Sprinkler *sprinkler;
 @property (weak, nonatomic) DevicesVC *parent;
 
+- (id)initWithAutomaticLoginInfo:(NSDictionary*)info;
+- (void)loginWithUsername:(NSString*)username password:(NSString*)password rememberMe:(BOOL)rememberMe;
+
 @end

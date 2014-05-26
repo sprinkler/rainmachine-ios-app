@@ -94,6 +94,7 @@
 		AFB69438190289440067CD7F /* Zone.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB69437190289440067CD7F /* Zone.m */; };
 		AFB6943B190289670067CD7F /* RestrictionsData.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6943A190289670067CD7F /* RestrictionsData.m */; };
 		AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6943D190427A20067CD7F /* RainDelayPoller.m */; };
+		AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB7E05E192F388E003A3461 /* NSDictionary+Keychain.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
 		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
 		AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760018BBDFC3007200BF /* SimpleCell.xib */; };
@@ -545,6 +546,8 @@
 		AFB6943A190289670067CD7F /* RestrictionsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsData.m; path = "Communication/Response objects/RestrictionsData.m"; sourceTree = "<group>"; };
 		AFB6943C190427A20067CD7F /* RainDelayPoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainDelayPoller.h; sourceTree = "<group>"; };
 		AFB6943D190427A20067CD7F /* RainDelayPoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainDelayPoller.m; sourceTree = "<group>"; };
+		AFB7E05D192F388E003A3461 /* NSDictionary+Keychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Keychain.h"; sourceTree = "<group>"; };
+		AFB7E05E192F388E003A3461 /* NSDictionary+Keychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Keychain.m"; sourceTree = "<group>"; };
 		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
 		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
 		AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeekdaysVC.m; path = ViewController/WeekdaysVC.m; sourceTree = "<group>"; };
@@ -877,8 +880,8 @@
 		B1EF20EC186046D300D9CE26 /* Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Additions.h; sourceTree = "<group>"; };
 		B1EF20FB1860470800D9CE26 /* +UIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "+UIButton.h"; sourceTree = "<group>"; };
 		B1EF20FC1860470800D9CE26 /* +UIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "+UIButton.m"; sourceTree = "<group>"; };
-		B1EF20FD1860470800D9CE26 /* NetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkUtilities.h; sourceTree = "<group>"; };
-		B1EF20FE1860470800D9CE26 /* NetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkUtilities.m; sourceTree = "<group>"; };
+		B1EF20FD1860470800D9CE26 /* NetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkUtilities.h; path = ../_Additions/NetworkUtilities.h; sourceTree = "<group>"; };
+		B1EF20FE1860470800D9CE26 /* NetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkUtilities.m; path = ../_Additions/NetworkUtilities.m; sourceTree = "<group>"; };
 		B1EF2101186048F500D9CE26 /* DevicesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DevicesVC.h; path = ViewController/DevicesVC.h; sourceTree = "<group>"; };
 		B1EF2102186048F500D9CE26 /* DevicesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DevicesVC.m; path = ViewController/DevicesVC.m; sourceTree = "<group>"; };
 		B1EF2103186048F500D9CE26 /* DevicesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DevicesVC.xib; path = ViewController/DevicesVC.xib; sourceTree = "<group>"; };
@@ -955,6 +958,8 @@
 				AF7782C2184CD3DE00DCBD54 /* Constants.h */,
 				AF7782C3184CD3DE00DCBD54 /* Constants.m */,
 				AF7AC9BA184E3D1A0047BD9E /* Protocols.h */,
+				B1EF20FD1860470800D9CE26 /* NetworkUtilities.h */,
+				B1EF20FE1860470800D9CE26 /* NetworkUtilities.m */,
 				AFCDF79D185DBE2700F9C57E /* Utils.h */,
 				AFCDF79E185DBE2700F9C57E /* Utils.m */,
 				AFB6943C190427A20067CD7F /* RainDelayPoller.h */,
@@ -1552,8 +1557,8 @@
 				B1EF20EA186046D300D9CE26 /* +UIView.h */,
 				B1EF20EB186046D300D9CE26 /* +UIView.m */,
 				B1EF20EC186046D300D9CE26 /* Additions.h */,
-				B1EF20FD1860470800D9CE26 /* NetworkUtilities.h */,
-				B1EF20FE1860470800D9CE26 /* NetworkUtilities.m */,
+				AFB7E05D192F388E003A3461 /* NSDictionary+Keychain.h */,
+				AFB7E05E192F388E003A3461 /* NSDictionary+Keychain.m */,
 			);
 			path = _Additions;
 			sourceTree = "<group>";
@@ -2047,6 +2052,7 @@
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
 				AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */,
+				AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */,
 				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZoneVC.m in Sources */,
