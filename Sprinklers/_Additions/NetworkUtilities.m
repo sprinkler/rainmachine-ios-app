@@ -198,6 +198,7 @@ static NSString *kWifiInterface = @"en0";
 {
     NSMutableDictionary *cookiesUrlDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey] mutableCopy];
     [cookiesUrlDictionary removeObjectForKey:baseUrl];
+    [cookiesUrlDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
 }
 
 + (BOOL)containsDictionarySessionOnlyCookies:(NSDictionary*)cookiesDictionary forPort:(NSString*)port
