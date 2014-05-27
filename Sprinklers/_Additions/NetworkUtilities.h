@@ -21,8 +21,7 @@
 + (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort username:(NSString*)username password:(NSString*)password;
 + (void)restoreCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
 + (void)clearSessionOnlyCookiesFromKeychain;
-+ (void)clearCookiesFromKeychain;
-+ (void)clearKeychainCookieForBaseUrl:(NSString*)baseUrl;
 + (NSDictionary*)keychainCredentialsForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
++ (void)refreshKeychainCookies;
 
 @end

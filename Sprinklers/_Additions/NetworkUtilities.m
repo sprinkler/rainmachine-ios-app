@@ -9,6 +9,7 @@
 #import "NetworkUtilities.h"
 #import "NSDictionary+Keychain.h"
 #import "Constants.h"
+#import "StorageManager.h"
 
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -270,4 +271,16 @@ static NSString *kWifiInterface = @"en0";
     }
 }
 
++ (void)refreshKeychainCookies
+{
+    NSString *storePath = [[StorageManager current] persistentStoreLocation];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
+        
+        // App was deleted and installed
+        [NetworkUtilities clearCookiesFromKeychain];
+    }
+
+    // Clear the session-only cookies form keychain
+    [NetworkUtilities clearSessionOnlyCookiesFromKeychain];
+}
 @end

@@ -37,6 +37,7 @@ typedef enum {
 - (void)applyMigrationFix;
 
 - (void)saveData;
+- (NSString*) persistentStoreLocation;
 
 + (StorageManager*)current;
 

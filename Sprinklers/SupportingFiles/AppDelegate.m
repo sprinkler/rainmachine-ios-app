@@ -30,10 +30,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    [NetworkUtilities clearCookiesFromKeychain]; // Use this line for debug purposes to clear the cookies form th keychain
-
-    // Clear the session-only cookies form keychain
-    [NetworkUtilities clearSessionOnlyCookiesFromKeychain];
+    [NetworkUtilities refreshKeychainCookies];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
