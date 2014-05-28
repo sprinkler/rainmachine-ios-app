@@ -402,7 +402,7 @@
             foundRange = [responseString rangeOfString:substring options:nil range:searchRange];
             if (foundRange.location != NSNotFound) {
                 found = YES;
-                NSString *newKey = [NSString stringWithFormat:@"\"forecastData%d\":", keyIndex++];
+                NSString *newKey = [NSString stringWithFormat:@"\"forecastData%04d\":", keyIndex++];
                 [responseString replaceCharactersInRange:foundRange withString:newKey];
             }
         }
