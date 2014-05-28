@@ -382,10 +382,68 @@
     }];
 }
 
+- (id)fixedZonesJSON:(AFHTTPRequestOperation*)operation
+{
+    // Relates to
+    // The "forecastData" field comes duplicated from all sprinklers <= 3.60
+    // This fix replaces all "forecastData:" strings with "forecastData%d:", parses the response to a dictionary and takes the last "forecastData%d" key
+    
+    NSMutableString *responseString = [[[NSString alloc] initWithData:[operation responseData] encoding:NSUTF8StringEncoding] mutableCopy];
+    
+    NSString *substring = @"\"forecastData\":";
+    BOOL found = NO;
+    int keyIndex = 0;
+    do {
+        found = NO;
+        NSRange searchRange = NSMakeRange(0, responseString.length);
+        NSRange foundRange;
+        if (searchRange.location < responseString.length) {
+            searchRange.length = responseString.length-searchRange.location;
+            foundRange = [responseString rangeOfString:substring options:nil range:searchRange];
+            if (foundRange.location != NSNotFound) {
+                found = YES;
+                NSString *newKey = [NSString stringWithFormat:@"\"forecastData%d\":", keyIndex++];
+                [responseString replaceCharactersInRange:foundRange withString:newKey];
+            }
+        }
+    } while (found);
+    
+    NSError *error = nil;
+    NSData *responseData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:&error];
+    
+    NSArray *values = [responseObject objectForKey:@"zones"];
+    for (NSMutableDictionary *obj in values) {
+        if ([obj isKindOfClass:[NSMutableDictionary class]]) {
+            NSMutableArray *keys = [NSMutableArray array];
+            for (NSString *key in [obj allKeys]) {
+                if ([key hasPrefix:@"forecastData"]) {
+                    [keys addObject:key];
+                }
+            }
+            
+            NSArray *sortedKeys = [keys sortedArrayUsingSelector:@selector(compare:)];
+            if ([sortedKeys count] > 0) {
+                [obj setObject:[obj objectForKey:[sortedKeys lastObject]] forKey:@"forecastData"];
+
+                // Remove the duplicate keys
+                for (NSString *key in sortedKeys) {
+                    [obj removeObjectForKey:key];
+                }
+            }
+        }
+    }
+    
+    return responseObject;
+}
+
 - (void)requestZones {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings", @"what": @"zones"}
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if ([self passLoggedOutFilter:operation]) {
+                      
+                      responseObject = [self fixedZonesJSON:operation];
+
                       NSArray *values = [responseObject objectForKey:@"zones"];
                       if (values) {
                           NSMutableArray *returnValues = [NSMutableArray array];
