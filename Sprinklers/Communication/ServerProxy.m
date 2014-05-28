@@ -384,7 +384,7 @@
 
 - (id)fixedZonesJSON:(AFHTTPRequestOperation*)operation
 {
-    // Relates to
+    // Relates to #124
     // The "forecastData" field comes duplicated from all sprinklers <= 3.60
     // This fix replaces all "forecastData:" strings with "forecastData%d:", parses the response to a dictionary and takes the last "forecastData%d" key
     
