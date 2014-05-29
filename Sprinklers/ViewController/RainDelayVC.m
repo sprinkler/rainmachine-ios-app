@@ -74,9 +74,9 @@
     [self hideUI];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.rainDelayPoller scheduleNextPoll:0];
