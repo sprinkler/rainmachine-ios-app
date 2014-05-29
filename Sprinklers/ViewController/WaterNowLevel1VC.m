@@ -336,12 +336,14 @@
         [self.parent userStoppedZone:self.wateringZone];
         [self.parent removeZoneFromStateChangeObserver:self.wateringZone];
         [self updateStartButtonActiveStateTo:NO];
+        self.parent.delayedInitialListRefresh = YES;
+        [self.navigationController popViewControllerAnimated:YES];
 
-        // Poll more often for a couple of times after a user action
-        scheduleIntervalResetCounter = 3;
-        retryInterval = kWaterNowRefreshTimeInterval_AfterUserAction;
-        
-        [self scheduleNextPollRequest:retryInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
+//        // Poll more often for a couple of times after a user action
+//        scheduleIntervalResetCounter = 3;
+//        retryInterval = kWaterNowRefreshTimeInterval_AfterUserAction;
+//        
+//        [self scheduleNextPollRequest:retryInterval withServerProxy:self.pollServerProxy referenceDate:[NSDate date]];
     }
 }
 

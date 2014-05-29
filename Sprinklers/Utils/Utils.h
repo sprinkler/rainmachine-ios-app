@@ -20,6 +20,7 @@
 
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
++ (int)fixedRoundedToMinZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (BOOL)isZoneWatering:(WaterNowZone*)zone;
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;

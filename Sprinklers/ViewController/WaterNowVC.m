@@ -356,18 +356,30 @@
             }
         }
     }
+    else if (serverProxy == self.postServerProxy) {
+        [self.wateringCounterHelper updateCounter];
+        [self.tableView reloadData];
+    }
 }
 
 - (void)userStoppedZone:(WaterNowZone*)zone
 {
     int index = [self indexOfZoneWithId:zone.id];
-    [self updateCounterFromDBForZone:self.zones[index]];
+    WaterNowZone *zoneInList = self.zones[index];
+    zoneInList.state = @"Idle";
+    
+    [self updateCounterFromDBForZone:zoneInList];
 
     [self.tableView reloadData];
 }
 
 - (void)userStartedZone:(WaterNowZone*)zone
 {
+    int index = [self indexOfZoneWithId:zone.id];
+    WaterNowZone *zoneInList = self.zones[index];
+    zoneInList.state = @"Pending";
+    zoneInList.counter = zone.counter;
+    
     [[StorageManager current] setZoneCounter:zone];
     
     [self clearStateChangeObserver];
@@ -467,12 +479,12 @@
         else if (isIdle) {
             [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
             [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
-            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
+            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [Utils fixedRoundedToMinZoneCounter:cell.zone.counter isIdle:YES]];
         } else {
             if (isPending) {
                 [self hide:NO multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
                 cell.timeLabelMultipartTop.text = @"Pending";
-                cell.timeLabelMultipartBottom.text = [NSString stringWithFormat:@"%d min", [[Utils fixedZoneCounter:cell.zone.counter isIdle:YES] intValue] / 60];
+                cell.timeLabelMultipartBottom.text = [NSString stringWithFormat:@"%d min", [Utils fixedRoundedToMinZoneCounter:cell.zone.counter isIdle:YES]];
             } else {
                 // Watering
                 if (self.wateringZone) {
@@ -616,15 +628,23 @@
         [self updateZoneAtIndex:indexInNewList withCounter:z.counter];
     }
     
+    BOOL isWateringZone = NO;
+    
     // Set the persistent counters for any other zone left with counter 0
     for (int i = 0; i < self.zones.count; i++) {
         WaterNowZone *zone = self.zones[i];
         if ([Utils isZoneWatering:zone]) {
             self.wateringZone = zone;
+            isWateringZone = YES;
         }
         if ([zone.counter intValue] == 0) {
             [self updateCounterFromDBForZone:zone];
         }
+    }
+    
+    if (!isWateringZone) {
+        self.wateringZone = nil;
+        [self.wateringCounterHelper updateCounter];
     }
 }
 
@@ -695,10 +715,8 @@
 
 - (void)updateCounterFromDBForZone:(WaterNowZone*)zone
 {
-    if (![Utils isZoneWatering:zone]) {
-        DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
-        zone.counter = dbZone.counter;
-    }
+    DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
+    zone.counter = dbZone.counter;
 }
 
 - (int)indexOfZoneWithId:(NSNumber*)theId

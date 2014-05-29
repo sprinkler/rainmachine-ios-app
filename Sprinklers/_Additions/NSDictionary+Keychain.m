@@ -30,7 +30,7 @@
                                        };
         OSStatus osStatus = SecItemAdd((CFDictionaryRef)storageQuery, nil);
         if(osStatus != noErr) {
-            DLog(@"Keychain store error: %d", osStatus);
+            DLog(@"Keychain store error: %d", (int)osStatus);
         }
     }
 }
@@ -81,7 +81,7 @@
         // do delete
         osStatus = SecItemDelete((CFDictionaryRef)deleteQuery);
         if(osStatus != noErr) {
-            DLog(@"Keychain delete error: %d", osStatus);
+            DLog(@"Keychain delete error: %d", (int)osStatus);
         }
         [deleteQuery release];
     }
