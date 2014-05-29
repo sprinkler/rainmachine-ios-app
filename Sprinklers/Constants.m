@@ -10,10 +10,7 @@ NSString *const TestServerPort = @"2443"; // 3.59
 
 NSString* const kSprinklerKeychain_CookieDictionaryStorageKey = @"SprinklerKeychain_CookieDictionaryStorageKey";
 NSString* const kSprinklerKeychain_CookiesKey = @"SprinklerKeychain_CookiesKey";
-NSString* const kSprinklerKeychain_CredentialsKey = @"SprinklerKeychain_CredentialsKey";
 NSString* const kSprinklerKeychain_isSessionOnly = @"SprinklerKeychain_isSessionOnly";
-NSString* const kSprinklerKeychain_UsernameKey = @"SprinklerKeychain_UsernameKey";
-NSString* const kSprinklerKeychain_PasswordKey = @"SprinklerKeychain_PasswordKey";
 
 NSString *const kNewSprinklerSelected = @"NewSprinklerSelected";
 NSString *const kFirmwareUpdateNeeded = @"FirmwareUpdateNeeded";

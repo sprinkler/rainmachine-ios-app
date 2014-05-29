@@ -16,12 +16,11 @@
 + (NSString *)netmaskForInterface:(NSString *)ifName;
 + (NSString *)netmaskForWifi;
 + (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl;
-+ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl;
++ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
 
-+ (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort username:(NSString*)username password:(NSString*)password;
++ (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort;
 + (void)restoreCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
 + (void)clearSessionOnlyCookiesFromKeychain;
-+ (NSDictionary*)keychainCredentialsForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
 + (void)refreshKeychainCookies;
 
 @end

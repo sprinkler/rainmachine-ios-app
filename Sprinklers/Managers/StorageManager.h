@@ -31,6 +31,7 @@ typedef enum {
 - (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local;
 - (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local;
 - (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType aliveDevices:(NSNumber*)onlyDiscoveredDevices;
+- (NSArray *)getAllSprinklersFromNetwork;
 - (DBZone*)zoneWithId:(NSNumber*)theId;
 - (void)setZoneCounter:(WaterNowZone*)zone;
 

@@ -208,8 +208,8 @@ static StorageManager *current = nil;
     // Here parse the port and store it into the port field.
     
     BOOL wasFixed = NO;
-    NSArray *remoteSprinklers = [self getAllSprinklersFromNetwork];
-    for (Sprinkler *sprinkler in remoteSprinklers) {
+    NSArray *sprinklers = [self getAllSprinklersFromNetwork];
+    for (Sprinkler *sprinkler in sprinklers) {
         NSURL *url = [NSURL URLWithString:sprinkler.address];
         NSString *port = [[url port] stringValue];
 

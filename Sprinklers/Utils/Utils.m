@@ -74,7 +74,7 @@
 
 + (void)invalidateLoginForCurrentSprinkler
 {
-    [NetworkUtilities invalidateLoginForBaseUrl:[[StorageManager current] currentSprinkler].address];
+    [NetworkUtilities invalidateLoginForBaseUrl:[[StorageManager current] currentSprinkler].address port:[[StorageManager current] currentSprinkler].port];
 
     [[StorageManager current] currentSprinkler].loginRememberMe = NO;
     [StorageManager current].currentSprinkler = nil;

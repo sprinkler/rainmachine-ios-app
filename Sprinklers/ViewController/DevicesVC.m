@@ -375,23 +375,15 @@
                 [[StorageManager current] saveData];
                 [self done:nil];
             } else {
-                NSDictionary *keychainCredentials = [NetworkUtilities keychainCredentialsForBaseUrl:sprinkler.address port:sprinkler.port];
-                if (keychainCredentials) {
-                    LoginVC *login = [[LoginVC alloc] initWithAutomaticLoginInfo:keychainCredentials];
-                    login.sprinkler = self.savedSprinklers[indexPath.row];
-                    login.parent = self;
-                    [self.navigationController pushViewController:login animated:YES];
-                } else {
-                    LoginVC *login = [[LoginVC alloc] init];
-                    login.sprinkler = self.savedSprinklers[indexPath.row];
-                    
-                    if ([login.sprinkler.loginRememberMe boolValue] == YES) {
-                        [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
-                    }
-                    
-                    login.parent = self;
-                    [self.navigationController pushViewController:login animated:YES];
+                LoginVC *login = [[LoginVC alloc] init];
+                login.sprinkler = self.savedSprinklers[indexPath.row];
+                
+                if ([login.sprinkler.loginRememberMe boolValue] == YES) {
+                    [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
                 }
+                
+                login.parent = self;
+                [self.navigationController pushViewController:login animated:YES];
             }
         }
     } else if (indexPath.section == 1) {
