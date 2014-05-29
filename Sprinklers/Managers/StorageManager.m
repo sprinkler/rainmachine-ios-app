@@ -189,13 +189,42 @@ static StorageManager *current = nil;
     // This fix is done to work around the case when during the default migration from model1->model6 (app v1->v2) the isDiscovered field took the default NO value.
     // For remote sprinklers isDiscovered's value should always be YES. This fix walks through all remote devices which migrated wrongly during model1->model6 and fixes them.
     // Get list of remote sprinklers with isDiscovered == NO
-    NSArray *remoteSprinklers = [self getSprinklersFromNetwork:NetworkType_Remote aliveDevices:NO];
+    
+    NSArray *remoteSprinklers = [self getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@NO];
     for (Sprinkler *sprinkler in remoteSprinklers) {
         sprinkler.isDiscovered = @YES;
         sprinkler.isLocalDevice = @NO;
     }
     
     if (remoteSprinklers.count > 0) {
+        [self saveData];
+    }
+}
+
+- (void)fixBrokenSprinklerAddresses
+{
+    // Migration
+    // This fix applies for sprinker address urls which were stored together with the port (in early versions)
+    // Here parse the port and store it into the port field.
+    
+    BOOL wasFixed = NO;
+    NSArray *remoteSprinklers = [self getAllSprinklersFromNetwork];
+    for (Sprinkler *sprinkler in remoteSprinklers) {
+        NSURL *url = [NSURL URLWithString:sprinkler.address];
+        NSString *port = [[url port] stringValue];
+
+        if ([port length] > 0) {
+            if ([port length] + 1  < [sprinkler.address length]) {
+                sprinkler.address = [sprinkler.address substringToIndex:[sprinkler.address length] - ([port length] + 1)];
+            }
+            
+            sprinkler.port = port;
+            
+            wasFixed = YES;
+        }
+    }
+    
+    if (wasFixed) {
         [self saveData];
     }
 }
@@ -572,6 +601,8 @@ static StorageManager *current = nil;
     
         [self moveStoreFromCachesToDocuments];
     }
+    
+    [self fixBrokenSprinklerAddresses];
     
     return __persistentStoreCoordinator;
 }
