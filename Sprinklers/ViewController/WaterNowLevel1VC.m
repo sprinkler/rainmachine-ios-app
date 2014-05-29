@@ -17,6 +17,7 @@
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
 #import "CounterHelper.h"
+#import "StorageManager.h"
 
 @interface WaterNowLevel1VC ()
 {
@@ -118,6 +119,8 @@
     [super viewWillDisappear:animated];
     
     [self stopPollRequests];
+
+    [[StorageManager current] setZoneCounter:self.wateringZone];
 }
 
 #pragma mark - UI
