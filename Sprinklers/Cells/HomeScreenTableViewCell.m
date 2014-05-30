@@ -32,13 +32,15 @@
     [super layoutSubviews];
     
     if (self.waterWavesImageView.image) {
+        const int kDayLabelPaddingX = 75;
+        const int kWaterImagePaddingX = 140;
         float waterWavesWidth = (self.waterWavesImageView.image.size.width * self.frame.size.height) / self.waterWavesImageView.image.size.height;
         CGFloat paddingBetweenWaterAndWeatherImage = 5;
-        CGFloat maxWaterImageWidth = 180;
+        CGFloat maxWaterImageWidth = self.contentView.frame.size.width - kWaterImagePaddingX;
         int w = maxWaterImageWidth * self.waterPercentage;
         
         float padding = 0;
-        self.daylabel.center = CGPointMake(self.daylabel.center.x, roundf(self.frame.size.height / 2 - self.daylabel.frame.size.height / 2 - padding));
+        self.daylabel.center = CGPointMake(self.contentView.frame.size.width - kDayLabelPaddingX + self.daylabel.frame.size.width / 2, roundf(self.frame.size.height / 2 - self.daylabel.frame.size.height / 2 - padding));
         self.temperatureLabel.frame = CGRectMake(self.daylabel.frame.origin.x, roundf(self.frame.size.height / 2 + padding), evenValue(self.temperatureLabel.frame.size.width), self.temperatureLabel.frame.size.height);
         self.percentageLabel.center = CGPointMake(self.percentageLabel.center.x, roundf(self.frame.size.height / 2));
         self.percentageNotAvailableLabel.center = CGPointMake(30, self.weatherImage.center.y);
