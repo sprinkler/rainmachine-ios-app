@@ -13,7 +13,7 @@ typedef enum {
     ProgramFrequency_Weekdays = 2,
     ProgramFrequency_OddDays = 4,
     ProgramFrequency_EvenDays = 5,
-    ProgramFrequency_INT = 7
+    ProgramFrequency_INT = 6
 } ProgramFrequency;
 
 @interface Program : NSObject<NSCopying>

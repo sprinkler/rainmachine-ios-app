@@ -84,7 +84,9 @@
         self.frequency = ProgramFrequency_EvenDays;
     }
     else if ([_weekdays containsString:@"INT"]) {
-        self.frequency = ProgramFrequency_INT;
+        int nrDays;
+        sscanf([_weekdays UTF8String], "INT %d", &nrDays);
+        self.frequency = ProgramFrequency_INT + MAX(0, nrDays - 2);
     }
     else if ([_weekdays containsString:@","]) {
         self.frequency = ProgramFrequency_Weekdays;

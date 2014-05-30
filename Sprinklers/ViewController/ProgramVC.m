@@ -393,7 +393,7 @@
 //                [self requestStationDelay:_program.programId delay:_program.delay delay_on:_program.delayOn];
 //            }
         } else if ([setDelayVC.userInfo isEqualToString:@"interval_frequency"]) {
-            self.frequencyEveryXDays = [NSString stringWithFormat:@"INT %d", setDelayVC.valuePicker1];
+            self.frequencyEveryXDays = [NSString stringWithFormat:@"INT %d", MAX(2, setDelayVC.valuePicker1)];
             self.program.weekdays = self.frequencyEveryXDays;
             }
     } else if ([setDelayVC.userInfo isKindOfClass:[NSDictionary class]]) {
@@ -802,7 +802,9 @@
                 setIntervalFrequencyVC.parent = self;
                 setIntervalFrequencyVC.userInfo = @"interval_frequency";
                 setIntervalFrequencyVC.titlePicker1 = @"days";
-                setIntervalFrequencyVC.valuePicker1 = nrDays;
+                setIntervalFrequencyVC.minValuePicker1 = 2;
+                setIntervalFrequencyVC.maxValuePicker1 = 14;
+                setIntervalFrequencyVC.valuePicker1 = MAX(2, nrDays);
                 setIntervalFrequencyVC.title = @"Set days frequency";
 
                 [self willPushChildView];
