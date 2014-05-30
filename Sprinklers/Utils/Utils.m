@@ -204,9 +204,9 @@
 {
     NSDateFormatter *formatter = [NSDate getDateFormaterFixedFormatParsing];
     if (timeFormat == 0) {
-        [formatter setDateFormat:@"H:m"];
+        [formatter setDateFormat:@"H:mm"];
     } else {
-        [formatter setDateFormat:@"h:m a"];
+        [formatter setDateFormat:@"h:mm a"];
     }
     
     NSString *hourAndMinute = [formatter stringFromDate:date];
