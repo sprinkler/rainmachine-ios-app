@@ -61,6 +61,7 @@ extern NSString *daysOfTheWeek[7];
 #define kAlertView_Timeout 6
 #define kAlertView_Finished 7
 #define kAlertView_ResumeRainDelay 8
+#define kAlertView_NoActiveZones 9
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 

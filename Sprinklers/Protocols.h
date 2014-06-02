@@ -58,6 +58,7 @@
 - (void)handleSprinklerGeneralError:(NSString *)errorMessage showErrorMessage:(BOOL)showErrorMessage;
 - (void)hideHUD;
 - (void)refreshStatus;
+- (void)rainDelayResponseReceived;
 - (void)hideRainDelayActivityIndicator:(BOOL)hide;
 - (void)loggedOut;
 

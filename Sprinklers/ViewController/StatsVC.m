@@ -471,6 +471,11 @@ const float kHomeScreenCellHeight = 63;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
+- (void)rainDelayResponseReceived
+{
+    [self refreshStatus];
+}
+
 - (void)refreshStatus
 {
     [self.statusTableView reloadData];

@@ -168,16 +168,6 @@
     
     program.startTime = [cal dateFromComponents:dateComp];
     
-    // Watering times
-    
-    program.wateringTimes = [NSMutableArray array];
-    
-    for (int i = 0; i < 12; i++) {
-        ProgramWateringTimes *wt = [[ProgramWateringTimes alloc] init];
-        wt.wtId = i + 1;
-        [program.wateringTimes addObject:wt];
-    }
-    
     return program;
 }
 

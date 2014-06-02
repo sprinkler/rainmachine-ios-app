@@ -822,6 +822,11 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
+- (void)rainDelayResponseReceived
+{
+    [self refreshStatus];
+}
+
 - (void)refreshStatus
 {
     [self setupRainDelayMode:[self.rainDelayPoller rainDelayMode]];

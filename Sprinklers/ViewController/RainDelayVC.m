@@ -226,10 +226,14 @@
     [self.parent handleSprinklerGeneralError:errorMessage showErrorMessage:YES];
 }
 
-
 - (void)hideRainDelayActivityIndicator:(BOOL)hide
 {
     [self updateStartButtonActiveStateTo:YES];
+}
+
+- (void)rainDelayResponseReceived
+{
+    [self refreshStatus];
 }
 
 - (void)refreshStatus

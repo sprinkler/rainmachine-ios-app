@@ -56,6 +56,7 @@
 @property (strong, nonatomic) ServerProxy *getProgramListServerProxy;
 @property (strong, nonatomic) ServerProxy *runNowServerProxy;
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
+@property (strong, nonatomic) ServerProxy *getZonesServerProxy;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSString *frequencyEveryXDays;
@@ -65,8 +66,9 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
 
 @property (weak, nonatomic) IBOutlet UITableView *statusTableView;
-@property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusTableViewHeightConstraint;
+
+@property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
 
 @end
 
@@ -135,7 +137,7 @@
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
 
     self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self showHUD];
     
     if ([self.program.weekdays containsString:@"INT"]) {
         self.frequencyEveryXDays = self.program.weekdays;
@@ -267,9 +269,9 @@
 //    runNowButtonEnabledState = state;
 
     if (setActivityIndicator) {
-        hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self showHUD];
     } else {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self hideHUD];
         hud = nil;
     }
     self.startButtonItem.enabled = state;
@@ -293,7 +295,7 @@
             self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
             [self.postSaveServerProxy saveProgram:self.program];
             
-            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self showHUD];
         }
     }
 }
@@ -879,7 +881,7 @@
 //        self.cycleAndSoakServerProxy = nil;
 //    }
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self hideHUD];
 
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
     
@@ -890,9 +892,16 @@
 {
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
     
-    if (serverProxy == self.getProgramListServerProxy) {
+    if (serverProxy == self.getZonesServerProxy) {
+        self.getZonesServerProxy = nil;
+        [self hideHUD];
+        
+        [self updateProgramWateringTimes:data];
+        [self.tableView reloadData];
+    }
+    else if (serverProxy == self.getProgramListServerProxy) {
         self.getProgramListServerProxy = nil;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self hideHUD];
 
         NSArray *newPrograms = (NSArray *)data;
         if ([newPrograms count] > 0) {
@@ -916,12 +925,12 @@
         } else {
             if (self.program.programId == -1) {
                 // Create a new program. We don't receive the new id from the server. That's why we have to do a new requestPrograms call and extract the new id from there.
-                hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [self showHUD];
                 self.getProgramListServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
                 [_getProgramListServerProxy requestPrograms];
             } else {
                 // Save existing program
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self hideHUD];
                 [self.parent setProgram:self.program withIndex:self.programIndex];
                 self.programCopyBeforeSave = self.program;
                 
@@ -974,7 +983,7 @@
 }
 
 - (void)loggedOut {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self hideHUD];
     [self handleLoggedOutSprinklerError];
 }
 
@@ -1041,6 +1050,55 @@
     return nil;
 }
 
+- (void)updateProgramWateringTimes:(NSArray*)input
+{
+    // Filter out the master valve and inactive zones
+    NSMutableArray *zones = [NSMutableArray array];
+    for (Zone *zone in input) {
+        BOOL validZone = !((zone.masterValve) || (!zone.active));
+        if (validZone) {
+            [zones addObject:zone];
+        }
+    }
+
+    NSSet *receivedSet = [NSSet setWithArray:[zones valueForKeyPath:@"zoneId"]];
+    NSSet *existingSet = [NSSet setWithArray:[self.program.wateringTimes valueForKeyPath:@"wtId"]];
+    NSMutableSet *zonesToBeAdded = [receivedSet mutableCopy];
+    [zonesToBeAdded minusSet:existingSet];
+    NSMutableSet *zonesToBeDeleted = [existingSet mutableCopy];
+    [zonesToBeDeleted minusSet:receivedSet];
+
+    // Add all new zones from the receiving set
+    for (Zone *zone in zones) {
+        if ([zonesToBeAdded containsObject:[NSNumber numberWithInt:zone.zoneId ]]) {
+            ProgramWateringTimes *wt = [[ProgramWateringTimes alloc] init];
+            wt.wtId = zone.zoneId;
+            wt.minutes = 0;
+            wt.name = zone.name;
+            [self.program.wateringTimes addObject:wt];
+        }
+    }
+    
+    NSMutableIndexSet *indexSetToBeRemoved = [NSMutableIndexSet indexSet];
+    for (NSUInteger i = 0; i < self.program.wateringTimes.count; i++) {
+        ProgramWateringTimes *wt = self.program.wateringTimes[i];
+        if ([zonesToBeDeleted containsObject:[NSNumber numberWithInt:wt.wtId]]) {
+            [indexSetToBeRemoved addIndex:i];
+        }
+    }
+    [self.program.wateringTimes removeObjectsAtIndexes:indexSetToBeRemoved];
+    
+    if (self.program.wateringTimes.count == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot create program"
+                                                            message:@"There must be at least one available active zone"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        alertView.tag = kAlertView_NoActiveZones;
+        [alertView show];
+    }
+}
+
 #pragma mark - CCTBackButtonActionHelper delegate
 
 - (BOOL)cct_navigationBar:(UINavigationBar *)navigationBar willPopItem:(UINavigationItem *)item {
@@ -1068,7 +1126,8 @@
             [self popWithoutQuestion];
         }
     }
-    else if (theAlertView.tag == kAlertView_InvalidProgram) {
+    else if (theAlertView.tag == kAlertView_NoActiveZones) {
+        [self popWithoutQuestion];
     }
 }
 
@@ -1087,6 +1146,11 @@
     cell.setRainDelayActivityIndicator.hidden = hide;
 }
 
+- (void)showHUD
+{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
 - (void)hideHUD
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -1103,6 +1167,17 @@
     }
     
     [self.statusTableView reloadData];
+}
+
+- (void)rainDelayResponseReceived
+{
+    [self refreshStatus];
+    
+    if (isNewProgram) {
+        self.getZonesServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        [self.getZonesServerProxy requestZones];
+        [self showHUD];
+    }
 }
 
 @end

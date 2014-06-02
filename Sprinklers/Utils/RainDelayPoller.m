@@ -77,7 +77,6 @@
             [self updatePollState];
         }
         [self.delegate hideRainDelayActivityIndicator:YES];
-        [self.delegate refreshStatus];
     }
     else if (serverProxy == self.rainDelayServerProxy) {
         [self.delegate handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
@@ -88,8 +87,9 @@
             self.rainDelayData.delayCounter = @-1;
         }
         [self updatePollState];
-        [self.delegate refreshStatus];
     }
+    
+    [self.delegate rainDelayResponseReceived];
 }
 
 - (void)loggedOut
