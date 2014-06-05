@@ -97,7 +97,7 @@
     return (([[operation response] statusCode] >= 500) && ([[operation response] statusCode] <= 599));
 }
 
-+ (int)fixedRoundedToMinZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle
++ (int)fixedRoundedToMinutesZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle
 {
     int counterValue = [[Utils fixedZoneCounter:counter isIdle:YES] intValue];
     return (counterValue + 30) / 60;
