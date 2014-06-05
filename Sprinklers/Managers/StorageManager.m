@@ -56,12 +56,27 @@ static StorageManager *current = nil;
     }
 }
 
-- (void)deleteSprinkler:(NSString *)name {
+- (BOOL)deleteSprinklerWithName:(NSString *)name {
     Sprinkler *sprinkler = [self getSprinkler:name local:nil];
     if (sprinkler) {
         [self.managedObjectContext deleteObject:sprinkler];
         [self saveData];
+        
+        return YES;
     }
+    
+    return NO;
+}
+
+- (BOOL)deleteSprinkler:(Sprinkler *)sprinkler {
+    if (sprinkler) {
+        [self.managedObjectContext deleteObject:sprinkler];
+        [self saveData];
+        
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local {
@@ -612,7 +627,7 @@ static StorageManager *current = nil;
     
     // run once code
     if (storeNeedsToRelocate) {
-        [self removeDuplicates];
+//        [self removeDuplicates];
         
         [self setAllSprinklersDiscovered];
     

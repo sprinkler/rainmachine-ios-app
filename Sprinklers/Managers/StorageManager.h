@@ -26,7 +26,8 @@ typedef enum {
 @property (nonatomic, retain, readwrite) Sprinkler *currentSprinkler; // TODO: keep the name of the current sprinkler persistent in the db
 
 - (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal save:(BOOL)save;
-- (void)deleteSprinkler:(NSString *)name;
+- (BOOL)deleteSprinklerWithName:(NSString *)name;
+- (BOOL)deleteSprinkler:(Sprinkler *)sprinkler;
 - (void)deleteLocalSprinklers;
 - (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local;
 - (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local;

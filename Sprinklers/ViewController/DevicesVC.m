@@ -290,14 +290,16 @@
         BOOL currentSprinklerDeleted = self.savedSprinklers[indexPath.row] == [StorageManager current].currentSprinkler;
         [Utils invalidateLoginForCurrentSprinkler];
 
-        [[StorageManager current] deleteSprinkler:[self.savedSprinklers[indexPath.row] name]];
+        BOOL deleted = [[StorageManager current] deleteSprinkler:self.savedSprinklers[indexPath.row]];
         
         if (currentSprinklerDeleted) {
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             [appDelegate refreshRootViews:nil];
         } else {
             [self refreshSprinklerList];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+            if (deleted) {
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+            }
         }
     }
 }
