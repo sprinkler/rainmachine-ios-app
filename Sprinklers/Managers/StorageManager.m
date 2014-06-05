@@ -222,6 +222,12 @@ static StorageManager *current = nil;
             
             wasFixed = YES;
         }
+        
+        if ([sprinkler.port length] == 0) {
+            sprinkler.port = @"443";
+            
+            wasFixed = YES;
+        }
     }
     
     if (wasFixed) {
