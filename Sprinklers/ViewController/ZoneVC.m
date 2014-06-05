@@ -634,12 +634,14 @@ typedef enum {
 
 #pragma mark - Alert view delegate
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == kAlertView_UnsavedChanges) {
-        if (alertView.cancelButtonIndex == buttonIndex) {
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (theAlertView.tag == kAlertView_UnsavedChanges) {
+        if (theAlertView.cancelButtonIndex == buttonIndex) {
             [CCTBackButtonActionHelper sharedInstance].delegate = nil;
             [self.navigationController popViewControllerAnimated:YES];
         }
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     }
 }
 

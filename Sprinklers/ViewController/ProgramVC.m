@@ -1128,6 +1128,8 @@
     }
     else if (theAlertView.tag == kAlertView_NoActiveZones) {
         [self popWithoutQuestion];
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     }
 }
 
