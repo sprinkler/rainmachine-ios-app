@@ -504,25 +504,36 @@ static StorageManager *current = nil;
     storePath = [[self stringApplicationCachesDirectory] stringByAppendingPathComponent: @"sprinklers.sqlite"];
     
     NSURL *storeURL = [NSURL fileURLWithPath:storePath];
-    NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     NSError *error = nil;
-    NSPersistentStore* store = nil;
-    if (!(store=[persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    NSPersistentStore* store = [__persistentStoreCoordinator persistentStoreForURL:storeURL];
     
-    [self migrateStoreFromCachesToDocuments:persistentStoreCoordinator andStore:store];
+    [self migrateStoreFromCachesToDocuments:__persistentStoreCoordinator andStore:store];
     
     // delete old persistent store
     if ([[NSFileManager defaultManager] fileExistsAtPath: storePath]) {
+        
+        // Remove the persistent store associated to the old location
+        [self removeOldStoreFromStoreCoordinator:__persistentStoreCoordinator];
+        
         if (![[NSFileManager defaultManager] removeItemAtPath:storePath error:&error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
+        }
+    }
+}
+
+- (void)removeOldStoreFromStoreCoordinator:(NSPersistentStoreCoordinator*)persistentStoreCoordinator
+{
+    NSString *oldStorePath = [[self stringApplicationCachesDirectory] stringByAppendingPathComponent:@"sprinklers.sqlite"];
+    NSURL *oldStoreURL = [NSURL fileURLWithPath:oldStorePath];
+    
+    NSPersistentStore *persistentStore = [persistentStoreCoordinator persistentStoreForURL:oldStoreURL];
+    if (persistentStore) {
+        NSError *error = nil;
+        [persistentStoreCoordinator removePersistentStore:persistentStore error:&error];
+        if (error) {
+            NSLog(@"Error removing old store: %@", error);
         }
     }
 }
