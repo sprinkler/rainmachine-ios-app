@@ -627,7 +627,7 @@ static StorageManager *current = nil;
     
     // run once code
     if (storeNeedsToRelocate) {
-//        [self removeDuplicates];
+        [self removeDuplicates];
         
         [self setAllSprinklersDiscovered];
     
