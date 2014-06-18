@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) id<CounterHelperDelegate> delegate;
 @property (assign, nonatomic) int interval;
+@property (strong, nonatomic) NSDate *referenceDate;
 
 @end
 
@@ -31,6 +32,7 @@
 - (void)startCounterTimer
 {
     [self stopCounterTimer];
+    self.referenceDate = [NSDate date];
     self.counterTimer = [NSTimer scheduledTimerWithTimeInterval:self.interval
                                                          target:self
                                                        selector:@selector(counterTimer:)
@@ -40,7 +42,11 @@
 
 - (void)counterTimer:(id)notif
 {
-    int counter = [self.delegate counterValue] - self.interval;
+    NSDate *now = [NSDate date];
+    int interval = roundf([now timeIntervalSinceDate:self.referenceDate]);
+    self.referenceDate = now;
+    
+    int counter = [self.delegate counterValue] - interval;
     int newCounter = MAX(0, counter);
     [self.delegate setCounterValue:newCounter];
 }
