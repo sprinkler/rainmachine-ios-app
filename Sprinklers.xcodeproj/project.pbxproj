@@ -47,6 +47,7 @@
 		AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */; };
 		AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF167D65189AD72E003E659D /* UpdaterVC.m */; };
 		AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF167D67189AD74D003E659D /* UpdaterVC.xib */; };
+		AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3823881951D94C007CADB5 /* RMSwitch.m */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */; };
 		AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */; };
@@ -460,6 +461,8 @@
 		AF167D65189AD72E003E659D /* UpdaterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdaterVC.m; path = ViewController/UpdaterVC.m; sourceTree = "<group>"; };
 		AF167D67189AD74D003E659D /* UpdaterVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdaterVC.xib; path = ViewController/UpdaterVC.xib; sourceTree = "<group>"; };
 		AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 4.xcdatamodel"; sourceTree = "<group>"; };
+		AF3823871951D94C007CADB5 /* RMSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMSwitch.h; path = Sprinklers/Controls/RMSwitch.h; sourceTree = "<group>"; };
+		AF3823881951D94C007CADB5 /* RMSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMSwitch.m; path = Sprinklers/Controls/RMSwitch.m; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramListCell.xib; path = Cells/ProgramListCell.xib; sourceTree = "<group>"; };
@@ -1443,6 +1446,8 @@
 		B1DF323C16A6A68700A1BF38 = {
 			isa = PBXGroup;
 			children = (
+				AF3823871951D94C007CADB5 /* RMSwitch.h */,
+				AF3823881951D94C007CADB5 /* RMSwitch.m */,
 				B1DF325316A6A68700A1BF38 /* Sprinklers */,
 				B1DF326D16A6A97700A1BF38 /* Custom Frameworks */,
 				B1DF324A16A6A68700A1BF38 /* Frameworks */,
@@ -2114,6 +2119,7 @@
 				AF81E6E918BA33EB007E9A03 /* ProgramCellType2.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
+				AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */,
 				B1213EBC186090CC009D97F4 /* AddNewCell.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,

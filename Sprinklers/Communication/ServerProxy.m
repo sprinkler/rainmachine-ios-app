@@ -351,6 +351,27 @@
     return [startStopWatering.counter intValue] != 0;
 }
 
+- (BOOL)setWateringOnZone:(WaterNowZone*)zone toState:(int)state withCounter:(NSNumber*)counter
+{
+    StartStopWatering *startStopWatering = [StartStopWatering new];
+    startStopWatering.id = zone.id;
+    startStopWatering.counter = state ? [Utils fixedZoneCounter:counter isIdle:YES] : [NSNumber numberWithInteger:0];
+    
+    zone.counter = startStopWatering.counter;
+    
+    NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
+    [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zone.id] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // The server returns an empty response when success
+        if ([self passLoggedOutFilter:operation]) {
+            [self.delegate serverResponseReceived:nil serverProxy:self userInfo:nil];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+    
+    return [startStopWatering.counter intValue] != 0;
+}
+
 - (void)getRainDelay {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings", @"what": @"rainDelay"}
               success:^(AFHTTPRequestOperation *operation, id responseObject) {

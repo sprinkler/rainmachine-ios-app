@@ -9,6 +9,7 @@
 #import "WaterZoneListCell.h"
 #import "WaterNowVC.h"
 #import "WaterNowZone.h"
+#import "RMSwitch.h"
 
 @implementation WaterZoneListCell
 

@@ -10,6 +10,7 @@
 
 @class WaterNowVC;
 @class WaterNowZone;
+@class RMSwitch;
 
 @interface WaterZoneListCell : UITableViewCell
 
@@ -18,7 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *zoneNameLabel;
-@property (weak, nonatomic) IBOutlet UISwitch *onOffSwitch;
+@property (weak, nonatomic) IBOutlet RMSwitch *onOffSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabelMultipartBottom;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabelMultipartTop;

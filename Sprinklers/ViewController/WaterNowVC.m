@@ -24,6 +24,7 @@
 #import "RainDelayPoller.h"
 #import "RainDelay.h"
 #import "HomeScreenDataSourceCell.h"
+#import "RMSwitch.h"
 
 @interface WaterNowVC () {
     UIColor *switchOnOrangeColor;
@@ -302,35 +303,60 @@
     }
 }
 
+- (void)cancelAllTrackings
+{
+    NSArray *visibleCells = [self.tableView visibleCells];
+    for (WaterZoneListCell *cell in visibleCells) {
+        assert(cell.onOffSwitch.selected == NO);
+        [cell.onOffSwitch cancelTrackingWithEvent:nil];
+        cell.onOffSwitch.highlighted = NO;
+    }
+}
+
+- (BOOL)isUserTrackingASwitch
+{
+    NSArray *visibleCells = [self.tableView visibleCells];
+    for (WaterZoneListCell *cell in visibleCells) {
+        if (cell.onOffSwitch.isUnderUserTracking) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (serverProxy == self.pollServerProxy) {
-        
+
         self.lastScheduleRequestError = nil;
         
-        [self setZones:data];
+        if (![self isUserTrackingASwitch]) {
         
-        if (stopAllCounter > 0) {
-            if ([self areAllStopped]) {
-                stopAllCounter = 0;
-            } else {
-                stopAllCounter--;
+            [self setZones:data];
+            
+            if (stopAllCounter > 0) {
+                if ([self areAllStopped]) {
+                    stopAllCounter = 0;
+                } else {
+                    stopAllCounter--;
+                }
             }
-        }
-        
-        if (stopAllCounter <= 0) {
-            [self hideHud];
+            
+            if (stopAllCounter <= 0) {
+                [self hideHud];
+            }
+            
+            [self requestDetailsOfZones];
+            
+            [self refreshStopAllButton];
+            
+            [self.tableView reloadData];
         }
         
         [self scheduleNextListRefreshRequest:retryInterval];
-        
-        [self requestDetailsOfZones];
-        
-        [self refreshStopAllButton];
-        
-        [self.tableView reloadData];
     }
     else if (serverProxy == self.zonesDetailsServerProxy) {
         WaterNowZone *zone = (WaterNowZone*)data;
@@ -463,6 +489,8 @@
         BOOL isIdle = [Utils isZoneIdle:waterNowZone];
         //  BOOL unkownState = (!pending) && (!watering);
         
+        cell.onOffSwitch.cell = cell;
+        
         cell.delegate = self;
         cell.zone = waterNowZone;
         
@@ -558,23 +586,35 @@
 
 #pragma mark - Table View Cell callback
 
+- (void)setWateringOnZone:(WaterNowZone*)zone toState:(int)state withCounter:(NSNumber*)counter
+{
+    [self internalSetWateringOnZone:zone toState:state toggle:NO withCounter:counter];
+}
+
 - (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
+{
+    [self internalSetWateringOnZone:zone toState:1 toggle:YES withCounter:counter];
+}
+
+- (void)internalSetWateringOnZone:(WaterNowZone*)zone toState:(int)state toggle:(BOOL)toggle withCounter:(NSNumber*)counter
 {
     [self.pollServerProxy cancelAllOperations];
     [self.zonesDetailsServerProxy cancelAllOperations];
     
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
     
-    [self resetServerProxies];
-
     [self setDensePollingInterval];
     
     [self performSelector:@selector(requestListRefreshWithShowingHud:) withObject:[NSNumber numberWithBool:NO] afterDelay:retryInterval];
     
-    //[self.wateringCounterHelper stopCounterTimer];
     zone.counter = counter;
-    
-    BOOL succeededWatering = [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
+
+    BOOL succeededWatering = NO;
+    if (toggle) {
+        succeededWatering = [self.postServerProxy toggleWateringOnZone:zone withCounter:counter];
+    } else {
+        succeededWatering = [self.postServerProxy setWateringOnZone:zone toState:state withCounter:counter];
+    }
 
     // Force instant refresh on UI, wait later for server response
     if ([zone.state length] == 0)
