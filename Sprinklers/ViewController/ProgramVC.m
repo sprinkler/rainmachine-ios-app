@@ -171,6 +171,8 @@
             [self createThreeButtonToolbar];
         }
     }
+    
+    [self refreshToolBarButtonTitles];
 }
 
 - (BOOL)didEdit
