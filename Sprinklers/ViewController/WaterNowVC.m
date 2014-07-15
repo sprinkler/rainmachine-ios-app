@@ -362,9 +362,8 @@
         WaterNowZone *zone = (WaterNowZone*)data;
         int index = [self indexOfZoneWithId:zone.id];
         if (index != -1) {
-            BOOL forceSetCounter = ![Utils isZoneIdle:zone];
-            [self updateZoneAtIndex:index withCounter:zone.counter state:zone.state forceSetCounter:forceSetCounter];
-            
+            [self updateZoneAtIndex:index withCounterFromZone:zone setState:NO];
+
             if ([Utils isZoneWatering:zone]) {
                 [self clearStateChangeObserver];
                 self.wateringZone = self.zones[index];
@@ -670,8 +669,7 @@
         WaterNowZone *z = previousZonesCopy[i];
         int indexInNewList = [self indexOfZoneWithId:z.id];
         if (indexInNewList != -1) {
-            WaterNowZone *currentZone = self.zones[indexInNewList];
-            [self updateZoneAtIndex:indexInNewList withCounter:z.counter state:currentZone.state forceSetCounter:NO];
+            [self updateZoneAtIndex:indexInNewList withCounterFromZone:z setState:NO];
         }
     }
     
@@ -749,18 +747,22 @@
     }
 }
 
-- (void)updateZoneAtIndex:(int)index withCounter:(NSNumber *)counter state:(NSString *)state forceSetCounter:(BOOL)forceSetCounter
+- (void)updateZoneAtIndex:(int)index withCounterFromZone:(WaterNowZone *)sourceZone setState:(BOOL)setState
 {
     if (index != -1) {
-        WaterNowZone *destZone = self.zones[index];
-        destZone.counter = counter;
-        destZone.state = state;
+        BOOL isIdle = [Utils isZoneIdle:sourceZone];
         
-        if (!forceSetCounter) {
-            if ([destZone.counter intValue] == 0) {
-                [self updateCounterFromDBForZone:destZone];
-            }
+        WaterNowZone *destZone = self.zones[index];
+        destZone.counter = sourceZone.counter;
+        if (setState) {
+            destZone.state = sourceZone.state;
         }
+        
+        if ([destZone.counter intValue] == 0) {
+            [self updateCounterFromDBForZone:destZone];
+        }
+        
+        destZone.counter = [Utils fixedZoneCounter:destZone.counter isIdle:isIdle];
     }
 }
 
