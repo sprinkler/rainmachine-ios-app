@@ -44,8 +44,10 @@ typedef enum {
     int statisticalSectionIndex;
     
     int didEdit;
+    int getZonesCount;
 }
 
+@property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *postSaveServerProxy;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
@@ -96,6 +98,9 @@ typedef enum {
     didEdit = 0;
     
     [self refreshToolbarEdited];
+
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    getZonesCount = 0;
 }
 
 - (void)createTwoButtonToolbar
@@ -140,6 +145,20 @@ typedef enum {
 {
     // This prevents the test from viewWillDisappear to pass
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+ 
+    // Don't request the program when the view is created because the program list already is up-to-date
+    if (getZonesCount > 0) {
+        // There is no getProgrambyId request, so we extract the program from the programs list
+        [self.serverProxy requestZones];
+        [self startHud:nil];
+    }
+    
+    getZonesCount++;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -305,6 +324,17 @@ typedef enum {
             didEdit = 0;
             [self refreshToolbarEdited];
         }
+    }
+    else if (serverProxy == self.serverProxy) {
+        NSArray *zones = (NSArray*)data;
+        for (Zone *listZone in zones) {
+            if (self.zone.zoneId == listZone.zoneId) {
+                self.zone = listZone;
+                break;
+            }
+        }
+        
+        [self refreshToolbarEdited];
     }
     
     [self.tableView reloadData];
@@ -643,6 +673,11 @@ typedef enum {
     } else {
         [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.tableView endEditing:YES];
 }
 
 @end

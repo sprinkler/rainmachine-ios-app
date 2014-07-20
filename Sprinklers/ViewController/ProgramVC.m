@@ -51,6 +51,7 @@
     int startTimeSectionIndex;
     int cycleSoakAndStationDelaySectionIndex;
     int wateringTimesSectionIndex;
+    int getProgramCount;
 }
 
 @property (strong, nonatomic) ServerProxy *getProgramListServerProxy;
@@ -82,6 +83,7 @@
     self.title = @"Program";
     isNewProgram = (self.program == nil);
     didSave = NO;
+    resignKeyboard = NO;
     
     if (!self.showInitialUnsavedAlert) {
         // In the case when 'showInitialUnsavedAlert' is YES, programCopyBeforeSave is set beforehand
@@ -136,6 +138,9 @@
 
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
 
+    self.getProgramListServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    getProgramCount = 0;
+    
     self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
     [self showHUD];
     
@@ -235,6 +240,22 @@
 {
     // This prevents the test from viewWillDisappear to pass
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Don't request the program when the view is created because the program list already is up-to-date
+    if (getProgramCount > 0) {
+        if (self.program.programId != -1) {
+            // There is no getProgrambyId request, so we extract the program from the programs list
+            [_getProgramListServerProxy requestPrograms];
+            [self showHUD];
+        }
+    }
+    
+    getProgramCount++;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -588,6 +609,7 @@
             cell.delegate = self;
             if (resignKeyboard) {
                 [cell.theTextField resignFirstResponder];
+                resignKeyboard = NO;
             }
             return cell;
         }
@@ -868,7 +890,6 @@
     [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
     if (serverProxy == self.getProgramListServerProxy) {
-        self.getProgramListServerProxy = nil;
     }
     else if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;
@@ -902,17 +923,23 @@
         [self.tableView reloadData];
     }
     else if (serverProxy == self.getProgramListServerProxy) {
-        self.getProgramListServerProxy = nil;
         [self hideHUD];
 
         NSArray *newPrograms = (NSArray *)data;
         if ([newPrograms count] > 0) {
-            NSArray *oldPrograms = self.parent.programs;
-            Program *possibleAddedProgram = [self extractAddedProgramFromList:newPrograms basedOnOldList:oldPrograms];
+            Program *programFromList = nil;
+            if (self.program.programId == -1) {
+                NSArray *oldPrograms = self.parent.programs;
+                Program *possibleAddedProgram = [self extractAddedProgramFromList:newPrograms basedOnOldList:oldPrograms];
+                programFromList = possibleAddedProgram;
+            } else {
+                programFromList = [self extractProgramWithId:self.program.programId fromList:newPrograms];
+            }
+            
             self.parent.programs = [newPrograms mutableCopy];
 
-            if (possibleAddedProgram) {
-                self.program = possibleAddedProgram;
+            if (programFromList) {
+                self.program = programFromList;
                 didSave = YES;
             }
         }
@@ -928,7 +955,6 @@
             if (self.program.programId == -1) {
                 // Create a new program. We don't receive the new id from the server. That's why we have to do a new requestPrograms call and extract the new id from there.
                 [self showHUD];
-                self.getProgramListServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
                 [_getProgramListServerProxy requestPrograms];
             } else {
                 // Save existing program
@@ -990,6 +1016,16 @@
 }
 
 #pragma mark - Internal
+
+- (Program*)extractProgramWithId:(int)programId fromList:(NSArray*)programs
+{
+    for (Program *listProgram in programs) {
+        if (listProgram.programId == programId) {
+            return listProgram;
+        }
+    }
+    return nil;
+}
 
 - (Program*)extractAddedProgramFromList:(NSArray*)newPrograms basedOnOldList:(NSArray*)oldPrograms
 {
@@ -1182,6 +1218,11 @@
         [self.getZonesServerProxy requestZones];
         [self showHUD];
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.tableView endEditing:YES];
 }
 
 @end

@@ -57,7 +57,12 @@
     self.navigationItem.rightBarButtonItem = editButton;
     
     self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-    
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self requestPrograms];
 }
 
