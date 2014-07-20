@@ -251,10 +251,14 @@
 
 - (void)stopAll
 {
-    for (WaterNowZone *zone in self.zones) {
-        BOOL isIdle = [Utils isZoneIdle:zone];
-        if (!isIdle) {
-            [self toggleWateringOnZone:zone withCounter:zone.counter];
+    if ([Utils isDevice357Plus]) {
+        [self.postServerProxy stopAllWateringZones];
+    } else {
+        for (WaterNowZone *zone in self.zones) {
+            BOOL isIdle = [Utils isZoneIdle:zone];
+            if (!isIdle) {
+                [self toggleWateringOnZone:zone withCounter:zone.counter];
+            }
         }
     }
     

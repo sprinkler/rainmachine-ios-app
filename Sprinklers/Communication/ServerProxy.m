@@ -372,6 +372,24 @@
     return [startStopWatering.counter intValue] != 0;
 }
 
+- (void)stopAllWateringZones
+{
+    [self.manager GET:@"/ui.cgi?action=stopall" parameters:@{@"action": @"stopall"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+         if ([self passLoggedOutFilter:operation]) {
+             ServerResponse *response = nil;
+             if (responseObject) {
+                 NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
+                 response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+             }
+             [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
+         }
+         
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         [self handleError:error fromOperation:operation userInfo:nil];
+     }];
+}
+
 - (void)getRainDelay {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings", @"what": @"rainDelay"}
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
