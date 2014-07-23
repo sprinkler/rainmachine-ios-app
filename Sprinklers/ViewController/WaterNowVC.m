@@ -329,6 +329,23 @@
     return NO;
 }
 
+- (void)updateStopAllCounterAndDecrease:(BOOL)decreaseCounter
+{
+    if (stopAllCounter > 0) {
+        if ([self areAllStopped]) {
+            stopAllCounter = 0;
+        } else {
+            if (decreaseCounter) {
+                stopAllCounter--;
+            }
+        }
+    }
+    
+    if (stopAllCounter <= 0) {
+        [self hideHud];
+    }
+}
+
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
@@ -341,21 +358,9 @@
         
             [self setZones:data];
             
-            if (stopAllCounter > 0) {
-                if ([self areAllStopped]) {
-                    stopAllCounter = 0;
-                } else {
-                    stopAllCounter--;
-                }
-            }
-            
-            if (stopAllCounter <= 0) {
-                [self hideHud];
-            }
+            [self updateStopAllCounterAndDecrease:YES];
             
             [self requestDetailsOfZones];
-            
-            [self refreshStopAllButton];
             
             [self.tableView reloadData];
         }
@@ -364,9 +369,9 @@
     }
     else if (serverProxy == self.zonesDetailsServerProxy) {
         WaterNowZone *zone = (WaterNowZone*)data;
-        int index = [self indexOfZoneWithId:zone.id];
+        int index = [self indexOfZoneWithId:zone.id fromZonesArray:self.zones];
         if (index != -1) {
-            [self updateZoneAtIndex:index withCounterFromZone:zone setState:NO];
+            [self updateZoneAtIndex:index withCounterFromZone:zone setState:YES];
 
             if ([Utils isZoneWatering:zone]) {
                 [self clearStateChangeObserver];
@@ -384,17 +389,21 @@
                     }
                 }
             }
+            
+            [self updateStopAllCounterAndDecrease:NO];
         }
     }
     else if (serverProxy == self.postServerProxy) {
         [self.wateringCounterHelper updateCounter];
         [self.tableView reloadData];
     }
+
+    [self refreshStopAllButton];
 }
 
 - (void)userStoppedZone:(WaterNowZone*)zone
 {
-    int index = [self indexOfZoneWithId:zone.id];
+    int index = [self indexOfZoneWithId:zone.id fromZonesArray:self.zones];
     WaterNowZone *zoneInList = self.zones[index];
     zoneInList.state = @"Idle";
     
@@ -405,7 +414,7 @@
 
 - (void)userStartedZone:(WaterNowZone*)zone
 {
-    int index = [self indexOfZoneWithId:zone.id];
+    int index = [self indexOfZoneWithId:zone.id fromZonesArray:self.zones];
     WaterNowZone *zoneInList = self.zones[index];
     zoneInList.state = @"Pending";
     zoneInList.counter = zone.counter;
@@ -669,12 +678,22 @@
     [self updateZonesStartObservers];
 
     // Restore counters because unpacking the server response destroyed them
-    for (int i = 0; i < previousZonesCopy.count; i++) {
-        WaterNowZone *z = previousZonesCopy[i];
-        int indexInNewList = [self indexOfZoneWithId:z.id];
-        if (indexInNewList != -1) {
-            [self updateZoneAtIndex:indexInNewList withCounterFromZone:z setState:NO];
+    for (int i = 0; i < self.zones.count; i++) {
+        WaterNowZone *currentZ = self.zones[i];
+        int indexInPrevList = [self indexOfZoneWithId:currentZ.id fromZonesArray:previousZonesCopy];
+        WaterNowZone *prevZ = (indexInPrevList != -1) ? previousZonesCopy[indexInPrevList] : self.zones[i];
+
+        BOOL isWatering = [Utils isZoneWatering:currentZ];
+        BOOL prevIsIdle = [Utils isZoneIdle:prevZ];
+        
+        if ((isWatering) && (prevIsIdle)) {
+            // If the watering flag was set just now and the counter value is 0 in sourceZone,
+            // reset the counter because otherwise we will start counting down from the dbValue which is not always the desired start value
+            prevZ.counter = nil;
         }
+        
+        // Restore previous state if current is empty
+        [self updateZoneAtIndex:i withCounterFromZone:prevZ setState:NO];
     }
     
     BOOL isWateringZone = NO;
@@ -685,9 +704,6 @@
         if ([Utils isZoneWatering:zone]) {
             self.wateringZone = zone;
             isWateringZone = YES;
-        }
-        if ([zone.counter intValue] == 0) {
-            [self updateCounterFromDBForZone:zone];
         }
     }
     
@@ -754,15 +770,15 @@
 - (void)updateZoneAtIndex:(int)index withCounterFromZone:(WaterNowZone *)sourceZone setState:(BOOL)setState
 {
     if (index != -1) {
-        BOOL isIdle = [Utils isZoneIdle:sourceZone];
-        
         WaterNowZone *destZone = self.zones[index];
         destZone.counter = sourceZone.counter;
         if (setState) {
             destZone.state = sourceZone.state;
         }
         
-        if ([destZone.counter intValue] == 0) {
+        BOOL isIdle = [Utils isZoneIdle:destZone];
+
+        if (isIdle) {
             [self updateCounterFromDBForZone:destZone];
         }
         
@@ -776,10 +792,10 @@
     zone.counter = dbZone.counter;
 }
 
-- (int)indexOfZoneWithId:(NSNumber*)theId
+- (int)indexOfZoneWithId:(NSNumber*)theId fromZonesArray:(NSArray*)zones
 {
-    for (int i = 0; i < self.zones.count; i++) {
-        WaterNowZone *zone = self.zones[i];
+    for (int i = 0; i < zones.count; i++) {
+        WaterNowZone *zone = zones[i];
         if ([zone.id isEqualToNumber:theId]) {
             return i;
         }
@@ -836,8 +852,10 @@
 
 - (void)setCounterValue:(int)value
 {
-    self.wateringZone.counter = [NSNumber numberWithInt:value];
-    [self refreshCounterLabel:value];
+    if (stopAllCounter == 0) {
+        self.wateringZone.counter = [NSNumber numberWithInt:value];
+        [self refreshCounterLabel:value];
+    }
 }
 
 - (void)refreshCounterLabel:(int)newCounter
