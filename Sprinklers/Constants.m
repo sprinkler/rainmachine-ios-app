@@ -16,6 +16,7 @@ NSString *const kNewSprinklerSelected = @"NewSprinklerSelected";
 NSString *const kFirmwareUpdateNeeded = @"FirmwareUpdateNeeded";
 NSString *const kSprinklerNetworkError = @"SprinklerNetworkError";
 NSString *const kLoggedOutDetectedNotification = @"kLoggedOutDetectedNotification";
+NSString *const kDeviceNotSupported = @"kDeviceNotSupported";
 
 NSString *const kShowSettingsZones = @"kShowSettingsZones";
 

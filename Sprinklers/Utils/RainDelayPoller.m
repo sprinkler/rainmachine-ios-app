@@ -99,6 +99,12 @@
 
 #pragma mark - Methods
 
+- (void)cancel
+{
+    [self.rainDelayServerProxy cancelAllOperations];
+    [self.rainDelayPostServerProxy cancelAllOperations];
+}
+
 - (void)setRainDelay
 {
     [self stopPollRequests];

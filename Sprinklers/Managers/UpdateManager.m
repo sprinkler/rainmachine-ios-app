@@ -175,7 +175,16 @@ static UpdateManager *current = nil;
     else if ([data isKindOfClass:[APIVersion class]]) {
         APIVersion *apiVersion = (APIVersion*)data;
         NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
-        if ([versionComponents[0] intValue] >= 3) {
+        if ([versionComponents[0] intValue] >= 4) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDeviceNotSupported object:nil];
+            NSString *message = [NSString stringWithFormat:@"This device requires a new version of the app. Please update your application from the AppStore."];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Device not supported"
+                                                            message:message delegate:self cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Go to AppSore", nil];
+            alert.tag = kAlertView_DeviceNotSupported;
+            [alert show];
+        }
+        else if ([versionComponents[0] intValue] >= 3) {
             // Firmware update is supported by server
             serverAPIMainVersion = [versionComponents[0] intValue];
             serverAPISubVersion = [versionComponents[1] intValue];
@@ -233,8 +242,20 @@ static UpdateManager *current = nil;
         }
     }
     else if (theAlertView.tag == kAlertView_Error) {
-        self.alertView = nil;
     }
+    else if (theAlertView.tag == kAlertView_DeviceNotSupported) {
+        [StorageManager current].currentSprinkler = nil;
+        [[StorageManager current] saveData];
+
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate refreshRootViews:nil];
+
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/rainmachine/id647589286"]];
+        }
+    }
+
+    self.alertView = nil;
 }
 
 - (void)handleSprinklerError:(NSString *)errorMessage title:(NSString*)titleMessage showErrorMessage:(BOOL)showErrorMessage{

@@ -26,6 +26,7 @@ extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
 extern NSString *const kSprinklerNetworkError;
 extern NSString *const kLoggedOutDetectedNotification;
+extern NSString *const kDeviceNotSupported;
 
 extern NSString *const kShowSettingsZones;
 
@@ -62,6 +63,7 @@ extern NSString *daysOfTheWeek[7];
 #define kAlertView_Finished 7
 #define kAlertView_ResumeRainDelay 8
 #define kAlertView_NoActiveZones 9
+#define kAlertView_DeviceNotSupported 10
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 

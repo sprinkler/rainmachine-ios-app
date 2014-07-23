@@ -20,5 +20,6 @@
 - (void)setRainDelay;
 - (void)scheduleNextPoll:(int)interval;
 - (void)stopPollRequests;
+- (void)cancel;
 
 @end

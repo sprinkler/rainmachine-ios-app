@@ -96,6 +96,8 @@ const float kHomeScreenCellHeight = 63;
         self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceNotSupported:) name:kDeviceNotSupported object:nil];
+
     //Check if there is only one Sprinkler.
     //If ONE -> do not show Device List.
     //else :
@@ -422,6 +424,16 @@ const float kHomeScreenCellHeight = 63;
 
 #pragma mark - Methods
 
+- (void)cancel
+{
+    [self hideHUD];
+    
+    [self.serverProxy cancelAllOperations];
+    [self.unitsServerProxy cancelAllOperations];
+    
+    [self.rainDelayPoller cancel];
+}
+
 - (void)refreshWithCurrentDevice
 {
     self.data = nil;
@@ -449,6 +461,11 @@ const float kHomeScreenCellHeight = 63;
     
     StatsTestLevel1VC *stats = [[StatsTestLevel1VC alloc] init];
     [self.navigationController pushViewController:stats animated:YES];
+}
+
+- (void)deviceNotSupported:(id)object
+{
+    [self cancel];
 }
 
 #pragma mark - RainDelayPollerDelegate

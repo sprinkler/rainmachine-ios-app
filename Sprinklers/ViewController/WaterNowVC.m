@@ -72,7 +72,8 @@
     [self setupRainDelayMode:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceNotSupported:) name:kDeviceNotSupported object:nil];
+    
     [self refreshWithCurrentDevice];
 
     self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
@@ -655,6 +656,11 @@
 
 #pragma mark - Actions
 
+- (void)deviceNotSupported:(id)object
+{
+    [self cancel];
+}
+
 - (IBAction)next:(id)sender {
     WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
     waterNowZoneVC.parent = self;
@@ -667,6 +673,17 @@
 }
 
 #pragma mark - Methods
+
+- (void)cancel
+{
+    [self hideHud];
+    
+    [self.zonesDetailsServerProxy cancelAllOperations];
+    [self.pollServerProxy cancelAllOperations];
+    [self.postServerProxy cancelAllOperations];
+    
+    [self.rainDelayPoller cancel];
+}
 
 - (void)setZones:(NSArray*)data
 {

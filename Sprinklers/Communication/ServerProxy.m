@@ -696,7 +696,7 @@
     [self.manager GET:@"api/apiVer" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if ([self passLoggedOutFilter:operation]) {
-            NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([APIVersion class])];
+            NSArray *parsedArray = responseObject ? [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([APIVersion class])] : nil;
             APIVersion *version = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
             [self.delegate serverResponseReceived:version serverProxy:self userInfo:@"apiVer"];
         }
