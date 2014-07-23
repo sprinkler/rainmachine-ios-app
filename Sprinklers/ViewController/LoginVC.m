@@ -187,13 +187,7 @@
         APIVersion *apiVersion = (APIVersion*)data;
         NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
         if ([versionComponents[0] intValue] >= 4) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDeviceNotSupported object:nil];
-            NSString *message = [NSString stringWithFormat:@"This device requires a new version of the app. Please update your application from the AppStore."];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Device not supported"
-                                                            message:message delegate:self cancelButtonTitle:@"Cancel"
-                                                  otherButtonTitles:@"Go to AppSore", nil];
-            alert.tag = kAlertView_DeviceNotSupported;
-            [alert show];
+            [Utils showNotSupportedDeviceAlertView];
         } else {
             [self login];
         }

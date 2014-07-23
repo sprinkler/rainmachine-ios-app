@@ -29,6 +29,7 @@
 + (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays;
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat;
 + (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate;
++ (void)showNotSupportedDeviceAlertView;
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 

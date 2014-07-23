@@ -232,6 +232,16 @@
     return settingsDate;
 }
 
++ (void)showNotSupportedDeviceAlertView
+{
+    NSString *message = [NSString stringWithFormat:@"This device requires a new version of the app. Please update your application from the AppStore."];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Device not supported"
+                                                    message:message delegate:self cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Go to AppSore", nil];
+    alert.tag = kAlertView_DeviceNotSupported;
+    [alert show];
+}
+
 # pragma mark - Sprinkler related views
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress
