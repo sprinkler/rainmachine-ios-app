@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Sprinkler.h"
 #import "Protocols.h"
+#import "BaseNetworkHandlingVC.h"
 
 @class DevicesVC;
 
-@interface LoginVC : UIViewController <UITextFieldDelegate, SprinklerResponseProtocol>
+@interface LoginVC : BaseNetworkHandlingVC <UITextFieldDelegate, SprinklerResponseProtocol>
 
 @property (strong, nonatomic) Sprinkler *sprinkler;
 @property (weak, nonatomic) DevicesVC *parent;

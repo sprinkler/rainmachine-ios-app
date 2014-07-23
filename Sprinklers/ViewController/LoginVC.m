@@ -18,6 +18,8 @@
 #import "Utils.h"
 #import "+UIDevice.h"
 #import "Networkutilities.h"
+#import "APIVersion.h"
+#import "AppDelegate.h"
 
 @interface LoginVC () {
 }
@@ -29,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *textUsername;
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
+@property (strong, nonatomic) ServerProxy *getAPIVersionServerProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) NSDictionary *automaticLoginInfo;
 
@@ -123,7 +126,19 @@
     _buttonCheckBox.selected = !_buttonCheckBox.selected;
 }
 
+- (void)requestAPIVer
+{
+    self.getAPIVersionServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:YES];
+    [self.getAPIVersionServerProxy requestAPIVersion];
+    [self startHud:nil]; // @"Logging in..."
+}
+
 - (IBAction)login:(id)sender {
+    [self requestAPIVer];
+}
+
+- (void)login
+{
     [self loginWithUsername:_textUsername.text password:_textPassword.text rememberMe:_buttonCheckBox.isSelected];
 }
 
@@ -138,17 +153,51 @@
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self hideHud];
-    UIAlertView *alertView = nil;
-    if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
-        alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    if ([userInfo isEqualToString:@"apiVer"]) {
+        BOOL shouldAttemptLogin = NO;
+        if ([[operation response] statusCode] == 404) {
+            // Usually the 3.x sprinklers give rarely these kind of errors responses
+            shouldAttemptLogin = YES;
+        } else {
+            if ([Utils hasOperationInternalServerErrorStatusCode:operation]) {
+                // Internal server error statusCode == 5xx or other. In this case the Sprinkler version is unknown for us.
+                shouldAttemptLogin = YES;
+            }
+        }
+        if (shouldAttemptLogin) {
+            [self login];
+        } else {
+            [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+        }
     } else {
-        alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self hideHud];
+        UIAlertView *alertView = nil;
+        if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
+            alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        } else {
+            alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        }
+        [alertView show];
     }
-    [alertView show];
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self hideHud];
+    if ([userInfo isEqualToString:@"apiVer"]) {
+        APIVersion *apiVersion = (APIVersion*)data;
+        NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
+        if ([versionComponents[0] intValue] >= 4) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kDeviceNotSupported object:nil];
+            NSString *message = [NSString stringWithFormat:@"This device requires a new version of the app. Please update your application from the AppStore."];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Device not supported"
+                                                            message:message delegate:self cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Go to AppSore", nil];
+            alert.tag = kAlertView_DeviceNotSupported;
+            [alert show];
+        } else {
+            [self login];
+        }
+    }
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
@@ -170,11 +219,22 @@
     [self hideHud];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
+    
+    [self hideHud];
 }
 
 - (void)showMainScreenAnimated:(BOOL)animated {
     [self.navigationController popToRootViewControllerAnimated:animated];
 }
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (theAlertView.tag == kAlertView_DeviceNotSupported) {
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/rainmachine/id647589286"]];
+        }
+    }
+}
+
 
 #pragma mark - Dealloc
 
