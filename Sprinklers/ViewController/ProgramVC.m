@@ -71,6 +71,8 @@
 
 @property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
 
+@property (assign, nonatomic) BOOL shouldRefreshContent;
+
 @end
 
 @implementation ProgramVC
@@ -238,6 +240,8 @@
 
 - (void)willPushChildView
 {
+    self.shouldRefreshContent = NO;
+    
     // This prevents the test from viewWillDisappear to pass
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
 }
@@ -250,10 +254,14 @@
     if (getProgramCount > 0) {
         if (self.program.programId != -1) {
             // There is no getProgrambyId request, so we extract the program from the programs list
-            [_getProgramListServerProxy requestPrograms];
-            [self showHUD];
+            if (self.shouldRefreshContent) {
+                [_getProgramListServerProxy requestPrograms];
+                [self showHUD];
+            }
         }
     }
+    
+    self.shouldRefreshContent = YES;
     
     getProgramCount++;
 }

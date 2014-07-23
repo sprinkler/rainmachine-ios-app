@@ -52,6 +52,7 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) UILabel *footer;
+@property (assign, nonatomic) BOOL shouldRefreshContent;
 
 @end
 
@@ -143,6 +144,8 @@ typedef enum {
 
 - (void)willPushChildView
 {
+    self.shouldRefreshContent = NO;
+
     // This prevents the test from viewWillDisappear to pass
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
 }
@@ -154,10 +157,14 @@ typedef enum {
     // Don't request the program when the view is created because the program list already is up-to-date
     if (getZonesCount > 0) {
         // There is no getProgrambyId request, so we extract the program from the programs list
-        [self.serverProxy requestZones];
-        [self startHud:nil];
+        if (self.shouldRefreshContent) {
+            [self.serverProxy requestZones];
+            [self startHud:nil];
+        }
     }
     
+    self.shouldRefreshContent = YES;
+
     getZonesCount++;
 }
 
