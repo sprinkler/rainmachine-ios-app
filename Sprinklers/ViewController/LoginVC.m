@@ -187,7 +187,7 @@
         APIVersion *apiVersion = (APIVersion*)data;
         NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
         if ([versionComponents[0] intValue] >= 4) {
-            [Utils showNotSupportedDeviceAlertView];
+            [Utils showNotSupportedDeviceAlertView:self];
         } else {
             [self login];
         }

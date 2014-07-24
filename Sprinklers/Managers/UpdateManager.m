@@ -177,7 +177,7 @@ static UpdateManager *current = nil;
         NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
         if ([versionComponents[0] intValue] >= 4) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kDeviceNotSupported object:nil];
-            [Utils showNotSupportedDeviceAlertView];
+            [Utils showNotSupportedDeviceAlertView:self];
         }
         else if ([versionComponents[0] intValue] >= 3) {
             // Firmware update is supported by server

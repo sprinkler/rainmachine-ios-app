@@ -232,11 +232,11 @@
     return settingsDate;
 }
 
-+ (void)showNotSupportedDeviceAlertView
++ (void)showNotSupportedDeviceAlertView:(id /*<UIAlertViewDelegate>*/)delegate
 {
     NSString *message = [NSString stringWithFormat:@"This device requires a new version of the app. Please update your application from the AppStore."];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Device not supported"
-                                                    message:message delegate:self cancelButtonTitle:@"Cancel"
+                                                    message:message delegate:delegate cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Go to AppSore", nil];
     alert.tag = kAlertView_DeviceNotSupported;
     [alert show];
