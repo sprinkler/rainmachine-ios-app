@@ -152,6 +152,7 @@
 #pragma mark - Communication callbacks
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    BOOL showErrorMessage = NO;
     [self hideHud];
     if ([userInfo isEqualToString:@"apiVer"]) {
         BOOL shouldAttemptLogin = NO;
@@ -167,10 +168,13 @@
         if (shouldAttemptLogin) {
             [self login];
         } else {
-            [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+            showErrorMessage = YES;
         }
     } else {
-        [self hideHud];
+        showErrorMessage = YES;
+    }
+    
+    if (showErrorMessage) {
         UIAlertView *alertView = nil;
         if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
             alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -226,9 +230,10 @@
         if (buttonIndex != theAlertView.cancelButtonIndex) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/rainmachine/id647589286"]];
         }
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     }
 }
-
 
 #pragma mark - Dealloc
 

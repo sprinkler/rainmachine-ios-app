@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AFHTTPRequestOperation.h"
 
+// !Note: call didDismissWithButtonIndex from inherited class!
 @interface BaseNetworkHandlingVC : UIViewController
 
 - (void)handleServerLoggedOutUser;
