@@ -255,7 +255,7 @@ const float kHomeScreenCellHeight = 63;
         cell.daylabel.textColor = [UIColor blackColor];
     }
     
-    UIImage *weatherImage = [UIImage imageNamed:[@"main-screen_" stringByAppendingString:weatherData.icon]];
+    UIImage *weatherImage = [UIImage imageNamed:weatherData.icon];
     cell.weatherImage.image = weatherImage;
     
     if ((error) || (!weatherData.percentage)) {
