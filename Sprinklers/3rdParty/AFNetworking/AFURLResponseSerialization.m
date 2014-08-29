@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "AFURLResponseSerialization.h"
+#import "ServerProxy.h"
 
 extern NSString * const AFNetworkingErrorDomain;
 extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
@@ -152,7 +153,9 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
         return nil;
     }
 
-    self.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/plain", @"text/javascript", nil];
+    self.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/plain", @"text/javascript",
+                                   @"text/html", // API4
+                                   nil];
 
     return self;
 }

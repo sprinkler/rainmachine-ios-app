@@ -19,6 +19,7 @@
 #import "+UIDevice.h"
 #import "Networkutilities.h"
 #import "APIVersion.h"
+#import "APIVersion4.h"
 #import "AppDelegate.h"
 
 @interface LoginVC () {
@@ -144,7 +145,7 @@
 
 - (void)loginWithUsername:(NSString*)username password:(NSString*)password rememberMe:(BOOL)rememberMe
 {
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:NO];
+    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:[ServerProxy usesAPI4]];
     [self.serverProxy loginWithUserName:username password:password rememberMe:rememberMe];
     [self startHud:nil]; // @"Logging in..."
 }
@@ -188,13 +189,12 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self hideHud];
     if ([userInfo isEqualToString:@"apiVer"]) {
-        APIVersion *apiVersion = (APIVersion*)data;
-        NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
-        if ([versionComponents[0] intValue] >= 4) {
-            [Utils showNotSupportedDeviceAlertView:self];
-        } else {
-            [self login];
-        }
+        NSArray *versionComponents = [Utils parseApiVersion:data];
+        [ServerProxy setSprinklerVersionMajor:[versionComponents[0] intValue]
+                                        minor:[versionComponents[1] intValue]
+                                     subMinor:(versionComponents.count > 2) ? [versionComponents[2] intValue] : -1];
+        
+        [self login];
     }
 }
 

@@ -16,6 +16,8 @@
 #import "+UIDevice.h"
 #import "NetworkUtilities.h"
 #import "AppDelegate.h"
+#import "SetPassword4Response.h"
+#import "API4ErrorResponse.h"
 
 @interface SettingsPasswordVC ()
 
@@ -101,14 +103,26 @@
     if (serverProxy == self.postServerProxy) {
         
         self.postServerProxy = nil;
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        if ([ServerProxy usesAPI3]) {
+            ServerResponse *response = (ServerResponse*)data;
+            if ([response.status isEqualToString:@"err"]) {
+                [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+            } else {
+                [Utils invalidateLoginForCurrentSprinkler];
+                
+                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Password changed successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alertView show];
+            }
         } else {
-            [Utils invalidateLoginForCurrentSprinkler];
-            
-            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Password changed successufully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-            [alertView show];
+            if ([data isKindOfClass:[API4ErrorResponse class]]) {
+                API4ErrorResponse *response = (API4ErrorResponse*)data;
+                [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+            } else {
+                [Utils invalidateLoginForCurrentSprinkler];
+                
+                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Password changed successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alertView show];
+            }
         }
     }
     

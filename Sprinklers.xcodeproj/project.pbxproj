@@ -38,6 +38,7 @@
 		AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88618BFACA600579CAF /* SettingsUnits.m */; };
 		AF04995F18C601C300D73860 /* VegetationTypeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF04995E18C601C300D73860 /* VegetationTypeVC.xib */; };
 		AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF04996118C601DA00D73860 /* VegetationTypeVC.m */; };
+		AF0B1F5119AF3B1200FDC406 /* TimeResponse4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0B1F5019AF3B1200FDC406 /* TimeResponse4.m */; };
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
 		AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */; };
@@ -49,6 +50,8 @@
 		AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF167D67189AD74D003E659D /* UpdaterVC.xib */; };
 		AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3823881951D94C007CADB5 /* RMSwitch.m */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
+		AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4397E919ACCC36000F415D /* SetPassword4Response.m */; };
+		AF4397ED19ACD5D8000F415D /* API4ErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4397EC19ACD5D8000F415D /* API4ErrorResponse.m */; };
 		AF4826671990DC9500D80B87 /* bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826311990DC9500D80B87 /* bkn.png */; };
 		AF4826681990DC9500D80B87 /* blizzard.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826321990DC9500D80B87 /* blizzard.png */; };
 		AF4826691990DC9500D80B87 /* cold.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826331990DC9500D80B87 /* cold.png */; };
@@ -142,6 +145,9 @@
 		AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */; };
 		AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
+		AFA9080F19AB702D008769A0 /* APIVersion4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA9080E19AB702D008769A0 /* APIVersion4.m */; };
+		AFA9081219AB7D4F008769A0 /* UpdateInfo4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA9081119AB7D4F008769A0 /* UpdateInfo4.m */; };
+		AFA9081519AB7DD3008769A0 /* UpdateInfo4PackageDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA9081419AB7DD3008769A0 /* UpdateInfo4PackageDetails.m */; };
 		AFA9B58018DADB4F00DB40E8 /* icon_devices.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */; };
 		AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */; };
 		AFB6942C1901A5A20067CD7F /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6942B1901A5A20067CD7F /* Sprinkler.m */; };
@@ -187,6 +193,8 @@
 		AFF6A6B91888350400825A37 /* icon_status_ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6B71888350400825A37 /* icon_status_ok@2x.png */; };
 		AFF6A6BA1888350400825A37 /* icon_status_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */; };
 		AFF796C618E04C6400E3C109 /* CounterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF796C518E04C6400E3C109 /* CounterHelper.m */; };
+		AFFDCF34199B97A800EAC3D5 /* Login4Response.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFDCF33199B97A800EAC3D5 /* Login4Response.m */; };
+		AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFDCF36199BA82900EAC3D5 /* WeatherData4.m */; };
 		B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */; };
 		B111987016A7EED00094EF9F /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986F16A7EED00094EF9F /* StorageManager.m */; };
 		B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */ = {isa = PBXBuildFile; fileRef = B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */; };
@@ -323,6 +331,8 @@
 		AF04995E18C601C300D73860 /* VegetationTypeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VegetationTypeVC.xib; path = ViewController/VegetationTypeVC.xib; sourceTree = "<group>"; };
 		AF04996018C601DA00D73860 /* VegetationTypeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VegetationTypeVC.h; path = ViewController/VegetationTypeVC.h; sourceTree = "<group>"; };
 		AF04996118C601DA00D73860 /* VegetationTypeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VegetationTypeVC.m; path = ViewController/VegetationTypeVC.m; sourceTree = "<group>"; };
+		AF0B1F4F19AF3B1200FDC406 /* TimeResponse4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeResponse4.h; path = "Communication/Response objects/TimeResponse4.h"; sourceTree = "<group>"; };
+		AF0B1F5019AF3B1200FDC406 /* TimeResponse4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeResponse4.m; path = "Communication/Response objects/TimeResponse4.m"; sourceTree = "<group>"; };
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
 		AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeDataSourceCell.xib; path = Cells/HomeDataSourceCell.xib; sourceTree = "<group>"; };
 		AF0EFF591861AE8C007BF852 /* HomeScreenCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeScreenCell.xib; path = Cells/HomeScreenCell.xib; sourceTree = "<group>"; };
@@ -343,6 +353,10 @@
 		AF3823881951D94C007CADB5 /* RMSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMSwitch.m; path = Sprinklers/Controls/RMSwitch.m; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
+		AF4397E819ACCC36000F415D /* SetPassword4Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetPassword4Response.h; path = "Communication/Response objects/SetPassword4Response.h"; sourceTree = "<group>"; };
+		AF4397E919ACCC36000F415D /* SetPassword4Response.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetPassword4Response.m; path = "Communication/Response objects/SetPassword4Response.m"; sourceTree = "<group>"; };
+		AF4397EB19ACD5D8000F415D /* API4ErrorResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = API4ErrorResponse.h; path = "Communication/Response objects/API4ErrorResponse.h"; sourceTree = "<group>"; };
+		AF4397EC19ACD5D8000F415D /* API4ErrorResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = API4ErrorResponse.m; path = "Communication/Response objects/API4ErrorResponse.m"; sourceTree = "<group>"; };
 		AF4826311990DC9500D80B87 /* bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bkn.png; sourceTree = "<group>"; };
 		AF4826321990DC9500D80B87 /* blizzard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blizzard.png; sourceTree = "<group>"; };
 		AF4826331990DC9500D80B87 /* cold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cold.png; sourceTree = "<group>"; };
@@ -468,6 +482,12 @@
 		AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPasswordVC.m; path = ViewController/SettingsPasswordVC.m; sourceTree = "<group>"; };
 		AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsPasswordVC.xib; path = ViewController/SettingsPasswordVC.xib; sourceTree = "<group>"; };
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
+		AFA9080D19AB702D008769A0 /* APIVersion4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIVersion4.h; path = "Communication/Response objects/APIVersion4.h"; sourceTree = "<group>"; };
+		AFA9080E19AB702D008769A0 /* APIVersion4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIVersion4.m; path = "Communication/Response objects/APIVersion4.m"; sourceTree = "<group>"; };
+		AFA9081019AB7D4F008769A0 /* UpdateInfo4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInfo4.h; path = "Communication/Response objects/UpdateInfo4.h"; sourceTree = "<group>"; };
+		AFA9081119AB7D4F008769A0 /* UpdateInfo4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInfo4.m; path = "Communication/Response objects/UpdateInfo4.m"; sourceTree = "<group>"; };
+		AFA9081319AB7DD3008769A0 /* UpdateInfo4PackageDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInfo4PackageDetails.h; path = "Communication/Response objects/UpdateInfo4PackageDetails.h"; sourceTree = "<group>"; };
+		AFA9081419AB7DD3008769A0 /* UpdateInfo4PackageDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInfo4PackageDetails.m; path = "Communication/Response objects/UpdateInfo4PackageDetails.m"; sourceTree = "<group>"; };
 		AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_devices.png; path = Resources/icon_devices.png; sourceTree = "<group>"; };
 		AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_devices@2x.png"; path = "Resources/icon_devices@2x.png"; sourceTree = "<group>"; };
 		AFB694291901A2A10067CD7F /* Sprinklers 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 6.xcdatamodel"; sourceTree = "<group>"; };
@@ -531,6 +551,10 @@
 		AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_status_warning@2x.png"; path = "Resources/icon_status_warning@2x.png"; sourceTree = "<group>"; };
 		AFF796C418E04C6400E3C109 /* CounterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CounterHelper.h; path = ViewController/CounterHelper.h; sourceTree = "<group>"; };
 		AFF796C518E04C6400E3C109 /* CounterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CounterHelper.m; path = ViewController/CounterHelper.m; sourceTree = "<group>"; };
+		AFFDCF32199B97A800EAC3D5 /* Login4Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Login4Response.h; path = "Communication/Response objects/Login4Response.h"; sourceTree = "<group>"; };
+		AFFDCF33199B97A800EAC3D5 /* Login4Response.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Login4Response.m; path = "Communication/Response objects/Login4Response.m"; sourceTree = "<group>"; };
+		AFFDCF35199BA82900EAC3D5 /* WeatherData4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData4.h; path = "Communication/Response objects/WeatherData4.h"; sourceTree = "<group>"; };
+		AFFDCF36199BA82900EAC3D5 /* WeatherData4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData4.m; path = "Communication/Response objects/WeatherData4.m"; sourceTree = "<group>"; };
 		B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sprinklers.xcdatamodel; sourceTree = "<group>"; };
 		B111986E16A7EED00094EF9F /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StorageManager.h; path = Managers/StorageManager.h; sourceTree = "<group>"; };
 		B111986F16A7EED00094EF9F /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StorageManager.m; path = Managers/StorageManager.m; sourceTree = "<group>"; };
@@ -978,6 +1002,8 @@
 				B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */,
 				B1254CA2187ADCB3004E2F0E /* Program.h */,
 				B1254CA3187ADCB3004E2F0E /* Program.m */,
+				AF4397EB19ACD5D8000F415D /* API4ErrorResponse.h */,
+				AF4397EC19ACD5D8000F415D /* API4ErrorResponse.m */,
 				B1254CA5187ADF9B004E2F0E /* ProgramWateringTimes.h */,
 				B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */,
 				AF91C7F51858D757005888AA /* ServerResponse.h */,
@@ -990,14 +1016,22 @@
 				AF91C7EF1858D047005888AA /* WaterNowZone.m */,
 				AFC58170184E58FD00C8D06A /* WeatherData.h */,
 				AFC58171184E58FD00C8D06A /* WeatherData.m */,
+				AFFDCF35199BA82900EAC3D5 /* WeatherData4.h */,
+				AFFDCF36199BA82900EAC3D5 /* WeatherData4.m */,
 				AFB69439190289670067CD7F /* RestrictionsData.h */,
 				AFB6943A190289670067CD7F /* RestrictionsData.m */,
 				AFB69436190289440067CD7F /* Zone.h */,
 				AFB69437190289440067CD7F /* Zone.m */,
 				AF167D50189A8520003E659D /* APIVersion.h */,
 				AF167D51189A8520003E659D /* APIVersion.m */,
+				AFA9080D19AB702D008769A0 /* APIVersion4.h */,
+				AFA9080E19AB702D008769A0 /* APIVersion4.m */,
 				AF167D57189ABF6C003E659D /* UpdateInfo.h */,
 				AF167D58189ABF6C003E659D /* UpdateInfo.m */,
+				AFA9081019AB7D4F008769A0 /* UpdateInfo4.h */,
+				AFA9081119AB7D4F008769A0 /* UpdateInfo4.m */,
+				AFA9081319AB7DD3008769A0 /* UpdateInfo4PackageDetails.h */,
+				AFA9081419AB7DD3008769A0 /* UpdateInfo4PackageDetails.m */,
 				AF167D5A189ACBA6003E659D /* UpdateStartInfo.h */,
 				AF167D5B189ACBA7003E659D /* UpdateStartInfo.m */,
 				AF94FBBE18B7CC9D006FE76D /* SetRainDelay.h */,
@@ -1010,6 +1044,12 @@
 				AF02F88618BFACA600579CAF /* SettingsUnits.m */,
 				AF7A72AF18C491F500596148 /* SettingsDate.h */,
 				AF7A72B018C491F500596148 /* SettingsDate.m */,
+				AFFDCF32199B97A800EAC3D5 /* Login4Response.h */,
+				AFFDCF33199B97A800EAC3D5 /* Login4Response.m */,
+				AF4397E819ACCC36000F415D /* SetPassword4Response.h */,
+				AF4397E919ACCC36000F415D /* SetPassword4Response.m */,
+				AF0B1F4F19AF3B1200FDC406 /* TimeResponse4.h */,
+				AF0B1F5019AF3B1200FDC406 /* TimeResponse4.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1518,11 +1558,13 @@
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,
 				AF7A72B118C491F500596148 /* SettingsDate.m in Sources */,
+				AF4397ED19ACD5D8000F415D /* API4ErrorResponse.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
 				3A68C071192B956500821D4D /* MappingModelv1tov7.xcmappingmodel in Sources */,
 				AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */,
+				AFA9080F19AB702D008769A0 /* APIVersion4.m in Sources */,
 				AFB6943B190289670067CD7F /* RestrictionsData.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
@@ -1531,20 +1573,24 @@
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
+				AFA9081519AB7DD3008769A0 /* UpdateInfo4PackageDetails.m in Sources */,
 				3A68C06F192B8DEE00821D4D /* MappingModelv6tov7.xcmappingmodel in Sources */,
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
+				AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
+				AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */,
 				AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */,
 				AF81E6E618BA32D8007E9A03 /* ProgramCellType1.m in Sources */,
 				B1EF20F4186046D300D9CE26 /* +UIDevice.m in Sources */,
+				AFA9081219AB7D4F008769A0 /* UpdateInfo4.m in Sources */,
 				AF167D52189A8520003E659D /* APIVersion.m in Sources */,
 				B1DF327916A6AA5100A1BF38 /* GCDAsyncSocket.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
@@ -1586,6 +1632,7 @@
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
 				AFF3A06318BDE4C10060D0F6 /* TimePickerVC.m in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
+				AFFDCF34199B97A800EAC3D5 /* Login4Response.m in Sources */,
 				AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
@@ -1609,6 +1656,7 @@
 				3AAA6F4E188AC1F6004C85C8 /* SettingsAddNewRestrictionVC.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
+				AF0B1F5119AF3B1200FDC406 /* TimeResponse4.m in Sources */,
 				AF7AC9D0184E3DD30047BD9E /* AFHTTPSessionManager.m in Sources */,
 				AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */,
 				B1583E7716A803B50051B480 /* MBProgressHUD.m in Sources */,

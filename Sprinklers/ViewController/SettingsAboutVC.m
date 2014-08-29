@@ -48,10 +48,11 @@
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     int major = appDelegate.updateManager.serverAPIMainVersion;
     int minor = appDelegate.updateManager.serverAPISubVersion;
+    int subMinor = appDelegate.updateManager.serverAPIMinorSubVersion;
     
     if ((major > 0) && (minor > 0)) {
         // At first, fill the values with what we have available
-        [self sprinklerVersionReceivedMajor:major minor:minor];
+        [self sprinklerVersionReceivedMajor:major minor:minor subMinor:subMinor];
     } else {
         hwVersion.hidden = YES;
     }
@@ -89,14 +90,19 @@
     [self.updateManager startUpdate];
 }
 
-- (void)sprinklerVersionReceivedMajor:(int)major minor:(int)minor
+- (void)sprinklerVersionReceivedMajor:(int)major minor:(int)minor subMinor:(int)subMinor
 {
     // Update the values from AppDelegate's UpdateManager too
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.updateManager.serverAPIMainVersion = major;
     appDelegate.updateManager.serverAPISubVersion = minor;
+    appDelegate.updateManager.serverAPIMinorSubVersion = subMinor;
     
-    hwVersion.text = [NSString stringWithFormat: @"RainMachine Firmware V %d.%d", major, minor];
+    if (subMinor >= 0) {
+        hwVersion.text = [NSString stringWithFormat: @"RainMachine Firmware V %d.%d.%d", major, minor, subMinor];
+    } else {
+        hwVersion.text = [NSString stringWithFormat: @"RainMachine Firmware V %d.%d", major, minor];
+    }
     hwVersion.hidden = ((major == 0) && (minor == 0));
     
     if (![Utils isDevice359Plus]) {

@@ -19,7 +19,11 @@
  }
  }"
 */
- 
+
+typedef enum {
+    API4StatusCode_LoggedOut = 2,
+} API4StatusCode;
+
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
 #import "Zone.h"
@@ -38,6 +42,12 @@
 
 - (id)initWithServerURL:(NSString*)serverURL delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest;
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe;
+
++ (void)setSprinklerVersionMajor:(int)major minor:(int)minor subMinor:(int)subMinor;
++ (int)serverAPIMainVersion;
++ (int)usesAPI3;
++ (int)usesAPI4;
++ (NSArray*)fromJSONArray:(NSArray*)jsonArray toClass:(NSString*)className;
 
 - (void)requestWeatherData;
 

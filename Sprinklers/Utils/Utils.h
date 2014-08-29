@@ -30,6 +30,7 @@
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat;
 + (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate;
 + (void)showNotSupportedDeviceAlertView:(id /*<UIAlertViewDelegate>*/)delegate;
++ (NSArray*)parseApiVersion:(id)data;
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 
@@ -45,6 +46,8 @@
 + (void)clearRememberMeFlagForSprinkler:(Sprinkler*)sprinkler;
 + (BOOL)isConnectionFailToServerError:(NSError*)error;
 + (BOOL)hasOperationInternalServerErrorStatusCode:(AFHTTPRequestOperation *)operation;
+
++ (UIImage*)weatherImageFromCode:(NSNumber*)cod;
 
 @end
 

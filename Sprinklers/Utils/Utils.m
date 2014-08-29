@@ -17,6 +17,8 @@
 #import "NetworkUtilities.h"
 #import "SettingsDate.h"
 #import "+NSDate.h"
+#import "APIVersion.h"
+#import "APIVersion4.h"
 
 @implementation Utils
 
@@ -242,6 +244,21 @@
     [alert show];
 }
 
++ (NSArray*)parseApiVersion:(id)data
+{
+    NSArray *versionComponents = nil;
+    
+    if ([data isKindOfClass:[APIVersion class]]) {
+        APIVersion *apiVersion = (APIVersion*)data;
+        versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
+    } else {
+        APIVersion4 *apiVersion = (APIVersion4*)data;
+        versionComponents = [apiVersion.ver componentsSeparatedByString:@"."];
+    }
+    
+    return versionComponents;
+}
+
 # pragma mark - Sprinkler related views
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress
@@ -327,6 +344,11 @@
     CGPathRelease(path);
     
     return [UIImage imageFromLayer:layer];
+}
+
++ (UIImage*)weatherImageFromCode:(NSNumber*)cod
+{
+    return nil;
 }
 
 #pragma mark - General

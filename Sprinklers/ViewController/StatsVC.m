@@ -15,6 +15,7 @@
 #import "ServerProxy.h"
 #import "Constants.h"
 #import "WeatherData.h"
+#import "WeatherData4.h"
 #import "MBProgressHUD.h"
 #import "SettingsViewController.h"
 #import "Sprinkler.h"
@@ -40,7 +41,7 @@ const float kHomeScreenCellHeight = 63;
 @property (strong, nonatomic) UIImage *waterWavesImage;
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *unitsServerProxy;
-@property (strong, nonatomic) NSString *units;
+//@property (strong, nonatomic) NSString *units;
 @property (strong, nonatomic) NSArray *data;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableView *statusTableView;
@@ -128,6 +129,12 @@ const float kHomeScreenCellHeight = 63;
     self.hud.labelText = text;
 }
 
+- (NSNumber*)temperatureValue:(NSNumber*)t
+{
+    float roundedT = roundf([t floatValue]);
+    return [NSNumber numberWithFloat:roundedT];
+}
+
 #pragma mark - Alert view
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -204,14 +211,17 @@ const float kHomeScreenCellHeight = 63;
     
     static NSString *CellIdentifier = @"HomeScreenCell";
     HomeScreenTableViewCell *cell = (HomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    BOOL error = NO;
     WeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
-    BOOL error = (weatherData.error) && ([weatherData.error intValue] == 1);
+    if ([ServerProxy usesAPI3]) {
+        error = (weatherData.error) && ([weatherData.error intValue] == 1);
+    }
     
     cell.waterPercentage = [weatherData.percentage floatValue] / self.weatherDataMaxPercentage;
     cell.waterImage.image = self.waterImage;
     cell.waterWavesImageView.image = self.waterWavesImage;
 
-    cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(100 * [weatherData.percentage floatValue])];
+    cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(([ServerProxy usesAPI3] ? 100 : 1) * [weatherData.percentage floatValue])];
     
     BOOL maxtValid = ((!error) && (weatherData.maxt) && ([weatherData.maxt intValue] != 32000) && ([weatherData.maxt intValue] != -32000));
     BOOL mintValid = ((!error) && (weatherData.mint) && ([weatherData.mint intValue] != 32000) && ([weatherData.mint intValue] != -32000));
@@ -221,9 +231,9 @@ const float kHomeScreenCellHeight = 63;
     
     if ((maxtValid) && (mintValid)) {
         cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", weatherData.maxt, weatherData.units];
+        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.maxt], weatherData.units];
         cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", weatherData.mint, weatherData.units];
+        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.mint], weatherData.units];
 
     } else {
         if ((!maxtValid) && (!mintValid)) {
@@ -233,11 +243,11 @@ const float kHomeScreenCellHeight = 63;
             if (!maxtValid) {
                 [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
                 cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", weatherData.mint, weatherData.units];
+                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.mint], weatherData.units];
             } else {
                 // !mintValid
                 cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", weatherData.maxt, weatherData.units];
+                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.maxt], weatherData.units];
                 [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
             }
         }
@@ -255,7 +265,12 @@ const float kHomeScreenCellHeight = 63;
         cell.daylabel.textColor = [UIColor blackColor];
     }
     
-    UIImage *weatherImage = [UIImage imageNamed:weatherData.icon];
+    UIImage *weatherImage;
+    if ([ServerProxy usesAPI3]) {
+        weatherImage = [UIImage imageNamed:weatherData.icon];
+    } else {
+        weatherImage = [Utils weatherImageFromCode:((WeatherData4*)weatherData).icon];
+    }
     cell.weatherImage.image = weatherImage;
     
     if ((error) || (!weatherData.percentage)) {
@@ -326,13 +341,17 @@ const float kHomeScreenCellHeight = 63;
             
             self.data = dataArray;
             
-//            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"day" ascending:YES selector:@selector(compare:)];
-//            self.data = [self.data sortedArrayUsingDescriptors:@[ sortDescriptor ]];
-
-            WeatherData *lastWeatherData = [self.data lastObject];
             [self rescaleDataIfNeeded];
             
-            [self storeSprinklerLastUpdateAndError:lastWeatherData];
+            if ([ServerProxy usesAPI3]) {
+                WeatherData *lastWeatherData = [self.data lastObject];
+                [self storeSprinklerLastUpdateAndError:lastWeatherData];
+            } else {
+                for (WeatherData4 *weatherData in self.data) {
+                    // TODO: fill with real value
+                    weatherData.units = @"C";
+                }
+            }
             
             [self.tableView reloadData];
             [self.statusTableView reloadData];
@@ -408,7 +427,7 @@ const float kHomeScreenCellHeight = 63;
 
 - (void)rescaleDataIfNeeded
 {
-    self.weatherDataMaxPercentage = 1.0f;
+    self.weatherDataMaxPercentage = [ServerProxy usesAPI3] ? 1.0f : 100.0f;
     
     float maxPercentage = FLT_MIN;
     for (WeatherData *weatherData in self.data) {
@@ -440,7 +459,7 @@ const float kHomeScreenCellHeight = 63;
     [self.tableView reloadData];
     
     if ([StorageManager current].currentSprinkler) {
-        self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:[ServerProxy usesAPI4]];
 //        if (![self areUnitsRetrieved]) {
 //            self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
 //            [self.unitsServerProxy requestSettingsUnits];
@@ -452,7 +471,7 @@ const float kHomeScreenCellHeight = 63;
 
 - (void)setUnitsText:(NSString*)u
 {
-    self.units = [NSString stringWithFormat:@"°%@", u];
+//    self.units = [NSString stringWithFormat:@"°%@", u];
 }
 
 #pragma mark - Actions

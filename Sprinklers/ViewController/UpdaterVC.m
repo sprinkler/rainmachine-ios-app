@@ -127,8 +127,10 @@
                 // Update AppDelegate's sprinkler version
                 AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 NSArray *versionComponents = [updateInfo.the_new_version componentsSeparatedByString:@"."];
-                appDelegate.updateManager.serverAPIMainVersion = [versionComponents[0] intValue];
-                appDelegate.updateManager.serverAPISubVersion = [versionComponents[1] intValue];
+                
+                [appDelegate.updateManager setSprinklerVersionMajor:[versionComponents[0] intValue]
+                                                              minor:[versionComponents[1] intValue]
+                                                           subMinor:(versionComponents.count > 2) ? [versionComponents[2] intValue] : -1];
 
                 alert = [[UIAlertView alloc] initWithTitle:@"Success"
                                                                 message:@"The firmware update has been succesfully installed." delegate:self cancelButtonTitle:@"OK"

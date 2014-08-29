@@ -9,7 +9,10 @@
 #import "UpdateManager.h"
 #import "ServerProxy.h"
 #import "APIVersion.h"
+#import "APIVersion4.h"
 #import "UpdateInfo.h"
+#import "UpdateInfo4.h"
+#import "UpdateInfo4PackageDetails.h"
 #import "UpdateStartInfo.h"
 #import "Utils.h"
 #import "Constants.h"
@@ -22,6 +25,7 @@
 @interface UpdateManager () {
     int serverAPIMainVersion;
     int serverAPISubVersion;
+    int serverAPIMinorSubVersion;
     int retryCount;
 }
 
@@ -36,7 +40,7 @@ static UpdateManager *current = nil;
 
 @implementation UpdateManager
 
-@synthesize serverAPIMainVersion, serverAPISubVersion;
+@synthesize serverAPIMainVersion, serverAPISubVersion, serverAPIMinorSubVersion;
 
 - (instancetype)initWithDelegate:(id<UpdateManagerDelegate>)delegate {
     self = [super init];
@@ -46,6 +50,10 @@ static UpdateManager *current = nil;
     
     self.delegate = delegate;
     retryCount = 0;
+    
+    serverAPIMainVersion = -1;
+    serverAPISubVersion = -1;
+    serverAPIMinorSubVersion = -1;
 
     return self;
 }
@@ -106,8 +114,7 @@ static UpdateManager *current = nil;
         if ([userInfo isEqualToString:@"apiVer"]) {
             if ([[operation response] statusCode] == 404) {
                 // Device is 3.57 or lower. For now, suppose it is lower
-                serverAPIMainVersion = 3;
-                serverAPISubVersion = 56; // or 55;
+                [self setSprinklerVersionMajor:3 minor:56 subMinor:-1]; // or 55;
 
                 self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
                 Program *program = [Program new];
@@ -115,9 +122,8 @@ static UpdateManager *current = nil;
                 [self.serverProxyDetect35x runNowProgram:program];
             } else {
                 // statusCode == 5xx or other. In this case the Sprinkler version is unknown for us.
-                serverAPIMainVersion = 0;
-                serverAPISubVersion = 0;
-                [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+                [self setSprinklerVersionMajor:0 minor:0 subMinor:-1];
+                [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion subMinor:serverAPIMinorSubVersion];
                 [self.delegate updateNowAvailable:NO withVersion:nil];
                 
                 [self performSelector:@selector(retry) withObject:nil afterDelay:2.0];
@@ -127,7 +133,7 @@ static UpdateManager *current = nil;
             self.serverProxyDetect35x = nil;
 
             // Error was received for some reason. Don't continue the update detection process
-            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion subMinor:serverAPIMinorSubVersion];
             [self.delegate updateNowAvailable:NO withVersion:nil];
 //            serverAPIMainVersion = 3;
 //            serverAPISubVersion = 56; // or 55;
@@ -154,12 +160,11 @@ static UpdateManager *current = nil;
     [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (([userInfo isEqualToString:@"runNowProgram"]) && ([data isKindOfClass:[StartStopProgramResponse class]])) {
-        serverAPIMainVersion = 3;
         StartStopProgramResponse *response = (StartStopProgramResponse*)data;
         if ([response.state isEqualToString:@"err"]) {
-            serverAPISubVersion = 57;
+            [self setSprinklerVersionMajor:3 minor:57 subMinor:-1];
         } else {
-            serverAPISubVersion = 56;
+            [self setSprinklerVersionMajor:3 minor:56 subMinor:-1];
         }
         
         self.serverProxyDetect35x = nil;
@@ -169,35 +174,52 @@ static UpdateManager *current = nil;
                             message:@"Please go to your Rain Machine console and update to the latest version" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
             [alertView show];
         } else {
-            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion subMinor:serverAPIMinorSubVersion];
         }
     }
-    else if ([data isKindOfClass:[APIVersion class]]) {
-        APIVersion *apiVersion = (APIVersion*)data;
-        NSArray *versionComponents = [apiVersion.apiVer componentsSeparatedByString:@"."];
-        if ([versionComponents[0] intValue] >= 4) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDeviceNotSupported object:nil];
-            [Utils showNotSupportedDeviceAlertView:self];
-        }
-        else if ([versionComponents[0] intValue] >= 3) {
+    else if (([data isKindOfClass:[APIVersion class]]) || ([data isKindOfClass:[APIVersion4 class]])) {
+        NSArray *versionComponents = [Utils parseApiVersion:data];
+        if ([versionComponents[0] intValue] >= 3) {
             // Firmware update is supported by server
-            serverAPIMainVersion = [versionComponents[0] intValue];
-            serverAPISubVersion = [versionComponents[1] intValue];
-            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion];
+            [self setSprinklerVersionMajor:[versionComponents[0] intValue]
+                                     minor:[versionComponents[1] intValue]
+                                  subMinor:(versionComponents.count > 2) ? [versionComponents[2] intValue] : -1];
+            [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion subMinor:serverAPIMinorSubVersion];
             [self.serverProxy requestUpdateCheckForVersion:serverAPIMainVersion];
         }
     }
-    else if ([data isKindOfClass:[UpdateInfo class]]) {
+    else if (([data isKindOfClass:[UpdateInfo class]]) || ([data isKindOfClass:[UpdateInfo4 class]])) {
         UpdateInfo *updateInfo = (UpdateInfo*)data;
+        UpdateInfo4 *updateInfo4 = (UpdateInfo4*)data;
+        
+        NSString *newVersion;
+        if ([ServerProxy usesAPI3]) {
+            newVersion = updateInfo.the_new_version;
+        } else {
+            for (UpdateInfo4PackageDetails *packageDetails in updateInfo4.packageDetails) {
+                if ([packageDetails.packageName isEqualToString:@"rainmachine"]) {
+                    newVersion = packageDetails.theNewVersion;
+                    break;
+                }
+            }
+        }
+
         if ([updateInfo.update boolValue]) {
-            NSDate *lastUpdateCheck = [NSDate dateWithTimeIntervalSince1970:[updateInfo.last_update_check longLongValue]];
-            NSTimeInterval intervalSinceLastUpdate = -[lastUpdateCheck timeIntervalSinceNow];
+            NSTimeInterval intervalSinceLastUpdate;
+            if ([ServerProxy usesAPI3]) {
+                NSDate *lastUpdateCheck = [NSDate dateWithTimeIntervalSince1970:[updateInfo.last_update_check longLongValue]];
+                intervalSinceLastUpdate = -[lastUpdateCheck timeIntervalSinceNow];
+            } else {
+                NSDate *lastUpdateCheck = [NSDate dateWithTimeIntervalSince1970:[updateInfo4.lastUpdateCheck longLongValue]];
+                intervalSinceLastUpdate = -[lastUpdateCheck timeIntervalSinceNow];
+            }
             // When there is a delegate alert it anyway with the update-now notification
             BOOL checkUpdate = (intervalSinceLastUpdate >= kSprinklerUpdateCheckInterval);
             
             if (checkUpdate) {
                 if (!self.delegate) {
-                    NSString *message = [NSString stringWithFormat:@"Please update your device firmware to version %@.", updateInfo.the_new_version];
+                    
+                    NSString *message = [NSString stringWithFormat:@"Please update your device firmware to version %@.", newVersion];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Firmware Update Available"
                                                                     message:message delegate:self cancelButtonTitle:@"Later"
                                                           otherButtonTitles:@"Update Now", nil];
@@ -207,7 +229,7 @@ static UpdateManager *current = nil;
             }
         }
         
-        [self.delegate updateNowAvailable:[updateInfo.update boolValue] withVersion:updateInfo.the_new_version];
+        [self.delegate updateNowAvailable:[updateInfo.update boolValue] withVersion:newVersion];
     }
     else if ([data isKindOfClass:[UpdateStartInfo class]]) {
         [self stop];
@@ -216,6 +238,15 @@ static UpdateManager *current = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:kFirmwareUpdateNeeded object:[NSNumber numberWithInt:serverAPIMainVersion]];
         }
     }
+}
+
+- (void)setSprinklerVersionMajor:(int)major minor:(int)minor subMinor:(int)subMinor
+{
+    serverAPIMainVersion = major;
+    serverAPISubVersion = minor;
+    serverAPIMinorSubVersion = subMinor;
+    
+    [ServerProxy setSprinklerVersionMajor:serverAPIMainVersion minor:serverAPISubVersion subMinor:subMinor];
 }
 
 - (void)loggedOut
