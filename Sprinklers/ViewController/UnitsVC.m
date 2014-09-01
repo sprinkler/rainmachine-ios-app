@@ -16,6 +16,7 @@
 #import "+UIDevice.h"
 #import "AppDelegate.h"
 #import "StatsVC.h"
+#import "ServerProxy.h"
 
 @interface UnitsVC ()
 {
@@ -48,8 +49,14 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.pullServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-    [self.pullServerProxy requestSettingsUnits];
+    self.pullServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    if ([ServerProxy usesAPI3]) {
+        [self.pullServerProxy requestSettingsUnits];
+    } else {
+        self.settingsUnits = [SettingsUnits new];
+        self.settingsUnits.units = [Utils sprinklerTemperatureUnits];
+        [self serverResponseReceived:self.settingsUnits serverProxy:self.pullServerProxy userInfo:nil];
+    }
     
     self.title = @"Units";
 }
@@ -57,10 +64,16 @@
 - (void)save
 {
     if ((self.settingsUnits) && (!self.postServerProxy) && (!self.pullServerProxy)) {
-        // If we save the same unit again the server returns error: "Units not saved"
+            // If we save the same unit again the server returns error: "Units not saved"
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
-        [self.postServerProxy setSettingsUnits:self.settingsUnits.units];
+        // The server proxy still needs to be created (becaue we use its valeu in serverResponseReceived)
+        self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+        if ([ServerProxy usesAPI3]) {
+            [self.postServerProxy setSettingsUnits:self.settingsUnits.units];
+        } else {
+            [Utils setSprinklerTemperatureUnits:self.settingsUnits.units];
+            [self serverResponseReceived:nil serverProxy:self.postServerProxy userInfo:nil];
+        }
     }
 }
 

@@ -129,7 +129,7 @@
 
 - (void)requestAPIVer
 {
-    self.getAPIVersionServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:YES];
+    self.getAPIVersionServerProxy = [[ServerProxy alloc] initWithSprinkler:self.sprinkler delegate:self jsonRequest:YES];
     [self.getAPIVersionServerProxy requestAPIVersion];
     [self startHud:nil]; // @"Logging in..."
 }
@@ -145,7 +145,7 @@
 
 - (void)loginWithUsername:(NSString*)username password:(NSString*)password rememberMe:(BOOL)rememberMe
 {
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils sprinklerURL:self.sprinkler] delegate:self jsonRequest:[ServerProxy usesAPI4]];
+    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:self.sprinkler delegate:self jsonRequest:[ServerProxy usesAPI4]];
     [self.serverProxy loginWithUserName:username password:password rememberMe:rememberMe];
     [self startHud:nil]; // @"Logging in..."
 }

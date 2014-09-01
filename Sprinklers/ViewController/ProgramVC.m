@@ -140,7 +140,7 @@
 
     [self updateRunNowButtonActiveStateTo:YES setActivityIndicator:NO];
 
-    self.getProgramListServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.getProgramListServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     getProgramCount = 0;
     
     self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
@@ -323,7 +323,7 @@
         [alertView show];
     } else {
         if (!self.postSaveServerProxy) {
-            self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+            self.postSaveServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
             [self.postSaveServerProxy saveProgram:self.program];
             
             [self showHUD];
@@ -343,7 +343,7 @@
 }
 
 - (IBAction)onStartOrStop:(id)sender {
-    self.runNowServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.runNowServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     [self.runNowServerProxy runNowProgram:self.program];
     
     [self updateRunNowButtonActiveStateTo:NO setActivityIndicator:YES];
@@ -1222,7 +1222,7 @@
     [self refreshStatus];
     
     if (isNewProgram) {
-        self.getZonesServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        self.getZonesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         [self.getZonesServerProxy requestZones];
         [self showHUD];
     }

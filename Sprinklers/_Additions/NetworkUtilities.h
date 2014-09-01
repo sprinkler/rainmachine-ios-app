@@ -15,12 +15,13 @@
 + (NSString *)ipAddressForWifi;
 + (NSString *)netmaskForInterface:(NSString *)ifName;
 + (NSString *)netmaskForWifi;
-+ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl;
++ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl detectedSprinklerMainVersion:(int*)detectedSprinklerMainVersion;
 + (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
 
 + (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort;
 + (void)restoreCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
 + (void)clearSessionOnlyCookiesFromKeychain;
 + (void)refreshKeychainCookies;
++ (NSArray*)cookiesForURL:(NSURL*)url;
 
 @end

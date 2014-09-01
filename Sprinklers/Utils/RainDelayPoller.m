@@ -12,6 +12,7 @@
 #import "ServerProxy.h"
 #import "ServerResponse.h"
 #import "Constants.h"
+#import "API4ErrorResponse.h"
 
 @interface RainDelayPoller()
 
@@ -26,8 +27,8 @@
 - (id)initWithDelegate:(id<RainDelayPollerDelegate>)del {
     self = [super init];
     if (self) {
-        self.rainDelayServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
-        self.rainDelayPostServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+        self.rainDelayServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        self.rainDelayPostServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
         self.lastRainDelayPollDate = [NSDate date];
         self.delegate = del;
     }
@@ -61,17 +62,36 @@
     [self.delegate hideHUD];
     
     if (serverProxy == self.rainDelayPostServerProxy) {
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
-            [self.delegate handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        BOOL err = NO;
+        NSString *errMessage = nil;
+        if ([ServerProxy usesAPI3]) {
+            ServerResponse *response = (ServerResponse*)data;
+            err = [response.status isEqualToString:@"err"];
+            errMessage = response.message;
+        } else {
+            API4ErrorResponse *response = (API4ErrorResponse*)data;
+            err = ([response.statusCode intValue] != API4StatusCode_Success);
+            errMessage = response.message;
+        }
+        
+        if (err) {
+            [self.delegate handleSprinklerGeneralError:errMessage showErrorMessage:YES];
         } else {
             self.rainDelayData.rainDelay = [userInfo objectForKey:@"rainDelay"];
-            if ([self.rainDelayData.rainDelay intValue] == 0)
-            {
-                self.rainDelayData.rainDelay = @1;
-                self.rainDelayData.delayCounter = @-1;
+            if ([ServerProxy usesAPI3]) {
+                if ([self.rainDelayData.rainDelay intValue] == 0) {
+                    self.rainDelayData.rainDelay = @1;
+                    self.rainDelayData.delayCounter = @-1;
+                } else {
+                    self.rainDelayData.delayCounter = [NSNumber numberWithInt:[[userInfo objectForKey:@"rainDelay"] intValue] * kOneDayInSeconds - 1];
+                }
             } else {
-                self.rainDelayData.delayCounter = [NSNumber numberWithInt:[[userInfo objectForKey:@"rainDelay"] intValue] * kOneDayInSeconds - 1];
+                if ([[userInfo objectForKey:@"rainDelay"] intValue] == 0) {
+                    self.rainDelayData.rainDelay = @1;
+                    self.rainDelayData.delayCounter = @-1;
+                } else {
+                    self.rainDelayData.delayCounter = [NSNumber numberWithInt:[[userInfo objectForKey:@"rainDelay"] intValue] * kOneDayInSeconds - 1];
+                }
             }
             
             [self updatePollState];
@@ -81,10 +101,16 @@
     else if (serverProxy == self.rainDelayServerProxy) {
         [self.delegate handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
         self.rainDelayData = (RainDelay*)data;
-        if ([self.rainDelayData.rainDelay intValue] == 0)
-        {
-            self.rainDelayData.rainDelay = @1;
-            self.rainDelayData.delayCounter = @-1;
+        if ([ServerProxy usesAPI3]) {
+            if ([self.rainDelayData.rainDelay intValue] == 0) {
+                self.rainDelayData.rainDelay = @1;
+                self.rainDelayData.delayCounter = @-1;
+            }
+        } else {
+            if ([self.rainDelayData.delayCounter intValue] <= 0) {
+                self.rainDelayData.rainDelay = @1;
+                self.rainDelayData.delayCounter = @-1;
+            }
         }
         [self updatePollState];
     }

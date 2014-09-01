@@ -10,6 +10,8 @@
 #import "NSDictionary+Keychain.h"
 #import "Constants.h"
 #import "StorageManager.h"
+#import "ServerProxy.h"
+#import "Login4Response.h"
 
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -105,6 +107,20 @@ static NSString *kWifiInterface = @"en0";
 
 #pragma mark - Keychain
 
++ (NSArray*)cookiesForURL:(NSURL*)url
+{
+    NSMutableArray *results = [NSMutableArray array];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSString *address = [url absoluteString];
+    
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([address rangeOfString:cookie.domain].location != NSNotFound) {
+            [results addObject:cookie];
+        }
+    }
+    
+    return results;
+}
 // Structure of our dictionary saved in keychain
 // URL1
 // ...
@@ -136,8 +152,7 @@ static NSString *kWifiInterface = @"en0";
     }
     [urlDictionary setObject:cookiesDictionary forKey:kSprinklerKeychain_CookiesKey];
     
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:baseUrl]];
-    
+    NSArray *cookies = [NetworkUtilities cookiesForURL:[NSURL URLWithString:baseUrl]];
     [cookiesDictionary setObject:cookies forKey:port];
     
     [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
@@ -150,7 +165,7 @@ static NSString *kWifiInterface = @"en0";
     NSArray *newCookiesForPort = [[[keychainDictionary objectForKey:baseUrl] objectForKey:kSprinklerKeychain_CookiesKey] objectForKey:port];
     
     // Delete old cookies associated with baseUrl
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:baseUrl]];
+    NSArray *cookies = [NetworkUtilities cookiesForURL:[NSURL URLWithString:baseUrl]];
     for (NSHTTPCookie *cookie in cookies) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
     }
@@ -228,11 +243,16 @@ static NSString *kWifiInterface = @"en0";
 
 #pragma mark - Cookies
 
-+ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl
++ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl detectedSprinklerMainVersion:(int*)detectedSprinklerMainVersion
 {
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:baseUrl]];
+    NSArray *cookies = [NetworkUtilities cookiesForURL:[NSURL URLWithString:baseUrl]];
     for (NSHTTPCookie *cookie in cookies) {
+        if ([[cookie name] isEqualToString:@"access_token"]) {
+            *detectedSprinklerMainVersion = 4;
+            return YES;
+        }
         if ([[cookie name] isEqualToString:@"login"]) {
+            *detectedSprinklerMainVersion = 3;
             return YES;
         }
     }
@@ -271,7 +291,7 @@ static NSString *kWifiInterface = @"en0";
 
 + (void)importCookiesToKeychain
 {
-    // In case the keychain dictionary is empty try to import the cookies form the shared cookie storage
+    // In case the keychain dictionary is empty try to import the cookies from the shared cookie storage
     // Walk through all devices from the db and if it has a persistent cookie, import it into the keychain
     
     NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
@@ -279,7 +299,7 @@ static NSString *kWifiInterface = @"en0";
     if ([keychainDictionary count] == 0) {
         NSArray *remoteSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
         for (Sprinkler *sprinkler in remoteSprinklers) {
-            if ([[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:sprinkler.address]] count] > 0) {
+            if ([[NetworkUtilities cookiesForURL:[NSURL URLWithString:sprinkler.address]] count] > 0) {
                 [NetworkUtilities saveCookiesForBaseURL:sprinkler.address port:sprinkler.port];
             }
         }

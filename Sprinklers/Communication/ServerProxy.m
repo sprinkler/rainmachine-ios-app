@@ -34,19 +34,22 @@
 #import "Login4Response.h"
 #import "SetPassWord4Response.h"
 #import "SettingsDate.h"
+#import "NetworkUtilities.h"
+#import "API4ErrorResponse.h"
 
 static int serverAPIMainVersion = 0;
 static int serverAPISubVersion = 0;
 static int serverAPIMinorSubVersion = -1;
-static NSString *access_token;
 
 @implementation ServerProxy
 
-- (id)initWithServerURL:(NSString *)serverURL delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest {
+- (id)initWithSprinkler:(Sprinkler *)sprinkler delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest {
     self = [super init];
     if (!self) {
         return nil;
     }
+    
+    NSString *serverURL = [Utils sprinklerURL:sprinkler];
     
     self.delegate = del;
     self.serverURL = serverURL;
@@ -114,9 +117,6 @@ static NSString *access_token;
     [self.manager POST:@"api/4/login" parameters:paramsDic
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if ([self passLoggedOutFilter:operation]) {
-                       NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([Login4Response class])];
-                       Login4Response *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
-                       access_token = response.access_token;
                        [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler] unit:nil];
                    }
                    
@@ -147,7 +147,7 @@ static NSString *access_token;
                                          [self step2LoginProcess];
                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                       BOOL success = NO;
-                                      if ([[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[self.manager baseURL]] count] > 0) {
+                                      if ([[NetworkUtilities cookiesForURL:[self.manager baseURL]] count] > 0) {
                                         if ([[[operation response] MIMEType] isEqualToString:@"text/html"]) {
                                         success = YES;
                                         }
@@ -184,7 +184,7 @@ static NSString *access_token;
 
 - (BOOL)isLoginRememberedForCurrentSprinkler
 {
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[self.manager baseURL]];
+    NSArray *cookies = [NetworkUtilities cookiesForURL:[self.manager baseURL]];
     for (NSHTTPCookie *cookie in cookies) {
         if (([[cookie name] isEqualToString:@"login"]) && (![cookie isSessionOnly])) {
             return YES;
@@ -577,6 +577,29 @@ static NSString *access_token;
 
 - (void)setRainDelay:(NSNumber*)value
 {
+    if ([ServerProxy usesAPI3]) {
+        [self setRainDelay3:value];
+    } else {
+        [self setRainDelay4:value];
+    }
+}
+
+- (void)setRainDelay4:(NSNumber*)value {
+    NSDictionary *params = [NSDictionary dictionaryWithObject:value forKey:@"rainDelay"];
+    [self.manager POST: @"api/4/rainDelay" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([self passLoggedOutFilter:operation]) {
+            id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+            [self.delegate serverResponseReceived:responseArray[0] serverProxy:self userInfo:params];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+}
+
+- (void)setRainDelay3:(NSNumber*)value
+{
     NSDictionary *params = [NSDictionary dictionaryWithObject:value forKey:@"rainDelay"];
     [self.manager POST:@"/ui.cgi?action=settings&what=rainDelay" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([self passLoggedOutFilter:operation]) {
@@ -953,10 +976,10 @@ static NSString *access_token;
             return YES;
         }
         
-        NSError *jsonError = nil;
         if ((([[[operation response] MIMEType] isEqualToString:@"json/html"]) ||
              ([[[operation response] MIMEType] isEqualToString: @"text/plain"])) &&
             (responseData)) {
+            NSError *jsonError = nil;
             NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:&jsonError];
             if (!jsonError) {
                 if ([jsonObject isKindOfClass:[NSDictionary class]]) {
@@ -969,10 +992,12 @@ static NSString *access_token;
             }
         }
     } else {
-        NSError *jsonError = nil;
-        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:&jsonError];
-        if ((API4StatusCode)[[jsonObject objectForKey:@"statusCode"] intValue] == API4StatusCode_LoggedOut) {
-            isLoggedOut = YES;
+        if (responseData) {
+            NSError *jsonError = nil;
+            NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:nil error:&jsonError];
+            if ((API4StatusCode)[[jsonObject objectForKey:@"statusCode"] intValue] == API4StatusCode_LoggedOut) {
+                isLoggedOut = YES;
+            }
         }
     }
 

@@ -46,7 +46,7 @@
         self.navigationController.navigationBar.translucent = NO;
     }
 
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     self.startDate = [NSDate date];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(poll) userInfo:nil repeats:YES];
 }

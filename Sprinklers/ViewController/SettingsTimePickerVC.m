@@ -48,7 +48,7 @@
 	// Do any additional setup after loading the view.
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.pullServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.pullServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     [self.pullServerProxy requestSettingsDate];
 
     [self refreshUI];
@@ -110,7 +110,7 @@
         // If we save the same unit again the server returns error: "Units not saved"
         if (![self.settingsDate.appDate isEqualToString:newDate]) {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+            self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
             
             self.settingsDate.appDate = newDate;
             

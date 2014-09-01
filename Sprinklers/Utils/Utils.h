@@ -17,6 +17,7 @@
 
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler;
 + (NSString*)currentSprinklerURL;
++ (Sprinkler *)currentSprinkler;
 
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
@@ -31,6 +32,9 @@
 + (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate;
 + (void)showNotSupportedDeviceAlertView:(id /*<UIAlertViewDelegate>*/)delegate;
 + (NSArray*)parseApiVersion:(id)data;
+
++ (NSString*)sprinklerTemperatureUnits;
++ (void)setSprinklerTemperatureUnits:(NSString*)units;
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 

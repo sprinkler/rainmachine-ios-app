@@ -100,7 +100,7 @@ typedef enum {
     
     [self refreshToolbarEdited];
 
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     getZonesCount = 0;
 }
 
@@ -271,7 +271,7 @@ typedef enum {
 - (IBAction)onSave:(id)sender {
     if (!self.postSaveServerProxy) {
         [self startHud:nil];
-        self.postSaveServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+        self.postSaveServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
         [self.postSaveServerProxy saveZone:_zone];
     }
 }

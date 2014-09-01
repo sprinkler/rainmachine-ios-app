@@ -24,6 +24,7 @@
 #import "AddNewDeviceVC.h"
 #import "AppDelegate.h"
 #import "TimePickerVC.h"
+#import "ServerProxy.h"
 
 #define kAlertView_DeleteDevice 1
 
@@ -366,27 +367,27 @@
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         
         [NetworkUtilities restoreCookieForBaseUrl:sprinkler.address port:sprinkler.port];
+        int detectedSprinklerMainVersion = 0;
         
-        if (([sprinkler.loginRememberMe boolValue]) && ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address])) {
+        if ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address detectedSprinklerMainVersion:&detectedSprinklerMainVersion]) {
+            // Automatic login
+            [ServerProxy setSprinklerVersionMajor:detectedSprinklerMainVersion
+                                            minor:-1
+                                         subMinor:-1];
+
             [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
             [[StorageManager current] saveData];
             [self done:nil];
         } else {
-            if ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address]) {
-                [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
-                [[StorageManager current] saveData];
-                [self done:nil];
-            } else {
-                LoginVC *login = [[LoginVC alloc] init];
-                login.sprinkler = self.savedSprinklers[indexPath.row];
-                
-                if ([login.sprinkler.loginRememberMe boolValue] == YES) {
-                    [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
-                }
-                
-                login.parent = self;
-                [self.navigationController pushViewController:login animated:YES];
+            LoginVC *login = [[LoginVC alloc] init];
+            login.sprinkler = self.savedSprinklers[indexPath.row];
+            
+            if ([login.sprinkler.loginRememberMe boolValue] == YES) {
+                [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
             }
+            
+            login.parent = self;
+            [self.navigationController pushViewController:login animated:YES];
         }
     } else if (indexPath.section == 1) {
         if (indexPath.row < self.discoveredSprinklers.count) {

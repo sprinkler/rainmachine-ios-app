@@ -41,7 +41,7 @@ const float kHomeScreenCellHeight = 63;
 @property (strong, nonatomic) UIImage *waterWavesImage;
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *unitsServerProxy;
-//@property (strong, nonatomic) NSString *units;
+@property (strong, nonatomic) NSString *units; // used in API4
 @property (strong, nonatomic) NSArray *data;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableView *statusTableView;
@@ -62,7 +62,9 @@ const float kHomeScreenCellHeight = 63;
         return nil;
     }
     
-    [self setUnitsText:units ? units : @"" ];
+    if ([ServerProxy usesAPI4]) {
+        [self setUnitsText:[Utils sprinklerTemperatureUnits]];
+    }
     
     return self;
 }
@@ -131,7 +133,18 @@ const float kHomeScreenCellHeight = 63;
 
 - (NSNumber*)temperatureValue:(NSNumber*)t
 {
+    if ([ServerProxy usesAPI3]) {
+        return t;
+    }
+    
+    // API4
+    if ([self.units isEqualToString:@"F"]) {
+        float fahrenheit = [t floatValue] * 1.8 + 32;
+        t = [NSNumber numberWithFloat:fahrenheit];
+    }
+    
     float roundedT = roundf([t floatValue]);
+    
     return [NSNumber numberWithFloat:roundedT];
 }
 
@@ -349,7 +362,7 @@ const float kHomeScreenCellHeight = 63;
             } else {
                 for (WeatherData4 *weatherData in self.data) {
                     // TODO: fill with real value
-                    weatherData.units = @"C";
+                    weatherData.units = self.units;
                 }
             }
             
@@ -459,9 +472,9 @@ const float kHomeScreenCellHeight = 63;
     [self.tableView reloadData];
     
     if ([StorageManager current].currentSprinkler) {
-        self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:[ServerProxy usesAPI4]];
+        self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:[ServerProxy usesAPI4]];
 //        if (![self areUnitsRetrieved]) {
-//            self.unitsServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+//            self.unitsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
 //            [self.unitsServerProxy requestSettingsUnits];
 //        }
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -471,7 +484,7 @@ const float kHomeScreenCellHeight = 63;
 
 - (void)setUnitsText:(NSString*)u
 {
-//    self.units = [NSString stringWithFormat:@"°%@", u];
+    self.units = u;
 }
 
 #pragma mark - Actions

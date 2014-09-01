@@ -68,6 +68,11 @@
     return [Utils sprinklerURL:[StorageManager current].currentSprinkler];
 }
 
++ (Sprinkler *)currentSprinkler
+{
+    return [StorageManager current].currentSprinkler;
+}
+
 + (void)clearRememberMeFlagForSprinkler:(Sprinkler*)sprinkler
 {
     sprinkler.loginRememberMe = [NSNumber numberWithBool:NO];
@@ -257,6 +262,23 @@
     }
     
     return versionComponents;
+}
+
++ (NSString*)sprinklerTemperatureUnits
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *units = [userDefaults objectForKey:@"sprinklerUnits"];
+    if (!units) {
+        units = @"C";
+    }
+    
+    return units;
+}
+
++ (void)setSprinklerTemperatureUnits:(NSString*)units
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:units forKey:@"sprinklerUnits"];
 }
 
 # pragma mark - Sprinkler related views

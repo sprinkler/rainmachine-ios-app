@@ -56,7 +56,7 @@
     editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
     self.navigationItem.rightBarButtonItem = editButton;
     
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
 }
 
 
@@ -173,7 +173,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Program *program = self.programs[indexPath.row];
         [self startHud:nil];
-        self.postDeleteServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+        self.postDeleteServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         [self.postDeleteServerProxy deleteProgram:program.programId];
     }
 }

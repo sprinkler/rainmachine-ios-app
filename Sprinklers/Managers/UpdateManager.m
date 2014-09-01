@@ -100,7 +100,7 @@ static UpdateManager *current = nil;
     if (checkUpdate) {
 
         if ([StorageManager current].currentSprinkler) {
-            self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+            self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
             [self.serverProxy requestAPIVersion];
         }
     }
@@ -116,7 +116,7 @@ static UpdateManager *current = nil;
                 // Device is 3.57 or lower. For now, suppose it is lower
                 [self setSprinklerVersionMajor:3 minor:56 subMinor:-1]; // or 55;
 
-                self.serverProxyDetect35x = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:NO];
+                self.serverProxyDetect35x = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
                 Program *program = [Program new];
                 program.programId = -1;
                 [self.serverProxyDetect35x runNowProgram:program];

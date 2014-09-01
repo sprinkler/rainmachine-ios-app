@@ -20,8 +20,25 @@
  }"
 */
 
+// public static final int SC_SUCCESS = 0;
+// public static final int SC_EXCEPTION_OCCURRED = 1;
+// public static final int SC_NOT_AUTHENTICATED = 2;
+// public static final int SC_INVALID_REQUEST = 3;
+// public static final int SC_NOT_IMPLEMENTED = 4;
+// public static final int SC_NOT_FOUND = 5;
+// public static final int SC_DB_ERROR = 6;
+// public static final int SC_PROVISION_FAILED = 7;
+// public static final int SC_PASSWORD_NOT_CHANGED = 8;
 typedef enum {
+    API4StatusCode_Success = 0,
+    API4StatusCode_ExceptionOccured = 1,
     API4StatusCode_LoggedOut = 2,
+    API4StatusCode_InvalidRequest = 3,
+    API4StatusCode_NotImplemented = 4,
+    API4StatusCode_NotFound = 5,
+    API4StatusCode_DBError = 6,
+    API4StatusCode_ProvisionFailed = 7,
+    API4StatusCode_PasswordNotChanged = 8
 } API4StatusCode;
 
 #import <Foundation/Foundation.h>
@@ -33,6 +50,8 @@ typedef enum {
 @class WaterNowZone;
 @class Program;
 @class SettingsDate;
+@class Login4Response;
+@class Sprinkler;
 
 @interface ServerProxy : NSObject
 
@@ -40,7 +59,7 @@ typedef enum {
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 @property (nonatomic, strong) NSString* serverURL;
 
-- (id)initWithServerURL:(NSString*)serverURL delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest;
+- (id)initWithSprinkler:(Sprinkler *)sprinkler delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest;
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe;
 
 + (void)setSprinklerVersionMajor:(int)major minor:(int)minor subMinor:(int)subMinor;

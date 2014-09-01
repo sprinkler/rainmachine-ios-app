@@ -184,24 +184,31 @@
         self.labelHours_0Days.hidden = YES;
         self.labelMinutes_0Days.hidden = YES;
 
-        int d = [self.rainDelayPoller.rainDelayData.rainDelay intValue];
-        if (d == 0) {
-            d = 1;
-        }
+        int d = [self rainDelayCount];
         self.labelCounter.text = [NSString stringWithFormat:@"%d day%@", d, (d == 1) ? @"" : @"s"];
     }
+}
+
+- (int)rainDelayCount
+{
+    int d = [self.rainDelayPoller.rainDelayData.rainDelay intValue];
+    if (d == 0) {
+        d = 1;
+    }
+    
+    return d;
 }
 
 #pragma mark - Actions
 
 - (IBAction)up:(id)sender {
-    self.rainDelayPoller.rainDelayData.rainDelay = [NSNumber numberWithInt:[self.rainDelayPoller.rainDelayData.rainDelay intValue] + 1];
+    self.rainDelayPoller.rainDelayData.rainDelay = [NSNumber numberWithInt:[self rainDelayCount] + 1];
     [self refreshCounterUI];
     [self refreshUI];
 }
 
 - (IBAction)down:(id)sender {
-    self.rainDelayPoller.rainDelayData.rainDelay = [NSNumber numberWithInt:MAX(0, [self.rainDelayPoller.rainDelayData.rainDelay intValue] - 1)];
+    self.rainDelayPoller.rainDelayData.rainDelay = [NSNumber numberWithInt:MAX(0, [self rainDelayCount] - 1)];
     [self refreshCounterUI];
     [self refreshUI];
 }

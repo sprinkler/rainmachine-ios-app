@@ -61,7 +61,7 @@
         if ([self allFieldsFilled]) {
             // If we save the same unit again the server returns error: "Units not saved"
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            self.postServerProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate:self jsonRequest:YES];
+            self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
             
             [self.postServerProxy setNewPassword:self.textFieldNewPassword.text confirmPassword:self.textFieldConfirmPassword.text oldPassword:self.textFieldOldPassword.text];
         } else {

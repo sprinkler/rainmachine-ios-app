@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
-    self.serverProxy = [[ServerProxy alloc] initWithServerURL:[Utils currentSprinklerURL] delegate: self jsonRequest: NO];
+    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate: self jsonRequest: NO];
     
     [_tableView registerNib:[UINib nibWithNibName: @"SettingsRestrictionsHotDaysCell" bundle:nil] forCellReuseIdentifier: @"SettingsRestrictionsHotDaysCell"];
 }
