@@ -236,8 +236,8 @@ const float kHomeScreenCellHeight = 63;
 
     cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(([ServerProxy usesAPI3] ? 100 : 1) * [weatherData.percentage floatValue])];
     
-    BOOL maxtValid = ((!error) && (weatherData.maxt) && ([weatherData.maxt intValue] != 32000) && ([weatherData.maxt intValue] != -32000));
-    BOOL mintValid = ((!error) && (weatherData.mint) && ([weatherData.mint intValue] != 32000) && ([weatherData.mint intValue] != -32000));
+    BOOL maxtValid = ((!error) && (weatherData.maxt) && ([weatherData.maxt isKindOfClass:[NSNumber class]]) && ([weatherData.maxt intValue] != 32000) && ([weatherData.maxt intValue] != -32000));
+    BOOL mintValid = ((!error) && (weatherData.mint) && ([weatherData.mint isKindOfClass:[NSNumber class]]) && ([weatherData.mint intValue] != 32000) && ([weatherData.mint intValue] != -32000));
     
     cell.temperatureLabel.hidden = YES;
     cell.temperatureLabelPart3.hidden = YES;
