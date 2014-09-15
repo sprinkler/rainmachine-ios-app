@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet ColoredBackgroundButton *buttonLogin;
 @property (weak, nonatomic) IBOutlet UILabel *bucketLabel;
 @property (weak, nonatomic) IBOutlet UITextField *textUsername;
+@property (weak, nonatomic) IBOutlet UILabel *rememberMeLabel;
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *getAPIVersionServerProxy;
@@ -82,10 +83,8 @@
         _textPassword.tintColor = _textPassword.textColor;
     }
     
-    // TODO: uncomment this line in case the device version is >= 4.0
-//    [self setup40SprinklerUI];
-    
-    [_textPassword becomeFirstResponder];
+    [self requestAPIVer];
+    [self updateInputUIHidden:YES];
 }
 
 - (void)setup40SprinklerUI
@@ -95,10 +94,10 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_textPassword
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.bucketLabel
-                                                          attribute:NSLayoutAttributeBottom
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTop
                                                          multiplier:1.0
-                                                           constant:4.0]];
+                                                           constant:20.0]];
 }
 
 #pragma mark - UITextField delegate
@@ -122,6 +121,15 @@
     self.view.userInteractionEnabled = YES;
 }
 
+- (void)updateInputUIHidden:(BOOL)hidden
+{
+    _textUsername.hidden = hidden;
+    _textPassword.hidden = hidden;
+    _buttonLogin.hidden = hidden;
+    _buttonCheckBox.hidden = hidden;
+    _rememberMeLabel.hidden = hidden;
+}
+
 #pragma mark - Actions
 - (IBAction)rememberMe:(id)sender {
     _buttonCheckBox.selected = !_buttonCheckBox.selected;
@@ -135,7 +143,7 @@
 }
 
 - (IBAction)login:(id)sender {
-    [self requestAPIVer];
+    [self login];
 }
 
 - (void)login
@@ -194,7 +202,13 @@
                                         minor:[versionComponents[1] intValue]
                                      subMinor:(versionComponents.count > 2) ? [versionComponents[2] intValue] : -1];
         
-        [self login];
+        if ([ServerProxy usesAPI4]) {
+            [self setup40SprinklerUI];
+        }
+        
+        [self updateInputUIHidden:NO];
+        
+        [_textPassword becomeFirstResponder];
     }
 }
 

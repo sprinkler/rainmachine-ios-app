@@ -16,6 +16,16 @@ typedef enum {
     ProgramFrequency_INT = 6
 } ProgramFrequency;
 
+typedef enum {
+    API4_ProgramStatus_Stopped = 0,
+    API4_ProgramStatus_Running
+} API4_ProgramStatus;
+
+typedef enum {
+    API4_ProgramFrequencyParam_Even = 0,
+    API4_ProgramFrequencyParam_Odd = 1
+} API4_ProgramFrequencyParam;
+
 @interface Program : NSObject<NSCopying>
 
 @property (nonatomic) int active;

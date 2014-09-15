@@ -13,11 +13,14 @@
 #import "WeatherData4.h"
 #import "RestrictionsData.h"
 #import "WaterNowZone.h"
+#import "WaterNowZone4.h"
+#import "ZoneProperties4.h"
 #import "StartStopWatering.h"
 #import "SetRainDelay.h"
 #import "ServerResponse.h"
 #import "Utils.h"
 #import "Program.h"
+#import "Program4.h"
 #import "APIVersion.h"
 #import "APIVersion4.h"
 #import "UpdateInfo.h"
@@ -116,7 +119,7 @@ static int serverAPIMinorSubVersion = -1;
     
     [self.manager POST:@"api/4/login" parameters:paramsDic
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                   if ([self passLoggedOutFilter:operation]) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler] unit:nil];
                    }
                    
@@ -171,7 +174,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
                                              @"what" : @"units"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                  
-                                                 if ([self passLoggedOutFilter:operation]) {
+                                                 if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                                                      NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsUnits class])];
                                                      SettingsUnits *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
                                                      [self.delegate loginSucceededAndRemembered:[self isLoginRememberedForCurrentSprinkler] unit:response.units];
@@ -213,7 +216,7 @@ static int serverAPIMinorSubVersion = -1;
 
     [self.manager POST: @"api/4/password" parameters:paramsDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([SetPassword4Response class])] serverProxy:self userInfo:nil];
         }
         
@@ -229,7 +232,7 @@ static int serverAPIMinorSubVersion = -1;
                                                                              @"oldPass" : oldPassword
                                                                              } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             ServerResponse *response = nil;
             if (responseObject) {
                 NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -248,7 +251,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
                                               @"what" : @"units"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsUnits class])];
             ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
             [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
@@ -263,7 +266,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager POST:@"/ui.cgi?action=settings&what=units" parameters:@{@"units": unit} success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                   
-      if ([self passLoggedOutFilter:operation]) {
+      if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
           ServerResponse *response = nil;
           if (responseObject) {
               NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -290,7 +293,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager GET: @"api/4/time" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             SettingsDate *settingsDate = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([SettingsDate class])][0];
             settingsDate.time_format = @24;
             [self.delegate serverResponseReceived:settingsDate serverProxy:self userInfo:nil];
@@ -306,7 +309,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
                                              @"what" : @"timedate"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                  
-                                                 if ([self passLoggedOutFilter:operation]) {
+                                                 if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                                                      NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsDate class])];
                                                      SettingsDate *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
                                                      response = [Utils fixedSettingsDate:response];
@@ -320,11 +323,37 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)setSettingsDate:(SettingsDate*)settingsDate
 {
+    if ([ServerProxy usesAPI3]) {
+        [self setSettingsDate3:settingsDate];
+    } else {
+        [self setSettingsDate4:settingsDate];
+    }
+}
+
+- (void)setSettingsDate4:(SettingsDate*)settingsDate
+{
+    NSMutableDictionary *params = [[self toDictionaryFromObject:settingsDate] mutableCopy];
+    [params removeObjectForKey:@"time_format"];
+
+    [self.manager POST: @"api/4/time" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+            API4ErrorResponse *rez = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])][0];
+            [self.delegate serverResponseReceived:rez serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+}
+
+- (void)setSettingsDate3:(SettingsDate*)settingsDate
+{
     NSDictionary *params = [self toDictionaryFromObject:settingsDate];
     
     [self.manager POST:@"/ui.cgi?action=settings&what=timedate" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             ServerResponse *response = nil;
             if (responseObject) {
                 NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -343,7 +372,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings",
                                              @"what" : @"password"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                  
-                                                 if ([self passLoggedOutFilter:operation]) {
+                                                 if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                                                      NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([SettingsPassword class])];
                                                      ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
                                                      [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
@@ -360,7 +389,7 @@ static int serverAPIMinorSubVersion = -1;
     
     [self.manager POST:@"/ui.cgi?action=settings&what=password" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             ServerResponse *response = nil;
             if (responseObject) {
                 NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -402,7 +431,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager GET: @"api/4/weatherData" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"WeatherData"] toClass:NSStringFromClass([WeatherData4 class])] serverProxy:self userInfo:nil];
         }
         
@@ -415,7 +444,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager GET: @"ui.cgi" parameters:@{@"action": @"weatherdata"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey: @"HomeScreen"] toClass:NSStringFromClass([WeatherData class])] serverProxy:self userInfo:nil];
         }
         
@@ -438,7 +467,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"zones"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self userInfo:nil];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -450,8 +479,31 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager GET:@"api/4/waterNowZone" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
-            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone class])] serverProxy:self userInfo:nil];
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone4 class])] serverProxy:self userInfo:nil];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+}
+
+- (void)requestWaterActionsForZone:(NSNumber*)zoneId
+{
+    if ([ServerProxy usesAPI3]) {
+        [self requestWaterActionsForZone3:zoneId];
+    } else {
+        [self requestWaterActionsForZone4:zoneId];
+    }
+}
+
+- (void)requestWaterActionsForZone4:(NSNumber*)zoneId
+{
+    [self.manager GET:[NSString stringWithFormat:@"api/4/zone/%@", zoneId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+            NSArray *response = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([WaterNowZone4 class])];
+            WaterNowZone4 *rez = (response.count > 0) ? response[0] : nil;
+            [self.delegate serverResponseReceived:rez serverProxy:self userInfo:nil];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleError:error fromOperation:operation userInfo:nil];
@@ -459,12 +511,12 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 // Request one single zone (Used in Water Now->Zone screen)
-- (void)requestWaterActionsForZone:(NSNumber*)zoneId
+- (void)requestWaterActionsForZone3:(NSNumber*)zoneId
 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"zoneedit",
                                              @"zid": zoneId} success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-                                                 if ([self passLoggedOutFilter:operation]) {
+                                                 if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                                                      NSDictionary *zoneDict = [responseObject objectForKey:@"zone"];
                                                      if ([zoneDict isKindOfClass:[NSDictionary class]]) {
                                                          WaterNowZone *zone = [WaterNowZone createFromJson:zoneDict];
@@ -477,9 +529,55 @@ static int serverAPIMinorSubVersion = -1;
                                              }];
 }
 
+- (BOOL)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
+{
+    if ([ServerProxy usesAPI3]) {
+        return [self api3ToggleWateringOnZone:zone withCounter:counter];
+    }
+    
+    if ([Utils isZoneIdle:zone]) {
+        [self api4StartWateringOnZone:zone withCounter:counter];
+        return YES;
+    }
+    [self api4StopWateringOnZone:zone];
+    return NO;
+}
+
+- (void)api4StopWateringOnZone:(WaterNowZone*)zone
+{
+    NSDictionary *paramsDic = @{@"zid" : zone.id};
+    
+    [self.manager POST: [NSString stringWithFormat:@"api/4/zone/%@/stop", zone.id] parameters:paramsDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])] serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+}
+
+- (void)api4StartWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
+{
+    NSDictionary *paramsDic = @{@"id" : zone.id,
+                                @"time": counter
+                                };
+    
+    [self.manager POST: @"api/4/waterZone" parameters:paramsDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])] serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+}
+
 // Toggle a zone (Used in Water Now->Zone screen and when toggling watering using switches from main screen)
 // Return value means: YES - if watering started, NO - if watering stopped
-- (BOOL)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
+- (BOOL)api3ToggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
 {
     BOOL isIdle = [Utils isZoneIdle:zone];
     StartStopWatering *startStopWatering = [StartStopWatering new];
@@ -491,7 +589,7 @@ static int serverAPIMinorSubVersion = -1;
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
     [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zone.id] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // The server returns an empty response when success
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             [self.delegate serverResponseReceived:nil serverProxy:self userInfo:nil];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -512,7 +610,7 @@ static int serverAPIMinorSubVersion = -1;
     NSDictionary *params = [self toDictionaryFromObject:startStopWatering];
     [self.manager POST:[NSString stringWithFormat:@"/ui.cgi?action=zonesave&from=zoneedit&zid=%@", zone.id] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // The server returns an empty response when success
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             [self.delegate serverResponseReceived:nil serverProxy:self userInfo:nil];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -526,7 +624,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager GET:@"/ui.cgi?action=stopall" parameters:@{@"action": @"stopall"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
     
-         if ([self passLoggedOutFilter:operation]) {
+         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
              ServerResponse *response = nil;
              if (responseObject) {
                  NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -551,7 +649,7 @@ static int serverAPIMinorSubVersion = -1;
 - (void)getRainDelay4 {
     [self.manager GET: @"api/4/rainDelay" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([RainDelay class])];
             [self.delegate serverResponseReceived:responseArray[0] serverProxy:self userInfo:nil];
         }
@@ -564,7 +662,7 @@ static int serverAPIMinorSubVersion = -1;
 - (void)getRainDelay3 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings", @"what": @"rainDelay"}
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                  if ([self passLoggedOutFilter:operation]) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:[responseObject objectForKey:@"settings"]] toClass:NSStringFromClass([RainDelay class])];
                       ServerResponse *response = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
                       [self.delegate serverResponseReceived:response serverProxy:self userInfo:nil];
@@ -588,7 +686,7 @@ static int serverAPIMinorSubVersion = -1;
     NSDictionary *params = [NSDictionary dictionaryWithObject:value forKey:@"rainDelay"];
     [self.manager POST: @"api/4/rainDelay" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
             [self.delegate serverResponseReceived:responseArray[0] serverProxy:self userInfo:params];
         }
@@ -602,7 +700,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     NSDictionary *params = [NSDictionary dictionaryWithObject:value forKey:@"rainDelay"];
     [self.manager POST:@"/ui.cgi?action=settings&what=rainDelay" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             ServerResponse *response = nil;
             if (responseObject) {
                 NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -674,15 +772,15 @@ static int serverAPIMinorSubVersion = -1;
     if ([ServerProxy usesAPI3]) {
         [self requestZones3];
     } else {
-        [self requestZones4];
+        [self requestZonesProperties];
     }
 }
 
-- (void)requestZones4 {
-    [self.manager GET:@"api/4/zone" parameters:nil
+- (void)requestZonesProperties
+{
+    [self.manager GET:@"api/4/zoneProperties" parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                  if ([self passLoggedOutFilter:operation]) {
-                      
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       responseObject = [self fixedZonesJSON:operation];
                       
                       NSArray *values = [responseObject objectForKey:@"zones"];
@@ -690,12 +788,42 @@ static int serverAPIMinorSubVersion = -1;
                           NSMutableArray *returnValues = [NSMutableArray array];
                           for (id obj in values) {
                               if ([obj isKindOfClass:[NSDictionary class]]) {
-                                  Zone *zone = [Zone createFromJson:obj];
+                                  ZoneProperties4 *zone = [ZoneProperties4 createFromJson:obj];
                                   [returnValues addObject:zone];
                               }
                           }
-                          [_delegate serverResponseReceived:returnValues serverProxy:self userInfo:nil];
+                          [self.delegate serverResponseReceived:returnValues serverProxy:self userInfo:nil];
                       }
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)requestZonePropertiesWithId:(int)zoneId
+{
+    [self.manager GET:[NSString stringWithFormat:@"api/4/zoneProperties/%d", zoneId] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      id obj = [self fixedZonesJSON:operation];
+                      ZoneProperties4 *zone = nil;
+                      if ([obj isKindOfClass:[NSDictionary class]]) {
+                          zone = [ZoneProperties4 createFromJson:obj];
+                      }
+                      [self.delegate serverResponseReceived:zone serverProxy:self userInfo:nil];
+                    }
+                }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)requestZones4 {
+    [self.manager GET:@"api/4/zone" parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone4 class])] serverProxy:self userInfo:nil];
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -706,7 +834,7 @@ static int serverAPIMinorSubVersion = -1;
 - (void)requestZones3 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action": @"settings", @"what": @"zones"}
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                  if ([self passLoggedOutFilter:operation]) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       
                       responseObject = [self fixedZonesJSON:operation];
 
@@ -728,10 +856,70 @@ static int serverAPIMinorSubVersion = -1;
               }];
 }
 
+- (void)createProgram:(Program4*)program
+{
+    NSMutableDictionary *params = [[program toDictionary] mutableCopy];
+    [params removeObjectForKey:@"uid"];
+    
+    [self.manager POST:@"api/4/program/create" parameters:params
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                      [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)requestProgramWithId:(int)programId {
+    [self.manager GET:[NSString stringWithFormat:@"api/4/program/%d", programId] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      Program4 *program = [Program4 createFromJson:responseObject];
+                      [self.delegate serverResponseReceived:program serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
 - (void)requestPrograms {
+    if ([ServerProxy usesAPI3]) {
+        [self requestPrograms3];
+    } else {
+        [self requestPrograms4];
+    }
+}
+
+- (void)requestPrograms4 {
+    [self.manager GET:@"api/4/program" parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSArray *values = [responseObject objectForKey:@"programs"];
+                      if (values) {
+                          NSMutableArray *returnValues = [NSMutableArray array];
+                          for (id obj in values) {
+                              if ([obj isKindOfClass:[NSDictionary class]]) {
+                                  Program4 *program = [Program4 createFromJson:obj];
+                                  [returnValues addObject:program];
+                              }
+                          }
+                          [_delegate serverResponseReceived:returnValues serverProxy:self userInfo:nil];
+                      }
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)requestPrograms3 {
     [self.manager GET:@"ui.cgi" parameters:@{@"action" : @"settings", @"what" : @"programs"}
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                  if ([self passLoggedOutFilter:operation]) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       NSArray *values = [responseObject objectForKey:@"programs"];
                       if (values) {
                           NSMutableArray *returnValues = [NSMutableArray array];
@@ -750,14 +938,46 @@ static int serverAPIMinorSubVersion = -1;
               }];
 }
 
+- (void)startProgram4:(Program4*)program {
+    NSDictionary *params = @{@"pid" : [NSNumber numberWithInt:program.programId]};
+    [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/start", program.programId] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                       [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:@"running"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)stopProgram4:(Program4*)program {
+    NSDictionary *params = @{@"pid" : [NSNumber numberWithInt:program.programId]};
+    [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/stop", program.programId] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                       [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:@"stopped"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
 - (void)runNowProgram:(Program*)program {
+    [self runNowProgram3:program];
+}
+
+- (void)runNowProgram3:(Program*)program {
     if (program) {
         // 3.55 and 3.56 can only Stop programs
         [self.manager POST:@"/ui.cgi" parameters:@{@"action" : @"settings",
                                                    @"what" : [Utils isDevice357Plus] ? @"run_now" : @"stop_now",
                                                    @"pid" : [NSNumber numberWithInt:program.programId]}
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if ([self passLoggedOutFilter:operation]) {
+            if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                 StartStopProgramResponse *response = nil;
                 if (responseObject) {
                     NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([StartStopProgramResponse class])];
@@ -772,6 +992,27 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)saveProgram:(Program*)program {
+    if ([ServerProxy usesAPI3]) {
+        [self saveProgram3:program];
+    } else {
+        [self saveProgram4:program];
+    }
+}
+
+- (void)saveProgram4:(Program*)program {
+    [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/update", program.programId] parameters:[program toDictionary]
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                       [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)saveProgram3:(Program*)program {
     if (program) {
         //        NSMutableDictionary *params = [[self toDictionaryFromObject:program] mutableCopy];
         //        [params setObject:[Utils formattedTime:program.startTime forTimeFormat:program.timeFormat] forKey:@"programStartTime"];
@@ -779,7 +1020,7 @@ static int serverAPIMinorSubVersion = -1;
         NSDictionary *params = [program toDictionary];
         
         [self.manager POST:@"ui.cgi?action=settings&what=programs" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if ([self passLoggedOutFilter:operation]) {
+            if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                 ServerResponse *response = nil;
                 if (responseObject) {
                     NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -794,13 +1035,36 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)deleteProgram:(int)programId {
+    if ([ServerProxy usesAPI3]) {
+        [self deleteProgram3:programId];
+    } else {
+        [self deleteProgram4:programId];
+    }
+}
+
+- (void)deleteProgram4:(int)programId {
+    NSDictionary *params = @{@"pid" : [NSNumber numberWithInt:programId]};
+    [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/delete", programId] parameters:params
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                      [self.delegate serverResponseReceived:@{@"serverResponse" : [rezArray firstObject], @"pid" : [NSNumber numberWithInt:programId]} serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)deleteProgram3:(int)programId {
+
     NSDictionary *paramsDic = @{@"action": @"settings",
                                 @"what": @"delete_program",
                                 @"pid": [NSNumber numberWithInt:programId]};
 
     [self.manager POST:@"/ui.cgi" parameters:paramsDic
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           if ([self passLoggedOutFilter:operation]) {
+           if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                ServerResponse *response = nil;
                if (responseObject) {
                    NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -827,7 +1091,7 @@ static int serverAPIMinorSubVersion = -1;
     
     [self.manager POST:@"/ui.cgi" parameters:paramsDic
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                   if ([self passLoggedOutFilter:operation]) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        ServerResponse *response = nil;
                        if (responseObject) {
                            NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -852,7 +1116,7 @@ static int serverAPIMinorSubVersion = -1;
     
     [self.manager POST:@"/ui.cgi" parameters:paramsDic
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                   if ([self passLoggedOutFilter:operation]) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        ServerResponse *response = nil;
                        if (responseObject) {
                            NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -867,13 +1131,48 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)saveZone:(Zone *)zone {
+    if ([ServerProxy usesAPI3]) {
+        [self saveZone3:zone];
+    } else {
+        [self saveZone4:(ZoneProperties4*)zone];
+    }
+}
+
+- (void)saveZone4:(ZoneProperties4 *)zone {
+    NSDictionary *params = @{@"name" : zone.name,
+                             @"type" : @(zone.vegetation),
+                             @"active" : @(zone.active),
+                             @"internet" : zone.internet,
+                             @"history" : zone.history,
+                             @"savings" : zone.savings,
+                             @"slope" : zone.slope,
+                             @"sun" : zone.sun,
+                             @"soil" : zone.soil,
+                             @"master" : @(zone.masterValve),
+                             @"before": @(zone.before),
+                             @"after" : @(zone.after)
+                             };
+    [self.manager POST: [NSString stringWithFormat:@"api/4/zoneProperties/%d", zone.zoneId] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+            id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+            [self.delegate serverResponseReceived:responseArray[0] serverProxy:self userInfo:params];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+}
+
+- (void)saveZone3:(Zone *)zone {
     if (zone) {
         NSDictionary *params = @{@"id" : @(zone.zoneId), @"active" : @(zone.active), @"after" : @(zone.after), @"before": @(zone.before),
                                  @"forecastData" : @(zone.forecastData), @"historicalAverage" : @(zone.historicalAverage), @"masterValve" : @(zone.masterValve),
                                  @"name" : zone.name, @"vegetation" : [NSString stringWithFormat:@"%d", zone.vegetation]};
         NSString *url = [NSString stringWithFormat:@"ui.cgi?action=settings&what=zones&zid=%d", zone.zoneId];
         [self.manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if ([self passLoggedOutFilter:operation]) {
+            if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                 NSArray *response = nil;
                 if (responseObject) {
                     NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([ServerResponse class])];
@@ -892,7 +1191,7 @@ static int serverAPIMinorSubVersion = -1;
     NSString *requestUrl = [NSString stringWithFormat:@"api/%d/update", version];
     [self.manager POST:requestUrl parameters:@{@"update": [NSNumber numberWithBool:YES]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([UpdateStartInfo class])];
             UpdateStartInfo *updateStartInfo = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
             [self.delegate serverResponseReceived:updateStartInfo serverProxy:self userInfo:nil];
@@ -908,7 +1207,7 @@ static int serverAPIMinorSubVersion = -1;
     NSString *requestUrl = [NSString stringWithFormat:@"api/%d/update", version];
     [self.manager GET:requestUrl parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             id updateInfo = nil;
             if ([ServerProxy usesAPI3]) {
                 UpdateInfo *updateInfo3 = [UpdateInfo createFromJson:responseObject];
@@ -929,7 +1228,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     [self.manager GET:@"api/apiVer" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([self passLoggedOutFilter:operation]) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             NSArray *parsedArray = responseObject ? [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([APIVersion class])] : nil;
             APIVersion *version = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
             if (!version.apiVer) {
@@ -954,6 +1253,34 @@ static int serverAPIMinorSubVersion = -1;
             [_delegate serverErrorReceived:error serverProxy:self operation:operation userInfo:userInfo];
         }
     }
+}
+
+- (BOOL)passErrorFilter:(id)responseObject
+{
+    if ([ServerProxy usesAPI3]) {
+        return YES;
+    }
+    
+    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+        NSArray *allKeys = [responseObject allKeys];
+        if (allKeys.count == 2) {
+            if ((([allKeys[0] isEqualToString:@"message"]) && ([allKeys[1] isEqualToString:@"statusCode"])) ||
+                (([allKeys[1] isEqualToString:@"message"]) && ([allKeys[0] isEqualToString:@"statusCode"]))) {
+                NSNumber *statusCode = [responseObject objectForKey:@"statusCode"];
+                if ([statusCode intValue] != API4StatusCode_Success) {
+                    NSString *message = [responseObject objectForKey:@"message"];
+                    NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
+                    [userInfo setValue:message forKey:NSLocalizedDescriptionKey];
+                    [self handleError:[NSError errorWithDomain:@"Sprinkler" code:[statusCode intValue] userInfo:userInfo] fromOperation:nil userInfo:nil];
+                    return NO;
+                }
+            }
+        }
+    } else {
+        assert(0); // TODO: remove it from API4 code at the end
+    }
+    
+    return YES;
 }
 
 - (BOOL)passLoggedOutFilter:(AFHTTPRequestOperation *)operation

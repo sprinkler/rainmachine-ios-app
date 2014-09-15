@@ -158,7 +158,7 @@
     Zone *zone = self.zones[indexPath.row];
     
     cell.labelTitle.text = [Utils fixedZoneName:zone.name withId:[NSNumber numberWithInt:zone.zoneId]];
-    cell.labelSubtitle.text = kVegetationType[zone.vegetation];
+    cell.labelSubtitle.text = [ServerProxy usesAPI3] ? kVegetationType[zone.vegetation] : kVegetationTypeAPI4[zone.vegetation];
     
     if (zone.masterValve) {
         cell.labelAccessory.text = @"Master Valve";

@@ -120,7 +120,7 @@
     
     [self stopPollRequests];
 
-    [[StorageManager current] setZoneCounter:self.wateringZone];
+//    [[StorageManager current] setZoneCounter:self.wateringZone];
 }
 
 #pragma mark - UI

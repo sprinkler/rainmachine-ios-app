@@ -207,9 +207,15 @@
     }
     else if (serverProxy == self.postServerProxy) {
         self.postServerProxy = nil;
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        NSString *errorMessage = nil;
+        if ([ServerProxy usesAPI3]) {
+            ServerResponse *response = (ServerResponse*)data;
+            if ([response.status isEqualToString:@"err"]) {
+                errorMessage = response.message;
+            }
+        }
+        if (errorMessage) {
+            [self.parent handleSprinklerGeneralError:errorMessage showErrorMessage:YES];
         }
     }
     

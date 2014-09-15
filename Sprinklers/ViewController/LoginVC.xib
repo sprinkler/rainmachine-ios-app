@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -10,6 +10,7 @@
                 <outlet property="bucketLabel" destination="7rW-D2-z09" id="xkD-uK-Yk9"/>
                 <outlet property="buttonCheckBox" destination="rkA-0y-l2m" id="RrR-iS-PJc"/>
                 <outlet property="buttonLogin" destination="ZVg-nK-f1I" id="lpJ-bK-DrI"/>
+                <outlet property="rememberMeLabel" destination="doT-Ty-bXu" id="NRv-Xe-Q0R"/>
                 <outlet property="textPassword" destination="IlE-gQ-CaR" id="AwU-4O-PIf"/>
                 <outlet property="textUsername" destination="QkD-Pc-YFt" id="O66-cU-Fgv"/>
                 <outlet property="view" destination="1" id="3"/>

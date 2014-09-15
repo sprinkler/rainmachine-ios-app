@@ -12,11 +12,11 @@
 #import "WaterNowLevel1VC.h"
 #import "ServerProxy.h"
 #import "Constants.h"
-#import "WaterNowZone.h"
 #import "MBProgressHUD.h"
 #import "WaterZoneListCell.h"
 #import "WaterNowLevel1VC.h"
 #import "WaterNowZone.h"
+#import "WaterNowZone4.h"
 #import "Utils.h"
 #import "StorageManager.h"
 #import "CounterHelper.h"
@@ -68,6 +68,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self resetServerProxies];
     
     [self setupRainDelayMode:NO];
     
@@ -143,9 +145,11 @@
 
 - (void)requestDetailsOfZones
 {
-    for (int i = 0; i < [self.zones count]; i++) {
-        WaterNowZone *wateringZoneInList = self.zones[i];
-        [self.zonesDetailsServerProxy requestWaterActionsForZone:wateringZoneInList.id];
+    if ([ServerProxy usesAPI3]) {
+        for (int i = 0; i < [self.zones count]; i++) {
+            WaterNowZone *wateringZoneInList = self.zones[i];
+            [self.zonesDetailsServerProxy requestWaterActionsForZone:wateringZoneInList.id];
+        }
     }
 }
 
@@ -161,11 +165,9 @@
     return YES;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    [self resetServerProxies];
-
     if (self.delayedInitialListRefresh) {
         [self setDensePollingInterval];
         
@@ -177,11 +179,7 @@
     }
 
     [self.rainDelayPoller scheduleNextPoll:0];
-}
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
 
@@ -252,8 +250,17 @@
 
 - (void)stopAll
 {
-    if ([Utils isDevice357Plus]) {
-        [self.postServerProxy stopAllWateringZones];
+    if ([ServerProxy usesAPI3]) {
+        if ([Utils isDevice357Plus]) {
+            [self.postServerProxy stopAllWateringZones];
+        } else {
+            for (WaterNowZone *zone in self.zones) {
+                BOOL isIdle = [Utils isZoneIdle:zone];
+                if (!isIdle) {
+                    [self toggleWateringOnZone:zone withCounter:zone.counter];
+                }
+            }
+        }
     } else {
         for (WaterNowZone *zone in self.zones) {
             BOOL isIdle = [Utils isZoneIdle:zone];
@@ -364,6 +371,20 @@
             [self requestDetailsOfZones];
             
             [self.tableView reloadData];
+
+            if ([ServerProxy usesAPI4]) {
+                for (int i = 0; i < self.zones.count; i++) {
+                    if ([Utils isZoneWatering:self.zones[i]]) {
+                        [self clearStateChangeObserver];
+                        self.wateringZone = self.zones[i];
+                        [self.wateringCounterHelper updateCounter];
+                        [self refreshCounterLabel:0];
+                        break;
+                    }
+                }
+                
+                [self updateStopAllCounterAndDecrease:NO];
+            }
         }
         
         [self scheduleNextListRefreshRequest:retryInterval];
@@ -583,10 +604,22 @@
 
 - (NSArray*)filteredZones:(NSArray*)zones
 {
-    NSMutableArray *rez = [NSMutableArray array];
-    for (WaterNowZone *zone in zones) {
-        [rez addObject:zone];
+    if ([ServerProxy usesAPI3]) {
+        return zones;
     }
+    
+    NSMutableArray *rez = [zones mutableCopy];
+    
+    // Remove the master valve
+    for (int i = 0 ; i < zones.count; i++) {
+        WaterNowZone4 *zone = zones[i];
+//        if ([zone.master intValue] == 1) {
+        if ([zone.uid intValue] == 1) {
+            [rez removeObjectAtIndex:i];
+            break;
+        }
+    }
+    
     return rez;
 }
 
@@ -629,14 +662,16 @@
         succeededWatering = [self.postServerProxy setWateringOnZone:zone toState:state withCounter:counter];
     }
 
-    // Force instant refresh on UI, wait later for server response
-    if ([zone.state length] == 0)
-    {
-        zone.state = @"Pending";
-    }
-    else
-    {
-        zone.state = @"";
+    if ([ServerProxy usesAPI3]) {
+        // Force instant refresh on UI, wait later for server response
+        if ([zone.state length] == 0)
+        {
+            zone.state = @"Pending";
+        }
+        else
+        {
+            zone.state = @"";
+        }
     }
     
     if (succeededWatering) {
@@ -694,39 +729,57 @@
     
     [self updateZonesStartObservers];
 
-    // Restore counters because unpacking the server response destroyed them
-    for (int i = 0; i < self.zones.count; i++) {
-        WaterNowZone *currentZ = self.zones[i];
-        int indexInPrevList = [self indexOfZoneWithId:currentZ.id fromZonesArray:previousZonesCopy];
-        WaterNowZone *prevZ = (indexInPrevList != -1) ? previousZonesCopy[indexInPrevList] : self.zones[i];
-
-        BOOL isWatering = [Utils isZoneWatering:currentZ];
-        BOOL prevIsIdle = [Utils isZoneIdle:prevZ];
-        
-        if ((isWatering) && (prevIsIdle)) {
-            // If the watering flag was set just now and the counter value is 0 in sourceZone,
-            // reset the counter because otherwise we will start counting down from the dbValue which is not always the desired start value
-            prevZ.counter = nil;
-        }
-        
-        // Restore previous state if current is empty
-        [self updateZoneAtIndex:i withCounterFromZone:prevZ setState:NO];
-    }
+    [self updateZonesCounters:previousZonesCopy];
     
     BOOL isWateringZone = NO;
     
-    // Set the persistent counters for any other zone left with counter 0
     for (int i = 0; i < self.zones.count; i++) {
         WaterNowZone *zone = self.zones[i];
         if ([Utils isZoneWatering:zone]) {
             self.wateringZone = zone;
             isWateringZone = YES;
+            break;
         }
     }
     
     if (!isWateringZone) {
         self.wateringZone = nil;
         [self.wateringCounterHelper updateCounter];
+    }
+}
+
+- (void)updateZonesCounters:(NSArray*)previousZonesCopy
+{
+    if ([ServerProxy usesAPI3]) {
+        // Restore counters because unpacking the server response destroyed them
+        for (int i = 0; i < self.zones.count; i++) {
+            WaterNowZone *currentZ = self.zones[i];
+            int indexInPrevList = [self indexOfZoneWithId:currentZ.id fromZonesArray:previousZonesCopy];
+            WaterNowZone *prevZ = (indexInPrevList != -1) ? previousZonesCopy[indexInPrevList] : self.zones[i];
+            
+            BOOL isWatering = [Utils isZoneWatering:currentZ];
+            BOOL prevIsIdle = [Utils isZoneIdle:prevZ];
+            
+            if ((isWatering) && (prevIsIdle)) {
+                // If the watering flag was set just now and the counter value is 0 in sourceZone,
+                // reset the counter because otherwise we will start counting down from the dbValue which is not always the desired start value
+                prevZ.counter = nil;
+            }
+            
+            // Restore previous state if current is empty
+            [self updateZoneAtIndex:i withCounterFromZone:prevZ setState:NO];
+        }
+    } else {
+        for (int i = 0; i < self.zones.count; i++) {
+            WaterNowZone *destZone = self.zones[i];
+            BOOL isIdle = [Utils isZoneIdle:destZone];
+            
+            if (isIdle) {
+                [self updateCounterFromDBForZone:destZone];
+            }
+            
+            destZone.counter = [Utils fixedZoneCounter:destZone.counter isIdle:isIdle];
+        }
     }
 }
 
@@ -778,6 +831,7 @@
     }
     
     for (NSNumber *zoneId in [self.stateChangeObserver allKeys]) {
+        // Decrement counter value
         NSNumber *n = [self.stateChangeObserver objectForKey:zoneId];
         NSNumber *newN = [NSNumber numberWithInt:MAX(0, [n intValue] - 1)];
         [self.stateChangeObserver setObject:newN forKey:zoneId];
@@ -786,6 +840,8 @@
 
 - (void)updateZoneAtIndex:(int)index withCounterFromZone:(WaterNowZone *)sourceZone setState:(BOOL)setState
 {
+    assert([ServerProxy usesAPI3]); // because of .state members
+    
     if (index != -1) {
         WaterNowZone *destZone = self.zones[index];
         destZone.counter = sourceZone.counter;
@@ -843,7 +899,9 @@
 {
     if ([StorageManager current].currentSprinkler) {
         self.pollServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-        self.zonesDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        if ([ServerProxy usesAPI3]) {
+            self.zonesDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        }
         self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     }
 }

@@ -20,6 +20,17 @@ NSString *const kDeviceNotSupported = @"kDeviceNotSupported";
 
 NSString *const kShowSettingsZones = @"kShowSettingsZones";
 
+NSString *kVegetationTypeAPI4[9] = {
+    @"",
+    @"Lawn",
+    @"Fruit trees",
+    @"Flowers",
+    @"Vegetables",
+    @"Citrus",
+    @"Trees & bushes",
+    @"Other"
+};
+
 NSString *kVegetationType[9] = {
     @"",
     @"",

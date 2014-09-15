@@ -158,7 +158,11 @@ typedef enum {
     if (getZonesCount > 0) {
         // There is no getProgrambyId request, so we extract the program from the programs list
         if (self.shouldRefreshContent) {
-            [self.serverProxy requestZones];
+            if ([ServerProxy usesAPI3]) {
+                [self.serverProxy requestZones];
+            } else {
+                [self.serverProxy requestZonePropertiesWithId:self.zone.zoneId];
+            }
             [self startHud:nil];
         }
     }
@@ -315,9 +319,15 @@ typedef enum {
 
     if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        NSString *errorMessage = nil;
+        if ([ServerProxy usesAPI3]) {
+            ServerResponse *response = (ServerResponse*)data;
+            if ([response.status isEqualToString:@"err"]) {
+                errorMessage = response.message;
+            }
+        }
+        if (errorMessage) {
+            [self.parent handleSprinklerGeneralError:errorMessage showErrorMessage:YES];
         } else {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.parent setZone:self.zone withIndex:self.zoneIndex];
@@ -333,12 +343,16 @@ typedef enum {
         }
     }
     else if (serverProxy == self.serverProxy) {
-        NSArray *zones = (NSArray*)data;
-        for (Zone *listZone in zones) {
-            if (self.zone.zoneId == listZone.zoneId) {
-                self.zone = listZone;
-                break;
+        if ([ServerProxy usesAPI3]) {
+            NSArray *zones = (NSArray*)data;
+            for (Zone *listZone in zones) {
+                if (self.zone.zoneId == listZone.zoneId) {
+                    self.zone = listZone;
+                    break;
+                }
             }
+        } else {
+            self.zone = data;
         }
         
         [self refreshToolbarEdited];
@@ -529,7 +543,7 @@ typedef enum {
         }
         
         cell.textLabel.text = @"Vegetation Type";
-        cell.detailTextLabel.text = kVegetationType[_zone.vegetation];
+        cell.detailTextLabel.text = [ServerProxy usesAPI3] ? kVegetationType[_zone.vegetation] : kVegetationTypeAPI4[_zone.vegetation];
         
         return cell;
     }

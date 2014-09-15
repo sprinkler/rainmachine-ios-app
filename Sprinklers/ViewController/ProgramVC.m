@@ -9,6 +9,7 @@
 #import "ProgramVC.h"
 #import "BaseLevel2ViewController.h"
 #import "Program.h"
+#import "Program4.h"
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
 #import "ButtonCell.h"
@@ -32,6 +33,7 @@
 #import "RainDelayPoller.h"
 #import "RainDelay.h"
 #import "HomeScreenDataSourceCell.h"
+#import "API4ErrorResponse.h"
 
 @interface ProgramVC ()
 {
@@ -123,7 +125,11 @@
     [self refreshToolBarButtonTitles];
     
     if (!self.program) {
-        self.program = [Program program];
+        if ([ServerProxy usesAPI3]) {
+            self.program = [Program program];
+        } else {
+            self.program = (Program*)[Program4 program];
+        }
         self.program.timeFormat = [self.parent serverTimeFormat];
     }
     
@@ -255,7 +261,7 @@
         if (self.program.programId != -1) {
             // There is no getProgrambyId request, so we extract the program from the programs list
             if (self.shouldRefreshContent) {
-                [_getProgramListServerProxy requestPrograms];
+                [self requestProgram];
                 [self showHUD];
             }
         }
@@ -324,7 +330,11 @@
     } else {
         if (!self.postSaveServerProxy) {
             self.postSaveServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-            [self.postSaveServerProxy saveProgram:self.program];
+            if ([ServerProxy usesAPI3]) {
+                [self.postSaveServerProxy saveProgram:self.program];
+            } else {
+                [self.postSaveServerProxy createProgram:(Program4*)self.program];
+            }
             
             [self showHUD];
         }
@@ -344,7 +354,16 @@
 
 - (IBAction)onStartOrStop:(id)sender {
     self.runNowServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-    [self.runNowServerProxy runNowProgram:self.program];
+    if ([ServerProxy usesAPI3]) {
+        [self.runNowServerProxy runNowProgram:self.program];
+    } else {
+        Program4 *program4 = (Program4*)self.program;
+        if (program4.status == API4_ProgramStatus_Stopped) {
+            [self.runNowServerProxy startProgram4:program4];
+        } else {
+            [self.runNowServerProxy stopProgram4:program4];
+        }
+    }
     
     [self updateRunNowButtonActiveStateTo:NO setActivityIndicator:YES];
 //    self.program.state = @"running";
@@ -933,37 +952,54 @@
     else if (serverProxy == self.getProgramListServerProxy) {
         [self hideHUD];
 
-        NSArray *newPrograms = (NSArray *)data;
-        if ([newPrograms count] > 0) {
-            Program *programFromList = nil;
-            if (self.program.programId == -1) {
-                NSArray *oldPrograms = self.parent.programs;
-                Program *possibleAddedProgram = [self extractAddedProgramFromList:newPrograms basedOnOldList:oldPrograms];
-                programFromList = possibleAddedProgram;
-            } else {
-                programFromList = [self extractProgramWithId:self.program.programId fromList:newPrograms];
-            }
-            
-            self.parent.programs = [newPrograms mutableCopy];
+        if ([ServerProxy usesAPI3]) {
+            NSArray *newPrograms = (NSArray *)data;
+            if ([newPrograms count] > 0) {
+                Program *programFromList = nil;
+                if (self.program.programId == -1) {
+                    NSArray *oldPrograms = self.parent.programs;
+                    Program *possibleAddedProgram = [self extractAddedProgramFromList:newPrograms basedOnOldList:oldPrograms];
+                    programFromList = possibleAddedProgram;
+                } else {
+                    programFromList = [self extractProgramWithId:self.program.programId fromList:newPrograms];
+                }
+                
+                self.parent.programs = [newPrograms mutableCopy];
 
-            if (programFromList) {
-                self.program = programFromList;
-                didSave = YES;
+                if (programFromList) {
+                    self.program = programFromList;
+                    didSave = YES;
+                }
             }
+        } else {
+            self.program = data;
+            didSave = YES;
         }
         self.programCopyBeforeSave = self.program;
         [self createThreeButtonToolbar];
     }
     else if (serverProxy == self.postSaveServerProxy) {
         self.postSaveServerProxy = nil;
-        ServerResponse *response = (ServerResponse*)data;
-        if ([response.status isEqualToString:@"err"]) {
-            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        NSString *errorMessage = nil;
+        if ([ServerProxy usesAPI3]) {
+            ServerResponse *response = (ServerResponse*)data;
+            if ([response.status isEqualToString:@"err"]) {
+                errorMessage = response.message;
+            }
+        } else {
+            API4ErrorResponse *response = (API4ErrorResponse*)data;
+            self.program.programId = [response.program[@"uid"] intValue];
+            [self.parent setProgram:self.program withIndex:self.programIndex];
+            didSave = YES;
+            [self hideHUD];
+        }
+        if (errorMessage) {
+            [self.parent handleSprinklerGeneralError:errorMessage showErrorMessage:YES];
         } else {
             if (self.program.programId == -1) {
                 // Create a new program. We don't receive the new id from the server. That's why we have to do a new requestPrograms call and extract the new id from there.
                 [self showHUD];
-                [_getProgramListServerProxy requestPrograms];
+                [self requestProgram];
             } else {
                 // Save existing program
                 [self hideHUD];
@@ -978,11 +1014,21 @@
     }
     else if (serverProxy == self.runNowServerProxy) {
         self.runNowServerProxy = nil;
-        StartStopProgramResponse *response = (StartStopProgramResponse*)data;
-        if ([response.state isEqualToString:@"err"]) {
-            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        NSString *errorMessage = nil;
+        if ([ServerProxy usesAPI3]) {
+            StartStopProgramResponse *response = (StartStopProgramResponse*)data;
+            if ([response.state isEqualToString:@"err"]) {
+                errorMessage = response.message;
+            }
+            self.program.state = response.state;
+        } else {
+            self.program.state = userInfo;
         }
-        self.program.state = response.state;
+        
+        if (errorMessage) {
+            [self.parent handleSprinklerGeneralError:errorMessage showErrorMessage:YES];
+        }
+
         self.runNowServerProxy = nil;
 
         [self.parent setProgram:self.program withIndex:self.programIndex];
@@ -1024,6 +1070,15 @@
 }
 
 #pragma mark - Internal
+
+- (void)requestProgram
+{
+    if ([ServerProxy usesAPI3]) {
+        [_getProgramListServerProxy requestPrograms];
+    } else {
+        [_getProgramListServerProxy requestProgramWithId:self.program.programId];
+    }
+}
 
 - (Program*)extractProgramWithId:(int)programId fromList:(NSArray*)programs
 {

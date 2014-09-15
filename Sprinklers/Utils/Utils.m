@@ -10,6 +10,7 @@
 #import "+UIImage.h"
 #import "Constants.h"
 #import "WaterNowZone.h"
+#import "WaterNowZone4.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "UpdateManager.h"
@@ -19,6 +20,7 @@
 #import "+NSDate.h"
 #import "APIVersion.h"
 #import "APIVersion4.h"
+#import "ServerProxy.h"
 
 @implementation Utils
 
@@ -123,17 +125,32 @@
 
 + (BOOL)isZoneWatering:(WaterNowZone*)zone
 {
-    return [zone.state isEqualToString:@"Watering"];
+    if ([ServerProxy usesAPI3]) {
+        return [zone.state isEqualToString:@"Watering"];
+    }
+    
+    WaterNowZone4* zone4 = (WaterNowZone4*)zone;
+    return [zone4.state intValue] == kAPI4ZoneState_Watering;
 }
 
 + (BOOL)isZoneIdle:(WaterNowZone*)zone
 {
-    return  ([zone.state length] == 0) || ([zone.state isEqualToString:@"Idle"]);
+    if ([ServerProxy usesAPI3]) {
+        return  ([zone.state length] == 0) || ([zone.state isEqualToString:@"Idle"]);
+    }
+    
+    WaterNowZone4* zone4 = (WaterNowZone4*)zone;
+    return [zone4.state intValue] == kAPI4ZoneState_Idle;
 }
 
 + (BOOL)isZonePending:(WaterNowZone*)zone
 {
-    return [zone.state isEqualToString:@"Pending"];
+    if ([ServerProxy usesAPI3]) {
+        return [zone.state isEqualToString:@"Pending"];
+    }
+    
+    WaterNowZone4* zone4 = (WaterNowZone4*)zone;
+    return [zone4.state intValue] == kAPI4ZoneState_Pending;
 }
 
 + (BOOL)isDevice357Plus
@@ -368,8 +385,46 @@
     return [UIImage imageFromLayer:layer];
 }
 
-+ (UIImage*)weatherImageFromCode:(NSNumber*)cod
++ (UIImage*)weatherImageFromCode:(NSNumber*)code
 {
+    static NSString *codesTable[] = {/*0,*/ @"bkn", // MostlyCloudy
+                                   /*1,*/ @"skc", // Fair
+                                   /*2,*/ @"few", // A Few Clouds
+                                   /*3,*/ @"sct", // Partly Cloudy
+                                   /*4,*/ @"ovc", // Overcast
+                                   /*5,*/ @"fg",  // Fog
+                                   /*6,*/ @"smoke", // Smoke
+                                   /*7,*/ @"fzrara",  // Freezing Rain
+                                   /*8,*/ @"ip",  // Ice Pellets
+                                   /*9,*/ @"raip", // Rain Ice Pellets
+                                   /*10,*/ @"rasn", // Rain Snow
+                                   /*11,*/ @"shra", // Rain Showers
+                                   /*12,*/ @"tsra", // Thunderstorms
+                                   /*13,*/ @"sn",   // Snow
+                                   /*14,*/ @"wind", // Windy
+                                   /*15,*/ @"hi_shwrs", // Showers in vicinity
+                                   /*16,*/ @"fzrara",   // Heavy Freezing Rain
+                                   /*17,*/ @"hi_tsra",  // Thunderstorms in Vicinity
+                                   /*18,*/ @"ra1",   // Light Rain
+                                   /*19,*/ @"ra",    // Heavy Rain
+                                   /*20,*/ @"nsvrtsra",   // Funnel Cloud in Vicinity
+                                   /*21,*/ @"du", // Dust
+                                   /*22,*/ @"mist", // Mist
+                                   /*23,*/ @"hot",  // Hot
+                                   /*24,*/ @"cold", // Cold
+                                   /*25,*/ @"na"
+    };
+    
+    int codesTableSize = sizeof(codesTable) / sizeof(codesTable[0]);
+    if ([code isKindOfClass:[NSNull class]]) {
+        return [UIImage imageNamed:@"na"];
+    } else {
+        if ([code intValue] < codesTableSize) {
+            NSString *imageName = codesTable[[code intValue]];
+            return [UIImage imageNamed:imageName];
+        }
+    }
+    
     return nil;
 }
 

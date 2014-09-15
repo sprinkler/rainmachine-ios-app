@@ -86,6 +86,15 @@
 
 #pragma mark - Methods
 
+- (int)programsCount
+{
+    if ([ServerProxy usesAPI3]) {
+        return self.programs.count - 1;
+    }
+    
+    return self.programs.count;
+}
+
 - (void)requestPrograms
 {
     [self startHud:nil];
@@ -112,12 +121,18 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.postDeleteServerProxy) {
         self.postDeleteServerProxy = nil;
-        ServerResponse *response = [data objectForKey:@"serverResponse"];
-        if ([response.status isEqualToString:@"ok"]) {
+        NSString *errorMessage = nil;
+        if ([ServerProxy usesAPI3]) {
+            ServerResponse *response = [data objectForKey:@"serverResponse"];
+            if ([response.status isEqualToString:@"err"]) {
+                errorMessage = response.message;
+            }
+        }
+        if (errorMessage) {
+            [self.parent handleSprinklerGeneralError:errorMessage showErrorMessage:YES];
+        } else {
             NSNumber *delProgramId = [data objectForKey:@"pid"];
             [self programDeleted:delProgramId];
-        } else {
-            [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } else {
@@ -139,7 +154,7 @@
 }
 
 - (void)programDeleted:(NSNumber*)programId {
-    for (int i = 0; i < self.programs.count - 1 ; i++) {
+    for (int i = 0; i < [self programsCount] ; i++) {
         if (((Program *)self.programs[i]).programId == [programId intValue]) {
             [self.programs removeObject:self.programs[i]];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
@@ -162,7 +177,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 1) return 1;
-    return self.programs.count - 1;
+    return [self programsCount];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

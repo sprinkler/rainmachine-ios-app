@@ -41,6 +41,22 @@ typedef enum {
     API4StatusCode_PasswordNotChanged = 8
 } API4StatusCode;
 
+typedef enum {
+    kAPI4ZoneVegetationType_Other = 1,
+    kAPI4ZoneVegetationType_Lawn,
+    kAPI4ZoneVegetationType_Fruit_Trees,
+    kAPI4ZoneVegetationType_Flowers,
+    kAPI4ZoneVegetationType_Vegetables,
+    kAPI4ZoneVegetationType_Citrus,
+    kAPI4ZoneVegetationType_Trees_And_Bushes
+}kAPI4ZoneVegetationType;
+
+typedef enum {
+    kAPI4ZoneState_Idle = 0,
+    kAPI4ZoneState_Watering = 1,
+    kAPI4ZoneState_Pending = 2
+}kAPI4ZoneState;
+
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
 #import "Zone.h"
@@ -49,6 +65,7 @@ typedef enum {
 @class StartStopWatering;
 @class WaterNowZone;
 @class Program;
+@class Program4;
 @class SettingsDate;
 @class Login4Response;
 @class Sprinkler;
@@ -79,18 +96,24 @@ typedef enum {
 - (void)getRainDelay;
 
 - (void)requestPrograms;
+- (void)createProgram:(Program4*)program;
+- (void)requestProgramWithId:(int)programId;
 - (void)deleteProgram:(int)programId;
 - (void)programCycleAndSoak:(int)programId cycles:(int)cycles soak:(int)soak_minutes cs_on:(int)cs_on;
 - (void)programStationDelay:(int)programId delay:(int)delay_minutes delay_on:(int)delay_on;
 - (void)saveProgram:(Program*)program;
 - (void)runNowProgram:(Program*)program;
-
+- (void)startProgram4:(Program4*)program;
+- (void)stopProgram4:(Program4*)program;
+    
 - (void)setSettingsUnits:(NSString*)unit;
 - (void)requestSettingsUnits;
 - (void)setSettingsDate:(SettingsDate*)unit;
 - (void)requestSettingsDate;
 - (void)setNewPassword:(NSString*)newPassword confirmPassword:(NSString*)confirmPassword oldPassword:(NSString*)oldPassword;
 
+- (void)requestZonePropertiesWithId:(int)zoneId;
+- (void)requestZonesProperties;
 - (void)requestZones;
 - (void)saveZone:(Zone *)zone;
 

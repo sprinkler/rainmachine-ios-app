@@ -109,6 +109,10 @@
 		AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */; };
 		AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */; };
 		AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6008AD18D9E69300DB6D75 /* StartStopProgramResponse.m */; };
+		AF61117219C5491D008AA62B /* ZoneProperties4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF61117119C5491D008AA62B /* ZoneProperties4.m */; };
+		AF61117519C579CF008AA62B /* Program4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF61117419C579CF008AA62B /* Program4.m */; };
+		AF61117819C57CDC008AA62B /* Frequency4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF61117719C57CDC008AA62B /* Frequency4.m */; };
+		AF61117B19C62D55008AA62B /* ProgramWateringTimes4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF61117A19C62D55008AA62B /* ProgramWateringTimes4.m */; };
 		AF73880918E08ADE00F184A9 /* BaseNetworkHandlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF73880818E08ADE00F184A9 /* BaseNetworkHandlingVC.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
@@ -142,6 +146,7 @@
 		AF91C7F71858D757005888AA /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* ServerResponse.m */; };
 		AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */; };
 		AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBC218B8B505006FE76D /* RainDelay.m */; };
+		AF961ED119C36D2300A2A13C /* WaterNowZone4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF961ED019C36D2300A2A13C /* WaterNowZone4.m */; };
 		AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */; };
 		AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
@@ -416,6 +421,14 @@
 		AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramListCell.m; path = Cells/ProgramListCell.m; sourceTree = "<group>"; };
 		AF6008AC18D9E69300DB6D75 /* StartStopProgramResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartStopProgramResponse.h; path = "Communication/Response objects/StartStopProgramResponse.h"; sourceTree = "<group>"; };
 		AF6008AD18D9E69300DB6D75 /* StartStopProgramResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartStopProgramResponse.m; path = "Communication/Response objects/StartStopProgramResponse.m"; sourceTree = "<group>"; };
+		AF61117019C5491D008AA62B /* ZoneProperties4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneProperties4.h; path = "Communication/Response objects/ZoneProperties4.h"; sourceTree = "<group>"; };
+		AF61117119C5491D008AA62B /* ZoneProperties4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneProperties4.m; path = "Communication/Response objects/ZoneProperties4.m"; sourceTree = "<group>"; };
+		AF61117319C579CF008AA62B /* Program4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Program4.h; path = "Communication/Response objects/Program4.h"; sourceTree = "<group>"; };
+		AF61117419C579CF008AA62B /* Program4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Program4.m; path = "Communication/Response objects/Program4.m"; sourceTree = "<group>"; };
+		AF61117619C57CDC008AA62B /* Frequency4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frequency4.h; path = "Communication/Response objects/Frequency4.h"; sourceTree = "<group>"; };
+		AF61117719C57CDC008AA62B /* Frequency4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Frequency4.m; path = "Communication/Response objects/Frequency4.m"; sourceTree = "<group>"; };
+		AF61117919C62D55008AA62B /* ProgramWateringTimes4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramWateringTimes4.h; path = "Communication/Response objects/ProgramWateringTimes4.h"; sourceTree = "<group>"; };
+		AF61117A19C62D55008AA62B /* ProgramWateringTimes4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramWateringTimes4.m; path = "Communication/Response objects/ProgramWateringTimes4.m"; sourceTree = "<group>"; };
 		AF73880718E08ADE00F184A9 /* BaseNetworkHandlingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseNetworkHandlingVC.h; path = ViewController/BaseNetworkHandlingVC.h; sourceTree = "<group>"; };
 		AF73880818E08ADE00F184A9 /* BaseNetworkHandlingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseNetworkHandlingVC.m; path = ViewController/BaseNetworkHandlingVC.m; sourceTree = "<group>"; };
 		AF7782C2184CD3DE00DCBD54 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = ../Constants.h; sourceTree = "<group>"; };
@@ -478,6 +491,8 @@
 		AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetRainDelay.m; path = "Communication/Request objects/SetRainDelay.m"; sourceTree = "<group>"; };
 		AF94FBC118B8B505006FE76D /* RainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainDelay.h; path = "Communication/Response objects/RainDelay.h"; sourceTree = "<group>"; };
 		AF94FBC218B8B505006FE76D /* RainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainDelay.m; path = "Communication/Response objects/RainDelay.m"; sourceTree = "<group>"; };
+		AF961ECF19C36D2300A2A13C /* WaterNowZone4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowZone4.h; path = "Communication/Response objects/WaterNowZone4.h"; sourceTree = "<group>"; };
+		AF961ED019C36D2300A2A13C /* WaterNowZone4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowZone4.m; path = "Communication/Response objects/WaterNowZone4.m"; sourceTree = "<group>"; };
 		AFA1BEFB18C4D703005FBE9B /* SettingsPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsPasswordVC.h; path = ViewController/SettingsPasswordVC.h; sourceTree = "<group>"; };
 		AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPasswordVC.m; path = ViewController/SettingsPasswordVC.m; sourceTree = "<group>"; };
 		AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsPasswordVC.xib; path = ViewController/SettingsPasswordVC.xib; sourceTree = "<group>"; };
@@ -1002,10 +1017,16 @@
 				B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */,
 				B1254CA2187ADCB3004E2F0E /* Program.h */,
 				B1254CA3187ADCB3004E2F0E /* Program.m */,
+				AF61117319C579CF008AA62B /* Program4.h */,
+				AF61117419C579CF008AA62B /* Program4.m */,
+				AF61117619C57CDC008AA62B /* Frequency4.h */,
+				AF61117719C57CDC008AA62B /* Frequency4.m */,
 				AF4397EB19ACD5D8000F415D /* API4ErrorResponse.h */,
 				AF4397EC19ACD5D8000F415D /* API4ErrorResponse.m */,
 				B1254CA5187ADF9B004E2F0E /* ProgramWateringTimes.h */,
 				B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */,
+				AF61117919C62D55008AA62B /* ProgramWateringTimes4.h */,
+				AF61117A19C62D55008AA62B /* ProgramWateringTimes4.m */,
 				AF91C7F51858D757005888AA /* ServerResponse.h */,
 				AF91C7F61858D757005888AA /* ServerResponse.m */,
 				AF6008AC18D9E69300DB6D75 /* StartStopProgramResponse.h */,
@@ -1014,6 +1035,10 @@
 				AF91C7F31858D640005888AA /* StartStopWatering.m */,
 				AF91C7EE1858D047005888AA /* WaterNowZone.h */,
 				AF91C7EF1858D047005888AA /* WaterNowZone.m */,
+				AF961ECF19C36D2300A2A13C /* WaterNowZone4.h */,
+				AF961ED019C36D2300A2A13C /* WaterNowZone4.m */,
+				AF61117019C5491D008AA62B /* ZoneProperties4.h */,
+				AF61117119C5491D008AA62B /* ZoneProperties4.m */,
 				AFC58170184E58FD00C8D06A /* WeatherData.h */,
 				AFC58171184E58FD00C8D06A /* WeatherData.m */,
 				AFFDCF35199BA82900EAC3D5 /* WeatherData4.h */,
@@ -1565,9 +1590,11 @@
 				3A68C071192B956500821D4D /* MappingModelv1tov7.xcmappingmodel in Sources */,
 				AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */,
 				AFA9080F19AB702D008769A0 /* APIVersion4.m in Sources */,
+				AF61117819C57CDC008AA62B /* Frequency4.m in Sources */,
 				AFB6943B190289670067CD7F /* RestrictionsData.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* SettingsHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
+				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
@@ -1577,7 +1604,9 @@
 				3A68C06F192B8DEE00821D4D /* MappingModelv6tov7.xcmappingmodel in Sources */,
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,
 				B1EF210A1860492B00D9CE26 /* AddNewDeviceVC.m in Sources */,
+				AF961ED119C36D2300A2A13C /* WaterNowZone4.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
+				AF61117219C5491D008AA62B /* ZoneProperties4.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */,
@@ -1664,6 +1693,7 @@
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */,
 				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,
+				AF61117B19C62D55008AA62B /* ProgramWateringTimes4.m in Sources */,
 				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
 				B1254CBB187DB542004E2F0E /* ZoneCell.m in Sources */,
 				3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */,

@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "ZoneVC.h"
 #import "+UIDevice.h"
+#import "ServerProxy.h"
 
 @interface VegetationTypeVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -62,7 +63,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"SimpleCell";
     UITableViewCell *cell = (UITableViewCell*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = kVegetationType[indexPath.row + 2];
+    cell.textLabel.text = [ServerProxy usesAPI3] ? kVegetationType[indexPath.row + 2] : kVegetationTypeAPI4[indexPath.row + 1];
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         cell.tintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
     }
@@ -79,7 +80,7 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
-    self.vegetationType = 2 + (int)indexPath.row;
+    self.vegetationType = ([ServerProxy usesAPI3] ? 2 : 1) + (int)indexPath.row;
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

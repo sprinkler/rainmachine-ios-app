@@ -285,7 +285,7 @@ static NSString *kWifiInterface = @"en0";
 
     [NetworkUtilities importCookiesToKeychain];
 
-    // Clear the session-only cookies form keychain
+    // Clear the session-only cookies from keychain
     [NetworkUtilities clearSessionOnlyCookiesFromKeychain];
 }
 
