@@ -68,6 +68,26 @@ static int serverAPIMinorSubVersion = -1;
     return self;
 }
 
+- (id)initWithServerURL:(NSString *)serverURL delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.delegate = del;
+    self.serverURL = serverURL;
+    
+    NSURL *baseURL = [NSURL URLWithString:serverURL];
+    self.manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL jsonRequest:jsonRequest];
+    
+    // TODO: remove invalid certificates policy in the future
+    AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
+    [policy setAllowInvalidCertificates:YES];
+    [self.manager setSecurityPolicy:policy];
+    
+    return self;
+}
+
 - (void)cancelAllOperations
 {
     [self.manager.operationQueue cancelAllOperations];
@@ -1329,6 +1349,22 @@ static int serverAPIMinorSubVersion = -1;
     }
 
     return isLoggedOut;
+}
+
+#pragma mark - Cloud
+
+- (void)getSprinklersAssociatedToEmail:(NSString*)email password:(NSString*)password
+{
+    NSDictionary *params = @{@"credentials" : @[@{@"email" : email, @"pwd" : password}]};
+    [self.manager POST:@"get-sprinklers" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:@"get-sprinklers-cloud"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
 }
 
 #pragma mark - Response/request objects conversion

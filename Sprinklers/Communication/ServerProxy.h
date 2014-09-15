@@ -77,6 +77,7 @@ typedef enum {
 @property (nonatomic, strong) NSString* serverURL;
 
 - (id)initWithSprinkler:(Sprinkler *)sprinkler delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest;
+- (id)initWithServerURL:(NSString *)serverURL delegate:(id<SprinklerResponseProtocol>)del jsonRequest:(BOOL)jsonRequest;
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe;
 
 + (void)setSprinklerVersionMajor:(int)major minor:(int)minor subMinor:(int)subMinor;
@@ -125,5 +126,7 @@ typedef enum {
 - (int)operationCount;
 
 - (void)requestWateringRestrictions;
+
+- (void)getSprinklersAssociatedToEmail:(NSString*)email password:(NSString*)password;
 
 @end

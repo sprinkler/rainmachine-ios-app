@@ -17,6 +17,7 @@
 
 extern NSString* const TestServerURL;
 extern NSString* const TestServerPort;
+extern NSString *const kCloudProxyFinderURL;
 
 extern NSString* const kSprinklerKeychain_CookieDictionaryStorageKey;
 extern NSString* const kSprinklerKeychain_CookiesKey;
@@ -65,6 +66,7 @@ extern NSString *daysOfTheWeek[7];
 #define kAlertView_ResumeRainDelay 8
 #define kAlertView_NoActiveZones 9
 #define kAlertView_DeviceNotSupported 10
+#define kAlertView_ApiVerConnectionError 11
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 

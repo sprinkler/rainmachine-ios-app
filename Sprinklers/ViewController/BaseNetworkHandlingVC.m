@@ -62,14 +62,16 @@ static UIAlertView *alertView;
 
 - (void)handleSprinklerNetworkError:(NSError *)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage
 {
-    // Don't show error type: 5xx Internal Server Error
-    if (![Utils hasOperationInternalServerErrorStatusCode:operation]) {
-        // Don't show error cases of malformed JSON: Error Domain=NSCocoaErrorDomain Code=3840 "The operation couldn’t be completed. (Cocoa error 3840.)" (JSON text did not start with array or object and option to allow fragments not set.) UserInfo=0xad9b5a0 {NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
-        BOOL malformedJSON = ([error.domain isEqualToString:NSCocoaErrorDomain] && error.code == NSPropertyListReadCorruptError);
-        if (!malformedJSON) {
-            int tag = kAlertView_Error;
-            
-            [self handleSprinklerError:[error localizedDescription] title:@"Network error" showErrorMessage:showErrorMessage tag:tag];
+    if ((error) || (operation)) {
+        // Don't show error type: 5xx Internal Server Error
+        if (![Utils hasOperationInternalServerErrorStatusCode:operation]) {
+            // Don't show error cases of malformed JSON: Error Domain=NSCocoaErrorDomain Code=3840 "The operation couldn’t be completed. (Cocoa error 3840.)" (JSON text did not start with array or object and option to allow fragments not set.) UserInfo=0xad9b5a0 {NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
+            BOOL malformedJSON = ([error.domain isEqualToString:NSCocoaErrorDomain] && error.code == NSPropertyListReadCorruptError);
+            if (!malformedJSON) {
+                int tag = kAlertView_Error;
+                
+                [self handleSprinklerError:[error localizedDescription] title:[error.domain isEqualToString:@"Sprinkler"] ? @"Sprinkler error" : @"Network error" showErrorMessage:showErrorMessage tag:tag];
+            }
         }
     }
 }

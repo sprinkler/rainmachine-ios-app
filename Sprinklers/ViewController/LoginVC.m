@@ -188,7 +188,14 @@
         if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
             alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         } else {
-            alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            if (([[error domain] isEqualToString:NSURLErrorDomain]) && (([error code] == NSURLErrorCannotFindHost) || ([error code] == NSURLErrorCannotConnectToHost))) {
+                alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:[NSString stringWithFormat:@"Could not connect to the device %@.", self.sprinkler.name] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                if ([userInfo isEqualToString:@"apiVer"]) {
+                    alertView.tag = kAlertView_ApiVerConnectionError;
+                }
+            } else {
+                alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            }
         }
         [alertView show];
     }
@@ -245,7 +252,11 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/rainmachine/id647589286"]];
         }
     } else {
-        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+        if (theAlertView.tag == kAlertView_ApiVerConnectionError) {
+            [self showMainScreenAnimated:YES];
+        } else {
+            [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+        }
     }
 }
 
