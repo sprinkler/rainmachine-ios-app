@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface API4ErrorResponse : NSObject
+@interface API4StatusResponse : NSObject
 
 @property (nonatomic, strong) NSNumber *statusCode;
 @property (nonatomic, strong) NSString *message;

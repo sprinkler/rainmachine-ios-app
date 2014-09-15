@@ -12,7 +12,7 @@
 #import "ServerProxy.h"
 #import "ServerResponse.h"
 #import "Constants.h"
-#import "API4ErrorResponse.h"
+#import "API4StatusResponse.h"
 
 @interface RainDelayPoller()
 
@@ -69,7 +69,7 @@
             err = [response.status isEqualToString:@"err"];
             errMessage = response.message;
         } else {
-            API4ErrorResponse *response = (API4ErrorResponse*)data;
+            API4StatusResponse *response = (API4StatusResponse*)data;
             err = ([response.statusCode intValue] != API4StatusCode_Success);
             errMessage = response.message;
         }

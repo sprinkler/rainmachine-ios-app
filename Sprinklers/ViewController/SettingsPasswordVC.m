@@ -17,7 +17,7 @@
 #import "NetworkUtilities.h"
 #import "AppDelegate.h"
 #import "SetPassword4Response.h"
-#import "API4ErrorResponse.h"
+#import "API4StatusResponse.h"
 
 @interface SettingsPasswordVC ()
 
@@ -114,8 +114,8 @@
                 [alertView show];
             }
         } else {
-            if ([data isKindOfClass:[API4ErrorResponse class]]) {
-                API4ErrorResponse *response = (API4ErrorResponse*)data;
+            if ([data isKindOfClass:[API4StatusResponse class]]) {
+                API4StatusResponse *response = (API4StatusResponse*)data;
                 [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
             } else {
                 [Utils invalidateLoginForCurrentSprinkler];

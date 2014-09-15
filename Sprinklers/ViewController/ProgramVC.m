@@ -33,7 +33,7 @@
 #import "RainDelayPoller.h"
 #import "RainDelay.h"
 #import "HomeScreenDataSourceCell.h"
-#import "API4ErrorResponse.h"
+#import "API4StatusResponse.h"
 
 @interface ProgramVC ()
 {
@@ -987,7 +987,7 @@
                 errorMessage = response.message;
             }
         } else {
-            API4ErrorResponse *response = (API4ErrorResponse*)data;
+            API4StatusResponse *response = (API4StatusResponse*)data;
             self.program.programId = [response.program[@"uid"] intValue];
             [self.parent setProgram:self.program withIndex:self.programIndex];
             didSave = YES;

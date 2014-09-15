@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "API4ErrorResponse.h"
+#import "API4StatusResponse.h"
 
-@implementation API4ErrorResponse
+@implementation API4StatusResponse
 
 @end

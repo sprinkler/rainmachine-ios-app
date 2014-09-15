@@ -38,7 +38,7 @@
 #import "SetPassWord4Response.h"
 #import "SettingsDate.h"
 #import "NetworkUtilities.h"
-#import "API4ErrorResponse.h"
+#import "API4StatusResponse.h"
 
 static int serverAPIMainVersion = 0;
 static int serverAPISubVersion = 0;
@@ -358,7 +358,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST: @"api/4/time" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-            API4ErrorResponse *rez = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])][0];
+            API4StatusResponse *rez = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])][0];
             [self.delegate serverResponseReceived:rez serverProxy:self userInfo:nil];
         }
         
@@ -570,7 +570,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST: [NSString stringWithFormat:@"api/4/zone/%@/stop", zone.id] parameters:paramsDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])] serverProxy:self userInfo:nil];
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -587,7 +587,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST: @"api/4/waterZone" parameters:paramsDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])] serverProxy:self userInfo:nil];
+            [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -707,7 +707,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST: @"api/4/rainDelay" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-            id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+            id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
             [self.delegate serverResponseReceived:responseArray[0] serverProxy:self userInfo:params];
         }
         
@@ -884,7 +884,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST:@"api/4/program/create" parameters:params
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-                      NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                      NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
                       [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:nil];
                   }
               }
@@ -963,7 +963,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/start", program.programId] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
                        [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:@"running"];
                    }
                }
@@ -977,7 +977,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/stop", program.programId] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
                        [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:@"stopped"];
                    }
                }
@@ -1023,7 +1023,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/update", program.programId] parameters:[program toDictionary]
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
                        [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:nil];
                    }
                }
@@ -1067,7 +1067,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST:[NSString stringWithFormat:@"api/4/program/%d/delete", programId] parameters:params
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-                      NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+                      NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
                       [self.delegate serverResponseReceived:@{@"serverResponse" : [rezArray firstObject], @"pid" : [NSNumber numberWithInt:programId]} serverProxy:self userInfo:nil];
                   }
               }
@@ -1176,7 +1176,7 @@ static int serverAPIMinorSubVersion = -1;
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-            id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4ErrorResponse class])];
+            id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
             [self.delegate serverResponseReceived:responseArray[0] serverProxy:self userInfo:params];
         }
         

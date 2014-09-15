@@ -51,7 +51,7 @@
 		AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3823881951D94C007CADB5 /* RMSwitch.m */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4397E919ACCC36000F415D /* SetPassword4Response.m */; };
-		AF4397ED19ACD5D8000F415D /* API4ErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4397EC19ACD5D8000F415D /* API4ErrorResponse.m */; };
+		AF4397ED19ACD5D8000F415D /* API4StatusResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4397EC19ACD5D8000F415D /* API4StatusResponse.m */; };
 		AF4826671990DC9500D80B87 /* bkn.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826311990DC9500D80B87 /* bkn.png */; };
 		AF4826681990DC9500D80B87 /* blizzard.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826321990DC9500D80B87 /* blizzard.png */; };
 		AF4826691990DC9500D80B87 /* cold.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826331990DC9500D80B87 /* cold.png */; };
@@ -360,8 +360,8 @@
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF4397E819ACCC36000F415D /* SetPassword4Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetPassword4Response.h; path = "Communication/Response objects/SetPassword4Response.h"; sourceTree = "<group>"; };
 		AF4397E919ACCC36000F415D /* SetPassword4Response.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetPassword4Response.m; path = "Communication/Response objects/SetPassword4Response.m"; sourceTree = "<group>"; };
-		AF4397EB19ACD5D8000F415D /* API4ErrorResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = API4ErrorResponse.h; path = "Communication/Response objects/API4ErrorResponse.h"; sourceTree = "<group>"; };
-		AF4397EC19ACD5D8000F415D /* API4ErrorResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = API4ErrorResponse.m; path = "Communication/Response objects/API4ErrorResponse.m"; sourceTree = "<group>"; };
+		AF4397EB19ACD5D8000F415D /* API4StatusResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = API4StatusResponse.h; path = "Communication/Response objects/API4StatusResponse.h"; sourceTree = "<group>"; };
+		AF4397EC19ACD5D8000F415D /* API4StatusResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = API4StatusResponse.m; path = "Communication/Response objects/API4StatusResponse.m"; sourceTree = "<group>"; };
 		AF4826311990DC9500D80B87 /* bkn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bkn.png; sourceTree = "<group>"; };
 		AF4826321990DC9500D80B87 /* blizzard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blizzard.png; sourceTree = "<group>"; };
 		AF4826331990DC9500D80B87 /* cold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cold.png; sourceTree = "<group>"; };
@@ -1021,8 +1021,8 @@
 				AF61117419C579CF008AA62B /* Program4.m */,
 				AF61117619C57CDC008AA62B /* Frequency4.h */,
 				AF61117719C57CDC008AA62B /* Frequency4.m */,
-				AF4397EB19ACD5D8000F415D /* API4ErrorResponse.h */,
-				AF4397EC19ACD5D8000F415D /* API4ErrorResponse.m */,
+				AF4397EB19ACD5D8000F415D /* API4StatusResponse.h */,
+				AF4397EC19ACD5D8000F415D /* API4StatusResponse.m */,
 				B1254CA5187ADF9B004E2F0E /* ProgramWateringTimes.h */,
 				B1254CA6187ADF9B004E2F0E /* ProgramWateringTimes.m */,
 				AF61117919C62D55008AA62B /* ProgramWateringTimes4.h */,
@@ -1583,7 +1583,7 @@
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,
 				AF7A72B118C491F500596148 /* SettingsDate.m in Sources */,
-				AF4397ED19ACD5D8000F415D /* API4ErrorResponse.m in Sources */,
+				AF4397ED19ACD5D8000F415D /* API4StatusResponse.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
