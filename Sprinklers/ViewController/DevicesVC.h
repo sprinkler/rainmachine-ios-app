@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import "Protocols.h"
 
-@interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
 - (void)done:(NSString*)unit;
 

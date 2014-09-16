@@ -127,6 +127,6 @@ typedef enum {
 
 - (void)requestWateringRestrictions;
 
-- (void)getSprinklersAssociatedToEmail:(NSString*)email password:(NSString*)password;
+- (void)requestCloudSprinklers:(NSDictionary*)accounts;
 
 @end

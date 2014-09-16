@@ -139,7 +139,7 @@
 {
     self.getAPIVersionServerProxy = [[ServerProxy alloc] initWithSprinkler:self.sprinkler delegate:self jsonRequest:YES];
     [self.getAPIVersionServerProxy requestAPIVersion];
-    [self startHud:nil]; // @"Logging in..."
+    [self startHud:nil];
 }
 
 - (IBAction)login:(id)sender {
@@ -189,7 +189,7 @@
             alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         } else {
             if (([[error domain] isEqualToString:NSURLErrorDomain]) && (([error code] == NSURLErrorCannotFindHost) || ([error code] == NSURLErrorCannotConnectToHost))) {
-                alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:[NSString stringWithFormat:@"Could not connect to the device %@.", self.sprinkler.name] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                alertView = [[UIAlertView alloc] initWithTitle:@"Network error" message:[NSString stringWithFormat:@"Could not connect to the device %@.", self.sprinkler.name] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 if ([userInfo isEqualToString:@"apiVer"]) {
                     alertView.tag = kAlertView_ApiVerConnectionError;
                 }

@@ -13,5 +13,6 @@
 @interface AddNewDeviceVC : UIViewController
 
 @property (strong, nonatomic) Sprinkler *sprinkler;
+@property (assign, nonatomic) BOOL cloudUI;
 
 @end

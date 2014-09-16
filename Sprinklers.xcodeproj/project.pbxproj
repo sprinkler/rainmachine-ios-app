@@ -144,6 +144,7 @@
 		AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7EF1858D047005888AA /* WaterNowZone.m */; };
 		AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F31858D640005888AA /* StartStopWatering.m */; };
 		AF91C7F71858D757005888AA /* ServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91C7F61858D757005888AA /* ServerResponse.m */; };
+		AF927C9019C84B91009C59EA /* CloudUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = AF927C8F19C84B91009C59EA /* CloudUtils.m */; };
 		AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */; };
 		AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBC218B8B505006FE76D /* RainDelay.m */; };
 		AF961ED119C36D2300A2A13C /* WaterNowZone4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF961ED019C36D2300A2A13C /* WaterNowZone4.m */; };
@@ -487,6 +488,9 @@
 		AF91C7F31858D640005888AA /* StartStopWatering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartStopWatering.m; path = "Communication/Request objects/StartStopWatering.m"; sourceTree = "<group>"; };
 		AF91C7F51858D757005888AA /* ServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerResponse.h; path = "Communication/Response objects/ServerResponse.h"; sourceTree = "<group>"; };
 		AF91C7F61858D757005888AA /* ServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerResponse.m; path = "Communication/Response objects/ServerResponse.m"; sourceTree = "<group>"; };
+		AF927C8A19C8124E009C59EA /* Sprinklers 8 (cloud).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 8 (cloud).xcdatamodel"; sourceTree = "<group>"; };
+		AF927C8E19C84B91009C59EA /* CloudUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudUtils.h; sourceTree = "<group>"; };
+		AF927C8F19C84B91009C59EA /* CloudUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudUtils.m; sourceTree = "<group>"; };
 		AF94FBBE18B7CC9D006FE76D /* SetRainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetRainDelay.h; path = "Communication/Request objects/SetRainDelay.h"; sourceTree = "<group>"; };
 		AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetRainDelay.m; path = "Communication/Request objects/SetRainDelay.m"; sourceTree = "<group>"; };
 		AF94FBC118B8B505006FE76D /* RainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainDelay.h; path = "Communication/Response objects/RainDelay.h"; sourceTree = "<group>"; };
@@ -820,6 +824,8 @@
 				AF7AC9BA184E3D1A0047BD9E /* Protocols.h */,
 				B1EF20FD1860470800D9CE26 /* NetworkUtilities.h */,
 				B1EF20FE1860470800D9CE26 /* NetworkUtilities.m */,
+				AF927C8E19C84B91009C59EA /* CloudUtils.h */,
+				AF927C8F19C84B91009C59EA /* CloudUtils.m */,
 				AFCDF79D185DBE2700F9C57E /* Utils.h */,
 				AFCDF79E185DBE2700F9C57E /* Utils.m */,
 				AFB6943C190427A20067CD7F /* RainDelayPoller.h */,
@@ -1692,6 +1698,7 @@
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */,
+				AF927C9019C84B91009C59EA /* CloudUtils.m in Sources */,
 				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,
 				AF61117B19C62D55008AA62B /* ProgramWateringTimes4.m in Sources */,
 				AF91C7F41858D640005888AA /* StartStopWatering.m in Sources */,
@@ -1840,6 +1847,7 @@
 		B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AF927C8A19C8124E009C59EA /* Sprinklers 8 (cloud).xcdatamodel */,
 				3AC64A0B192B76950009061D /* Sprinklers 7.xcdatamodel */,
 				AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */,
 				AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */,
@@ -1848,7 +1856,7 @@
 				AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */,
 				B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = 3AC64A0B192B76950009061D /* Sprinklers 7.xcdatamodel */;
+			currentVersion = AF927C8A19C8124E009C59EA /* Sprinklers 8 (cloud).xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

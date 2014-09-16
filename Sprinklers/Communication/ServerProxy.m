@@ -1353,9 +1353,13 @@ static int serverAPIMinorSubVersion = -1;
 
 #pragma mark - Cloud
 
-- (void)getSprinklersAssociatedToEmail:(NSString*)email password:(NSString*)password
+- (void)requestCloudSprinklers:(NSDictionary*)accounts
 {
-    NSDictionary *params = @{@"credentials" : @[@{@"email" : email, @"pwd" : password}]};
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:[NSMutableArray array] forKey:@"credentials"];
+    for (NSString *email in accounts) {
+        [params[@"credentials"] addObject:@{@"email" : email, @"pwd" : accounts[email]}];
+    }
+
     [self.manager POST:@"get-sprinklers" parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {

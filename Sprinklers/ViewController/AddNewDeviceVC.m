@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
+#import "CloudUtils.h"
 #import "+UIDevice.h"
 
 @interface AddNewDeviceVC ()
@@ -24,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *tokenSeparator;
 @property (weak, nonatomic) IBOutlet UIImageView *nameAndUrlSeparator;
 @property (weak, nonatomic) IBOutlet UILabel *tokenTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *urlOrIPTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameTitleLabel;
 
 @end
 
@@ -41,6 +44,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (self.cloudUI) {
+        self.title = @"Add Cloud Account";
+        self.nameTitleLabel.text = @"E-mail address";
+        self.urlOrIPTitleLabel.text = @"RainMachine password";
+    }
     
     // Do any additional setup after loading the view from its nib.
     if (self.sprinkler) {
@@ -85,57 +94,65 @@
 #pragma mark - Actions
 
 - (IBAction)onSave:(id)sender {
-    NSString *name = self.nameTextField.text;
-    NSString *address = [Utils fixedSprinklerAddress:self.urlOrIPTextField.text];
-    NSURL *url = [NSURL URLWithString:address];
-    NSString *port = [[url port] stringValue];
-    
-    NSURL *baseURL = [NSURL URLWithString:address];
-    if (!baseURL) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid URL" message:@"It looks like you entered an invalid URL for the sprinkler. Please check your syntax and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        return;
-    }
-
-    if ([address length] == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete fields." message:@"Please provide a value for the IP address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-        return;
-    }
-    
-    if ([port length] > 0) {
-        if ([port length] + 1  < [address length]) {
-            address = [address substringToIndex:[address length] - ([port length] + 1)];
-        }
-    }
-    
-    if ([name length] == 0) {
-        name = address;
-    }
-    
-    if (!port) {
-        port = @"443";
-    }
-    
-    if (_sprinkler) {
-        _sprinkler.name = name;
-        _sprinkler.address = address;
-        _sprinkler.port = port;
-        [[StorageManager current] saveData];
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    }
-    else {
-        if (![[StorageManager current] getSprinkler:name local:@NO]) {
-            [[StorageManager current] addSprinkler:name ipAddress:address port:port isLocal:@NO save:YES];
+    if (self.cloudUI) {
+        if ([CloudUtils addCloudAccountWithEmail:self.nameTextField.text password:self.urlOrIPTextField.text]) {
             [self.navigationController popViewControllerAnimated:YES];
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"A sprinkler with the same name already exists. Please select another name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"A cloud account with the same e-mail already exists." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
             return;
         }
+    } else {
+        NSString *name = self.nameTextField.text;
+        NSString *address = [Utils fixedSprinklerAddress:self.urlOrIPTextField.text];
+        NSURL *baseURL = [NSURL URLWithString:address];
+        NSString *port = [[baseURL port] stringValue];
+        
+        if (!baseURL) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid URL" message:@"It looks like you entered an invalid URL for the sprinkler. Please check your syntax and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            return;
+        }
+
+        if ([address length] == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete fields." message:@"Please provide a value for the IP address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            return;
+        }
+        
+        if ([port length] > 0) {
+            if ([port length] + 1  < [address length]) {
+                address = [address substringToIndex:[address length] - ([port length] + 1)];
+            }
+        }
+        
+        if ([name length] == 0) {
+            name = address;
+        }
+        
+        if (!port) {
+            port = @"443";
+        }
+        
+        if (_sprinkler) {
+            _sprinkler.name = name;
+            _sprinkler.address = address;
+            _sprinkler.port = port;
+            [[StorageManager current] saveData];
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        }
+        else {
+            if (![[StorageManager current] getSprinkler:name local:@NO]) {
+                [[StorageManager current] addSprinkler:name ipAddress:address port:port isLocal:@NO email:nil save:YES];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"A sprinkler with the same name already exists. Please select another name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+                return;
+            }
+        }
     }
-    
 }
 
 #pragma mark - UITextField delegate

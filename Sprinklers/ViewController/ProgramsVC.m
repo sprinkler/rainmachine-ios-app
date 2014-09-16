@@ -89,10 +89,10 @@
 - (int)programsCount
 {
     if ([ServerProxy usesAPI3]) {
-        return self.programs.count - 1;
+        return (int)(self.programs.count) - 1;
     }
     
-    return self.programs.count;
+    return (int)(self.programs.count);
 }
 
 - (void)requestPrograms

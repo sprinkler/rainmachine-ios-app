@@ -33,13 +33,14 @@ static StorageManager *current = nil;
 
 #pragma mark - Methods
 
-- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal save:(BOOL)save {
+- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal email:(NSString*)email save:(BOOL)save {
     Sprinkler *sprinkler = [NSEntityDescription insertNewObjectForEntityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     sprinkler.name = name;
     sprinkler.address = [Utils fixedSprinklerAddress:ip];
     sprinkler.port = port;
     sprinkler.isLocalDevice = isLocal;
     sprinkler.isDiscovered = @YES;
+    sprinkler.email = email;
 
     if (save) {
         [self saveData];
@@ -103,7 +104,7 @@ static StorageManager *current = nil;
     return nil;
 }
 
-- (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local {
+- (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local email:(NSString*)email {
     NSError *error;
     NSArray *items;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -114,9 +115,9 @@ static StorageManager *current = nil;
     NSPredicate *predicate = nil;
     
     if (local) {
-        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND isLocalDevice == %@", name, address, port, local];
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND isLocalDevice == %@ AND email == %@", name, address, port, local, email];
     } else {
-        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@", name, address, port];
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND email == %@", name, address, port, email];
     }
     [fetchRequest setPredicate:predicate];
     

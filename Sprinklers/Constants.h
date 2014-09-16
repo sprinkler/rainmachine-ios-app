@@ -23,6 +23,8 @@ extern NSString* const kSprinklerKeychain_CookieDictionaryStorageKey;
 extern NSString* const kSprinklerKeychain_CookiesKey;
 extern NSString* const kSprinklerKeychain_isSessionOnly;
 
+extern NSString* const kSprinklerKeychain_CloudAccount;
+
 extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
 extern NSString *const kSprinklerNetworkError;

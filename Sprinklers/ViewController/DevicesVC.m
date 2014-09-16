@@ -19,6 +19,7 @@
 #import "StorageManager.h"
 #import "MBProgressHUD.h"
 #import "Utils.h"
+#import "CloudUtils.h"
 #import "LoginVC.h"
 #import "SetDelayVC.h"
 #import "AddNewDeviceVC.h"
@@ -34,9 +35,11 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSArray *savedSprinklers;
-@property (strong, nonatomic) NSArray *remoteSprinklers;
-@property (strong, nonatomic) NSMutableArray *discoveredSprinklers;
+@property (strong, nonatomic) NSDictionary*cloudResponse;
+@property (strong, nonatomic) NSDictionary *cloudSprinklers;
+@property (strong, nonatomic) NSArray *cloudEmails;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) ServerProxy *cloudServerProxy;
 
 @end
 
@@ -103,25 +106,46 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.discoveredSprinklers = [NSMutableArray array];
     [self refreshSprinklerList];
     [self shouldStartBroadcast];
-    [self.tableView reloadData];
     
-    //If <isLoggedIn> (or use any other mechanism to detect LoginVC login, dismiss View.
+    NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
+    self.cloudEmails = [cloudAccounts allKeys];
+    
+    [self requestCloudSprinklers:cloudAccounts];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Methods
 
-- (void)setSavedSprinklers:(NSArray *)savedSprinklers
+- (void)requestCloudSprinklers:(NSDictionary*)cloudAccounts
 {
-    _savedSprinklers = savedSprinklers;
-    _remoteSprinklers = [Utils remoteSprinklersFilter:_savedSprinklers];
+    if (cloudAccounts.count > 0) {
+        self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:kCloudProxyFinderURL delegate:self jsonRequest:YES];
+        [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
+        [self startHud:nil];
+    }
 }
 
 - (void)refreshSprinklerList
 {
-    self.savedSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All aliveDevices:@YES];
+    NSArray *sprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All aliveDevices:@YES];
+    // Sort sprinklers into savedSprinklers array (manually entered or discovered on the network) and cloudSprinklers dictionary
+    NSMutableArray *networkOrManuallyEnteredSprinklers = [NSMutableArray array];
+    NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
+    for (Sprinkler *sprinkler in sprinklers) {
+        if (sprinkler.email) {
+            if (!cloudSprinklersDic[sprinkler.email]) {
+                cloudSprinklersDic[sprinkler.email] = [NSMutableArray array];
+            }
+            [cloudSprinklersDic[sprinkler.email] addObject:sprinkler];
+        } else {
+            [networkOrManuallyEnteredSprinklers addObject:sprinkler];
+        }
+    }
+    self.savedSprinklers = networkOrManuallyEnteredSprinklers;
+    self.cloudSprinklers = cloudSprinklersDic;
 }
 
 - (void)createFooter {
@@ -145,7 +169,7 @@
 
 -(void) SprinklersDiscovered
 {
-    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
+    NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
  
     // Mark all non-discovered sprinklers as not-alive
     NSArray *localSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Local aliveDevices:@YES];
@@ -155,12 +179,12 @@
     
     // Convert the DiscoveredSprinkler objects into Sprinkler objects
     // Update all discovered ones or add them as new sprinklers
-    for (int i = 0; i < [self.discoveredSprinklers count]; i++) {
-        DiscoveredSprinklers *discoveredSprinkler = self.discoveredSprinklers[i];
+    for (int i = 0; i < [discoveredSprinklers count]; i++) {
+        DiscoveredSprinklers *discoveredSprinkler = discoveredSprinklers[i];
         NSString *port = [NSString stringWithFormat:@"%d", discoveredSprinkler.port];
-        Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerName address:[Utils fixedSprinklerAddress:discoveredSprinkler.host] port:port local:@YES];
+        Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerName address:[Utils fixedSprinklerAddress:discoveredSprinkler.host] port:port local:@YES email:nil];
         if (!sprinkler) {
-            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES save:NO];
+            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES email:nil save:NO];
         }
         sprinkler.isDiscovered = @YES;
     }
@@ -169,9 +193,6 @@
     
     [self refreshSprinklerList];
     
-    // For now, the discovered sprinklers appear directly in the devices list, no need for wifi setup
-    self.discoveredSprinklers = nil;
-
     [_tableView reloadData];
 }
 
@@ -235,18 +256,29 @@
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 2 + self.cloudEmails.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-//        if (tableView.editing) {
-//            return self.remoteSprinklers.count;
-//        }
         return self.savedSprinklers.count;
     }
     
-    return self.discoveredSprinklers.count + 1;
+    if (section < 1 + self.cloudEmails.count) {
+        int sprinklersNr = (int)[self.cloudSprinklers[self.cloudEmails[section - 1]] count];
+        return sprinklersNr > 0 ? sprinklersNr : 1;
+    }
+    
+    return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if ((section > 0) && (section < 1 + self.cloudEmails.count)) {
+        return self.cloudEmails[section - 1];
+    }
+    
+    return nil;
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -307,44 +339,25 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        DevicesCellType1 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType1" forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        
-//        Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
-        cell.labelMainTitle.text = sprinkler.name;
-        
-        // remove https from address
-        NSString *adressWithoutPrefix = [sprinkler.address substringWithRange:NSMakeRange(8, [sprinkler.address length] - 8)];
-        
-        // we don't have to print the default port
-        if([sprinkler.port isEqual: @"443"])
-            cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@", adressWithoutPrefix] : sprinkler.address;
-        else
-            cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
-        
-        // TODO: decide upon local/remote type on runtime
-        cell.labelInfo.text = @"";
-
-        cell.disclosureImageView.hidden = tableView.isEditing;
-        cell.labelInfo.hidden = tableView.isEditing;
-
+        DevicesCellType1 *cell = [self configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler];
         return cell;
     }
-    else if (indexPath.section == 1) {
-        
-        if (indexPath.row < self.discoveredSprinklers.count) {
-            // WiFi setup
-            DevicesCellType2 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType2" forIndexPath:indexPath];
-            cell.selectionStyle = UITableViewCellSelectionStyleGray;
-            
-            DiscoveredSprinklers *sprinkler = self.discoveredSprinklers[indexPath.row];
-            cell.labelNewDevice.text = sprinkler.sprinklerName;
-            cell.detailTextLabel.text = sprinkler.host;
-            
-            return cell;
+    else if (indexPath.section < 1 + self.cloudEmails.count) {
+        NSArray *sprinklerArray = self.cloudSprinklers[self.cloudEmails[indexPath.section - 1]];
+        Sprinkler *sprinkler = nil;
+        if (sprinklerArray.count > 0) {
+            sprinkler = sprinklerArray[indexPath.row];
         }
-        else {
+        DevicesCellType1 *cell = [self configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler];
+        if (!sprinkler) {
+            cell.labelMainSubtitle.text = @"No sprinklers online";
+            cell.disclosureImageView.hidden = YES;
+        }
+        return cell;
+    }
+    else {
+        if (indexPath.row == 0) {
             // Add New Device
             AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -352,6 +365,18 @@
             
             [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
             [cell.titleLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
+            
+            return cell;
+        } else {
+            // Add Cloud Account
+            AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
+            
+            [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
+            [cell.titleLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
+            
+            cell.titleLabel.text = @"Add cloud account";
             
             return cell;
         }
@@ -365,60 +390,22 @@
     
     if (indexPath.section == 0) {
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
-        
-        [NetworkUtilities restoreCookieForBaseUrl:sprinkler.address port:sprinkler.port];
-        int detectedSprinklerMainVersion = 0;
-        
-        if ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address detectedSprinklerMainVersion:&detectedSprinklerMainVersion]) {
-            // Automatic login
-            [ServerProxy setSprinklerVersionMajor:detectedSprinklerMainVersion
-                                            minor:-1
-                                         subMinor:-1];
-
-            [StorageManager current].currentSprinkler = self.savedSprinklers[indexPath.row];
-            [[StorageManager current] saveData];
-            [self done:nil];
-        } else {
-            LoginVC *login = [[LoginVC alloc] init];
-            login.sprinkler = self.savedSprinklers[indexPath.row];
-            
-            if ([login.sprinkler.loginRememberMe boolValue] == YES) {
-                [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
-            }
-            
-            login.parent = self;
-            [self.navigationController pushViewController:login animated:YES];
+        [self sprinklerSelected:sprinkler];
+    } else if (indexPath.section < 1 + self.cloudEmails.count) {
+        NSArray *sprinklerArray = self.cloudSprinklers[self.cloudEmails[indexPath.section - 1]];
+        Sprinkler *sprinkler = nil;
+        if (sprinklerArray.count > 0) {
+            sprinkler = sprinklerArray[indexPath.row];
+            [self sprinklerSelected:sprinkler];
         }
     } else if (indexPath.section == 1) {
-        if (indexPath.row < self.discoveredSprinklers.count) {
-            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        } else {
+        if (indexPath.row == 0) {
             AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
             [self.navigationController pushViewController:addNewDeviceVC animated:YES];
-            
-//            
-//            TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
-//            [timePickerVC refreshTimeFormatConstraint];
-//            
-//
-//            [self.navigationController pushViewController:timePickerVC animated:YES];
-            
-            
-//            SetDelayVC *setDelayVC = [[SetDelayVC alloc] init];
-//                setDelayVC.moveLabelsLeftOfPicker = YES;
-//                setDelayVC.minValuePicker1 = 2;
-//                setDelayVC.maxValuePicker1 = 5;
-//                setDelayVC.minValuePicker2 = 0;
-//                setDelayVC.maxValuePicker2 = 300;
-//                setDelayVC.userInfo = @"cycle_and_soak";
-//                setDelayVC.titlePicker1 = @"Number of cycles:";
-//                setDelayVC.titlePicker2 = @"Soak time:";
-//            setDelayVC.valuePicker1 = 5;//self.program.cycles;
-//            setDelayVC.valuePicker2 = 5; //self.program.soak;
-//                setDelayVC.title = @"Cycles and soak duration";
-//            
-//            [self.navigationController pushViewController:setDelayVC animated:YES];
-
+        } else {
+            AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+            addNewDeviceVC.cloudUI = YES;
+            [self.navigationController pushViewController:addNewDeviceVC animated:YES];
         }
     }
 }
@@ -432,6 +419,114 @@
 {
     [self shouldStartBroadcast];
 }
+
+- (DevicesCellType1*)configureSprinklerCellForTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath sprinkler:(Sprinkler*)sprinkler
+{
+    DevicesCellType1 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType1" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+
+    cell.labelMainTitle.text = sprinkler.name;
+    
+    // remove https from address
+    NSString *adressWithoutPrefix = [sprinkler.address substringWithRange:NSMakeRange(8, [sprinkler.address length] - 8)];
+    
+    // we don't have to print the default port
+    if([sprinkler.port isEqual: @"443"])
+        cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@", adressWithoutPrefix] : sprinkler.address;
+    else
+        cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
+    
+    // TODO: decide upon local/remote type on runtime
+    cell.labelInfo.text = @"";
+    
+    cell.disclosureImageView.hidden = tableView.isEditing;
+    cell.labelInfo.hidden = tableView.isEditing;
+    
+    return cell;
+}
+
+- (void)sprinklerSelected:(Sprinkler*)sprinkler
+{
+    [NetworkUtilities restoreCookieForBaseUrl:sprinkler.address port:sprinkler.port];
+    int detectedSprinklerMainVersion = 0;
+    
+    if ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address detectedSprinklerMainVersion:&detectedSprinklerMainVersion]) {
+        // Automatic login
+        [ServerProxy setSprinklerVersionMajor:detectedSprinklerMainVersion
+                                        minor:-1
+                                     subMinor:-1];
+        
+        [StorageManager current].currentSprinkler = sprinkler;
+        [[StorageManager current] saveData];
+        [self done:nil];
+    } else {
+        LoginVC *login = [[LoginVC alloc] init];
+        login.sprinkler = sprinkler;
+        
+        if ([login.sprinkler.loginRememberMe boolValue] == YES) {
+            [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
+        }
+        
+        login.parent = self;
+        [self.navigationController pushViewController:login animated:YES];
+    }
+}
+
+#pragma mark - Communication callbacks
+
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [self hideHud];
+}
+
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    [self hideHud];
+//    NSError *e = nil;
+//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"me@tremend.ro\",\"sprinklers\":[{\"sprinklerName\":\"sprinkler196\",\"sprinklerId\":\"sprinkler196\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
+//    self.cloudResponse = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];//data;
+    self.cloudResponse = data;
+    NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
+    for (NSDictionary *cloudInfo in cloudInfos) {
+        NSString *email = cloudInfo[@"email"];
+        for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
+            NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
+            NSURL *url = [NSURL URLWithString:fullAddress];
+            NSString *port = [[url port] stringValue];
+            NSString *address = fullAddress;
+            if ([port length] > 0) {
+                if ([port length] + 1  < [fullAddress length]) {
+                    address = [fullAddress substringToIndex:[fullAddress length] - ([port length] + 1)];
+                }
+            }
+            port = port ? port : @"443";
+            Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"sprinklerName"] address:address port:port local:@NO email:email];
+            if (!sprinkler) {
+                sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"sprinklerName"] ipAddress:address port:port isLocal:@NO email:email save:NO];
+            } else {
+                if (address) {
+                    sprinkler.address = address;
+                }
+                sprinkler.port = port;
+                sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
+            }
+            
+            sprinkler.isDiscovered = @YES;
+        }
+    }
+    
+    [[StorageManager current] saveData];
+    
+    [self refreshSprinklerList];
+    
+    [self.tableView reloadData];
+}
+
+- (void)loggedOut {
+}
+
+- (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
+}
+
+#pragma mark - 
 
 - (void)dealloc
 {

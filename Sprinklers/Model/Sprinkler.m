@@ -2,7 +2,7 @@
 //  Sprinkler.m
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 18/04/14.
+//  Created by Fabian Matyas on 16/09/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
@@ -22,6 +22,8 @@
 @dynamic name;
 @dynamic port;
 @dynamic username;
+@dynamic sprinklerId;
+@dynamic email;
 @dynamic zones;
 
 @end
