@@ -24,6 +24,7 @@
 #import "ServerResponse.h"
 #import "ProgramsVC.h"
 #import "ProgramWateringTimes.h"
+#import "ProgramWateringTimes4.h"
 #import "WeekdaysVC.h"
 #import "SetDelayVC.h"
 #import "TimePickerVC.h"
@@ -333,7 +334,11 @@
             if ([ServerProxy usesAPI3]) {
                 [self.postSaveServerProxy saveProgram:self.program];
             } else {
-                [self.postSaveServerProxy createProgram:(Program4*)self.program];
+                if (self.program.programId != -1) {
+                    [self.postSaveServerProxy saveProgram:self.program];
+                } else {
+                    [self.postSaveServerProxy createProgram:(Program4*)self.program];
+                }
             }
             
             [self showHUD];
@@ -453,7 +458,7 @@
          if ([name isEqualToString:@"zoneDelay"]) {
              NSNumber *zoneId = [setDelayVC.userInfo objectForKey:@"zoneId"];
              ProgramWateringTimes *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
-             programWateringTime.minutes = setDelayVC.valuePicker1;
+             [self setProgramWateringTime:setDelayVC.valuePicker1 on:programWateringTime];
          }
     }
     
@@ -754,7 +759,7 @@
             ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
             cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
             cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
-            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
+            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [self programWateringTime:programWateringTime.minutes]];
             cell.timeLabel.textColor = [UIColor blackColor];
             return cell;
         }
@@ -895,10 +900,10 @@
             ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
             setDelayVC.userInfo = @{@"name" : @"zoneDelay",
                                     @"zoneId" : [NSNumber numberWithInteger:indexPath.row],
-                                    @"mins" : [NSNumber numberWithInt:programWateringTime.minutes],
+                                    @"mins" : [NSNumber numberWithInt:[self programWateringTime:programWateringTime.minutes]],
                                     };
             setDelayVC.titlePicker1 = @"minutes";
-            setDelayVC.valuePicker1 = programWateringTime.minutes;
+            setDelayVC.valuePicker1 = [self programWateringTime:programWateringTime.minutes];
             
             setDelayVC.title = @"Zone watering duration";
             setDelayVC.parent = self;
@@ -988,8 +993,11 @@
             }
         } else {
             API4StatusResponse *response = (API4StatusResponse*)data;
-            self.program.programId = [response.program[@"uid"] intValue];
-            [self.parent setProgram:self.program withIndex:self.programIndex];
+            if (response.program[@"uid"]) {
+                // New program
+                self.program.programId = [response.program[@"uid"] intValue];
+                [self.parent setProgram:self.program withIndex:self.programIndex];
+            }
             didSave = YES;
             [self hideHUD];
         }
@@ -1172,11 +1180,22 @@
     // Add all new zones from the receiving set
     for (Zone *zone in zones) {
         if ([zonesToBeAdded containsObject:[NSNumber numberWithInt:zone.zoneId ]]) {
-            ProgramWateringTimes *wt = [[ProgramWateringTimes alloc] init];
-            wt.wtId = zone.zoneId;
-            wt.minutes = 0;
-            wt.name = zone.name;
-            [self.program.wateringTimes addObject:wt];
+            id wateringTime = nil;
+            if ([ServerProxy usesAPI3]) {
+                ProgramWateringTimes *wt = [[ProgramWateringTimes alloc] init];
+                wt.wtId = zone.zoneId;
+                wt.minutes = 0;
+                wt.name = zone.name;
+                wateringTime = wt;
+            } else {
+                ProgramWateringTimes4 *wt = [[ProgramWateringTimes4 alloc] init];
+                wt.wtId = zone.zoneId;
+                wt.minutes = 0;
+                wt.name = zone.name;
+                wt.active = NO;
+                wateringTime = wt;
+            }
+            [self.program.wateringTimes addObject:wateringTime];
         }
     }
     
@@ -1197,6 +1216,24 @@
                                                   otherButtonTitles:nil];
         alertView.tag = kAlertView_NoActiveZones;
         [alertView show];
+    }
+}
+
+- (int)programWateringTime:(int)t
+{
+    if ([ServerProxy usesAPI3]) {
+        return t;
+    }
+    
+    return t / 60;
+}
+
+- (void)setProgramWateringTime:(int)t on:(ProgramWateringTimes*)programWateringTime
+{
+    if ([ServerProxy usesAPI3]) {
+        programWateringTime.minutes = t;
+    } else {
+        programWateringTime.minutes = t * 60;
     }
 }
 

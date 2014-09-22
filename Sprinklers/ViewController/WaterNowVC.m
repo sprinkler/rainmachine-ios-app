@@ -529,7 +529,12 @@
         cell.zone = waterNowZone;
         
         cell.zoneNameLabel.text = [Utils fixedZoneName:waterNowZone.name withId:waterNowZone.id];
-        cell.descriptionLabel.text = [waterNowZone.type isEqualToString:@"Unknown"] ? @"Other" : waterNowZone.type;
+        if ([ServerProxy usesAPI3]) {
+            cell.descriptionLabel.text = [waterNowZone.type isEqualToString:@"Unknown"] ? @"Other" : waterNowZone.type;
+        } else {
+            WaterNowZone4 *waterNowZone4 = (WaterNowZone4 *)waterNowZone;
+            cell.descriptionLabel.text = [Utils vegetationTypeToString:[waterNowZone4.type intValue]];
+        }
         cell.onOffSwitch.on = isWatering || isPending;
         
         cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
@@ -613,8 +618,7 @@
     // Remove the master valve
     for (int i = 0 ; i < zones.count; i++) {
         WaterNowZone4 *zone = zones[i];
-//        if ([zone.master intValue] == 1) {
-        if ([zone.uid intValue] == 1) {
+        if ([zone.master intValue] == 1) {
             [rez removeObjectAtIndex:i];
             break;
         }

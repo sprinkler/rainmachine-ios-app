@@ -428,6 +428,38 @@
     return nil;
 }
 
++ (NSString*)vegetationTypeToString:(int)vegetation
+{
+    switch (vegetation) {
+        case kAPI4ZoneVegetationType_Lawn:
+            return @"Lawn";
+            break;
+        case kAPI4ZoneVegetationType_Fruit_Trees:
+            return @"Fruit Trees";
+            break;
+        case kAPI4ZoneVegetationType_Flowers:
+            return @"Flowers";
+            break;
+        case kAPI4ZoneVegetationType_Vegetables:
+            return @"Vegetables";
+            break;
+        case kAPI4ZoneVegetationType_Citrus:
+            return @"Citrus";
+            break;
+        case kAPI4ZoneVegetationType_Trees_And_Bushes:
+            return @"Trees And Bushes";
+            break;
+        case kAPI4ZoneVegetationType_Other:
+            return @"Other";
+            break;
+            
+        default:
+            return @"Other";
+    }
+    
+    return @"Other";
+}
+
 #pragma mark - General
 
 + (int)checkOSVersion {

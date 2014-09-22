@@ -497,7 +497,8 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestWaterNowZoneList4
 {
-    [self.manager GET:@"api/4/waterNowZone" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//    [self.manager GET:@"api/4/waterNowZone" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      [self.manager GET:@"api/4/zone" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"zones"] toClass:NSStringFromClass([WaterNowZone4 class])] serverProxy:self userInfo:nil];

@@ -53,6 +53,8 @@
 
 + (UIImage*)weatherImageFromCode:(NSNumber*)cod;
 
++ (NSString*)vegetationTypeToString:(int)vegetation;
+
 @end
 
 float evenValue(float value);

@@ -402,7 +402,7 @@
             sprinkler = sprinklerArray[indexPath.row];
             [self sprinklerSelected:sprinkler];
         }
-    } else if (indexPath.section == 1) {
+    } else {
         if (indexPath.row == 0) {
             AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
             [self.navigationController pushViewController:addNewDeviceVC animated:YES];

@@ -10,6 +10,16 @@
 
 @implementation ProgramWateringTimes
 
+- (ProgramWateringTimes*)init
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    return self;
+}
+
 - (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dic = [NSMutableDictionary new];

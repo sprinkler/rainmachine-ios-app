@@ -171,7 +171,7 @@
     [dic setObject:[NSNumber numberWithBool:_delayOn] forKey:@"delay_on"];
     [dic setObject:[NSNumber numberWithInt:_status] forKey:@"status"];
     [dic setObject:[_frequency toDictionary] forKey:@"frequency"];
-    [dic setObject:[NSNumber numberWithBool:_ignoreWeatherData] forKey:@"ignoreWeatherData"];
+    [dic setObject:[NSNumber numberWithBool:_ignoreWeatherData] forKey:@"ignoreInternetWeather"];
     [dic setObject:[NSNumber numberWithFloat:_coef] forKey:@"coef"];
     [dic setObject:[NSNumber numberWithFloat:_futureField1] forKey:@"futureField1"];
     [dic setObject:[NSNumber numberWithFloat:_freq_modified] forKey:@"freq_modified"];
