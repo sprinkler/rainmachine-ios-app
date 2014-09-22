@@ -172,9 +172,16 @@ static ServiceManager *current = nil;
     // Overwrite port value. For the discovered sprinklers we will set a default port
     port = 443;
     
+    NSArray *splits = [string componentsSeparatedByString:messageDelimiter];
+    if (splits.count >= 5) {
+        // Sprinkler2
+        NSURL *baseURL = [NSURL URLWithString:splits[3]];
+        port = [[baseURL port] integerValue];
+        NSLog(@"");
+    }
+    
     //NSLog(@"UDP message received from sprinkler: %@, %@:%d", string, host, port);
     
-    NSArray *splits = [string componentsSeparatedByString:messageDelimiter];
     if (splits && splits.count >= 4 && [splits[0] isEqualToString:@"SPRINKLER"]) {
         NSString *sprinklerId = splits[1];
         

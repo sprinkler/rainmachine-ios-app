@@ -131,11 +131,15 @@
 - (void)refreshSprinklerList
 {
     NSArray *sprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All aliveDevices:@YES];
-    // Sort sprinklers into savedSprinklers array (manually entered or discovered on the network) and cloudSprinklers dictionary
+    
+    // Sort sprinklers into:
+    // 1) savedSprinklers array (manually entered or discovered on the network)
+    // 2) cloudSprinklers dictionary
     NSMutableArray *networkOrManuallyEnteredSprinklers = [NSMutableArray array];
     NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
     for (Sprinkler *sprinkler in sprinklers) {
         if (sprinkler.email) {
+            sprinkler.isDiscovered = @NO;
             if (!cloudSprinklersDic[sprinkler.email]) {
                 cloudSprinklersDic[sprinkler.email] = [NSMutableArray array];
             }
@@ -439,7 +443,8 @@
     // TODO: decide upon local/remote type on runtime
     cell.labelInfo.text = @"";
     
-    cell.disclosureImageView.hidden = tableView.isEditing;
+    cell.disclosureImageView.hidden = tableView.isEditing || (![sprinkler.isDiscovered boolValue]);
+    cell.labelMainSubtitle.enabled = [sprinkler.isDiscovered boolValue];
     cell.labelInfo.hidden = tableView.isEditing;
     
     return cell;
@@ -483,6 +488,15 @@
 //    NSError *e = nil;
 //    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"me@tremend.ro\",\"sprinklers\":[{\"sprinklerName\":\"sprinkler196\",\"sprinklerId\":\"sprinkler196\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
 //    self.cloudResponse = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];//data;
+    
+    NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
+    for (Sprinkler *sprinkler in aliveRemoteDevices) {
+        if (sprinkler.email) {
+            // It is a cloud device
+            sprinkler.isDiscovered = @NO;
+        }
+    }
+    
     self.cloudResponse = data;
     NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
     for (NSDictionary *cloudInfo in cloudInfos) {
