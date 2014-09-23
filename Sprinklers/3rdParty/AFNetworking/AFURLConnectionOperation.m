@@ -452,10 +452,10 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 - (void)cancel {
     [self.lock lock];
     if (![self isFinished] && ![self isCancelled]) {
-        [self willChangeValueForKey:@"isCancelled"];
-        self.cancelled = YES;
+//        [self willChangeValueForKey:@"isCancelled"];
+//        self.cancelled = YES;
         [super cancel];
-        [self didChangeValueForKey:@"isCancelled"];
+//        [self didChangeValueForKey:@"isCancelled"];
         
         // Cancel the connection on the thread it runs on to prevent race conditions
         [self performSelector:@selector(cancelConnection) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
