@@ -25,10 +25,6 @@
 }
 
 @property (nonatomic, readonly) BOOL restrictionsAvailable;
-@property (nonatomic, readonly) NSInteger programsSection;
-@property (nonatomic, readonly) NSInteger rainDelaySection;
-@property (nonatomic, readonly) NSInteger restrictionsSection;
-@property (nonatomic, readonly) NSInteger deviceSettingsSection;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -78,46 +74,22 @@
     return [ServerProxy usesAPI4];
 }
 
-- (NSInteger)programsSection
-{
-    return 0;
-}
-
-- (NSInteger)rainDelaySection
-{
-    return 1;
-}
-
-- (NSInteger)restrictionsSection
-{
-    return (self.restrictionsAvailable ? 2 : -1);
-}
-
-- (NSInteger)deviceSettingsSection
-{
-    return (self.restrictionsAvailable ? 3 : 2);
-}
-
-
 #pragma mark - Actions
 
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return (self.restrictionsAvailable ? 4 : 3);
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == self.programsSection) {
+    if (section == 0) {
         return 2;
     }
-    else if (section == self.rainDelaySection) {
-        return 1;
+    else if (section == 1) {
+        return (self.restrictionsAvailable ? 2 : 1);
     }
-    else if (section == self.restrictionsSection) {
-        return 1;
-    }
-    else if (section == self.deviceSettingsSection) {
+    else if (section == 2) {
         return 5;
     }
     
@@ -139,7 +111,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == (self.restrictionsAvailable ? 3 : 2)) {
+    if (section == 2) {
         return @"Device Settings";
     }
     
@@ -170,7 +142,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    if (indexPath.section == self.programsSection)
+    if (indexPath.section == 0)
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Programs";
@@ -180,19 +152,16 @@
         }
     }
     
-    if (indexPath.section == self.rainDelaySection) {
+    if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Rain Delay";
         }
-    }
-    
-    if (indexPath.section == self.restrictionsSection) {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 1) {
             cell.textLabel.text = @"Restrictions";
         }
     }
-
-    if (indexPath.section == self.deviceSettingsSection)
+    
+    if (indexPath.section == 2)
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Units";
@@ -223,7 +192,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == self.programsSection) {
+    if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             ProgramsVC *programs = [[ProgramsVC alloc] init];
             programs.parent = self;
@@ -233,15 +202,13 @@
             [self showZonesAnimated:YES];
         }
     }
-    else if (indexPath.section == self.rainDelaySection) {
+    else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
             rainDelay.parent = self;
             [self.navigationController pushViewController:rainDelay animated:YES];
         }
-    }
-    else if (indexPath.section == self.restrictionsSection) {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 1) {
             RestrictionsVC *restrictions = [[RestrictionsVC alloc] init];
             restrictions.parent = self;
             [self.navigationController pushViewController:restrictions animated:YES];
