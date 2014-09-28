@@ -32,6 +32,13 @@
         return [[self objectForKey:key] isEqual:[NSNull null]] ? 0 : [[self objectForKey:key] intValue];
 }
 
+- (double)nullProofedDoubleValueForKey: (NSString *)key {
+    if (![self objectForKey:key])
+        return 0;
+    else
+        return [[self objectForKey:key] isEqual:[NSNull null]] ? 0 : [[self objectForKey:key] doubleValue];
+}
+
 - (BOOL)nullProofedBoolValueForKey: (NSString *)key {
     if (![self objectForKey:key])
         return NO;

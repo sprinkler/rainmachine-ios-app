@@ -224,6 +224,62 @@
     return nil;
 }
 
++ (NSString*)monthsStringFromMonthsFrequency:(NSString *)selectedMonths
+{
+    NSArray *vals = [selectedMonths componentsSeparatedByString:@","];
+    if (vals && vals.count == 12) {
+        NSMutableArray *months = [NSMutableArray array];
+        for (int i = 0; i < 12; i++) {
+            [months addObject:[monthsOfYear[i] substringToIndex:3]];
+        }
+        
+        NSString *monthsString = @"";
+        if ([vals[0] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[0]];
+        }
+        if ([vals[1] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[1]];
+        }
+        if ([vals[2] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[2]];
+        }
+        if ([vals[3] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[3]];
+        }
+        if ([vals[4] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[4]];
+        }
+        if ([vals[5] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[5]];
+        }
+        if ([vals[6] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[6]];
+        }
+        if ([vals[7] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[7]];
+        }
+        if ([vals[8] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[8]];
+        }
+        if ([vals[9] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[9]];
+        }
+        if ([vals[10] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[10]];
+        }
+        if ([vals[11] isEqualToString:@"1"]) {
+            monthsString = [NSString stringWithFormat:@"%@%@, ", monthsString, months[11]];
+        }
+        if (([monthsString hasSuffix:@", "]) || ([monthsString hasSuffix:@","])) {
+            monthsString = [monthsString substringToIndex:monthsString.length - 2];
+        }
+        
+        return monthsString;
+    }
+    
+    return nil;
+}
+
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat
 {
     NSDateFormatter *formatter = [NSDate getDateFormaterFixedFormatParsing];

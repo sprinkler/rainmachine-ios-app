@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RestrictionsVC">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RestrictedHoursVC">
             <connections>
-                <outlet property="tableView" destination="aEE-2e-21D" id="l5y-Pd-pqm"/>
-                <outlet property="view" destination="1" id="3"/>
+                <outlet property="tableView" destination="La5-jO-Nti" id="raj-ti-fWE"/>
+                <outlet property="view" destination="1" id="Pwo-fq-Ew5"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -16,16 +16,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="aEE-2e-21D">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="La5-jO-Nti">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="hDB-Ab-nD1"/>
-                        <outlet property="delegate" destination="-1" id="E3S-Vd-XzR"/>
+                        <outlet property="dataSource" destination="-1" id="8Ad-Aa-jOn"/>
+                        <outlet property="delegate" destination="-1" id="rse-2Q-Ox5"/>
                     </connections>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="La5-jO-Nti" secondAttribute="trailing" id="HKQ-IX-wDW"/>
+                <constraint firstItem="La5-jO-Nti" firstAttribute="top" secondItem="1" secondAttribute="top" id="SgA-uG-15g"/>
+                <constraint firstAttribute="bottom" secondItem="La5-jO-Nti" secondAttribute="bottom" id="kaO-GM-uq2"/>
+                <constraint firstItem="La5-jO-Nti" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="rMU-1s-6Lc"/>
+            </constraints>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

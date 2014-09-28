@@ -37,6 +37,30 @@
 
 @end
 
+@class PickerVC;
+
+@protocol PickerVCDelegate <NSObject>
+
+- (void)pickerVCWillDissapear:(PickerVC*)pickerVC;
+
+@end
+
+@class WeekdaysVC;
+
+@protocol WeekdaysVCDelegate <NSObject>
+
+- (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC;
+
+@end
+
+@class MonthsVC;
+
+@protocol MonthsVCDelegate <NSObject>
+
+- (void)monthsVCWillDissapear:(MonthsVC*)monthsVC;
+
+@end
+
 @protocol SetDelayVCDelegate <NSObject>
 
 - (void)setDelayVCOver:(id)setDelayVC;

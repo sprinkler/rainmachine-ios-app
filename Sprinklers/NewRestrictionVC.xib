@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewRestrictionVC">
+            <connections>
+                <outlet property="discardBarButtonItem" destination="8hM-VG-omW" id="xjh-EK-m8e"/>
+                <outlet property="saveBarButtonItem" destination="G6o-3x-D2T" id="t9Y-J8-otY"/>
+                <outlet property="tableView" destination="eYc-v8-xMi" id="Mf3-GZ-Efp"/>
+                <outlet property="view" destination="iN0-l3-epB" id="Zyy-Lf-vlx"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUz-D8-3CX">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="44.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44.5" id="dtt-Nf-XVv"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem systemItem="flexibleSpace" id="zvp-uG-c7c"/>
+                        <barButtonItem title="Discard" id="8hM-VG-omW">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onDiscard:" destination="-1" id="cvo-dn-dFk"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem systemItem="flexibleSpace" id="xnu-5r-Pag"/>
+                        <barButtonItem title="Save" style="done" id="G6o-3x-D2T">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onSave:" destination="-1" id="gFk-x6-Jga"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem systemItem="flexibleSpace" id="cc3-Kh-chF"/>
+                    </items>
+                </toolbar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="eYc-v8-xMi">
+                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="lqy-z1-mYa"/>
+                        <outlet property="delegate" destination="-1" id="RZn-dP-J91"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="eYc-v8-xMi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5Ju-a9-xn8"/>
+                <constraint firstItem="eYc-v8-xMi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="9Oo-HY-owt"/>
+                <constraint firstAttribute="bottom" secondItem="eYc-v8-xMi" secondAttribute="bottom" id="9XG-e6-cPc"/>
+                <constraint firstItem="qUz-D8-3CX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Kv8-wW-KJK"/>
+                <constraint firstAttribute="trailing" secondItem="eYc-v8-xMi" secondAttribute="trailing" id="T3q-8r-LwE"/>
+                <constraint firstItem="qUz-D8-3CX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ToH-d1-16L"/>
+                <constraint firstAttribute="trailing" secondItem="qUz-D8-3CX" secondAttribute="trailing" id="pUm-o8-wVl"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

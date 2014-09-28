@@ -11,7 +11,8 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "WeatherData.h"
 #import "WeatherData4.h"
-#import "RestrictionsData.h"
+#import "WateringRestrictions.h"
+#import "HourlyRestriction.h"
 #import "WaterNowZone.h"
 #import "WaterNowZone4.h"
 #import "ZoneProperties4.h"
@@ -423,20 +424,87 @@ static int serverAPIMinorSubVersion = -1;
     }];
 }
 
-#pragma mark - Various
+#pragma mark - Restrictions
 
 - (void)requestWateringRestrictions
 {
-    DLog(@"%s", __PRETTY_FUNCTION__);
-    
-    [self.manager GET:@"/api/4/wateringrestrictions" parameters: nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"wateringrestrictions"] toClass:NSStringFromClass([RestrictionsData class])] serverProxy:self userInfo:nil];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error fromOperation:operation userInfo:nil];
-    }];
+    [self.manager GET:@"/api/4/wateringRestrictions" parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      WateringRestrictions *wateringRestrictions = [WateringRestrictions createFromJson:responseObject];
+                      [self.delegate serverResponseReceived:wateringRestrictions serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
 }
+
+- (void)postWateringRestrictions:(WateringRestrictions*)restrictions;
+{
+    NSDictionary *params = @{@"hotDaysExtraWatering" : [NSNumber numberWithBool:restrictions.hotDaysExtraWatering],
+                             @"freezeProtectEnabled" : [NSNumber numberWithBool:restrictions.freezeProtectEnabled],
+                             @"freezeProtectTemp"    : [NSNumber numberWithDouble:restrictions.freezeProtectTemperature],
+                             @"noWaterInWeekDays"    : restrictions.noWaterInWeekDays,
+                             @"noWaterInMonths"      : restrictions.noWaterInMonths,
+                             @"rainDelayStartTime"   : [NSNumber numberWithInt:restrictions.rainDelayStartTime],
+                             @"rainDelayDuration"    : [NSNumber numberWithInt:restrictions.rainDelayDuration]};
+    
+    [self.manager POST: @"api/4/wateringRestrictions" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)requestHourlyRestrictions {
+    [self.manager GET:@"/api/4/hourlyRestrictions" parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[responseObject objectForKey:@"hourlyRestrictions"] toClass:NSStringFromClass([HourlyRestriction class])] serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)createHourlyRestriction:(HourlyRestriction*)restriction
+{
+    NSDictionary *params = @{@"start"    : restriction.dayStartMinute,
+                             @"duration" : restriction.minuteDuration,
+                             @"weekDays" : restriction.weekDays};
+    
+    [self.manager POST: @"api/4/hourlyRestrictions/create" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)deleteHourlyRestriction:(HourlyRestriction*)restriction
+{
+    NSDictionary *params = @{@"uid" : restriction.uid};
+    [self.manager POST: [NSString stringWithFormat:@"api/4/hourlyRestrictions/%@/delete", restriction.uid] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+#pragma mark - Various
 
 - (void)requestWeatherData
 {

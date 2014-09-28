@@ -7,115 +7,227 @@
 //
 
 #import "RestrictionsVC.h"
-#import "RestrictedMonthsVC.h"
-#import "RestrictionsWeekDaysVC.h"
 #import "Constants.h"
+#import "ServerProxy.h"
+#import "Program.h"
 #import "MBProgressHUD.h"
-#import "StorageManager.h"
-#import "RestrictionsData.h"
-#import "PickerVC.h"
-#import "SettingsHoursVC.h"
+#import "Additions.h"
 #import "Utils.h"
+#import "SettingsVC.h"
+#import "ServerResponse.h"
+#import "WateringRestrictions.h"
+#import "HourlyRestriction.h"
+#import "RestrictionsCell.h"
+#import "RestrictionsSwitchCell.h"
+#import "WeekdaysVC.h"
+#import "MonthsVC.h"
+#import "PickerVC.h"
+#import "RestrictedHoursVC.h"
 
 @interface RestrictionsVC ()
 
+@property (strong, nonatomic) ServerProxy *requestWateringRestrictionsServerProxy;
+@property (strong, nonatomic) ServerProxy *requestHourlyRestrictionsServerProxy;
+@property (strong, nonatomic) ServerProxy *saveWateringRestrictionsServerProxy;
+@property (strong, nonatomic) WateringRestrictions *wateringRestrictions;
+@property (strong, nonatomic) NSArray *hourlyRestrictions;
+@property (strong, nonatomic) NSArray *hourlyRestrictionDescriptions;
+@property (assign, nonatomic) BOOL firstRefreshInProgress;
+
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+- (void)requestWateringRestrictions;
+- (void)saveWateringRestrictions;
+- (void)requestHourlyRestrictions;
+    
+- (NSMutableArray*)weekDaysFrequencyFromRawString:(NSString*)string;
+- (NSMutableArray*)monthsFrequencyFromRawString:(NSString*)string;
+- (NSString*)descriptionForHourlyRestriction:(HourlyRestriction*)restriction;
 
 @end
 
-@implementation RestrictionsVC
+@implementation RestrictionsVC {
+    MBProgressHUD *hud;
+}
 
 #pragma Init
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         self.title = @"Restrictions";
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 
-    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate: self jsonRequest: NO];
+    [_tableView registerNib:[UINib nibWithNibName:@"RestrictionsSwitchCell" bundle:nil] forCellReuseIdentifier:@"RestrictionsSwitchCell"];
+    [_tableView registerNib:[UINib nibWithNibName:@"RestrictionsCell" bundle:nil] forCellReuseIdentifier:@"RestrictionsCell"];
     
-    [_tableView registerNib:[UINib nibWithNibName: @"SettingsRestrictionsHotDaysCell" bundle:nil] forCellReuseIdentifier: @"SettingsRestrictionsHotDaysCell"];
+    self.firstRefreshInProgress = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    //TODO: Load current sprinkler from SettingsManager here and update content if needed.
-    [self.serverProxy requestWateringRestrictions];
-    [self startHud:nil]; // @"Receivivfgfggng data..."
-    
-    [self refreshStatus];
+    if (self.firstRefreshInProgress) {
+        [self requestWateringRestrictions];
+        [self requestHourlyRestrictions];
+    }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
-    [self.serverProxy cancelAllOperations];
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
-    
+
+#pragma mark - Methods
+
+- (void)requestWateringRestrictions {
+    self.requestWateringRestrictionsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    [self.requestWateringRestrictionsServerProxy requestWateringRestrictions];
+    [self startHud:nil];
+}
+
+- (void)saveWateringRestrictions {
+    self.saveWateringRestrictionsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    [self.saveWateringRestrictionsServerProxy postWateringRestrictions:self.wateringRestrictions];
+    [self startHud:nil];
+}
+
+- (void)requestHourlyRestrictions {
+    self.requestHourlyRestrictionsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    [self.requestHourlyRestrictionsServerProxy requestHourlyRestrictions];
+    [self startHud:nil];
+}
+
 - (void)startHud:(NSString *)text {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.labelText = text;
+    if (hud) return;
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = text;
 }
 
-- (void)refreshStatus
-{
-    [self.tableView reloadData];
+- (NSMutableArray*)weekDaysFrequencyFromRawString:(NSString*)string {
+    NSMutableArray *weekDaysFrequency = [NSMutableArray array];
+    for (NSUInteger index = 0; index < string.length; index++) {
+        [weekDaysFrequency addObject:[string substringWithRange:NSMakeRange(index, 1)]];
+    }
+    return weekDaysFrequency;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSMutableArray*)monthsFrequencyFromRawString:(NSString*)string {
+    NSMutableArray *monthsFrequency = [NSMutableArray array];
+    for (NSUInteger index = 0; index < string.length; index++) {
+        [monthsFrequency addObject:[string substringWithRange:NSMakeRange(index, 1)]];
+    }
+    return monthsFrequency;
+}
+
+- (NSString*)daysDescriptionForHourlyRestriction:(HourlyRestriction*)restriction {
+    NSArray *weekDaysFrequency = [self weekDaysFrequencyFromRawString:restriction.weekDays];
+    return ([weekDaysFrequency indexOfObject:@"0"] == NSNotFound ? @"Every day" : [Utils daysStringFromWeekdaysFrequency:[weekDaysFrequency componentsJoinedByString:@","]]);
+}
+
+- (NSString*)timeDescriptionForHourlyRestriction:(HourlyRestriction*)restriction {
+    NSArray *timeIntervalComponents = [restriction.interval componentsSeparatedByString:@" - "];
+    NSString *startTime = (timeIntervalComponents.count > 0 ? timeIntervalComponents[0] : nil);
+    NSString *endTime = (timeIntervalComponents.count > 1 ? timeIntervalComponents[1] : nil);
+    
+    NSArray *startTimeComponents = [startTime componentsSeparatedByString:@":"];
+    NSString *startHour = (startTimeComponents.count > 0 ? startTimeComponents[0] : nil);
+    NSString *startMinutes = (startTimeComponents.count > 1 ? startTimeComponents[1] : nil);
+    if (startMinutes.length == 1) startMinutes = [@"0" stringByAppendingString:startMinutes];
+    
+    NSArray *endTimeComponents = [endTime componentsSeparatedByString:@":"];
+    NSString *endHour = (endTimeComponents.count > 0 ? endTimeComponents[0] : nil);
+    NSString *endMinutes = (endTimeComponents.count > 1 ? endTimeComponents[1] : nil);
+    if (endMinutes.length == 1) endMinutes = [@"0" stringByAppendingString:endMinutes];
+    
+    return [NSString stringWithFormat:@"%@:%@ - %@:%@",startHour,startMinutes,endHour,endMinutes];
+}
+
+- (NSString*)descriptionForHourlyRestriction:(HourlyRestriction*)restriction {
+    return [NSString stringWithFormat:@"%@ %@",
+            [self daysDescriptionForHourlyRestriction:restriction],
+            [self timeDescriptionForHourlyRestriction:restriction]];
+}
+
+#pragma mark - Actions
+
+- (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC {
+    self.wateringRestrictions.noWaterInWeekDays = [weekdaysVC.selectedWeekdays componentsJoinedByString:@""];
+    [self saveWateringRestrictions];
+}
+
+- (void)monthsVCWillDissapear:(MonthsVC*)monthsVC {
+    self.wateringRestrictions.noWaterInMonths = [monthsVC.selectedMonths componentsJoinedByString:@""];
+    [self saveWateringRestrictions];
+}
+
+- (void)pickerVCWillDissapear:(PickerVC*)pickerVC {
+    if (!pickerVC.selectedItem.length) return;
+    self.wateringRestrictions.freezeProtectEnabled = YES;
+    self.wateringRestrictions.freezeProtectTemperature = pickerVC.selectedItem.doubleValue;
+    [self saveWateringRestrictions];
+}
+
+- (IBAction)onCellSwitch:(RestrictionsSwitchCell*)cell {
+    if (cell.uid == 0) self.wateringRestrictions.hotDaysExtraWatering = cell.restrictionEnabledSwitch.on;
+    else if (cell.uid == 1) self.wateringRestrictions.freezeProtectEnabled = cell.restrictionEnabledSwitch.on;
+    [self saveWateringRestrictions];
 }
 
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    DLog(@"%s", __PRETTY_FUNCTION__);
-    [self.hud hide:YES];
+    if (serverProxy == self.requestWateringRestrictionsServerProxy) {
+        self.wateringRestrictions = (WateringRestrictions*)data;
+        self.requestWateringRestrictionsServerProxy = nil;
+    }
     
-    // NSMutableArray* restrictionsDataArray = data;
-    //RestrictionsData* restrictionsData = restrictionsDataArray[0];
-
+    if (serverProxy == self.requestHourlyRestrictionsServerProxy) {
+        self.hourlyRestrictions = (NSArray*)data;
+        self.requestHourlyRestrictionsServerProxy = nil;
+        
+        NSMutableArray *hourlyRestrictionDescriptions = [NSMutableArray new];
+        for (HourlyRestriction *hourlyRestriction in self.hourlyRestrictions) {
+            [hourlyRestrictionDescriptions addObject:[self descriptionForHourlyRestriction:hourlyRestriction]];
+        }
+        
+        self.hourlyRestrictionDescriptions = hourlyRestrictionDescriptions;
+    }
+    
+    if (serverProxy == self.saveWateringRestrictionsServerProxy) {
+        self.saveWateringRestrictionsServerProxy = nil;
+        [self requestWateringRestrictions];
+        return;
+    }
+    
+    if (!self.requestWateringRestrictionsServerProxy &&
+        !self.requestHourlyRestrictionsServerProxy &&
+        !self.saveWateringRestrictionsServerProxy) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        hud = nil;
+    }
+    
+    if (!self.requestWateringRestrictionsServerProxy && !self.requestHourlyRestrictionsServerProxy) {
+        self.firstRefreshInProgress = NO;
+    }
+    
     [_tableView reloadData];
 }
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [self.hud hide:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Network error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
-}
-
-- (void)handleLoggedOutSprinklerError {
-    NSString *errorTitle = @"Logged out";
-//    [StorageManager current].currentSprinkler.lastError = errorTitle;
-//    [[StorageManager current] saveData];
-    
-    self.alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:@"You've been logged out by the server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    self.alertView.tag = kAlertView_LoggedOut;
-    [self.alertView show];
+    [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 }
 
 - (void)loggedOut {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self handleLoggedOutSprinklerError];
+    [self.parent handleLoggedOutSprinklerError];
 }
-
-#pragma mark - Actions
 
 #pragma mark - UITableView delegate
 
@@ -123,116 +235,152 @@
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.firstRefreshInProgress) return 0;
+    else return 5;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 35)];
-    headerView.backgroundColor = [UIColor colorWithRed:229.0f / 255.0f green:229.0f / 255.0f blue:229.0f / 255.0f alpha:1.0f];
-    
-    return headerView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-
-    return 20.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    return view;
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
+    return 56.0;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0f;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+    static NSString *RestrictionsSwitchCellIdentifier = @"RestrictionsSwitchCell";
+    static NSString *RestrictionsCellIdentifier = @"RestrictionsCell";
     
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
-    if (nil == cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
-    if (indexPath.row == 0)
-    {
-        //add a switch
-        UISwitch *switchview = [[UISwitch alloc] initWithFrame: CGRectZero];
-        cell.accessoryView = switchview;
+    if (indexPath.row == 0) {
+        RestrictionsSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:RestrictionsSwitchCellIdentifier];
         
-        cell.textLabel.text = @"Hot Days";
-        cell.detailTextLabel.text = @"Allow extra watering";
+        cell.uid = 0;
+        cell.delegate = self;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.restrictionNameLabel.text = @"Hot Days";
+        cell.restrictionDescriptionLabel.text = @"Allow extra watering";
+        cell.restrictionEnabledSwitch.on = self.wateringRestrictions.hotDaysExtraWatering;
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        
+        return cell;
+    }
+    else if (indexPath.row == 1) {
+        RestrictionsSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:RestrictionsSwitchCellIdentifier];
+    
+        double freezeProtectTemperature = self.wateringRestrictions.freezeProtectTemperature;
+        NSString *temperatureUnits = [Utils sprinklerTemperatureUnits];
+        
+        if ([temperatureUnits isEqualToString:@"F"]) {
+            freezeProtectTemperature = freezeProtectTemperature * 1.8 + 32;
+        }
+        
+        cell.uid = 1;
+        cell.delegate = self;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.restrictionNameLabel.text = @"Freeze Protect";
+        cell.restrictionDescriptionLabel.text = [NSString stringWithFormat:@"Do not water under %d°%@",(int)freezeProtectTemperature,temperatureUnits];
+        cell.restrictionEnabledSwitch.on = self.wateringRestrictions.freezeProtectEnabled;
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        
+        return cell;
+    }
+    else if (indexPath.row == 2) {
+        RestrictionsCell *cell = [tableView dequeueReusableCellWithIdentifier:RestrictionsCellIdentifier];
+        
+        NSArray *monthsFrequency = [self monthsFrequencyFromRawString:self.wateringRestrictions.noWaterInMonths];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.restrictionNameLabel.text = @"Months";
+        cell.restrictionCenteredNameLabel.text = @"Months";
+        cell.restrictionDescriptionLabel.text = [Utils monthsStringFromMonthsFrequency:[monthsFrequency componentsJoinedByString:@","]];
+        cell.restrictionNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length == 0);
+        cell.restrictionCenteredNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length > 0);
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        
+        return cell;
+    }
+    else if (indexPath.row == 3) {
+        RestrictionsCell *cell = [tableView dequeueReusableCellWithIdentifier:RestrictionsCellIdentifier];
+        
+        NSArray *weekDaysFrequency = [self weekDaysFrequencyFromRawString:self.wateringRestrictions.noWaterInWeekDays];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.restrictionNameLabel.text = @"Weekdays";
+        cell.restrictionCenteredNameLabel.text = @"Weekdays";
+        cell.restrictionDescriptionLabel.text = [Utils daysStringFromWeekdaysFrequency:[weekDaysFrequency componentsJoinedByString:@","]];
+        cell.restrictionNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length == 0);
+        cell.restrictionCenteredNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length > 0);
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        
+        return cell;
+    }
+    else if (indexPath.row == 4) {
+        RestrictionsCell *cell = [tableView dequeueReusableCellWithIdentifier:RestrictionsCellIdentifier];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.restrictionNameLabel.text = @"Hours";
+        cell.restrictionCenteredNameLabel.text = @"Hours";
+        cell.restrictionDescriptionLabel.text = [self.hourlyRestrictionDescriptions componentsJoinedByString:@"; "];
+        cell.restrictionNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length == 0);
+        cell.restrictionCenteredNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length > 0);
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        
+        return cell;
     }
     
-    if (indexPath.row == 1) {
-        cell.textLabel.text = @"Freeze Protect";
-        cell.detailTextLabel.text = @"Do not water under 38° F";  //TODO: Get correct temperature.
-    }
-    if (indexPath.row == 2) {
-        cell.textLabel.text = @"Months";
-        cell.detailTextLabel.text = @"Jan, Feb, Nov, Dec";  //TODO: Get correct months.
-    }
-    if (indexPath.row == 3) {
-        cell.textLabel.text = @"Weekdays";
-        cell.detailTextLabel.text = @"Mon, Wed";  //TODO: Get correct days.
-    }
-    if (indexPath.row == 4) {
-        cell.textLabel.text = @"Hours";
-        cell.detailTextLabel.text = @"Every day 7:30 AM - 6:00 PM";  //TODO: Get correct hours.
-    }
-
-    return cell;
+    return nil;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated: YES];
     
-    switch (indexPath.row)
-    {
-        case 1:
-        {
-            PickerVC *pickerVC = [[PickerVC alloc] init];
-            [self.navigationController pushViewController:pickerVC animated:YES];
-        }break;
-            
-        case 2:
-        {
-            RestrictedMonthsVC *restrictedMonths = [[RestrictedMonthsVC alloc] init];
-            [self.navigationController pushViewController: restrictedMonths animated:YES];
+    if (indexPath.row == 0) {
+        RestrictionsSwitchCell *cell = (RestrictionsSwitchCell*)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        cell.restrictionEnabledSwitch.on = !cell.restrictionEnabledSwitch.on;
+        
+        self.wateringRestrictions.hotDaysExtraWatering = cell.restrictionEnabledSwitch.on;
+        [self saveWateringRestrictions];
+    }
+    else if (indexPath.row == 1) {
+        NSString *temperatureUnits = [Utils sprinklerTemperatureUnits];
+        
+        PickerVC *pickerVC = [[PickerVC alloc] init];
+        pickerVC.title = @"Do not water under";
+        pickerVC.itemsArray = @[@"0", @"2", @"5", @"10"];
+        pickerVC.selectedItem = [NSString stringWithFormat:@"%d",(int)self.wateringRestrictions.freezeProtectTemperature];
+        pickerVC.parent = self;
+        
+        if ([temperatureUnits isEqualToString:@"F"]) {
+            pickerVC.itemsDisplayStringArray = @[@"32", @"36", @"41", @"50"];
+            pickerVC.selectedItemTitle = @"°F";
+        } else {
+            pickerVC.itemsDisplayStringArray = @[@"0", @"2", @"5", @"10"];
+            pickerVC.selectedItemTitle = @"°C";
         }
-        break;
-                
-        case 3:
-        {
-            RestrictionsWeekDaysVC *restrictionsWeekDaysVC = [[RestrictionsWeekDaysVC alloc] init];
-            [self.navigationController pushViewController: restrictionsWeekDaysVC animated:YES];
-        }
-        break;
-
-        case 4:
-        {
-            SettingsHoursVC *settingsHoursVC = [[SettingsHoursVC alloc] init];
-            [self.navigationController pushViewController: settingsHoursVC animated:YES];
-        }
-        break;
-            
-        default:
-            break;
+        
+        [self.navigationController pushViewController:pickerVC animated:YES];
+    }
+    else if (indexPath.row == 2) {
+        MonthsVC *monthsVC = [[MonthsVC alloc] init];
+        monthsVC.selectedMonths = [self monthsFrequencyFromRawString:self.wateringRestrictions.noWaterInMonths];
+        monthsVC.parent = self;
+        
+        [self.navigationController pushViewController:monthsVC animated:YES];
+    }
+    else if (indexPath.row == 3) {
+        WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
+        weekdaysVC.selectedWeekdays = [self weekDaysFrequencyFromRawString:self.wateringRestrictions.noWaterInWeekDays];
+        weekdaysVC.parent = self;
+        
+        [self.navigationController pushViewController:weekdaysVC animated:YES];
+    }
+    else if (indexPath.row == 4) {
+        RestrictedHoursVC *restrictedHoursVC = [[RestrictedHoursVC alloc] init];
+        restrictedHoursVC.hourlyRestrictions = self.hourlyRestrictions;
+        restrictedHoursVC.parent = self;
+        
+        [self.navigationController pushViewController:restrictedHoursVC animated:YES];
     }
 }
 

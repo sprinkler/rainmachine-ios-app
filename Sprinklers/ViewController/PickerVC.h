@@ -7,12 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-    
-@interface PickerVC : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
-{   
-}
+#import "BaseLevel2ViewController.h"
+#import "Protocols.h"
 
-@property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
-@property (nonatomic, retain) NSMutableArray *dataArray;
+@interface PickerVC : BaseLevel2ViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+
+@property (nonatomic, strong) NSArray *itemsArray;
+@property (nonatomic, strong) NSArray *itemsDisplayStringArray;
+@property (nonatomic, strong) NSString *selectedItem;
+@property (nonatomic, strong) NSString *selectedItemTitle;
+
+@property (weak, nonatomic) BaseNetworkHandlingVC<PickerVCDelegate> *parent;
 
 @end

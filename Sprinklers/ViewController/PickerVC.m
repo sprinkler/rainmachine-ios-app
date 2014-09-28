@@ -9,16 +9,17 @@
 #import "PickerVC.h"
 
 @interface PickerVC ()
-    
+
+@property (nonatomic, weak) IBOutlet UIPickerView *pickerView;
+@property (nonatomic, weak) IBOutlet UILabel *selectionTitleLabel;
+
 @end
+
+#pragma mark -
 
 @implementation PickerVC
 
-@synthesize pickerView;
-@synthesize dataArray;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -26,42 +27,41 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Init the data array.
-    dataArray = [[NSMutableArray alloc] init];
-    
-    // Add some data for demo purposes.
-    for (int i=0; i<=10; i++)
-        [dataArray addObject: [NSString stringWithFormat: @"%d C", i]];
+    [self.pickerView reloadAllComponents];
+    self.selectionTitleLabel.text = self.selectedItemTitle;
+    if (self.selectedItem) {
+        NSInteger selectedRow = [self.itemsArray indexOfObject:self.selectedItem];
+        if (selectedRow != NSNotFound) [self.pickerView selectRow:selectedRow inComponent:0 animated:NO];
+    }
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewWillDisappear:animated];
+    
+    [self.parent pickerVCWillDissapear:self];
 }
 
-// Number of components.
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+#pragma Picker view data source
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView*)pickerView {
     return 1;
 }
 
-// Total rows in our component.
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return [dataArray count];
+- (NSInteger)pickerView:(UIPickerView*)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return self.itemsArray.count;
 }
 
-// Display each row's data.
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return [dataArray objectAtIndex: row];
+#pragma mark - Picker view delegate
+
+- (NSString*)pickerView:(UIPickerView*)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return self.itemsDisplayStringArray[row];
 }
 
-// Do something with the selected row.
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    NSLog(@"You selected this: %@", [dataArray objectAtIndex: row]);
+- (void)pickerView:(UIPickerView*)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    self.selectedItem = self.itemsArray[row];
 }
 
 @end

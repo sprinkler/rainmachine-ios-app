@@ -12,16 +12,23 @@
 #import "ProgramsVC.h"
 #import "ZonesVC.h"
 #import "RainDelayVC.h"
+#import "RestrictionsVC.h"
 #import "UnitsVC.h"
 #import "DatePickerVC.h"
 #import "SettingsTimePickerVC.h"
 #import "SettingsPasswordVC.h"
+#import "ServerProxy.h"
 
 @interface SettingsVC ()
 {
     BOOL showZonesOnAppear;
 }
 
+@property (nonatomic, readonly) BOOL restrictionsAvailable;
+@property (nonatomic, readonly) NSInteger programsSection;
+@property (nonatomic, readonly) NSInteger rainDelaySection;
+@property (nonatomic, readonly) NSInteger restrictionsSection;
+@property (nonatomic, readonly) NSInteger deviceSettingsSection;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -64,22 +71,53 @@
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
+#pragma mark - Table view sections
+
+- (BOOL)restrictionsAvailable
+{
+    return [ServerProxy usesAPI4];
+}
+
+- (NSInteger)programsSection
+{
+    return 0;
+}
+
+- (NSInteger)rainDelaySection
+{
+    return 1;
+}
+
+- (NSInteger)restrictionsSection
+{
+    return (self.restrictionsAvailable ? 2 : -1);
+}
+
+- (NSInteger)deviceSettingsSection
+{
+    return (self.restrictionsAvailable ? 3 : 2);
+}
+
+
 #pragma mark - Actions
 
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return (self.restrictionsAvailable ? 4 : 3);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == self.programsSection) {
         return 2;
     }
-    else if (section == 1) {
+    else if (section == self.rainDelaySection) {
         return 1;
     }
-    else if (section == 2) {
+    else if (section == self.restrictionsSection) {
+        return 1;
+    }
+    else if (section == self.deviceSettingsSection) {
         return 5;
     }
     
@@ -101,7 +139,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 2) {
+    if (section == (self.restrictionsAvailable ? 3 : 2)) {
         return @"Device Settings";
     }
     
@@ -132,7 +170,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    if (indexPath.section == 0)
+    if (indexPath.section == self.programsSection)
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Programs";
@@ -142,13 +180,19 @@
         }
     }
     
-    if (indexPath.section == 1) {
+    if (indexPath.section == self.rainDelaySection) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Rain Delay";
         }
     }
+    
+    if (indexPath.section == self.restrictionsSection) {
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"Restrictions";
+        }
+    }
 
-    if (indexPath.section == 2)
+    if (indexPath.section == self.deviceSettingsSection)
     {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Units";
@@ -179,7 +223,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == self.programsSection) {
         if (indexPath.row == 0) {
             ProgramsVC *programs = [[ProgramsVC alloc] init];
             programs.parent = self;
@@ -189,11 +233,18 @@
             [self showZonesAnimated:YES];
         }
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == self.rainDelaySection) {
         if (indexPath.row == 0) {
             RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
             rainDelay.parent = self;
             [self.navigationController pushViewController:rainDelay animated:YES];
+        }
+    }
+    else if (indexPath.section == self.restrictionsSection) {
+        if (indexPath.row == 0) {
+            RestrictionsVC *restrictions = [[RestrictionsVC alloc] init];
+            restrictions.parent = self;
+            [self.navigationController pushViewController:restrictions animated:YES];
         }
     }
     else if (indexPath.section == 2) {

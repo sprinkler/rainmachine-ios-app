@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseLevel2ViewController.h"
-
-@class ProgramVC;
+#import "Protocols.h"
 
 @interface WeekdaysVC : BaseLevel2ViewController
 
 @property (nonatomic, strong) NSMutableArray *selectedWeekdays;
 
-@property (weak, nonatomic) ProgramVC *parent;
+@property (weak, nonatomic) BaseNetworkHandlingVC<WeekdaysVCDelegate> *parent;
 
 @end

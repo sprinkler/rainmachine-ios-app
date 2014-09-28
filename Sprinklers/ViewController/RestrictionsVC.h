@@ -7,17 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ServerProxy.h"
-#import "MBProgressHUD.h"
-    
-@interface RestrictionsVC : UIViewController<SprinklerResponseProtocol>
-{
-}
+#import "BaseLevel2ViewController.h"
+#import "Protocols.h"
 
-@property(nonatomic, retain) ServerProxy* serverProxy;
-    
-@property(nonatomic, retain) UIAlertView* alertView;
+@class SettingsVC;
+@class HourlyRestriction;
 
-@property(nonatomic, retain) MBProgressHUD* hud;
+@interface RestrictionsVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource, WeekdaysVCDelegate, MonthsVCDelegate, PickerVCDelegate, CellButtonDelegate, SprinklerResponseProtocol>
+
+@property (weak, nonatomic) SettingsVC *parent;
+
+- (NSString*)daysDescriptionForHourlyRestriction:(HourlyRestriction*)restriction;
+- (NSString*)timeDescriptionForHourlyRestriction:(HourlyRestriction*)restriction;
+- (NSString*)descriptionForHourlyRestriction:(HourlyRestriction*)restriction;
 
 @end

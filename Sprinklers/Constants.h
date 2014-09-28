@@ -57,6 +57,7 @@ extern int const kWheatherValueCustomFontSize;
 extern int const kXCorrectionbetweenCustomAndNormalWheatherFont;
 
 extern NSString *daysOfTheWeek[7];
+extern NSString *monthsOfYear[12];
 
 #define kAlertView_LoggedOut 1
 #define kAlertView_Error 2

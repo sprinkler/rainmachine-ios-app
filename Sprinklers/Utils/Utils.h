@@ -28,6 +28,7 @@
 + (NSString*)fixedSprinklerAddress:(NSString*)address;
 + (NSArray*)remoteSprinklersFilter:(NSArray*)sprinklers;
 + (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays;
++ (NSString*)monthsStringFromMonthsFrequency:(NSString *)months;
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat;
 + (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate;
 + (void)showNotSupportedDeviceAlertView:(id /*<UIAlertViewDelegate>*/)delegate;

@@ -69,6 +69,8 @@ typedef enum {
 @class SettingsDate;
 @class Login4Response;
 @class Sprinkler;
+@class WateringRestrictions;
+@class HourlyRestriction;
 
 @interface ServerProxy : NSObject
 
@@ -126,6 +128,10 @@ typedef enum {
 - (int)operationCount;
 
 - (void)requestWateringRestrictions;
+- (void)postWateringRestrictions:(WateringRestrictions*)restrictions;
+- (void)requestHourlyRestrictions;
+- (void)createHourlyRestriction:(HourlyRestriction*)restriction;
+- (void)deleteHourlyRestriction:(HourlyRestriction*)restriction;
 
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
 

@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface RestrictionsCell : UITableViewCell
-    
-@property(nonatomic, retain) IBOutlet UISwitch* onOffSwitch;
+
+@property (weak, nonatomic) IBOutlet UILabel *restrictionNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *restrictionCenteredNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *restrictionDescriptionLabel;
 
 @end

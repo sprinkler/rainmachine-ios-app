@@ -22,7 +22,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.title = @"Start time";
     }
     return self;
 }
@@ -57,8 +57,6 @@
         [self.view removeConstraint:self.verticalConstraint];
         [self.view addConstraint:constraint];
     }
-
-    self.title = @"Start time";
     
     [self refreshTimeFormatConstraint];
 }
