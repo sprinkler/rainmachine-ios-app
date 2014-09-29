@@ -412,6 +412,9 @@
     else if ([object isKindOfClass:[ProgramCellType6 class]]) {
         ProgramCellType6 *cell = (ProgramCellType6*)object;
         cell.programWateringTime.active = cell.theSwitch.on;
+        if (cell.programWateringTime.active) {
+            [self tableView:self.tableView didSelectRowAtIndexPath:[self.tableView indexPathForCell:cell]];
+        }
     }
     
     [self refreshToolbarEdited];
