@@ -71,6 +71,8 @@
         self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     }
     
+    _tableView.allowsSelectionDuringEditing = YES;
+    
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType2" bundle:nil] forCellReuseIdentifier:@"DevicesCellType2"];
     [_tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
@@ -106,13 +108,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self refreshSprinklerList];
-    [self shouldStartBroadcast];
     
-    NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
-    self.cloudEmails = [cloudAccounts allKeys];
-    
-    [self requestCloudSprinklers:cloudAccounts];
+    if (!self.tableView.isEditing) {
+        [self refreshSprinklerList];
+        [self shouldStartBroadcast];
+        
+        NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
+        self.cloudEmails = [cloudAccounts allKeys];
+        
+        [self requestCloudSprinklers:cloudAccounts];
+    }
     
     [self.tableView reloadData];
 }
@@ -228,6 +233,24 @@
     [self performSelector:@selector(refreshList) withObject:nil afterDelay:2.0];
 }
 
+- (void)updateVisibleCellsForEditMode {
+    for (UITableViewCell *cell in self.tableView.visibleCells) {
+        cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
+        
+        if (![cell isKindOfClass:[DevicesCellType1 class]]) continue;
+        
+        DevicesCellType1 *deviceCell = (DevicesCellType1*)cell;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:deviceCell];
+        deviceCell.disclosureImageView.hidden = (self.tableView.isEditing) || (!deviceCell.sprinkler.isDiscovered.boolValue);
+        deviceCell.labelInfo.hidden = self.tableView.isEditing;
+        
+        if (self.tableView.isEditing && [self tableView:self.tableView canEditRowAtIndexPath:indexPath]) {
+            deviceCell.disclosureImageView.hidden = NO;
+            deviceCell.selectionStyle = UITableViewCellSelectionStyleGray;
+        }
+    }
+}
+
 #pragma mark - Actions
 
 - (void)done
@@ -238,6 +261,7 @@
 - (void)done:(NSString*)unit {
     if (self.tableView.isEditing) {
         [self.tableView setEditing:NO animated:YES];
+        [self updateVisibleCellsForEditMode];
         [self updateNavigationbarButtons];
         [self shouldStartBroadcast];
         return;
@@ -249,6 +273,7 @@
 
 - (void)edit {
     [self.tableView setEditing:YES animated:YES];
+    [self updateVisibleCellsForEditMode];
     [self updateNavigationbarButtons];
     [self shouldStopBroadcast];
 }
@@ -345,6 +370,7 @@
     if (indexPath.section == 0) {
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
         DevicesCellType1 *cell = [self configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler];
+        cell.sprinkler = sprinkler;
         return cell;
     }
     else if (indexPath.section < 1 + self.cloudEmails.count) {
@@ -354,6 +380,7 @@
             sprinkler = sprinklerArray[indexPath.row];
         }
         DevicesCellType1 *cell = [self configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler];
+        cell.sprinkler = sprinkler;
         if (!sprinkler) {
             cell.labelMainSubtitle.text = @"No sprinklers online";
             cell.disclosureImageView.hidden = YES;
@@ -364,7 +391,7 @@
         if (indexPath.row == 0) {
             // Add New Device
             AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
-            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
             [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
             
             [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
@@ -374,7 +401,7 @@
         } else {
             // Add Cloud Account
             AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
-            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
             [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
             
             [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
@@ -391,6 +418,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.tableView.isEditing) {
+        if ([self tableView:tableView canEditRowAtIndexPath:indexPath]) {
+            AddNewDeviceVC *editDeviceVC = [[AddNewDeviceVC alloc] init];
+            editDeviceVC.sprinkler = self.savedSprinklers[indexPath.row];
+            editDeviceVC.title = @"Edit Device";
+            [self.navigationController pushViewController:editDeviceVC animated:YES];
+        }
+        return;
+    }
     
     if (indexPath.section == 0) {
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
@@ -427,7 +464,7 @@
 - (DevicesCellType1*)configureSprinklerCellForTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath sprinkler:(Sprinkler*)sprinkler
 {
     DevicesCellType1 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType1" forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
 
     cell.labelMainTitle.text = sprinkler.name;
     
@@ -446,6 +483,11 @@
     cell.disclosureImageView.hidden = tableView.isEditing || (![sprinkler.isDiscovered boolValue]);
     cell.labelMainSubtitle.enabled = [sprinkler.isDiscovered boolValue];
     cell.labelInfo.hidden = tableView.isEditing;
+    
+    if (tableView.isEditing && [self tableView:tableView canEditRowAtIndexPath:indexPath]) {
+        cell.disclosureImageView.hidden = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    }
     
     return cell;
 }
