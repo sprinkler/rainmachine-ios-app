@@ -412,7 +412,7 @@
     else if ([object isKindOfClass:[ProgramCellType6 class]]) {
         ProgramCellType6 *cell = (ProgramCellType6*)object;
         cell.programWateringTime.active = cell.theSwitch.on;
-        if (cell.programWateringTime.active) {
+        if (cell.programWateringTime.active && cell.programWateringTime.minutes == 0) {
             [self tableView:self.tableView didSelectRowAtIndexPath:[self.tableView indexPathForCell:cell]];
         }
     }
@@ -469,7 +469,7 @@
              if ([ServerProxy usesAPI4]) {
                  ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
                  [self setProgram4WateringTime:setDelayVC.valuePicker1 on:programWateringTime];
-                 programWateringTime.active = YES;
+                 programWateringTime.active = (programWateringTime.minutes != 0);
                  [self.tableView reloadData];
              } else {
                  ProgramWateringTimes *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
