@@ -18,6 +18,7 @@
 #import "ProgramCellType3.h"
 #import "ProgramCellType4.h"
 #import "ProgramCellType5.h"
+#import "ProgramCellType6.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
 #import "+NSString.h"
@@ -141,6 +142,7 @@
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType3" bundle:nil] forCellReuseIdentifier:@"ProgramCellType3"];
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType4" bundle:nil] forCellReuseIdentifier:@"ProgramCellType4"];
     [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType5" bundle:nil] forCellReuseIdentifier:@"ProgramCellType5"];
+    [_tableView registerNib:[UINib nibWithNibName:@"ProgramCellType6" bundle:nil] forCellReuseIdentifier:@"ProgramCellType6"];
     [_tableView registerNib:[UINib nibWithNibName:@"ButtonCell" bundle:nil] forCellReuseIdentifier:@"ButtonCell"];
     
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
@@ -407,6 +409,10 @@
             self.program.active = cell.theSwitch.on;
         }
     }
+    else if ([object isKindOfClass:[ProgramCellType6 class]]) {
+        ProgramCellType6 *cell = (ProgramCellType6*)object;
+        cell.programWateringTime.active = cell.theSwitch.on;
+    }
     
     [self refreshToolbarEdited];
 }
@@ -457,8 +463,15 @@
         NSString *name = [setDelayVC.userInfo objectForKey:@"name"];
          if ([name isEqualToString:@"zoneDelay"]) {
              NSNumber *zoneId = [setDelayVC.userInfo objectForKey:@"zoneId"];
-             ProgramWateringTimes *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
-             [self setProgramWateringTime:setDelayVC.valuePicker1 on:programWateringTime];
+             if ([ServerProxy usesAPI4]) {
+                 ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
+                 [self setProgram4WateringTime:setDelayVC.valuePicker1 on:programWateringTime];
+                 programWateringTime.active = YES;
+                 [self.tableView reloadData];
+             } else {
+                 ProgramWateringTimes *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
+                 [self setProgramWateringTime:setDelayVC.valuePicker1 on:programWateringTime];
+             }
          }
     }
     
@@ -754,14 +767,28 @@
         }
         
         else if (indexPath.section == wateringTimesSectionIndex) {
-            static NSString *CellIdentifier = @"ProgramCellType4";
-            ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
-            cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
-            cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
-            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [self programWateringTime:programWateringTime.minutes]];
-            cell.timeLabel.textColor = [UIColor blackColor];
-            return cell;
+            if ([ServerProxy usesAPI4]) {
+                static NSString *CellIdentifier = @"ProgramCellType6";
+                ProgramCellType6 *cell = (ProgramCellType6*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+                ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
+                cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
+                cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
+                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [self programWateringTime:programWateringTime.minutes]];
+                cell.timeLabel.textColor = [UIColor blackColor];
+                cell.theSwitch.on = programWateringTime.active;
+                cell.delegate = self;
+                cell.programWateringTime = programWateringTime;
+                return cell;
+            } else {
+                static NSString *CellIdentifier = @"ProgramCellType4";
+                ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+                ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
+                cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
+                cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
+                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [self programWateringTime:programWateringTime.minutes]];
+                cell.timeLabel.textColor = [UIColor blackColor];
+                return cell;
+            }
         }
     }
     
@@ -897,14 +924,24 @@
         else if (indexPath.section == wateringTimesSectionIndex) {
             SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
             
-            ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
-            setDelayVC.userInfo = @{@"name" : @"zoneDelay",
-                                    @"zoneId" : [NSNumber numberWithInteger:indexPath.row],
-                                    @"mins" : [NSNumber numberWithInt:[self programWateringTime:programWateringTime.minutes]],
-                                    };
-            setDelayVC.titlePicker1 = @"minutes";
-            setDelayVC.valuePicker1 = [self programWateringTime:programWateringTime.minutes];
+            if ([ServerProxy usesAPI4]) {
+                ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
+                setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
+                                        @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
+                                        @"mins"     : [NSNumber numberWithInt:[self programWateringTime:programWateringTime.minutes]],
+                                        @"active"   : [NSNumber numberWithBool:programWateringTime.active]
+                                        };
+                setDelayVC.valuePicker1 = [self programWateringTime:programWateringTime.minutes];
+            } else {
+                ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
+                setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
+                                        @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
+                                        @"mins"     : [NSNumber numberWithInt:[self programWateringTime:programWateringTime.minutes]],
+                                        };
+                setDelayVC.valuePicker1 = [self programWateringTime:programWateringTime.minutes];
+            }
             
+            setDelayVC.titlePicker1 = @"minutes";
             setDelayVC.title = @"Zone watering duration";
             setDelayVC.parent = self;
             
@@ -1229,6 +1266,15 @@
 }
 
 - (void)setProgramWateringTime:(int)t on:(ProgramWateringTimes*)programWateringTime
+{
+    if ([ServerProxy usesAPI3]) {
+        programWateringTime.minutes = t;
+    } else {
+        programWateringTime.minutes = t * 60;
+    }
+}
+
+- (void)setProgram4WateringTime:(int)t on:(ProgramWateringTimes4*)programWateringTime
 {
     if ([ServerProxy usesAPI3]) {
         programWateringTime.minutes = t;

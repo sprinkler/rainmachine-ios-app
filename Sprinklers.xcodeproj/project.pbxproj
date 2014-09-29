@@ -29,6 +29,8 @@
 		960374F919D5FB3C009CB68A /* RestrictionsSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */; };
 		9672C3A319D8069D00236DFB /* RestrictionsCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */; };
 		9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */; };
+		967C004519D983870071B4CB /* ProgramCellType6.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C004319D983870071B4CB /* ProgramCellType6.m */; };
+		967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C004419D983870071B4CB /* ProgramCellType6.xib */; };
 		96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239C19D7080900683AC6 /* HourlyRestriction.m */; };
 		96C223A119D7223700683AC6 /* MonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239F19D7223700683AC6 /* MonthsVC.m */; };
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
@@ -325,6 +327,9 @@
 		9672C3A119D8069D00236DFB /* RestrictionsCheckCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsCheckCell.h; path = Cells/RestrictionsCheckCell.h; sourceTree = "<group>"; };
 		9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsCheckCell.m; path = Cells/RestrictionsCheckCell.m; sourceTree = "<group>"; };
 		9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestrictionsCheckCell.xib; sourceTree = "<group>"; };
+		967C004219D983870071B4CB /* ProgramCellType6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType6.h; path = Cells/ProgramCellType6.h; sourceTree = "<group>"; };
+		967C004319D983870071B4CB /* ProgramCellType6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType6.m; path = Cells/ProgramCellType6.m; sourceTree = "<group>"; };
+		967C004419D983870071B4CB /* ProgramCellType6.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType6.xib; path = Cells/ProgramCellType6.xib; sourceTree = "<group>"; };
 		96C2239B19D7080900683AC6 /* HourlyRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HourlyRestriction.h; path = "Communication/Response objects/HourlyRestriction.h"; sourceTree = "<group>"; };
 		96C2239C19D7080900683AC6 /* HourlyRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HourlyRestriction.m; path = "Communication/Response objects/HourlyRestriction.m"; sourceTree = "<group>"; };
 		96C2239E19D7223700683AC6 /* MonthsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonthsVC.h; path = ViewController/MonthsVC.h; sourceTree = "<group>"; };
@@ -1007,6 +1012,8 @@
 				AFEAECBD18BA3F9B00370F22 /* ProgramCellType4.m */,
 				AFEAECC218BA6B9B00370F22 /* ProgramCellType5.h */,
 				AFEAECC318BA6B9B00370F22 /* ProgramCellType5.m */,
+				967C004219D983870071B4CB /* ProgramCellType6.h */,
+				967C004319D983870071B4CB /* ProgramCellType6.m */,
 				AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */,
 				AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */,
 				AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */,
@@ -1015,6 +1022,7 @@
 				AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */,
 				AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */,
 				AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */,
+				967C004419D983870071B4CB /* ProgramCellType6.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1486,6 +1494,7 @@
 				AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */,
 				AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
+				967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */,
 				B1583E7316A803970051B480 /* arrow@2x.png in Resources */,
 				AF4826931990DC9500D80B87 /* sctfg.png in Resources */,
 				AF4826971990DC9500D80B87 /* shra2.png in Resources */,
@@ -1610,6 +1619,7 @@
 				3A68C071192B956500821D4D /* MappingModelv1tov7.xcmappingmodel in Sources */,
 				AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */,
 				AFA9080F19AB702D008769A0 /* APIVersion4.m in Sources */,
+				967C004519D983870071B4CB /* ProgramCellType6.m in Sources */,
 				AF61117819C57CDC008AA62B /* Frequency4.m in Sources */,
 				AFB6943B190289670067CD7F /* WateringRestrictions.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* RestrictedHoursVC.m in Sources */,
