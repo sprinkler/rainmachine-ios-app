@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseLevel2ViewController.h"
 
-@interface CloudServerVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
+@interface CloudServerVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
