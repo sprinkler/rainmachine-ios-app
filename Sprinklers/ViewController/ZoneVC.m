@@ -445,7 +445,7 @@ typedef enum {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
         }
         UISwitch *sw = [[UISwitch alloc] init];
-        sw.on = _zone.active;
+        sw.on = _zone.masterValve;
         sw.tag = MasterValve;
         [sw addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = sw;
