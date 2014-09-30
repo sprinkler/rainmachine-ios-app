@@ -108,12 +108,21 @@
 
 - (int)historicalAverage
 {
-    return 0;
+    return self.history.intValue;
 }
 
 - (int)forecastData
 {
-    return 0;
+    return self.internet.intValue;
+}
+
+- (void)setHistoricalAverage:(int)historicalAverage
+{
+    self.history = @(historicalAverage);
+}
+
+- (void)setForecastData:(int)forecastData {
+    self.internet = @(forecastData);
 }
 
 - (id)copyWithZone:(NSZone *)copyZone {
