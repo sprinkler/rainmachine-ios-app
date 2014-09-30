@@ -31,6 +31,8 @@
 		9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */; };
 		967C004519D983870071B4CB /* ProgramCellType6.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C004319D983870071B4CB /* ProgramCellType6.m */; };
 		967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C004419D983870071B4CB /* ProgramCellType6.xib */; };
+		969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969EB3B819DAD11A00D10887 /* CloudServerVC.m */; };
+		969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969EB3B919DAD11A00D10887 /* CloudServerVC.xib */; };
 		96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239C19D7080900683AC6 /* HourlyRestriction.m */; };
 		96C223A119D7223700683AC6 /* MonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239F19D7223700683AC6 /* MonthsVC.m */; };
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
@@ -330,6 +332,9 @@
 		967C004219D983870071B4CB /* ProgramCellType6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType6.h; path = Cells/ProgramCellType6.h; sourceTree = "<group>"; };
 		967C004319D983870071B4CB /* ProgramCellType6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType6.m; path = Cells/ProgramCellType6.m; sourceTree = "<group>"; };
 		967C004419D983870071B4CB /* ProgramCellType6.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType6.xib; path = Cells/ProgramCellType6.xib; sourceTree = "<group>"; };
+		969EB3B719DAD11A00D10887 /* CloudServerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudServerVC.h; path = ViewController/CloudServerVC.h; sourceTree = "<group>"; };
+		969EB3B819DAD11A00D10887 /* CloudServerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudServerVC.m; path = ViewController/CloudServerVC.m; sourceTree = "<group>"; };
+		969EB3B919DAD11A00D10887 /* CloudServerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudServerVC.xib; path = ViewController/CloudServerVC.xib; sourceTree = "<group>"; };
 		96C2239B19D7080900683AC6 /* HourlyRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HourlyRestriction.h; path = "Communication/Response objects/HourlyRestriction.h"; sourceTree = "<group>"; };
 		96C2239C19D7080900683AC6 /* HourlyRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HourlyRestriction.m; path = "Communication/Response objects/HourlyRestriction.m"; sourceTree = "<group>"; };
 		96C2239E19D7223700683AC6 /* MonthsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonthsVC.h; path = ViewController/MonthsVC.h; sourceTree = "<group>"; };
@@ -1297,6 +1302,9 @@
 				B1EF210C1860493C00D9CE26 /* LoginVC.h */,
 				B1EF210D1860493C00D9CE26 /* LoginVC.m */,
 				B1EF210E1860493C00D9CE26 /* LoginVC.xib */,
+				969EB3B719DAD11A00D10887 /* CloudServerVC.h */,
+				969EB3B819DAD11A00D10887 /* CloudServerVC.m */,
+				969EB3B919DAD11A00D10887 /* CloudServerVC.xib */,
 			);
 			name = Devices;
 			sourceTree = "<group>";
@@ -1542,6 +1550,7 @@
 				AFF6A6B1188834AC00825A37 /* checkbox-unselected.png in Resources */,
 				AFF6A6B2188834AC00825A37 /* checkbox-unselected@2x.png in Resources */,
 				AF48268B1990DC9500D80B87 /* ntsra.png in Resources */,
+				969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */,
 				AF4826831990DC9500D80B87 /* nraip.png in Resources */,
 				B1254CC2187DBD61004E2F0E /* RainDelayVC.xib in Resources */,
 				AF48266F1990DC9500D80B87 /* fzrara.png in Resources */,
@@ -1653,6 +1662,7 @@
 				AFA9081219AB7D4F008769A0 /* UpdateInfo4.m in Sources */,
 				AF167D52189A8520003E659D /* APIVersion.m in Sources */,
 				B1DF327916A6AA5100A1BF38 /* GCDAsyncSocket.m in Sources */,
+				969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
 				AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */,
 				B1EF20F3186046D300D9CE26 /* +UIColor.m in Sources */,

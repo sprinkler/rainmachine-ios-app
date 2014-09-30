@@ -7,6 +7,7 @@
 //
 
 #import "AddNewDeviceVC.h"
+#import "CloudServerVC.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "Constants.h"
@@ -49,6 +50,10 @@
         self.title = @"Add Cloud Account";
         self.nameTitleLabel.text = @"E-mail address";
         self.urlOrIPTitleLabel.text = @"RainMachine password";
+        
+#if DEBUG
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Server" style:UIBarButtonItemStylePlain target:self action:@selector(onSwitchServer:)];
+#endif
     }
     
     // Do any additional setup after loading the view from its nib.
@@ -153,6 +158,11 @@
             }
         }
     }
+}
+
+- (IBAction)onSwitchServer:(id)sender {
+    CloudServerVC *cloudServerVC = [[CloudServerVC alloc] init];
+    [self.navigationController pushViewController:cloudServerVC animated:YES];
 }
 
 #pragma mark - UITextField delegate

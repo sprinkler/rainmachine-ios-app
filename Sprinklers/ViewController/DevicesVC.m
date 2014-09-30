@@ -47,6 +47,11 @@
 
 #pragma mark - Init
 
++ (void)initialize {
+    NSDictionary *defaults = @{kCloudProxyFinderURLKey : kCloudProxyFinderURL};
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -124,10 +129,18 @@
 
 #pragma mark - Methods
 
+- (NSString*)cloudProxyFinderURL {
+#if DEBUG
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
+#else
+    return kCloudProxyFinderURL;
+#endif
+}
+
 - (void)requestCloudSprinklers:(NSDictionary*)cloudAccounts
 {
     if (cloudAccounts.count > 0) {
-        self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:kCloudProxyFinderURL delegate:self jsonRequest:YES];
+        self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:self.cloudProxyFinderURL delegate:self jsonRequest:YES];
         [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
         [self startHud:nil];
     }

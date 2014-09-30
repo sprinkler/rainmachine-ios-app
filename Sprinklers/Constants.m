@@ -8,7 +8,8 @@ NSString *const TestServerURL = @"https://ns.tremend.ro";
 NSString *const TestServerPort = @"2443"; // 3.59
 //NSString *const TestServerPort = @"65076";
 
-//NSString *const kCloudProxyFinderURL = @"https://54.186.224.58:9000";
+NSString *const kCloudProxyFinderURLKey = @"CloudProxyFinderURLKey";
+NSString *const kCloudProxyFinderStagingURL = @"https://54.186.224.58:9000";
 NSString *const kCloudProxyFinderURL = @"https://54.72.36.178:9000";
 
 NSString* const kSprinklerKeychain_CookieDictionaryStorageKey = @"SprinklerKeychain_CookieDictionaryStorageKey";
