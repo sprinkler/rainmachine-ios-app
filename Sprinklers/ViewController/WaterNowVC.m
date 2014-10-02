@@ -38,6 +38,7 @@
 @property (strong, nonatomic) ServerProxy *zonesDetailsServerProxy;
 @property (strong, nonatomic) ServerProxy *pollServerProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
+@property (strong, nonatomic) ServerProxy *stopAllServerProxy;
 @property (strong, nonatomic) NSArray *zones;
 @property (strong, nonatomic) NSDate *lastListRefreshDate;
 @property (strong, nonatomic) NSError *lastScheduleRequestError;
@@ -195,6 +196,7 @@
     
     [self.pollServerProxy cancelAllOperations];
     [self.postServerProxy cancelAllOperations];
+    [self.stopAllServerProxy cancelAllOperations];
     [self.zonesDetailsServerProxy cancelAllOperations];
     
     [self.rainDelayPoller stopPollRequests];
@@ -262,11 +264,17 @@
             }
         }
     } else {
+        [self.pollServerProxy cancelAllOperations];
+        [self.zonesDetailsServerProxy cancelAllOperations];
+        
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        
+        [self.stopAllServerProxy stopAllPrograms4];
+        
+        self.wateringZone = nil;
         for (WaterNowZone *zone in self.zones) {
-            BOOL isIdle = [Utils isZoneIdle:zone];
-            if (!isIdle) {
-                [self toggleWateringOnZone:zone withCounter:zone.counter];
-            }
+            [self userStoppedZone:zone];
+            [self removeZoneFromStateChangeObserver:zone];
         }
     }
     
@@ -312,6 +320,13 @@
     
         retryInterval *= 2;
         retryInterval = MIN(retryInterval, kWaterNowMaxRefreshInterval);
+    }
+    
+    if (serverProxy == self.stopAllServerProxy) {
+        
+        stopAllCounter = 0;
+        [self hideHud];
+        [self scheduleNextListRefreshRequest:retryInterval];
     }
 }
 
@@ -416,6 +431,12 @@
         }
     }
     else if (serverProxy == self.postServerProxy) {
+        [self.wateringCounterHelper updateCounter];
+        [self.tableView reloadData];
+    }
+    else if (serverProxy == self.stopAllServerProxy) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        [self requestListRefreshWithShowingHud:@YES];
         [self.wateringCounterHelper updateCounter];
         [self.tableView reloadData];
     }
@@ -720,6 +741,7 @@
     [self.zonesDetailsServerProxy cancelAllOperations];
     [self.pollServerProxy cancelAllOperations];
     [self.postServerProxy cancelAllOperations];
+    [self.stopAllServerProxy cancelAllOperations];
     
     [self.rainDelayPoller cancel];
 }
@@ -907,6 +929,7 @@
             self.zonesDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         }
         self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+        self.stopAllServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     }
 }
 

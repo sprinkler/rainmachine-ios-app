@@ -1055,6 +1055,20 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
+- (void)stopAllPrograms4 {
+    NSDictionary *params = @{@"all" : [NSNumber numberWithBool:YES]};
+    [self.manager POST:@"api/4/program/stopAll" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
+                       [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:@"stopped"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
 - (void)runNowProgram:(Program*)program {
     [self runNowProgram3:program];
 }
@@ -1282,6 +1296,7 @@ static int serverAPIMinorSubVersion = -1;
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([UpdateStartInfo class])];
+
             UpdateStartInfo *updateStartInfo = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
             [self.delegate serverResponseReceived:updateStartInfo serverProxy:self userInfo:nil];
         }

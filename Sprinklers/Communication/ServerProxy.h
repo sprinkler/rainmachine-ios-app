@@ -108,6 +108,7 @@ typedef enum {
 - (void)runNowProgram:(Program*)program;
 - (void)startProgram4:(Program4*)program;
 - (void)stopProgram4:(Program4*)program;
+- (void)stopAllPrograms4;
     
 - (void)setSettingsUnits:(NSString*)unit;
 - (void)requestSettingsUnits;
