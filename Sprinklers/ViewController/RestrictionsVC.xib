@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="aEE-2e-21D">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="aEE-2e-21D">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
@@ -26,6 +26,12 @@
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="aEE-2e-21D" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Izh-rf-KNw"/>
+                <constraint firstAttribute="trailing" secondItem="aEE-2e-21D" secondAttribute="trailing" id="RCl-gc-na1"/>
+                <constraint firstAttribute="bottom" secondItem="aEE-2e-21D" secondAttribute="bottom" id="cRI-cF-ZTU"/>
+                <constraint firstItem="aEE-2e-21D" firstAttribute="top" secondItem="1" secondAttribute="top" id="sYQ-0u-QsR"/>
+            </constraints>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
