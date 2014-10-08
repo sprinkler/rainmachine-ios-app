@@ -776,7 +776,7 @@
                 ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
                 cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
                 cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
-                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [self programWateringTime:programWateringTime.minutes]];
+                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
                 cell.timeLabel.textColor = [UIColor blackColor];
                 cell.theSwitch.on = programWateringTime.active;
                 cell.delegate = self;
@@ -788,7 +788,7 @@
                 ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
                 cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
                 cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
-                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [self programWateringTime:programWateringTime.minutes]];
+                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
                 cell.timeLabel.textColor = [UIColor blackColor];
                 return cell;
             }
@@ -931,17 +931,17 @@
                 ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
                 setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
                                         @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
-                                        @"mins"     : [NSNumber numberWithInt:[self programWateringTime:programWateringTime.minutes]],
+                                        @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
                                         @"active"   : [NSNumber numberWithBool:programWateringTime.active]
                                         };
-                setDelayVC.valuePicker1 = [self programWateringTime:programWateringTime.minutes];
+                setDelayVC.valuePicker1 = programWateringTime.minutes;
             } else {
                 ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
                 setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
                                         @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
-                                        @"mins"     : [NSNumber numberWithInt:[self programWateringTime:programWateringTime.minutes]],
+                                        @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
                                         };
-                setDelayVC.valuePicker1 = [self programWateringTime:programWateringTime.minutes];
+                setDelayVC.valuePicker1 = programWateringTime.minutes;
             }
             
             setDelayVC.titlePicker1 = @"minutes";
@@ -1259,31 +1259,14 @@
     }
 }
 
-- (int)programWateringTime:(int)t
-{
-    if ([ServerProxy usesAPI3]) {
-        return t;
-    }
-    
-    return t / 60;
-}
-
 - (void)setProgramWateringTime:(int)t on:(ProgramWateringTimes*)programWateringTime
 {
-    if ([ServerProxy usesAPI3]) {
-        programWateringTime.minutes = t;
-    } else {
-        programWateringTime.minutes = t * 60;
-    }
+    programWateringTime.minutes = t;
 }
 
 - (void)setProgram4WateringTime:(int)t on:(ProgramWateringTimes4*)programWateringTime
 {
-    if ([ServerProxy usesAPI3]) {
-        programWateringTime.minutes = t;
-    } else {
-        programWateringTime.minutes = t * 60;
-    }
+    programWateringTime.minutes = t;
 }
 
 #pragma mark - CCTBackButtonActionHelper delegate

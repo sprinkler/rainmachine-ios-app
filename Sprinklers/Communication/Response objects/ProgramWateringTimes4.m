@@ -15,7 +15,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary new];
     
     [dic setObject:[NSNumber numberWithInt:_wtId] forKey:@"id"];
-    [dic setObject:[NSNumber numberWithInt:_duration / 60] forKey:@"duration"];
+    [dic setObject:[NSNumber numberWithInt:_duration] forKey:@"duration"];
     [dic setObject:[NSNumber numberWithBool:_active] forKey:@"active"];
 
     if (_name) {
@@ -54,12 +54,12 @@
 
 - (int)minutes
 {
-    return _duration;
+    return _duration / 60;
 }
 
 - (void)setMinutes:(int)m
 {
-    _duration = m;
+    _duration = m * 60;
 }
 
 @end
