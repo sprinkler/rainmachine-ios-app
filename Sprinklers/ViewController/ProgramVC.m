@@ -289,6 +289,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self.parent setUnsavedProgram:nil withIndex:0];
     [CCTBackButtonActionHelper sharedInstance].delegate = self;
     
     [self.rainDelayPoller scheduleNextPoll:0];
