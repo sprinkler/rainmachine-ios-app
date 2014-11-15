@@ -52,6 +52,7 @@ extern CGFloat kButtonBlueTintColor[3];
 extern NSString* const kCustomRMFontName;
 
 extern int const kNetworkDevicesDiscoveryInterval;
+extern int const kCloudDevicesDiscoveryInterval;
 
 extern int const kSprinklerUpdateCheckInterval;
 extern int const kMaxCounterValue;

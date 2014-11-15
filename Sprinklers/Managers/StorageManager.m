@@ -80,6 +80,30 @@ static StorageManager *current = nil;
     return NO;
 }
 
+- (Sprinkler *)getSprinklerBasedOnId:(NSString *)sprinklerId local:(NSNumber*)local {
+    NSError *error;
+    NSArray *items;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = nil;
+    
+    if (local) {
+        predicate = [NSPredicate predicateWithFormat:@"sprinklerId == %@ AND isLocalDevice == %@", sprinklerId, local];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"sprinklerId == %@", sprinklerId];
+    }
+    [fetchRequest setPredicate:predicate];
+    
+    items = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (items && items.count == 1) {
+        return items[0];
+    }
+    return nil;
+}
+
 - (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local {
     NSError *error;
     NSArray *items;

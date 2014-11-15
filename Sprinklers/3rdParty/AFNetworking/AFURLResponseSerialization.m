@@ -155,6 +155,7 @@ extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 
     self.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/plain", @"text/javascript",
                                    @"text/html", // API4
+                                   @"application-type/json", // "get-sprinklers" request
                                    nil];
 
     return self;

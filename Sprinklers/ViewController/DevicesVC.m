@@ -41,6 +41,7 @@
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
+@property (strong, nonatomic) NSTimer *cloudDevicesTimer;
 
 @end
 
@@ -113,6 +114,9 @@
     [self shouldStopBroadcast];
     [self.networkDevicesTimer invalidate];
     self.networkDevicesTimer = nil;
+
+    [self.cloudDevicesTimer invalidate];
+    self.cloudDevicesTimer = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,10 +126,7 @@
         [self refreshSprinklerList];
         [self shouldStartBroadcastForceUIRefresh:NO];
         
-        NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
-        self.cloudEmails = [cloudAccounts allKeys];
-        
-        [self requestCloudSprinklers:cloudAccounts];
+        [self pollCloud];
     }
     
     [self.tableView reloadData];
@@ -135,9 +136,23 @@
                                          selector:@selector(shouldStartBroadcastTimer)
                                          userInfo:nil
                                           repeats:YES];
+    
+    self.cloudDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:kCloudDevicesDiscoveryInterval
+                                                                target:self
+                                                              selector:@selector(pollCloud)
+                                                              userInfo:nil
+                                                               repeats:YES];
 }
 
 #pragma mark - Methods
+
+- (void)pollCloud
+{
+    NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
+    self.cloudEmails = [cloudAccounts allKeys];
+    
+    [self requestCloudSprinklers:cloudAccounts];
+}
 
 - (NSString*)cloudProxyFinderURL {
 #if DEBUG
@@ -588,18 +603,23 @@
                 }
             }
             port = port ? port : @"443";
-            Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"sprinklerName"] address:address port:port local:@NO email:email];
-            if (!sprinkler) {
-                sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"sprinklerName"] ipAddress:address port:port isLocal:@NO email:email save:NO];
-            } else {
-                if (address) {
-                    sprinkler.address = address;
+            Sprinkler *localSprinkler = [[StorageManager current] getSprinklerBasedOnId:sprinklerInfo[@"sprinklerId"] local:@YES];
+            // If sprinklerId-s are the same: local has priority
+            if (!localSprinkler) {
+                // Add or update the remote sprinkler
+                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"sprinklerName"] address:address port:port local:@NO email:email];
+                if (!sprinkler) {
+                    sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"sprinklerName"] ipAddress:address port:port isLocal:@NO email:email save:NO];
+                } else {
+                    if (address) {
+                        sprinkler.address = address;
+                    }
+                    sprinkler.port = port;
+                    sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
                 }
-                sprinkler.port = port;
-                sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
+                
+                sprinkler.isDiscovered = @YES;
             }
-            
-            sprinkler.isDiscovered = @YES;
         }
     }
     
