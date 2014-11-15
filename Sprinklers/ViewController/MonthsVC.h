@@ -12,6 +12,7 @@
 
 @interface MonthsVC : BaseLevel2ViewController
 
+@property (nonatomic, strong) NSString *viewTitle;
 @property (nonatomic, strong) NSMutableArray *selectedMonths;
 
 @property (weak, nonatomic) BaseNetworkHandlingVC<MonthsVCDelegate> *parent;

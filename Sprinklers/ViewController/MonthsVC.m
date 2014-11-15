@@ -51,7 +51,7 @@
                                  nil];
     }
     
-    self.title = @"Select months";
+    self.title = (self.viewTitle.length ? self.viewTitle : @"Select months");
     
     // Do any additional setup after loading the view.
     [_tableView registerNib:[UINib nibWithNibName:@"SimpleCell" bundle:nil] forCellReuseIdentifier:@"SimpleCell"];

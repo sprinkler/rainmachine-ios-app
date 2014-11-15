@@ -46,7 +46,7 @@
                                  nil];
     }
     
-    self.title = @"Select week days";
+    self.title = (self.viewTitle.length ? self.viewTitle : @"Select week days");
     
 	// Do any additional setup after loading the view.
     [_tableView registerNib:[UINib nibWithNibName:@"SimpleCell" bundle:nil] forCellReuseIdentifier:@"SimpleCell"];

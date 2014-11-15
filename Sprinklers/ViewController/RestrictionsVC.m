@@ -261,7 +261,7 @@
         cell.restrictionNameLabel.text = @"Hot Days";
         cell.restrictionDescriptionLabel.text = @"Allow extra watering";
         cell.restrictionEnabledSwitch.on = self.wateringRestrictions.hotDaysExtraWatering;
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
         
         return cell;
     }
@@ -281,7 +281,7 @@
         cell.restrictionNameLabel.text = @"Freeze Protect";
         cell.restrictionDescriptionLabel.text = [NSString stringWithFormat:@"Do not water under %d°%@",(int)freezeProtectTemperature,temperatureUnits];
         cell.restrictionEnabledSwitch.on = self.wateringRestrictions.freezeProtectEnabled;
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
         
         return cell;
     }
@@ -296,7 +296,7 @@
         cell.restrictionDescriptionLabel.text = [Utils monthsStringFromMonthsFrequency:[monthsFrequency componentsJoinedByString:@","]];
         cell.restrictionNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length == 0);
         cell.restrictionCenteredNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length > 0);
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        cell.restrictionDescriptionLabel.textColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
         
         return cell;
     }
@@ -306,12 +306,12 @@
         NSArray *weekDaysFrequency = [self weekDaysFrequencyFromRawString:self.wateringRestrictions.noWaterInWeekDays];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.restrictionNameLabel.text = @"Weekdays";
-        cell.restrictionCenteredNameLabel.text = @"Weekdays";
+        cell.restrictionNameLabel.text = @"Days";
+        cell.restrictionCenteredNameLabel.text = @"Days";
         cell.restrictionDescriptionLabel.text = [Utils daysStringFromWeekdaysFrequency:[weekDaysFrequency componentsJoinedByString:@","]];
         cell.restrictionNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length == 0);
         cell.restrictionCenteredNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length > 0);
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        cell.restrictionDescriptionLabel.textColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
         
         return cell;
     }
@@ -324,7 +324,7 @@
         cell.restrictionDescriptionLabel.text = [self.hourlyRestrictionDescriptions componentsJoinedByString:@"; "];
         cell.restrictionNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length == 0);
         cell.restrictionCenteredNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length > 0);
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
         
         return cell;
     }
@@ -365,6 +365,7 @@
         MonthsVC *monthsVC = [[MonthsVC alloc] init];
         monthsVC.selectedMonths = [self monthsFrequencyFromRawString:self.wateringRestrictions.noWaterInMonths];
         monthsVC.parent = self;
+        monthsVC.viewTitle = @"Restricted Months";
         
         [self.navigationController pushViewController:monthsVC animated:YES];
     }
@@ -372,6 +373,7 @@
         WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
         weekdaysVC.selectedWeekdays = [self weekDaysFrequencyFromRawString:self.wateringRestrictions.noWaterInWeekDays];
         weekdaysVC.parent = self;
+        weekdaysVC.viewTitle = @"Restricted Days";
         
         [self.navigationController pushViewController:weekdaysVC animated:YES];
     }

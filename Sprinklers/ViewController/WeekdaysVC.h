@@ -12,6 +12,7 @@
 
 @interface WeekdaysVC : BaseLevel2ViewController
 
+@property (nonatomic, strong) NSString *viewTitle;
 @property (nonatomic, strong) NSMutableArray *selectedWeekdays;
 
 @property (weak, nonatomic) BaseNetworkHandlingVC<WeekdaysVCDelegate> *parent;
