@@ -10,6 +10,13 @@
 
 static ServiceManager *current = nil;
 
+@interface ServiceManager () {
+}
+
+@property (strong, nonatomic) NSMutableArray *discoveredSprinklers;
+
+@end
+
 @implementation ServiceManager
 
 #pragma mark - Singleton
@@ -26,7 +33,7 @@ static ServiceManager *current = nil;
 
 - (BOOL)startBroadcastForSprinklers:(BOOL)silent {
     
-    discoveredSprinklers = [NSMutableArray array];
+    self.discoveredSprinklers = nil;
 
     localIpAddress = [NetworkUtilities ipAddressForWifi];
     localNetmask = [NetworkUtilities netmaskForWifi];
@@ -148,16 +155,16 @@ static ServiceManager *current = nil;
 
 - (void)updateSprinklers {
     NSMutableArray *updatedSprinklers = [NSMutableArray array];
-    for (DiscoveredSprinklers *ds in discoveredSprinklers) {
+    for (DiscoveredSprinklers *ds in self.discoveredSprinklers) {
         if ([ds.updated timeIntervalSinceNow] <= 0 && [ds.updated timeIntervalSinceNow] > -(refreshTimeout + listenTimeout)) {
             [updatedSprinklers addObject:ds];
         }
     }
-    discoveredSprinklers = [NSMutableArray arrayWithArray:updatedSprinklers];
+    self.discoveredSprinklers = [NSMutableArray arrayWithArray:updatedSprinklers];
 }
 
 - (NSMutableArray *)getDiscoveredSprinklers {
-    return [discoveredSprinklers copy];
+    return [self.discoveredSprinklers copy];
 }
 
 #pragma mark - GCGAsyncUdpSocket delegate
@@ -177,7 +184,6 @@ static ServiceManager *current = nil;
         // Sprinkler2
         NSURL *baseURL = [NSURL URLWithString:splits[3]];
         port = [[baseURL port] integerValue];
-        NSLog(@"");
     }
     
     //NSLog(@"UDP message received from sprinkler: %@, %@:%d", string, host, port);
@@ -186,7 +192,7 @@ static ServiceManager *current = nil;
         NSString *sprinklerId = splits[1];
         
         BOOL found = NO;
-        for (DiscoveredSprinklers *ds in discoveredSprinklers) {
+        for (DiscoveredSprinklers *ds in self.discoveredSprinklers) {
             if ([ds.sprinklerId isEqualToString:sprinklerId]) {
                 ds.updated = [NSDate date];
                 found = YES;
@@ -203,12 +209,11 @@ static ServiceManager *current = nil;
             sprinkler.host = host;
             sprinkler.port = port;
             
-            [discoveredSprinklers addObject:sprinkler];
+            [self.discoveredSprinklers addObject:sprinkler];
         }
     }
     
     [self updateSprinklers];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SprinklersUpdate" object:nil]];
 }
 
 @end

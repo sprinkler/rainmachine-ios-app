@@ -63,6 +63,8 @@ CGFloat kButtonBlueTintColor[3] = {21.0/255, 122.0/255, 251.0/255};
 
 NSString *const kCustomRMFontName = @"rainmachine";
 
+int const kNetworkDevicesDiscoveryInterval = 5;
+
 int const kMaxCounterValue = 300 * 60; // In seconds
 int const kSprinklerUpdateCheckInterval = 24 * 60 * 60;
 int const kUpdateProcessTimeoutInterval = 5 * 60;

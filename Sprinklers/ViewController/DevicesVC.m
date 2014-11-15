@@ -40,6 +40,7 @@
 @property (strong, nonatomic) NSArray *cloudEmails;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
+@property (strong, nonatomic) NSTimer *networkDevicesTimer;
 
 @end
 
@@ -108,7 +109,10 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
     [self shouldStopBroadcast];
+    [self.networkDevicesTimer invalidate];
+    self.networkDevicesTimer = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -116,7 +120,7 @@
     
     if (!self.tableView.isEditing) {
         [self refreshSprinklerList];
-        [self shouldStartBroadcast];
+        [self shouldStartBroadcastForceUIRefresh:NO];
         
         NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
         self.cloudEmails = [cloudAccounts allKeys];
@@ -125,6 +129,12 @@
     }
     
     [self.tableView reloadData];
+
+    self.networkDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:kNetworkDevicesDiscoveryInterval
+                                           target:self
+                                         selector:@selector(shouldStartBroadcastTimer)
+                                         userInfo:nil
+                                          repeats:YES];
 }
 
 #pragma mark - Methods
@@ -182,11 +192,23 @@
 }
 
 
-- (void)shouldStartBroadcast {
+- (void)shouldStartBroadcastTimer
+{
+    [self shouldStartBroadcastForceUIRefresh:YES];
+}
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SprinklersDiscovered) name:@"SprinklersUpdate" object:nil];
-    
-    [[ServiceManager current] startBroadcastForSprinklers:NO];
+- (void)shouldStartBroadcastForceUIRefresh:(BOOL)forceUIRefresh {
+    if (!self.tableView.isEditing) {
+        [self shouldStopBroadcast];
+        
+        if (forceUIRefresh) {
+            // Process the list of discovered devices before starting a new discovery process
+            // We do the processing until here, because otherwise, when no sprinklers in the network, the 'SprinklersDiscovered' callback is not called at all
+            [self SprinklersDiscovered];
+        }
+        
+        [[ServiceManager current] startBroadcastForSprinklers:NO];
+    }
 }
 
 -(void) SprinklersDiscovered
@@ -221,11 +243,10 @@
 - (void)shouldStopBroadcast {
     
     [[ServiceManager current] stopBroadcast];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SprinklersUpdate" object:nil];
 }
 
 - (void)appDidBecomeActive {
-    [self shouldStartBroadcast];
+    [self shouldStartBroadcastForceUIRefresh:NO];
 }
 
 - (void)appDidResignActive {
@@ -276,7 +297,7 @@
         [self.tableView setEditing:NO animated:YES];
         [self updateVisibleCellsForEditMode];
         [self updateNavigationbarButtons];
-        [self shouldStartBroadcast];
+        [self shouldStartBroadcastForceUIRefresh:NO];
         return;
     }
     
@@ -292,7 +313,7 @@
 }
 
 - (void)onRefresh:(id)notification {
-    //[self shouldStartBroadcast];
+    [self shouldStartBroadcastForceUIRefresh:NO];
 }
 
 #pragma mark - UITableView delegate
@@ -471,7 +492,7 @@
 
 - (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self shouldStartBroadcast];
+    [self shouldStartBroadcastForceUIRefresh:NO];
 }
 
 - (DevicesCellType1*)configureSprinklerCellForTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath sprinkler:(Sprinkler*)sprinkler

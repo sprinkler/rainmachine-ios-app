@@ -16,7 +16,6 @@
          
 @interface ServiceManager : NSObject <GCDAsyncUdpSocketDelegate> {
     
-    NSMutableArray *discoveredSprinklers;
     GCDAsyncUdpSocket *broadcastUdpSocket;
     GCDAsyncUdpSocket *receiveUdpSocket;
     GCDAsyncUdpSocket *keepAliveSocket;
