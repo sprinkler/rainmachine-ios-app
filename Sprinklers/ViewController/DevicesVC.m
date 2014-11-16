@@ -129,7 +129,6 @@
 
     NSString *selectedServer = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
     self.selectedCloudServerIndex = [self.cloudServers indexOfObject:selectedServer];
-    NSLog(@"selectedServer:%d", self.selectedCloudServerIndex);
 }
 
 // Overwrites BaseViewController's updateTitle
@@ -378,7 +377,19 @@
 }
 
 - (void)onRefresh:(id)notification {
+    NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
+    for (Sprinkler *sprinkler in allSprinklers) {
+        sprinkler.isDiscovered = @NO;
+    }
+    [[StorageManager current] saveData];
+
     [self shouldStartBroadcastForceUIRefresh:NO];
+    self.cloudResponse = nil;
+    self.cloudEmails = nil;
+    self.savedSprinklers = nil;
+
+    [self startHud:nil];
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableView delegate
