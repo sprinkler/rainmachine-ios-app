@@ -27,6 +27,8 @@
 #import "TimePickerVC.h"
 #import "ServerProxy.h"
 
+#define kDebugSettingsNrBeforeCloudServer 4
+
 #define ENABLE_DEBUG_SETTINGS YES
 #define kAlertView_DeleteDevice 1
 
@@ -45,6 +47,8 @@
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
 
 @property (nonatomic, weak) IBOutlet UITextField *debugTextField;
+@property (strong, nonatomic) NSMutableArray *cloudServers;
+@property (assign, nonatomic) NSUInteger selectedCloudServerIndex;
 
 @end
 
@@ -67,20 +71,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]) {
-        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kDebugNewAPIVersion];
-    }
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kNetworkDevicesDiscoveryInterval] forKey:kDebugLocalNetworkDevicesDiscoveryInterval];
-    }
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kCloudDevicesDiscoveryInterval] forKey:kDebugCloudDevicesDiscoveryInterval];
-    }
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutInterval] forKey:kDebugDeviceGreyOutInterval];
-    }
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setDefaultTuningValues];
     
+    [self refreshCloudPollingProxy];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
     
@@ -103,6 +97,39 @@
     [self createFooter];
     
     [self updateNavigationbarButtons];
+}
+
+- (void)refreshCloudPollingProxy
+{
+    self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:self.cloudProxyFinderURL delegate:self jsonRequest:YES];
+}
+
+- (void)setDefaultTuningValues
+{
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]) {
+        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kDebugNewAPIVersion];
+    }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kNetworkDevicesDiscoveryInterval] forKey:kDebugLocalNetworkDevicesDiscoveryInterval];
+    }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kCloudDevicesDiscoveryInterval] forKey:kDebugCloudDevicesDiscoveryInterval];
+    }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutInterval] forKey:kDebugDeviceGreyOutInterval];
+    }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey]) {
+        [[NSUserDefaults standardUserDefaults] setObject:kCloudProxyFinderURL forKey:kCloudProxyFinderURLKey];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    self.cloudServers = [NSMutableArray new];
+    [self.cloudServers addObject:kCloudProxyFinderStagingURL];
+    [self.cloudServers addObject:kCloudProxyFinderURL];
+
+    NSString *selectedServer = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
+    self.selectedCloudServerIndex = [self.cloudServers indexOfObject:selectedServer];
+    NSLog(@"selectedServer:%d", self.selectedCloudServerIndex);
 }
 
 // Overwrites BaseViewController's updateTitle
@@ -148,20 +175,28 @@
     
     [self.tableView reloadData];
 
-    self.networkDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:kNetworkDevicesDiscoveryInterval
-                                           target:self
-                                         selector:@selector(shouldStartBroadcastTimer)
-                                         userInfo:nil
-                                          repeats:YES];
-    
-    self.cloudDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:kCloudDevicesDiscoveryInterval
-                                                                target:self
-                                                              selector:@selector(pollCloud)
-                                                              userInfo:nil
-                                                               repeats:YES];
+    [self refreshDeviceDiscoveryTimers];
 }
 
 #pragma mark - Methods
+
+- (void)refreshDeviceDiscoveryTimers
+{
+    [self.networkDevicesTimer invalidate];
+    [self.cloudDevicesTimer invalidate];
+    
+    self.networkDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval] intValue]
+                                                                target:self
+                                                              selector:@selector(shouldStartBroadcastTimer)
+                                                              userInfo:nil
+                                                               repeats:YES];
+    
+    self.cloudDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval] intValue]
+                                                              target:self
+                                                            selector:@selector(pollCloud)
+                                                            userInfo:nil
+                                                             repeats:YES];
+}
 
 - (void)pollCloud
 {
@@ -182,7 +217,6 @@
 - (void)requestCloudSprinklers:(NSDictionary*)cloudAccounts
 {
     if (cloudAccounts.count > 0) {
-        self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:self.cloudProxyFinderURL delegate:self jsonRequest:YES];
         [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
     }
 }
@@ -364,7 +398,7 @@
     }
     
     if (section == 2 + self.cloudEmails.count) {
-        return 4;
+        return kDebugSettingsNrBeforeCloudServer + self.cloudServers.count;
     }
     
     return 2;
@@ -468,7 +502,7 @@
         cell.tintColor = [UIColor colorWithRed:(0.0/255.0) green:(122.0/255.0) blue:(255.0/255.0) alpha:1.0];
         cell.accessoryType = UITableViewCellAccessoryNone;
         if (indexPath.row == 0) {
-            cell.textLabel.text = @"New API Version";
+            cell.textLabel.text = @"Use New API Version";
             cell.detailTextLabel.text = nil;
             cell.accessoryType = ([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             NSLog(@"cellFor:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
@@ -484,6 +518,9 @@
         else if (indexPath.row == 3) {
             cell.textLabel.text = @"Device Grey Out Interval";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]];
+        } else {
+            cell.textLabel.text = self.cloudServers[indexPath.row - kDebugSettingsNrBeforeCloudServer];
+            cell.accessoryType = ((indexPath.row - kDebugSettingsNrBeforeCloudServer) == self.selectedCloudServerIndex ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
         }
         
         return cell;
@@ -550,27 +587,46 @@
             selectedCell.accessoryType = (prevValue == NO) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:NO];
         } else {
-            self.navigationController.view.userInteractionEnabled = NO;
-            
-            TRPickerInputView *productSizeSelectionPickerInputView = [TRPickerInputView newPickerInputView];
-            
-            if (indexPath.row == 1) {
-                productSizeSelectionPickerInputView.identifier = kDebugLocalNetworkDevicesDiscoveryInterval;
+            if (indexPath.row >= kDebugSettingsNrBeforeCloudServer) {
+                NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:(self.selectedCloudServerIndex + kDebugSettingsNrBeforeCloudServer) inSection:indexPath.section];
+                UITableViewCell *oldSelectedCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+                self.selectedCloudServerIndex = indexPath.row - kDebugSettingsNrBeforeCloudServer;
+                NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:(self.selectedCloudServerIndex + kDebugSettingsNrBeforeCloudServer) inSection:indexPath.section];
+                UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:newIndexPath];
+                
+                oldSelectedCell.accessoryType = UITableViewCellAccessoryNone;
+                selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
+                
+                [[NSUserDefaults standardUserDefaults] setObject:self.cloudServers[self.selectedCloudServerIndex] forKey:kCloudProxyFinderURLKey];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:oldIndexPath, newIndexPath, nil] withRowAnimation:NO];
+
+                [self refreshCloudPollingProxy];
+            } else {
+                self.navigationController.view.userInteractionEnabled = NO;
+                
+                TRPickerInputView *productSizeSelectionPickerInputView = [TRPickerInputView newPickerInputView];
+                
+                if (indexPath.row == 1) {
+                    productSizeSelectionPickerInputView.identifier = kDebugLocalNetworkDevicesDiscoveryInterval;
+                }
+                if (indexPath.row == 2) {
+                    productSizeSelectionPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
+                }
+                if (indexPath.row == 3) {
+                    productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutInterval;
+                }
+                
+                NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:productSizeSelectionPickerInputView.identifier];
+                productSizeSelectionPickerInputView.dataSource = self;
+                productSizeSelectionPickerInputView.delegate = self;
+                
+                self.debugTextField.inputView = productSizeSelectionPickerInputView;
+                
+                [productSizeSelectionPickerInputView selectRow:[value intValue] animated:NO];
+                [self.debugTextField becomeFirstResponder];
             }
-            if (indexPath.row == 2) {
-                productSizeSelectionPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
-            }
-            if (indexPath.row == 3) {
-                productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutInterval;
-            }
-            NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:productSizeSelectionPickerInputView.identifier];
-            productSizeSelectionPickerInputView.dataSource = self;
-            productSizeSelectionPickerInputView.delegate = self;
-            
-            self.debugTextField.inputView = productSizeSelectionPickerInputView;
-            
-            [productSizeSelectionPickerInputView selectRow:[value intValue] animated:NO];
-            [self.debugTextField becomeFirstResponder];
         }
     } else {
         if (indexPath.row == 0) {
@@ -680,7 +736,6 @@
             NSString *email = cloudInfo[@"email"];
             for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
                 NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
-                NSURL *url = [NSURL URLWithString:fullAddress];
                 NSString *port = [Utils getPort:fullAddress];
                 NSString *address = fullAddress;
                 if ([port length] > 0) {
@@ -737,6 +792,8 @@
 
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:row] forKey:pickerInputView.identifier];
     
+    [self refreshDeviceDiscoveryTimers];
+
     [self.tableView reloadData];
 }
 

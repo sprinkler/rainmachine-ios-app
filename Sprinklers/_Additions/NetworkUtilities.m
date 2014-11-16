@@ -111,6 +111,7 @@ static NSString *kWifiInterface = @"en0";
 {
     NSMutableArray *results = [NSMutableArray array];
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//    NSLog(@"cookies: %@", cookies);
     NSString *address = [url absoluteString];
     
     for (NSHTTPCookie *cookie in cookies) {

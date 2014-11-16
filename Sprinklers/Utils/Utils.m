@@ -66,11 +66,6 @@
     address = [address stringByReplacingOccurrencesOfString:@"https://" withString:@""];
     NSArray *vals = [address componentsSeparatedByString:@":"];
     if (vals.count == 2) {
-        NSArray *portVals = [vals[1] componentsSeparatedByString:@"/"];
-        if (portVals.count == 2) {
-            return portVals[0];
-        }
-        
         return vals[1];
     }
     

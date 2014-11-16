@@ -51,9 +51,9 @@
         self.nameTitleLabel.text = @"E-mail address";
         self.urlOrIPTitleLabel.text = @"RainMachine password";
         
-#if DEBUG
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Server" style:UIBarButtonItemStylePlain target:self action:@selector(onSwitchServer:)];
-#endif
+//#if DEBUG
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Server" style:UIBarButtonItemStylePlain target:self action:@selector(onSwitchServer:)];
+//#endif
     }
     
     // Do any additional setup after loading the view from its nib.

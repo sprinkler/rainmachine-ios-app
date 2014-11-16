@@ -213,7 +213,7 @@ static ServiceManager *current = nil;
         }
     }
     
-    DLog(@"discovery string:%@", string);
+//    DLog(@"discovery string:%@", string);
     
     [self updateSprinklers];
 }
