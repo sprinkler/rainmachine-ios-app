@@ -10,10 +10,10 @@
 
 @interface HourlyRestriction : NSObject
 
-@property (nonatomic, assign) NSNumber *uid;
+@property (nonatomic, strong) NSNumber *uid;
 @property (nonatomic, strong) NSString *interval;
-@property (nonatomic, assign) NSNumber *dayStartMinute;
-@property (nonatomic, assign) NSNumber *minuteDuration;
-@property (nonatomic, retain) NSString *weekDays;
+@property (nonatomic, strong) NSNumber *dayStartMinute;
+@property (nonatomic, strong) NSNumber *minuteDuration;
+@property (nonatomic, strong) NSString *weekDays;
 
 @end

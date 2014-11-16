@@ -135,9 +135,9 @@
 
 - (NSString*)dateStringFromHour:(NSInteger)hour minutes:(NSInteger)minutes {
     if (hour == -1 || minutes == -1) return nil;
-    NSString *hourString = [NSString stringWithFormat:@"%ld",hour];
+    NSString *hourString = [NSString stringWithFormat:@"%ld",(long)hour];
     if (hourString.length == 1) hourString = [@"0" stringByAppendingString:hourString];
-    NSString *minutesString = [NSString stringWithFormat:@"%ld",minutes];
+    NSString *minutesString = [NSString stringWithFormat:@"%ld",(long)minutes];
     if (minutesString.length == 1) minutesString = [@"0" stringByAppendingString:minutesString];
     return [NSString stringWithFormat:@"%@:%@",hourString,minutesString];
 }

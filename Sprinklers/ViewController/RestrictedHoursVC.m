@@ -22,7 +22,7 @@
 @property (nonatomic, strong) UIBarButtonItem *editBarButtonItem;
 @property (nonatomic, strong) ServerProxy *deleteHourlyRestrictionServerProxy;
 @property (nonatomic, strong) ServerProxy *requestHourlyRestrictionsServerProxy;
-@property (nonatomic, retain) IBOutlet UITableView* tableView;
+@property (nonatomic, weak) IBOutlet UITableView* tableView;
 
 - (IBAction)edit:(id)sender;
 
