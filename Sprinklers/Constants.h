@@ -15,6 +15,11 @@
 #define keepAlivePort       16000
 #define keepAliveTimeout    0
 
+extern NSString *const kDebugNewAPIVersion;
+extern NSString *const kDebugLocalNetworkDevicesDiscoveryInterval;
+extern NSString *const kDebugCloudDevicesDiscoveryInterval;
+extern NSString *const kDebugDeviceGreyOutInterval;
+
 extern NSString* const TestServerURL;
 extern NSString* const TestServerPort;
 extern NSString* const kCloudProxyFinderURLKey;
@@ -53,6 +58,7 @@ extern NSString* const kCustomRMFontName;
 
 extern int const kNetworkDevicesDiscoveryInterval;
 extern int const kCloudDevicesDiscoveryInterval;
+extern int const kDeviceGreyOutInterval;
 
 extern int const kSprinklerUpdateCheckInterval;
 extern int const kMaxCounterValue;

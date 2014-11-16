@@ -25,6 +25,7 @@
 + (BOOL)isZoneWatering:(WaterNowZone*)zone;
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;
++ (NSString*)getPort:(NSString*)address;
 + (NSString*)fixedSprinklerAddress:(NSString*)address;
 + (NSArray*)remoteSprinklersFilter:(NSArray*)sprinklers;
 + (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays;

@@ -278,7 +278,7 @@ static StorageManager *current = nil;
     NSArray *sprinklers = [self getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in sprinklers) {
         NSURL *url = [NSURL URLWithString:sprinkler.address];
-        NSString *port = [[url port] stringValue];
+        NSString *port = [Utils getPort:sprinkler.address];
 
         if ([port length] > 0) {
             if ([port length] + 1  < [sprinkler.address length]) {

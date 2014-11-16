@@ -113,6 +113,8 @@
 		AF48269A1990DC9500D80B87 /* sn.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826641990DC9500D80B87 /* sn.png */; };
 		AF48269B1990DC9500D80B87 /* tsra.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826651990DC9500D80B87 /* tsra.png */; };
 		AF48269C1990DC9500D80B87 /* wind.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826661990DC9500D80B87 /* wind.png */; };
+		AF51E4181A190DA500A7A6A5 /* TRPickerInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */; };
+		AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */; };
 		AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */; };
 		AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */; };
 		AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6008AD18D9E69300DB6D75 /* StartStopProgramResponse.m */; };
@@ -435,6 +437,9 @@
 		AF4826641990DC9500D80B87 /* sn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sn.png; sourceTree = "<group>"; };
 		AF4826651990DC9500D80B87 /* tsra.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tsra.png; sourceTree = "<group>"; };
 		AF4826661990DC9500D80B87 /* wind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wind.png; sourceTree = "<group>"; };
+		AF51E4161A190DA500A7A6A5 /* TRPickerInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPickerInputView.h; path = ViewController/TRPickerInputView.h; sourceTree = "<group>"; };
+		AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPickerInputView.m; path = ViewController/TRPickerInputView.m; sourceTree = "<group>"; };
+		AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerInputView.xib; path = ViewController/PickerInputView.xib; sourceTree = "<group>"; };
 		AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramListCell.xib; path = Cells/ProgramListCell.xib; sourceTree = "<group>"; };
 		AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramListCell.h; path = Cells/ProgramListCell.h; sourceTree = "<group>"; };
 		AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramListCell.m; path = Cells/ProgramListCell.m; sourceTree = "<group>"; };
@@ -1294,6 +1299,9 @@
 		B1EF21061860491800D9CE26 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
+				AF51E4161A190DA500A7A6A5 /* TRPickerInputView.h */,
+				AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */,
+				AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */,
 				B1EF21071860492B00D9CE26 /* AddNewDeviceVC.h */,
 				B1EF21081860492B00D9CE26 /* AddNewDeviceVC.m */,
 				B1EF21091860492B00D9CE26 /* AddNewDeviceVC.xib */,
@@ -1499,6 +1507,7 @@
 				B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */,
 				AF7A72B918C4AAA300596148 /* DatePickerVC.xib in Resources */,
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
+				AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
 				AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */,
 				AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */,
@@ -1618,6 +1627,7 @@
 			files = (
 				AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */,
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
+				AF51E4181A190DA500A7A6A5 /* TRPickerInputView.m in Sources */,
 				B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */,
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,

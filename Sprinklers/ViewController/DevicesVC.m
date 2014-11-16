@@ -27,6 +27,7 @@
 #import "TimePickerVC.h"
 #import "ServerProxy.h"
 
+#define ENABLE_DEBUG_SETTINGS YES
 #define kAlertView_DeleteDevice 1
 
 @interface DevicesVC () {
@@ -42,6 +43,8 @@
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
+
+@property (nonatomic, weak) IBOutlet UITextField *debugTextField;
 
 @end
 
@@ -63,6 +66,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (ENABLE_DEBUG_SETTINGS) {
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]) {
+            [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kDebugNewAPIVersion];
+        }
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]) {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kNetworkDevicesDiscoveryInterval] forKey:kDebugLocalNetworkDevicesDiscoveryInterval];
+        }
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]) {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kCloudDevicesDiscoveryInterval] forKey:kDebugCloudDevicesDiscoveryInterval];
+        }
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]) {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutInterval] forKey:kDebugDeviceGreyOutInterval];
+        }
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
@@ -243,6 +262,7 @@
         if (!sprinkler) {
             sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES email:nil mac:discoveredSprinkler.sprinklerId save:NO];
         }
+        sprinkler.sprinklerId = discoveredSprinkler.sprinklerId;
         sprinkler.isDiscovered = @YES;
     }
     
@@ -332,7 +352,7 @@
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2 + self.cloudEmails.count;
+    return 2 + self.cloudEmails.count + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -345,6 +365,10 @@
         return sprinklersNr > 0 ? sprinklersNr : 1;
     }
     
+    if (section == 2 + self.cloudEmails.count) {
+        return 4;
+    }
+    
     return 2;
 }
 
@@ -352,6 +376,10 @@
 {
     if ((section > 0) && (section < 1 + self.cloudEmails.count)) {
         return self.cloudEmails[section - 1];
+    }
+    
+    if (section == 2 + self.cloudEmails.count) {
+        return @"SETTINGS (DEBUG)";
     }
     
     return nil;
@@ -434,6 +462,34 @@
         }
         return cell;
     }
+    else if (indexPath.section == 2 + self.cloudEmails.count) {
+        UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
+        }
+        cell.tintColor = [UIColor colorWithRed:(0.0/255.0) green:(122.0/255.0) blue:(255.0/255.0) alpha:1.0];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"New API Version";
+            cell.detailTextLabel.text = nil;
+            cell.accessoryType = ([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+            NSLog(@"cellFor:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
+        }
+        else if (indexPath.row == 1) {
+            cell.textLabel.text = @"Local Devices Discovery Interval";
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]];
+        }
+        else if (indexPath.row == 2) {
+            cell.textLabel.text = @"Cloud Devices Discovery Interval";
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]];
+        }
+        else if (indexPath.row == 3) {
+            cell.textLabel.text = @"Device Grey Out Interval";
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]];
+        }
+        
+        return cell;
+    }
     else {
         if (indexPath.row == 0) {
             // Add New Device
@@ -485,6 +541,38 @@
         if (sprinklerArray.count > 0) {
             sprinkler = sprinklerArray[indexPath.row];
             [self sprinklerSelected:sprinkler];
+        }
+    } else if (indexPath.section == 2 + self.cloudEmails.count) {
+        if (indexPath.row == 0) {
+            UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
+            NSLog(@"didSelect:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
+            BOOL prevValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:!prevValue] forKey:kDebugNewAPIVersion];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            selectedCell.accessoryType = (prevValue == NO) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:NO];
+        } else {
+            self.navigationController.view.userInteractionEnabled = NO;
+            
+            TRPickerInputView *productSizeSelectionPickerInputView = [TRPickerInputView newPickerInputView];
+            
+            if (indexPath.row == 1) {
+                productSizeSelectionPickerInputView.identifier = kDebugLocalNetworkDevicesDiscoveryInterval;
+            }
+            if (indexPath.row == 2) {
+                productSizeSelectionPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
+            }
+            if (indexPath.row == 3) {
+                productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutInterval;
+            }
+            NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:productSizeSelectionPickerInputView.identifier];
+            productSizeSelectionPickerInputView.dataSource = self;
+            productSizeSelectionPickerInputView.delegate = self;
+            
+            self.debugTextField.inputView = productSizeSelectionPickerInputView;
+            
+            [productSizeSelectionPickerInputView selectRow:[value intValue] animated:NO];
+            [self.debugTextField becomeFirstResponder];
         }
     } else {
         if (indexPath.row == 0) {
@@ -595,7 +683,7 @@
             for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
                 NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
                 NSURL *url = [NSURL URLWithString:fullAddress];
-                NSString *port = [[url port] stringValue];
+                NSString *port = [Utils getPort:fullAddress];
                 NSString *address = fullAddress;
                 if ([port length] > 0) {
                     if ([port length] + 1  < [fullAddress length]) {
@@ -607,9 +695,9 @@
                 // If MAC-s are the same: local has priority
                 if (!localSprinkler) {
                     // Add or update the remote sprinkler
-                    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"sprinklerName"] address:address port:port local:@NO email:email];
+                    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"name"] address:address port:port local:@NO email:email];
                     if (!sprinkler) {
-                        sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"sprinklerName"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
+                        sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
                     } else {
                         if (address) {
                             sprinkler.address = address;
@@ -617,6 +705,7 @@
                         sprinkler.port = port;
                     }
                     
+                    sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
                     sprinkler.isDiscovered = @YES;
                 }
             }
@@ -634,6 +723,32 @@
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
+}
+
+#pragma mark - Picker input view data source
+
+- (NSInteger)numberOfRowsInPickerView:(TRPickerInputView*)pickerInputView {
+    return 121;
+}
+
+#pragma mark - Picker input view delegate
+
+- (void)pickerView:(TRPickerInputView*)pickerInputView didSelectRow:(NSInteger)row {
+    [self.debugTextField resignFirstResponder];
+    self.navigationController.view.userInteractionEnabled = YES;
+
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:row] forKey:pickerInputView.identifier];
+    
+    [self.tableView reloadData];
+}
+
+- (void)pickerViewDidCancel:(TRPickerInputView*)pickerInputView {
+    [self.debugTextField resignFirstResponder];
+    self.navigationController.view.userInteractionEnabled = YES;
+}
+
+- (NSString*)pickerView:(TRPickerInputView*)pickerInputView titleForRow:(NSInteger)row {
+    return [NSString stringWithFormat:@"%d", (int)row];
 }
 
 #pragma mark - 

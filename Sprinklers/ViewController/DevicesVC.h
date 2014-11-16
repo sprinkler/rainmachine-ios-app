@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 #import "Protocols.h"
+#import "TRPickerInputView.h"
 
-@interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
+@interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, TRPickerInputViewDataSource, TRPickerInputViewDelegate>
 
 - (void)done:(NSString*)unit;
 
