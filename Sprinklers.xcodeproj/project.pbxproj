@@ -547,6 +547,7 @@
 		AFC0760218BC9C99007200BF /* SetDelayVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SetDelayVC.xib; path = ViewController/SetDelayVC.xib; sourceTree = "<group>"; };
 		AFC0760418BC9DEB007200BF /* SetDelayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetDelayVC.h; path = ViewController/SetDelayVC.h; sourceTree = "<group>"; };
 		AFC0760518BC9DEB007200BF /* SetDelayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetDelayVC.m; path = ViewController/SetDelayVC.m; sourceTree = "<group>"; };
+		AFC22B0A1A18C93B00220BAA /* Sprinklers 9 (MAC).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 9 (MAC).xcdatamodel"; sourceTree = "<group>"; };
 		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Communication/Response objects/WeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Communication/Response objects/WeatherData.m"; sourceTree = "<group>"; };
 		AFC5CEDA18893A5B005191DE /* icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings.png; path = Resources/icon_settings.png; sourceTree = "<group>"; };
@@ -1884,6 +1885,7 @@
 			isa = XCVersionGroup;
 			children = (
 				AF927C8A19C8124E009C59EA /* Sprinklers 8 (cloud).xcdatamodel */,
+				AFC22B0A1A18C93B00220BAA /* Sprinklers 9 (MAC).xcdatamodel */,
 				3AC64A0B192B76950009061D /* Sprinklers 7.xcdatamodel */,
 				AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */,
 				AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */,
@@ -1892,7 +1894,7 @@
 				AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */,
 				B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = AF927C8A19C8124E009C59EA /* Sprinklers 8 (cloud).xcdatamodel */;
+			currentVersion = AFC22B0A1A18C93B00220BAA /* Sprinklers 9 (MAC).xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

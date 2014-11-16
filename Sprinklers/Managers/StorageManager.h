@@ -25,13 +25,13 @@ typedef enum {
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readwrite) Sprinkler *currentSprinkler; // TODO: keep the name of the current sprinkler persistent in the db
 
-- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal email:(NSString*)email save:(BOOL)save;
+- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal email:(NSString*)email mac:(NSString*)mac save:(BOOL)save;
 - (BOOL)deleteSprinklerWithName:(NSString *)name;
 - (BOOL)deleteSprinkler:(Sprinkler *)sprinkler;
 - (void)deleteLocalSprinklers;
+- (Sprinkler *)getSprinklerBasedOnMAC:(NSString *)sprinklerMAC local:(NSNumber*)local;
 - (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local email:(NSString*)email;
 - (Sprinkler *)getSprinkler:(NSString *)name local:(NSNumber*)local;
-- (Sprinkler *)getSprinklerBasedOnId:(NSString *)sprinklerId local:(NSNumber*)local;
 - (NSArray *)getSprinklersFromNetwork:(NetworkType)networkType aliveDevices:(NSNumber*)onlyDiscoveredDevices;
 - (NSArray *)getAllSprinklersFromNetwork;
 - (DBZone*)zoneWithId:(NSNumber*)theId;

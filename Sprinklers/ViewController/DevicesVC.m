@@ -167,7 +167,6 @@
     if (cloudAccounts.count > 0) {
         self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:self.cloudProxyFinderURL delegate:self jsonRequest:YES];
         [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
-        [self startHud:nil];
     }
 }
 
@@ -182,7 +181,6 @@
     NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
     for (Sprinkler *sprinkler in sprinklers) {
         if (sprinkler.email) {
-            sprinkler.isDiscovered = @NO;
             if (!cloudSprinklersDic[sprinkler.email]) {
                 cloudSprinklersDic[sprinkler.email] = [NSMutableArray array];
             }
@@ -243,7 +241,7 @@
         NSString *port = [NSString stringWithFormat:@"%d", discoveredSprinkler.port];
         Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerName address:[Utils fixedSprinklerAddress:discoveredSprinkler.host] port:port local:@YES email:nil];
         if (!sprinkler) {
-            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES email:nil save:NO];
+            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES email:nil mac:discoveredSprinkler.sprinklerId save:NO];
         }
         sprinkler.isDiscovered = @YES;
     }
@@ -577,57 +575,59 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self hideHud];
 //    NSError *e = nil;
-//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"me@tremend.ro\",\"sprinklers\":[{\"sprinklerName\":\"sprinkler196\",\"sprinklerId\":\"sprinkler196\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
-//    self.cloudResponse = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];//data;
+//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"me@tremend.ro\",\"sprinklers\":[{\"sprinklerName\":\"sprinkler196\",\"mac\":\"6470021a146d\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
+//    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];//data;
     
-    NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
-    for (Sprinkler *sprinkler in aliveRemoteDevices) {
-        if (sprinkler.email) {
-            // It is a cloud device
-            sprinkler.isDiscovered = @NO;
-        }
-    }
-    
-    self.cloudResponse = data;
-    NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
-    for (NSDictionary *cloudInfo in cloudInfos) {
-        NSString *email = cloudInfo[@"email"];
-        for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
-            NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
-            NSURL *url = [NSURL URLWithString:fullAddress];
-            NSString *port = [[url port] stringValue];
-            NSString *address = fullAddress;
-            if ([port length] > 0) {
-                if ([port length] + 1  < [fullAddress length]) {
-                    address = [fullAddress substringToIndex:[fullAddress length] - ([port length] + 1)];
-                }
+    // The cloud is continuosly pulled, so if the table finished editing the cloud state will refresh at the next timer poll
+    if (!self.tableView.isEditing) {
+        NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
+        // Mark all cloud devices is a cloud device as not alive
+        for (Sprinkler *sprinkler in aliveRemoteDevices) {
+            if (sprinkler.email) {
+                sprinkler.isDiscovered = @NO;
             }
-            port = port ? port : @"443";
-            Sprinkler *localSprinkler = [[StorageManager current] getSprinklerBasedOnId:sprinklerInfo[@"sprinklerId"] local:@YES];
-            // If sprinklerId-s are the same: local has priority
-            if (!localSprinkler) {
-                // Add or update the remote sprinkler
-                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"sprinklerName"] address:address port:port local:@NO email:email];
-                if (!sprinkler) {
-                    sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"sprinklerName"] ipAddress:address port:port isLocal:@NO email:email save:NO];
-                } else {
-                    if (address) {
-                        sprinkler.address = address;
+        }
+        
+        self.cloudResponse = data;
+        NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
+        for (NSDictionary *cloudInfo in cloudInfos) {
+            NSString *email = cloudInfo[@"email"];
+            for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
+                NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
+                NSURL *url = [NSURL URLWithString:fullAddress];
+                NSString *port = [[url port] stringValue];
+                NSString *address = fullAddress;
+                if ([port length] > 0) {
+                    if ([port length] + 1  < [fullAddress length]) {
+                        address = [fullAddress substringToIndex:[fullAddress length] - ([port length] + 1)];
                     }
-                    sprinkler.port = port;
-                    sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
                 }
-                
-                sprinkler.isDiscovered = @YES;
+                port = port ? port : @"443";
+                Sprinkler *localSprinkler = [[StorageManager current] getSprinklerBasedOnMAC:sprinklerInfo[@"mac"] local:@YES];
+                // If MAC-s are the same: local has priority
+                if (!localSprinkler) {
+                    // Add or update the remote sprinkler
+                    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"sprinklerName"] address:address port:port local:@NO email:email];
+                    if (!sprinkler) {
+                        sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"sprinklerName"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
+                    } else {
+                        if (address) {
+                            sprinkler.address = address;
+                        }
+                        sprinkler.port = port;
+                    }
+                    
+                    sprinkler.isDiscovered = @YES;
+                }
             }
         }
+        
+        [[StorageManager current] saveData];
+        
+        [self refreshSprinklerList];
+        
+        [self.tableView reloadData];
     }
-    
-    [[StorageManager current] saveData];
-    
-    [self refreshSprinklerList];
-    
-    [self.tableView reloadData];
 }
 
 - (void)loggedOut {

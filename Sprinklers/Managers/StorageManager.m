@@ -33,7 +33,7 @@ static StorageManager *current = nil;
 
 #pragma mark - Methods
 
-- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal email:(NSString*)email save:(BOOL)save {
+- (Sprinkler*)addSprinkler:(NSString *)name ipAddress:(NSString *)ip port:(NSString *)port isLocal:(NSNumber*)isLocal email:(NSString*)email mac:(NSString*)mac save:(BOOL)save {
     Sprinkler *sprinkler = [NSEntityDescription insertNewObjectForEntityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     sprinkler.name = name;
     sprinkler.address = [Utils fixedSprinklerAddress:ip];
@@ -41,6 +41,7 @@ static StorageManager *current = nil;
     sprinkler.isLocalDevice = isLocal;
     sprinkler.isDiscovered = @YES;
     sprinkler.email = email;
+    sprinkler.mac = mac;
 
     if (save) {
         [self saveData];
@@ -177,6 +178,32 @@ static StorageManager *current = nil;
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sort0, sort1, nil]];
     
     return [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+}
+
+- (Sprinkler *)getSprinklerBasedOnMAC:(NSString *)sprinklerMAC local:(NSNumber*)local {
+    NSError *error;
+    NSArray *items;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = nil;
+    
+    assert(sprinklerMAC);
+    
+    if (local) {
+        predicate = [NSPredicate predicateWithFormat:@"mac == %@ AND isLocalDevice == %@", sprinklerMAC, local];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"mac == %@", sprinklerMAC];
+    }
+    [fetchRequest setPredicate:predicate];
+    
+    items = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (items && items.count == 1) {
+        return items[0];
+    }
+    return nil;
 }
 
 - (NSArray *)getAllSprinklersFromNetwork{
