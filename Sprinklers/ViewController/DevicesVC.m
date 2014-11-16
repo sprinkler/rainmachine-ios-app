@@ -67,21 +67,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (ENABLE_DEBUG_SETTINGS) {
-        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]) {
-            [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kDebugNewAPIVersion];
-        }
-        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]) {
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kNetworkDevicesDiscoveryInterval] forKey:kDebugLocalNetworkDevicesDiscoveryInterval];
-        }
-        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]) {
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kCloudDevicesDiscoveryInterval] forKey:kDebugCloudDevicesDiscoveryInterval];
-        }
-        if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]) {
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutInterval] forKey:kDebugDeviceGreyOutInterval];
-        }
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]) {
+        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kDebugNewAPIVersion];
     }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kNetworkDevicesDiscoveryInterval] forKey:kDebugLocalNetworkDevicesDiscoveryInterval];
+    }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kCloudDevicesDiscoveryInterval] forKey:kDebugCloudDevicesDiscoveryInterval];
+    }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutInterval] forKey:kDebugDeviceGreyOutInterval];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
