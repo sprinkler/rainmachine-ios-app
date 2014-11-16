@@ -8,6 +8,11 @@ NSString *const TestServerURL = @"https://ns.tremend.ro";
 NSString *const TestServerPort = @"2443"; // 3.59
 //NSString *const TestServerPort = @"65076";
 
+NSString *const kDebugNewAPIVersion = @"DebugNewAPIVersion";
+NSString *const kDebugLocalNetworkDevicesDiscoveryInterval = @"DebugLocalNetworkDevicesDiscoveryInterval";
+NSString *const kDebugCloudDevicesDiscoveryInterval = @"DebugCloudDevicesDiscoveryInterval";
+NSString *const kDebugDeviceGreyOutInterval = @"DebugDeviceGreyOutInterval";
+
 NSString *const kCloudProxyFinderURLKey = @"CloudProxyFinderURLKey";
 NSString *const kCloudProxyFinderStagingURL = @"https://54.186.224.58:9000";
 NSString *const kCloudProxyFinderURL = @"https://54.72.36.178:9000";
@@ -65,6 +70,7 @@ NSString *const kCustomRMFontName = @"rainmachine";
 
 int const kNetworkDevicesDiscoveryInterval = 3;
 int const kCloudDevicesDiscoveryInterval = 15;
+int const kDeviceGreyOutInterval = 60;
 
 int const kMaxCounterValue = 300 * 60; // In seconds
 int const kSprinklerUpdateCheckInterval = 24 * 60 * 60;

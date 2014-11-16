@@ -60,6 +60,23 @@
     return address;
 }
 
++ (NSString*)getPort:(NSString*)address
+{
+    address = [address stringByReplacingOccurrencesOfString:@"http://" withString:@""];
+    address = [address stringByReplacingOccurrencesOfString:@"https://" withString:@""];
+    NSArray *vals = [address componentsSeparatedByString:@":"];
+    if (vals.count == 2) {
+        NSArray *portVals = [vals[1] componentsSeparatedByString:@"/"];
+        if (portVals.count == 2) {
+            return portVals[0];
+        }
+        
+        return vals[1];
+    }
+    
+    return nil;
+}
+
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler
 {
     return [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];

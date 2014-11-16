@@ -111,7 +111,7 @@
         NSString *name = self.nameTextField.text;
         NSString *address = [Utils fixedSprinklerAddress:self.urlOrIPTextField.text];
         NSURL *baseURL = [NSURL URLWithString:address];
-        NSString *port = [[baseURL port] stringValue];
+        NSString *port = [Utils getPort:address];
         
         if (!baseURL) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Invalid URL" message:@"It looks like you entered an invalid URL for the sprinkler. Please check your syntax and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
