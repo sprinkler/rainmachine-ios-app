@@ -27,7 +27,7 @@
 #import "TimePickerVC.h"
 #import "ServerProxy.h"
 
-#define kDebugSettingsNrBeforeCloudServer 4
+#define kDebugSettingsNrBeforeCloudServer 5
 
 #define ENABLE_DEBUG_SETTINGS YES
 #define kAlertView_DeleteDevice 1
@@ -512,21 +512,29 @@
         }
         cell.tintColor = [UIColor colorWithRed:(0.0/255.0) green:(122.0/255.0) blue:(255.0/255.0) alpha:1.0];
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         if (indexPath.row == 0) {
+            NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
+            NSString *build = [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
+            cell.textLabel.text = @"App Version (Build)";
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)",version,build];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        else if (indexPath.row == 1) {
             cell.textLabel.text = @"Use New API Version";
             cell.detailTextLabel.text = nil;
             cell.accessoryType = ([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             NSLog(@"cellFor:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
         }
-        else if (indexPath.row == 1) {
+        else if (indexPath.row == 2) {
             cell.textLabel.text = @"Local Devices Discovery Interval";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]];
         }
-        else if (indexPath.row == 2) {
+        else if (indexPath.row == 3) {
             cell.textLabel.text = @"Cloud Devices Discovery Interval";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]];
         }
-        else if (indexPath.row == 3) {
+        else if (indexPath.row == 4) {
             cell.textLabel.text = @"Device Grey Out Interval";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]];
         } else {
@@ -590,6 +598,9 @@
         }
     } else if (indexPath.section == 2 + self.cloudEmails.count) {
         if (indexPath.row == 0) {
+            // Do nothing
+        }
+        else if (indexPath.row == 1) {
             UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
             NSLog(@"didSelect:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
             BOOL prevValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue];
@@ -619,13 +630,13 @@
                 
                 TRPickerInputView *productSizeSelectionPickerInputView = [TRPickerInputView newPickerInputView];
                 
-                if (indexPath.row == 1) {
+                if (indexPath.row == 2) {
                     productSizeSelectionPickerInputView.identifier = kDebugLocalNetworkDevicesDiscoveryInterval;
                 }
-                if (indexPath.row == 2) {
+                if (indexPath.row == 3) {
                     productSizeSelectionPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
                 }
-                if (indexPath.row == 3) {
+                if (indexPath.row == 4) {
                     productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutInterval;
                 }
                 
