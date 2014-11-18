@@ -77,10 +77,12 @@
     
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
     if (timeFormat == 24) {
-        df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
+        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d H:m:s";
+        else df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
     }
     else if (timeFormat == 12) {
-        df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
+        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d K:m:s a";
+        else df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
     }
     
     return df;
@@ -159,8 +161,6 @@
             // This is a workaround for that case
             timeFormat = (timeFormat == 24) ? 12 : 24;
             date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
-        } else {
-            date = [NSDate date];
         }
         
         if (date) {

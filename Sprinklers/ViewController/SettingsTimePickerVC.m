@@ -64,10 +64,12 @@
     
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
     if ([self.settingsDate.time_format intValue] == 24) {
-        df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
+        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d H:m:s";
+        else df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
     }
     else if ([self.settingsDate.time_format intValue] == 12) {
-        df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
+        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d K:m:s a";
+        else df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
     }
     
     return df;
@@ -126,15 +128,25 @@
 
     if (self.settingsDate) {
         NSDate *date = ([self.settingsDate.appDate length] > 0) ? [self dateFromString:self.settingsDate.appDate] : [NSDate date];
-        NSCalendar* cal = [NSCalendar currentCalendar];
-        NSDateComponents* dateComp = [cal components:(
-                                                      NSHourCalendarUnit |
-                                                      NSMinuteCalendarUnit
-                                                      )
-                                            fromDate:date];
+        if (date) {
+            NSCalendar* cal = [NSCalendar currentCalendar];
+            NSDateComponents* dateComp = [cal components:(
+                                                          NSHourCalendarUnit |
+                                                          NSMinuteCalendarUnit
+                                                          )
+                                                fromDate:date];
 
-        [super refreshUIWithHour:(int)dateComp.hour minutes:(int)dateComp.minute];
+            [super refreshUIWithHour:(int)dateComp.hour minutes:(int)dateComp.minute];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Couldn't parse date" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            
+            self.settingsDate = nil;
+        }
     }
+    
+    self.datePicker.hidden = (self.settingsDate == nil);
+    self.separatorLabel.hidden = (self.settingsDate == nil);
 }
 
 - (void)didReceiveMemoryWarning
