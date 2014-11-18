@@ -315,7 +315,8 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestSettingsDate4
 {
-    [self.manager GET: @"api/4/time" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/4/machine/time" : @"api/4/time";
+    [self.manager GET: relUrl parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             SettingsDate *settingsDate = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([SettingsDate class])][0];
@@ -359,7 +360,8 @@ static int serverAPIMinorSubVersion = -1;
     NSMutableDictionary *params = [[self toDictionaryFromObject:settingsDate] mutableCopy];
     [params removeObjectForKey:@"time_format"];
 
-    [self.manager POST: @"api/4/time" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/4/machine/time" : @"api/4/time";
+    [self.manager POST: relUrl parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             API4StatusResponse *rez = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])][0];
@@ -746,7 +748,8 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)getRainDelay4 {
-    [self.manager GET: @"api/4/rainDelay" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/4/restrictions/raindelay" : @"api/4/rainDelay";
+    [self.manager GET: relUrl parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([RainDelay class])];
@@ -782,8 +785,9 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)setRainDelay4:(NSNumber*)value {
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/4/restrictions/raindelay" : @"api/4/rainDelay";
     NSDictionary *params = [NSDictionary dictionaryWithObject:value forKey:@"rainDelay"];
-    [self.manager POST: @"api/4/rainDelay" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.manager POST: relUrl parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             id responseArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
@@ -1307,8 +1311,8 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestUpdateStartForVersion:(int)version
 {
-    NSString *requestUrl = [NSString stringWithFormat:@"api/%d/update", version];
-    [self.manager POST:requestUrl parameters:@{@"update": [NSNumber numberWithBool:YES]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/%d/machine/update" : @"api/%d/update";
+    [self.manager POST:[NSString stringWithFormat:relUrl, version] parameters:@{@"update": [NSNumber numberWithBool:YES]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             NSArray *parsedArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([UpdateStartInfo class])];
@@ -1324,8 +1328,8 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestUpdateCheckForVersion:(int)version
 {
-    NSString *requestUrl = [NSString stringWithFormat:@"api/%d/update", version];
-    [self.manager GET:requestUrl parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/%d/machine/update" : @"api/%d/update";
+    [self.manager GET:[NSString stringWithFormat:relUrl, version] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
             id updateInfo = nil;
