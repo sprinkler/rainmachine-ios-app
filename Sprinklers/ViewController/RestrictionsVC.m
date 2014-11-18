@@ -44,6 +44,8 @@
 - (NSMutableArray*)monthsFrequencyFromRawString:(NSString*)string;
 - (NSString*)descriptionForHourlyRestriction:(HourlyRestriction*)restriction;
 
+- (void)showFreezeProtectTemperaturePickerVC;
+
 @end
 
 @implementation RestrictionsVC {
@@ -152,6 +154,26 @@
             [self timeDescriptionForHourlyRestriction:restriction]];
 }
 
+- (void)showFreezeProtectTemperaturePickerVC {
+    NSString *temperatureUnits = [Utils sprinklerTemperatureUnits];
+    
+    PickerVC *pickerVC = [[PickerVC alloc] init];
+    pickerVC.title = @"Do not water under";
+    pickerVC.itemsArray = @[@"0", @"2", @"5", @"10"];
+    pickerVC.selectedItem = [NSString stringWithFormat:@"%d",(int)self.wateringRestrictions.freezeProtectTemperature];
+    pickerVC.parent = self;
+    
+    if ([temperatureUnits isEqualToString:@"F"]) {
+        pickerVC.itemsDisplayStringArray = @[@"32", @"36", @"41", @"50"];
+        pickerVC.selectedItemTitle = @"°F";
+    } else {
+        pickerVC.itemsDisplayStringArray = @[@"0", @"2", @"5", @"10"];
+        pickerVC.selectedItemTitle = @"°C";
+    }
+    
+    [self.navigationController pushViewController:pickerVC animated:YES];
+}
+
 #pragma mark - Actions
 
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC {
@@ -173,8 +195,11 @@
 
 - (IBAction)onCellSwitch:(RestrictionsSwitchCell*)cell {
     if (cell.uid == 0) self.wateringRestrictions.hotDaysExtraWatering = cell.restrictionEnabledSwitch.on;
-    else if (cell.uid == 1) self.wateringRestrictions.freezeProtectEnabled = cell.restrictionEnabledSwitch.on;
-    [self saveWateringRestrictions];
+    else if (cell.uid == 1) {
+        self.wateringRestrictions.freezeProtectEnabled = cell.restrictionEnabledSwitch.on;
+        if (self.wateringRestrictions.freezeProtectEnabled) [self showFreezeProtectTemperaturePickerVC];
+        else [self saveWateringRestrictions];
+    }
 }
 
 #pragma mark - ProxyService delegate
@@ -277,7 +302,7 @@
         
         cell.uid = 1;
         cell.delegate = self;
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.restrictionNameLabel.text = @"Freeze Protect";
         cell.restrictionDescriptionLabel.text = [NSString stringWithFormat:@"Do not water under %d°%@",(int)freezeProtectTemperature,temperatureUnits];
         cell.restrictionEnabledSwitch.on = self.wateringRestrictions.freezeProtectEnabled;
@@ -343,23 +368,7 @@
         [self saveWateringRestrictions];
     }
     else if (indexPath.row == 1) {
-        NSString *temperatureUnits = [Utils sprinklerTemperatureUnits];
-        
-        PickerVC *pickerVC = [[PickerVC alloc] init];
-        pickerVC.title = @"Do not water under";
-        pickerVC.itemsArray = @[@"0", @"2", @"5", @"10"];
-        pickerVC.selectedItem = [NSString stringWithFormat:@"%d",(int)self.wateringRestrictions.freezeProtectTemperature];
-        pickerVC.parent = self;
-        
-        if ([temperatureUnits isEqualToString:@"F"]) {
-            pickerVC.itemsDisplayStringArray = @[@"32", @"36", @"41", @"50"];
-            pickerVC.selectedItemTitle = @"°F";
-        } else {
-            pickerVC.itemsDisplayStringArray = @[@"0", @"2", @"5", @"10"];
-            pickerVC.selectedItemTitle = @"°C";
-        }
-        
-        [self.navigationController pushViewController:pickerVC animated:YES];
+        [self showFreezeProtectTemperaturePickerVC];
     }
     else if (indexPath.row == 2) {
         MonthsVC *monthsVC = [[MonthsVC alloc] init];
