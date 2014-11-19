@@ -17,22 +17,23 @@
 #import "MBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
 
-const NSInteger LocationSetup_MapView_StartRegionSizeMeters = 1000.0;
+const double LocationSetup_MapView_InitializeTimeout                = 5.0;
+const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
+const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 
 #pragma mark -
 
 @interface LocationSetupVC ()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSDate *lastAutocompleteReloadResultsDate;
+@property (nonatomic, strong) NSString *lastAutocompleteSearchString;
 
 - (BOOL)initializeLocationServices;
 - (void)displayLocationServicesDisabledAlert;
 
-@property (nonatomic, assign) BOOL mapViewLocatedUser;
-@property (nonatomic, strong) MKUserLocation *userLocation;
-
-- (void)showAutoCompleteResultsAnimated:(BOOL)animate;
-- (void)hideAutoCompletResultAnimated:(BOOL)animate;
+@property (nonatomic, assign) BOOL startLocationFound;
+@property (nonatomic, strong) NSString *lastSelectedLocation;
 
 @end
 
@@ -44,26 +45,19 @@ const NSInteger LocationSetup_MapView_StartRegionSizeMeters = 1000.0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = @"Location";
-    }
+    if (!self) return nil;
+    
+    self.title = @"Location";
+    
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-        self.locationTextField.tintColor = self.locationTextField.textColor;
-    }
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    [self.nextButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
-    
-    self.mapView.layer.borderColor = [UIColor colorWithWhite:0.75 alpha:1.0].CGColor;
-    self.mapView.layer.borderWidth = 1.0;
-    
-    self.autoCompleteResultsTableView.layer.borderColor = [UIColor colorWithWhite:0.75 alpha:1.0].CGColor;
-    self.autoCompleteResultsTableView.layer.borderWidth = 1.0;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(onNext:)];
     
     if (![self initializeLocationServices]) {
         [self displayLocationServicesDisabledAlert];
@@ -71,11 +65,55 @@ const NSInteger LocationSetup_MapView_StartRegionSizeMeters = 1000.0;
     }
     
     self.mapView.delegate = self;
-    self.mapView.showsUserLocation = YES;
-    self.mapView.hidden = NO;
-    self.autoCompleteResultsTableView.hidden = YES;
+    self.mapView.myLocationEnabled = YES;
+    self.mapView.settings.myLocationButton = YES;
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    [self performSelector:@selector(hideHUDAddedToView) withObject:nil afterDelay:LocationSetup_MapView_InitializeTimeout];
+}
+
+- (void)hideHUDAddedToView {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.mapView addObserver:self forKeyPath:@"myLocation" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (!self.startLocationFound) {
+        [self.mapView removeObserver:self forKeyPath:@"myLocation"];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    if (object == self.mapView && [keyPath isEqualToString:@"myLocation"] && !self.startLocationFound) {
+        self.startLocationFound = YES;
+        [self.mapView removeObserver:self forKeyPath:@"myLocation"];
+        
+        float zoom = [GMSCameraPosition zoomAtCoordinate:self.mapView.myLocation.coordinate
+                                               forMeters:LocationSetup_MapView_StartRegionSizeMeters
+                                               perPoints:self.mapView.bounds.size.width];
+        
+        [self.mapView animateToCameraPosition:[GMSCameraPosition cameraWithLatitude:self.mapView.myLocation.coordinate.latitude
+                                                                          longitude:self.mapView.myLocation.coordinate.longitude
+                                                                               zoom:zoom]];
+        
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideHUDAddedToView) object:nil];
+        [[GMSGeocoder geocoder] reverseGeocodeCoordinate:self.mapView.myLocation.coordinate completionHandler:^(GMSReverseGeocodeResponse *geocodeResponse, NSError *error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
+            
+            if (geocodeResponse) {
+                GMSAddress *address = geocodeResponse.firstResult;
+                self.locationSearchBar.placeholder = address.locality;
+                self.lastSelectedLocation = address.locality;
+            }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,81 +151,50 @@ const NSInteger LocationSetup_MapView_StartRegionSizeMeters = 1000.0;
     }
 }
 
-- (void)showAutoCompleteResultsAnimated:(BOOL)animate {
-    self.mapView.hidden = NO;
-    self.autoCompleteResultsTableView.hidden = NO;
-    self.mapView.alpha = 1.0;
-    self.autoCompleteResultsTableView.alpha = 0.0;
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        self.mapView.alpha = 0.0;
-        self.autoCompleteResultsTableView.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        self.mapView.hidden = YES;
-        self.autoCompleteResultsTableView.hidden = NO;
-    }];
+#pragma mark - Search display controller delegate
+
+- (void)reloadAutocompleteResultsForSearchString:(NSString*)searchString {
+    self.lastAutocompleteReloadResultsDate = [NSDate date];
 }
 
-- (void)hideAutoCompletResultAnimated:(BOOL)animate {
-    self.mapView.hidden = NO;
-    self.autoCompleteResultsTableView.hidden = NO;
-    self.mapView.alpha = 0.0;
-    self.autoCompleteResultsTableView.alpha = 1.0;
+- (BOOL)searchDisplayController:(UISearchDisplayController*)controller shouldReloadTableForSearchString:(NSString*)searchString {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAutocompleteResultsForSearchString:) object:self.lastAutocompleteSearchString];
+    [self performSelector:@selector(reloadAutocompleteResultsForSearchString:) withObject:searchString afterDelay:LocationSetup_Autocomplete_ReloadResultsTimeInterval];
     
-    [UIView animateWithDuration:0.2 animations:^{
-        self.mapView.alpha = 1.0;
-        self.autoCompleteResultsTableView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        self.mapView.hidden = NO;
-        self.autoCompleteResultsTableView.hidden = YES;
-    }];
-}
-
-#pragma mark - Text field delegate
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField*)textField {
-    [self showAutoCompleteResultsAnimated:YES];
+    self.lastAutocompleteSearchString = searchString;
+    
     return YES;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField*)textField {
-    [textField resignFirstResponder];
-    [self hideAutoCompletResultAnimated:YES];
-    return YES;
+#pragma mark - Search bar delegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+
 }
 
-- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
-    if (textField.text.length) {
-        [[GeocodingRequestAutocomplete autocompleteGeocodingRequestWithInputString:textField.text] executeRequestWithCompletionHandler:^(id result, NSError *error) {
-            
-        }];
-    }
-    return YES;
+- (void)searchBarCancelButtonClicked:(UISearchBar*)searchBar {
 }
 
-#pragma mark - Map view delegate
+#pragma mark - Table view datasource
 
-- (void)mapView:(MKMapView*)mapView didUpdateUserLocation:(MKUserLocation*)userLocation {
-    if (self.mapViewLocatedUser) return;
-    
-    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake(userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude),
-                                                                             LocationSetup_MapView_StartRegionSizeMeters,
-                                                                             LocationSetup_MapView_StartRegionSizeMeters);
-    MKCoordinateRegion adjustedRegion = [mapView regionThatFits:coordinateRegion];
-    [mapView setRegion:adjustedRegion animated:YES];
-    
-    self.userLocation = userLocation;
-
-    [[GeocodingRequestReverse reverseGeocodingRequestWithLocation:self.userLocation.location] executeRequestWithCompletionHandler:^(GeocodingAddress *result, NSError *error) {
-        self.locationTextField.text = result.closestMatchingAddressComponent;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    }];
-    
-    self.mapViewLocatedUser = YES;
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
+    return 0;
 }
 
-- (void)mapView:(MKMapView*)mapView didFailToLocateUserWithError:(NSError*)error {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+    return nil;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Actions
+
+- (IBAction)onNext:(id)sender {
+    
 }
 
 @end

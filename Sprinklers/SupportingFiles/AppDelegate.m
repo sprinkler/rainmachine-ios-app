@@ -19,6 +19,7 @@
 #import "RMNavigationController.h"
 #import "UpdateManager.h"
 #import "NetworkUtilities.h"
+#import <GoogleMaps/GoogleMaps.h>
 
 @interface AppDelegate()
 
@@ -63,6 +64,9 @@
     }
     
     [self.window makeKeyAndVisible];
+    
+    [GMSServices provideAPIKey:kGoogleMapsAPIKey];
+    
     return YES;
 }
 

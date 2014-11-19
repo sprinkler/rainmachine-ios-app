@@ -56,8 +56,6 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
         id result = nil;
         if (!connectionError) responseDictionary = [self parseResponseData:data];
         if (responseDictionary) result = [self resultFromDictionary:responseDictionary];
-        NSLog(@"RESULT - %@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        NSLog(@"RESPONSE DICT - %@",responseDictionary);
         completionHandler(result, connectionError);
     }];
 }

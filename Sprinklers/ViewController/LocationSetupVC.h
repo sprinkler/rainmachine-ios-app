@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MapKit/MapKit.h>
+#import <GoogleMaps/GoogleMaps.h>
 
 @class ColoredBackgroundButton;
 
-@interface LocationSetupVC : UIViewController <MKMapViewDelegate, UITextFieldDelegate>
+@interface LocationSetupVC : UIViewController <GMSMapViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, weak) IBOutlet UILabel *selectLocationLabel;
-@property (nonatomic, weak) IBOutlet UITextField *locationTextField;
-@property (nonatomic, weak) IBOutlet MKMapView *mapView;
-@property (nonatomic, weak) IBOutlet UITableView *autoCompleteResultsTableView;
-@property (nonatomic, weak) IBOutlet ColoredBackgroundButton *nextButton;
+@property (nonatomic, weak) IBOutlet UISearchBar *locationSearchBar;
+@property (nonatomic, weak) IBOutlet UIView *mapContentView;
+@property (nonatomic, weak) IBOutlet GMSMapView *mapView;
+
+- (IBAction)onNext:(id)sender;
 
 @end

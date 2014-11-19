@@ -15,6 +15,8 @@
 #define keepAlivePort       16000
 #define keepAliveTimeout    0
 
+extern NSString *const kGoogleMapsAPIKey;
+
 extern NSString *const kDebugNewAPIVersion;
 extern NSString *const kDebugLocalDevicesDiscoveryInterval;
 extern NSString *const kDebugCloudDevicesDiscoveryInterval;
