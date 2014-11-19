@@ -8,6 +8,7 @@
 
 #import "GeocodingRequestReverse.h"
 #import "GeocodingAddress.h"
+#import "Constants.h"
 
 @implementation GeocodingRequestReverse
 
@@ -19,17 +20,25 @@
     self = [super initWithParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%6f,%6f",location.coordinate.latitude,location.coordinate.longitude],@"latlng", nil]];
     if (!self) return nil;
     
+    _location = location;
+    
     return self;
 }
 
 - (NSString*)geocodingRequestBaseURL {
-    return @"http://maps.googleapis.com/maps/api/geocode";
+    return @"https://maps.googleapis.com/maps/api/geocode";
+}
+
+- (NSString*)geocodingAPIKey {
+    return kGoogleMapsAPIKey;
 }
 
 - (id)resultFromDictionary:(NSDictionary*)dictionary {
     NSArray *results = [dictionary valueForKey:@"results"];
     if (!results.count) return nil;
-    return [GeocodingAddress geocodingAddressWithDictionary:results[0]];
+    GeocodingAddress *address = [GeocodingAddress geocodingAddressWithDictionary:results[0]];
+    address.location = self.location;
+    return address;
 }
 
 @end

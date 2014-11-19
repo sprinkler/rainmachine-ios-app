@@ -16,6 +16,7 @@ typedef void (^GeocodingRequestCompletionHandler)(id result, NSError *error);
 @interface GeocodingRequest : NSObject
 
 @property (nonatomic, readonly) NSString *geocodingRequestBaseURL;
+@property (nonatomic, readonly) NSString *geocodingAPIKey;
 @property (nonatomic, strong) NSDictionary *parameters;
 @property (nonatomic, strong) NSString *resultType;
 

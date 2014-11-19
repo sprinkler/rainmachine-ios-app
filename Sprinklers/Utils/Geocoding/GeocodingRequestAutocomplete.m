@@ -7,6 +7,8 @@
 //
 
 #import "GeocodingRequestAutocomplete.h"
+#import "GeocodingAutocompletePrediction.h"
+#import "Constants.h"
 
 @implementation GeocodingRequestAutocomplete
 
@@ -15,7 +17,7 @@
 }
 
 - (instancetype)initWithInputString:(NSString*)inputString {
-    self = [super initWithParameters:[NSDictionary dictionaryWithObjectsAndKeys:inputString,@"input",nil]];
+    self = [super initWithParameters:[NSDictionary dictionaryWithObjectsAndKeys:inputString,@"input",@"(cities)",@"types",nil]];
     if (!self) return nil;
     
     return self;
@@ -25,8 +27,20 @@
     return @"https://maps.googleapis.com/maps/api/place/autocomplete";
 }
 
+- (NSString*)geocodingAPIKey {
+    return kGooglePlacesAPIServerKey;
+}
+
 - (id)resultFromDictionary:(NSDictionary*)dictionary {
-    return nil;
+    NSArray *predictions = [dictionary valueForKey:@"predictions"];
+    if (!predictions.count) return nil;
+    
+    NSMutableArray *predictionsArray = [NSMutableArray new];
+    for (NSDictionary *dictionary in predictions) {
+        [predictionsArray addObject:[GeocodingAutocompletePrediction autocompletePredictionWithDictionary:dictionary]];
+    }
+    
+    return predictionsArray;
 }
 
 @end

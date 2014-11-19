@@ -27,23 +27,22 @@
     NSArray *addressComponents = [dictionary valueForKey:@"address_components"];
     for (NSDictionary *addressComponent in addressComponents) {
         NSString *longName = [addressComponent valueForKey:@"long_name"];
+        NSString *shortName = [addressComponent valueForKey:@"short_name"];
         NSArray *types = [addressComponent valueForKey:@"types"];
         if ([types containsObject:@"route"]) self.route = longName;
         else if ([types containsObject:@"neighborhood"]) self.neighborhood = longName;
         else if ([types containsObject:@"locality"]) self.locality = longName;
-        else if ([types containsObject:@"administrative_area_level_1"]) self.administrativeAreaLevel1 = longName;
+        else if ([types containsObject:@"administrative_area_level_1"]) {
+            self.administrativeAreaLevel1 = longName;
+            self.administrativeAreaLevel1Short = shortName;
+        }
         else if ([types containsObject:@"administrative_area_level_2"]) self.administrativeAreaLevel2 = longName;
-        else if ([types containsObject:@"country"]) self.country = longName;
+        else if ([types containsObject:@"country"]) {
+            self.country = longName;
+            self.countryShort = shortName;
+        }
         else if ([types containsObject:@"postal_code"]) self.postalCode = longName;
     }
-}
-
-- (NSString*)closestMatchingAddressComponent {
-    if (self.locality) return self.locality;
-    if (self.administrativeAreaLevel1) return self.administrativeAreaLevel1;
-    if (self.administrativeAreaLevel2) return self.administrativeAreaLevel2;
-    if (self.country) return self.country;
-    return nil;
 }
 
 @end

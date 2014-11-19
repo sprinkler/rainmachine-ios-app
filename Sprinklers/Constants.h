@@ -16,6 +16,7 @@
 #define keepAliveTimeout    0
 
 extern NSString *const kGoogleMapsAPIKey;
+extern NSString *const kGooglePlacesAPIServerKey;
 
 extern NSString *const kDebugNewAPIVersion;
 extern NSString *const kDebugLocalDevicesDiscoveryInterval;

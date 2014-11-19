@@ -10,6 +10,7 @@ NSString *const TestServerPort = @"2443"; // 3.59
 
 
 NSString *const kGoogleMapsAPIKey = @"AIzaSyBnob64WT9Tm2x7y8bVIfiq2jNPMc2LKt0";
+NSString *const kGooglePlacesAPIServerKey = @"AIzaSyCKT3TO8ALbcSVtwVjlN8z6NVgvjuti8T0";
 
 NSString *const kDebugNewAPIVersion = @"DebugNewAPIVersion";
 NSString *const kDebugLocalDevicesDiscoveryInterval = @"DebugLocalDevicesDiscoveryInterval";

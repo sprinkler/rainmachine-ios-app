@@ -70,12 +70,17 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
     return nil;
 }
 
+- (NSString*)geocodingAPIKey {
+    return nil;
+}
+
 - (NSString*)parameterString {
     NSMutableArray *parameterPairsArray = [NSMutableArray new];
     for (NSString *key in self.parameters) {
-        NSString *value = self.parameters[key];
+        NSString *value = [self.parameters[key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [parameterPairsArray addObject:[NSString stringWithFormat:@"%@=%@",key,value]];
     }
+    if (self.geocodingAPIKey.length) [parameterPairsArray addObject:[NSString stringWithFormat:@"key=%@",self.geocodingAPIKey]];
     return [parameterPairsArray componentsJoinedByString:@"&"];
 }
 

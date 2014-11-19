@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "Additions.h"
 #import "GeocodingAddress.h"
+#import "GeocodingAutocompletePrediction.h"
 #import "GeocodingRequest.h"
 #import "GeocodingRequestReverse.h"
 #import "GeocodingRequestAutocomplete.h"
@@ -26,18 +27,19 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 @interface LocationSetupVC ()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) NSDate *lastAutocompleteReloadResultsDate;
-@property (nonatomic, strong) NSString *lastAutocompleteSearchString;
+@property (nonatomic, strong) NSDate *autocompleteReloadResultsDate;
+@property (nonatomic, strong) NSString *autocompleteSearchString;
+@property (nonatomic, strong) NSArray *autocompletePredictions;
 
 - (BOOL)initializeLocationServices;
 - (void)displayLocationServicesDisabledAlert;
 
 @property (nonatomic, assign) BOOL startLocationFound;
-@property (nonatomic, strong) GMSAddress *selectedLocation;
+@property (nonatomic, strong) GeocodingAddress *selectedLocation;
 @property (nonatomic, strong) GMSMarker *selectedLocationMarker;
 
 - (void)markSelectedLocationAnimated:(BOOL)animate;
-- (NSString*)displayStringForLocation:(GMSAddress*)location;
+- (NSString*)displayStringForLocation:(GeocodingAddress*)location;
 
 @end
 
@@ -107,12 +109,11 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
                                                                                zoom:zoom]];
         
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideHUDAddedToView) object:nil];
-        [[GMSGeocoder geocoder] reverseGeocodeCoordinate:self.mapView.myLocation.coordinate completionHandler:^(GMSReverseGeocodeResponse *geocodeResponse, NSError *error) {
+        [[GeocodingRequestReverse reverseGeocodingRequestWithLocation:self.mapView.myLocation] executeRequestWithCompletionHandler:^(GeocodingAddress *result, NSError *error) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
-            
-            if (geocodeResponse) {
-                self.selectedLocation = geocodeResponse.firstResult;
+            if (!error) {
+                self.selectedLocation = result;
                 self.locationSearchBar.placeholder = [self displayStringForLocation:self.selectedLocation];
                 [self markSelectedLocationAnimated:YES];
             }
@@ -159,32 +160,39 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
     if (!self.selectedLocation) return;
     
     self.selectedLocationMarker.map = nil;
-    self.selectedLocationMarker = [GMSMarker markerWithPosition:self.selectedLocation.coordinate];
+    self.selectedLocationMarker = [GMSMarker markerWithPosition:self.selectedLocation.location.coordinate];
     self.selectedLocationMarker.title = [self displayStringForLocation:self.selectedLocation];
     self.selectedLocationMarker.map = self.mapView;
     
     if (animate) self.selectedLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
 }
 
-- (NSString*)displayStringForLocation:(GMSAddress*)location {
+- (NSString*)displayStringForLocation:(GeocodingAddress*)location {
     NSMutableArray *locationStringComponents = [NSMutableArray new];
     if (location.locality.length) [locationStringComponents addObject:location.locality];
-    if (location.administrativeArea.length) [locationStringComponents addObject:location.administrativeArea];
+    if (location.administrativeAreaLevel1Short.length) [locationStringComponents addObject:location.administrativeAreaLevel1Short];
+    else if (location.administrativeAreaLevel1.length) [locationStringComponents addObject:location.administrativeAreaLevel1];
     if (location.postalCode.length) [locationStringComponents addObject:location.postalCode];
+    if (location.country.length) [locationStringComponents addObject:location.country];
     return [locationStringComponents componentsJoinedByString:@", "];
 }
 
 #pragma mark - Search display controller delegate
 
 - (void)reloadAutocompleteResultsForSearchString:(NSString*)searchString {
-    self.lastAutocompleteReloadResultsDate = [NSDate date];
+    [[GeocodingRequestAutocomplete autocompleteGeocodingRequestWithInputString:searchString] executeRequestWithCompletionHandler:^(NSArray *predictions, NSError *error) {
+        self.autocompletePredictions = predictions;
+        [self.searchDisplayController.searchResultsTableView reloadData];
+    }];
+    
+    self.autocompleteReloadResultsDate = [NSDate date];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController*)controller shouldReloadTableForSearchString:(NSString*)searchString {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAutocompleteResultsForSearchString:) object:self.lastAutocompleteSearchString];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadAutocompleteResultsForSearchString:) object:self.autocompleteSearchString];
     [self performSelector:@selector(reloadAutocompleteResultsForSearchString:) withObject:searchString afterDelay:LocationSetup_Autocomplete_ReloadResultsTimeInterval];
     
-    self.lastAutocompleteSearchString = searchString;
+    self.autocompleteSearchString = searchString;
     
     return YES;
 }
@@ -192,11 +200,25 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 #pragma mark - Table view datasource
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return self.autocompletePredictions.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    return nil;
+    static NSString *AutocompletePredictionCellIdentifier = @"AutocompletePredictionCellIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:AutocompletePredictionCellIdentifier];
+    if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutocompletePredictionCellIdentifier];
+    
+    GeocodingAutocompletePrediction *prediction = self.autocompletePredictions[indexPath.row];
+    
+    NSMutableAttributedString *placeDescription = [[NSMutableAttributedString alloc] initWithString:prediction.placeDescription attributes:nil];
+    [placeDescription addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17.0] range:NSMakeRange(0, prediction.placeDescription.length)];
+    NSRange searchStringRange = [prediction.placeDescription rangeOfString:self.autocompleteSearchString options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+    if (searchStringRange.location != NSNotFound) [placeDescription addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17.0] range:searchStringRange];
+    
+    cell.textLabel.attributedText = placeDescription;
+    
+    return cell;
 }
 
 #pragma mark - Table view delegate
