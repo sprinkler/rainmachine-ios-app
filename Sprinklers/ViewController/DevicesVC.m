@@ -230,7 +230,7 @@
     NSMutableArray *networkOrManuallyEnteredSprinklers = [NSMutableArray array];
     NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
     for (Sprinkler *sprinkler in sprinklers) {
-        if (sprinkler.email) {
+        if ([Utils isCloudDevice:sprinkler]) {
             if (!cloudSprinklersDic[sprinkler.email]) {
                 cloudSprinklersDic[sprinkler.email] = [NSMutableArray array];
             }
@@ -482,7 +482,8 @@
 //    Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
     if (indexPath.section == 0) {
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
-        return (indexPath.section == 0) && (![sprinkler.isLocalDevice boolValue]);
+        BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler]);
+        return (indexPath.section == 0) && isDeviceEditable;
     }
     
     return NO;
@@ -725,7 +726,7 @@
     // TODO: decide upon local/remote type on runtime
     cell.labelInfo.text = @"";
     
-    BOOL isDeviceInactive = ([sprinkler.nrOfFailedConsecutiveDiscoveries intValue] >= [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]);
+    BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
     
     cell.disclosureImageView.hidden = tableView.isEditing || (isDeviceInactive);
 //    cell.labelMainSubtitle.enabled = [sprinkler.isDiscovered boolValue];

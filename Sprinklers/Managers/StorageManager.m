@@ -96,6 +96,10 @@ static StorageManager *current = nil;
         if (onlySprinklersWithEmail) {
             increase = (sprinkler.email != nil);
         }
+
+        // The increasing of failed attempts should be done only for cloud or local, because only these are discoverable
+        increase &= (([Utils isCloudDevice:sprinkler]) || ([Utils isLocallyDiscoveredDevice:sprinkler]));
+        
         if (increase) {
             NSInteger newValue = MIN([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] integerValue], sprinkler.nrOfFailedConsecutiveDiscoveries.integerValue+1);
             sprinkler.nrOfFailedConsecutiveDiscoveries = [NSNumber numberWithInteger:newValue];
