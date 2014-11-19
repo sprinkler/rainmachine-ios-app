@@ -109,14 +109,14 @@
     if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]) {
         [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kDebugNewAPIVersion];
     }
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kNetworkDevicesDiscoveryInterval] forKey:kDebugLocalNetworkDevicesDiscoveryInterval];
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalDevicesDiscoveryInterval]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kLocalDevicesDiscoveryInterval] forKey:kDebugLocalDevicesDiscoveryInterval];
     }
     if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kCloudDevicesDiscoveryInterval] forKey:kDebugCloudDevicesDiscoveryInterval];
     }
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutInterval] forKey:kDebugDeviceGreyOutInterval];
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount]) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutRetryCount] forKey:kDebugDeviceGreyOutRetryCount];
     }
     if (![[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey]) {
         [[NSUserDefaults standardUserDefaults] setObject:kCloudProxyFinderURL forKey:kCloudProxyFinderURLKey];
@@ -184,9 +184,9 @@
     [self.networkDevicesTimer invalidate];
     [self.cloudDevicesTimer invalidate];
     
-    self.networkDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval] intValue]
+    self.networkDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalDevicesDiscoveryInterval] intValue]
                                                                 target:self
-                                                              selector:@selector(shouldStartBroadcastTimer)
+                                                              selector:@selector(pollLocal)
                                                               userInfo:nil
                                                                repeats:YES];
     
@@ -230,7 +230,7 @@
     NSMutableArray *networkOrManuallyEnteredSprinklers = [NSMutableArray array];
     NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
     for (Sprinkler *sprinkler in sprinklers) {
-        if (sprinkler.email) {
+        if ([Utils isCloudDevice:sprinkler]) {
             if (!cloudSprinklersDic[sprinkler.email]) {
                 cloudSprinklersDic[sprinkler.email] = [NSMutableArray array];
             }
@@ -239,6 +239,24 @@
             [networkOrManuallyEnteredSprinklers addObject:sprinkler];
         }
     }
+    
+    NSMutableArray *duplicateCloudSprinklers = [NSMutableArray array];
+    // Filter out the duplicate sprinklers based on mac: priority have the local ones
+    for (NSMutableArray *emailBasedCloudSprinklers in [cloudSprinklersDic allValues]) {
+        for (Sprinkler *cloudSprinkler in emailBasedCloudSprinklers) {
+            for (Sprinkler *localSprinkler in networkOrManuallyEnteredSprinklers) {
+                if ([localSprinkler.mac isEqualToString:cloudSprinkler.mac]) {
+                    [duplicateCloudSprinklers addObject:cloudSprinkler];
+                    break;
+                }
+            }
+        }
+    }
+    
+    for (Sprinkler *cloudSprinkler in duplicateCloudSprinklers) {
+        [cloudSprinklersDic removeObjectForKey:cloudSprinkler.email];
+    }
+
     self.savedSprinklers = networkOrManuallyEnteredSprinklers;
     self.cloudSprinklers = cloudSprinklersDic;
 }
@@ -255,7 +273,7 @@
 }
 
 
-- (void)shouldStartBroadcastTimer
+- (void)pollLocal
 {
     [self shouldStartBroadcastForceUIRefresh:YES];
 }
@@ -279,6 +297,7 @@
     NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
  
     // Mark all non-discovered sprinklers as not-alive
+    [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
     NSArray *localSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Local aliveDevices:@YES];
     for (Sprinkler *sprinkler in localSprinklers) {
         sprinkler.isDiscovered = @NO;
@@ -294,7 +313,9 @@
             sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES email:nil mac:discoveredSprinkler.sprinklerId save:NO];
         }
         sprinkler.sprinklerId = discoveredSprinkler.sprinklerId;
+        sprinkler.mac = discoveredSprinkler.sprinklerId;  // Update the mac for existing sprinklers too
         sprinkler.isDiscovered = @YES;
+        sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
     }
     
     [[StorageManager current] saveData];
@@ -339,7 +360,7 @@
         
         DevicesCellType1 *deviceCell = (DevicesCellType1*)cell;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:deviceCell];
-        deviceCell.disclosureImageView.hidden = (self.tableView.isEditing) || (!deviceCell.sprinkler.isDiscovered.boolValue);
+        deviceCell.disclosureImageView.hidden = (self.tableView.isEditing);// || (!deviceCell.sprinkler.isDiscovered.boolValue);
         deviceCell.labelInfo.hidden = self.tableView.isEditing;
         
         if (self.tableView.isEditing && [self tableView:self.tableView canEditRowAtIndexPath:indexPath]) {
@@ -377,10 +398,13 @@
 }
 
 - (void)onRefresh:(id)notification {
+    [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
+    [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
     NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in allSprinklers) {
         sprinkler.isDiscovered = @NO;
     }
+    
     [[StorageManager current] saveData];
 
     [self shouldStartBroadcastForceUIRefresh:NO];
@@ -458,7 +482,8 @@
 //    Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
     if (indexPath.section == 0) {
         Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
-        return (indexPath.section == 0) && (![sprinkler.isLocalDevice boolValue]);
+        BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler]);
+        return (indexPath.section == 0) && isDeviceEditable;
     }
     
     return NO;
@@ -528,15 +553,15 @@
         }
         else if (indexPath.row == 2) {
             cell.textLabel.text = @"Local Devices Discovery Interval";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalNetworkDevicesDiscoveryInterval]];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalDevicesDiscoveryInterval]];
         }
         else if (indexPath.row == 3) {
             cell.textLabel.text = @"Cloud Devices Discovery Interval";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]];
         }
         else if (indexPath.row == 4) {
-            cell.textLabel.text = @"Device Grey Out Interval";
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutInterval]];
+            cell.textLabel.text = @"Device Grey Out Retry Count";
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount]];
         } else {
             cell.textLabel.text = self.cloudServers[indexPath.row - kDebugSettingsNrBeforeCloudServer];
             cell.accessoryType = ((indexPath.row - kDebugSettingsNrBeforeCloudServer) == self.selectedCloudServerIndex ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
@@ -587,14 +612,20 @@
     }
     
     if (indexPath.section == 0) {
-        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
-        [self sprinklerSelected:sprinkler];
-    } else if (indexPath.section < 1 + self.cloudEmails.count) {
-        NSArray *sprinklerArray = self.cloudSprinklers[self.cloudEmails[indexPath.section - 1]];
-        Sprinkler *sprinkler = nil;
-        if (sprinklerArray.count > 0) {
-            sprinkler = sprinklerArray[indexPath.row];
+        DevicesCellType1 *selectedCell = (DevicesCellType1*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
+        if (!selectedCell.disclosureImageView.hidden) {
+            Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
             [self sprinklerSelected:sprinkler];
+        }
+    } else if (indexPath.section < 1 + self.cloudEmails.count) {
+        DevicesCellType1 *selectedCell = (DevicesCellType1*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
+        if (!selectedCell.disclosureImageView.hidden) {
+            NSArray *sprinklerArray = self.cloudSprinklers[self.cloudEmails[indexPath.section - 1]];
+            Sprinkler *sprinkler = nil;
+            if (sprinklerArray.count > 0) {
+                sprinkler = sprinklerArray[indexPath.row];
+                [self sprinklerSelected:sprinkler];
+            }
         }
     } else if (indexPath.section == 2 + self.cloudEmails.count) {
         if (indexPath.row == 0) {
@@ -622,7 +653,11 @@
                 [[NSUserDefaults standardUserDefaults] setObject:self.cloudServers[self.selectedCloudServerIndex] forKey:kCloudProxyFinderURLKey];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
-                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:oldIndexPath, newIndexPath, nil] withRowAnimation:NO];
+                if (oldIndexPath != newIndexPath) {
+                    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:oldIndexPath, newIndexPath, nil] withRowAnimation:NO];
+                } else {
+                    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:oldIndexPath, nil] withRowAnimation:NO];
+                }
 
                 [self refreshCloudPollingProxy];
             } else {
@@ -631,13 +666,13 @@
                 TRPickerInputView *productSizeSelectionPickerInputView = [TRPickerInputView newPickerInputView];
                 
                 if (indexPath.row == 2) {
-                    productSizeSelectionPickerInputView.identifier = kDebugLocalNetworkDevicesDiscoveryInterval;
+                    productSizeSelectionPickerInputView.identifier = kDebugLocalDevicesDiscoveryInterval;
                 }
                 if (indexPath.row == 3) {
                     productSizeSelectionPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
                 }
                 if (indexPath.row == 4) {
-                    productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutInterval;
+                    productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutRetryCount;
                 }
                 
                 NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:productSizeSelectionPickerInputView.identifier];
@@ -691,9 +726,13 @@
     // TODO: decide upon local/remote type on runtime
     cell.labelInfo.text = @"";
     
-    cell.disclosureImageView.hidden = tableView.isEditing || (![sprinkler.isDiscovered boolValue]);
-    cell.labelMainSubtitle.enabled = [sprinkler.isDiscovered boolValue];
+    BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
+    
+    cell.disclosureImageView.hidden = tableView.isEditing || (isDeviceInactive);
+//    cell.labelMainSubtitle.enabled = [sprinkler.isDiscovered boolValue];
     cell.labelInfo.hidden = tableView.isEditing;
+    cell.labelMainTitle.textColor = isDeviceInactive ? [UIColor lightGrayColor] : [UIColor blackColor];
+    cell.labelMainSubtitle.textColor = cell.labelMainTitle.textColor;
     
     if (tableView.isEditing && [self tableView:tableView canEditRowAtIndexPath:indexPath]) {
         cell.disclosureImageView.hidden = NO;
@@ -739,13 +778,14 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self hideHud];
 //    NSError *e = nil;
-//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"me@tremend.ro\",\"sprinklers\":[{\"sprinklerName\":\"sprinkler196\",\"mac\":\"6470021a146d\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
+//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"me@tremend.ro\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"80:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
 //    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];//data;
     
     // The cloud is continuosly pulled, so if the table finished editing the cloud state will refresh at the next timer poll
     if (!self.tableView.isEditing) {
-        NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
+        [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
         // Mark all cloud devices is a cloud device as not alive
+        NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
         for (Sprinkler *sprinkler in aliveRemoteDevices) {
             if (sprinkler.email) {
                 sprinkler.isDiscovered = @NO;
@@ -766,23 +806,20 @@
                     }
                 }
                 port = port ? port : @"443";
-                Sprinkler *localSprinkler = [[StorageManager current] getSprinklerBasedOnMAC:sprinklerInfo[@"mac"] local:@YES];
-                // If MAC-s are the same: local has priority
-                if (!localSprinkler) {
-                    // Add or update the remote sprinkler
-                    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"name"] address:address port:port local:@NO email:email];
-                    if (!sprinkler) {
-                        sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
-                    } else {
-                        if (address) {
-                            sprinkler.address = address;
-                        }
-                        sprinkler.port = port;
+                // Add or update the remote sprinkler
+                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"name"] address:address port:port local:@NO email:email];
+                if (!sprinkler) {
+                    sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
+                } else {
+                    if (address) {
+                        sprinkler.address = address;
                     }
-                    
-                    sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
-                    sprinkler.isDiscovered = @YES;
+                    sprinkler.port = port;
                 }
+                
+                sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
+                sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
+                sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
             }
         }
         

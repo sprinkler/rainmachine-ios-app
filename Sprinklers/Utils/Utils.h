@@ -19,6 +19,10 @@
 + (NSString*)currentSprinklerURL;
 + (Sprinkler *)currentSprinkler;
 
++ (BOOL)isDeviceInactive:(Sprinkler*)sprinkler;
++ (BOOL)isManuallyAddedDevice:(Sprinkler*)sprinkler;
++ (BOOL)isCloudDevice:(Sprinkler*)sprinkler;
++ (BOOL)isLocallyDiscoveredDevice:(Sprinkler*)sprinkler;
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (int)fixedRoundedToMinutesZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
@@ -26,6 +30,8 @@
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;
 + (NSString*)getPort:(NSString*)address;
++ (NSString*)activeDevicesPredicate;
++ (NSString*)inactiveDevicesPredicate;
 + (NSString*)fixedSprinklerAddress:(NSString*)address;
 + (NSArray*)remoteSprinklersFilter:(NSArray*)sprinklers;
 + (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays;

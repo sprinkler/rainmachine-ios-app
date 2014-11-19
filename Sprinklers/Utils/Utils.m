@@ -38,6 +38,26 @@
     return rs;
 }
 
++ (BOOL)isDeviceInactive:(Sprinkler*)sprinkler
+{
+    return ([sprinkler.nrOfFailedConsecutiveDiscoveries intValue] >= [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]);
+}
+
++ (BOOL)isManuallyAddedDevice:(Sprinkler*)sprinkler
+{
+    return (![sprinkler.isLocalDevice boolValue]) && (!(sprinkler.email));
+}
+
++ (BOOL)isLocallyDiscoveredDevice:(Sprinkler*)sprinkler
+{
+    return [sprinkler.isLocalDevice boolValue];
+}
+
++ (BOOL)isCloudDevice:(Sprinkler*)sprinkler
+{
+    return (![sprinkler.isLocalDevice boolValue]) && (sprinkler.email);
+}
+
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId
 {
     if ([zoneName length] == 0) {
@@ -70,6 +90,16 @@
     }
     
     return nil;
+}
+
++ (NSString*)activeDevicesPredicate
+{
+    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries < %d", [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]];
+}
+
++ (NSString*)inactiveDevicesPredicate
+{
+    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries >= %d", [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]];
 }
 
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler

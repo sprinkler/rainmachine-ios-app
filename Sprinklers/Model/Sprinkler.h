@@ -2,7 +2,7 @@
 //  Sprinkler.h
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 16/11/14.
+//  Created by Fabian Matyas on 17/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSString * port;
 @property (nonatomic, retain) NSString * sprinklerId;
 @property (nonatomic, retain) NSString * username;
+@property (nonatomic, retain) NSNumber * nrOfFailedConsecutiveDiscoveries;
 @property (nonatomic, retain) NSSet *zones;
 @end
 

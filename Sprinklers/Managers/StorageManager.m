@@ -40,6 +40,7 @@ static StorageManager *current = nil;
     sprinkler.port = port;
     sprinkler.isLocalDevice = isLocal;
     sprinkler.isDiscovered = @YES;
+    sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
     sprinkler.email = email;
     sprinkler.mac = mac;
 
@@ -79,6 +80,31 @@ static StorageManager *current = nil;
     }
     
     return NO;
+}
+
+- (void)increaseFailedCountersForDevicesOnNetwork:(NetworkType)networkType onlySprinklersWithEmail:(BOOL)onlySprinklersWithEmail
+{
+    NSArray *sprinklers;
+    if (networkType == NetworkType_All) {
+        sprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
+    } else {
+        sprinklers = [self getSprinklersFromNetwork:networkType aliveDevices:@YES];
+    }
+    
+    for (Sprinkler *sprinkler in sprinklers) {
+        BOOL increase = YES;
+        if (onlySprinklersWithEmail) {
+            increase = (sprinkler.email != nil);
+        }
+
+        // The increasing of failed attempts should be done only for cloud or local, because only these are discoverable
+        increase &= (([Utils isCloudDevice:sprinkler]) || ([Utils isLocallyDiscoveredDevice:sprinkler]));
+        
+        if (increase) {
+            NSInteger newValue = MIN([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] integerValue], sprinkler.nrOfFailedConsecutiveDiscoveries.integerValue+1);
+            sprinkler.nrOfFailedConsecutiveDiscoveries = [NSNumber numberWithInteger:newValue];
+        }
+    }
 }
 
 - (Sprinkler *)getSprinklerBasedOnId:(NSString *)sprinklerId local:(NSNumber*)local {
@@ -160,17 +186,24 @@ static StorageManager *current = nil;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
 
-    NSString *isDiscoveredFilter = [aliveDevices boolValue] ? @"isDiscovered == YES" : @"(isDiscovered == NO OR isDiscovered == nil)";
+    NSString *isDiscoveredFilter = nil;//[aliveDevices boolValue] ? [Utils activeCloudDevicesPredicate] : [Utils inactiveCloudDevicesPredicate];
 
     if (networkType != NetworkType_All) {
         NSString *isLocalDeviceFilter = (networkType == NetworkType_Local) ? @"isLocalDevice == YES" : @"(isLocalDevice == NO OR isLocalDevice == nil)";
-        NSString *predicateFormat = [NSString stringWithFormat:@"%@ AND %@", isLocalDeviceFilter, isDiscoveredFilter];
+        NSString *predicateFormat;
+        if (isDiscoveredFilter) {
+           predicateFormat = [NSString stringWithFormat:@"%@ AND %@", isLocalDeviceFilter, isDiscoveredFilter];
+        } else {
+            predicateFormat = [NSString stringWithFormat:@"%@", isLocalDeviceFilter];
+        }
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
         [fetchRequest setPredicate:predicate];
     } else {
-        NSString *predicateFormat = [NSString stringWithFormat:@"%@", isDiscoveredFilter];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
-        [fetchRequest setPredicate:predicate];
+        if (isDiscoveredFilter) {
+            NSString *predicateFormat = [NSString stringWithFormat:@"%@", isDiscoveredFilter];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
+            [fetchRequest setPredicate:predicate];
+        }
     }
     
     NSSortDescriptor *sort0 = [[NSSortDescriptor alloc] initWithKey:@"isLocalDevice" ascending:NO];
@@ -500,6 +533,23 @@ static StorageManager *current = nil;
     return model;
 }
 
+- (void)fixAutomaticMigrationValues
+{
+    NSArray* array = [self getAllSprinklersFromNetwork];
+    BOOL doSave = NO;
+    for (int i=0; i<array.count; i++) {
+        Sprinkler* sprinkler = [array objectAtIndex: i];
+        if (sprinkler.nrOfFailedConsecutiveDiscoveries == nil) {
+            sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
+            doSave = YES;
+        }
+    }
+    
+    if (doSave) {
+        [self saveData];
+    }
+}
+
 - (void) setAllSprinklersDiscovered
 {
     NSArray* array = [self getAllSprinklersFromNetwork];
@@ -676,6 +726,8 @@ static StorageManager *current = nil;
         abort();
     }
     
+    [self fixAutomaticMigrationValues];
+
     // run once code
     if (storeNeedsToRelocate) {
         [self removeDuplicates];
