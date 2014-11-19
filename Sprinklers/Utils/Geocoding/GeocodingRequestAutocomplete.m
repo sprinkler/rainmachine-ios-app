@@ -20,6 +20,8 @@
     self = [super initWithParameters:[NSDictionary dictionaryWithObjectsAndKeys:inputString,@"input",@"(cities)",@"types",nil]];
     if (!self) return nil;
     
+    _inputString = inputString;
+    
     return self;
 }
 

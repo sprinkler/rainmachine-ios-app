@@ -15,6 +15,7 @@
 #import "GeocodingRequest.h"
 #import "GeocodingRequestReverse.h"
 #import "GeocodingRequestAutocomplete.h"
+#import "GeocodingRequestPlaceDetails.h"
 #import "MBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
 
@@ -34,6 +35,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 
 - (BOOL)initializeLocationServices;
 - (void)displayLocationServicesDisabledAlert;
+- (void)moveCameraToLocation:(CLLocation*)location animated:(BOOL)animate;
 
 @property (nonatomic, assign) BOOL startLocationFound;
 @property (nonatomic, strong) GeocodingAddress *selectedLocation;
@@ -101,23 +103,16 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
         self.startLocationFound = YES;
         [self.mapView removeObserver:self forKeyPath:@"myLocation"];
         
-        float zoom = [GMSCameraPosition zoomAtCoordinate:self.mapView.myLocation.coordinate
-                                               forMeters:LocationSetup_MapView_StartRegionSizeMeters
-                                               perPoints:self.mapView.bounds.size.width];
-        
-        [self.mapView animateToCameraPosition:[GMSCameraPosition cameraWithLatitude:self.mapView.myLocation.coordinate.latitude
-                                                                          longitude:self.mapView.myLocation.coordinate.longitude
-                                                                               zoom:zoom]];
+        [self moveCameraToLocation:self.mapView.myLocation animated:YES];
         
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideHUDAddedToView) object:nil];
         [[GeocodingRequestReverse reverseGeocodingRequestWithLocation:self.mapView.myLocation] executeRequestWithCompletionHandler:^(GeocodingAddress *result, NSError *error) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (error) return;
             
-            if (!error) {
-                self.selectedLocation = result;
-                self.locationSearchBar.placeholder = [self displayStringForLocation:self.selectedLocation];
-                [self markSelectedLocationAnimated:YES];
-            }
+            self.selectedLocation = result;
+            self.locationSearchBar.placeholder = [self displayStringForLocation:self.selectedLocation];
+            [self markSelectedLocationAnimated:YES];
         }];
     }
 }
@@ -155,6 +150,19 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
                                                   otherButtonTitles:nil];
         [alertView show];
     }
+}
+
+- (void)moveCameraToLocation:(CLLocation*)location animated:(BOOL)animate {
+    float zoom = [GMSCameraPosition zoomAtCoordinate:location.coordinate
+                                           forMeters:LocationSetup_MapView_StartRegionSizeMeters
+                                           perPoints:self.mapView.bounds.size.width];
+    
+    GMSCameraPosition *cameraPosition = [GMSCameraPosition cameraWithLatitude:location.coordinate.latitude
+                                                                    longitude:location.coordinate.longitude
+                                                                         zoom:zoom];
+    
+    if (animate) [self.mapView animateToCameraPosition:cameraPosition];
+    else self.mapView.camera = cameraPosition;
 }
 
 - (void)markSelectedLocationAnimated:(BOOL)animate {
@@ -202,6 +210,12 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
     return NO;
 }
 
+#pragma  mark - Search bar delegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar {
+    if (self.selectedLocation) [self moveCameraToLocation:self.selectedLocation.location animated:YES];
+}
+
 #pragma mark - Table view datasource
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
@@ -233,12 +247,27 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.searchDisplayController setActive:NO animated:YES];
+    
+    GeocodingAutocompletePrediction *prediction = self.autocompletePredictions[indexPath.row];
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[GeocodingRequestPlaceDetails placeDetailsGeocodingRequestWithAutocompletePrediction:prediction] executeRequestWithCompletionHandler:^(GeocodingAddress *result, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if (error) return;
+        
+        self.selectedLocation = result;
+        self.locationSearchBar.placeholder = [self displayStringForLocation:self.selectedLocation];
+        [self markSelectedLocationAnimated:YES];
+        
+        [self moveCameraToLocation:result.location animated:YES];
+    }];
 }
 
 #pragma mark - Actions
 
 - (IBAction)onNext:(id)sender {
-    
+    // self.selectedLocation contains the selected location
 }
 
 @end

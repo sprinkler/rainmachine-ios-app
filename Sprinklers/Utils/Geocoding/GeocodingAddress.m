@@ -43,6 +43,11 @@
         }
         else if ([types containsObject:@"postal_code"]) self.postalCode = longName;
     }
+    
+    NSDictionary *geometry = [dictionary valueForKey:@"geometry"];
+    NSDictionary *location = [geometry valueForKey:@"location"];
+    self.location = [[CLLocation alloc] initWithLatitude:[[location valueForKey:@"lat"] doubleValue]
+                                               longitude:[[location valueForKey:@"lng"] doubleValue]];
 }
 
 @end

@@ -10,6 +10,8 @@
 
 @interface GeocodingRequestAutocomplete : GeocodingRequest
 
+@property (nonatomic, strong) NSString *inputString;
+
 + (instancetype)autocompleteGeocodingRequestWithInputString:(NSString*)inputString;
 - (instancetype)initWithInputString:(NSString*)inputString;
 

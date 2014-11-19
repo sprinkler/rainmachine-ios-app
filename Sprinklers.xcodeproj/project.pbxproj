@@ -51,6 +51,7 @@
 		96AD36391A1CDBCC0019453C /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD36381A1CDBCC0019453C /* libicucore.dylib */; };
 		96AD363B1A1CDBD40019453C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD363A1A1CDBD40019453C /* libz.dylib */; };
 		96AD36411A1CFC0F0019453C /* GeocodingAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD36401A1CFC0F0019453C /* GeocodingAutocompletePrediction.m */; };
+		96AD36471A1D0D730019453C /* GeocodingRequestPlaceDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD36461A1D0D730019453C /* GeocodingRequestPlaceDetails.m */; };
 		96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239C19D7080900683AC6 /* HourlyRestriction.m */; };
 		96C223A119D7223700683AC6 /* MonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239F19D7223700683AC6 /* MonthsVC.m */; };
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
@@ -379,6 +380,8 @@
 		96AD363A1A1CDBD40019453C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		96AD363F1A1CFC0F0019453C /* GeocodingAutocompletePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingAutocompletePrediction.h; sourceTree = "<group>"; };
 		96AD36401A1CFC0F0019453C /* GeocodingAutocompletePrediction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingAutocompletePrediction.m; sourceTree = "<group>"; };
+		96AD36451A1D0D730019453C /* GeocodingRequestPlaceDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequestPlaceDetails.h; sourceTree = "<group>"; };
+		96AD36461A1D0D730019453C /* GeocodingRequestPlaceDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequestPlaceDetails.m; sourceTree = "<group>"; };
 		96C2239B19D7080900683AC6 /* HourlyRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HourlyRestriction.h; path = "Communication/Response objects/HourlyRestriction.h"; sourceTree = "<group>"; };
 		96C2239C19D7080900683AC6 /* HourlyRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HourlyRestriction.m; path = "Communication/Response objects/HourlyRestriction.m"; sourceTree = "<group>"; };
 		96C2239E19D7223700683AC6 /* MonthsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonthsVC.h; path = ViewController/MonthsVC.h; sourceTree = "<group>"; };
@@ -827,10 +830,12 @@
 				96AD36401A1CFC0F0019453C /* GeocodingAutocompletePrediction.m */,
 				96AD34D61A1CB1500019453C /* GeocodingRequest.h */,
 				96AD34D71A1CB1500019453C /* GeocodingRequest.m */,
-				96AD34D81A1CB1500019453C /* GeocodingRequestAutocomplete.h */,
-				96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */,
 				96AD34DA1A1CB1500019453C /* GeocodingRequestReverse.h */,
 				96AD34DB1A1CB1500019453C /* GeocodingRequestReverse.m */,
+				96AD34D81A1CB1500019453C /* GeocodingRequestAutocomplete.h */,
+				96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */,
+				96AD36451A1D0D730019453C /* GeocodingRequestPlaceDetails.h */,
+				96AD36461A1D0D730019453C /* GeocodingRequestPlaceDetails.m */,
 			);
 			path = Geocoding;
 			sourceTree = "<group>";
@@ -1741,6 +1746,7 @@
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
+				96AD36471A1D0D730019453C /* GeocodingRequestPlaceDetails.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
