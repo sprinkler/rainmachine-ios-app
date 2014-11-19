@@ -33,7 +33,11 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 - (void)displayLocationServicesDisabledAlert;
 
 @property (nonatomic, assign) BOOL startLocationFound;
-@property (nonatomic, strong) NSString *lastSelectedLocation;
+@property (nonatomic, strong) GMSAddress *selectedLocation;
+@property (nonatomic, strong) GMSMarker *selectedLocationMarker;
+
+- (void)markSelectedLocationAnimated:(BOOL)animate;
+- (NSString*)displayStringForLocation:(GMSAddress*)location;
 
 @end
 
@@ -108,9 +112,9 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
             
             
             if (geocodeResponse) {
-                GMSAddress *address = geocodeResponse.firstResult;
-                self.locationSearchBar.placeholder = address.locality;
-                self.lastSelectedLocation = address.locality;
+                self.selectedLocation = geocodeResponse.firstResult;
+                self.locationSearchBar.placeholder = [self displayStringForLocation:self.selectedLocation];
+                [self markSelectedLocationAnimated:YES];
             }
         }];
     }
@@ -151,6 +155,25 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
     }
 }
 
+- (void)markSelectedLocationAnimated:(BOOL)animate {
+    if (!self.selectedLocation) return;
+    
+    self.selectedLocationMarker.map = nil;
+    self.selectedLocationMarker = [GMSMarker markerWithPosition:self.selectedLocation.coordinate];
+    self.selectedLocationMarker.title = [self displayStringForLocation:self.selectedLocation];
+    self.selectedLocationMarker.map = self.mapView;
+    
+    if (animate) self.selectedLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
+}
+
+- (NSString*)displayStringForLocation:(GMSAddress*)location {
+    NSMutableArray *locationStringComponents = [NSMutableArray new];
+    if (location.locality.length) [locationStringComponents addObject:location.locality];
+    if (location.administrativeArea.length) [locationStringComponents addObject:location.administrativeArea];
+    if (location.postalCode.length) [locationStringComponents addObject:location.postalCode];
+    return [locationStringComponents componentsJoinedByString:@", "];
+}
+
 #pragma mark - Search display controller delegate
 
 - (void)reloadAutocompleteResultsForSearchString:(NSString*)searchString {
@@ -164,15 +187,6 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
     self.lastAutocompleteSearchString = searchString;
     
     return YES;
-}
-
-#pragma mark - Search bar delegate
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar*)searchBar {
 }
 
 #pragma mark - Table view datasource
