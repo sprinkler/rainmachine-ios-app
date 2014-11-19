@@ -19,9 +19,9 @@
 #import "MBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
 
-const double LocationSetup_MapView_InitializeTimeout                = 5.0;
+const double LocationSetup_MapView_InitializeTimeout                = 3.0;
 const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
-const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
+const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 #pragma mark -
 
