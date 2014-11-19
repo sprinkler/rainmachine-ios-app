@@ -124,7 +124,6 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection {
     NSDictionary *responseDictionary = [self parseResponseData:self.responseData];
-    NSLog(@"RESPONSE - %@",responseDictionary);
     self.responseData = nil;
     id result = [self resultFromDictionary:responseDictionary];
     if (self.completionHandler) self.completionHandler(result, nil);
