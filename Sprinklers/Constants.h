@@ -16,9 +16,9 @@
 #define keepAliveTimeout    0
 
 extern NSString *const kDebugNewAPIVersion;
-extern NSString *const kDebugLocalNetworkDevicesDiscoveryInterval;
+extern NSString *const kDebugLocalDevicesDiscoveryInterval;
 extern NSString *const kDebugCloudDevicesDiscoveryInterval;
-extern NSString *const kDebugDeviceGreyOutInterval;
+extern NSString *const kDebugDeviceGreyOutRetryCount;
 
 extern NSString* const TestServerURL;
 extern NSString* const TestServerPort;
@@ -56,9 +56,9 @@ extern CGFloat kButtonBlueTintColor[3];
 
 extern NSString* const kCustomRMFontName;
 
-extern int const kNetworkDevicesDiscoveryInterval;
+extern int const kLocalDevicesDiscoveryInterval;
 extern int const kCloudDevicesDiscoveryInterval;
-extern int const kDeviceGreyOutInterval;
+extern int const kDeviceGreyOutRetryCount;
 
 extern int const kSprinklerUpdateCheckInterval;
 extern int const kMaxCounterValue;

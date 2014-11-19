@@ -72,6 +72,16 @@
     return nil;
 }
 
++ (NSString*)activeDevicesPredicate
+{
+    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries < %d", [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]];
+}
+
++ (NSString*)inactiveDevicesPredicate
+{
+    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries >= %d", [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]];
+}
+
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler
 {
     return [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];

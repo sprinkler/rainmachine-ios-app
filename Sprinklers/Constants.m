@@ -9,9 +9,9 @@ NSString *const TestServerPort = @"2443"; // 3.59
 //NSString *const TestServerPort = @"65076";
 
 NSString *const kDebugNewAPIVersion = @"DebugNewAPIVersion";
-NSString *const kDebugLocalNetworkDevicesDiscoveryInterval = @"DebugLocalNetworkDevicesDiscoveryInterval";
+NSString *const kDebugLocalDevicesDiscoveryInterval = @"DebugLocalDevicesDiscoveryInterval";
 NSString *const kDebugCloudDevicesDiscoveryInterval = @"DebugCloudDevicesDiscoveryInterval";
-NSString *const kDebugDeviceGreyOutInterval = @"DebugDeviceGreyOutInterval";
+NSString *const kDebugDeviceGreyOutRetryCount = @"DebugDeviceGreyOutRetryCount";
 
 NSString *const kCloudProxyFinderURLKey = @"CloudProxyFinderURLKey";
 NSString *const kCloudProxyFinderStagingURL = @"https://54.186.224.58:9000";
@@ -68,9 +68,9 @@ CGFloat kButtonBlueTintColor[3] = {21.0/255, 122.0/255, 251.0/255};
 
 NSString *const kCustomRMFontName = @"rainmachine";
 
-int const kNetworkDevicesDiscoveryInterval = 3;
+int const kLocalDevicesDiscoveryInterval = 3;
 int const kCloudDevicesDiscoveryInterval = 15;
-int const kDeviceGreyOutInterval = 60;
+int const kDeviceGreyOutRetryCount = 3;
 
 int const kMaxCounterValue = 300 * 60; // In seconds
 int const kSprinklerUpdateCheckInterval = 24 * 60 * 60;
