@@ -30,6 +30,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 @property (nonatomic, strong) NSDate *autocompleteReloadResultsDate;
 @property (nonatomic, strong) NSString *autocompleteSearchString;
 @property (nonatomic, strong) NSArray *autocompletePredictions;
+@property (nonatomic, strong) GeocodingRequestAutocomplete *autocompleteRequest;
 
 - (BOOL)initializeLocationServices;
 - (void)displayLocationServicesDisabledAlert;
@@ -180,8 +181,12 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
 #pragma mark - Search display controller delegate
 
 - (void)reloadAutocompleteResultsForSearchString:(NSString*)searchString {
-    [[GeocodingRequestAutocomplete autocompleteGeocodingRequestWithInputString:searchString] executeRequestWithCompletionHandler:^(NSArray *predictions, NSError *error) {
+    [self.autocompleteRequest cancelRequest];
+    self.autocompleteRequest = [GeocodingRequestAutocomplete autocompleteGeocodingRequestWithInputString:searchString];
+    
+    [self.autocompleteRequest executeRequestWithCompletionHandler:^(NSArray *predictions, NSError *error) {
         self.autocompletePredictions = predictions;
+        self.autocompleteRequest = nil;
         [self.searchDisplayController.searchResultsTableView reloadData];
     }];
     
@@ -194,7 +199,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
     
     self.autocompleteSearchString = searchString;
     
-    return YES;
+    return NO;
 }
 
 #pragma mark - Table view datasource
@@ -213,8 +218,11 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.5;
     
     NSMutableAttributedString *placeDescription = [[NSMutableAttributedString alloc] initWithString:prediction.placeDescription attributes:nil];
     [placeDescription addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17.0] range:NSMakeRange(0, prediction.placeDescription.length)];
-    NSRange searchStringRange = [prediction.placeDescription rangeOfString:self.autocompleteSearchString options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
-    if (searchStringRange.location != NSNotFound) [placeDescription addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17.0] range:searchStringRange];
+    
+    for (NSValue *matchedRangeValue in prediction.matchedRanges) {
+        NSRange matchedRange = matchedRangeValue.rangeValue;
+        [placeDescription addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17.0] range:matchedRange];
+    }
     
     cell.textLabel.attributedText = placeDescription;
     

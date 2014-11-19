@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *placeDescription;
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSString *placeId;
+@property (nonatomic, strong) NSArray *matchedRanges;
 
 + (instancetype)autocompletePredictionWithDictionary:(NSDictionary*)dictionary;
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;

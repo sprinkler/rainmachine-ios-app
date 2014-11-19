@@ -13,7 +13,7 @@ extern NSString *GeocodingRequestResultTypeXml;
 
 typedef void (^GeocodingRequestCompletionHandler)(id result, NSError *error);
 
-@interface GeocodingRequest : NSObject
+@interface GeocodingRequest : NSObject <NSURLConnectionDelegate>
 
 @property (nonatomic, readonly) NSString *geocodingRequestBaseURL;
 @property (nonatomic, readonly) NSString *geocodingAPIKey;
@@ -23,6 +23,7 @@ typedef void (^GeocodingRequestCompletionHandler)(id result, NSError *error);
 + (instancetype)geocodingRequestWithParameters:(NSDictionary*)parameters;
 - (instancetype)initWithParameters:(NSDictionary*)parameters;
 - (void)executeRequestWithCompletionHandler:(GeocodingRequestCompletionHandler)completionHandler;
+- (void)cancelRequest;
 - (id)resultFromDictionary:(NSDictionary*)dictionary;
 
 @end

@@ -27,6 +27,19 @@
     self.placeDescription = [dictionary valueForKey:@"description"];
     self.id = [dictionary valueForKey:@"id"];
     self.placeId = [dictionary valueForKey:@"place_id"];
+    
+    NSArray *matchedSubstrings = [dictionary valueForKey:@"matched_substrings"];
+    NSMutableArray *matchedRanges = [NSMutableArray new];
+    
+    for (NSDictionary *matchingDictionary in matchedSubstrings) {
+        NSInteger offset = [[matchingDictionary valueForKey:@"offset"] integerValue];
+        NSInteger length = [[matchingDictionary valueForKey:@"length"] integerValue];
+        
+        NSRange matchedRange = NSMakeRange(offset, length);
+        [matchedRanges addObject:[NSValue valueWithRange:matchedRange]];
+    }
+    
+    self.matchedRanges = matchedRanges;
 }
 
 @end

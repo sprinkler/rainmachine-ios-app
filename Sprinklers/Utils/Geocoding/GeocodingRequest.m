@@ -22,6 +22,10 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
 - (NSDictionary*)parseJsonData:(NSData*)responseData;
 - (NSDictionary*)parseXmlData:(NSData*)responseData;
 
+@property (nonatomic, copy) GeocodingRequestCompletionHandler completionHandler;
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *responseData;
+
 @end
 
 #pragma mark -
@@ -51,13 +55,16 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
     [request setValue:[NSString stringWithFormat:@"application/%@",self.resultType] forHTTPHeaderField:@"Accept"];
     [request setHTTPMethod:@"GET"];
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        NSDictionary *responseDictionary = nil;
-        id result = nil;
-        if (!connectionError) responseDictionary = [self parseResponseData:data];
-        if (responseDictionary) result = [self resultFromDictionary:responseDictionary];
-        completionHandler(result, connectionError);
-    }];
+    self.completionHandler = completionHandler;
+    
+    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+    self.responseData = [NSMutableData new];
+}
+
+- (void)cancelRequest {
+    [self.connection cancel];
+    self.connection = nil;
+    self.responseData = nil;
 }
 
 - (id)resultFromDictionary:(NSDictionary*)dictionary {
@@ -102,6 +109,25 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
 
 - (NSDictionary*)parseXmlData:(NSData*)responseData {
     return nil;
+}
+
+#pragma mark NSURLConnection delegate
+
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
+    self.responseData = nil;
+    if (self.completionHandler) self.completionHandler(nil, error);
+}
+
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+    [self.responseData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
+    NSDictionary *responseDictionary = [self parseResponseData:self.responseData];
+    NSLog(@"RESPONSE - %@",responseDictionary);
+    self.responseData = nil;
+    id result = [self resultFromDictionary:responseDictionary];
+    if (self.completionHandler) self.completionHandler(result, nil);
 }
 
 @end
