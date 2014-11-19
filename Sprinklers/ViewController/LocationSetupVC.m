@@ -24,7 +24,6 @@ const NSInteger LocationSetup_MapView_StartRegionSizeMeters = 1000.0;
 @interface LocationSetupVC ()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) CLGeocoder *geocoder;
 
 - (BOOL)initializeLocationServices;
 - (void)displayLocationServicesDisabledAlert;
@@ -88,12 +87,11 @@ const NSInteger LocationSetup_MapView_StartRegionSizeMeters = 1000.0;
 - (BOOL)initializeLocationServices {
     if (![CLLocationManager locationServicesEnabled]) return NO;
     
+    self.locationManager = [[CLLocationManager alloc] init];
+    
     if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
         [self.locationManager requestWhenInUseAuthorization];
     }
-    
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.geocoder = [[CLGeocoder alloc] init];
     
     return YES;
 }

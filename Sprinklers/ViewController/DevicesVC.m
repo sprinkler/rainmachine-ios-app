@@ -26,8 +26,9 @@
 #import "AppDelegate.h"
 #import "TimePickerVC.h"
 #import "ServerProxy.h"
+#import "LocationSetupVC.h"
 
-#define kDebugSettingsNrBeforeCloudServer 5
+#define kDebugSettingsNrBeforeCloudServer 6
 
 #define ENABLE_DEBUG_SETTINGS YES
 #define kAlertView_DeleteDevice 1
@@ -546,20 +547,24 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         else if (indexPath.row == 1) {
+            cell.textLabel.text = @"Location";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        else if (indexPath.row == 2) {
             cell.textLabel.text = @"Use New API Version";
             cell.detailTextLabel.text = nil;
             cell.accessoryType = ([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             NSLog(@"cellFor:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
         }
-        else if (indexPath.row == 2) {
+        else if (indexPath.row == 3) {
             cell.textLabel.text = @"Local Devices Discovery Interval";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalDevicesDiscoveryInterval]];
         }
-        else if (indexPath.row == 3) {
+        else if (indexPath.row == 4) {
             cell.textLabel.text = @"Cloud Devices Discovery Interval";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugCloudDevicesDiscoveryInterval]];
         }
-        else if (indexPath.row == 4) {
+        else if (indexPath.row == 5) {
             cell.textLabel.text = @"Device Grey Out Retry Count";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount]];
         } else {
@@ -632,6 +637,10 @@
             // Do nothing
         }
         else if (indexPath.row == 1) {
+            LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
+            [self.navigationController pushViewController:locationSetupVC animated:YES];
+        }
+        else if (indexPath.row == 2) {
             UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
             NSLog(@"didSelect:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
             BOOL prevValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue];
@@ -665,13 +674,13 @@
                 
                 TRPickerInputView *productSizeSelectionPickerInputView = [TRPickerInputView newPickerInputView];
                 
-                if (indexPath.row == 2) {
+                if (indexPath.row == 3) {
                     productSizeSelectionPickerInputView.identifier = kDebugLocalDevicesDiscoveryInterval;
                 }
-                if (indexPath.row == 3) {
+                if (indexPath.row == 4) {
                     productSizeSelectionPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
                 }
-                if (indexPath.row == 4) {
+                if (indexPath.row == 5) {
                     productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutRetryCount;
                 }
                 

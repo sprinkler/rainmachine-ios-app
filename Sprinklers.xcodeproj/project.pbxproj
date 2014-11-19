@@ -33,6 +33,14 @@
 		967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C004419D983870071B4CB /* ProgramCellType6.xib */; };
 		969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969EB3B819DAD11A00D10887 /* CloudServerVC.m */; };
 		969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969EB3B919DAD11A00D10887 /* CloudServerVC.xib */; };
+		96AD34DC1A1CB1500019453C /* GeocodingAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34D51A1CB1500019453C /* GeocodingAddress.m */; };
+		96AD34DD1A1CB1500019453C /* GeocodingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34D71A1CB1500019453C /* GeocodingRequest.m */; };
+		96AD34DE1A1CB1500019453C /* GeocodingRequestAutocomplete.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */; };
+		96AD34DF1A1CB1500019453C /* GeocodingRequestReverse.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34DB1A1CB1500019453C /* GeocodingRequestReverse.m */; };
+		96AD34E31A1CB16E0019453C /* LocationSetupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34E11A1CB16E0019453C /* LocationSetupVC.m */; };
+		96AD34E41A1CB16E0019453C /* LocationSetupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AD34E21A1CB16E0019453C /* LocationSetupVC.xib */; };
+		96AD34E71A1CB20D0019453C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD34E51A1CB20D0019453C /* CoreLocation.framework */; };
+		96AD34E81A1CB20D0019453C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD34E61A1CB20D0019453C /* MapKit.framework */; };
 		96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239C19D7080900683AC6 /* HourlyRestriction.m */; };
 		96C223A119D7223700683AC6 /* MonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239F19D7223700683AC6 /* MonthsVC.m */; };
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
@@ -337,6 +345,19 @@
 		969EB3B719DAD11A00D10887 /* CloudServerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudServerVC.h; path = ViewController/CloudServerVC.h; sourceTree = "<group>"; };
 		969EB3B819DAD11A00D10887 /* CloudServerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudServerVC.m; path = ViewController/CloudServerVC.m; sourceTree = "<group>"; };
 		969EB3B919DAD11A00D10887 /* CloudServerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudServerVC.xib; path = ViewController/CloudServerVC.xib; sourceTree = "<group>"; };
+		96AD34D41A1CB1500019453C /* GeocodingAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingAddress.h; sourceTree = "<group>"; };
+		96AD34D51A1CB1500019453C /* GeocodingAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingAddress.m; sourceTree = "<group>"; };
+		96AD34D61A1CB1500019453C /* GeocodingRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequest.h; sourceTree = "<group>"; };
+		96AD34D71A1CB1500019453C /* GeocodingRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequest.m; sourceTree = "<group>"; };
+		96AD34D81A1CB1500019453C /* GeocodingRequestAutocomplete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequestAutocomplete.h; sourceTree = "<group>"; };
+		96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequestAutocomplete.m; sourceTree = "<group>"; };
+		96AD34DA1A1CB1500019453C /* GeocodingRequestReverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequestReverse.h; sourceTree = "<group>"; };
+		96AD34DB1A1CB1500019453C /* GeocodingRequestReverse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequestReverse.m; sourceTree = "<group>"; };
+		96AD34E01A1CB16E0019453C /* LocationSetupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationSetupVC.h; path = ViewController/LocationSetupVC.h; sourceTree = "<group>"; };
+		96AD34E11A1CB16E0019453C /* LocationSetupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationSetupVC.m; path = ViewController/LocationSetupVC.m; sourceTree = "<group>"; };
+		96AD34E21A1CB16E0019453C /* LocationSetupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LocationSetupVC.xib; path = ViewController/LocationSetupVC.xib; sourceTree = "<group>"; };
+		96AD34E51A1CB20D0019453C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		96AD34E61A1CB20D0019453C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		96C2239B19D7080900683AC6 /* HourlyRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HourlyRestriction.h; path = "Communication/Response objects/HourlyRestriction.h"; sourceTree = "<group>"; };
 		96C2239C19D7080900683AC6 /* HourlyRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HourlyRestriction.m; path = "Communication/Response objects/HourlyRestriction.m"; sourceTree = "<group>"; };
 		96C2239E19D7223700683AC6 /* MonthsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonthsVC.h; path = ViewController/MonthsVC.h; sourceTree = "<group>"; };
@@ -739,6 +760,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96AD34E71A1CB20D0019453C /* CoreLocation.framework in Frameworks */,
+				96AD34E81A1CB20D0019453C /* MapKit.framework in Frameworks */,
 				AF7AC9E4184E3EDF0047BD9E /* SystemConfiguration.framework in Frameworks */,
 				AF7AC9E2184E3ECE0047BD9E /* MobileCoreServices.framework in Frameworks */,
 				B1583E7916A8049F0051B480 /* QuartzCore.framework in Frameworks */,
@@ -764,6 +787,21 @@
 			);
 			name = "programs-cell";
 			path = "Resources/programs-cell";
+			sourceTree = "<group>";
+		};
+		96AD34D31A1CB1500019453C /* Geocoding */ = {
+			isa = PBXGroup;
+			children = (
+				96AD34D41A1CB1500019453C /* GeocodingAddress.h */,
+				96AD34D51A1CB1500019453C /* GeocodingAddress.m */,
+				96AD34D61A1CB1500019453C /* GeocodingRequest.h */,
+				96AD34D71A1CB1500019453C /* GeocodingRequest.m */,
+				96AD34D81A1CB1500019453C /* GeocodingRequestAutocomplete.h */,
+				96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */,
+				96AD34DA1A1CB1500019453C /* GeocodingRequestReverse.h */,
+				96AD34DB1A1CB1500019453C /* GeocodingRequestReverse.m */,
+			);
+			path = Geocoding;
 			sourceTree = "<group>";
 		};
 		AF167D63189AD711003E659D /* Update */ = {
@@ -841,6 +879,7 @@
 		AF5D799D185CEBB900A49CF7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				96AD34D31A1CB1500019453C /* Geocoding */,
 				AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */,
 				AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */,
 				AF7782C2184CD3DE00DCBD54 /* Constants.h */,
@@ -931,7 +970,6 @@
 				B1EF21061860491800D9CE26 /* Devices */,
 				B1EF21131860495E00D9CE26 /* Settings */,
 				B1EF21111860494E00D9CE26 /* Stats */,
-				B1EF21121860495300D9CE26 /* WaterNow */,
 				B1213EA918607F32009D97F4 /* BaseViewController.h */,
 				B1213EAA18607F32009D97F4 /* BaseViewController.m */,
 				B1213EAC1860804E009D97F4 /* BaseLevel2ViewController.h */,
@@ -939,6 +977,7 @@
 				AF73880718E08ADE00F184A9 /* BaseNetworkHandlingVC.h */,
 				AF73880818E08ADE00F184A9 /* BaseNetworkHandlingVC.m */,
 				AF02F87D18BF4DA800579CAF /* RMNavigationController.h */,
+				B1EF21121860495300D9CE26 /* WaterNow */,
 				AF02F87E18BF4DA800579CAF /* RMNavigationController.m */,
 			);
 			name = ViewControllers;
@@ -1196,6 +1235,8 @@
 		B1DF324A16A6A68700A1BF38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96AD34E51A1CB20D0019453C /* CoreLocation.framework */,
+				96AD34E61A1CB20D0019453C /* MapKit.framework */,
 				AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */,
 				AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */,
 				B1DF325116A6A68700A1BF38 /* CoreData.framework */,
@@ -1314,6 +1355,9 @@
 				969EB3B719DAD11A00D10887 /* CloudServerVC.h */,
 				969EB3B819DAD11A00D10887 /* CloudServerVC.m */,
 				969EB3B919DAD11A00D10887 /* CloudServerVC.xib */,
+				96AD34E01A1CB16E0019453C /* LocationSetupVC.h */,
+				96AD34E11A1CB16E0019453C /* LocationSetupVC.m */,
+				96AD34E21A1CB16E0019453C /* LocationSetupVC.xib */,
 			);
 			name = Devices;
 			sourceTree = "<group>";
@@ -1613,6 +1657,7 @@
 				AF4826981990DC9500D80B87 /* skc.png in Resources */,
 				B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */,
 				AF4826791990DC9500D80B87 /* nbkn.png in Resources */,
+				96AD34E41A1CB16E0019453C /* LocationSetupVC.xib in Resources */,
 				AF48268F1990DC9500D80B87 /* ra1.png in Resources */,
 				AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */,
 			);
@@ -1685,12 +1730,15 @@
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,
 				AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */,
 				AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */,
+				96AD34DF1A1CB1500019453C /* GeocodingRequestReverse.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
 				AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */,
 				AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */,
 				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,
+				96AD34E31A1CB16E0019453C /* LocationSetupVC.m in Sources */,
+				96AD34DC1A1CB1500019453C /* GeocodingAddress.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZoneVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
@@ -1727,6 +1775,7 @@
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
+				96AD34DD1A1CB1500019453C /* GeocodingRequest.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
 				AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
@@ -1744,6 +1793,7 @@
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */,
+				96AD34DE1A1CB1500019453C /* GeocodingRequestAutocomplete.m in Sources */,
 				AF927C9019C84B91009C59EA /* CloudUtils.m in Sources */,
 				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,
 				AF61117B19C62D55008AA62B /* ProgramWateringTimes4.m in Sources */,
