@@ -17,7 +17,7 @@
 }
 
 - (instancetype)initWithInputString:(NSString*)inputString {
-    self = [super initWithParameters:[NSDictionary dictionaryWithObjectsAndKeys:inputString,@"input",@"(cities)",@"types",nil]];
+    self = [super initWithParameters:[NSDictionary dictionaryWithObjectsAndKeys:inputString,@"input",nil]];
     if (!self) return nil;
     
     _inputString = inputString;

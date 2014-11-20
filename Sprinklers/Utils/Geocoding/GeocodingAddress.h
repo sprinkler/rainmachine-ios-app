@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+
 @interface GeocodingAddress : NSObject
 
 @property (nonatomic, strong) CLLocation *location;

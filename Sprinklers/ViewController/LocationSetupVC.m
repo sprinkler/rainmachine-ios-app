@@ -43,6 +43,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)markSelectedLocationAnimated:(BOOL)animate;
 - (NSString*)displayStringForLocation:(GeocodingAddress*)location;
+- (void)updateLocationSearchBar;
 
 @end
 
@@ -78,7 +79,6 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     self.mapView.settings.myLocationButton = YES;
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     [self performSelector:@selector(hideHUDAddedToView) withObject:nil afterDelay:LocationSetup_MapView_InitializeTimeout];
 }
 
@@ -111,7 +111,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
             if (error) return;
             
             self.selectedLocation = result;
-            self.locationSearchBar.placeholder = [self displayStringForLocation:self.selectedLocation];
+            [self updateLocationSearchBar];
             [self markSelectedLocationAnimated:YES];
         }];
     }
@@ -170,7 +170,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     
     self.selectedLocationMarker.map = nil;
     self.selectedLocationMarker = [GMSMarker markerWithPosition:self.selectedLocation.location.coordinate];
-    self.selectedLocationMarker.title = [self displayStringForLocation:self.selectedLocation];
+    self.selectedLocationMarker.snippet = [self displayStringForLocation:self.selectedLocation];
     self.selectedLocationMarker.map = self.mapView;
     
     if (animate) self.selectedLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
@@ -178,12 +178,18 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (NSString*)displayStringForLocation:(GeocodingAddress*)location {
     NSMutableArray *locationStringComponents = [NSMutableArray new];
+    if (location.route.length) [locationStringComponents addObject:location.route];
     if (location.locality.length) [locationStringComponents addObject:location.locality];
     if (location.administrativeAreaLevel1Short.length) [locationStringComponents addObject:location.administrativeAreaLevel1Short];
     else if (location.administrativeAreaLevel1.length) [locationStringComponents addObject:location.administrativeAreaLevel1];
     if (location.postalCode.length) [locationStringComponents addObject:location.postalCode];
     if (location.country.length) [locationStringComponents addObject:location.country];
     return [locationStringComponents componentsJoinedByString:@", "];
+}
+
+- (void)updateLocationSearchBar {
+    self.locationSearchBar.text = [self displayStringForLocation:self.selectedLocation];
+    self.locationSearchBar.placeholder = (self.locationSearchBar.text.length ? nil : @"Select your location");
 }
 
 #pragma mark - Search display controller delegate
@@ -214,6 +220,16 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar {
     if (self.selectedLocation) [self moveCameraToLocation:self.selectedLocation.location animated:YES];
+    searchBar.text = nil;
+    searchBar.placeholder = nil;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar*)searchBar {
+    [self updateLocationSearchBar];
+}
+
+- (BOOL)searchBar:(UISearchBar*)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text {
+    return self.searchDisplayController.isActive;
 }
 
 #pragma mark - Table view datasource
@@ -257,7 +273,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
         if (error) return;
         
         self.selectedLocation = result;
-        self.locationSearchBar.placeholder = [self displayStringForLocation:self.selectedLocation];
+        [self updateLocationSearchBar];
         [self markSelectedLocationAnimated:YES];
         
         [self moveCameraToLocation:result.location animated:YES];
