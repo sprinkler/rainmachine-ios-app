@@ -172,18 +172,28 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     self.selectedLocationMarker = [GMSMarker markerWithPosition:self.selectedLocation.location.coordinate];
     self.selectedLocationMarker.snippet = [self displayStringForLocation:self.selectedLocation];
     self.selectedLocationMarker.map = self.mapView;
+    self.mapView.selectedMarker = self.selectedLocationMarker;
     
     if (animate) self.selectedLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
 }
 
 - (NSString*)displayStringForLocation:(GeocodingAddress*)location {
     NSMutableArray *locationStringComponents = [NSMutableArray new];
-    if (location.route.length) [locationStringComponents addObject:location.route];
-    if (location.locality.length) [locationStringComponents addObject:location.locality];
+    
+    if (location.premise.length) [locationStringComponents addObject:location.premise];
+    if (location.route.length && location.streetNumber.length) [locationStringComponents addObject:[NSString stringWithFormat:@"%@ %@",location.route,location.streetNumber]];
+    else if (location.route.length) [locationStringComponents addObject:location.route];
+    else if (location.streetNumber.length) [locationStringComponents addObject:location.streetNumber];
+    
+    if (location.locality.length && location.postalCode.length) [locationStringComponents addObject:[NSString stringWithFormat:@"%@ %@",location.locality,location.postalCode]];
+    else if (location.locality.length) [locationStringComponents addObject:location.locality];
+    else if (location.postalCode.length) [locationStringComponents addObject:location.postalCode];
+    
     if (location.administrativeAreaLevel1Short.length) [locationStringComponents addObject:location.administrativeAreaLevel1Short];
     else if (location.administrativeAreaLevel1.length) [locationStringComponents addObject:location.administrativeAreaLevel1];
-    if (location.postalCode.length) [locationStringComponents addObject:location.postalCode];
+    
     if (location.country.length) [locationStringComponents addObject:location.country];
+    
     return [locationStringComponents componentsJoinedByString:@", "];
 }
 

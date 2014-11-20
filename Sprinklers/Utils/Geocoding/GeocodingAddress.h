@@ -12,6 +12,8 @@
 @interface GeocodingAddress : NSObject
 
 @property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, strong) NSString *premise;
+@property (nonatomic, strong) NSString *streetNumber;
 @property (nonatomic, strong) NSString *route;
 @property (nonatomic, strong) NSString *neighborhood;
 @property (nonatomic, strong) NSString *locality;

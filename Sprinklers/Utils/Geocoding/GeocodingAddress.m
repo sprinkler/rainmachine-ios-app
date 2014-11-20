@@ -29,7 +29,10 @@
         NSString *longName = [addressComponent valueForKey:@"long_name"];
         NSString *shortName = [addressComponent valueForKey:@"short_name"];
         NSArray *types = [addressComponent valueForKey:@"types"];
-        if ([types containsObject:@"route"]) self.route = longName;
+        
+        if ([types containsObject:@"premise"]) self.premise = longName;
+        else if ([types containsObject:@"street_number"]) self.streetNumber = longName;
+        else if ([types containsObject:@"route"]) self.route = longName;
         else if ([types containsObject:@"neighborhood"]) self.neighborhood = longName;
         else if ([types containsObject:@"locality"]) self.locality = longName;
         else if ([types containsObject:@"administrative_area_level_1"]) {
