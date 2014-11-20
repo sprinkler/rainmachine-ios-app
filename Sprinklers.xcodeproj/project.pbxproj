@@ -37,6 +37,12 @@
 		964ADD111A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD051A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m */; };
 		964ADD121A1E5AA5008281A8 /* GoogleRequestTimezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD071A1E5AA5008281A8 /* GoogleRequestTimezone.m */; };
 		964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD091A1E5AA5008281A8 /* GoogleTimezone.m */; };
+		964ADD291A1E7B82008281A8 /* FieldCapacityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD241A1E7B82008281A8 /* FieldCapacityCell.m */; };
+		964ADD2A1A1E7B82008281A8 /* FieldCapacityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 964ADD251A1E7B82008281A8 /* FieldCapacityCell.xib */; };
+		964ADD2B1A1E7B82008281A8 /* RainSensitivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD271A1E7B82008281A8 /* RainSensitivityCell.m */; };
+		964ADD2C1A1E7B82008281A8 /* RainSensitivityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 964ADD281A1E7B82008281A8 /* RainSensitivityCell.xib */; };
+		964ADD301A1E7BA1008281A8 /* RainSensitivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */; };
+		964ADD311A1E7BA1008281A8 /* RainSensitivityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */; };
 		9672C3A319D8069D00236DFB /* RestrictionsCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */; };
 		9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */; };
 		967C004519D983870071B4CB /* ProgramCellType6.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C004319D983870071B4CB /* ProgramCellType6.m */; };
@@ -371,6 +377,15 @@
 		964ADD071A1E5AA5008281A8 /* GoogleRequestTimezone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleRequestTimezone.m; sourceTree = "<group>"; };
 		964ADD081A1E5AA5008281A8 /* GoogleTimezone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleTimezone.h; sourceTree = "<group>"; };
 		964ADD091A1E5AA5008281A8 /* GoogleTimezone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleTimezone.m; sourceTree = "<group>"; };
+		964ADD231A1E7B82008281A8 /* FieldCapacityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FieldCapacityCell.h; path = Cells/FieldCapacityCell.h; sourceTree = "<group>"; };
+		964ADD241A1E7B82008281A8 /* FieldCapacityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FieldCapacityCell.m; path = Cells/FieldCapacityCell.m; sourceTree = "<group>"; };
+		964ADD251A1E7B82008281A8 /* FieldCapacityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FieldCapacityCell.xib; path = Cells/FieldCapacityCell.xib; sourceTree = "<group>"; };
+		964ADD261A1E7B82008281A8 /* RainSensitivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainSensitivityCell.h; path = Cells/RainSensitivityCell.h; sourceTree = "<group>"; };
+		964ADD271A1E7B82008281A8 /* RainSensitivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainSensitivityCell.m; path = Cells/RainSensitivityCell.m; sourceTree = "<group>"; };
+		964ADD281A1E7B82008281A8 /* RainSensitivityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RainSensitivityCell.xib; path = Cells/RainSensitivityCell.xib; sourceTree = "<group>"; };
+		964ADD2D1A1E7BA1008281A8 /* RainSensitivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainSensitivityVC.h; path = ViewController/RainSensitivityVC.h; sourceTree = "<group>"; };
+		964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainSensitivityVC.m; path = ViewController/RainSensitivityVC.m; sourceTree = "<group>"; };
+		964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RainSensitivityVC.xib; path = ViewController/RainSensitivityVC.xib; sourceTree = "<group>"; };
 		9672C3A119D8069D00236DFB /* RestrictionsCheckCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsCheckCell.h; path = Cells/RestrictionsCheckCell.h; sourceTree = "<group>"; };
 		9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsCheckCell.m; path = Cells/RestrictionsCheckCell.m; sourceTree = "<group>"; };
 		9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestrictionsCheckCell.xib; sourceTree = "<group>"; };
@@ -1138,6 +1153,12 @@
 				AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */,
 				AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */,
 				967C004419D983870071B4CB /* ProgramCellType6.xib */,
+				964ADD261A1E7B82008281A8 /* RainSensitivityCell.h */,
+				964ADD271A1E7B82008281A8 /* RainSensitivityCell.m */,
+				964ADD281A1E7B82008281A8 /* RainSensitivityCell.xib */,
+				964ADD231A1E7B82008281A8 /* FieldCapacityCell.h */,
+				964ADD241A1E7B82008281A8 /* FieldCapacityCell.m */,
+				964ADD251A1E7B82008281A8 /* FieldCapacityCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1527,6 +1548,9 @@
 				B1254CC3187ECE48004E2F0E /* ZoneVC.h */,
 				B1254CC4187ECE48004E2F0E /* ZoneVC.m */,
 				B1254CC5187ECE48004E2F0E /* ZoneVC.xib */,
+				964ADD2D1A1E7BA1008281A8 /* RainSensitivityVC.h */,
+				964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */,
+				964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1627,6 +1651,7 @@
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
 				AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
+				964ADD2A1A1E7B82008281A8 /* FieldCapacityCell.xib in Resources */,
 				AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */,
 				AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
@@ -1650,6 +1675,7 @@
 				AF4826681990DC9500D80B87 /* blizzard.png in Resources */,
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
 				B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */,
+				964ADD311A1E7BA1008281A8 /* RainSensitivityVC.xib in Resources */,
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
 				AF4826901990DC9500D80B87 /* raip.png in Resources */,
 				AF4826801990DC9500D80B87 /* novc.png in Resources */,
@@ -1679,6 +1705,7 @@
 				AFF6A6B2188834AC00825A37 /* checkbox-unselected@2x.png in Resources */,
 				AF48268B1990DC9500D80B87 /* ntsra.png in Resources */,
 				969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */,
+				964ADD2C1A1E7B82008281A8 /* RainSensitivityCell.xib in Resources */,
 				AF4826831990DC9500D80B87 /* nraip.png in Resources */,
 				B1254CC2187DBD61004E2F0E /* RainDelayVC.xib in Resources */,
 				AF48266F1990DC9500D80B87 /* fzrara.png in Resources */,
@@ -1785,6 +1812,7 @@
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,
 				964ADD0D1A1E5AA5008281A8 /* GoogleRequest.m in Sources */,
+				964ADD2B1A1E7B82008281A8 /* RainSensitivityCell.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
 				AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */,
 				964ADD111A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m in Sources */,
@@ -1820,6 +1848,7 @@
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZoneVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
+				964ADD301A1E7BA1008281A8 /* RainSensitivityVC.m in Sources */,
 				AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,
@@ -1851,6 +1880,7 @@
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */,
+				964ADD291A1E7B82008281A8 /* FieldCapacityCell.m in Sources */,
 				AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */,
 				AF73880918E08ADE00F184A9 /* BaseNetworkHandlingVC.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
