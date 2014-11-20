@@ -319,8 +319,9 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 #pragma mark - Actions
 
 - (IBAction)onNext:(id)sender {
-    // self.selectedLocationAddress (.elevation) contains the selected location
-    // self.selectedLocationElevation (.timeZoneId) contains the elevation of the selected location
+    // self.selectedLocationAddress contains the selected location
+    // self.selectedLocationElevation.elevation contains the elevation of the selected location
+    // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
 }
 
 @end
