@@ -1,5 +1,5 @@
 //
-//  GeocodingAutocompletePrediction.h
+//  GoogleAutocompletePrediction.h
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 19/11/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GeocodingAutocompletePrediction : NSObject
+@interface GoogleAutocompletePrediction : NSObject
 
 @property (nonatomic, strong) NSString *placeDescription;
 @property (nonatomic, strong) NSString *id;

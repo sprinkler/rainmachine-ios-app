@@ -1,16 +1,16 @@
 //
-//  GeocodingRequestReverse.m
+//  GoogleRequestReverse.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 18/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "GeocodingRequestReverse.h"
-#import "GeocodingAddress.h"
+#import "GoogleRequestReverseGeocoding.h"
+#import "GoogleAddress.h"
 #import "Constants.h"
 
-@implementation GeocodingRequestReverse
+@implementation GoogleRequestReverseGeocoding
 
 + (instancetype)reverseGeocodingRequestWithLocation:(CLLocation*)location {
     return [[self alloc] initWithLocation:location];
@@ -25,18 +25,18 @@
     return self;
 }
 
-- (NSString*)geocodingRequestBaseURL {
+- (NSString*)googleRequestBaseURL {
     return @"https://maps.googleapis.com/maps/api/geocode";
 }
 
-- (NSString*)geocodingAPIKey {
+- (NSString*)googleAPIKey {
     return kGoogleMapsAPIKey;
 }
 
 - (id)resultFromDictionary:(NSDictionary*)dictionary {
     NSArray *results = [dictionary valueForKey:@"results"];
     if (!results.count) return nil;
-    GeocodingAddress *address = [GeocodingAddress geocodingAddressWithDictionary:results[0]];
+    GoogleAddress *address = [GoogleAddress googleAddressWithDictionary:results[0]];
     address.location = self.location;
     return address;
 }

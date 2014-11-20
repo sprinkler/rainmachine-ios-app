@@ -1,18 +1,17 @@
 //
-//  GeocodingRequestAutocomplete.m
+//  GoogleRequestAutocomplete.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 18/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "GeocodingRequestAutocomplete.h"
-#import "GeocodingAutocompletePrediction.h"
+#import "GoogleRequestAutocomplete.h"
+#import "GoogleAutocompletePrediction.h"
 #import "Constants.h"
 
-@implementation GeocodingRequestAutocomplete
-
-+ (instancetype)autocompleteGeocodingRequestWithInputString:(NSString*)inputString {
+@implementation GoogleRequestAutocomplete
++ (instancetype)autocompleteRequestWithInputString:(NSString*)inputString {
     return [[self alloc] initWithInputString:inputString];
 }
 
@@ -25,11 +24,11 @@
     return self;
 }
 
-- (NSString*)geocodingRequestBaseURL {
+- (NSString*)googleRequestBaseURL {
     return @"https://maps.googleapis.com/maps/api/place/autocomplete";
 }
 
-- (NSString*)geocodingAPIKey {
+- (NSString*)googleAPIKey {
     return kGooglePlacesAPIServerKey;
 }
 
@@ -39,7 +38,7 @@
     
     NSMutableArray *predictionsArray = [NSMutableArray new];
     for (NSDictionary *dictionary in predictions) {
-        [predictionsArray addObject:[GeocodingAutocompletePrediction autocompletePredictionWithDictionary:dictionary]];
+        [predictionsArray addObject:[GoogleAutocompletePrediction autocompletePredictionWithDictionary:dictionary]];
     }
     
     return predictionsArray;

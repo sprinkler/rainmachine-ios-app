@@ -1,5 +1,5 @@
 //
-//  GeocodingAddress.h
+//  GoogleAddress.h
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 18/11/14.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface GeocodingAddress : NSObject
+@interface GoogleAddress : NSObject
 
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, strong) NSString *premise;
@@ -24,7 +24,7 @@
 @property (nonatomic, strong) NSString *countryShort;
 @property (nonatomic, strong) NSString *postalCode;
 
-+ (instancetype)geocodingAddressWithDictionary:(NSDictionary*)dictionary;
++ (instancetype)googleAddressWithDictionary:(NSDictionary*)dictionary;
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 - (void)setupWithDictionary:(NSDictionary*)dictionary;
 

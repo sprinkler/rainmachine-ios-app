@@ -10,12 +10,16 @@
 #import "ColoredBackgroundButton.h"
 #import "Constants.h"
 #import "Additions.h"
-#import "GeocodingAddress.h"
-#import "GeocodingAutocompletePrediction.h"
-#import "GeocodingRequest.h"
-#import "GeocodingRequestReverse.h"
-#import "GeocodingRequestAutocomplete.h"
-#import "GeocodingRequestPlaceDetails.h"
+#import "GoogleAddress.h"
+#import "GoogleElevation.h"
+#import "GoogleTimezone.h"
+#import "GoogleAutocompletePrediction.h"
+#import "GoogleRequest.h"
+#import "GoogleRequestReverseGeocoding.h"
+#import "GoogleRequestAutocomplete.h"
+#import "GoogleRequestPlaceDetails.h"
+#import "GoogleRequestElevation.h"
+#import "GoogleRequestTimezone.h"
 #import "MBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
 
@@ -31,18 +35,20 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 @property (nonatomic, strong) NSDate *autocompleteReloadResultsDate;
 @property (nonatomic, strong) NSString *autocompleteSearchString;
 @property (nonatomic, strong) NSArray *autocompletePredictions;
-@property (nonatomic, strong) GeocodingRequestAutocomplete *autocompleteRequest;
+@property (nonatomic, strong) GoogleRequestAutocomplete *autocompleteRequest;
 
 - (BOOL)initializeLocationServices;
 - (void)displayLocationServicesDisabledAlert;
 - (void)moveCameraToLocation:(CLLocation*)location animated:(BOOL)animate;
 
 @property (nonatomic, assign) BOOL startLocationFound;
-@property (nonatomic, strong) GeocodingAddress *selectedLocation;
+@property (nonatomic, strong) GoogleAddress *selectedLocationAddress;
+@property (nonatomic, strong) GoogleElevation *selectedLocationElevation;
+@property (nonatomic, strong) GoogleTimezone *selectedLocationTimezone;
 @property (nonatomic, strong) GMSMarker *selectedLocationMarker;
 
 - (void)markSelectedLocationAnimated:(BOOL)animate;
-- (NSString*)displayStringForLocation:(GeocodingAddress*)location;
+- (NSString*)displayStringForLocation:(GoogleAddress*)location;
 - (void)updateLocationSearchBar;
 
 @end
@@ -106,13 +112,23 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
         [self moveCameraToLocation:self.mapView.myLocation animated:YES];
         
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideHUDAddedToView) object:nil];
-        [[GeocodingRequestReverse reverseGeocodingRequestWithLocation:self.mapView.myLocation] executeRequestWithCompletionHandler:^(GeocodingAddress *result, NSError *error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (error) return;
+        [[GoogleRequestReverseGeocoding reverseGeocodingRequestWithLocation:self.mapView.myLocation] executeRequestWithCompletionHandler:^(GoogleAddress *result, NSError *error) {
+            if (error) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                return;
+            }
             
-            self.selectedLocation = result;
+            self.selectedLocationAddress = result;
             [self updateLocationSearchBar];
             [self markSelectedLocationAnimated:YES];
+            
+            [[GoogleRequestElevation elevationRequestWithLocation:self.selectedLocationAddress.location] executeRequestWithCompletionHandler:^(GoogleElevation *result, NSError *error) {
+                self.selectedLocationElevation = result;
+                [[GoogleRequestTimezone timezoneRequestWithLocation:self.selectedLocationAddress.location] executeRequestWithCompletionHandler:^(GoogleTimezone *result, NSError *error) {
+                    self.selectedLocationTimezone = result;
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                }];
+            }];
         }];
     }
 }
@@ -166,18 +182,18 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 }
 
 - (void)markSelectedLocationAnimated:(BOOL)animate {
-    if (!self.selectedLocation) return;
+    if (!self.selectedLocationAddress) return;
     
     self.selectedLocationMarker.map = nil;
-    self.selectedLocationMarker = [GMSMarker markerWithPosition:self.selectedLocation.location.coordinate];
-    self.selectedLocationMarker.snippet = [self displayStringForLocation:self.selectedLocation];
+    self.selectedLocationMarker = [GMSMarker markerWithPosition:self.selectedLocationAddress.location.coordinate];
+    self.selectedLocationMarker.snippet = [self displayStringForLocation:self.selectedLocationAddress];
     self.selectedLocationMarker.map = self.mapView;
     self.mapView.selectedMarker = self.selectedLocationMarker;
     
     if (animate) self.selectedLocationMarker.appearAnimation = kGMSMarkerAnimationPop;
 }
 
-- (NSString*)displayStringForLocation:(GeocodingAddress*)location {
+- (NSString*)displayStringForLocation:(GoogleAddress*)location {
     NSMutableArray *locationStringComponents = [NSMutableArray new];
     
     if (location.premise.length) [locationStringComponents addObject:location.premise];
@@ -198,7 +214,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 }
 
 - (void)updateLocationSearchBar {
-    self.locationSearchBar.text = [self displayStringForLocation:self.selectedLocation];
+    self.locationSearchBar.text = [self displayStringForLocation:self.selectedLocationAddress];
     self.locationSearchBar.placeholder = (self.locationSearchBar.text.length ? nil : @"Select your location");
 }
 
@@ -206,7 +222,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)reloadAutocompleteResultsForSearchString:(NSString*)searchString {
     [self.autocompleteRequest cancelRequest];
-    self.autocompleteRequest = [GeocodingRequestAutocomplete autocompleteGeocodingRequestWithInputString:searchString];
+    self.autocompleteRequest = [GoogleRequestAutocomplete autocompleteRequestWithInputString:searchString];
     
     [self.autocompleteRequest executeRequestWithCompletionHandler:^(NSArray *predictions, NSError *error) {
         self.autocompletePredictions = predictions;
@@ -229,7 +245,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 #pragma  mark - Search bar delegate
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar {
-    if (self.selectedLocation) [self moveCameraToLocation:self.selectedLocation.location animated:YES];
+    if (self.selectedLocationAddress) [self moveCameraToLocation:self.selectedLocationAddress.location animated:YES];
     searchBar.text = nil;
     searchBar.placeholder = nil;
 }
@@ -254,7 +270,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:AutocompletePredictionCellIdentifier];
     if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutocompletePredictionCellIdentifier];
     
-    GeocodingAutocompletePrediction *prediction = self.autocompletePredictions[indexPath.row];
+    GoogleAutocompletePrediction *prediction = self.autocompletePredictions[indexPath.row];
     
     NSMutableAttributedString *placeDescription = [[NSMutableAttributedString alloc] initWithString:prediction.placeDescription attributes:nil];
     [placeDescription addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17.0] range:NSMakeRange(0, prediction.placeDescription.length)];
@@ -275,25 +291,36 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.searchDisplayController setActive:NO animated:YES];
     
-    GeocodingAutocompletePrediction *prediction = self.autocompletePredictions[indexPath.row];
+    GoogleAutocompletePrediction *prediction = self.autocompletePredictions[indexPath.row];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[GeocodingRequestPlaceDetails placeDetailsGeocodingRequestWithAutocompletePrediction:prediction] executeRequestWithCompletionHandler:^(GeocodingAddress *result, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (error) return;
+    [[GoogleRequestPlaceDetails placeDetailsRequestWithAutocompletePrediction:prediction] executeRequestWithCompletionHandler:^(GoogleAddress *result, NSError *error) {
+        if (error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return;
+        }
         
-        self.selectedLocation = result;
+        self.selectedLocationAddress = result;
         [self updateLocationSearchBar];
         [self markSelectedLocationAnimated:YES];
         
         [self moveCameraToLocation:result.location animated:YES];
+        
+        [[GoogleRequestElevation elevationRequestWithLocation:self.selectedLocationAddress.location] executeRequestWithCompletionHandler:^(GoogleElevation *result, NSError *error) {
+            self.selectedLocationElevation = result;
+            [[GoogleRequestTimezone timezoneRequestWithLocation:self.selectedLocationAddress.location] executeRequestWithCompletionHandler:^(GoogleTimezone *result, NSError *error) {
+                self.selectedLocationTimezone = result;
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            }];
+        }];
     }];
 }
 
 #pragma mark - Actions
 
 - (IBAction)onNext:(id)sender {
-    // self.selectedLocation contains the selected location
+    // self.selectedLocationAddress (.elevation) contains the selected location
+    // self.selectedLocationElevation (.timeZoneId) contains the elevation of the selected location
 }
 
 @end

@@ -1,23 +1,23 @@
 //
-//  GeocodingRequestPlaceDetails.m
+//  GoogleRequestPlaceDetails.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 19/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "GeocodingRequestPlaceDetails.h"
-#import "GeocodingAutocompletePrediction.h"
-#import "GeocodingAddress.h"
+#import "GoogleRequestPlaceDetails.h"
+#import "GoogleAutocompletePrediction.h"
+#import "GoogleAddress.h"
 #import "Constants.h"
 
-@implementation GeocodingRequestPlaceDetails
+@implementation GoogleRequestPlaceDetails
 
-+ (instancetype)placeDetailsGeocodingRequestWithAutocompletePrediction:(GeocodingAutocompletePrediction*)autocompletePrediction {
++ (instancetype)placeDetailsRequestWithAutocompletePrediction:(GoogleAutocompletePrediction*)autocompletePrediction {
     return [[self alloc] initWithAutocompletePrediction:autocompletePrediction];
 }
 
-- (instancetype)initWithAutocompletePrediction:(GeocodingAutocompletePrediction*)autocompletePrediction {
+- (instancetype)initWithAutocompletePrediction:(GoogleAutocompletePrediction*)autocompletePrediction {
     self = [super initWithParameters:[NSDictionary dictionaryWithObjectsAndKeys:autocompletePrediction.placeId,@"placeid",nil]];
     if (!self) return nil;
     
@@ -26,16 +26,16 @@
     return self;
 }
 
-- (NSString*)geocodingRequestBaseURL {
+- (NSString*)googleRequestBaseURL {
     return @"https://maps.googleapis.com/maps/api/place/details";
 }
 
-- (NSString*)geocodingAPIKey {
+- (NSString*)googleAPIKey {
     return kGooglePlacesAPIServerKey;
 }
 
 - (id)resultFromDictionary:(NSDictionary*)dictionary {
-    return [GeocodingAddress geocodingAddressWithDictionary:[dictionary valueForKey:@"result"]];
+    return [GoogleAddress googleAddressWithDictionary:[dictionary valueForKey:@"result"]];
 }
 
 @end

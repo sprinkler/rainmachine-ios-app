@@ -1,16 +1,16 @@
 //
-//  GeocodingAddress.m
+//  GoogleAddress.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 18/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "GeocodingAddress.h"
+#import "GoogleAddress.h"
 
-@implementation GeocodingAddress
+@implementation GoogleAddress
 
-+ (instancetype)geocodingAddressWithDictionary:(NSDictionary*)dictionary {
++ (instancetype)googleAddressWithDictionary:(NSDictionary*)dictionary {
     return [[self alloc] initWithDictionary:dictionary];
 }
 

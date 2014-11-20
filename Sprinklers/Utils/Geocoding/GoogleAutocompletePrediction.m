@@ -1,14 +1,14 @@
 //
-//  GeocodingAutocompletePrediction.m
+//  GoogleAutocompletePrediction.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 19/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "GeocodingAutocompletePrediction.h"
+#import "GoogleAutocompletePrediction.h"
 
-@implementation GeocodingAutocompletePrediction
+@implementation GoogleAutocompletePrediction
 
 + (instancetype)autocompletePredictionWithDictionary:(NSDictionary*)dictionary {
     return [[self alloc] initWithDictionary:dictionary];

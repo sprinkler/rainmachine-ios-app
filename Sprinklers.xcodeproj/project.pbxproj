@@ -27,16 +27,22 @@
 		3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3AC64A06192B56130009061D /* MappingModev1tov6.xcmappingmodel */; };
 		960374F819D5FB3C009CB68A /* RestrictionsSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */; };
 		960374F919D5FB3C009CB68A /* RestrictionsSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */; };
+		964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */; };
+		964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */; };
+		964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCFB1A1E5AA5008281A8 /* GoogleElevation.m */; };
+		964ADD0D1A1E5AA5008281A8 /* GoogleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCFD1A1E5AA5008281A8 /* GoogleRequest.m */; };
+		964ADD0E1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCFF1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m */; };
+		964ADD0F1A1E5AA5008281A8 /* GoogleRequestElevation.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD011A1E5AA5008281A8 /* GoogleRequestElevation.m */; };
+		964ADD101A1E5AA5008281A8 /* GoogleRequestPlaceDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD031A1E5AA5008281A8 /* GoogleRequestPlaceDetails.m */; };
+		964ADD111A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD051A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m */; };
+		964ADD121A1E5AA5008281A8 /* GoogleRequestTimezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD071A1E5AA5008281A8 /* GoogleRequestTimezone.m */; };
+		964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD091A1E5AA5008281A8 /* GoogleTimezone.m */; };
 		9672C3A319D8069D00236DFB /* RestrictionsCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */; };
 		9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */; };
 		967C004519D983870071B4CB /* ProgramCellType6.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C004319D983870071B4CB /* ProgramCellType6.m */; };
 		967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C004419D983870071B4CB /* ProgramCellType6.xib */; };
 		969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969EB3B819DAD11A00D10887 /* CloudServerVC.m */; };
 		969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969EB3B919DAD11A00D10887 /* CloudServerVC.xib */; };
-		96AD34DC1A1CB1500019453C /* GeocodingAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34D51A1CB1500019453C /* GeocodingAddress.m */; };
-		96AD34DD1A1CB1500019453C /* GeocodingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34D71A1CB1500019453C /* GeocodingRequest.m */; };
-		96AD34DE1A1CB1500019453C /* GeocodingRequestAutocomplete.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */; };
-		96AD34DF1A1CB1500019453C /* GeocodingRequestReverse.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34DB1A1CB1500019453C /* GeocodingRequestReverse.m */; };
 		96AD34E31A1CB16E0019453C /* LocationSetupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34E11A1CB16E0019453C /* LocationSetupVC.m */; };
 		96AD34E41A1CB16E0019453C /* LocationSetupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AD34E21A1CB16E0019453C /* LocationSetupVC.xib */; };
 		96AD34E71A1CB20D0019453C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD34E51A1CB20D0019453C /* CoreLocation.framework */; };
@@ -50,8 +56,6 @@
 		96AD36371A1CDBC00019453C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD36361A1CDBC00019453C /* libc++.dylib */; };
 		96AD36391A1CDBCC0019453C /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD36381A1CDBCC0019453C /* libicucore.dylib */; };
 		96AD363B1A1CDBD40019453C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD363A1A1CDBD40019453C /* libz.dylib */; };
-		96AD36411A1CFC0F0019453C /* GeocodingAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD36401A1CFC0F0019453C /* GeocodingAutocompletePrediction.m */; };
-		96AD36471A1D0D730019453C /* GeocodingRequestPlaceDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD36461A1D0D730019453C /* GeocodingRequestPlaceDetails.m */; };
 		96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239C19D7080900683AC6 /* HourlyRestriction.m */; };
 		96C223A119D7223700683AC6 /* MonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239F19D7223700683AC6 /* MonthsVC.m */; };
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
@@ -347,6 +351,26 @@
 		960374F519D5FB3C009CB68A /* RestrictionsSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsSwitchCell.h; path = Cells/RestrictionsSwitchCell.h; sourceTree = "<group>"; };
 		960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsSwitchCell.m; path = Cells/RestrictionsSwitchCell.m; sourceTree = "<group>"; };
 		960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsSwitchCell.xib; path = Cells/RestrictionsSwitchCell.xib; sourceTree = "<group>"; };
+		964ADCF61A1E5AA5008281A8 /* GoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAddress.h; sourceTree = "<group>"; };
+		964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAddress.m; sourceTree = "<group>"; };
+		964ADCF81A1E5AA5008281A8 /* GoogleAutocompletePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAutocompletePrediction.h; sourceTree = "<group>"; };
+		964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAutocompletePrediction.m; sourceTree = "<group>"; };
+		964ADCFA1A1E5AA5008281A8 /* GoogleElevation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleElevation.h; sourceTree = "<group>"; };
+		964ADCFB1A1E5AA5008281A8 /* GoogleElevation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleElevation.m; sourceTree = "<group>"; };
+		964ADCFC1A1E5AA5008281A8 /* GoogleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleRequest.h; sourceTree = "<group>"; };
+		964ADCFD1A1E5AA5008281A8 /* GoogleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleRequest.m; sourceTree = "<group>"; };
+		964ADCFE1A1E5AA5008281A8 /* GoogleRequestAutocomplete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleRequestAutocomplete.h; sourceTree = "<group>"; };
+		964ADCFF1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleRequestAutocomplete.m; sourceTree = "<group>"; };
+		964ADD001A1E5AA5008281A8 /* GoogleRequestElevation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleRequestElevation.h; sourceTree = "<group>"; };
+		964ADD011A1E5AA5008281A8 /* GoogleRequestElevation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleRequestElevation.m; sourceTree = "<group>"; };
+		964ADD021A1E5AA5008281A8 /* GoogleRequestPlaceDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleRequestPlaceDetails.h; sourceTree = "<group>"; };
+		964ADD031A1E5AA5008281A8 /* GoogleRequestPlaceDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleRequestPlaceDetails.m; sourceTree = "<group>"; };
+		964ADD041A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleRequestReverseGeocoding.h; sourceTree = "<group>"; };
+		964ADD051A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleRequestReverseGeocoding.m; sourceTree = "<group>"; };
+		964ADD061A1E5AA5008281A8 /* GoogleRequestTimezone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleRequestTimezone.h; sourceTree = "<group>"; };
+		964ADD071A1E5AA5008281A8 /* GoogleRequestTimezone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleRequestTimezone.m; sourceTree = "<group>"; };
+		964ADD081A1E5AA5008281A8 /* GoogleTimezone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleTimezone.h; sourceTree = "<group>"; };
+		964ADD091A1E5AA5008281A8 /* GoogleTimezone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleTimezone.m; sourceTree = "<group>"; };
 		9672C3A119D8069D00236DFB /* RestrictionsCheckCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsCheckCell.h; path = Cells/RestrictionsCheckCell.h; sourceTree = "<group>"; };
 		9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsCheckCell.m; path = Cells/RestrictionsCheckCell.m; sourceTree = "<group>"; };
 		9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestrictionsCheckCell.xib; sourceTree = "<group>"; };
@@ -356,14 +380,6 @@
 		969EB3B719DAD11A00D10887 /* CloudServerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudServerVC.h; path = ViewController/CloudServerVC.h; sourceTree = "<group>"; };
 		969EB3B819DAD11A00D10887 /* CloudServerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudServerVC.m; path = ViewController/CloudServerVC.m; sourceTree = "<group>"; };
 		969EB3B919DAD11A00D10887 /* CloudServerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudServerVC.xib; path = ViewController/CloudServerVC.xib; sourceTree = "<group>"; };
-		96AD34D41A1CB1500019453C /* GeocodingAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingAddress.h; sourceTree = "<group>"; };
-		96AD34D51A1CB1500019453C /* GeocodingAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingAddress.m; sourceTree = "<group>"; };
-		96AD34D61A1CB1500019453C /* GeocodingRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequest.h; sourceTree = "<group>"; };
-		96AD34D71A1CB1500019453C /* GeocodingRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequest.m; sourceTree = "<group>"; };
-		96AD34D81A1CB1500019453C /* GeocodingRequestAutocomplete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequestAutocomplete.h; sourceTree = "<group>"; };
-		96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequestAutocomplete.m; sourceTree = "<group>"; };
-		96AD34DA1A1CB1500019453C /* GeocodingRequestReverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequestReverse.h; sourceTree = "<group>"; };
-		96AD34DB1A1CB1500019453C /* GeocodingRequestReverse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequestReverse.m; sourceTree = "<group>"; };
 		96AD34E01A1CB16E0019453C /* LocationSetupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationSetupVC.h; path = ViewController/LocationSetupVC.h; sourceTree = "<group>"; };
 		96AD34E11A1CB16E0019453C /* LocationSetupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationSetupVC.m; path = ViewController/LocationSetupVC.m; sourceTree = "<group>"; };
 		96AD34E21A1CB16E0019453C /* LocationSetupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LocationSetupVC.xib; path = ViewController/LocationSetupVC.xib; sourceTree = "<group>"; };
@@ -378,10 +394,6 @@
 		96AD36361A1CDBC00019453C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		96AD36381A1CDBCC0019453C /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		96AD363A1A1CDBD40019453C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		96AD363F1A1CFC0F0019453C /* GeocodingAutocompletePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingAutocompletePrediction.h; sourceTree = "<group>"; };
-		96AD36401A1CFC0F0019453C /* GeocodingAutocompletePrediction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingAutocompletePrediction.m; sourceTree = "<group>"; };
-		96AD36451A1D0D730019453C /* GeocodingRequestPlaceDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodingRequestPlaceDetails.h; sourceTree = "<group>"; };
-		96AD36461A1D0D730019453C /* GeocodingRequestPlaceDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodingRequestPlaceDetails.m; sourceTree = "<group>"; };
 		96C2239B19D7080900683AC6 /* HourlyRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HourlyRestriction.h; path = "Communication/Response objects/HourlyRestriction.h"; sourceTree = "<group>"; };
 		96C2239C19D7080900683AC6 /* HourlyRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HourlyRestriction.m; path = "Communication/Response objects/HourlyRestriction.m"; sourceTree = "<group>"; };
 		96C2239E19D7223700683AC6 /* MonthsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonthsVC.h; path = ViewController/MonthsVC.h; sourceTree = "<group>"; };
@@ -824,18 +836,26 @@
 		96AD34D31A1CB1500019453C /* Geocoding */ = {
 			isa = PBXGroup;
 			children = (
-				96AD34D41A1CB1500019453C /* GeocodingAddress.h */,
-				96AD34D51A1CB1500019453C /* GeocodingAddress.m */,
-				96AD363F1A1CFC0F0019453C /* GeocodingAutocompletePrediction.h */,
-				96AD36401A1CFC0F0019453C /* GeocodingAutocompletePrediction.m */,
-				96AD34D61A1CB1500019453C /* GeocodingRequest.h */,
-				96AD34D71A1CB1500019453C /* GeocodingRequest.m */,
-				96AD34DA1A1CB1500019453C /* GeocodingRequestReverse.h */,
-				96AD34DB1A1CB1500019453C /* GeocodingRequestReverse.m */,
-				96AD34D81A1CB1500019453C /* GeocodingRequestAutocomplete.h */,
-				96AD34D91A1CB1500019453C /* GeocodingRequestAutocomplete.m */,
-				96AD36451A1D0D730019453C /* GeocodingRequestPlaceDetails.h */,
-				96AD36461A1D0D730019453C /* GeocodingRequestPlaceDetails.m */,
+				964ADCF61A1E5AA5008281A8 /* GoogleAddress.h */,
+				964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */,
+				964ADCF81A1E5AA5008281A8 /* GoogleAutocompletePrediction.h */,
+				964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */,
+				964ADCFA1A1E5AA5008281A8 /* GoogleElevation.h */,
+				964ADCFB1A1E5AA5008281A8 /* GoogleElevation.m */,
+				964ADD081A1E5AA5008281A8 /* GoogleTimezone.h */,
+				964ADD091A1E5AA5008281A8 /* GoogleTimezone.m */,
+				964ADCFC1A1E5AA5008281A8 /* GoogleRequest.h */,
+				964ADCFD1A1E5AA5008281A8 /* GoogleRequest.m */,
+				964ADD041A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.h */,
+				964ADD051A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m */,
+				964ADCFE1A1E5AA5008281A8 /* GoogleRequestAutocomplete.h */,
+				964ADCFF1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m */,
+				964ADD021A1E5AA5008281A8 /* GoogleRequestPlaceDetails.h */,
+				964ADD031A1E5AA5008281A8 /* GoogleRequestPlaceDetails.m */,
+				964ADD001A1E5AA5008281A8 /* GoogleRequestElevation.h */,
+				964ADD011A1E5AA5008281A8 /* GoogleRequestElevation.m */,
+				964ADD061A1E5AA5008281A8 /* GoogleRequestTimezone.h */,
+				964ADD071A1E5AA5008281A8 /* GoogleRequestTimezone.m */,
 			);
 			path = Geocoding;
 			sourceTree = "<group>";
@@ -1724,6 +1744,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */,
 				AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */,
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
 				AF51E4181A190DA500A7A6A5 /* TRPickerInputView.m in Sources */,
@@ -1746,7 +1767,6 @@
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
-				96AD36471A1D0D730019453C /* GeocodingRequestPlaceDetails.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
@@ -1764,15 +1784,19 @@
 				AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,
+				964ADD0D1A1E5AA5008281A8 /* GoogleRequest.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
 				AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */,
+				964ADD111A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m in Sources */,
 				AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */,
 				960374F819D5FB3C009CB68A /* RestrictionsSwitchCell.m in Sources */,
 				AF81E6E618BA32D8007E9A03 /* ProgramCellType1.m in Sources */,
 				B1EF20F4186046D300D9CE26 /* +UIDevice.m in Sources */,
 				AFA9081219AB7D4F008769A0 /* UpdateInfo4.m in Sources */,
+				964ADD101A1E5AA5008281A8 /* GoogleRequestPlaceDetails.m in Sources */,
 				AF167D52189A8520003E659D /* APIVersion.m in Sources */,
 				B1DF327916A6AA5100A1BF38 /* GCDAsyncSocket.m in Sources */,
+				964ADD121A1E5AA5008281A8 /* GoogleRequestTimezone.m in Sources */,
 				969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
 				AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */,
@@ -1785,7 +1809,7 @@
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,
 				AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */,
 				AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */,
-				96AD34DF1A1CB1500019453C /* GeocodingRequestReverse.m in Sources */,
+				964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
@@ -1793,11 +1817,9 @@
 				AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */,
 				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,
 				96AD34E31A1CB16E0019453C /* LocationSetupVC.m in Sources */,
-				96AD34DC1A1CB1500019453C /* GeocodingAddress.m in Sources */,
 				AFCDF79F185DBE2700F9C57E /* Utils.m in Sources */,
 				B1254CC6187ECE48004E2F0E /* ZoneVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
-				96AD36411A1CFC0F0019453C /* GeocodingAutocompletePrediction.m in Sources */,
 				AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,
@@ -1811,11 +1833,13 @@
 				AFF796C618E04C6400E3C109 /* CounterHelper.m in Sources */,
 				96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */,
 				AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */,
+				964ADD0E1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m in Sources */,
 				AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
 				AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
+				964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */,
 				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
 				AFF3A06318BDE4C10060D0F6 /* TimePickerVC.m in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1823,6 +1847,7 @@
 				AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
+				964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */,
@@ -1831,13 +1856,13 @@
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
-				96AD34DD1A1CB1500019453C /* GeocodingRequest.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
 				AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
 				AFB69438190289440067CD7F /* Zone.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
+				964ADD0F1A1E5AA5008281A8 /* GoogleRequestElevation.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
@@ -1849,7 +1874,6 @@
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */,
-				96AD34DE1A1CB1500019453C /* GeocodingRequestAutocomplete.m in Sources */,
 				AF927C9019C84B91009C59EA /* CloudUtils.m in Sources */,
 				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,
 				AF61117B19C62D55008AA62B /* ProgramWateringTimes4.m in Sources */,

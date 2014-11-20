@@ -1,28 +1,28 @@
 //
-//  GeocodingRequest.m
+//  GoogleRequest.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 18/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "GeocodingRequest.h"
+#import "GoogleRequest.h"
 
-NSString *GeocodingRequestResultTypeJson    = @"json";
-NSString *GeocodingRequestResultTypeXml     = @"xml";
+NSString *GoogleRequestResultTypeJson   = @"json";
+NSString *GoogleRequestResultTypeXml    = @"xml";
 
 #pragma mark -
 
-@interface GeocodingRequest ()
+@interface GoogleRequest ()
 
 @property (nonatomic, readonly) NSString *parameterString;
-@property (nonatomic, readonly) NSString *geocodingRequestURL;
+@property (nonatomic, readonly) NSString *googleRequestURL;
 
 - (NSDictionary*)parseResponseData:(NSData*)responseData;
 - (NSDictionary*)parseJsonData:(NSData*)responseData;
 - (NSDictionary*)parseXmlData:(NSData*)responseData;
 
-@property (nonatomic, copy) GeocodingRequestCompletionHandler completionHandler;
+@property (nonatomic, copy) GoogleRequestCompletionHandler completionHandler;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *responseData;
 
@@ -30,11 +30,11 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
 
 #pragma mark -
 
-@implementation GeocodingRequest
+@implementation GoogleRequest
 
 #pragma mark - Init
 
-+ (instancetype)geocodingRequestWithParameters:(NSDictionary*)parameters {
++ (instancetype)googleRequestWithParameters:(NSDictionary*)parameters {
     return [[self alloc] initWithParameters:parameters];
 }
 
@@ -43,15 +43,15 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
     if (!self) return nil;
     
     _parameters = parameters;
-    _resultType = GeocodingRequestResultTypeJson;
+    _resultType = GoogleRequestResultTypeJson;
     
     return self;
 }
 
-- (void)executeRequestWithCompletionHandler:(GeocodingRequestCompletionHandler)completionHandler {
-    if (!self.geocodingRequestBaseURL) completionHandler(nil, nil);
+- (void)executeRequestWithCompletionHandler:(GoogleRequestCompletionHandler)completionHandler {
+    if (!self.googleRequestBaseURL) completionHandler(nil, nil);
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.geocodingRequestURL]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.googleRequestURL]];
     [request setValue:[NSString stringWithFormat:@"application/%@",self.resultType] forHTTPHeaderField:@"Accept"];
     [request setHTTPMethod:@"GET"];
     
@@ -73,11 +73,11 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
 
 #pragma mark - Request configuration
 
-- (NSString*)geocodingRequestBaseURL {
+- (NSString*)googleRequestBaseURL {
     return nil;
 }
 
-- (NSString*)geocodingAPIKey {
+- (NSString*)googleAPIKey {
     return nil;
 }
 
@@ -87,19 +87,19 @@ NSString *GeocodingRequestResultTypeXml     = @"xml";
         NSString *value = [self.parameters[key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [parameterPairsArray addObject:[NSString stringWithFormat:@"%@=%@",key,value]];
     }
-    if (self.geocodingAPIKey.length) [parameterPairsArray addObject:[NSString stringWithFormat:@"key=%@",self.geocodingAPIKey]];
+    if (self.googleAPIKey.length) [parameterPairsArray addObject:[NSString stringWithFormat:@"key=%@",self.googleAPIKey]];
     return [parameterPairsArray componentsJoinedByString:@"&"];
 }
 
-- (NSString*)geocodingRequestURL {
+- (NSString*)googleRequestURL {
     NSString *parameterString = self.parameterString;
-    if (self.parameterString.length) return [NSString stringWithFormat:@"%@/%@?%@",self.geocodingRequestBaseURL,self.resultType,parameterString];
-    return [NSString stringWithFormat:@"%@/%@",self.geocodingRequestBaseURL,self.resultType];
+    if (self.parameterString.length) return [NSString stringWithFormat:@"%@/%@?%@",self.googleRequestBaseURL,self.resultType,parameterString];
+    return [NSString stringWithFormat:@"%@/%@",self.googleRequestBaseURL,self.resultType];
 }
 
 - (NSDictionary*)parseResponseData:(NSData*)responseData {
-    if ([self.resultType isEqualToString:GeocodingRequestResultTypeJson]) return [self parseJsonData:responseData];
-    else if ([self.resultType isEqualToString:GeocodingRequestResultTypeXml]) return [self parseXmlData:responseData];
+    if ([self.resultType isEqualToString:GoogleRequestResultTypeJson]) return [self parseJsonData:responseData];
+    else if ([self.resultType isEqualToString:GoogleRequestResultTypeXml]) return [self parseXmlData:responseData];
     return nil;
 }
 
