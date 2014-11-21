@@ -88,7 +88,7 @@ static StorageManager *current = nil;
     if (networkType == NetworkType_All) {
         sprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
     } else {
-        sprinklers = [self getSprinklersFromNetwork:networkType aliveDevices:@YES];
+        sprinklers = [self getSprinklersFromNetwork:networkType aliveDevices:nil];
     }
     
     for (Sprinkler *sprinkler in sprinklers) {
@@ -186,7 +186,7 @@ static StorageManager *current = nil;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sprinkler" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
 
-    NSString *isDiscoveredFilter = nil;//[aliveDevices boolValue] ? [Utils activeCloudDevicesPredicate] : [Utils inactiveCloudDevicesPredicate];
+    NSString *isDiscoveredFilter = aliveDevices ? ([aliveDevices boolValue] ? @"isDiscovered == YES" : @"(isDiscovered == NO OR isDiscovered == nil)") : nil;
 
     if (networkType != NetworkType_All) {
         NSString *isLocalDeviceFilter = (networkType == NetworkType_Local) ? @"isLocalDevice == YES" : @"(isLocalDevice == NO OR isLocalDevice == nil)";

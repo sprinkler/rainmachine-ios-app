@@ -396,6 +396,43 @@
     [userDefaults setObject:units forKey:@"sprinklerUnits"];
 }
 
+#pragma mark - Cells
+
++ (DevicesCellType1*)configureSprinklerCellForTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath sprinkler:(Sprinkler*)sprinkler canEditRow:(BOOL)canEditRow forceHiddenDisclosure:(BOOL)forceHiddenDisclosure
+{
+    DevicesCellType1 *cell = [tableView dequeueReusableCellWithIdentifier:@"DevicesCellType1" forIndexPath:indexPath];
+    cell.selectionStyle = (tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
+    
+    cell.labelMainTitle.text = sprinkler.name;
+    
+    // remove https from address
+    NSString *adressWithoutPrefix = [sprinkler.address substringWithRange:NSMakeRange(8, [sprinkler.address length] - 8)];
+    
+    // we don't have to print the default port
+    if([sprinkler.port isEqual: @"443"])
+        cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@", adressWithoutPrefix] : sprinkler.address;
+    else
+        cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
+    
+    // TODO: decide upon local/remote type on runtime
+    cell.labelInfo.text = @"";
+    
+    BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
+    
+    cell.disclosureImageView.hidden = tableView.isEditing || (isDeviceInactive) || (forceHiddenDisclosure);
+    //    cell.labelMainSubtitle.enabled = [sprinkler.isDiscovered boolValue];
+    cell.labelInfo.hidden = tableView.isEditing;
+    cell.labelMainTitle.textColor = isDeviceInactive ? [UIColor lightGrayColor] : [UIColor blackColor];
+    cell.labelMainSubtitle.textColor = cell.labelMainTitle.textColor;
+    
+    if (tableView.isEditing && canEditRow) {
+        cell.disclosureImageView.hidden = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    }
+    
+    return cell;
+}
+
 # pragma mark - Sprinkler related views
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress

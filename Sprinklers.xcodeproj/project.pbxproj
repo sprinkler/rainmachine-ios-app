@@ -89,6 +89,8 @@
 		AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF167D67189AD74D003E659D /* UpdaterVC.xib */; };
 		AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3823881951D94C007CADB5 /* RMSwitch.m */; };
 		AF3DE1FD1A1A50A600C4B1FC /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3DE1FC1A1A50A600C4B1FC /* Sprinkler.m */; };
+		AF3E02E71A1D457E00E76C53 /* CloudAccountsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */; };
+		AF3E02E81A1D457E00E76C53 /* CloudAccountsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3E02E61A1D457E00E76C53 /* CloudAccountsVC.xib */; };
 		AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */; };
 		AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4397E919ACCC36000F415D /* SetPassword4Response.m */; };
 		AF4397ED19ACD5D8000F415D /* API4StatusResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4397EC19ACD5D8000F415D /* API4StatusResponse.m */; };
@@ -190,6 +192,8 @@
 		AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBBF18B7CC9D006FE76D /* SetRainDelay.m */; };
 		AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = AF94FBC218B8B505006FE76D /* RainDelay.m */; };
 		AF961ED119C36D2300A2A13C /* WaterNowZone4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF961ED019C36D2300A2A13C /* WaterNowZone4.m */; };
+		AF9D2E941A1E4484009F4654 /* CloudEmailDevicesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */; };
+		AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */; };
 		AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */; };
 		AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
@@ -460,6 +464,9 @@
 		AF3823881951D94C007CADB5 /* RMSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMSwitch.m; path = Sprinklers/Controls/RMSwitch.m; sourceTree = "<group>"; };
 		AF3DE1FB1A1A50A600C4B1FC /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
 		AF3DE1FC1A1A50A600C4B1FC /* Sprinkler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sprinkler.m; path = Model/Sprinkler.m; sourceTree = "<group>"; };
+		AF3E02E41A1D457E00E76C53 /* CloudAccountsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudAccountsVC.h; sourceTree = "<group>"; };
+		AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudAccountsVC.m; sourceTree = "<group>"; };
+		AF3E02E61A1D457E00E76C53 /* CloudAccountsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CloudAccountsVC.xib; sourceTree = "<group>"; };
 		AF3F781018571A6100D9DEB3 /* HomeScreenTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenTableViewCell.h; path = Cells/HomeScreenTableViewCell.h; sourceTree = "<group>"; };
 		AF3F781118571A6100D9DEB3 /* HomeScreenTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenTableViewCell.m; path = Cells/HomeScreenTableViewCell.m; sourceTree = "<group>"; };
 		AF4397E819ACCC36000F415D /* SetPassword4Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetPassword4Response.h; path = "Communication/Response objects/SetPassword4Response.h"; sourceTree = "<group>"; };
@@ -603,6 +610,9 @@
 		AF94FBC218B8B505006FE76D /* RainDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainDelay.m; path = "Communication/Response objects/RainDelay.m"; sourceTree = "<group>"; };
 		AF961ECF19C36D2300A2A13C /* WaterNowZone4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowZone4.h; path = "Communication/Response objects/WaterNowZone4.h"; sourceTree = "<group>"; };
 		AF961ED019C36D2300A2A13C /* WaterNowZone4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowZone4.m; path = "Communication/Response objects/WaterNowZone4.m"; sourceTree = "<group>"; };
+		AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudEmailDevicesVC.h; path = ViewController/CloudEmailDevicesVC.h; sourceTree = "<group>"; };
+		AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudEmailDevicesVC.m; path = ViewController/CloudEmailDevicesVC.m; sourceTree = "<group>"; };
+		AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudEmailDevicesVC.xib; path = ViewController/CloudEmailDevicesVC.xib; sourceTree = "<group>"; };
 		AFA1BEFB18C4D703005FBE9B /* SettingsPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsPasswordVC.h; path = ViewController/SettingsPasswordVC.h; sourceTree = "<group>"; };
 		AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPasswordVC.m; path = ViewController/SettingsPasswordVC.m; sourceTree = "<group>"; };
 		AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsPasswordVC.xib; path = ViewController/SettingsPasswordVC.xib; sourceTree = "<group>"; };
@@ -1449,6 +1459,9 @@
 		B1EF21061860491800D9CE26 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
+				AF3E02E41A1D457E00E76C53 /* CloudAccountsVC.h */,
+				AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */,
+				AF3E02E61A1D457E00E76C53 /* CloudAccountsVC.xib */,
 				AF51E4161A190DA500A7A6A5 /* TRPickerInputView.h */,
 				AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */,
 				AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */,
@@ -1467,6 +1480,9 @@
 				96AD34E01A1CB16E0019453C /* LocationSetupVC.h */,
 				96AD34E11A1CB16E0019453C /* LocationSetupVC.m */,
 				96AD34E21A1CB16E0019453C /* LocationSetupVC.xib */,
+				AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */,
+				AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */,
+				AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */,
 			);
 			name = Devices;
 			sourceTree = "<group>";
@@ -1753,6 +1769,7 @@
 				AF4826861990DC9500D80B87 /* nscttsra.png in Resources */,
 				AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */,
 				AF4826751990DC9500D80B87 /* ip.png in Resources */,
+				AF3E02E81A1D457E00E76C53 /* CloudAccountsVC.xib in Resources */,
 				960374F919D5FB3C009CB68A /* RestrictionsSwitchCell.xib in Resources */,
 				AF48268A1990DC9500D80B87 /* nsvrtsra.png in Resources */,
 				AF48267C1990DC9500D80B87 /* nfew.png in Resources */,
@@ -1776,6 +1793,7 @@
 				96AD34E41A1CB16E0019453C /* LocationSetupVC.xib in Resources */,
 				AF48268F1990DC9500D80B87 /* ra1.png in Resources */,
 				AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */,
+				AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,6 +1814,7 @@
 				AF7A72B118C491F500596148 /* SettingsDate.m in Sources */,
 				AF4397ED19ACD5D8000F415D /* API4StatusResponse.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
+				AF3E02E71A1D457E00E76C53 /* CloudAccountsVC.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
 				3A68C071192B956500821D4D /* MappingModelv1tov7.xcmappingmodel in Sources */,
@@ -1812,6 +1831,7 @@
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
+				AF9D2E941A1E4484009F4654 /* CloudEmailDevicesVC.m in Sources */,
 				AFA9081519AB7DD3008769A0 /* UpdateInfo4PackageDetails.m in Sources */,
 				3A68C06F192B8DEE00821D4D /* MappingModelv6tov7.xcmappingmodel in Sources */,
 				B1DF325A16A6A68700A1BF38 /* main.m in Sources */,

@@ -37,4 +37,12 @@
     return NO;
 }
 
++ (void)deleteCloudAccountWithEmail:(NSString*)email
+{
+    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount] mutableCopy];
+    [keychainDictionary removeObjectForKey:email];
+    
+    [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CloudAccount];
+}
+
 @end

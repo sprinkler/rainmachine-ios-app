@@ -12,5 +12,6 @@
 
 + (NSDictionary*)cloudAccounts;
 + (BOOL)addCloudAccountWithEmail:(NSString*)email password:(NSString*)password;
++ (void)deleteCloudAccountWithEmail:(NSString*)email;
 
 @end
