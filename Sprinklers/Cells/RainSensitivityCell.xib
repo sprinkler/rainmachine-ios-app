@@ -67,6 +67,7 @@
             <connections>
                 <outlet property="maximumValueLabel" destination="XQP-1w-EN5" id="KVy-bv-KA9"/>
                 <outlet property="minimumValueLabel" destination="ypl-as-TGX" id="Xre-sY-SYW"/>
+                <outlet property="rainSensitivitySlider" destination="sfR-77-PRI" id="chI-zK-Qng"/>
             </connections>
             <point key="canvasLocation" x="266" y="230.5"/>
         </tableViewCell>

@@ -10,6 +10,8 @@
 
 @interface FieldCapacityCell : UITableViewCell
 
+@property (nonatomic, assign) int fieldCapacity;
+
 @property (nonatomic, weak) IBOutlet UILabel *fieldCapacityLabel;
 
 @end

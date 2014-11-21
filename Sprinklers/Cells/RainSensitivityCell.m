@@ -17,6 +17,17 @@
     [super setSelected:selected animated:animated];
 }
 
+#pragma mark - Accessors
+
+- (void)setRainSensitivity:(double)rainSensitivity {
+    self.rainSensitivitySlider.value = rainSensitivity;
+    [self onRainSensitivitySliderValueChanged:self.rainSensitivitySlider];
+}
+
+- (double)rainSensitivity {
+    return self.rainSensitivitySlider.value;
+}
+
 #pragma mark - Actions
 
 - (IBAction)onRainSensitivitySliderValueChanged:(UISlider*)slider {

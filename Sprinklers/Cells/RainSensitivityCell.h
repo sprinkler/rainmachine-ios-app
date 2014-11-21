@@ -10,6 +10,8 @@
 
 @interface RainSensitivityCell : UITableViewCell
 
+@property (nonatomic, assign) double rainSensitivity;
+
 @property (nonatomic, weak) IBOutlet UILabel *minimumValueLabel;
 @property (nonatomic, weak) IBOutlet UILabel *maximumValueLabel;
 @property (nonatomic, weak) IBOutlet UISlider *rainSensitivitySlider;

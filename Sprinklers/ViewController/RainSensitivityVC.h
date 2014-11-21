@@ -7,15 +7,16 @@
 //
 
 #import "BaseLevel2ViewController.h"
+#import "Protocols.h"
 
 @class SettingsVC;
-@class  ColoredBackgroundButton;
+@class ColoredBackgroundButton;
 
-@interface RainSensitivityVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
+@interface RainSensitivityVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
 @property (nonatomic, weak) SettingsVC *parent;
 
-@property (nonatomic, weak) IBOutlet UIView *rainSensitivityHeaderView;
+@property (nonatomic, strong) IBOutlet UIView *rainSensitivityHeaderView;
 @property (nonatomic, weak) IBOutlet ColoredBackgroundButton *defaultsButton;
 @property (nonatomic, weak) IBOutlet ColoredBackgroundButton *saveButton;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
