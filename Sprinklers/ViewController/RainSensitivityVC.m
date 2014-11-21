@@ -21,13 +21,17 @@
 #import "MBProgressHUD.h"
 
 const int RainSensitivityMaxWSDays = 10;
+const int RainSensitivityDefaultWSDays = 2;
+const double RainSensitivityDefaultRainSensitivity = 80.0;
 
 @interface RainSensitivityVC ()
 
-@property (strong, nonatomic) ServerProxy *requestProvisionServerProxy;
-@property (strong, nonatomic) Provision *provision;
+@property (nonatomic, strong) ServerProxy *requestProvisionServerProxy;
+@property (nonatomic, strong) ServerProxy *saveRainSensitivityServerProxy;
+@property (nonatomic, strong) Provision *provision;
 
 - (void)requestProvision;
+- (void)saveRainSensitivity;
 
 @end
 
@@ -78,6 +82,12 @@ const int RainSensitivityMaxWSDays = 10;
     [self startHud:nil];
 }
 
+- (void)saveRainSensitivity {
+    self.saveRainSensitivityServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    [self.saveRainSensitivityServerProxy saveRainSensitivityFromProvision:self.provision];
+    [self startHud:nil];
+}
+
 - (void)startHud:(NSString *)text {
     if (hud) return;
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -92,8 +102,14 @@ const int RainSensitivityMaxWSDays = 10;
         self.requestProvisionServerProxy = nil;
     }
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    hud = nil;
+    if (serverProxy == self.saveRainSensitivityServerProxy) {
+        self.saveRainSensitivityServerProxy = nil;
+    }
+    
+    if (!self.requestProvisionServerProxy && !self.saveRainSensitivityServerProxy) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        hud = nil;
+    }
     
     self.tableView.tableHeaderView = (self.provision ? self.rainSensitivityHeaderView : nil);
     
@@ -141,6 +157,7 @@ const int RainSensitivityMaxWSDays = 10;
     if (indexPath.section == 0 && indexPath.row == 0) {
         RainSensitivityCell *cell = [tableView dequeueReusableCellWithIdentifier:RainSensitivityCellIdentifier];
         cell.rainSensitivity = self.provision.location.rainSensitivity;
+        cell.delegate = self;
         return cell;
     }
     else if (indexPath.section == 1 && indexPath.row == 0) {
@@ -160,7 +177,7 @@ const int RainSensitivityMaxWSDays = 10;
     
     if (indexPath.section == 1 && indexPath.row == 0) {
         NSMutableArray *itemsArray = [NSMutableArray new];
-        for (int days = 1; days < RainSensitivityMaxWSDays; days++) [itemsArray addObject:[NSString stringWithFormat:@"%d",days]];
+        for (int days = 1; days <= RainSensitivityMaxWSDays; days++) [itemsArray addObject:[NSString stringWithFormat:@"%d",days]];
         
         PickerVC *pickerVC = [[PickerVC alloc] init];
         pickerVC.title = @"Soil capacity";
@@ -175,21 +192,24 @@ const int RainSensitivityMaxWSDays = 10;
 
 #pragma mark - Actions
 
+- (void)onCellSliderValueChanged:(UISlider*)slider {
+    self.provision.location.rainSensitivity = slider.value;
+}
+
 - (void)pickerVCWillDissapear:(PickerVC*)pickerVC {
     if (!pickerVC.selectedItem.length) return;
     self.provision.location.wsDays = pickerVC.selectedItem.intValue;
     [self.tableView reloadData];
 }
 
-
 - (IBAction)onDefaults:(id)sender {
-    self.provision.location.rainSensitivity = 0.8;
-    self.provision.location.wsDays = 2;
+    self.provision.location.rainSensitivity = RainSensitivityDefaultRainSensitivity;
+    self.provision.location.wsDays = RainSensitivityDefaultWSDays;
     [self.tableView reloadData];
 }
 
 - (IBAction)onSave:(id)sender {
-    
+    [self saveRainSensitivity];
 }
 
 @end

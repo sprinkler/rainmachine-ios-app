@@ -26,6 +26,7 @@
 @optional
 - (void)onCellButton;
 - (void)onCellSwitch:(id)object;
+- (void)onCellSliderValueChanged:(id)object;
 - (void)cellTextFieldChanged:(NSString*)text;
 - (void)onCell:(UITableViewCell*)cell checkmarkState:(BOOL)sel;
 

@@ -31,7 +31,8 @@
 #pragma mark - Actions
 
 - (IBAction)onRainSensitivitySliderValueChanged:(UISlider*)slider {
-    self.maximumValueLabel.text = [NSString stringWithFormat:@"%ld%%",(long)(slider.value * 100.0)];
+    self.maximumValueLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value)];
+    [self.delegate onCellSliderValueChanged:slider];
 }
 
 @end

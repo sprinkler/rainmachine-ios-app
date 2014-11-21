@@ -42,6 +42,8 @@
 #import "API4StatusResponse.h"
 #import "Constants.h"
 #import "Provision.h"
+#import "ProvisionSystem.h"
+#import "ProvisionLocation.h"
 
 static int serverAPIMainVersion = 0;
 static int serverAPISubVersion = 0;
@@ -530,6 +532,22 @@ static int serverAPIMinorSubVersion = -1;
                   [self handleError:error fromOperation:operation userInfo:nil];
               }];
 
+}
+
+- (void)saveRainSensitivityFromProvision:(Provision*)provision
+{
+    NSDictionary *params = @{@"location" : @{@"rainSensitivity" : [NSString stringWithFormat:@"%d", (int)provision.location.rainSensitivity],
+                                             @"wsDays" : [NSString stringWithFormat:@"%d", provision.location.wsDays]}};
+    
+    [self.manager POST:@"/api/4/provision" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
 }
 
 #pragma mark - Various

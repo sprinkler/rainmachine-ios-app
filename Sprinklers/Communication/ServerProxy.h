@@ -136,6 +136,7 @@ typedef enum {
 - (void)deleteHourlyRestriction:(HourlyRestriction*)restriction;
 
 - (void)requestProvision;
+- (void)saveRainSensitivityFromProvision:(Provision*)provision;
 
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
 

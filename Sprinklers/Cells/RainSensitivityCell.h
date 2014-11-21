@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
 @interface RainSensitivityCell : UITableViewCell
 
 @property (nonatomic, assign) double rainSensitivity;
+@property (nonatomic, weak) id<CellButtonDelegate> delegate;
 
 @property (nonatomic, weak) IBOutlet UILabel *minimumValueLabel;
 @property (nonatomic, weak) IBOutlet UILabel *maximumValueLabel;
