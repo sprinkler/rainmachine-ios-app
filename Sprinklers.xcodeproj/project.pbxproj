@@ -1964,7 +1964,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1979,6 +1980,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1993,7 +1995,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2001,6 +2004,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2010,8 +2014,8 @@
 		B1DF326B16A6A68700A1BF38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2023,8 +2027,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				PROVISIONING_PROFILE = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -2034,8 +2038,8 @@
 		B1DF326C16A6A68700A1BF38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Green Electronics LLC (4ZPQBPNF4F)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matyas Fabian (GSWZZSGRG2)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2047,8 +2051,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RainMachine;
-				PROVISIONING_PROFILE = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0BFE6ADC-A855-4EA2-BF89-9FACA80AFB45";
+				PROVISIONING_PROFILE = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;

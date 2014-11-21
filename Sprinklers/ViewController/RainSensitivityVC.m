@@ -17,7 +17,10 @@
 #import "ProvisionSystem.h"
 #import "ProvisionLocation.h"
 #import "SettingsVC.h"
+#import "PickerVC.h"
 #import "MBProgressHUD.h"
+
+const int RainSensitivityMaxWSDays = 10;
 
 @interface RainSensitivityVC ()
 
@@ -59,15 +62,8 @@
     [self.saveButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
     [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.saveButton setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    
     [self requestProvision];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -161,9 +157,30 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        NSMutableArray *itemsArray = [NSMutableArray new];
+        for (int days = 1; days < RainSensitivityMaxWSDays; days++) [itemsArray addObject:[NSString stringWithFormat:@"%d",days]];
+        
+        PickerVC *pickerVC = [[PickerVC alloc] init];
+        pickerVC.title = @"Soil capacity";
+        pickerVC.itemsArray = itemsArray;
+        pickerVC.itemsDisplayStringArray = itemsArray;
+        pickerVC.selectedItem = [NSString stringWithFormat:@"%d",self.provision.location.wsDays];
+        pickerVC.parent = self;
+        
+        [self.navigationController pushViewController:pickerVC animated:YES];
+    }
 }
 
 #pragma mark - Actions
+
+- (void)pickerVCWillDissapear:(PickerVC*)pickerVC {
+    if (!pickerVC.selectedItem.length) return;
+    self.provision.location.wsDays = pickerVC.selectedItem.intValue;
+    [self.tableView reloadData];
+}
+
 
 - (IBAction)onDefaults:(id)sender {
     self.provision.location.rainSensitivity = 0.8;

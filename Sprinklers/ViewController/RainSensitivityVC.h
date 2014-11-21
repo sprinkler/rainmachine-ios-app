@@ -12,7 +12,7 @@
 @class SettingsVC;
 @class ColoredBackgroundButton;
 
-@interface RainSensitivityVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
+@interface RainSensitivityVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, PickerVCDelegate, SprinklerResponseProtocol>
 
 @property (nonatomic, weak) SettingsVC *parent;
 
