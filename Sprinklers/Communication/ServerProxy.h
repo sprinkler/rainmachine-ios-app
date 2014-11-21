@@ -71,6 +71,7 @@ typedef enum {
 @class Sprinkler;
 @class WateringRestrictions;
 @class HourlyRestriction;
+@class Provision;
 
 @interface ServerProxy : NSObject
 
@@ -133,6 +134,8 @@ typedef enum {
 - (void)requestHourlyRestrictions;
 - (void)createHourlyRestriction:(HourlyRestriction*)restriction;
 - (void)deleteHourlyRestriction:(HourlyRestriction*)restriction;
+
+- (void)requestProvision;
 
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
 

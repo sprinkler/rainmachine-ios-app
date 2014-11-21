@@ -47,6 +47,9 @@
 		9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */; };
 		967C004519D983870071B4CB /* ProgramCellType6.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C004319D983870071B4CB /* ProgramCellType6.m */; };
 		967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C004419D983870071B4CB /* ProgramCellType6.xib */; };
+		968E25EF1A1F8DD1008006D3 /* Provision.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EA1A1F8DD1008006D3 /* Provision.m */; };
+		968E25F01A1F8DD1008006D3 /* ProvisionLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EC1A1F8DD1008006D3 /* ProvisionLocation.m */; };
+		968E25F11A1F8DD1008006D3 /* ProvisionSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EE1A1F8DD1008006D3 /* ProvisionSystem.m */; };
 		969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969EB3B819DAD11A00D10887 /* CloudServerVC.m */; };
 		969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969EB3B919DAD11A00D10887 /* CloudServerVC.xib */; };
 		96AD34E31A1CB16E0019453C /* LocationSetupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD34E11A1CB16E0019453C /* LocationSetupVC.m */; };
@@ -392,6 +395,12 @@
 		967C004219D983870071B4CB /* ProgramCellType6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType6.h; path = Cells/ProgramCellType6.h; sourceTree = "<group>"; };
 		967C004319D983870071B4CB /* ProgramCellType6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType6.m; path = Cells/ProgramCellType6.m; sourceTree = "<group>"; };
 		967C004419D983870071B4CB /* ProgramCellType6.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType6.xib; path = Cells/ProgramCellType6.xib; sourceTree = "<group>"; };
+		968E25E91A1F8DD1008006D3 /* Provision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Provision.h; path = "Communication/Response objects/Provision.h"; sourceTree = "<group>"; };
+		968E25EA1A1F8DD1008006D3 /* Provision.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Provision.m; path = "Communication/Response objects/Provision.m"; sourceTree = "<group>"; };
+		968E25EB1A1F8DD1008006D3 /* ProvisionLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionLocation.h; path = "Communication/Response objects/ProvisionLocation.h"; sourceTree = "<group>"; };
+		968E25EC1A1F8DD1008006D3 /* ProvisionLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionLocation.m; path = "Communication/Response objects/ProvisionLocation.m"; sourceTree = "<group>"; };
+		968E25ED1A1F8DD1008006D3 /* ProvisionSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionSystem.h; path = "Communication/Response objects/ProvisionSystem.h"; sourceTree = "<group>"; };
+		968E25EE1A1F8DD1008006D3 /* ProvisionSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionSystem.m; path = "Communication/Response objects/ProvisionSystem.m"; sourceTree = "<group>"; };
 		969EB3B719DAD11A00D10887 /* CloudServerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudServerVC.h; path = ViewController/CloudServerVC.h; sourceTree = "<group>"; };
 		969EB3B819DAD11A00D10887 /* CloudServerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudServerVC.m; path = ViewController/CloudServerVC.m; sourceTree = "<group>"; };
 		969EB3B919DAD11A00D10887 /* CloudServerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudServerVC.xib; path = ViewController/CloudServerVC.xib; sourceTree = "<group>"; };
@@ -1238,6 +1247,12 @@
 				AF4397E919ACCC36000F415D /* SetPassword4Response.m */,
 				AF0B1F4F19AF3B1200FDC406 /* TimeResponse4.h */,
 				AF0B1F5019AF3B1200FDC406 /* TimeResponse4.m */,
+				968E25E91A1F8DD1008006D3 /* Provision.h */,
+				968E25EA1A1F8DD1008006D3 /* Provision.m */,
+				968E25EB1A1F8DD1008006D3 /* ProvisionLocation.h */,
+				968E25EC1A1F8DD1008006D3 /* ProvisionLocation.m */,
+				968E25ED1A1F8DD1008006D3 /* ProvisionSystem.h */,
+				968E25EE1A1F8DD1008006D3 /* ProvisionSystem.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1863,6 +1878,7 @@
 				96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */,
 				AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */,
 				964ADD0E1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m in Sources */,
+				968E25F01A1F8DD1008006D3 /* ProvisionLocation.m in Sources */,
 				AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
@@ -1892,6 +1908,7 @@
 				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
 				AFB69438190289440067CD7F /* Zone.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
+				968E25F11A1F8DD1008006D3 /* ProvisionSystem.m in Sources */,
 				964ADD0F1A1E5AA5008281A8 /* GoogleRequestElevation.m in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,
@@ -1920,6 +1937,7 @@
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
 				AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */,
 				AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */,
+				968E25EF1A1F8DD1008006D3 /* Provision.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

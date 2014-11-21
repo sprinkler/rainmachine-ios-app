@@ -41,6 +41,7 @@
 #import "NetworkUtilities.h"
 #import "API4StatusResponse.h"
 #import "Constants.h"
+#import "Provision.h"
 
 static int serverAPIMainVersion = 0;
 static int serverAPISubVersion = 0;
@@ -512,6 +513,23 @@ static int serverAPIMinorSubVersion = -1;
                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                    [self handleError:error fromOperation:operation userInfo:nil];
                }];
+}
+
+#pragma mark - Provision
+
+- (void)requestProvision
+{
+    [self.manager GET:@"/api/4/provision" parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      Provision *provision = [Provision createFromJson:responseObject];
+                      [self.delegate serverResponseReceived:provision serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+
 }
 
 #pragma mark - Various
