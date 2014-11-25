@@ -39,9 +39,11 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) NSArray *savedSprinklers;
+@property (strong, nonatomic) NSArray *locallyDiscoveredSprinklers;
+@property (strong, nonatomic) NSArray *manuallyEnteredSprinklers;
 @property (strong, nonatomic) NSDictionary *cloudResponse;
 @property (strong, nonatomic) NSDictionary *cloudSprinklers;
+@property (strong, nonatomic) NSMutableArray *cloudSprinklersList;
 @property (strong, nonatomic) NSArray *cloudEmails;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
@@ -255,9 +257,11 @@
     NSArray *sprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All aliveDevices:nil];
     
     // Sort sprinklers into:
-    // 1) savedSprinklers array (manually entered or discovered on the network)
-    // 2) cloudSprinklers dictionary
-    NSMutableArray *networkOrManuallyEnteredSprinklers = [NSMutableArray array];
+    // 1) manuallyEnteredSprinklers
+    // 2) locallyDiscoveredSprinklers
+    // 3) cloudSprinklers dictionary
+    NSMutableArray *manuallyEnteredSprinklers = [NSMutableArray array];
+    NSMutableArray *locallyDiscoveredSprinklers = [NSMutableArray array];
     NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
     for (Sprinkler *sprinkler in sprinklers) {
         if ([Utils isCloudDevice:sprinkler]) {
@@ -266,7 +270,11 @@
             }
             [cloudSprinklersDic[sprinkler.email] addObject:sprinkler];
         } else {
-            [networkOrManuallyEnteredSprinklers addObject:sprinkler];
+            if ([Utils isManuallyAddedDevice:sprinkler]) {
+                [manuallyEnteredSprinklers addObject:sprinkler];
+            } else {
+                [locallyDiscoveredSprinklers addObject:sprinkler];
+            }
         }
     }
     
@@ -274,7 +282,7 @@
     // Filter out the duplicate sprinklers based on mac: priority have the local ones
     for (NSMutableArray *emailBasedCloudSprinklers in [cloudSprinklersDic allValues]) {
         for (Sprinkler *cloudSprinkler in emailBasedCloudSprinklers) {
-            for (Sprinkler *localSprinkler in networkOrManuallyEnteredSprinklers) {
+            for (Sprinkler *localSprinkler in locallyDiscoveredSprinklers) {
                 if ([localSprinkler.mac isEqualToString:cloudSprinkler.mac]) {
                     [duplicateCloudSprinklers addObject:cloudSprinkler];
                     break;
@@ -286,8 +294,14 @@
     for (Sprinkler *cloudSprinkler in duplicateCloudSprinklers) {
         [cloudSprinklersDic removeObjectForKey:cloudSprinkler.email];
     }
+    
+    self.cloudSprinklersList = [NSMutableArray array];
+    for (NSArray *sprinklerArray in [cloudSprinklersDic allValues]) {
+        [self.cloudSprinklersList addObjectsFromArray:sprinklerArray];
+    }
 
-    self.savedSprinklers = networkOrManuallyEnteredSprinklers;
+    self.manuallyEnteredSprinklers = manuallyEnteredSprinklers;
+    self.locallyDiscoveredSprinklers = locallyDiscoveredSprinklers;
     self.cloudSprinklers = cloudSprinklersDic;
 }
 
@@ -440,31 +454,57 @@
     [self shouldStartBroadcastForceUIRefresh:NO];
     self.cloudResponse = nil;
     self.cloudEmails = nil;
-    self.savedSprinklers = nil;
-
+    self.locallyDiscoveredSprinklers = nil;
+    self.manuallyEnteredSprinklers = nil;
+    self.cloudSprinklers = nil;
+    
     [self startHud:nil];
     [self.tableView reloadData];
 }
 
 #pragma mark - UITableView delegate
 
+- (NSInteger)tvSectionManuallyEnteredDevices
+{
+    return 0;//self.manuallyEnteredSprinklers.count > 0 ? 0 : -1;
+}
+
+- (NSInteger)tvSectionDiscoveredDevices
+{
+    return [self tvSectionManuallyEnteredDevices] + 1;
+}
+
+- (NSInteger)tvSectionAddDevice
+{
+    return [self tvSectionDiscoveredDevices] + 1;
+}
+
+- (NSInteger)tvSectionCloud
+{
+    return [self tvSectionAddDevice] + 1;
+}
+
+- (NSInteger)tvSectionDebugSettings
+{
+    return [self tvSectionCloud] + 1;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Discovered + manually added sprinklers
-    // Cloud Sprinklers
-    // Settings
+    // Manually added sprinklers
+    // Discovered + Cloud Sprinklers
     // Add Device
     // Cloud
-    return 3 + self.cloudEmails.count + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
+    // Debug Settings
+    return (([self tvSectionManuallyEnteredDevices] == -1) ? 0 : 1) + 3 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return self.savedSprinklers.count;
+    if (section == [self tvSectionManuallyEnteredDevices]) {
+        return self.manuallyEnteredSprinklers.count;
     }
     
-    if (section < 1 + self.cloudEmails.count) {
-        int sprinklersNr = (int)[self.cloudSprinklers[self.cloudEmails[section - 1]] count];
-        return sprinklersNr > 0 ? sprinklersNr : 1;
+    if (section == [self tvSectionDiscoveredDevices]) {
+        return self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count;
     }
     
     if (section == [self tvSectionDebugSettings]) {
@@ -476,8 +516,16 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if ((section > 0) && (section < 1 + self.cloudEmails.count)) {
-        return self.cloudEmails[section - 1];
+    if (section == [self tvSectionManuallyEnteredDevices]) {
+        if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
+            return @"MANUALLY ENTERED";
+        }
+    }
+    
+    if (section == [self tvSectionDiscoveredDevices]) {
+        if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
+            return @"DISCOVERED LOCALLY & CLOUD";
+        }
     }
     
     if (section == [self tvSectionDebugSettings]) {
@@ -513,12 +561,28 @@
     return 44;
 }
 
+- (Sprinkler*)sprinklerToShowForIndexPath:(NSIndexPath*)indexPath
+{
+    Sprinkler *sprinkler = nil;
+    if (indexPath.section == [self tvSectionManuallyEnteredDevices]) {
+        sprinkler = self.manuallyEnteredSprinklers[indexPath.row];
+    } else if (indexPath.section == [self tvSectionDiscoveredDevices]) {
+        if (indexPath.row < self.locallyDiscoveredSprinklers.count) {
+            sprinkler = self.locallyDiscoveredSprinklers[indexPath.row];
+        } else {
+            sprinkler = self.cloudSprinklersList[indexPath.row - self.locallyDiscoveredSprinklers.count];
+        }
+    }
+    
+    return sprinkler;
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//    Sprinkler *sprinkler = tableView.isEditing ? self.remoteSprinklers[indexPath.row] : self.savedSprinklers[indexPath.row];
-    if (indexPath.section == 0) {
-        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+    Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
+
+    if (sprinkler) {
         BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler]);
-        return (indexPath.section == 0) && isDeviceEditable;
+        return isDeviceEditable;
     }
     
     return NO;
@@ -527,10 +591,12 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 
-        BOOL currentSprinklerDeleted = self.savedSprinklers[indexPath.row] == [StorageManager current].currentSprinkler;
+        Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
+        
+        BOOL currentSprinklerDeleted = sprinkler == [StorageManager current].currentSprinkler;
         [Utils invalidateLoginForCurrentSprinkler];
 
-        BOOL deleted = [[StorageManager current] deleteSprinkler:self.savedSprinklers[indexPath.row]];
+        BOOL deleted = [[StorageManager current] deleteSprinkler:sprinkler];
         
         if (currentSprinklerDeleted) {
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -539,40 +605,18 @@
             [self refreshSprinklerList];
             if (deleted) {
                 [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
             }
         }
     }
 }
 
-- (NSInteger)tvSectionDebugSettings
-{
-    return 1 + self.cloudEmails.count;
-}
-
-- (NSInteger)tvSectionCloud
-{
-    return 2 + self.cloudEmails.count;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+    Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
+
+    if ((indexPath.section == [self tvSectionDiscoveredDevices]) || (indexPath.section == [self tvSectionManuallyEnteredDevices])) {
         DevicesCellType1 *cell = [Utils configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler canEditRow:[self tableView:tableView canEditRowAtIndexPath:indexPath] forceHiddenDisclosure:NO];
         cell.sprinkler = sprinkler;
-        return cell;
-    }
-    else if (indexPath.section < 1 + self.cloudEmails.count) {
-        NSArray *sprinklerArray = self.cloudSprinklers[self.cloudEmails[indexPath.section - 1]];
-        Sprinkler *sprinkler = nil;
-        if (sprinklerArray.count > 0) {
-            sprinkler = sprinklerArray[indexPath.row];
-        }
-        DevicesCellType1 *cell = [Utils configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler canEditRow:[self tableView:tableView canEditRowAtIndexPath:indexPath] forceHiddenDisclosure:NO];
-        cell.sprinkler = sprinkler;
-        if (!sprinkler) {
-            cell.labelMainSubtitle.text = @"No sprinklers online";
-            cell.disclosureImageView.hidden = YES;
-        }
         return cell;
     }
     else if (indexPath.section == [self tvSectionDebugSettings]) {
@@ -620,7 +664,7 @@
         return cell;
     }
     else {
-        if (indexPath.section == [self tvSectionCloud]) {
+        if (indexPath.section == [self tvSectionAddDevice]) {
             // Add New Device
             AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
             cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
@@ -631,19 +675,24 @@
             
             return cell;
         } else {
-            // Add Cloud Account
-            UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
-            }
+            if (indexPath.section == [self tvSectionCloud]) {
+                // Add Cloud Account
+                UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
+                if (!cell) {
+                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
+                }
 
-            cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
-            
-            cell.textLabel.text = @"Cloud";
-            cell.detailTextLabel.text = @"";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-            return cell;
+                cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
+                
+                cell.textLabel.text = @"Cloud";
+                cell.detailTextLabel.text = @"";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                
+                return cell;
+            } else {
+                // Should not happen
+                assert(0);
+            }
         }
     }
     
@@ -656,28 +705,18 @@
     if (self.tableView.isEditing) {
         if ([self tableView:tableView canEditRowAtIndexPath:indexPath]) {
             AddNewDeviceVC *editDeviceVC = [[AddNewDeviceVC alloc] init];
-            editDeviceVC.sprinkler = self.savedSprinklers[indexPath.row];
+            editDeviceVC.sprinkler = [self sprinklerToShowForIndexPath:indexPath];
             editDeviceVC.title = @"Edit Device";
             [self.navigationController pushViewController:editDeviceVC animated:YES];
         }
         return;
     }
     
-    if (indexPath.section == 0) {
+    if ((indexPath.section == [self tvSectionDiscoveredDevices]) || (indexPath.section == [self tvSectionManuallyEnteredDevices])) {
         DevicesCellType1 *selectedCell = (DevicesCellType1*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
         if (!selectedCell.disclosureImageView.hidden) {
-            Sprinkler *sprinkler = self.savedSprinklers[indexPath.row];
+            Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
             [self sprinklerSelected:sprinkler];
-        }
-    } else if (indexPath.section < 1 + self.cloudEmails.count) {
-        DevicesCellType1 *selectedCell = (DevicesCellType1*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
-        if (!selectedCell.disclosureImageView.hidden) {
-            NSArray *sprinklerArray = self.cloudSprinklers[self.cloudEmails[indexPath.section - 1]];
-            Sprinkler *sprinkler = nil;
-            if (sprinklerArray.count > 0) {
-                sprinkler = sprinklerArray[indexPath.row];
-                [self sprinklerSelected:sprinkler];
-            }
         }
     } else if (indexPath.section == [self tvSectionDebugSettings]) {
         if (indexPath.row == 0) {
@@ -742,16 +781,21 @@
             }
         }
     } else {
-        if (indexPath.section == [self tvSectionCloud]) {
+        if (indexPath.section == [self tvSectionAddDevice]) {
             AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
             [self.navigationController pushViewController:addNewDeviceVC animated:YES];
         } else {
-            self.cloudAccountsVC = [[CloudAccountsVC alloc] init];
-            self.cloudAccountsVC.cloudResponse = self.cloudResponse;
-            self.cloudAccountsVC.cloudSprinklers = self.cloudSprinklers;
-            self.cloudAccountsVC.cloudEmails = [self.cloudEmails mutableCopy];
-            
-            [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
+            if (indexPath.section == [self tvSectionCloud]) {
+                self.cloudAccountsVC = [[CloudAccountsVC alloc] init];
+                self.cloudAccountsVC.cloudResponse = self.cloudResponse;
+                self.cloudAccountsVC.cloudSprinklers = self.cloudSprinklers;
+                self.cloudAccountsVC.cloudEmails = [self.cloudEmails mutableCopy];
+                
+                [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
+            } else {
+                // Should not happen
+                assert(0);
+            }
         }
     }
 }
@@ -802,7 +846,7 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self hideHud];
 //    NSError *e = nil;
-//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"dragos@oriunde.com\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"180:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
+//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"dragos@oriunde.com\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"2180:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
 //    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];
     
     // The cloud is continuosly pulled, so if the table finished editing the cloud state will refresh at the next timer poll
