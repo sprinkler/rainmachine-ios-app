@@ -20,7 +20,7 @@
 #import "PickerVC.h"
 #import "MBProgressHUD.h"
 
-const int RainSensitivityMaxWSDays = 10;
+const int RainSensitivityMaxWSDays = 5;
 const int RainSensitivityDefaultWSDays = 2;
 const double RainSensitivityDefaultRainSensitivity = 0.8;
 
@@ -177,10 +177,10 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
     
     if (indexPath.section == 1 && indexPath.row == 0) {
         NSMutableArray *itemsArray = [NSMutableArray new];
-        for (int days = 1; days <= RainSensitivityMaxWSDays; days++) [itemsArray addObject:[NSString stringWithFormat:@"%d",days]];
+        for (int days = 0; days <= RainSensitivityMaxWSDays; days++) [itemsArray addObject:[NSString stringWithFormat:@"%d",days]];
         
         PickerVC *pickerVC = [[PickerVC alloc] init];
-        pickerVC.title = @"Soil capacity";
+        pickerVC.title = @"Field Capacity";
         pickerVC.itemsArray = itemsArray;
         pickerVC.itemsDisplayStringArray = itemsArray;
         pickerVC.selectedItem = [NSString stringWithFormat:@"%d",self.provision.location.wsDays];
