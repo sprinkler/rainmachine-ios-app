@@ -17,6 +17,7 @@
 @property (nonatomic, weak) SettingsVC *parent;
 
 @property (nonatomic, strong) IBOutlet UIView *rainSensitivityHeaderView;
+@property (nonatomic, weak) IBOutlet UIView *rainSensitivitySimulationGraphContainerView;
 @property (nonatomic, weak) IBOutlet ColoredBackgroundButton *defaultsButton;
 @property (nonatomic, weak) IBOutlet ColoredBackgroundButton *saveButton;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;

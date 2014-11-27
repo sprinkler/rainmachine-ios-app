@@ -70,6 +70,10 @@
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
 		96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C223A819D7727F00683AC6 /* NewRestrictionVC.m */; };
 		96C223AB19D7729900683AC6 /* NewRestrictionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223AA19D7729900683AC6 /* NewRestrictionVC.xib */; };
+		96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */; };
+		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
+		96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */; };
+		96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -430,6 +434,12 @@
 		96C223A719D7727F00683AC6 /* NewRestrictionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewRestrictionVC.h; path = ViewController/NewRestrictionVC.h; sourceTree = "<group>"; };
 		96C223A819D7727F00683AC6 /* NewRestrictionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewRestrictionVC.m; path = ViewController/NewRestrictionVC.m; sourceTree = "<group>"; };
 		96C223AA19D7729900683AC6 /* NewRestrictionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewRestrictionVC.xib; sourceTree = "<group>"; };
+		96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivitySimulationGraphVC.h; sourceTree = "<group>"; };
+		96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivitySimulationGraphVC.m; sourceTree = "<group>"; };
+		96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivitySimulationGraphVC.xib; sourceTree = "<group>"; };
+		96DAB8FE1A279437005974CC /* RainSensitivityGraphMonthCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivityGraphMonthCell.h; sourceTree = "<group>"; };
+		96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivityGraphMonthCell.m; sourceTree = "<group>"; };
+		96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivityGraphMonthCell.xib; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -901,6 +911,20 @@
 				96AD362B1A1CDB6A0019453C /* GoogleMaps.framework */,
 			);
 			name = GoogleMaps;
+			sourceTree = "<group>";
+		};
+		96DAB8F51A27899D005974CC /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				96DAB8FE1A279437005974CC /* RainSensitivityGraphMonthCell.h */,
+				96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */,
+				96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */,
+				96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */,
+				96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */,
+				96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */,
+			);
+			name = Graphs;
+			path = ViewController/Graphs;
 			sourceTree = "<group>";
 		};
 		AF167D63189AD711003E659D /* Update */ = {
@@ -1518,6 +1542,7 @@
 		B1EF21131860495E00D9CE26 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				96DAB8F51A27899D005974CC /* Graphs */,
 				3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */,
 				AF7A72B518C4AA8500596148 /* DatePickerVC.h */,
 				AF7A72B618C4AA8500596148 /* DatePickerVC.m */,
@@ -1645,6 +1670,7 @@
 				AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */,
 				AF4826741990DC9500D80B87 /* hot.png in Resources */,
 				AFF6A6B5188834E400825A37 /* icon_disclosure_triangle.png in Resources */,
+				96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */,
 				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
 				AFF3A06518BDE4D00060D0F6 /* TimePickerVC.xib in Resources */,
 				3A443800188A93FD004F9E11 /* RestrictedHoursVC.xib in Resources */,
@@ -1791,6 +1817,7 @@
 				B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */,
 				AF4826791990DC9500D80B87 /* nbkn.png in Resources */,
 				96AD34E41A1CB16E0019453C /* LocationSetupVC.xib in Resources */,
+				96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */,
 				AF48268F1990DC9500D80B87 /* ra1.png in Resources */,
 				AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */,
 				AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */,
@@ -1891,6 +1918,7 @@
 				AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */,
+				96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */,
 				B1EF20F8186046D300D9CE26 /* +UIScreen.m in Sources */,
 				B1213EB11860879F009D97F4 /* DevicesCellType1.m in Sources */,
 				AF7AC9CA184E3DBE0047BD9E /* AFURLConnectionOperation.m in Sources */,
@@ -1917,6 +1945,7 @@
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */,
 				964ADD291A1E7B82008281A8 /* FieldCapacityCell.m in Sources */,
+				96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */,
 				AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */,
 				AF73880918E08ADE00F184A9 /* BaseNetworkHandlingVC.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,

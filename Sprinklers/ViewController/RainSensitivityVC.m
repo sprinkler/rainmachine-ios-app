@@ -9,6 +9,7 @@
 #import "RainSensitivityVC.h"
 #import "RainSensitivityCell.h"
 #import "FieldCapacityCell.h"
+#import "Additions.h"
 #import "Constants.h"
 #import "Utils.h"
 #import "ColoredBackgroundButton.h"
@@ -16,6 +17,7 @@
 #import "Provision.h"
 #import "ProvisionSystem.h"
 #import "ProvisionLocation.h"
+#import "RainSensitivitySimulationGraphVC.h"
 #import "SettingsVC.h"
 #import "PickerVC.h"
 #import "MBProgressHUD.h"
@@ -30,6 +32,7 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
 @property (nonatomic, strong) ServerProxy *saveRainSensitivityServerProxy;
 @property (nonatomic, strong) Provision *provision;
 
+- (void)initializeRainSensitivitySimulationGraph;
 - (void)requestProvision;
 - (void)saveRainSensitivity;
 
@@ -67,6 +70,7 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
     [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.saveButton setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     
+    [self initializeRainSensitivitySimulationGraph];
     [self requestProvision];
 }
 
@@ -75,6 +79,27 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
 }
 
 #pragma mark - Methods
+
+- (void)initializeRainSensitivitySimulationGraph {
+    RainSensitivitySimulationGraphVC *graphVC = [[RainSensitivitySimulationGraphVC alloc] init];
+    graphVC.view.frame = self.rainSensitivitySimulationGraphContainerView.bounds;
+    graphVC.parent = self;
+    
+    [self.rainSensitivitySimulationGraphContainerView addSubview:graphVC.view];
+    [self addChildViewController:graphVC];
+    
+    [graphVC didMoveToParentViewController:self];
+    
+    UIView *graphView = graphVC.view;
+    
+    if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphView)]];
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[graphView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphView)]];
+    } else {
+        [self.rainSensitivitySimulationGraphContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphView)]];
+        [self.rainSensitivitySimulationGraphContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[graphView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphView)]];
+    }
+}
 
 - (void)requestProvision {
     self.requestProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];

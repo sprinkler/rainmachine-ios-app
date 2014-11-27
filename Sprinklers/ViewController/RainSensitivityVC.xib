@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="defaultsButton" destination="3nu-Ki-doO" id="cva-cR-ALB"/>
                 <outlet property="rainSensitivityHeaderView" destination="LRr-bJ-7De" id="7Nj-5L-h6D"/>
+                <outlet property="rainSensitivitySimulationGraphContainerView" destination="cED-a3-h0n" id="Y1p-fB-CoQ"/>
                 <outlet property="saveButton" destination="wRH-Bz-nqk" id="dXj-JQ-zv6"/>
                 <outlet property="tableView" destination="aui-2u-Xvh" id="mKg-ee-8DQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -37,11 +38,11 @@
             </constraints>
         </view>
         <view contentMode="scaleToFill" id="LRr-bJ-7De">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="304"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3nu-Ki-doO" customClass="ColoredBackgroundButton">
-                    <rect key="frame" x="16" y="12" width="88" height="38"/>
+                    <rect key="frame" x="16" y="254" width="88" height="38"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="38" id="4AH-Bw-XtT"/>
                         <constraint firstAttribute="width" constant="88" id="8I8-gf-ZgZ"/>
@@ -55,7 +56,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRH-Bz-nqk" customClass="ColoredBackgroundButton">
-                    <rect key="frame" x="496" y="12" width="88" height="38"/>
+                    <rect key="frame" x="496" y="254" width="88" height="38"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="88" id="9TE-37-IHm"/>
                         <constraint firstAttribute="height" constant="38" id="Gq3-Kr-eO7"/>
@@ -68,16 +69,26 @@
                         <action selector="onSave:" destination="-1" eventType="touchUpInside" id="Z4d-5n-MgP"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cED-a3-h0n">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="240" id="4qG-VR-iXP"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="wRH-Bz-nqk" secondAttribute="trailing" constant="16" id="2Xs-iX-Xab"/>
                 <constraint firstItem="3nu-Ki-doO" firstAttribute="leading" secondItem="LRr-bJ-7De" secondAttribute="leading" constant="16" id="3LM-N5-yYJ"/>
-                <constraint firstItem="wRH-Bz-nqk" firstAttribute="top" secondItem="LRr-bJ-7De" secondAttribute="top" constant="12" id="SVl-xO-aep"/>
-                <constraint firstItem="3nu-Ki-doO" firstAttribute="top" secondItem="LRr-bJ-7De" secondAttribute="top" constant="12" id="kJl-iY-bYf"/>
+                <constraint firstAttribute="trailing" secondItem="cED-a3-h0n" secondAttribute="trailing" id="5A9-Ix-Zfv"/>
+                <constraint firstItem="3nu-Ki-doO" firstAttribute="top" secondItem="cED-a3-h0n" secondAttribute="bottom" constant="14" id="IgF-Cg-rtz"/>
+                <constraint firstItem="wRH-Bz-nqk" firstAttribute="top" secondItem="cED-a3-h0n" secondAttribute="bottom" constant="14" id="pK6-YL-dUJ"/>
+                <constraint firstItem="cED-a3-h0n" firstAttribute="leading" secondItem="LRr-bJ-7De" secondAttribute="leading" id="t2t-0Q-FuT"/>
+                <constraint firstItem="cED-a3-h0n" firstAttribute="top" secondItem="LRr-bJ-7De" secondAttribute="top" id="x8Z-Qp-OQh"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="196" y="-884"/>
+            <point key="canvasLocation" x="224" y="-1039"/>
         </view>
     </objects>
 </document>
