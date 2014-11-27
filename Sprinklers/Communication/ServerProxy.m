@@ -536,7 +536,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)saveRainSensitivityFromProvision:(Provision*)provision
 {
-    NSDictionary *params = @{@"location" : @{@"rainSensitivity" : [NSString stringWithFormat:@"%d", (int)provision.location.rainSensitivity],
+    NSDictionary *params = @{@"location" : @{@"rainSensitivity" : [NSString stringWithFormat:@"%lf", provision.location.rainSensitivity],
                                              @"wsDays" : [NSString stringWithFormat:@"%d", provision.location.wsDays]}};
     
     [self.manager POST:@"/api/4/provision" parameters:params

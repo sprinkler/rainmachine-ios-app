@@ -22,7 +22,7 @@
 
 const int RainSensitivityMaxWSDays = 10;
 const int RainSensitivityDefaultWSDays = 2;
-const double RainSensitivityDefaultRainSensitivity = 80.0;
+const double RainSensitivityDefaultRainSensitivity = 0.8;
 
 @interface RainSensitivityVC ()
 
@@ -156,7 +156,7 @@ const double RainSensitivityDefaultRainSensitivity = 80.0;
     
     if (indexPath.section == 0 && indexPath.row == 0) {
         RainSensitivityCell *cell = [tableView dequeueReusableCellWithIdentifier:RainSensitivityCellIdentifier];
-        cell.rainSensitivity = self.provision.location.rainSensitivity;
+        cell.rainSensitivity = (self.provision.location.rainSensitivity > 1.0 ? 1.0 : self.provision.location.rainSensitivity);
         cell.delegate = self;
         return cell;
     }
