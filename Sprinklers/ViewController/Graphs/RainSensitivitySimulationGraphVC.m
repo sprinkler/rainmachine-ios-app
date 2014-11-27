@@ -45,6 +45,9 @@
 #pragma mark - Methods
 
 - (void)reloadGraph {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [NSDateComponents new];
+    
     CGFloat graphMonthCellWidth = round(self.view.frame.size.width / 3.0);
     CGFloat graphMonthCellHeight = self.graphScrollView.frame.size.height;
     
@@ -52,7 +55,13 @@
     
     NSInteger month = 0;
     for (month = 0; month < 12; month++) {
+        dateComponents.month = month + 1;
+        
+        NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
+        
         RainSensitivityGraphMonthCell *graphMonthCell = [RainSensitivityGraphMonthCell newGraphMonthCell];
+        graphMonthCell.month = month;
+        graphMonthCell.numberOfDays = monthRange.length;
         graphMonthCell.monthLabel.text = monthsOfYear[month].uppercaseString;
         
         CGFloat graphMonthCellX = month * graphMonthCellWidth;
@@ -60,6 +69,8 @@
         
         [self.graphScrollView addSubview:graphMonthCell];
         [graphMonthCells addObject:graphMonthCell];
+        
+        [graphMonthCell draw];
     }
     
     self.graphScrollView.contentSize = CGSizeMake(12.0 * graphMonthCellWidth, graphMonthCellHeight);

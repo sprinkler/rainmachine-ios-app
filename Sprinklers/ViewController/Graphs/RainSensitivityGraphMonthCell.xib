@@ -25,7 +25,7 @@
                         <constraint firstAttribute="height" constant="1" id="Pwx-I2-eot"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Wn-T2-nab">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Wn-T2-nab" customClass="RainSensitivityGraphMonthView">
                     <rect key="frame" x="0.0" y="0.0" width="199" height="168"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -57,6 +57,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="graphView" destination="9Wn-T2-nab" id="YZb-O0-7Qm"/>
                 <outlet property="monthLabel" destination="kP7-7q-XeO" id="vE6-wJ-HYH"/>
             </connections>
         </view>

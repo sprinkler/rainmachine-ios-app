@@ -75,6 +75,7 @@
 		96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */; };
 		96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */; };
 		96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9091A27A020005974CC /* MixerDailyValue.m */; };
+		96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -443,6 +444,8 @@
 		96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivityGraphMonthCell.xib; sourceTree = "<group>"; };
 		96DAB9081A27A020005974CC /* MixerDailyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MixerDailyValue.h; path = "Communication/Response objects/MixerDailyValue.h"; sourceTree = "<group>"; };
 		96DAB9091A27A020005974CC /* MixerDailyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MixerDailyValue.m; path = "Communication/Response objects/MixerDailyValue.m"; sourceTree = "<group>"; };
+		96DAB9141A27BBA5005974CC /* RainSensitivityGraphMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivityGraphMonthView.h; sourceTree = "<group>"; };
+		96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivityGraphMonthView.m; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -919,6 +922,8 @@
 		96DAB8F51A27899D005974CC /* Graphs */ = {
 			isa = PBXGroup;
 			children = (
+				96DAB9141A27BBA5005974CC /* RainSensitivityGraphMonthView.h */,
+				96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */,
 				96DAB8FE1A279437005974CC /* RainSensitivityGraphMonthCell.h */,
 				96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */,
 				96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */,
@@ -1854,6 +1859,7 @@
 				AFA9080F19AB702D008769A0 /* APIVersion4.m in Sources */,
 				967C004519D983870071B4CB /* ProgramCellType6.m in Sources */,
 				AF61117819C57CDC008AA62B /* Frequency4.m in Sources */,
+				96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */,
 				AFB6943B190289670067CD7F /* WateringRestrictions.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* RestrictedHoursVC.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
