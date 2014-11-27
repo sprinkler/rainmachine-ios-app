@@ -138,6 +138,8 @@ typedef enum {
 - (void)requestProvision;
 - (void)saveRainSensitivityFromProvision:(Provision*)provision;
 
+- (void)requestMixerDataFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
+
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
 
 @end

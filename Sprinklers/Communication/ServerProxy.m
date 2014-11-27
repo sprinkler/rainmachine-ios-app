@@ -44,6 +44,7 @@
 #import "Provision.h"
 #import "ProvisionSystem.h"
 #import "ProvisionLocation.h"
+#import "MixerDailyValue.h"
 
 static int serverAPIMainVersion = 0;
 static int serverAPISubVersion = 0;
@@ -531,7 +532,6 @@ static int serverAPIMinorSubVersion = -1;
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   [self handleError:error fromOperation:operation userInfo:nil];
               }];
-
 }
 
 - (void)saveRainSensitivityFromProvision:(Provision*)provision
@@ -548,6 +548,23 @@ static int serverAPIMinorSubVersion = -1;
                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                    [self handleError:error fromOperation:operation userInfo:nil];
                }];
+}
+
+- (void)requestMixerDataFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
+    [self.manager GET:[NSString stringWithFormat:@"/api/4/mixer/%@/%d",dateString,(int)daysCount] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSArray *mixerDictsByDate = [responseObject objectForKey:@"mixerDataByDate"];
+                      NSMutableArray *mixerDataByDate = [NSMutableArray new];
+                      for (NSDictionary *mixerDictByDate in mixerDictsByDate) {
+                          [mixerDataByDate addObject:[MixerDailyValue createFromJson:mixerDictByDate]];
+                      }
+                      [self.delegate serverResponseReceived:mixerDataByDate serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
 }
 
 #pragma mark - Various

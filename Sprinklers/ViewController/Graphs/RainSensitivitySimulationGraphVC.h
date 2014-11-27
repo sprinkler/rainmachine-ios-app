@@ -15,6 +15,8 @@
 @interface RainSensitivitySimulationGraphVC : BaseLevel2ViewController <SprinklerResponseProtocol>
 
 @property (nonatomic, weak) RainSensitivityVC *parent;
+@property (nonatomic, strong) NSArray *mixerDataByDate;
+
 @property (nonatomic, weak) IBOutlet UIScrollView *graphScrollView;
 
 @end

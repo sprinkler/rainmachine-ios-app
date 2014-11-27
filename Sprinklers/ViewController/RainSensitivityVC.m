@@ -29,11 +29,15 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
 @interface RainSensitivityVC ()
 
 @property (nonatomic, strong) ServerProxy *requestProvisionServerProxy;
+@property (nonatomic, strong) ServerProxy *requestMixerDataServerProxy;
 @property (nonatomic, strong) ServerProxy *saveRainSensitivityServerProxy;
 @property (nonatomic, strong) Provision *provision;
 
+@property (nonatomic, strong) RainSensitivitySimulationGraphVC *rainSensitivitySimulationGraphVC;
+
 - (void)initializeRainSensitivitySimulationGraph;
 - (void)requestProvision;
+- (void)requestMixerData;
 - (void)saveRainSensitivity;
 
 @end
@@ -71,7 +75,9 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
     [self.saveButton setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     
     [self initializeRainSensitivitySimulationGraph];
+    
     [self requestProvision];
+    [self requestMixerData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,16 +87,16 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
 #pragma mark - Methods
 
 - (void)initializeRainSensitivitySimulationGraph {
-    RainSensitivitySimulationGraphVC *graphVC = [[RainSensitivitySimulationGraphVC alloc] init];
-    graphVC.view.frame = self.rainSensitivitySimulationGraphContainerView.bounds;
-    graphVC.parent = self;
+    self.rainSensitivitySimulationGraphVC = [[RainSensitivitySimulationGraphVC alloc] init];
+    self.rainSensitivitySimulationGraphVC.view.frame = self.rainSensitivitySimulationGraphContainerView.bounds;
+    self.rainSensitivitySimulationGraphVC.parent = self;
     
-    [self.rainSensitivitySimulationGraphContainerView addSubview:graphVC.view];
-    [self addChildViewController:graphVC];
+    [self.rainSensitivitySimulationGraphContainerView addSubview:self.rainSensitivitySimulationGraphVC.view];
+    [self addChildViewController:self.rainSensitivitySimulationGraphVC];
     
-    [graphVC didMoveToParentViewController:self];
+    [self.rainSensitivitySimulationGraphVC didMoveToParentViewController:self];
     
-    UIView *graphView = graphVC.view;
+    UIView *graphView = self.rainSensitivitySimulationGraphVC.view;
     
     if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
         [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphView)]];
@@ -104,6 +110,16 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
 - (void)requestProvision {
     self.requestProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     [self.requestProvisionServerProxy requestProvision];
+    [self startHud:nil];
+}
+
+- (void)requestMixerData {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear fromDate:[NSDate date]];
+
+    self.requestMixerDataServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    [self.requestMixerDataServerProxy requestMixerDataFromDate:[NSString stringWithFormat:@"%d-01-01",(int)dateComponents.year]
+                                                     daysCount:365];
     [self startHud:nil];
 }
 
@@ -127,18 +143,24 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
         self.requestProvisionServerProxy = nil;
     }
     
+    if (serverProxy == self.requestMixerDataServerProxy) {
+        self.rainSensitivitySimulationGraphVC.mixerDataByDate = (NSArray*)data;
+        self.requestMixerDataServerProxy = nil;
+    }
+    
     if (serverProxy == self.saveRainSensitivityServerProxy) {
         self.saveRainSensitivityServerProxy = nil;
     }
     
-    if (!self.requestProvisionServerProxy && !self.saveRainSensitivityServerProxy) {
+    if (!self.requestProvisionServerProxy && !self.requestMixerDataServerProxy && !self.saveRainSensitivityServerProxy) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         hud = nil;
     }
     
-    self.tableView.tableHeaderView = (self.provision ? self.rainSensitivityHeaderView : nil);
-    
-    [self.tableView reloadData];
+    if (!self.requestProvisionServerProxy && !self.requestMixerDataServerProxy) {
+        self.tableView.tableHeaderView = self.rainSensitivityHeaderView;
+        [self.tableView reloadData];
+    }
 }
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {

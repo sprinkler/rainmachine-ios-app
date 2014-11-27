@@ -74,6 +74,7 @@
 		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
 		96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */; };
 		96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */; };
+		96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9091A27A020005974CC /* MixerDailyValue.m */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -440,6 +441,8 @@
 		96DAB8FE1A279437005974CC /* RainSensitivityGraphMonthCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivityGraphMonthCell.h; sourceTree = "<group>"; };
 		96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivityGraphMonthCell.m; sourceTree = "<group>"; };
 		96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivityGraphMonthCell.xib; sourceTree = "<group>"; };
+		96DAB9081A27A020005974CC /* MixerDailyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MixerDailyValue.h; path = "Communication/Response objects/MixerDailyValue.h"; sourceTree = "<group>"; };
+		96DAB9091A27A020005974CC /* MixerDailyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MixerDailyValue.m; path = "Communication/Response objects/MixerDailyValue.m"; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -1287,6 +1290,8 @@
 				968E25EC1A1F8DD1008006D3 /* ProvisionLocation.m */,
 				968E25ED1A1F8DD1008006D3 /* ProvisionSystem.h */,
 				968E25EE1A1F8DD1008006D3 /* ProvisionSystem.m */,
+				96DAB9081A27A020005974CC /* MixerDailyValue.h */,
+				96DAB9091A27A020005974CC /* MixerDailyValue.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1878,6 +1883,7 @@
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
 				AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */,
 				964ADD111A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m in Sources */,
+				96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */,
 				AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */,
 				960374F819D5FB3C009CB68A /* RestrictionsSwitchCell.m in Sources */,
 				AF81E6E618BA32D8007E9A03 /* ProgramCellType1.m in Sources */,
