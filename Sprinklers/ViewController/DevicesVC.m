@@ -327,6 +327,7 @@
         [self shouldStopBroadcast];
         
         if (forceUIRefresh) {
+            [self hideHud];
             // Process the list of discovered devices before starting a new discovery process
             // We do the processing until here, because otherwise, when no sprinklers in the network, the 'SprinklersDiscovered' callback is not called at all
             [self SprinklersDiscovered];
@@ -442,6 +443,13 @@
 }
 
 - (void)onRefresh:(id)notification {
+    
+    [NSTimer scheduledTimerWithTimeInterval:kLocalDevicesDiscoveryInterval_UserStarted
+                                                                target:self
+                                                              selector:@selector(pollLocal)
+                                                              userInfo:nil
+                                                               repeats:YES];
+
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
     NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
@@ -748,6 +756,7 @@
                 }
 
                 [self refreshCloudPollingProxy];
+                [self pollCloud];
             } else {
                 self.navigationController.view.userInteractionEnabled = NO;
                 

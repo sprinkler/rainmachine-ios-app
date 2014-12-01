@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "+UILabel.h"
 #import "AddNewDeviceVC.h"
+#import "CloudUtils.h"
 
 @interface CloudAccountsVC ()
 
@@ -45,6 +46,16 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
+    self.cloudEmails = [[cloudAccounts allKeys] mutableCopy];
+
+    [self.tableView reloadData];
 }
 
 - (IBAction)edit:(id)sender {
@@ -118,6 +129,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        [CloudUtils deleteCloudAccountWithEmail:self.cloudEmails[indexPath.row]];
         [self.cloudEmails removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {

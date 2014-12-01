@@ -73,6 +73,7 @@ CGFloat kButtonBlueTintColor[3] = {21.0/255, 122.0/255, 251.0/255};
 NSString *const kCustomRMFontName = @"rainmachine";
 
 int const kLocalDevicesDiscoveryInterval = 3;
+int const kLocalDevicesDiscoveryInterval_UserStarted = 3;
 int const kCloudDevicesDiscoveryInterval = 15;
 int const kDeviceGreyOutRetryCount = 3;
 

@@ -59,6 +59,7 @@ extern CGFloat kButtonBlueTintColor[3];
 
 extern NSString* const kCustomRMFontName;
 
+extern int const kLocalDevicesDiscoveryInterval_UserStarted;
 extern int const kLocalDevicesDiscoveryInterval;
 extern int const kCloudDevicesDiscoveryInterval;
 extern int const kDeviceGreyOutRetryCount;
