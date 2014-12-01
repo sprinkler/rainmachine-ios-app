@@ -10,6 +10,12 @@
 
 @interface RainSensitivityGraphMonthView : UIView
 
-@property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) NSArray *graphBackgroundValues;
+@property (nonatomic, strong) NSArray *graphForegroundValues;
+@property (nonatomic, strong) UIColor *graphBackgroundColor;
+@property (nonatomic, strong) UIColor *graphForegroundColor;
+@property (nonatomic, assign) double maxValue;
+
+- (void)draw;
 
 @end

@@ -8,7 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RainSensitivitySimulationGraphVC">
             <connections>
                 <outlet property="graphScrollView" destination="a8o-C3-ZO1" id="dP4-za-SHZ"/>
+                <outlet property="savedIndicatorView" destination="3Yw-TT-Rcq" id="2wk-WU-ahU"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2i5-Aq-KnW"/>
+                <outlet property="wateredIndicatorView" destination="BVx-v9-h5M" id="cNQ-cv-YxR"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

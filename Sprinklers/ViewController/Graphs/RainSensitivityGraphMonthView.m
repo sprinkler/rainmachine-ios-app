@@ -9,22 +9,19 @@
 #import "RainSensitivityGraphMonthView.h"
 #import "Constants.h"
 
+#pragma mark -
+
+@interface RainSensitivityGraphMonthView ()
+
+- (void)drawValues:(NSArray*)values withColor:(UIColor*)color inContext:(CGContextRef)context;
+
+@end
+
+#pragma mark -
+
 @implementation RainSensitivityGraphMonthView
 
-- (id)initWithCoder:(NSCoder*)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (!self) return nil;
-    
-    [self addObserver:self forKeyPath:@"values" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    
-    return self;
-}
-
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"values"];
-}
-
-- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+- (void)draw {
     [self setNeedsDisplay];
 }
 
@@ -32,23 +29,70 @@
     [super drawRect:rect];
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0].CGColor);
+    [self drawValues:self.graphBackgroundValues withColor:self.graphBackgroundColor inContext:context];
+    [self drawValues:self.graphForegroundValues withColor:self.graphForegroundColor inContext:context];
+}
+
+static CGPoint midPointForPoints(CGPoint p1, CGPoint p2) {
+    return CGPointMake((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+}
+
+static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
+    CGPoint controlPoint = midPointForPoints(p1, p2);
+    CGFloat diffY = abs(p2.y - controlPoint.y);
     
-    CGFloat lineWidth = self.frame.size.width / self.values.count;
-    CGFloat lineX = 0.0;
+    if (p1.y < p2.y)
+        controlPoint.y += diffY;
+    else if (p1.y > p2.y)
+        controlPoint.y -= diffY;
     
-    CGContextSetLineWidth(context, ceil(lineWidth));
+    return controlPoint;
+}
+
+- (void)drawValues:(NSArray*)values withColor:(UIColor*)color inContext:(CGContextRef)context {
+    CGContextSetFillColorWithColor(context, color.CGColor);
     
-    for (NSNumber *value in self.values) {
-        CGFloat lineHeight = self.frame.size.height * value.doubleValue;
-        CGFloat lineY = self.frame.size.height - lineHeight;
+    CGFloat stepWidth = self.frame.size.width / values.count;
+    CGFloat stepX = 0.0;
+    CGFloat maxValue = (self.maxValue == 0.0 ? 2.0 : self.maxValue + 1);
+    CGPoint previousPoint = CGPointZero;
+    
+    BOOL firstPoint = YES;
+    
+    for (id value in values) {
+        double doubleValue = 0.0;
+        if (value != [NSNull null]) doubleValue = ((NSNumber*)value).doubleValue;
         
-        CGContextMoveToPoint(context, ceil(lineX), lineY);
-        CGContextAddLineToPoint(context, ceil(lineX), self.frame.size.height);
-        CGContextStrokePath(context);
+        CGFloat heightY = self.frame.size.height * doubleValue / maxValue;
+        CGFloat stepY = self.frame.size.height - heightY;
+        CGFloat roundedStepX = ceil(stepX);
         
-        lineX += lineWidth;
+        if (firstPoint) {
+            CGContextMoveToPoint(context, roundedStepX, stepY);
+            previousPoint = CGPointMake(roundedStepX, stepY);
+        }
+        else {
+            CGPoint point = CGPointMake(roundedStepX, stepY);
+            CGPoint midPoint = midPointForPoints(previousPoint, point);
+            CGPoint controlPoint1 = controlPointForPoints(midPoint, previousPoint);
+            CGPoint controlPoint2 = controlPointForPoints(midPoint, point);
+            
+            CGContextAddQuadCurveToPoint(context, controlPoint1.x, controlPoint1.y, midPoint.x, midPoint.y);
+            CGContextAddQuadCurveToPoint(context, controlPoint2.x, controlPoint2.y, point.x, point.y);
+            
+            previousPoint = point;
+        }
+            
+        stepX += stepWidth;
+        
+        firstPoint = NO;
     }
+    
+    CGContextAddLineToPoint(context, ceil(stepX - stepWidth), self.frame.size.height + 1.0);
+    CGContextAddLineToPoint(context, 0.0, self.frame.size.height + 1.0);
+    
+    CGContextClosePath(context);
+    CGContextFillPath(context);
 }
 
 @end

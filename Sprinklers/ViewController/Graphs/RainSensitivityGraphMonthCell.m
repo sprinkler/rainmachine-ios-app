@@ -8,6 +8,8 @@
 
 #import "RainSensitivityGraphMonthCell.h"
 #import "RainSensitivityGraphMonthView.h"
+#import "RainSensitivitySimulationGraphVC.h"
+#import "MixerDailyValue.h"
 
 #pragma mark -
 
@@ -24,12 +26,16 @@
     return objects.lastObject;
 }
 
+- (void)calculateValues {
+    self.graphView.graphBackgroundValues = [self.rainSensitivitySimulationGraph.et0Array subarrayWithRange:NSMakeRange(self.firstDayIndex, self.numberOfDays)];
+    self.graphView.graphForegroundValues = [self.rainSensitivitySimulationGraph.waterNeedArray subarrayWithRange:NSMakeRange(self.firstDayIndex, self.numberOfDays)];
+    self.graphView.graphBackgroundColor = self.rainSensitivitySimulationGraph.savedIndicatorColor;
+    self.graphView.graphForegroundColor = self.rainSensitivitySimulationGraph.wateredIndicatorColor;
+    self.graphView.maxValue = self.rainSensitivitySimulationGraph.maxValue;
+}
+
 - (void)draw {
-    NSMutableArray *values = [NSMutableArray new];
-    for (NSInteger day = 0; day < self.numberOfDays; day++) {
-        [values addObject:@((double)rand() / (double)RAND_MAX)];
-    }
-    self.graphView.values = values;
+    [self.graphView draw];
 }
 
 @end

@@ -8,17 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@class  RainSensitivityGraphMonthView;
+@class RainSensitivityGraphMonthView;
+@class RainSensitivitySimulationGraphVC;
 
 @interface RainSensitivityGraphMonthCell : UIView
 
+@property (nonatomic, weak) RainSensitivitySimulationGraphVC *rainSensitivitySimulationGraph;
+
 @property (nonatomic, assign) NSInteger month;
+@property (nonatomic, assign) NSInteger firstDayIndex;
 @property (nonatomic, assign) NSInteger numberOfDays;
+@property (nonatomic, strong) NSArray *et0Array;
+@property (nonatomic, strong) NSArray *waterNeedArray;
 
 @property (nonatomic, weak) IBOutlet RainSensitivityGraphMonthView *graphView;
 @property (nonatomic, weak) IBOutlet UILabel *monthLabel;
 
 + (RainSensitivityGraphMonthCell*)newGraphMonthCell;
+- (void)calculateValues;
 - (void)draw;
 
 @end

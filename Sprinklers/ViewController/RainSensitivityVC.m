@@ -120,6 +120,9 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
     self.requestMixerDataServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     [self.requestMixerDataServerProxy requestMixerDataFromDate:[NSString stringWithFormat:@"%d-01-01",(int)dateComponents.year]
                                                      daysCount:365];
+    
+    self.rainSensitivitySimulationGraphVC.year = dateComponents.year;
+    
     [self startHud:nil];
 }
 
@@ -140,6 +143,7 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.requestProvisionServerProxy) {
         self.provision = (Provision*)data;
+        self.rainSensitivitySimulationGraphVC.provison = self.provision;
         self.requestProvisionServerProxy = nil;
     }
     
