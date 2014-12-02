@@ -31,7 +31,6 @@
 
 #define kDebugSettingsNrBeforeCloudServer 6
 
-#define ENABLE_DEBUG_SETTINGS YES
 #define kAlertView_DeleteDevice 1
 
 @interface DevicesVC () {

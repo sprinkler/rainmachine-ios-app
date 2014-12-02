@@ -26,7 +26,6 @@ const int RainSensitivityMaxWSDays = 5;
 const int RainSensitivityDefaultWSDays = 2;
 const double RainSensitivityDefaultRainSensitivity = 0.8;
 const double RainSensitivitySimulationGraphHeight = 240.0;
-const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 
 @interface RainSensitivityVC ()
 
@@ -41,6 +40,8 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 - (void)requestProvision;
 - (void)requestMixerData;
 - (void)saveRainSensitivity;
+
+@property (nonatomic, assign) BOOL rainSensitivitySimulationGraphUseTestData;
 
 @end
 
@@ -188,29 +189,33 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 #pragma mark - UITableView datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return (self.provision ? 2 : 0);
+    return (self.provision ? (ENABLE_DEBUG_SETTINGS ? 3 : 2) : 0);
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) return 1;
     if (section == 1) return 1;
+    if (section == 2) return 1;
     return 0;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) return 83.0;
     if (indexPath.section == 1 && indexPath.row == 0) return 62.0;
+    if (indexPath.section == 2 && indexPath.row == 0) return 44.0;
     return 0.0;
 }
 
 - (NSString*)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 1) return @"Field Capacity";
+    if (section == 2) return @"Settings (Debug)";
     return nil;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     static NSString *RainSensitivityCellIdentifier = @"RainSensitivityCell";
     static NSString *FieldCapacityCellIdentifier = @"FieldCapacityCell";
+    static NSString *DebugCheckboxCellIdentifier = @"DebugCheckboxCellIdentifier";
     
     if (indexPath.section == 0 && indexPath.row == 0) {
         RainSensitivityCell *cell = [tableView dequeueReusableCellWithIdentifier:RainSensitivityCellIdentifier];
@@ -223,6 +228,19 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
         FieldCapacityCell *cell = [tableView dequeueReusableCellWithIdentifier:FieldCapacityCellIdentifier];
         cell.fieldCapacity = self.provision.location.wsDays;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        return cell;
+    }
+    else if (indexPath.section == 2 && indexPath.row == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DebugCheckboxCellIdentifier];
+        if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DebugCheckboxCellIdentifier];
+        
+        cell.textLabel.text = @"Generate Test Data";
+        cell.accessoryType = (self.rainSensitivitySimulationGraphUseTestData ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            cell.tintColor = [UIColor colorWithRed:0.0 / 255.0 green:122.0 / 255.0 blue:255.0 / 255.0 alpha:1.0];
+        }
+        
         return cell;
     }
     
@@ -247,6 +265,14 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
         
         [self.navigationController pushViewController:pickerVC animated:YES];
     }
+    
+    else if (indexPath.section == 2 && indexPath.row == 0) {
+        self.rainSensitivitySimulationGraphUseTestData = !self.rainSensitivitySimulationGraphUseTestData;
+        [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewCellAccessoryNone];
+        
+        [self.rainSensitivitySimulationGraphVC initializeGraph];
+        [self.rainSensitivitySimulationGraphVC centerCurrentMonthAnimated:YES];
+    }
 }
 
 #pragma mark - Rain sensitivity simulation graph delegate
@@ -260,7 +286,7 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 }
 
 - (BOOL)generateTestDataForRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC {
-    return RainSensitivitySimulationGraphUseTestData;
+    return self.rainSensitivitySimulationGraphUseTestData;
 }
 
 #pragma mark - Actions

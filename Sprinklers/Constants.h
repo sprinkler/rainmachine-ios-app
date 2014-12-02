@@ -1,3 +1,5 @@
+#define ENABLE_DEBUG_SETTINGS YES
+
 #define broadcastPort   15800
 #define listenPort      15900
 

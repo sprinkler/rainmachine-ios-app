@@ -32,6 +32,7 @@
 
 @property (nonatomic, assign) double waterSurplus;
 @property (nonatomic, assign) double maxValue;
+@property (nonatomic, assign) double et0Average;
 @property (nonatomic, strong) NSArray *et0Array;
 @property (nonatomic, strong) NSArray *qpfArray;
 @property (nonatomic, strong) NSArray *waterNeedArray;
@@ -137,7 +138,7 @@
     if ([self.delegate respondsToSelector:@selector(generateTestDataForRainSensitivitySimulationGraphVC:)] && [self.delegate generateTestDataForRainSensitivitySimulationGraphVC:self]) {
         double et0Average = 0.0;
         self.mixerValuesByDate = [self generateTestData:&et0Average];
-        self.provision.location.et0Average = et0Average;
+        self.et0Average = et0Average;
         return;
     }
     
@@ -153,6 +154,7 @@
     }
     
     self.mixerValuesByDate = mixerValuesByDate;
+    self.et0Average = self.provision.location.et0Average;
 }
 
 - (void)createGraphMonthCells {
@@ -212,7 +214,7 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *dateComponents = [NSDateComponents new];
     
-    double et0Average = self.provision.location.et0Average;
+    double et0Average = self.et0Average;
     if (et0Average == 0.0) et0Average = 1.0;
     
     double rainSensitivity = self.provision.location.rainSensitivity;
@@ -282,7 +284,7 @@
     NSMutableArray *waterNeedArray = [NSMutableArray new];
     NSMutableArray *savedWaterArray = [NSMutableArray new];
     
-    double et0Average = self.provision.location.et0Average;
+    double et0Average = self.et0Average;
     if (et0Average == 0.0) et0Average = 1.0;
     
     double rainSensitivity = self.provision.location.rainSensitivity;
@@ -339,9 +341,9 @@
     
     for (NSInteger month = 0; month < 12; month++) {
         double TestDataMinEt0 = 1.0;
-        double TestDataEt0Interval = 1.0 + (double)rand() / RAND_MAX * 5.0;
+        double TestDataEt0Interval = 2.0 + (double)rand() / RAND_MAX * 2.0;
         double TestDataMinQpf = 1.0;
-        double TestDataQpfInterval = 1.0 + (double)rand() / RAND_MAX * 2.0;
+        double TestDataQpfInterval = 1.0 + (double)rand() / RAND_MAX * 3.0;
         
         dateComponents.month = month + 1;
         
