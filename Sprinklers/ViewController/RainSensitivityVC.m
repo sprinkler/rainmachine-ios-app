@@ -214,6 +214,7 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
     
     if (indexPath.section == 0 && indexPath.row == 0) {
         RainSensitivityCell *cell = [tableView dequeueReusableCellWithIdentifier:RainSensitivityCellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.rainSensitivity = (self.provision.location.rainSensitivity > 1.0 ? 1.0 : self.provision.location.rainSensitivity);
         cell.delegate = self;
         return cell;
