@@ -266,18 +266,24 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 
 - (void)onCellSliderValueChanged:(UISlider*)slider {
     self.provision.location.rainSensitivity = slider.value;
+    
+    [self.rainSensitivitySimulationGraphVC reloadGraph];
 }
 
 - (void)pickerVCWillDissapear:(PickerVC*)pickerVC {
     if (!pickerVC.selectedItem.length) return;
     self.provision.location.wsDays = pickerVC.selectedItem.intValue;
+    
     [self.tableView reloadData];
+    [self.rainSensitivitySimulationGraphVC reloadGraph];
 }
 
 - (IBAction)onDefaults:(id)sender {
     self.provision.location.rainSensitivity = RainSensitivityDefaultRainSensitivity;
     self.provision.location.wsDays = RainSensitivityDefaultWSDays;
+    
     [self.tableView reloadData];
+    [self.rainSensitivitySimulationGraphVC reloadGraph];
 }
 
 - (IBAction)onSave:(id)sender {
