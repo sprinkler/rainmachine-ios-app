@@ -45,6 +45,13 @@
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A4H-2i-bDD">
+                    <rect key="frame" x="0.0" y="0.0" width="1" height="200"/>
+                    <color key="backgroundColor" white="0.92000000000000004" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1" id="nsE-ir-qzI"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -53,14 +60,17 @@
                 <constraint firstItem="cnQ-do-yNi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8BC-VS-md2"/>
                 <constraint firstItem="kP7-7q-XeO" firstAttribute="top" secondItem="cnQ-do-yNi" secondAttribute="bottom" id="B0a-JQ-BJd"/>
                 <constraint firstItem="9Wn-T2-nab" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GUA-fE-At3"/>
+                <constraint firstItem="A4H-2i-bDD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IJS-Eq-7SF"/>
                 <constraint firstItem="dzI-5v-LTg" firstAttribute="leading" secondItem="kP7-7q-XeO" secondAttribute="trailing" id="KNf-EO-SCH"/>
                 <constraint firstItem="kP7-7q-XeO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="L2t-X9-6dh"/>
                 <constraint firstItem="dzI-5v-LTg" firstAttribute="leading" secondItem="9Wn-T2-nab" secondAttribute="trailing" id="Pj7-Lv-E2i"/>
                 <constraint firstItem="dzI-5v-LTg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="SDG-e0-fdr"/>
+                <constraint firstItem="A4H-2i-bDD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VOn-TS-Me4"/>
                 <constraint firstAttribute="bottom" secondItem="kP7-7q-XeO" secondAttribute="bottom" id="cLT-Nd-kp7"/>
                 <constraint firstItem="9Wn-T2-nab" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ckC-yP-mNZ"/>
                 <constraint firstItem="cnQ-do-yNi" firstAttribute="top" secondItem="9Wn-T2-nab" secondAttribute="bottom" id="dhZ-fg-osf"/>
                 <constraint firstItem="snm-nC-Zsb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="ewT-Ei-4rs"/>
+                <constraint firstAttribute="bottom" secondItem="A4H-2i-bDD" secondAttribute="bottom" id="g8p-M9-sdG"/>
                 <constraint firstAttribute="bottom" secondItem="dzI-5v-LTg" secondAttribute="bottom" id="gwG-KJ-Pe6"/>
                 <constraint firstItem="snm-nC-Zsb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="zcs-Io-ud5"/>
             </constraints>
@@ -69,6 +79,7 @@
                 <outlet property="cloudImageView" destination="snm-nC-Zsb" id="vpF-th-c09"/>
                 <outlet property="graphView" destination="9Wn-T2-nab" id="YZb-O0-7Qm"/>
                 <outlet property="monthLabel" destination="kP7-7q-XeO" id="vE6-wJ-HYH"/>
+                <outlet property="trailingSeparatorView" destination="A4H-2i-bDD" id="evR-Fq-e79"/>
             </connections>
         </view>
     </objects>

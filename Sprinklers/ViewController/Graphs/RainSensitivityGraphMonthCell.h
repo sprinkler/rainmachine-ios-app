@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSArray *waterNeedArray;
 
 @property (nonatomic, weak) IBOutlet RainSensitivityGraphMonthView *graphView;
+@property (nonatomic, weak) IBOutlet UIView *trailingSeparatorView;
 @property (nonatomic, weak) IBOutlet UIImageView *cloudImageView;
 @property (nonatomic, weak) IBOutlet UILabel *monthLabel;
 

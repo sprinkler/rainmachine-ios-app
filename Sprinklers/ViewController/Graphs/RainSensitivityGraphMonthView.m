@@ -9,6 +9,8 @@
 #import "RainSensitivityGraphMonthView.h"
 #import "Constants.h"
 
+const double RainSensitivityGraphValueDivider = 1.5;
+
 #pragma mark -
 
 @interface RainSensitivityGraphMonthView ()
@@ -54,7 +56,8 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     
     CGFloat stepWidth = self.frame.size.width / (values.count - 1);
     CGFloat stepX = 0.0;
-    CGFloat maxValue = (self.maxValue == 0.0 ? 2.0 : self.maxValue + 1);
+    CGFloat maxValue = (self.maxValue == 0.0 ? 2.0 : self.maxValue);
+    CGFloat valueDivider = maxValue * RainSensitivityGraphValueDivider;
     CGPoint previousPoint = CGPointZero;
     
     BOOL firstPoint = YES;
@@ -63,7 +66,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
         double doubleValue = 0.0;
         if (value != [NSNull null]) doubleValue = ((NSNumber*)value).doubleValue;
         
-        CGFloat heightY = self.frame.size.height * doubleValue / maxValue;
+        CGFloat heightY = self.frame.size.height * doubleValue / valueDivider;
         CGFloat stepY = self.frame.size.height - heightY;
         CGFloat roundedStepX = ceil(stepX);
         

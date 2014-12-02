@@ -146,12 +146,13 @@
     double et0Average = 0.0;
     double rainSensitivity = self.provison.location.rainSensitivity;
     NSInteger wsDays = self.provison.location.wsDays;
-    double maxValue = 0.0;
     double waterSurplus = 0.0;
     
     NSMutableArray *et0Array = [NSMutableArray new];
     NSMutableArray *qpfArray = [NSMutableArray new];
     NSMutableArray *waterNeedArray = [NSMutableArray new];
+    
+    double maxValue = 0.0;
     
     // Calculate et0Average from the mixer data
     // Probably this logic will change, as we can take the et0Average from the provision location data, but currently that returns 0
@@ -202,6 +203,8 @@
     self.et0Array = et0Array;
     self.qpfArray = qpfArray;
     self.waterNeedArray = waterNeedArray;
+    
+    self.maxValue = maxValue;
 }
 
 - (void)updateVariables {
@@ -261,6 +264,8 @@
         graphMonthCell.numberOfDays = monthRange.length;
         graphMonthCell.monthLabel.text = monthsOfYear[month].uppercaseString;
         graphMonthCell.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        graphMonthCell.trailingSeparatorView.hidden = (month > 0);
         
         CGFloat graphMonthCellX = month * graphMonthCellWidth;
         graphMonthCell.frame = CGRectMake(graphMonthCellX, 0.0, graphMonthCellWidth, graphMonthCellHeight);
