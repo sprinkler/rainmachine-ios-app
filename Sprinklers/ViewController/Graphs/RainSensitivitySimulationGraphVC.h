@@ -10,7 +10,7 @@
 #import "Protocols.h"
 #import "BaseLevel2ViewController.h"
 
-@protocol  RainSensitivitySimulationGraphDelegate;
+@protocol RainSensitivitySimulationGraphDelegate;
 @class RainSensitivityVC;
 @class Provision;
 
@@ -23,16 +23,16 @@
 @property (nonatomic, strong) Provision *provision;
 @property (nonatomic, strong) NSArray *mixerDataByDate;
 
-@property (nonatomic, assign) double waterSurplus;
-@property (nonatomic, assign) double maxValue;
-@property (nonatomic, strong) NSArray *et0Array;
-@property (nonatomic, strong) NSArray *qpfArray;
-@property (nonatomic, strong) NSArray *waterNeedArray;
-@property (nonatomic, strong) NSArray *savedWaterArray;
+@property (nonatomic, readonly) double waterSurplus;
+@property (nonatomic, readonly) double maxValue;
+@property (nonatomic, readonly) NSArray *et0Array;
+@property (nonatomic, readonly) NSArray *qpfArray;
+@property (nonatomic, readonly) NSArray *waterNeedArray;
+@property (nonatomic, readonly) NSArray *savedWaterArray;
 
-@property (nonatomic, strong) UIColor *savedIndicatorColor;
-@property (nonatomic, strong) UIColor *wateredIndicatorColor;
-@property (nonatomic, strong) UIColor *cloudsDarkBlueColor;
+@property (nonatomic, readonly) UIColor *savedIndicatorColor;
+@property (nonatomic, readonly) UIColor *wateredIndicatorColor;
+@property (nonatomic, readonly) UIColor *cloudsDarkBlueColor;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *graphScrollView;
 @property (nonatomic, weak) IBOutlet UIView *graphScrollContentView;
@@ -42,7 +42,6 @@
 @property (nonatomic, weak) IBOutlet UIView *wateredIndicatorView;
 
 - (void)initializeGraph;
-- (void)reloadGraph;
 - (void)updateGraph;
 - (void)delayedUpdateGraph:(NSTimeInterval)updateDelay;
 - (void)centerCurrentMonthAnimated:(BOOL)animate;

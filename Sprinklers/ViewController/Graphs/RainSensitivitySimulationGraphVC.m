@@ -24,17 +24,28 @@
 @property (nonatomic, strong) NSDictionary *mixerValuesByDate;
 @property (nonatomic, strong) NSArray *graphMonthCells;
 
-- (void)calculateMixerValuesByDate;
-- (void)calculateVariables;
-- (void)updateVariables;
-- (void)createGraphMonthCells;
 - (NSDictionary*)generateTestData:(double*)et0Average;
 
 @property (nonatomic, assign) BOOL didLayoutSubviews;
 @property (nonatomic, assign) BOOL shouldCenterGraphAfterLayoutSubviews;
 @property (nonatomic, assign) BOOL delayedUpdateGraphInProgress;
 
+@property (nonatomic, assign) double waterSurplus;
+@property (nonatomic, assign) double maxValue;
+@property (nonatomic, strong) NSArray *et0Array;
+@property (nonatomic, strong) NSArray *qpfArray;
+@property (nonatomic, strong) NSArray *waterNeedArray;
+@property (nonatomic, strong) NSArray *savedWaterArray;
 @property (nonatomic, strong) NSArray *monthDays;
+
+- (void)calculateMixerValuesByDate;
+- (void)createGraphMonthCells;
+- (void)calculateGraphVariables;
+- (void)updateGraphVariables;
+
+@property (nonatomic, strong) UIColor *savedIndicatorColor;
+@property (nonatomic, strong) UIColor *wateredIndicatorColor;
+@property (nonatomic, strong) UIColor *cloudsDarkBlueColor;
 
 @end
 
@@ -72,11 +83,8 @@
 - (void)initializeGraph {
     [self calculateMixerValuesByDate];
     [self createGraphMonthCells];
-    [self reloadGraph];
-}
-
-- (void)reloadGraph {
-    [self calculateVariables];
+    [self calculateGraphVariables];
+    
     for (RainSensitivityGraphMonthCell *graphMonthCell in self.graphMonthCells) {
         [graphMonthCell calculateValues];
         [graphMonthCell draw];
@@ -84,7 +92,8 @@
 }
 
 - (void)updateGraph {
-    [self updateVariables];
+    [self updateGraphVariables];
+    
     for (RainSensitivityGraphMonthCell *graphMonthCell in self.graphMonthCells) {
         [graphMonthCell calculateValues];
         [graphMonthCell draw];
@@ -146,7 +155,60 @@
     self.mixerValuesByDate = mixerValuesByDate;
 }
 
-- (void)calculateVariables {
+- (void)createGraphMonthCells {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [NSDateComponents new];
+    
+    CGFloat graphMonthCellWidth = [self.delegate widthForGraphInRainSensitivitySimulationGraphVC:self];
+    CGFloat graphMonthCellHeight = self.graphScrollContentView.frame.size.height;
+    
+    NSMutableArray *graphMonthCells = [NSMutableArray new];
+    UIImage *cloudImage = [[UIImage imageNamed:@"shra"] imageByFillingWithColor:self.cloudsDarkBlueColor];
+    
+    NSInteger firstDayIndex = 0;
+    
+    for (NSInteger month = 0; month < 12; month++) {
+        dateComponents.month = month + 1;
+        
+        NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
+        
+        RainSensitivityGraphMonthCell *graphMonthCell = [RainSensitivityGraphMonthCell newGraphMonthCell];
+        graphMonthCell.rainSensitivitySimulationGraph = self;
+        graphMonthCell.month = month;
+        graphMonthCell.firstDayIndex = firstDayIndex;
+        graphMonthCell.numberOfDays = monthRange.length;
+        graphMonthCell.cloudImageView.image = cloudImage;
+        graphMonthCell.monthLabel.text = monthsOfYear[month].uppercaseString;
+        graphMonthCell.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        graphMonthCell.trailingSeparatorView.hidden = (month > 0);
+        
+        CGFloat graphMonthCellX = month * graphMonthCellWidth;
+        graphMonthCell.frame = CGRectMake(graphMonthCellX, 0.0, graphMonthCellWidth, graphMonthCellHeight);
+        
+        [self.graphScrollContentView addSubview:graphMonthCell];
+        [graphMonthCells addObject:graphMonthCell];
+        
+        firstDayIndex += monthRange.length;
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphMonthCell]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[graphMonthCell]",graphMonthCellX] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[graphMonthCell(==%lf)]",graphMonthCellWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+        } else {
+            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphMonthCell]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[graphMonthCell]",graphMonthCellX] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[graphMonthCell(==%lf)]",graphMonthCellWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+        }
+    }
+    
+    self.graphScrollContentViewWidthLayoutConstraint.constant = 12.0 * graphMonthCellWidth;
+    self.graphScrollContentViewHeightLayoutConstraint.constant = [self.delegate heightForGraphInRainSensitivitySimulationGraphVC:self] - 30.0;
+    
+    self.graphMonthCells = graphMonthCells;
+}
+
+- (void)calculateGraphVariables {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *dateComponents = [NSDateComponents new];
     
@@ -216,7 +278,7 @@
     self.maxValue = maxValue;
 }
 
-- (void)updateVariables {
+- (void)updateGraphVariables {
     NSMutableArray *waterNeedArray = [NSMutableArray new];
     NSMutableArray *savedWaterArray = [NSMutableArray new];
     
@@ -264,59 +326,6 @@
     self.waterSurplus = waterSurplus;
     self.waterNeedArray = waterNeedArray;
     self.savedWaterArray = savedWaterArray;
-}
-
-- (void)createGraphMonthCells {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [NSDateComponents new];
-    
-    CGFloat graphMonthCellWidth = [self.delegate widthForGraphInRainSensitivitySimulationGraphVC:self];
-    CGFloat graphMonthCellHeight = self.graphScrollContentView.frame.size.height;
-    
-    NSMutableArray *graphMonthCells = [NSMutableArray new];
-    UIImage *cloudImage = [[UIImage imageNamed:@"shra"] imageByFillingWithColor:self.cloudsDarkBlueColor];
-    
-    NSInteger firstDayIndex = 0;
-    
-    for (NSInteger month = 0; month < 12; month++) {
-        dateComponents.month = month + 1;
-        
-        NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
-        
-        RainSensitivityGraphMonthCell *graphMonthCell = [RainSensitivityGraphMonthCell newGraphMonthCell];
-        graphMonthCell.rainSensitivitySimulationGraph = self;
-        graphMonthCell.month = month;
-        graphMonthCell.firstDayIndex = firstDayIndex;
-        graphMonthCell.numberOfDays = monthRange.length;
-        graphMonthCell.cloudImageView.image = cloudImage;
-        graphMonthCell.monthLabel.text = monthsOfYear[month].uppercaseString;
-        graphMonthCell.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        graphMonthCell.trailingSeparatorView.hidden = (month > 0);
-        
-        CGFloat graphMonthCellX = month * graphMonthCellWidth;
-        graphMonthCell.frame = CGRectMake(graphMonthCellX, 0.0, graphMonthCellWidth, graphMonthCellHeight);
-        
-        [self.graphScrollContentView addSubview:graphMonthCell];
-        [graphMonthCells addObject:graphMonthCell];
-        
-        firstDayIndex += monthRange.length;
-        
-        if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
-            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphMonthCell]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
-            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[graphMonthCell]",graphMonthCellX] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
-            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[graphMonthCell(==%lf)]",graphMonthCellWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
-        } else {
-            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphMonthCell]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
-            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[graphMonthCell]",graphMonthCellX] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
-            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[graphMonthCell(==%lf)]",graphMonthCellWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
-        }
-    }
-    
-    self.graphScrollContentViewWidthLayoutConstraint.constant = 12.0 * graphMonthCellWidth;
-    self.graphScrollContentViewHeightLayoutConstraint.constant = [self.delegate heightForGraphInRainSensitivitySimulationGraphVC:self] - 30.0;
-    
-    self.graphMonthCells = graphMonthCells;
 }
 
 - (NSDictionary*)generateTestData:(double*)et0Average {
