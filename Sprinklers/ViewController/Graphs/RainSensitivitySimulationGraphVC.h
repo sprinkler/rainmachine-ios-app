@@ -29,6 +29,7 @@
 @property (nonatomic, assign) double waterSurplus;
 @property (nonatomic, assign) double maxValue;
 @property (nonatomic, strong) NSArray *et0Array;
+@property (nonatomic, strong) NSArray *qpfArray;
 @property (nonatomic, strong) NSArray *waterNeedArray;
 
 @property (nonatomic, strong) UIColor *savedIndicatorColor;
@@ -43,6 +44,8 @@
 
 - (void)initializeGraph;
 - (void)reloadGraph;
+- (void)updateGraph;
+- (void)delayedUpdateGraph:(NSTimeInterval)updateDelay;
 - (void)centerCurrentMonthAnimated:(BOOL)animate;
 
 @end

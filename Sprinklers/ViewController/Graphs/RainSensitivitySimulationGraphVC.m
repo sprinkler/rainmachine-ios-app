@@ -25,11 +25,13 @@
 
 - (void)calculateMixerValuesByDate;
 - (void)calculateVariables;
+- (void)updateVariables;
 - (void)createGraphMonthCells;
 - (NSDictionary*)generateTestData;
 
 @property (nonatomic, assign) BOOL didLayoutSubviews;
 @property (nonatomic, assign) BOOL shouldCenterGraphAfterLayoutSubviews;
+@property (nonatomic, assign) BOOL delayedUpdateGraphInProgress;
 
 @end
 
@@ -75,6 +77,21 @@
         [graphMonthCell calculateValues];
         [graphMonthCell draw];
     }
+}
+
+- (void)updateGraph {
+    [self updateVariables];
+    for (RainSensitivityGraphMonthCell *graphMonthCell in self.graphMonthCells) {
+        [graphMonthCell calculateValues];
+        [graphMonthCell draw];
+    }
+    self.delayedUpdateGraphInProgress = NO;
+}
+
+- (void)delayedUpdateGraph:(NSTimeInterval)updateDelay {
+    if (self.delayedUpdateGraphInProgress) return;
+    [self performSelector:@selector(updateGraph) withObject:nil afterDelay:updateDelay inModes:@[NSRunLoopCommonModes]];
+    self.delayedUpdateGraphInProgress = YES;
 }
 
 - (void)centerCurrentMonthAnimated:(BOOL)animate {
@@ -133,6 +150,7 @@
     double waterSurplus = 0.0;
     
     NSMutableArray *et0Array = [NSMutableArray new];
+    NSMutableArray *qpfArray = [NSMutableArray new];
     NSMutableArray *waterNeedArray = [NSMutableArray new];
     
     // Calculate et0Average from the mixer data
@@ -152,6 +170,7 @@
             
             if (!mixerDailyValue) {
                 [et0Array addObject:[NSNull null]];
+                [qpfArray addObject:[NSNull null]];
                 [waterNeedArray addObject:[NSNull null]];
                 continue;
             }
@@ -163,11 +182,13 @@
             }
             
             double et0Value = mixerDailyValue.et0 / et0Average;
+            double qpfValue = mixerDailyValue.qpf;
             double waterNeedValue = waterNeed / et0Average;
             
             maxValue = MAX(maxValue, MAX(et0Value, waterNeedValue));
             
             [et0Array addObject:@(et0Value)];
+            [qpfArray addObject:@(qpfValue)];
             [waterNeedArray addObject:@(waterNeedValue)];
         }
     }
@@ -179,6 +200,41 @@
     self.waterSurplus = waterSurplus;
     
     self.et0Array = et0Array;
+    self.qpfArray = qpfArray;
+    self.waterNeedArray = waterNeedArray;
+}
+
+- (void)updateVariables {
+    NSMutableArray *waterNeedArray = [NSMutableArray new];
+    
+    double et0Average = self.et0Average;
+    double rainSensitivity = self.provison.location.rainSensitivity;
+    NSInteger wsDays = self.provison.location.wsDays;
+    double waterSurplus = 0.0;
+    
+    NSEnumerator *et0Enumerator = self.et0Array.objectEnumerator;
+    NSEnumerator *qpfEnumerator = self.qpfArray.objectEnumerator;
+    
+    id et0 = nil;
+    while (et0 = [et0Enumerator nextObject]) {
+        id qpf = [qpfEnumerator nextObject];
+        if (et0 == [NSNull null] || qpf == [NSNull null]) {
+            [waterNeedArray addObject:[NSNull null]];
+            continue;
+        }
+        
+        double et0Value = ((NSNumber*)et0).doubleValue * et0Average;
+        double qpfValue = ((NSNumber*)qpf).doubleValue;
+        
+        double waterNeed = et0Value - rainSensitivity * qpfValue - waterSurplus;
+        if (waterNeed < 0) {
+            waterSurplus = MIN(-waterNeed, wsDays * et0Average);
+            waterNeed = 0.0;
+        }
+        
+        [waterNeedArray addObject:@(waterNeed / et0Average)];
+    }
+    
     self.waterNeedArray = waterNeedArray;
 }
 

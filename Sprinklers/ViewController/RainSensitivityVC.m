@@ -267,7 +267,7 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 - (void)onCellSliderValueChanged:(UISlider*)slider {
     self.provision.location.rainSensitivity = slider.value;
     
-    [self.rainSensitivitySimulationGraphVC reloadGraph];
+    [self.rainSensitivitySimulationGraphVC delayedUpdateGraph:0.05];
 }
 
 - (void)pickerVCWillDissapear:(PickerVC*)pickerVC {
@@ -275,7 +275,7 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
     self.provision.location.wsDays = pickerVC.selectedItem.intValue;
     
     [self.tableView reloadData];
-    [self.rainSensitivitySimulationGraphVC reloadGraph];
+    [self.rainSensitivitySimulationGraphVC updateGraph];
 }
 
 - (IBAction)onDefaults:(id)sender {
@@ -283,7 +283,7 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
     self.provision.location.wsDays = RainSensitivityDefaultWSDays;
     
     [self.tableView reloadData];
-    [self.rainSensitivitySimulationGraphVC reloadGraph];
+    [self.rainSensitivitySimulationGraphVC updateGraph];
 }
 
 - (IBAction)onSave:(id)sender {
