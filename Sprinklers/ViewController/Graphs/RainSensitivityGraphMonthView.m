@@ -52,7 +52,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 - (void)drawValues:(NSArray*)values withColor:(UIColor*)color inContext:(CGContextRef)context {
     CGContextSetFillColorWithColor(context, color.CGColor);
     
-    CGFloat stepWidth = self.frame.size.width / values.count;
+    CGFloat stepWidth = self.frame.size.width / (values.count - 1);
     CGFloat stepX = 0.0;
     CGFloat maxValue = (self.maxValue == 0.0 ? 2.0 : self.maxValue + 1);
     CGPoint previousPoint = CGPointZero;

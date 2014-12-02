@@ -54,5 +54,9 @@
 - (CGFloat)widthForGraphInRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC;
 - (CGFloat)heightForGraphInRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)raphVC;
 
+@optional
+
+- (BOOL)generateTestDataForRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC;
+
 @end
 

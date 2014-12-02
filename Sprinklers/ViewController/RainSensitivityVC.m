@@ -26,6 +26,7 @@ const int RainSensitivityMaxWSDays = 5;
 const int RainSensitivityDefaultWSDays = 2;
 const double RainSensitivityDefaultRainSensitivity = 0.8;
 const double RainSensitivitySimulationGraphHeight = 240.0;
+const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 
 @interface RainSensitivityVC ()
 
@@ -255,6 +256,10 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
 
 - (CGFloat)heightForGraphInRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC {
     return RainSensitivitySimulationGraphHeight;
+}
+
+- (BOOL)generateTestDataForRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC {
+    return RainSensitivitySimulationGraphUseTestData;
 }
 
 #pragma mark - Actions

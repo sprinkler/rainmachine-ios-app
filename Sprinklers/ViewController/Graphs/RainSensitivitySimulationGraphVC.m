@@ -26,6 +26,7 @@
 - (void)calculateMixerValuesByDate;
 - (void)calculateVariables;
 - (void)createGraphMonthCells;
+- (NSDictionary*)generateTestData;
 
 @property (nonatomic, assign) BOOL didLayoutSubviews;
 @property (nonatomic, assign) BOOL shouldCenterGraphAfterLayoutSubviews;
@@ -102,6 +103,11 @@
 #pragma mark - Helper methods
 
 - (void)calculateMixerValuesByDate {
+    if ([self.delegate respondsToSelector:@selector(generateTestDataForRainSensitivitySimulationGraphVC:)] && [self.delegate generateTestDataForRainSensitivitySimulationGraphVC:self]) {
+        self.mixerValuesByDate = self.generateTestData;
+        return;
+    }
+    
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     
@@ -223,6 +229,34 @@
     self.graphScrollContentViewHeightLayoutConstraint.constant = [self.delegate heightForGraphInRainSensitivitySimulationGraphVC:self] - 30.0;
     
     self.graphMonthCells = graphMonthCells;
+}
+
+- (NSDictionary*)generateTestData {
+    const double TestDataMaxEt0 = 4.0;
+    const double TestDataMaxQpf = 2.0;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [NSDateComponents new];
+    
+    NSMutableDictionary *mixerDataByDateTestData = [NSMutableDictionary new];
+    
+    for (NSInteger month = 0; month < 12; month++) {
+        dateComponents.month = month + 1;
+        
+        NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
+        
+        for (NSInteger day = 0; day < monthRange.length; day++) {
+            NSString *dayString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)self.year, (int)month + 1, (int)day + 1];
+            
+            MixerDailyValue *mixerDailyValue = [MixerDailyValue new];
+            mixerDailyValue.et0 = (double)rand() / (double)RAND_MAX * TestDataMaxEt0;
+            mixerDailyValue.qpf = (double)rand() / (double)RAND_MAX * TestDataMaxQpf;
+            
+            mixerDataByDateTestData[dayString] = mixerDailyValue;
+        }
+    }
+    
+    return mixerDataByDateTestData;
 }
 
 #pragma mark - ProxyService delegate
