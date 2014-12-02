@@ -11,6 +11,7 @@
 #import "SettingsVC.h"
 #import "RainSensitivityGraphMonthCell.h"
 #import "Constants.h"
+#import "Additions.h"
 #import "MixerDailyValue.h"
 #import "Provision.h"
 #import "ProvisionLocation.h"
@@ -22,11 +23,12 @@
 @property (nonatomic, strong) NSDictionary *mixerValuesByDate;
 @property (nonatomic, strong) NSArray *graphMonthCells;
 
-- (void)initializeGraph;
 - (void)calculateMixerValuesByDate;
 - (void)calculateVariables;
 - (void)createGraphMonthCells;
-- (void)centerCurrentMonthAnimated:(BOOL)animate;
+
+@property (nonatomic, assign) BOOL didLayoutSubviews;
+@property (nonatomic, assign) BOOL shouldCenterGraphAfterLayoutSubviews;
 
 @end
 
@@ -48,10 +50,14 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self initializeGraph];
-    [self centerCurrentMonthAnimated:NO];
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.didLayoutSubviews = YES;
+    if (self.shouldCenterGraphAfterLayoutSubviews) {
+        [self centerCurrentMonthAnimated:NO];
+        self.shouldCenterGraphAfterLayoutSubviews = NO;
+    }
 }
 
 #pragma mark - Methods
@@ -61,6 +67,39 @@
     [self createGraphMonthCells];
     [self reloadGraph];
 }
+
+- (void)reloadGraph {
+    [self calculateVariables];
+    for (RainSensitivityGraphMonthCell *graphMonthCell in self.graphMonthCells) {
+        [graphMonthCell calculateValues];
+        [graphMonthCell draw];
+    }
+}
+
+- (void)centerCurrentMonthAnimated:(BOOL)animate {
+    if (!self.didLayoutSubviews) {
+        self.shouldCenterGraphAfterLayoutSubviews = YES;
+        return;
+    }
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:[NSDate date]];
+    
+    if (dateComponents.month > self.graphMonthCells.count) return;
+    
+    RainSensitivityGraphMonthCell *graphMonthCellToCenter = self.graphMonthCells[dateComponents.month - 1];
+    CGFloat centerX = graphMonthCellToCenter.frame.origin.x + round(graphMonthCellToCenter.frame.size.width / 2.0);
+    CGFloat startX = centerX - round(self.graphScrollView.frame.size.width / 2.0);
+    if (startX < 0.0) startX = 0.0;
+    if (startX + self.graphScrollView.frame.size.width >= self.graphScrollContentViewWidthLayoutConstraint.constant) {
+        startX = self.graphScrollContentViewWidthLayoutConstraint.constant - self.graphScrollView.frame.size.width;
+    }
+    if (startX < 0.0) startX = 0.0;
+    
+    [self.graphScrollView setContentOffset:CGPointMake(startX, 0.0) animated:animate];
+}
+
+#pragma mark - Helper methods
 
 - (void)calculateMixerValuesByDate {
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -141,8 +180,8 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *dateComponents = [NSDateComponents new];
     
-    CGFloat graphMonthCellWidth = round(self.view.frame.size.width / 3.0);
-    CGFloat graphMonthCellHeight = self.graphScrollView.frame.size.height;
+    CGFloat graphMonthCellWidth = [self.delegate widthForGraphInRainSensitivitySimulationGraphVC:self];
+    CGFloat graphMonthCellHeight = self.graphScrollContentView.frame.size.height;
     
     NSMutableArray *graphMonthCells = [NSMutableArray new];
     
@@ -159,44 +198,31 @@
         graphMonthCell.firstDayIndex = firstDayIndex;
         graphMonthCell.numberOfDays = monthRange.length;
         graphMonthCell.monthLabel.text = monthsOfYear[month].uppercaseString;
+        graphMonthCell.translatesAutoresizingMaskIntoConstraints = NO;
         
         CGFloat graphMonthCellX = month * graphMonthCellWidth;
         graphMonthCell.frame = CGRectMake(graphMonthCellX, 0.0, graphMonthCellWidth, graphMonthCellHeight);
         
-        [self.graphScrollView addSubview:graphMonthCell];
+        [self.graphScrollContentView addSubview:graphMonthCell];
         [graphMonthCells addObject:graphMonthCell];
         
         firstDayIndex += monthRange.length;
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphMonthCell]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[graphMonthCell]",graphMonthCellX] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[graphMonthCell(==%lf)]",graphMonthCellWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+        } else {
+            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[graphMonthCell]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[graphMonthCell]",graphMonthCellX] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+            [self.graphScrollContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[graphMonthCell(==%lf)]",graphMonthCellWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(graphMonthCell)]];
+        }
     }
     
-    self.graphScrollView.contentSize = CGSizeMake(12.0 * graphMonthCellWidth, graphMonthCellHeight);
+    self.graphScrollContentViewWidthLayoutConstraint.constant = 12.0 * graphMonthCellWidth;
+    self.graphScrollContentViewHeightLayoutConstraint.constant = [self.delegate heightForGraphInRainSensitivitySimulationGraphVC:self] - 30.0;
+    
     self.graphMonthCells = graphMonthCells;
-}
-
-- (void)centerCurrentMonthAnimated:(BOOL)animate {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:[NSDate date]];
-
-    if (dateComponents.month > self.graphMonthCells.count) return;
-    
-    RainSensitivityGraphMonthCell *graphMonthCellToCenter = self.graphMonthCells[dateComponents.month - 1];
-    CGFloat centerX = graphMonthCellToCenter.frame.origin.x + round(graphMonthCellToCenter.frame.size.width / 2.0);
-    CGFloat startX = centerX - round(self.graphScrollView.frame.size.width / 2.0);
-    if (startX < 0.0) startX = 0.0;
-    if (startX + self.graphScrollView.frame.size.width >= self.graphScrollView.contentSize.width) {
-        startX = self.graphScrollView.contentSize.width - self.graphScrollView.frame.size.width;
-    }
-    if (startX < 0.0) startX = 0.0;
-    
-    [self.graphScrollView setContentOffset:CGPointMake(startX, 0.0) animated:animate];
-}
-
-- (void)reloadGraph {
-    [self calculateVariables];
-    for (RainSensitivityGraphMonthCell *graphMonthCell in self.graphMonthCells) {
-        [graphMonthCell calculateValues];
-        [graphMonthCell draw];
-    }
 }
 
 #pragma mark - ProxyService delegate

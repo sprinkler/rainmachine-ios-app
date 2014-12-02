@@ -7,6 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RainSensitivitySimulationGraphVC">
             <connections>
+                <outlet property="graphScrollContentView" destination="RMS-rw-EFc" id="OO4-dY-AYQ"/>
+                <outlet property="graphScrollContentViewHeightLayoutConstraint" destination="a9g-yT-vd8" id="QXL-d2-Tzo"/>
+                <outlet property="graphScrollContentViewWidthLayoutConstraint" destination="mGt-Ip-gt4" id="nk5-aF-3yG"/>
                 <outlet property="graphScrollView" destination="a8o-C3-ZO1" id="dP4-za-SHZ"/>
                 <outlet property="savedIndicatorView" destination="3Yw-TT-Rcq" id="2wk-WU-ahU"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2i5-Aq-KnW"/>
@@ -56,6 +59,22 @@
                 </label>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a8o-C3-ZO1">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="570"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RMS-rw-EFc">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="570"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="570" id="a9g-yT-vd8"/>
+                                <constraint firstAttribute="width" constant="600" id="mGt-Ip-gt4"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="RMS-rw-EFc" secondAttribute="bottom" id="0Rm-BB-gZ3"/>
+                        <constraint firstAttribute="trailing" secondItem="RMS-rw-EFc" secondAttribute="trailing" id="C9h-Cc-x3J"/>
+                        <constraint firstItem="RMS-rw-EFc" firstAttribute="leading" secondItem="a8o-C3-ZO1" secondAttribute="leading" id="kzF-gG-Xkg"/>
+                        <constraint firstItem="RMS-rw-EFc" firstAttribute="top" secondItem="a8o-C3-ZO1" secondAttribute="top" id="phm-ef-i2p"/>
+                    </constraints>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rtJ-BT-irx">
                     <rect key="frame" x="0.0" y="599" width="600" height="1"/>

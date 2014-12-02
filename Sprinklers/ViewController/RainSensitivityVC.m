@@ -25,6 +25,7 @@
 const int RainSensitivityMaxWSDays = 5;
 const int RainSensitivityDefaultWSDays = 2;
 const double RainSensitivityDefaultRainSensitivity = 0.8;
+const double RainSensitivitySimulationGraphHeight = 240.0;
 
 @interface RainSensitivityVC ()
 
@@ -90,6 +91,7 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
     self.rainSensitivitySimulationGraphVC = [[RainSensitivitySimulationGraphVC alloc] init];
     self.rainSensitivitySimulationGraphVC.view.frame = self.rainSensitivitySimulationGraphContainerView.bounds;
     self.rainSensitivitySimulationGraphVC.parent = self;
+    self.rainSensitivitySimulationGraphVC.delegate = self;
     
     [self.rainSensitivitySimulationGraphContainerView addSubview:self.rainSensitivitySimulationGraphVC.view];
     [self addChildViewController:self.rainSensitivitySimulationGraphVC];
@@ -161,8 +163,12 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
         hud = nil;
     }
     
-    if (!self.requestProvisionServerProxy && !self.requestMixerDataServerProxy) {
+    if (!self.requestProvisionServerProxy && !self.requestMixerDataServerProxy && self.provision && self.rainSensitivitySimulationGraphVC.mixerDataByDate) {
         self.tableView.tableHeaderView = self.rainSensitivityHeaderView;
+        
+        [self.rainSensitivitySimulationGraphVC initializeGraph];
+        [self.rainSensitivitySimulationGraphVC centerCurrentMonthAnimated:NO];
+        
         [self.tableView reloadData];
     }
 }
@@ -239,6 +245,16 @@ const double RainSensitivityDefaultRainSensitivity = 0.8;
         
         [self.navigationController pushViewController:pickerVC animated:YES];
     }
+}
+
+#pragma mark - Rain sensitivity simulation graph delegate
+
+- (CGFloat)widthForGraphInRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC {
+    return ceil(MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) / 3.0);
+}
+
+- (CGFloat)heightForGraphInRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC {
+    return RainSensitivitySimulationGraphHeight;
 }
 
 #pragma mark - Actions

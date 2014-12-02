@@ -10,12 +10,15 @@
 #import "Protocols.h"
 #import "BaseLevel2ViewController.h"
 
+@protocol  RainSensitivitySimulationGraphDelegate;
 @class RainSensitivityVC;
 @class Provision;
 
 @interface RainSensitivitySimulationGraphVC : BaseLevel2ViewController <SprinklerResponseProtocol>
 
 @property (nonatomic, weak) RainSensitivityVC *parent;
+@property (nonatomic, weak) id<RainSensitivitySimulationGraphDelegate> delegate;
+
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, strong) Provision *provison;
 @property (nonatomic, strong) NSArray *mixerDataByDate;
@@ -32,10 +35,24 @@
 @property (nonatomic, strong) UIColor *wateredIndicatorColor;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *graphScrollView;
+@property (nonatomic, weak) IBOutlet UIView *graphScrollContentView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *graphScrollContentViewWidthLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *graphScrollContentViewHeightLayoutConstraint;
 @property (nonatomic, weak) IBOutlet UIView *savedIndicatorView;
 @property (nonatomic, weak) IBOutlet UIView *wateredIndicatorView;
 
+- (void)initializeGraph;
 - (void)reloadGraph;
+- (void)centerCurrentMonthAnimated:(BOOL)animate;
+
+@end
+
+#pragma mark -
+
+@protocol RainSensitivitySimulationGraphDelegate  <NSObject>
+
+- (CGFloat)widthForGraphInRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)graphVC;
+- (CGFloat)heightForGraphInRainSensitivitySimulationGraphVC:(RainSensitivitySimulationGraphVC*)raphVC;
 
 @end
 

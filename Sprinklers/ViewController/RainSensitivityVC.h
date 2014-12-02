@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
+#import "RainSensitivitySimulationGraphVC.h"
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
 
 @class SettingsVC;
 @class ColoredBackgroundButton;
 
-@interface RainSensitivityVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, PickerVCDelegate, CellButtonDelegate, SprinklerResponseProtocol>
+@interface RainSensitivityVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, PickerVCDelegate, CellButtonDelegate, SprinklerResponseProtocol, RainSensitivitySimulationGraphDelegate>
 
 @property (nonatomic, weak) SettingsVC *parent;
 
