@@ -18,8 +18,6 @@
 @property (nonatomic, assign) NSInteger month;
 @property (nonatomic, assign) NSInteger firstDayIndex;
 @property (nonatomic, assign) NSInteger numberOfDays;
-@property (nonatomic, strong) NSArray *et0Array;
-@property (nonatomic, strong) NSArray *waterNeedArray;
 
 @property (nonatomic, weak) IBOutlet RainSensitivityGraphMonthView *graphView;
 @property (nonatomic, weak) IBOutlet UIView *trailingSeparatorView;

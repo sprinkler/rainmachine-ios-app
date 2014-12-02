@@ -15,6 +15,7 @@
 #import "MixerDailyValue.h"
 #import "Provision.h"
 #import "ProvisionLocation.h"
+#import "+UIImage.h"
 
 #pragma mark -
 
@@ -27,11 +28,13 @@
 - (void)calculateVariables;
 - (void)updateVariables;
 - (void)createGraphMonthCells;
-- (NSDictionary*)generateTestData;
+- (NSDictionary*)generateTestData:(double*)et0Average;
 
 @property (nonatomic, assign) BOOL didLayoutSubviews;
 @property (nonatomic, assign) BOOL shouldCenterGraphAfterLayoutSubviews;
 @property (nonatomic, assign) BOOL delayedUpdateGraphInProgress;
+
+@property (nonatomic, strong) NSArray *monthDays;
 
 @end
 
@@ -44,6 +47,7 @@
     
     self.savedIndicatorColor = [UIColor colorWithRed:11.0 / 255.0 green:100.0 / 255.0 blue:126.0 / 255.0 alpha:1.0];
     self.wateredIndicatorColor = [UIColor colorWithRed:24.0 / 255.0 green:155.0 / 255.0 blue:202.0 / 255.0 alpha:1.0];
+    self.cloudsDarkBlueColor = [UIColor colorWithRed:11.0 / 255.0 green:100.0 / 255.0 blue:126.0 / 255.0 alpha:1.0];
     
     self.savedIndicatorView.backgroundColor = self.savedIndicatorColor;
     self.wateredIndicatorView.backgroundColor = self.wateredIndicatorColor;
@@ -84,6 +88,7 @@
     for (RainSensitivityGraphMonthCell *graphMonthCell in self.graphMonthCells) {
         [graphMonthCell calculateValues];
         [graphMonthCell draw];
+        
     }
     self.delayedUpdateGraphInProgress = NO;
 }
@@ -121,7 +126,9 @@
 
 - (void)calculateMixerValuesByDate {
     if ([self.delegate respondsToSelector:@selector(generateTestDataForRainSensitivitySimulationGraphVC:)] && [self.delegate generateTestDataForRainSensitivitySimulationGraphVC:self]) {
-        self.mixerValuesByDate = self.generateTestData;
+        double et0Average = 0.0;
+        self.mixerValuesByDate = [self generateTestData:&et0Average];
+        self.provision.location.et0Average = et0Average;
         return;
     }
     
@@ -143,27 +150,26 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *dateComponents = [NSDateComponents new];
     
-    double et0Average = 0.0;
-    double rainSensitivity = self.provison.location.rainSensitivity;
-    NSInteger wsDays = self.provison.location.wsDays;
+    double et0Average = self.provision.location.et0Average;
+    if (et0Average == 0.0) et0Average = 1.0;
+    
+    double rainSensitivity = self.provision.location.rainSensitivity;
+    NSInteger wsDays = self.provision.location.wsDays;
     double waterSurplus = 0.0;
     
     NSMutableArray *et0Array = [NSMutableArray new];
     NSMutableArray *qpfArray = [NSMutableArray new];
     NSMutableArray *waterNeedArray = [NSMutableArray new];
+    NSMutableArray *savedWaterArray = [NSMutableArray new];
+    NSMutableArray *monthDays = [NSMutableArray new];
     
     double maxValue = 0.0;
-    
-    // Calculate et0Average from the mixer data
-    // Probably this logic will change, as we can take the et0Average from the provision location data, but currently that returns 0
-    
-    for (MixerDailyValue *mixerDailyValue in self.mixerDataByDate) et0Average += mixerDailyValue.et0;
-    if (self.mixerDataByDate.count) et0Average /= self.mixerDataByDate.count;
     
     for (NSInteger month = 0; month < 12; month++) {
         dateComponents.month = month + 1;
         
         NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
+        double savedWater = 0.0;
         
         for (NSInteger day = 0; day < monthRange.length; day++) {
             NSString *dayString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)self.year, (int)month + 1, (int)day + 1];
@@ -191,54 +197,73 @@
             [et0Array addObject:@(et0Value)];
             [qpfArray addObject:@(qpfValue)];
             [waterNeedArray addObject:@(waterNeedValue)];
+            
+            savedWater += (mixerDailyValue.et0 - waterNeed);
         }
+        
+        [monthDays addObject:@(monthRange.length)];
+        [savedWaterArray addObject:@(savedWater)];
     }
     
-    self.et0Average = et0Average;
+    self.monthDays = monthDays;
     
-    self.rainSensistivity = rainSensitivity;
-    self.wsDays = wsDays;
     self.waterSurplus = waterSurplus;
-    
     self.et0Array = et0Array;
     self.qpfArray = qpfArray;
     self.waterNeedArray = waterNeedArray;
+    self.savedWaterArray = savedWaterArray;
     
     self.maxValue = maxValue;
 }
 
 - (void)updateVariables {
     NSMutableArray *waterNeedArray = [NSMutableArray new];
+    NSMutableArray *savedWaterArray = [NSMutableArray new];
     
-    double et0Average = self.et0Average;
-    double rainSensitivity = self.provison.location.rainSensitivity;
-    NSInteger wsDays = self.provison.location.wsDays;
+    double et0Average = self.provision.location.et0Average;
+    if (et0Average == 0.0) et0Average = 1.0;
+    
+    double rainSensitivity = self.provision.location.rainSensitivity;
+    NSInteger wsDays = self.provision.location.wsDays;
     double waterSurplus = 0.0;
     
     NSEnumerator *et0Enumerator = self.et0Array.objectEnumerator;
     NSEnumerator *qpfEnumerator = self.qpfArray.objectEnumerator;
     
-    id et0 = nil;
-    while (et0 = [et0Enumerator nextObject]) {
-        id qpf = [qpfEnumerator nextObject];
-        if (et0 == [NSNull null] || qpf == [NSNull null]) {
-            [waterNeedArray addObject:[NSNull null]];
-            continue;
+    for (NSInteger month = 0; month < 12; month++) {
+        double savedWater = 0.0;
+        
+        for (NSInteger day = 0; day < [self.monthDays[month] integerValue]; day++) {
+            id et0 = [et0Enumerator nextObject];
+            id qpf = [qpfEnumerator nextObject];
+            
+            if (et0 == [NSNull null] || qpf == [NSNull null]) {
+                [waterNeedArray addObject:[NSNull null]];
+                continue;
+            }
+            
+            if (!et0 || !qpf) return;
+            
+            double et0Value = ((NSNumber*)et0).doubleValue * et0Average;
+            double qpfValue = ((NSNumber*)qpf).doubleValue;
+            
+            double waterNeed = et0Value - rainSensitivity * qpfValue - waterSurplus;
+            if (waterNeed < 0) {
+                waterSurplus = MIN(-waterNeed, wsDays * et0Average);
+                waterNeed = 0.0;
+            }
+            
+            [waterNeedArray addObject:@(waterNeed / et0Average)];
+            
+            savedWater += et0Value - waterNeed;
         }
         
-        double et0Value = ((NSNumber*)et0).doubleValue * et0Average;
-        double qpfValue = ((NSNumber*)qpf).doubleValue;
-        
-        double waterNeed = et0Value - rainSensitivity * qpfValue - waterSurplus;
-        if (waterNeed < 0) {
-            waterSurplus = MIN(-waterNeed, wsDays * et0Average);
-            waterNeed = 0.0;
-        }
-        
-        [waterNeedArray addObject:@(waterNeed / et0Average)];
+        [savedWaterArray addObject:@(savedWater)];
     }
     
+    self.waterSurplus = waterSurplus;
     self.waterNeedArray = waterNeedArray;
+    self.savedWaterArray = savedWaterArray;
 }
 
 - (void)createGraphMonthCells {
@@ -249,6 +274,7 @@
     CGFloat graphMonthCellHeight = self.graphScrollContentView.frame.size.height;
     
     NSMutableArray *graphMonthCells = [NSMutableArray new];
+    UIImage *cloudImage = [[UIImage imageNamed:@"shra"] imageByFillingWithColor:self.cloudsDarkBlueColor];
     
     NSInteger firstDayIndex = 0;
     
@@ -262,6 +288,7 @@
         graphMonthCell.month = month;
         graphMonthCell.firstDayIndex = firstDayIndex;
         graphMonthCell.numberOfDays = monthRange.length;
+        graphMonthCell.cloudImageView.image = cloudImage;
         graphMonthCell.monthLabel.text = monthsOfYear[month].uppercaseString;
         graphMonthCell.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -292,9 +319,9 @@
     self.graphMonthCells = graphMonthCells;
 }
 
-- (NSDictionary*)generateTestData {
-    const double TestDataMaxEt0 = 4.0;
-    const double TestDataMaxQpf = 2.0;
+- (NSDictionary*)generateTestData:(double*)et0Average {
+    double et0AverageValue = 0.0;
+    NSInteger et0Count = 0;
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *dateComponents = [NSDateComponents new];
@@ -302,6 +329,11 @@
     NSMutableDictionary *mixerDataByDateTestData = [NSMutableDictionary new];
     
     for (NSInteger month = 0; month < 12; month++) {
+        double TestDataMinEt0 = 1.0;
+        double TestDataEt0Interval = 1.0 + (double)rand() / RAND_MAX * 5.0;
+        double TestDataMinQpf = 1.0;
+        double TestDataQpfInterval = 1.0 + (double)rand() / RAND_MAX * 2.0;
+        
         dateComponents.month = month + 1;
         
         NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
@@ -310,27 +342,21 @@
             NSString *dayString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)self.year, (int)month + 1, (int)day + 1];
             
             MixerDailyValue *mixerDailyValue = [MixerDailyValue new];
-            mixerDailyValue.et0 = (double)rand() / (double)RAND_MAX * TestDataMaxEt0;
-            mixerDailyValue.qpf = (double)rand() / (double)RAND_MAX * TestDataMaxQpf;
+            mixerDailyValue.et0 = (double)rand() / (double)RAND_MAX * TestDataEt0Interval + TestDataMinEt0;
+            mixerDailyValue.qpf = (double)rand() / (double)RAND_MAX * TestDataQpfInterval + TestDataMinQpf;
             
             mixerDataByDateTestData[dayString] = mixerDailyValue;
+            
+            et0AverageValue += mixerDailyValue.et0;
+            et0Count++;
         }
     }
     
+    et0AverageValue /= et0Count;
+    
+    if (et0Average) *et0Average = et0AverageValue;
+    
     return mixerDataByDateTestData;
-}
-
-#pragma mark - ProxyService delegate
-
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-}
-
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
-}
-
-- (void)loggedOut {
-    [self.parent handleLoggedOutSprinklerError];
 }
 
 @end

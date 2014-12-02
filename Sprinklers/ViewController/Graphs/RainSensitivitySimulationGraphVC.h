@@ -14,26 +14,25 @@
 @class RainSensitivityVC;
 @class Provision;
 
-@interface RainSensitivitySimulationGraphVC : BaseLevel2ViewController <SprinklerResponseProtocol>
+@interface RainSensitivitySimulationGraphVC : BaseLevel2ViewController
 
 @property (nonatomic, weak) RainSensitivityVC *parent;
 @property (nonatomic, weak) id<RainSensitivitySimulationGraphDelegate> delegate;
 
 @property (nonatomic, assign) NSInteger year;
-@property (nonatomic, strong) Provision *provison;
+@property (nonatomic, strong) Provision *provision;
 @property (nonatomic, strong) NSArray *mixerDataByDate;
 
-@property (nonatomic, assign) double et0Average;
-@property (nonatomic, assign) double rainSensistivity;
-@property (nonatomic, assign) NSInteger wsDays;
 @property (nonatomic, assign) double waterSurplus;
 @property (nonatomic, assign) double maxValue;
 @property (nonatomic, strong) NSArray *et0Array;
 @property (nonatomic, strong) NSArray *qpfArray;
 @property (nonatomic, strong) NSArray *waterNeedArray;
+@property (nonatomic, strong) NSArray *savedWaterArray;
 
 @property (nonatomic, strong) UIColor *savedIndicatorColor;
 @property (nonatomic, strong) UIColor *wateredIndicatorColor;
+@property (nonatomic, strong) UIColor *cloudsDarkBlueColor;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *graphScrollView;
 @property (nonatomic, weak) IBOutlet UIView *graphScrollContentView;

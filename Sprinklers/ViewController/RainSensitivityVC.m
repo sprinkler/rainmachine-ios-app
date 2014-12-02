@@ -146,7 +146,7 @@ const BOOL RainSensitivitySimulationGraphUseTestData = NO;
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.requestProvisionServerProxy) {
         self.provision = (Provision*)data;
-        self.rainSensitivitySimulationGraphVC.provison = self.provision;
+        self.rainSensitivitySimulationGraphVC.provision = self.provision;
         self.requestProvisionServerProxy = nil;
     }
     

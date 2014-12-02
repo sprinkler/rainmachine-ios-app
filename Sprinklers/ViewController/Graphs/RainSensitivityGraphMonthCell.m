@@ -15,6 +15,8 @@
 
 @interface RainSensitivityGraphMonthCell ()
 
+- (void)updateCloudImage;
+
 @end
 
 #pragma mark -
@@ -24,10 +26,6 @@
 + (RainSensitivityGraphMonthCell*)newGraphMonthCell {
     NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"RainSensitivityGraphMonthCell" owner:nil options:nil];
     return objects.lastObject;
-}
-
-- (void)awakeFromNib {
-    self.cloudImageView.image = [UIImage imageNamed:@"shra"];
 }
 
 - (void)calculateValues {
@@ -40,6 +38,15 @@
 
 - (void)draw {
     [self.graphView draw];
+    [self updateCloudImage];
+}
+
+- (void)updateCloudImage {
+    double savedWater = [self.rainSensitivitySimulationGraph.savedWaterArray[self.month] doubleValue];
+    double cloudColorAlphaValue = (savedWater / 100.0);
+    if (cloudColorAlphaValue > 1.0) cloudColorAlphaValue = 1.0;
+    
+    self.cloudImageView.alpha = cloudColorAlphaValue;
 }
 
 @end
