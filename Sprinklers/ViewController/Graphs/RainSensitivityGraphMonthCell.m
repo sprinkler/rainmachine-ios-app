@@ -26,6 +26,10 @@
     return objects.lastObject;
 }
 
+- (void)awakeFromNib {
+    self.cloudImageView.image = [UIImage imageNamed:@"shra"];
+}
+
 - (void)calculateValues {
     self.graphView.graphBackgroundValues = [self.rainSensitivitySimulationGraph.et0Array subarrayWithRange:NSMakeRange(self.firstDayIndex, self.numberOfDays)];
     self.graphView.graphForegroundValues = [self.rainSensitivitySimulationGraph.waterNeedArray subarrayWithRange:NSMakeRange(self.firstDayIndex, self.numberOfDays)];

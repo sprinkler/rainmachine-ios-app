@@ -29,6 +29,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="199" height="168"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shra.png" translatesAutoresizingMaskIntoConstraints="NO" id="snm-nC-Zsb">
+                    <rect key="frame" x="8" y="8" width="52" height="52"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="52" id="K95-LQ-WPF"/>
+                        <constraint firstAttribute="height" constant="52" id="TaM-1H-yWL"/>
+                    </constraints>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JANUARY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kP7-7q-XeO">
                     <rect key="frame" x="0.0" y="169" width="199" height="31"/>
                     <constraints>
@@ -53,13 +60,19 @@
                 <constraint firstAttribute="bottom" secondItem="kP7-7q-XeO" secondAttribute="bottom" id="cLT-Nd-kp7"/>
                 <constraint firstItem="9Wn-T2-nab" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ckC-yP-mNZ"/>
                 <constraint firstItem="cnQ-do-yNi" firstAttribute="top" secondItem="9Wn-T2-nab" secondAttribute="bottom" id="dhZ-fg-osf"/>
+                <constraint firstItem="snm-nC-Zsb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="ewT-Ei-4rs"/>
                 <constraint firstAttribute="bottom" secondItem="dzI-5v-LTg" secondAttribute="bottom" id="gwG-KJ-Pe6"/>
+                <constraint firstItem="snm-nC-Zsb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="zcs-Io-ud5"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="cloudImageView" destination="snm-nC-Zsb" id="vpF-th-c09"/>
                 <outlet property="graphView" destination="9Wn-T2-nab" id="YZb-O0-7Qm"/>
                 <outlet property="monthLabel" destination="kP7-7q-XeO" id="vE6-wJ-HYH"/>
             </connections>
         </view>
     </objects>
+    <resources>
+        <image name="shra.png" width="256" height="256"/>
+    </resources>
 </document>
