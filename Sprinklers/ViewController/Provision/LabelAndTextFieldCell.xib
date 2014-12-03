@@ -16,16 +16,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agm-C5-Qvk">
-                        <rect key="frame" x="16" y="12" width="70" height="20.5"/>
+                        <rect key="frame" x="16" y="12" width="90" height="20.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="70" id="gpW-eU-dG5"/>
+                            <constraint firstAttribute="width" constant="90" id="gpW-eU-dG5"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Network Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yeu-jJ-mS8">
-                        <rect key="frame" x="86" y="13.5" width="226" height="17"/>
+                        <rect key="frame" x="106" y="13.5" width="206" height="17"/>
                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
@@ -41,6 +41,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="textField" destination="yeu-jJ-mS8" id="iPx-AB-Lld"/>
+                <outlet property="titleLabel" destination="agm-C5-Qvk" id="PFt-dn-0iT"/>
             </connections>
         </tableViewCell>
     </objects>

@@ -13,6 +13,8 @@
 #import "MBProgressHUD.h"
 #import "WiFi.h"
 #import "ProvisionWiFiVC.h"
+#import "Utils.h"
+#import "NetworkUtilities.h"
 
 @interface AvailableWiFisVC ()
 
@@ -77,7 +79,7 @@
     
     if (self.sprinkler) {
         self.tableView.hidden = NO;
-        self.descriptionLabel.hidden = (self.availableWiFis.count == 0);// ? @"" : @"Connect your Rain Machine to a WiFi network";
+        self.descriptionLabel.hidden = (self.availableWiFis == nil);
         self.messageLabel.hidden = YES;
     } else {
         self.tableView.hidden = YES;
@@ -100,6 +102,14 @@
                                     repeats:YES];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.devicesPollTimer invalidate];
+    self.devicesPollTimer = nil;
+}
+
 - (void)pollDevices
 {
     [[ServiceManager current] startBroadcastForSprinklers:NO];
@@ -120,6 +130,10 @@
 }
 */
 
+- (int)rowForOtherNetwork
+{
+    return (self.availableWiFis == nil) ? -1 : (int)(self.availableWiFis.count);
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -127,19 +141,24 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return self.availableWiFis.count;
+    return self.availableWiFis.count + ([self rowForOtherNetwork] == -1 ? 0 : 1);
 }
 
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
-     WiFi *wifi = self.availableWiFis[indexPath.row];
-     cell.textLabel.text = wifi.SSID;
+     UITableViewCell *cell = nil;
+     if (indexPath.row < self.availableWiFis.count) {
+         cell = [tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
+         WiFi *wifi = self.availableWiFis[indexPath.row];
+         cell.textLabel.text = wifi.SSID;
+     } else {
+         if (indexPath.row == [self rowForOtherNetwork]) {
+             cell = [tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
+             cell.textLabel.text = @"Other...";
+         }
+     }
      
- // Configure the cell...
- 
- return cell;
- }
+     return cell;
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -188,11 +207,29 @@
  // Navigation logic may go here, for example:
  // Create the next view controller.
 
-     self.provisionWiFiVC = [[ProvisionWiFiVC alloc] init];
-     self.provisionWiFiVC.securityOption = @"None";
-     self.provisionWiFiVC.showSSID = NO;
-     UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.provisionWiFiVC];
-     [self.navigationController presentViewController:navDevices animated:YES completion:nil];
+     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+     
+     if (indexPath.row < self.availableWiFis.count) {
+         WiFi *wifi = self.availableWiFis[indexPath.row];
+         BOOL needsPassword;
+         NSString *securityOption = [Utils securityOptionFromSprinklerWiFi:wifi needsPassword:&needsPassword];
+         if (needsPassword) {
+             self.provisionWiFiVC = [[ProvisionWiFiVC alloc] init];
+             self.provisionWiFiVC.showSSID = NO;
+             self.provisionWiFiVC.SSID = wifi.SSID;
+             self.provisionWiFiVC.securityOption = securityOption;
+             UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.provisionWiFiVC];
+             [self.navigationController presentViewController:navDevices animated:YES completion:nil];
+         } else {
+             [self joinWiFi:wifi.SSID encryption:@"none" key:nil];
+         }
+     } else {
+         self.provisionWiFiVC = [[ProvisionWiFiVC alloc] init];
+         self.provisionWiFiVC.securityOption = nil;
+         self.provisionWiFiVC.showSSID = YES;
+         UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.provisionWiFiVC];
+         [self.navigationController presentViewController:navDevices animated:YES completion:nil];
+     }
 }
 
 /*
@@ -230,6 +267,18 @@
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
     
+    NSString *address = self.sprinkler.url;
+    if ([address hasSuffix:@"/"]) {
+        address = [address substringToIndex:address.length - 1];
+    }
+    NSString *port = [Utils getPort:address];
+    if ([port length] > 0) {
+        if ([port length] + 1  < [address length]) {
+            address = [address substringToIndex:[address length] - ([port length] + 1)];
+        }
+    }
+    [NetworkUtilities saveAccessTokenForBaseURL:address port:port loginResponse:(Login4Response*)loginResponse];
+
     self.loginServerProxy = nil;
     
     [self.provisionServerProxy requestAvailableWiFis];
@@ -240,6 +289,9 @@
     [self hideHud];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
+    
+    [self.devicesPollTimer invalidate];
+    self.devicesPollTimer = nil;
 }
 
 - (void)showHud {

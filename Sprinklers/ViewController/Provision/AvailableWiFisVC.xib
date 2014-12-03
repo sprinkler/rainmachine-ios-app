@@ -80,12 +80,12 @@
             </constraints>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="2sN-s5-aRJ"/>
                     <exclude reference="g9D-DI-A2D"/>
                     <exclude reference="nkg-tF-4gb"/>
                     <exclude reference="wHy-r1-j7Y"/>
                     <exclude reference="WdQ-s1-6nt"/>
                     <exclude reference="erl-I8-aBZ"/>
-                    <exclude reference="2sN-s5-aRJ"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="219" y="263"/>

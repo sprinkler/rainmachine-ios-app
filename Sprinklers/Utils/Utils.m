@@ -21,6 +21,7 @@
 #import "APIVersion.h"
 #import "APIVersion4.h"
 #import "ServerProxy.h"
+#import "WiFi.h"
 
 @implementation Utils
 
@@ -394,6 +395,26 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:units forKey:@"sprinklerUnits"];
+}
+
++ (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword
+{
+    *needsPassword = NO;
+
+    if ([wifi.isWPA2 boolValue]) {
+        *needsPassword = YES;
+        return @"psk2";
+    }
+    if ([wifi.isWPA boolValue]) {
+        *needsPassword = YES;
+        return @"psk";
+    }
+    if ([wifi.isWEP boolValue]) {
+        *needsPassword = YES;
+        return @"none";
+    }
+
+    return @"none";
 }
 
 #pragma mark - Cells

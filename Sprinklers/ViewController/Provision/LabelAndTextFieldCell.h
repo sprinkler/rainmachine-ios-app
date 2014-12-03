@@ -11,5 +11,6 @@
 @interface LabelAndTextFieldCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

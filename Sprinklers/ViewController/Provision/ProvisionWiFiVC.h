@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *securityOption;
 @property (nonatomic, weak) AvailableWiFisVC *delegate;
 @property (nonatomic, assign) BOOL showSSID;
+@property (nonatomic, strong) NSString *SSID;
 
 @end

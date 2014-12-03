@@ -11,10 +11,12 @@
 #import "SelectWiFiSecurityOptionVC.h"
 #import "+UIDevice.h"
 
+#define kProvisionWiFi_SSID 1
+#define kProvisionWiFi_Password 2
+
 @interface ProvisionWiFiVC ()
 
 @property (nonatomic, strong) NSString *password;
-@property (nonatomic, strong) NSString *SSID;
 @property (nonatomic, assign) BOOL showSecurity;
 @property (nonatomic, assign) BOOL forceShowKeyboard;
 
@@ -63,7 +65,7 @@
 
 - (void)refreshUI
 {
-    self.navigationItem.rightBarButtonItem.enabled = self.password.length > 0;
+    self.navigationItem.rightBarButtonItem.enabled = (self.password.length > 0) && (self.SSID.length > 0);
 }
 
 - (void)cancel
@@ -111,7 +113,9 @@
         if ([self rowForSecurity] == -1) {
             return 1; // Show only password
         } else {
-            return [self.securityOption isEqualToString:@"None"] ? 1 : 2;
+            if (section == [self rowForPassword]) {
+                return [self.securityOption isEqualToString:@"None"] ? 1 : 2;
+            }
         }
     }
     
@@ -120,7 +124,7 @@
 
 - (int)sectionForSSID
 {
-    return self.showSSID ? -1 : 0;
+    return self.showSSID ? 0 : -1;
 }
 
 - (int)sectionForSecurity
@@ -130,7 +134,12 @@
 
 - (int)rowForSecurity
 {
-    return self.showSecurity ? -1 : ([self.securityOption isEqualToString:@"None"] ? -1 : 0);
+    return self.showSecurity ? 0 : -1;
+}
+
+- (int)rowForPassword
+{
+    return ([self.securityOption isEqualToString:@"None"] ? -1 : [self rowForSecurity] + 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -144,6 +153,8 @@
         labelAndTextFieldCell.textField.placeholder = @"Network Name";
         labelAndTextFieldCell.textField.delegate = self;
         labelAndTextFieldCell.textField.secureTextEntry = YES;
+        labelAndTextFieldCell.textField.tag = kProvisionWiFi_SSID;
+        labelAndTextFieldCell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (self.forceShowKeyboard) {
             self.forceShowKeyboard = NO;
@@ -161,13 +172,17 @@
             cell.detailTextLabel.text = self.securityOption;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-        else if (indexPath.row == 1) {
+        else if (indexPath.row == [self rowForPassword]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"LabelAndTextFieldCell" forIndexPath:indexPath];
             LabelAndTextFieldCell *labelAndTextFieldCell = (LabelAndTextFieldCell*)cell;
+            labelAndTextFieldCell.titleLabel.text = @"Password";
             labelAndTextFieldCell.textField.text = self.password;
             labelAndTextFieldCell.textField.placeholder = @"";
             labelAndTextFieldCell.textField.delegate = self;
-
+            labelAndTextFieldCell.textField.secureTextEntry = YES;
+            labelAndTextFieldCell.textField.tag = kProvisionWiFi_Password;
+            labelAndTextFieldCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
             if (self.forceShowKeyboard) {
                 self.forceShowKeyboard = NO;
                 [labelAndTextFieldCell.textField becomeFirstResponder];
@@ -176,6 +191,8 @@
     }
     
     // Configure the cell...
+    
+    assert(cell);
     
     return cell;
 }
@@ -258,7 +275,16 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    self.password = textField.text;
+    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    if (textField.tag == kProvisionWiFi_Password) {
+        self.password = newString;
+    }
+    if (textField.tag == kProvisionWiFi_SSID) {
+        self.SSID = newString;
+    }
+    
+    [self refreshUI];
     
     return YES;
 }

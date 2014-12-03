@@ -13,6 +13,7 @@
 @class WaterNowZone;
 @class Sprinkler;
 @class SettingsDate;
+@class WiFi;
 
 @interface Utils : NSObject
 
@@ -65,6 +66,7 @@
 + (UIImage*)weatherImageFromCode:(NSNumber*)cod;
 
 + (NSString*)vegetationTypeToString:(int)vegetation;
++ (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword;
 
 @end
 
