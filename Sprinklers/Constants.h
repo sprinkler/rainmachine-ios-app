@@ -37,6 +37,8 @@ extern NSString* const kSprinklerKeychain_isSessionOnly;
 
 extern NSString* const kSprinklerKeychain_CloudAccount;
 
+extern NSString* const kSprinklerUserDefaults_AccessTokensDictionaryKey;
+
 extern NSString* const kNewSprinklerSelected;
 extern NSString *const kFirmwareUpdateNeeded;
 extern NSString *const kSprinklerNetworkError;

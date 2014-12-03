@@ -10,9 +10,13 @@
 
 @interface Login4Response : NSObject
 
-@property (nonatomic, strong) NSString *access_token;
+@property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) NSString *checksum;
-@property (nonatomic, strong) NSString *expiration;
-@property (nonatomic, strong) NSNumber *statusCode;
+@property (nonatomic, strong) NSDate *expirationDate;
+@property (nonatomic, assign) int statusCode;
+
++ (Login4Response*)createFromJson:(NSDictionary*)jsonObj;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
 
 @end

@@ -228,7 +228,7 @@
     [self refreshUI];
 }
 
-- (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
+- (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
     
     self.loginServerProxy = nil;
     

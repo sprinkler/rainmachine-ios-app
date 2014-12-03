@@ -27,6 +27,8 @@ NSString* const kSprinklerKeychain_isSessionOnly = @"SprinklerKeychain_isSession
 
 NSString* const kSprinklerKeychain_CloudAccount = @"kSprinklerKeychain_CloudAccount";
 
+NSString *const kSprinklerUserDefaults_AccessTokensDictionaryKey = @"kSprinklerUserDefaults_AccessTokensDictionaryKey";
+
 NSString *const kNewSprinklerSelected = @"NewSprinklerSelected";
 NSString *const kFirmwareUpdateNeeded = @"FirmwareUpdateNeeded";
 NSString *const kSprinklerNetworkError = @"SprinklerNetworkError";

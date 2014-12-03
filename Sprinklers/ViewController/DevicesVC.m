@@ -836,11 +836,27 @@
 
 - (void)sprinklerSelected:(Sprinkler*)sprinkler
 {
-    [NetworkUtilities restoreCookieForBaseUrl:sprinkler.address port:sprinkler.port];
+    BOOL isAutomaticLogin = NO;
     int detectedSprinklerMainVersion = 0;
     
-    if ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address detectedSprinklerMainVersion:&detectedSprinklerMainVersion]) {
-        // Automatic login
+    NSString *accessToken = [NetworkUtilities accessTokenForBaseUrl:sprinkler.address port:sprinkler.port];
+    if (accessToken.length) {
+        isAutomaticLogin = YES;
+        detectedSprinklerMainVersion = 4; // Automatic login - API 4
+        
+        // Remove old cookies as API 4 uses access token
+        [NetworkUtilities removeCookiesForURL:[NSURL URLWithString:[Utils sprinklerURL:sprinkler]]];
+    }
+    
+    if (!isAutomaticLogin) {
+        [NetworkUtilities restoreCookieForBaseUrl:sprinkler.address port:sprinkler.port];
+        if ([NetworkUtilities isLoginCookieActiveForBaseUrl:sprinkler.address]) {
+            isAutomaticLogin = YES;
+            detectedSprinklerMainVersion = 3; // Automatic login - API 3
+        }
+    }
+    
+    if (isAutomaticLogin) {
         [ServerProxy setSprinklerVersionMajor:detectedSprinklerMainVersion
                                         minor:-1
                                      subMinor:-1];
@@ -926,7 +942,7 @@
 - (void)loggedOut {
 }
 
-- (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
+- (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
 }
 
 #pragma mark - Picker input view data source

@@ -122,6 +122,14 @@ static NSString *kWifiInterface = @"en0";
     
     return results;
 }
+
++ (void)removeCookiesForURL:(NSURL*)url {
+    NSArray *cookies = [self cookiesForURL:url];
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+}
+
 // Structure of our dictionary saved in keychain
 // URL1
 // ...
@@ -244,16 +252,11 @@ static NSString *kWifiInterface = @"en0";
 
 #pragma mark - Cookies
 
-+ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl detectedSprinklerMainVersion:(int*)detectedSprinklerMainVersion
++ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl
 {
     NSArray *cookies = [NetworkUtilities cookiesForURL:[NSURL URLWithString:baseUrl]];
     for (NSHTTPCookie *cookie in cookies) {
-        if ([[cookie name] isEqualToString:@"access_token"]) {
-            *detectedSprinklerMainVersion = 4;
-            return YES;
-        }
         if ([[cookie name] isEqualToString:@"login"]) {
-            *detectedSprinklerMainVersion = 3;
             return YES;
         }
     }
@@ -261,7 +264,7 @@ static NSString *kWifiInterface = @"en0";
     return NO;
 }
 
-+ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)port
++ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort
 {
     if (baseUrl) {
         NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -270,7 +273,19 @@ static NSString *kWifiInterface = @"en0";
             [cookieStorage deleteCookie:cookie];
             DLog(@"Deleted cookie: %@", cookie);
         }
-        [NetworkUtilities clearKeychainCookieForBaseUrl:baseUrl port:port];
+        [NetworkUtilities clearKeychainCookieForBaseUrl:baseUrl port:thePort];
+        
+        // Remove access token from user defaults
+        
+        NSString *port = (thePort.length ? thePort : @"443");
+        
+        NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
+        NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
+        [accessTokensForBaseUrl setValue:nil forKey:port];
+        [accessTokensDictionary setValue:accessTokensForBaseUrl forKey:baseUrl];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:accessTokensDictionary forKey:kSprinklerUserDefaults_AccessTokensDictionaryKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -305,6 +320,38 @@ static NSString *kWifiInterface = @"en0";
             }
         }
     }
+}
+
+#pragma mark - Access tokens
+
++ (void)saveAccessTokenForBaseURL:(NSString*)baseUrl port:(NSString*)thePort loginResponse:(Login4Response*)loginResponse {
+    if (!baseUrl.length || !loginResponse) return;
+    
+    NSString *port = (thePort.length ? thePort : @"443");
+    
+    NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
+    NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
+    
+    accessTokensForBaseUrl[port] = [loginResponse toDictionary];
+    accessTokensDictionary[baseUrl] = accessTokensForBaseUrl;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:accessTokensDictionary forKey:kSprinklerUserDefaults_AccessTokensDictionaryKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSString*)accessTokenForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort {
+    NSString *port = (thePort.length ? thePort : @"443");
+    
+    NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
+    NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
+    
+    NSDictionary *accessTokenDictionary = [accessTokensForBaseUrl valueForKey:port];
+    if (accessTokenDictionary) {
+        Login4Response *loginResponse = [[Login4Response alloc] initWithDictionary:accessTokenDictionary];
+        return loginResponse.accessToken;
+    }
+    
+    return nil;
 }
 
 @end

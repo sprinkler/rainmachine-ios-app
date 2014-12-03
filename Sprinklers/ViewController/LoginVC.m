@@ -21,6 +21,7 @@
 #import "APIVersion.h"
 #import "APIVersion4.h"
 #import "AppDelegate.h"
+#import "Login4Response.h"
 
 @interface LoginVC () {
 }
@@ -219,9 +220,13 @@
     }
 }
 
-- (void)loginSucceededAndRemembered:(BOOL)remembered unit:(NSString*)unit {
+- (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
     
-    [NetworkUtilities saveCookiesForBaseURL:self.sprinkler.address port:self.sprinkler.port];
+    if ([loginResponse isKindOfClass:[Login4Response class]]) {
+        [NetworkUtilities saveAccessTokenForBaseURL:self.sprinkler.address port:self.sprinkler.port loginResponse:(Login4Response*)loginResponse];
+    } else {
+        [NetworkUtilities saveCookiesForBaseURL:self.sprinkler.address port:self.sprinkler.port];
+    }
     
     self.sprinkler.loginRememberMe = [NSNumber numberWithBool:remembered];
     self.sprinkler.username = _textUsername.text;
