@@ -110,7 +110,7 @@ typedef enum {
 - (void)startProgram4:(Program4*)program;
 - (void)stopProgram4:(Program4*)program;
 - (void)stopAllPrograms4;
-    
+
 - (void)setSettingsUnits:(NSString*)unit;
 - (void)requestSettingsUnits;
 - (void)setSettingsDate:(SettingsDate*)unit;
@@ -134,6 +134,10 @@ typedef enum {
 - (void)requestHourlyRestrictions;
 - (void)createHourlyRestriction:(HourlyRestriction*)restriction;
 - (void)deleteHourlyRestriction:(HourlyRestriction*)restriction;
+
+- (void)requestAvailableWiFis;
+- (void)setWiFiWithSSID:(NSString*)ssid encryption:(NSString*)encryption key:(NSString*)password;
+- (void)setProvisionName:(NSString*)name;
 
 - (void)requestProvision;
 - (void)saveRainSensitivityFromProvision:(Provision*)provision;

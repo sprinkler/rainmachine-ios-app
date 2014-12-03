@@ -45,6 +45,7 @@
 #import "ProvisionSystem.h"
 #import "ProvisionLocation.h"
 #import "MixerDailyValue.h"
+#import "WiFi.h"
 
 static int serverAPIMainVersion = 0;
 static int serverAPISubVersion = 0;
@@ -519,6 +520,52 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 #pragma mark - Provision
+
+- (void)requestAvailableWiFis
+{
+    [self.manager GET:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"/api/4/provision/wifi/scan" : @"/api/4/provision/getScanResults" parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSArray *WiFis = [ServerProxy fromJSONArray:[responseObject objectForKey:@"scanResults"] toClass:NSStringFromClass([WiFi class])];
+                      [self.delegate serverResponseReceived:WiFis serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)setWiFiWithSSID:(NSString*)ssid encryption:(NSString*)encryption key:(NSString*)password
+{
+    NSDictionary *params = @{@"ssid" : ssid,
+                             @"encryption" : encryption,
+                             @"key" : password};
+    
+    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"/api/4/provision/wifi/ssid" : @"/api/4/provision/setSSID" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)setProvisionName:(NSString*)name
+{
+    NSDictionary *params = @{@"name" : name};
+    
+    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"/api/4/provision/name" : @"/api/4/provision/setNetName" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
 
 - (void)requestProvision
 {

@@ -28,6 +28,7 @@
 #import "ServerProxy.h"
 #import "LocationSetupVC.h"
 #import "CloudAccountsVC.h"
+#import "AvailableWiFisVC.h"
 
 #define kDebugSettingsNrBeforeCloudServer 6
 
@@ -447,7 +448,7 @@
                                                                 target:self
                                                               selector:@selector(pollLocal)
                                                               userInfo:nil
-                                                               repeats:YES];
+                                                               repeats:NO];
 
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
@@ -491,9 +492,14 @@
     return [self tvSectionAddDevice] + 1;
 }
 
-- (NSInteger)tvSectionDebugSettings
+- (NSInteger)tvNewRainMachineSetup
 {
     return [self tvSectionCloud] + 1;
+}
+
+- (NSInteger)tvSectionDebugSettings
+{
+    return [self tvNewRainMachineSetup] + 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -501,8 +507,9 @@
     // Discovered + Cloud Sprinklers
     // Add Device
     // Cloud
+    // New Rain Machine Setup
     // Debug Settings
-    return (([self tvSectionManuallyEnteredDevices] == -1) ? 0 : 1) + 3 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
+    return (([self tvSectionManuallyEnteredDevices] == -1) ? 0 : 1) + 4 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -538,7 +545,7 @@
     if (section == [self tvSectionDebugSettings]) {
         return @"SETTINGS (DEBUG)";
     }
-    
+        
     return nil;
 }
 
@@ -689,6 +696,18 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
                 return cell;
+            } else if (indexPath.section == [self tvNewRainMachineSetup]) {
+                UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
+                if (!cell) {
+                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
+                }
+                cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
+                cell.textLabel.text = @"New Rain Machine";
+                cell.detailTextLabel.text = @"setup";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                
+                return cell;
+
             } else {
                 // Should not happen
                 assert(0);
@@ -793,7 +812,11 @@
                 self.cloudAccountsVC.cloudEmails = [self.cloudEmails mutableCopy];
                 
                 [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
-            } else {
+            } else if (indexPath.section == [self tvNewRainMachineSetup]) {
+                AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+            else {
                 // Should not happen
                 assert(0);
             }
