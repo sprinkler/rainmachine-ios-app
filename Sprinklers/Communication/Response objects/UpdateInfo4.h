@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    API4_UpdateStatusIdle   = 1,
+    API4_UpdateStatusChecking,
+    API4_UpdateStatusDownloading,
+    API4_UpdateStatusUpgrading,
+    API4_UpdateStatusError,
+    API4_UpdateStatusReboot
+} API4_UpdateStatus;
+
 @interface UpdateInfo4 : NSObject
 
 @property (nonatomic, strong) NSNumber *updateStatus;

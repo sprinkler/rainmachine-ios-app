@@ -1419,7 +1419,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestUpdateStartForVersion:(int)version
 {
-    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/%d/machine/update" : @"api/%d/update";
+    NSString *relUrl = ([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] && version == 4) ? @"api/%d/machine/update" : @"api/%d/update";
     relUrl = [NSString stringWithFormat:relUrl, version];
     
     if (version == 4) relUrl = [self urlByAppendingAccessTokenToUrl:relUrl]; // Append access token for API 4
@@ -1440,7 +1440,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestUpdateCheckForVersion:(int)version
 {
-    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/%d/machine/update" : @"api/%d/update";
+    NSString *relUrl = ([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] && version == 4) ? @"api/%d/machine/update" : @"api/%d/update";
     relUrl = [NSString stringWithFormat:relUrl, version];
     
     if (version == 4) relUrl = [self urlByAppendingAccessTokenToUrl:relUrl]; // Append access token for API 4
@@ -1482,6 +1482,20 @@ static int serverAPIMinorSubVersion = -1;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleError:error fromOperation:operation userInfo:@"apiVer"];
     }];
+}
+
+- (void)reboot {
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/machine/reboot"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/reboot"];
+    [self.manager POST:relUrl parameters:@{}
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       NSArray *rezArray = [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])];
+                       [self.delegate serverResponseReceived:[rezArray firstObject] serverProxy:self userInfo:@"stopped"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
 }
 
 - (void)handleError:(NSError *)error fromOperation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {

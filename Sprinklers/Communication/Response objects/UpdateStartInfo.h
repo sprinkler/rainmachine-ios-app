@@ -11,5 +11,6 @@
 @interface UpdateStartInfo : NSObject
 
 @property (nonatomic, strong) NSNumber *statusCode;
+@property (nonatomic, strong) NSString *message;
 
 @end

@@ -125,6 +125,7 @@ typedef enum {
 - (void)requestAPIVersion;
 - (void)requestUpdateCheckForVersion:(int)version;
 - (void)requestUpdateStartForVersion:(int)version;
+- (void)reboot;
 
 - (void)cancelAllOperations;
 - (int)operationCount;
