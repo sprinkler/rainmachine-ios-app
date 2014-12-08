@@ -20,12 +20,26 @@
 #import "SettingsPasswordVC.h"
 #import "ServerProxy.h"
 
+NSString *kSettingsPrograms           = @"Programs";
+NSString *kSettingsZones              = @"Zones";
+
+NSString *kSettingsRainDelay          = @"Rain Delay";
+NSString *kSettingsRestrictions       = @"Restrictions";
+
+NSString *kSettingsRainSensitivity    = @"Rain Sensitivity";
+NSString *kSettingsUnits              = @"Units";
+NSString *kSettingsDate               = @"Date";
+NSString *kSettingsTime               = @"Time";
+NSString *kSettingsSecurity           = @"Security";
+NSString *kSettingsAbout              = @"About";
+
 @interface SettingsVC ()
 {
     BOOL showZonesOnAppear;
 }
 
-@property (nonatomic, readonly) BOOL restrictionsAvailable;
+@property (strong, nonatomic) NSArray *settings;
+@property (strong, nonatomic) NSArray *settingsSectionNames;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -44,6 +58,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSMutableArray *settings = [NSMutableArray new];
+    
+    [settings addObject:@[kSettingsPrograms, kSettingsZones]];
+    if ([ServerProxy usesAPI4]) [settings addObject:@[kSettingsRainDelay, kSettingsRestrictions]];
+    else [settings addObject:@[kSettingsRainDelay]];
+    if ([ServerProxy usesAPI4]) [settings addObject:@[kSettingsRainSensitivity, kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsSecurity, kSettingsAbout]];
+    else [settings addObject:@[kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsSecurity, kSettingsAbout]];
+    
+    self.settings = settings;
+    self.settingsSectionNames = @[@"", @"", @"Device Settings"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -68,70 +93,25 @@
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
-#pragma mark - Table view sections
-
-- (BOOL)restrictionsAvailable
-{
-    return [ServerProxy usesAPI4];
-}
-
-#pragma mark - Actions
-
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return self.settings.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 2;
-    }
-    else if (section == 1) {
-        return (self.restrictionsAvailable ? 2 : 1);
-    }
-    else if (section == 2) {
-        return 6;
-    }
-    
-    return 0;
+    NSArray *settingsSection = self.settings[section];
+    return settingsSection.count;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return 20;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-//    return 1;
-//}
-//
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-//    return view;
-//}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 2) {
-        return @"Device Settings";
-    }
-    
-    return @"";
+    return self.settingsSectionNames[section];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (indexPath.section == 2) {
-//        if (indexPath.row == 0) {
-//            return 38;
-//        }
-//    }
-//    return 44;
-//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -143,47 +123,8 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    if (indexPath.section == 0)
-    {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"Programs";
-        }
-        if (indexPath.row == 1) {
-            cell.textLabel.text = @"Zones";
-        }
-    }
-    
-    if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"Rain Delay";
-        }
-        if (indexPath.row == 1) {
-            cell.textLabel.text = @"Restrictions";
-        }
-    }
-    
-    if (indexPath.section == 2)
-    {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"Rain Sensitivity";
-        }
-        if (indexPath.row == 1) {
-            cell.textLabel.text = @"Units";
-        }
-        if (indexPath.row == 2) {
-            cell.textLabel.text = @"Date";
-        }
-        if (indexPath.row == 3) {
-            cell.textLabel.text = @"Time";
-        }
-        if (indexPath.row == 4) {
-            cell.textLabel.text = @"Security";
-        }
-    
-        if (indexPath.row == 5) {
-            cell.textLabel.text = @"About";
-        }
-    }
+    NSArray *settingsSection = self.settings[indexPath.section];
+    cell.textLabel.text = settingsSection[indexPath.row];
     
     if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
@@ -196,60 +137,67 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            ProgramsVC *programs = [[ProgramsVC alloc] init];
-            programs.parent = self;
-            [self.navigationController pushViewController:programs animated:YES];
-        }
-        if (indexPath.row == 1) {
-            [self showZonesAnimated:YES];
-        }
+    NSArray *settingsSection = self.settings[indexPath.section];
+    NSString *settingsRow = settingsSection[indexPath.row];
+    
+    // Section 1.
+    
+    if ([settingsRow isEqualToString:kSettingsPrograms]) {
+        ProgramsVC *programs = [[ProgramsVC alloc] init];
+        programs.parent = self;
+        [self.navigationController pushViewController:programs animated:YES];
     }
-    else if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
-            rainDelay.parent = self;
-            [self.navigationController pushViewController:rainDelay animated:YES];
-        }
-        if (indexPath.row == 1) {
-            RestrictionsVC *restrictions = [[RestrictionsVC alloc] init];
-            restrictions.parent = self;
-            [self.navigationController pushViewController:restrictions animated:YES];
-        }
+    else if ([settingsRow isEqualToString:kSettingsZones]) {
+        [self showZonesAnimated:YES];
     }
-    else if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
-            RainSensitivityVC *rainSensitivityVC = [[RainSensitivityVC alloc] init];
-            rainSensitivityVC.parent = self;
-            [self.navigationController pushViewController:rainSensitivityVC animated:YES];
-        }
-        else if (indexPath.row == 1) {
-            UnitsVC *unitsVC = [[UnitsVC alloc] init];
-            unitsVC.parent = self;
-            [self.navigationController pushViewController:unitsVC animated:YES];
-        }
-        else if (indexPath.row == 2) {
-            DatePickerVC *datePickerVC = [[DatePickerVC alloc] init];
-            datePickerVC.parent = self;
-            [self.navigationController pushViewController:datePickerVC animated:YES];
-        }
-        else if (indexPath.row == 3) {
-            SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] initWithNibName:@"SettingsTimePickerVC" bundle:nil];
-            timePickerVC.parent = self;
-            [self.navigationController pushViewController:timePickerVC animated:YES];
-        }
-        else if (indexPath.row == 4) {
-            SettingsPasswordVC *passwordVC = [[SettingsPasswordVC alloc] init];
-            passwordVC.parent = self;
-            [self.navigationController pushViewController:passwordVC animated:YES];
-        }
-        else if (indexPath.row == 5) {
-            SettingsAboutVC *settingsAboutVC = [[SettingsAboutVC alloc] init];
-            [self.navigationController pushViewController:settingsAboutVC animated:YES];
-        }
+    
+    // Section 2.
+    
+    else if ([settingsRow isEqualToString:kSettingsRainDelay]) {
+        RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
+        rainDelay.parent = self;
+        [self.navigationController pushViewController:rainDelay animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsRestrictions]) {
+        RestrictionsVC *restrictions = [[RestrictionsVC alloc] init];
+        restrictions.parent = self;
+        [self.navigationController pushViewController:restrictions animated:YES];
+    }
+
+    // Section 3: Device Settings
+    
+    else if ([settingsRow isEqualToString:kSettingsRainSensitivity]) {
+        RainSensitivityVC *rainSensitivityVC = [[RainSensitivityVC alloc] init];
+        rainSensitivityVC.parent = self;
+        [self.navigationController pushViewController:rainSensitivityVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsUnits]) {
+        UnitsVC *unitsVC = [[UnitsVC alloc] init];
+        unitsVC.parent = self;
+        [self.navigationController pushViewController:unitsVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsDate]) {
+        DatePickerVC *datePickerVC = [[DatePickerVC alloc] init];
+        datePickerVC.parent = self;
+        [self.navigationController pushViewController:datePickerVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsTime]) {
+        SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] initWithNibName:@"SettingsTimePickerVC" bundle:nil];
+        timePickerVC.parent = self;
+        [self.navigationController pushViewController:timePickerVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsSecurity]) {
+        SettingsPasswordVC *passwordVC = [[SettingsPasswordVC alloc] init];
+        passwordVC.parent = self;
+        [self.navigationController pushViewController:passwordVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsAbout]) {
+        SettingsAboutVC *settingsAboutVC = [[SettingsAboutVC alloc] init];
+        [self.navigationController pushViewController:settingsAboutVC animated:YES];
     }
 }
+
+#pragma mark - Actions
 
 - (void)timePickerVCWillDissapear:(id)timePicker
 {
