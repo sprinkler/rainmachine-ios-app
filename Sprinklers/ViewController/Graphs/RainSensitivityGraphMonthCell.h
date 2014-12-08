@@ -24,6 +24,8 @@
 @property (nonatomic, weak) IBOutlet UIImageView *cloudImageView;
 @property (nonatomic, weak) IBOutlet UILabel *monthLabel;
 
+@property (nonatomic, readonly) BOOL shouldDrawClouds;
+
 + (RainSensitivityGraphMonthCell*)newGraphMonthCell;
 - (void)calculateValues;
 - (void)draw;

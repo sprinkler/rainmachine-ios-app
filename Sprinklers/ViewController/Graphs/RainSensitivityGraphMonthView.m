@@ -9,8 +9,6 @@
 #import "RainSensitivityGraphMonthView.h"
 #import "Constants.h"
 
-const double RainSensitivityGraphValueDivider = 1.5;
-
 #pragma mark -
 
 @interface RainSensitivityGraphMonthView ()
@@ -22,6 +20,15 @@ const double RainSensitivityGraphValueDivider = 1.5;
 #pragma mark -
 
 @implementation RainSensitivityGraphMonthView
+
+- (id)initWithCoder:(NSCoder*)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (!self) return nil;
+    
+    _graphValuesDivider = 1.0;
+    
+    return self;
+}
 
 - (void)draw {
     [self setNeedsDisplay];
@@ -57,7 +64,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     CGFloat stepWidth = self.frame.size.width / (values.count - 1);
     CGFloat stepX = 0.0;
     CGFloat maxValue = (self.maxValue == 0.0 ? 2.0 : self.maxValue);
-    CGFloat valueDivider = maxValue * RainSensitivityGraphValueDivider;
+    CGFloat valueDivider = maxValue * self.graphValuesDivider;
     CGPoint previousPoint = CGPointZero;
     
     BOOL firstPoint = YES;

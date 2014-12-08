@@ -10,6 +10,7 @@
 #import "RainSensitivityGraphMonthView.h"
 #import "RainSensitivitySimulationGraphVC.h"
 #import "MixerDailyValue.h"
+#import "+UIImage.h"
 
 #pragma mark -
 
@@ -28,6 +29,10 @@
     return objects.lastObject;
 }
 
+- (BOOL)shouldDrawClouds {
+    return NO;
+}
+
 - (void)calculateValues {
     self.graphView.graphBackgroundValues = [self.rainSensitivitySimulationGraph.et0Array subarrayWithRange:NSMakeRange(self.firstDayIndex, self.numberOfDays)];
     self.graphView.graphForegroundValues = [self.rainSensitivitySimulationGraph.waterNeedArray subarrayWithRange:NSMakeRange(self.firstDayIndex, self.numberOfDays)];
@@ -36,9 +41,15 @@
     self.graphView.maxValue = self.rainSensitivitySimulationGraph.maxValue;
 }
 
+- (void)awakeFromNib {
+    self.cloudImageView.image = (self.shouldDrawClouds ? [[UIImage imageNamed:@"shra"] imageByFillingWithColor:self.rainSensitivitySimulationGraph.cloudsDarkBlueColor] : nil);
+    self.cloudImageView.hidden = !self.shouldDrawClouds;
+    self.graphView.graphValuesDivider = (self.shouldDrawClouds ? 1.5 : 1.2);
+}
+
 - (void)draw {
     [self.graphView draw];
-    [self updateCloudImage];
+    if (self.shouldDrawClouds) [self updateCloudImage];
 }
 
 - (void)updateCloudImage {

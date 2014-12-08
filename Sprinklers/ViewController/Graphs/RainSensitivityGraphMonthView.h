@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIColor *graphBackgroundColor;
 @property (nonatomic, strong) UIColor *graphForegroundColor;
 @property (nonatomic, assign) double maxValue;
+@property (nonatomic, assign) double graphValuesDivider;
 
 - (void)draw;
 

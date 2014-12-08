@@ -15,7 +15,6 @@
 #import "MixerDailyValue.h"
 #import "Provision.h"
 #import "ProvisionLocation.h"
-#import "+UIImage.h"
 
 #pragma mark -
 
@@ -165,7 +164,6 @@
     CGFloat graphMonthCellHeight = self.graphScrollContentView.frame.size.height;
     
     NSMutableArray *graphMonthCells = [NSMutableArray new];
-    UIImage *cloudImage = [[UIImage imageNamed:@"shra"] imageByFillingWithColor:self.cloudsDarkBlueColor];
     
     NSInteger firstDayIndex = 0;
     
@@ -179,7 +177,6 @@
         graphMonthCell.month = month;
         graphMonthCell.firstDayIndex = firstDayIndex;
         graphMonthCell.numberOfDays = monthRange.length;
-        graphMonthCell.cloudImageView.image = cloudImage;
         graphMonthCell.monthLabel.text = monthsOfYear[month].uppercaseString;
         graphMonthCell.translatesAutoresizingMaskIntoConstraints = NO;
         
