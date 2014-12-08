@@ -10,6 +10,8 @@
 #import "LabelAndTextFieldCell.h"
 #import "SelectWiFiSecurityOptionVC.h"
 #import "+UIDevice.h"
+#import "ServerProxy.h"
+#import "MBProgressHUD.h"
 
 #define kProvisionWiFi_SSID 1
 #define kProvisionWiFi_Password 2
@@ -19,6 +21,8 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, assign) BOOL showSecurity;
 @property (nonatomic, assign) BOOL forceShowKeyboard;
+@property (strong, nonatomic) ServerProxy *provisionServerProxy;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -61,6 +65,11 @@
     }
 
     [self refreshUI];
+    
+    self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+    if (self.loginAutomatically) {
+        [self joinWiFi:self.SSID encryption:@"none" key:nil];
+    }
 }
 
 - (void)refreshUI
@@ -77,7 +86,7 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    [self.delegate joinWiFi:self.SSID encryption:[self APISecurityOptionFromUIText] key:self.password];
+    [self joinWiFi:self.SSID encryption:[self APISecurityOptionFromUIText] key:self.password];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -287,6 +296,51 @@
     [self refreshUI];
     
     return YES;
+}
+
+- (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password
+{
+    [self showHud];
+    [self.provisionServerProxy setWiFiWithSSID:SSID encryption:encryption key:password];
+}
+
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    
+    if (serverProxy == self.provisionServerProxy) {
+    }
+    
+    [self hideHud];
+}
+
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    
+    if (serverProxy == self.provisionServerProxy) {
+        NSLog(@"");
+//    TODO: handle error code
+    }
+    
+    [self hideHud];
+    
+    [self refreshUI];
+}
+
+- (void)loggedOut {
+    
+    [self hideHud];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)showHud {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.view.userInteractionEnabled = NO;
+}
+
+- (void)hideHud {
+    self.hud = nil;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.view.userInteractionEnabled = YES;
 }
 
 @end

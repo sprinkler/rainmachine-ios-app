@@ -403,18 +403,18 @@
 
     if ([wifi.isWPA2 boolValue]) {
         *needsPassword = YES;
-        return @"psk2";
+        return @"PSK2";
     }
     if ([wifi.isWPA boolValue]) {
         *needsPassword = YES;
-        return @"psk";
+        return @"PSK";
     }
     if ([wifi.isWEP boolValue]) {
         *needsPassword = YES;
-        return @"none";
+        return @"None";
     }
 
-    return @"none";
+    return @"None";
 }
 
 #pragma mark - Cells
@@ -441,7 +441,6 @@
     BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
     
     cell.disclosureImageView.hidden = tableView.isEditing || (isDeviceInactive) || (forceHiddenDisclosure);
-    //    cell.labelMainSubtitle.enabled = [sprinkler.isDiscovered boolValue];
     cell.labelInfo.hidden = tableView.isEditing;
     cell.labelMainTitle.textColor = isDeviceInactive ? [UIColor lightGrayColor] : [UIColor blackColor];
     cell.labelMainSubtitle.textColor = cell.labelMainTitle.textColor;

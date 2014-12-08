@@ -12,6 +12,4 @@
 
 @interface AvailableWiFisVC : BaseLevel2ViewController<SprinklerResponseProtocol>
 
-- (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password;
-
 @end

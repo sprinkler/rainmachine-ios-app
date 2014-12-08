@@ -474,7 +474,7 @@
 
 - (NSInteger)tvSectionManuallyEnteredDevices
 {
-    return 0;//self.manuallyEnteredSprinklers.count > 0 ? 0 : -1;
+    return 0;
 }
 
 - (NSInteger)tvSectionDiscoveredDevices
@@ -747,7 +747,6 @@
         }
         else if (indexPath.row == 2) {
             UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
-            NSLog(@"didSelect:%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion]);
             BOOL prevValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue];
             [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:!prevValue] forKey:kDebugNewAPIVersion];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -778,25 +777,25 @@
             } else {
                 self.navigationController.view.userInteractionEnabled = NO;
                 
-                TRPickerInputView *productSizeSelectionPickerInputView = [TRPickerInputView newPickerInputView];
+                TRPickerInputView *intervalPickerInputView = [TRPickerInputView newPickerInputView];
                 
                 if (indexPath.row == 3) {
-                    productSizeSelectionPickerInputView.identifier = kDebugLocalDevicesDiscoveryInterval;
+                    intervalPickerInputView.identifier = kDebugLocalDevicesDiscoveryInterval;
                 }
                 if (indexPath.row == 4) {
-                    productSizeSelectionPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
+                    intervalPickerInputView.identifier = kDebugCloudDevicesDiscoveryInterval;
                 }
                 if (indexPath.row == 5) {
-                    productSizeSelectionPickerInputView.identifier = kDebugDeviceGreyOutRetryCount;
+                    intervalPickerInputView.identifier = kDebugDeviceGreyOutRetryCount;
                 }
                 
-                NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:productSizeSelectionPickerInputView.identifier];
-                productSizeSelectionPickerInputView.dataSource = self;
-                productSizeSelectionPickerInputView.delegate = self;
+                NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:intervalPickerInputView.identifier];
+                intervalPickerInputView.dataSource = self;
+                intervalPickerInputView.delegate = self;
                 
-                self.debugTextField.inputView = productSizeSelectionPickerInputView;
+                self.debugTextField.inputView = intervalPickerInputView;
                 
-                [productSizeSelectionPickerInputView selectRow:[value intValue] animated:NO];
+                [intervalPickerInputView selectRow:[value intValue] animated:NO];
                 [self.debugTextField becomeFirstResponder];
             }
         }

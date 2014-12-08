@@ -15,6 +15,10 @@
 #import "ProvisionWiFiVC.h"
 #import "Utils.h"
 #import "NetworkUtilities.h"
+#import "WiFiCell.h"
+
+const float kWifiSignalMin = -70;
+const float kWifiSignalMax = -30;
 
 @interface AvailableWiFisVC ()
 
@@ -52,6 +56,8 @@
                                    selector:@selector(refreshUI)
                                    userInfo:nil
                                     repeats:YES];
+    
+    self.title = @"New RainMachine";
 }
 
 - (void)refreshUI
@@ -61,18 +67,15 @@
     DiscoveredSprinklers *oldSprinkler = [self.discoveredSprinklers firstObject];
     BOOL areUrlsEqual = [[oldSprinkler url] isEqualToString:[self.sprinkler url]];
     if (!areUrlsEqual) {
-        NSLog(@"new sprinkler.url: %@", [self.sprinkler url]);
-        NSLog(@"old sprinkler.url: %@", [oldSprinkler url]);
-        NSLog(@"equal: %d", areUrlsEqual);
-
         self.sprinkler = [self.discoveredSprinklers firstObject];
 
         if (self.sprinkler) {
             [self showHud];
             
             self.loginServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
-            self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:NO];
+            self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
 
+            // Try to log in automatically
             [self.loginServerProxy loginWithUserName:@"" password:@"" rememberMe:NO];
         }
     }
@@ -81,6 +84,7 @@
         self.tableView.hidden = NO;
         self.descriptionLabel.hidden = (self.availableWiFis == nil);
         self.messageLabel.hidden = YES;
+        self.title = self.sprinkler.sprinklerName;
     } else {
         self.tableView.hidden = YES;
         self.descriptionLabel.hidden = YES;
@@ -145,14 +149,24 @@
 }
 
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-     UITableViewCell *cell = nil;
+     WiFiCell *cell = nil;
      if (indexPath.row < self.availableWiFis.count) {
-         cell = [tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
+         cell = (WiFiCell*)[tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
          WiFi *wifi = self.availableWiFis[indexPath.row];
          cell.textLabel.text = wifi.SSID;
+         
+         NSString *imageName = nil;
+         float signal = [wifi.signal floatValue];
+         int signalDiscreteValue = (3 * (signal - kWifiSignalMin)) / (kWifiSignalMax - kWifiSignalMin);
+         if (signalDiscreteValue <= 2) {
+             imageName = [NSString stringWithFormat:@"icon_wi-fi-%d-bar", (int)signalDiscreteValue];
+         } else {
+             imageName = [wifi.isEncrypted boolValue] ? @"icon_wi-fi-full" : nil;
+         }
+         cell.signalImageView.image = [UIImage imageNamed:imageName];
      } else {
          if (indexPath.row == [self rowForOtherNetwork]) {
-             cell = [tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
+             cell = (WiFiCell*)[tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
              cell.textLabel.text = @"Other...";
          }
      }
@@ -213,16 +227,19 @@
          WiFi *wifi = self.availableWiFis[indexPath.row];
          BOOL needsPassword;
          NSString *securityOption = [Utils securityOptionFromSprinklerWiFi:wifi needsPassword:&needsPassword];
+         self.provisionWiFiVC = [[ProvisionWiFiVC alloc] init];
+         self.provisionWiFiVC.SSID = wifi.SSID;
+         self.provisionWiFiVC.delegate = self;
+         self.provisionWiFiVC.sprinkler = self.sprinkler;
          if (needsPassword) {
-             self.provisionWiFiVC = [[ProvisionWiFiVC alloc] init];
              self.provisionWiFiVC.showSSID = NO;
-             self.provisionWiFiVC.SSID = wifi.SSID;
              self.provisionWiFiVC.securityOption = securityOption;
-             UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.provisionWiFiVC];
-             [self.navigationController presentViewController:navDevices animated:YES completion:nil];
          } else {
-             [self joinWiFi:wifi.SSID encryption:@"none" key:nil];
+             self.provisionWiFiVC.securityOption = @"None";
+             self.provisionWiFiVC.loginAutomatically = YES;
          }
+         UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.provisionWiFiVC];
+         [self.navigationController presentViewController:navDevices animated:YES completion:nil];
      } else {
          self.provisionWiFiVC = [[ProvisionWiFiVC alloc] init];
          self.provisionWiFiVC.securityOption = nil;
@@ -245,7 +262,10 @@
 #pragma mark - ProxyService delegate
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    // Fail silently when connection is lost: this error appears for ex. when /4/login is requested for a devices connected to a network but still unprovisioned
+    if (error.code != NSURLErrorNetworkConnectionLost) {
+        [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    }
     
     if (serverProxy == self.provisionServerProxy) {
 //        self.provisionServerProxy = nil;
@@ -306,10 +326,5 @@
 }
 
 #pragma mark - 
-
-- (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password
-{
-    [self.provisionServerProxy setWiFiWithSSID:SSID encryption:encryption key:password];
-}
 
 @end

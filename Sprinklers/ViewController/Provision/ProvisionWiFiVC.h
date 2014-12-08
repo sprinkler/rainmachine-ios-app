@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "AvailableWiFisVC.h"
+#import "Protocols.h"
+#import "DiscoveredSprinklers.h"
+#import "BaseLevel2ViewController.h"
 
-@interface ProvisionWiFiVC : UITableViewController<UITextFieldDelegate>
+@interface ProvisionWiFiVC : BaseLevel2ViewController<UITextFieldDelegate, SprinklerResponseProtocol>
 
 @property (nonatomic, strong) NSString *securityOption;
 @property (nonatomic, weak) AvailableWiFisVC *delegate;
 @property (nonatomic, assign) BOOL showSSID;
 @property (nonatomic, strong) NSString *SSID;
+@property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, assign) BOOL loginAutomatically;
 
 @end

@@ -167,6 +167,7 @@
 		AF61117519C579CF008AA62B /* Program4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF61117419C579CF008AA62B /* Program4.m */; };
 		AF61117819C57CDC008AA62B /* Frequency4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF61117719C57CDC008AA62B /* Frequency4.m */; };
 		AF61117B19C62D55008AA62B /* ProgramWateringTimes4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF61117A19C62D55008AA62B /* ProgramWateringTimes4.m */; };
+		AF65075C1A326AC300AACFE6 /* ProvisionWiFiVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF65075B1A326AC300AACFE6 /* ProvisionWiFiVC.xib */; };
 		AF726E331A2C670D0024604B /* WiFi.m in Sources */ = {isa = PBXBuildFile; fileRef = AF726E321A2C670D0024604B /* WiFi.m */; };
 		AF73880918E08ADE00F184A9 /* BaseNetworkHandlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF73880818E08ADE00F184A9 /* BaseNetworkHandlingVC.m */; };
 		AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7782C3184CD3DE00DCBD54 /* Constants.m */; };
@@ -237,6 +238,16 @@
 		AFCF47BA188D532100C34727 /* separator_line.png in Resources */ = {isa = PBXBuildFile; fileRef = AFCF47B9188D532100C34727 /* separator_line.png */; };
 		AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4437EE188A7F1A004F9E11 /* PickerVC.m */; };
 		AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE749861880255500CC3620 /* ColoredBackgroundButton.m */; };
+		AFE894CD1A356538007FC7EB /* icon_wi-fi-0-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894C31A356538007FC7EB /* icon_wi-fi-0-bar.png */; };
+		AFE894CE1A356538007FC7EB /* icon_wi-fi-0-bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894C41A356538007FC7EB /* icon_wi-fi-0-bar@2x.png */; };
+		AFE894CF1A356538007FC7EB /* icon_wi-fi-1-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894C51A356538007FC7EB /* icon_wi-fi-1-bar.png */; };
+		AFE894D01A356538007FC7EB /* icon_wi-fi-1-bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894C61A356538007FC7EB /* icon_wi-fi-1-bar@2x.png */; };
+		AFE894D11A356538007FC7EB /* icon_wi-fi-2-bars.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894C71A356538007FC7EB /* icon_wi-fi-2-bars.png */; };
+		AFE894D21A356538007FC7EB /* icon_wi-fi-2-bars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894C81A356538007FC7EB /* icon_wi-fi-2-bars@2x.png */; };
+		AFE894D31A356538007FC7EB /* icon_wi-fi-full.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894C91A356538007FC7EB /* icon_wi-fi-full.png */; };
+		AFE894D41A356538007FC7EB /* icon_wi-fi-full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894CA1A356538007FC7EB /* icon_wi-fi-full@2x.png */; };
+		AFE894D51A356538007FC7EB /* icon_wi-fi-locked.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894CB1A356538007FC7EB /* icon_wi-fi-locked.png */; };
+		AFE894D61A356538007FC7EB /* icon_wi-fi-locked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894CC1A356538007FC7EB /* icon_wi-fi-locked@2x.png */; };
 		AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB418BA36D700370F22 /* ProgramVC.xib */; };
 		AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */; };
 		AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */; };
@@ -256,7 +267,6 @@
 		AFF6A6BA1888350400825A37 /* icon_status_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */; };
 		AFF796C618E04C6400E3C109 /* CounterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF796C518E04C6400E3C109 /* CounterHelper.m */; };
 		AFF935061A2C7462008063D2 /* ProvisionWiFiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF935041A2C7462008063D2 /* ProvisionWiFiVC.m */; };
-		AFF935071A2C7462008063D2 /* ProvisionWiFiVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF935051A2C7462008063D2 /* ProvisionWiFiVC.xib */; };
 		AFF9350B1A2C759F008063D2 /* LabelAndTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */; };
 		AFF9350C1A2C759F008063D2 /* LabelAndTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */; };
 		AFF935151A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF935131A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m */; };
@@ -576,6 +586,7 @@
 		AF61117719C57CDC008AA62B /* Frequency4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Frequency4.m; path = "Communication/Response objects/Frequency4.m"; sourceTree = "<group>"; };
 		AF61117919C62D55008AA62B /* ProgramWateringTimes4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramWateringTimes4.h; path = "Communication/Response objects/ProgramWateringTimes4.h"; sourceTree = "<group>"; };
 		AF61117A19C62D55008AA62B /* ProgramWateringTimes4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramWateringTimes4.m; path = "Communication/Response objects/ProgramWateringTimes4.m"; sourceTree = "<group>"; };
+		AF65075B1A326AC300AACFE6 /* ProvisionWiFiVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionWiFiVC.xib; path = ViewController/Provision/ProvisionWiFiVC.xib; sourceTree = "<group>"; };
 		AF726E311A2C670D0024604B /* WiFi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WiFi.h; path = "Communication/Response objects/WiFi.h"; sourceTree = "<group>"; };
 		AF726E321A2C670D0024604B /* WiFi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WiFi.m; path = "Communication/Response objects/WiFi.m"; sourceTree = "<group>"; };
 		AF73880718E08ADE00F184A9 /* BaseNetworkHandlingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseNetworkHandlingVC.h; path = ViewController/BaseNetworkHandlingVC.h; sourceTree = "<group>"; };
@@ -697,6 +708,16 @@
 		AFCF47B9188D532100C34727 /* separator_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separator_line.png; path = Resources/separator_line.png; sourceTree = "<group>"; };
 		AFE749851880255500CC3620 /* ColoredBackgroundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColoredBackgroundButton.h; path = Controls/ColoredBackgroundButton.h; sourceTree = "<group>"; };
 		AFE749861880255500CC3620 /* ColoredBackgroundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColoredBackgroundButton.m; path = Controls/ColoredBackgroundButton.m; sourceTree = "<group>"; };
+		AFE894C31A356538007FC7EB /* icon_wi-fi-0-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-0-bar.png"; path = "Resources/icon_wi-fi-0-bar.png"; sourceTree = "<group>"; };
+		AFE894C41A356538007FC7EB /* icon_wi-fi-0-bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-0-bar@2x.png"; path = "Resources/icon_wi-fi-0-bar@2x.png"; sourceTree = "<group>"; };
+		AFE894C51A356538007FC7EB /* icon_wi-fi-1-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-1-bar.png"; path = "Resources/icon_wi-fi-1-bar.png"; sourceTree = "<group>"; };
+		AFE894C61A356538007FC7EB /* icon_wi-fi-1-bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-1-bar@2x.png"; path = "Resources/icon_wi-fi-1-bar@2x.png"; sourceTree = "<group>"; };
+		AFE894C71A356538007FC7EB /* icon_wi-fi-2-bars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-2-bars.png"; path = "Resources/icon_wi-fi-2-bars.png"; sourceTree = "<group>"; };
+		AFE894C81A356538007FC7EB /* icon_wi-fi-2-bars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-2-bars@2x.png"; path = "Resources/icon_wi-fi-2-bars@2x.png"; sourceTree = "<group>"; };
+		AFE894C91A356538007FC7EB /* icon_wi-fi-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-full.png"; path = "Resources/icon_wi-fi-full.png"; sourceTree = "<group>"; };
+		AFE894CA1A356538007FC7EB /* icon_wi-fi-full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-full@2x.png"; path = "Resources/icon_wi-fi-full@2x.png"; sourceTree = "<group>"; };
+		AFE894CB1A356538007FC7EB /* icon_wi-fi-locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-locked.png"; path = "Resources/icon_wi-fi-locked.png"; sourceTree = "<group>"; };
+		AFE894CC1A356538007FC7EB /* icon_wi-fi-locked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-locked@2x.png"; path = "Resources/icon_wi-fi-locked@2x.png"; sourceTree = "<group>"; };
 		AFEAECB418BA36D700370F22 /* ProgramVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramVC.xib; path = ViewController/ProgramVC.xib; sourceTree = "<group>"; };
 		AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType3.xib; path = Cells/ProgramCellType3.xib; sourceTree = "<group>"; };
 		AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType4.xib; path = Cells/ProgramCellType4.xib; sourceTree = "<group>"; };
@@ -722,7 +743,6 @@
 		AFF796C518E04C6400E3C109 /* CounterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CounterHelper.m; path = ViewController/CounterHelper.m; sourceTree = "<group>"; };
 		AFF935031A2C7462008063D2 /* ProvisionWiFiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionWiFiVC.h; path = ViewController/Provision/ProvisionWiFiVC.h; sourceTree = "<group>"; };
 		AFF935041A2C7462008063D2 /* ProvisionWiFiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionWiFiVC.m; path = ViewController/Provision/ProvisionWiFiVC.m; sourceTree = "<group>"; };
-		AFF935051A2C7462008063D2 /* ProvisionWiFiVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionWiFiVC.xib; path = ViewController/Provision/ProvisionWiFiVC.xib; sourceTree = "<group>"; };
 		AFF935081A2C759F008063D2 /* LabelAndTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LabelAndTextFieldCell.h; path = ViewController/Provision/LabelAndTextFieldCell.h; sourceTree = "<group>"; };
 		AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LabelAndTextFieldCell.m; path = ViewController/Provision/LabelAndTextFieldCell.m; sourceTree = "<group>"; };
 		AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LabelAndTextFieldCell.xib; path = ViewController/Provision/LabelAndTextFieldCell.xib; sourceTree = "<group>"; };
@@ -968,7 +988,7 @@
 			children = (
 				AFF935031A2C7462008063D2 /* ProvisionWiFiVC.h */,
 				AFF935041A2C7462008063D2 /* ProvisionWiFiVC.m */,
-				AFF935051A2C7462008063D2 /* ProvisionWiFiVC.xib */,
+				AF65075B1A326AC300AACFE6 /* ProvisionWiFiVC.xib */,
 				AFF935081A2C759F008063D2 /* LabelAndTextFieldCell.h */,
 				AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */,
 				AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */,
@@ -1386,6 +1406,16 @@
 				AFF6A6B81888350400825A37 /* icon_status_warning@2x.png */,
 				AFC5CEDE18893A5B005191DE /* icon_waternow.png */,
 				AFC5CEDF18893A5B005191DE /* icon_waternow@2x.png */,
+				AFE894C31A356538007FC7EB /* icon_wi-fi-0-bar.png */,
+				AFE894C41A356538007FC7EB /* icon_wi-fi-0-bar@2x.png */,
+				AFE894C51A356538007FC7EB /* icon_wi-fi-1-bar.png */,
+				AFE894C61A356538007FC7EB /* icon_wi-fi-1-bar@2x.png */,
+				AFE894C71A356538007FC7EB /* icon_wi-fi-2-bars.png */,
+				AFE894C81A356538007FC7EB /* icon_wi-fi-2-bars@2x.png */,
+				AFE894C91A356538007FC7EB /* icon_wi-fi-full.png */,
+				AFE894CA1A356538007FC7EB /* icon_wi-fi-full@2x.png */,
+				AFE894CB1A356538007FC7EB /* icon_wi-fi-locked.png */,
+				AFE894CC1A356538007FC7EB /* icon_wi-fi-locked@2x.png */,
 				B1213EA71860796A009D97F4 /* nav_menu_icon@2x.png */,
 				3A3BF31418F40ABA008333C5 /* programs-cell */,
 				AFA5FE281880740300C948F8 /* rainmachine.ttf */,
@@ -1740,6 +1770,7 @@
 				AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */,
 				B1E791971922738900BE8C1A /* Sprinkler_Icon_120.png in Resources */,
 				AFF6A6BA1888350400825A37 /* icon_status_warning@2x.png in Resources */,
+				AFE894D31A356538007FC7EB /* icon_wi-fi-full.png in Resources */,
 				AF4826881990DC9500D80B87 /* nskc.png in Resources */,
 				AFF935161A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib in Resources */,
 				B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */,
@@ -1747,6 +1778,7 @@
 				AF4826691990DC9500D80B87 /* cold.png in Resources */,
 				AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */,
 				AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */,
+				AFE894CE1A356538007FC7EB /* icon_wi-fi-0-bar@2x.png in Resources */,
 				B1DF325816A6A68700A1BF38 /* InfoPlist.strings in Resources */,
 				AF48268E1990DC9500D80B87 /* ra.png in Resources */,
 				AF81E6E118BA3237007E9A03 /* ButtonCell.xib in Resources */,
@@ -1757,6 +1789,7 @@
 				AF48266C1990DC9500D80B87 /* fg.png in Resources */,
 				AF4826721990DC9500D80B87 /* hi_shwrs.png in Resources */,
 				AF81E6EB18BA34ED007E9A03 /* ProgramCellType2.xib in Resources */,
+				AFE894D11A356538007FC7EB /* icon_wi-fi-2-bars.png in Resources */,
 				B1DF326216A6A68700A1BF38 /* Default@2x.png in Resources */,
 				B1DF326416A6A68700A1BF38 /* Default-568h@2x.png in Resources */,
 				96AD362C1A1CDB6A0019453C /* GoogleMaps.bundle in Resources */,
@@ -1770,7 +1803,9 @@
 				B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */,
 				AF7A72B918C4AAA300596148 /* DatePickerVC.xib in Resources */,
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
+				AFE894D51A356538007FC7EB /* icon_wi-fi-locked.png in Resources */,
 				AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */,
+				AFE894D01A356538007FC7EB /* icon_wi-fi-1-bar@2x.png in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
 				964ADD2A1A1E7B82008281A8 /* FieldCapacityCell.xib in Resources */,
 				AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */,
@@ -1778,8 +1813,10 @@
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
 				967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */,
 				B1583E7316A803970051B480 /* arrow@2x.png in Resources */,
+				AF65075C1A326AC300AACFE6 /* ProvisionWiFiVC.xib in Resources */,
 				AF4826931990DC9500D80B87 /* sctfg.png in Resources */,
 				AF4826971990DC9500D80B87 /* shra2.png in Resources */,
+				AFE894D61A356538007FC7EB /* icon_wi-fi-locked@2x.png in Resources */,
 				AF4826921990DC9500D80B87 /* sct.png in Resources */,
 				AFC5CEE118893A5B005191DE /* icon_settings@2x.png in Resources */,
 				AF4826961990DC9500D80B87 /* shra1.png in Resources */,
@@ -1803,6 +1840,7 @@
 				B1254CCC187EE054004E2F0E /* EditCell.xib in Resources */,
 				AFA9B58018DADB4F00DB40E8 /* icon_devices.png in Resources */,
 				AF48268C1990DC9500D80B87 /* nwind.png in Resources */,
+				AFE894CD1A356538007FC7EB /* icon_wi-fi-0-bar.png in Resources */,
 				AF48269C1990DC9500D80B87 /* wind.png in Resources */,
 				AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */,
 				AF4826761990DC9500D80B87 /* mist.png in Resources */,
@@ -1842,6 +1880,7 @@
 				AFF6A6B6188834E400825A37 /* icon_disclosure_triangle@2x.png in Resources */,
 				AF48267B1990DC9500D80B87 /* ndu.png in Resources */,
 				AF085CAE1A2EC36A00519BF6 /* AvailableWiFisVC.xib in Resources */,
+				AFE894CF1A356538007FC7EB /* icon_wi-fi-1-bar.png in Resources */,
 				AF4826781990DC9500D80B87 /* na.png in Resources */,
 				AF4826851990DC9500D80B87 /* nsct.png in Resources */,
 				AF26D5D11A2EDD7F0010AB28 /* WiFiCell.xib in Resources */,
@@ -1851,7 +1890,8 @@
 				AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */,
 				B1EF210B1860492B00D9CE26 /* AddNewDeviceVC.xib in Resources */,
 				AFCF47BA188D532100C34727 /* separator_line.png in Resources */,
-				AFF935071A2C7462008063D2 /* ProvisionWiFiVC.xib in Resources */,
+				AFE894D41A356538007FC7EB /* icon_wi-fi-full@2x.png in Resources */,
+				AFE894D21A356538007FC7EB /* icon_wi-fi-2-bars@2x.png in Resources */,
 				AF4826871990DC9500D80B87 /* nshra.png in Resources */,
 				AFC5CEE218893A5B005191DE /* icon_stats.png in Resources */,
 				B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */,
