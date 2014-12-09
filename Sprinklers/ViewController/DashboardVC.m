@@ -10,6 +10,7 @@
 #import "GraphTimeInterval.h"
 #import "GraphCell.h"
 #import "GraphsManager.h"
+#import "GraphDescriptor.h"
 #import "Constants.h"
 
 #pragma mark -
@@ -104,7 +105,8 @@
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    return 164.0;
+    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    return graphDescriptor.totalGraphHeight;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {

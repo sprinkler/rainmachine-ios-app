@@ -14,6 +14,7 @@
 @class GraphIconsBarDescriptor;
 @class GraphValuesBarDescriptor;
 @class GraphDisplayAreaDescriptor;
+@class GraphDateBarDescriptor;
 
 @interface GraphDescriptor : NSObject
 
@@ -24,7 +25,10 @@
 @property (nonatomic, strong) GraphIconsBarDescriptor *iconsBarDescriptor;
 @property (nonatomic, strong) GraphValuesBarDescriptor *valuesBarDescriptor;
 @property (nonatomic, strong) GraphDisplayAreaDescriptor *displayAreaDescriptor;
+@property (nonatomic, strong) GraphDateBarDescriptor *dateBarDescriptor;
 
 + (GraphDescriptor*)defaultDescriptor;
+
+@property (nonatomic, readonly) CGFloat totalGraphHeight;
 
 @end

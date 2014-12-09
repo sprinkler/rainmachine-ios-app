@@ -10,7 +10,10 @@
 #import "GraphTimeInterval.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
+#import "GraphIconsBarDescriptor.h"
+#import "GraphValuesBarDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
+#import "GraphDateBarDescriptor.h"
 
 @implementation GraphDescriptor
 
@@ -20,8 +23,17 @@
     descriptor.visualAppearanceDescriptor = [GraphVisualAppearanceDescriptor defaultDescriptor];
     descriptor.titleAreaDescriptor = [GraphTitleAreaDescriptor defaultDescriptor];
     descriptor.displayAreaDescriptor = [GraphDisplayAreaDescriptor defaultDescriptor];
+    descriptor.dateBarDescriptor = [GraphDateBarDescriptor defaultDescriptor];
     
     return descriptor;
+}
+
+- (CGFloat)totalGraphHeight {
+    return self.titleAreaDescriptor.titleAreaHeight +
+        self.iconsBarDescriptor.iconsBarHeight +
+        self.valuesBarDescriptor.valuesBarHeight +
+        self.displayAreaDescriptor.displayAreaHeight +
+        self.dateBarDescriptor.dateBarHeight + 6.0;
 }
 
 @end

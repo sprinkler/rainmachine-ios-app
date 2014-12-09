@@ -89,6 +89,7 @@
 		96F0F3581A3729CB0056D167 /* GraphIconsBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */; };
 		96F0F35B1A3768A90056D167 /* GraphValuesBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */; };
 		96F0F35E1A377D990056D167 /* GraphDisplayAreaDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */; };
+		96F0F3611A3781570056D167 /* GraphDateBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -508,6 +509,8 @@
 		96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphValuesBarDescriptor.m; path = ViewController/Graphs/GraphValuesBarDescriptor.m; sourceTree = "<group>"; };
 		96F0F35C1A377D990056D167 /* GraphDisplayAreaDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDisplayAreaDescriptor.h; path = ViewController/Graphs/GraphDisplayAreaDescriptor.h; sourceTree = "<group>"; };
 		96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDisplayAreaDescriptor.m; path = ViewController/Graphs/GraphDisplayAreaDescriptor.m; sourceTree = "<group>"; };
+		96F0F35F1A3781570056D167 /* GraphDateBarDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDateBarDescriptor.h; path = ViewController/Graphs/GraphDateBarDescriptor.h; sourceTree = "<group>"; };
+		96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDateBarDescriptor.m; path = ViewController/Graphs/GraphDateBarDescriptor.m; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -1045,6 +1048,8 @@
 				96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */,
 				96F0F35C1A377D990056D167 /* GraphDisplayAreaDescriptor.h */,
 				96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */,
+				96F0F35F1A3781570056D167 /* GraphDateBarDescriptor.h */,
+				96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */,
 				96F0F3371A36FAC70056D167 /* GraphDescriptor.h */,
 				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
 				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
@@ -2195,6 +2200,7 @@
 				B1254CBB187DB542004E2F0E /* ZoneCell.m in Sources */,
 				3A9AB58618854521005B79B9 /* RestrictionsVC.m in Sources */,
 				AF81E6E918BA33EB007E9A03 /* ProgramCellType2.m in Sources */,
+				96F0F3611A3781570056D167 /* GraphDateBarDescriptor.m in Sources */,
 				1FD9D13716B0B56900E6152B /* ServiceManager.m in Sources */,
 				96F0F3521A370D7D0056D167 /* GraphsManager.m in Sources */,
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,

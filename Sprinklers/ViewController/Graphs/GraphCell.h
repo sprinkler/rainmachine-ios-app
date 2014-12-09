@@ -34,4 +34,9 @@
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *graphViewHeightLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UIView *dateBarContainerView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateBarContainerViewHeightLayoutConstraint;
+@property (nonatomic, weak) IBOutlet UILabel *timeIntervalLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *timeIntervalLabelWidthLayoutConstraint;
+
 @end

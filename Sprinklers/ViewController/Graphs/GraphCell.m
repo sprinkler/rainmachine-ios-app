@@ -13,6 +13,7 @@
 #import "GraphIconsBarDescriptor.h"
 #import "GraphValuesBarDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
+#import "GraphDateBarDescriptor.h"
 #import "Additions.h"
 
 #pragma mark -
@@ -25,6 +26,7 @@
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor;
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor;
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
+- (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor;
 
 @end
 
@@ -59,6 +61,7 @@
     [self setupIconImagesWithDescriptor:self.graphDescriptor.iconsBarDescriptor];
     [self setupValuesWithDescriptor:self.graphDescriptor.valuesBarDescriptor];
     [self setupDisplayAreaWithDescriptor:self.graphDescriptor.displayAreaDescriptor];
+    [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor];
 }
 
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {
@@ -195,6 +198,62 @@
 
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor {
     self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;
+}
+
+- (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor {
+    self.dateBarContainerViewHeightLayoutConstraint.constant = descriptor.dateBarHeight;
+    
+    CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
+    CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
+    CGFloat dateValueLabelWidth = round(totalDatesBarWidth / descriptor.dateValues.count);
+    CGFloat dateValueLabelHeight = descriptor.dateBarHeight;
+    CGFloat remainingTrailingWidth = totalDatesBarWidth - dateValueLabelWidth * descriptor.dateValues.count;
+    
+    CGFloat dateValueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
+    CGFloat dateValueLabelOriginY = 0.0;
+    UILabel *previousDateValueLabel = nil;
+    
+    BOOL isFirstHorizontalConstraint = YES;
+    BOOL isLastHorizontalConstraint = NO;
+    
+    for (NSString *dateValue in descriptor.dateValues) {
+        isLastHorizontalConstraint = (dateValue == descriptor.dateValues.lastObject);
+        
+        UILabel *dateValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(dateValueLabelOriginX, dateValueLabelOriginY, dateValueLabelWidth, dateValueLabelHeight)];
+        dateValueLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        dateValueLabel.text = dateValue;
+        dateValueLabel.textColor = descriptor.dateValuesColor;
+        dateValueLabel.font = descriptor.dateValuesFont;
+        dateValueLabel.textAlignment = NSTextAlignmentCenter;
+        
+        [self.dateBarContainerView addSubview:dateValueLabel];
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
+            if (previousDateValueLabel) {
+                if (isFirstHorizontalConstraint) [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[previousDateValueLabel(==dateValueLabel)]-[dateValueLabel(==previousDateValueLabel)]", self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
+                else if (isLastHorizontalConstraint) [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[previousDateValueLabel(==dateValueLabel)]-[dateValueLabel(==previousDateValueLabel)]-%lf-|", self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding + remainingTrailingWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
+                else [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[previousDateValueLabel(==dateValueLabel)]-[dateValueLabel(==previousDateValueLabel)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
+                isFirstHorizontalConstraint = NO;
+            }
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%lf-[dateValueLabel(%lf)]",dateValueLabelOriginY,dateValueLabelHeight] options:0 metrics:nil views:NSDictionaryOfVariableBindings(dateValueLabel)]];
+        } else {
+            if (previousDateValueLabel) {
+                if (isFirstHorizontalConstraint) [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[previousDateValueLabel(==dateValueLabel)]-[dateValueLabel(==previousDateValueLabel)]", self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
+                else if (isLastHorizontalConstraint) [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[previousDateValueLabel(==dateValueLabel)]-[dateValueLabel(==previousDateValueLabel)]-%lf-|", self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding + remainingTrailingWidth] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
+                else [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[previousDateValueLabel(==dateValueLabel)]-[dateValueLabel(==previousDateValueLabel)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
+                isFirstHorizontalConstraint = NO;
+            }
+            [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%lf-[dateValueLabel(%lf)]",dateValueLabelOriginY,dateValueLabelHeight] options:0 metrics:nil views:NSDictionaryOfVariableBindings(dateValueLabel)]];
+        }
+        
+        previousDateValueLabel = dateValueLabel;
+        dateValueLabelOriginX += dateValueLabelWidth;
+    }
+    
+    self.timeIntervalLabel.text = descriptor.timeIntervalValue;
+    self.timeIntervalLabel.textColor = descriptor.timeIntervalColor;
+    self.timeIntervalLabel.font = descriptor.timeIntervalFont;
+    self.timeIntervalLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
 }
 
 @end
