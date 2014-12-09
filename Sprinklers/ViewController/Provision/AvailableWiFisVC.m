@@ -80,7 +80,14 @@ const float kWifiSignalMax = -50;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+    [self restartPolling];
     
+    [self.devicesPollTimer fire];
+}
+
+- (void)restartPolling
+{
     [self.devicesPollTimer invalidate];
     
     self.devicesPollTimer = [NSTimer scheduledTimerWithTimeInterval:kPollInterval
@@ -88,8 +95,6 @@ const float kWifiSignalMax = -50;
                                                            selector:@selector(pollDevices)
                                                            userInfo:nil
                                                             repeats:YES];
-    
-    [self.devicesPollTimer fire];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -132,39 +137,34 @@ const float kWifiSignalMax = -50;
     NSLog(@"connected to network: %@", [self fetchSSIDInfo]);
 #endif
     
-    if (self.macAddressOfSprinklerWithWiFiSetup) {
-        [self showWifiRebootHud];
-        self.sprinkler = nil;
-    } else {
-        self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
+    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
 
-        DiscoveredSprinklers *newSprinkler = [self.discoveredSprinklers firstObject];
-        DiscoveredSprinklers *currentSprinkler = self.sprinkler;
-        BOOL areUrlsEqual = [[newSprinkler url] isEqualToString:[currentSprinkler url]];
-        if (!areUrlsEqual) {
-            self.sprinkler = newSprinkler;
+    DiscoveredSprinklers *newSprinkler = [self.discoveredSprinklers firstObject];
+    DiscoveredSprinklers *currentSprinkler = self.sprinkler;
+    BOOL areUrlsEqual = [[newSprinkler url] isEqualToString:[currentSprinkler url]];
+    if (!areUrlsEqual) {
+        self.sprinkler = newSprinkler;
 
-            if (self.sprinkler) {
-                [self showHud];
-                
-                self.requestCurrentWiFiProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
-                [self.requestCurrentWiFiProxy requestCurrentWiFi];
-            }
-        }
-        
         if (self.sprinkler) {
-            self.tableView.hidden = NO;
-            [self updateTVHeaderToHidden:(self.availableWiFis == nil)];
-            self.messageLabel.hidden = YES;
-            self.title = self.sprinkler.sprinklerName;
-        } else {
-            self.tableView.hidden = YES;
-            [self updateTVHeaderToHidden:YES];
-            self.messageLabel.hidden = NO;
+            [self showHud];
+            
+            self.requestCurrentWiFiProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
+            [self.requestCurrentWiFiProxy requestCurrentWiFi];
         }
-        
-        [self.tableView reloadData];
     }
+    
+    if (self.sprinkler) {
+        self.tableView.hidden = NO;
+        [self updateTVHeaderToHidden:(self.availableWiFis == nil)];
+        self.messageLabel.hidden = YES;
+        self.title = self.sprinkler.sprinklerName;
+    } else {
+        self.tableView.hidden = YES;
+        [self updateTVHeaderToHidden:YES];
+        self.messageLabel.hidden = NO;
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)pollDevices
@@ -233,11 +233,8 @@ const float kWifiSignalMax = -50;
 
  #pragma mark - Table view delegate
  
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-// Navigation logic may go here, for example:
-// Create the next view controller.
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
  
     if (indexPath.row < self.availableWiFis.count) {
@@ -286,7 +283,7 @@ const float kWifiSignalMax = -50;
     if (serverProxy == self.requestCurrentWiFiProxy) {
         NSDictionary *currentWifi = data;
         if ((currentWifi[@"ssid"] == nil) || ([currentWifi[@"ssid"] isKindOfClass:[NSNull class]])) {
-            // Continue with the WiFi setup wizard-path
+            // Continue with the WiFi setup wizard
             self.requestCurrentWiFiProxy = nil;
             self.loginServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
             self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
@@ -294,19 +291,23 @@ const float kWifiSignalMax = -50;
             // Try to log in automatically
             [self.loginServerProxy loginWithUserName:@"" password:@"" rememberMe:YES];
         } else {
-            // Continue with the RainMachine name setup wizard-path
-            if (self.wifiRebootHud) {
-                [self hideWifiRebootHud];
-                if ([self.macAddressOfSprinklerWithWiFiSetup isEqualToString:[self.sprinkler sprinklerId]]) {
-                    [self.navigationController popToRootViewControllerAnimated:NO];
-                    ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
-                    provisionNameSetupVC.sprinkler = self.sprinkler;
-                    [self.navigationController pushViewController:provisionNameSetupVC animated:YES];
-                }
+            // Continue with the RainMachine name setup wizard
+            [self hideWifiRebootHud];
+            // If view is started from the Device menu, just continue the name setup of the found rain machine.
+            // Otherwise, make sure that we continue with the setup of the current device
+            BOOL doNameSetup = YES;
+            if (self.macAddressOfSprinklerWithWiFiSetup) {
+                doNameSetup = [self.macAddressOfSprinklerWithWiFiSetup isEqualToString:[self.sprinkler sprinklerId]];
+            }
+            if (doNameSetup) {
+                NSLog(@"*****");
+                UINavigationController *navigationController = self.navigationController;
+                [self.navigationController popToRootViewControllerAnimated:NO];
+                ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
+                provisionNameSetupVC.sprinkler = self.sprinkler;
+                [navigationController pushViewController:provisionNameSetupVC animated:YES];
             } else {
-                // Normally this should not happen
-                [self hideHud];
-                [self refreshUI];
+                // TODO: timeout
             }
         }
     }
@@ -393,8 +394,13 @@ const float kWifiSignalMax = -50;
 - (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password sprinklerId:(NSString*)sprinklerId
 {
     self.macAddressOfSprinklerWithWiFiSetup = self.sprinkler.sprinklerId;
-    [self refreshUI];
     [self.provisionServerProxy setWiFiWithSSID:SSID encryption:encryption key:password];
+
+    [self showWifiRebootHud];
+    self.sprinkler = nil;
+    
+//    [self refreshUI];
+    [self restartPolling];
 }
 
 @end

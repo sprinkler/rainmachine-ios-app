@@ -12,6 +12,7 @@
 #import "LocationSetupVC.h"
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
+#import "+UIDevice.h"
 
 @interface ProvisionNameSetupVC ()
 
@@ -33,11 +34,32 @@
     [self.nextButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
     self.provisionNameServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
     self.provisionPasswordServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(onNext:)];
+
+    self.deviceNameLabel.delegate = self;
+    self.passwordLabel.delegate = self;
+    self.verifyPasswordLabel.delegate = self;
+    
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        self.deviceNameLabel.tintColor = self.deviceNameLabel.textColor;
+        self.passwordLabel.tintColor = self.passwordLabel.textColor;
+        self.verifyPasswordLabel.tintColor = self.verifyPasswordLabel.textColor;
+    }
+
+    self.title = self.sprinkler.sprinklerName;
+
+    [self refreshUI];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)refreshUI
+{
+    self.navigationItem.rightBarButtonItem.enabled = (self.deviceNameLabel.text.length != 0) && (self.passwordLabel.text.length != 0) && (self.verifyPasswordLabel.text.length != 0);
 }
 
 - (IBAction)onNext:(id)sender {
@@ -102,6 +124,15 @@
     self.hud = nil;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     self.view.userInteractionEnabled = YES;
+}
+
+#pragma mark - 
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    [self performSelector:@selector(refreshUI) withObject:nil afterDelay:0 inModes:@[NSRunLoopCommonModes]];
+    
+    return YES;
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "DiscoveredSprinklers.h"
 #import "Protocols.h"
 
-@interface ProvisionNameSetupVC : UIViewController<SprinklerResponseProtocol>
+@interface ProvisionNameSetupVC : UIViewController<SprinklerResponseProtocol, UITextFieldDelegate>
 
 @property (nonatomic, weak) AvailableWiFisVC *delegate;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
