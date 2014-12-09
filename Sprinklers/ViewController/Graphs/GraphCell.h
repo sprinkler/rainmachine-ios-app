@@ -22,4 +22,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *graphTitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *graphUnitsLabel;
 
+@property (nonatomic, weak) IBOutlet UIView *iconsBarContainerView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *iconsBarContainerViewHeightLayoutConstraint;
+
 @end

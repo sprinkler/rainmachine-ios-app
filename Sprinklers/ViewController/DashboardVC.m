@@ -51,6 +51,7 @@
     [self initializeConfiguration];
     [self initializeUserInterface];
     
+    [GraphsManager setRandomizeTestData:YES];
     [[GraphsManager sharedGraphsManager] selectAllGraphs];
 }
 

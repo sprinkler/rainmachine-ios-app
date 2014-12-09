@@ -9,6 +9,7 @@
 #import "GraphsManager.h"
 #import "GraphDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
+#import "GraphIconsBarDescriptor.h"
 
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
 NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGraphIdentifier";
@@ -23,15 +24,15 @@ NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGrap
 
 - (void)registerAvailableGraphs;
 
-
 @end
 
 #pragma mark -
 
 @implementation GraphsManager
 
+static GraphsManager *sharedGraphsManager = nil;
+
 + (GraphsManager*)sharedGraphsManager {
-    static GraphsManager *sharedGraphsManager = nil;
     if (!sharedGraphsManager) sharedGraphsManager = [GraphsManager new];
     return sharedGraphsManager;
 }
@@ -60,6 +61,7 @@ NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGrap
     totalProgramRuntimesGraph.graphIdentifier = kTotalProgramRuntimesGraphIdentifier;
     totalProgramRuntimesGraph.titleAreaDescriptor.title = @"Total Program Runtimes";
     totalProgramRuntimesGraph.titleAreaDescriptor.units = @"%";
+    totalProgramRuntimesGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
     [availableGraphs addObject:totalProgramRuntimesGraph];
     [availableGraphsDictionary setValue:totalProgramRuntimesGraph forKey:totalProgramRuntimesGraph.graphIdentifier];
     
@@ -81,6 +83,19 @@ NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGrap
 
 - (void)selectAllGraphs {
     self.selectedGraphs = [NSArray arrayWithArray:self.availableGraphs];
+}
+
+#pragma mark - Randomize test data
+
+static BOOL GraphsManagerRandomizeTestData = NO;
+
++ (void)setRandomizeTestData:(BOOL)randomizeTestData {
+    GraphsManagerRandomizeTestData = randomizeTestData;
+    sharedGraphsManager = nil;
+}
+
++ (BOOL)randomizeTestData {
+    return GraphsManagerRandomizeTestData;
 }
 
 @end

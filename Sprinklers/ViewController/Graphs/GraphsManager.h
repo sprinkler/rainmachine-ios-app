@@ -20,4 +20,7 @@
 - (void)deselectGraph:(GraphDescriptor*)graph;
 - (void)selectAllGraphs;
 
++ (void)setRandomizeTestData:(BOOL)randomizeTestData;
++ (BOOL)randomizeTestData;
+
 @end

@@ -86,6 +86,7 @@
 		96F0F34F1A3705F00056D167 /* GraphCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F0F34D1A3705F00056D167 /* GraphCell.xib */; };
 		96F0F3521A370D7D0056D167 /* GraphsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3511A370D7D0056D167 /* GraphsManager.m */; };
 		96F0F3551A3713200056D167 /* GraphVisualAppearanceDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3541A3713200056D167 /* GraphVisualAppearanceDescriptor.m */; };
+		96F0F3581A3729CB0056D167 /* GraphIconsBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -499,6 +500,8 @@
 		96F0F3511A370D7D0056D167 /* GraphsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphsManager.m; path = ViewController/Graphs/GraphsManager.m; sourceTree = "<group>"; };
 		96F0F3531A3713200056D167 /* GraphVisualAppearanceDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphVisualAppearanceDescriptor.h; path = ViewController/Graphs/GraphVisualAppearanceDescriptor.h; sourceTree = "<group>"; };
 		96F0F3541A3713200056D167 /* GraphVisualAppearanceDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphVisualAppearanceDescriptor.m; path = ViewController/Graphs/GraphVisualAppearanceDescriptor.m; sourceTree = "<group>"; };
+		96F0F3561A3729CB0056D167 /* GraphIconsBarDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphIconsBarDescriptor.h; path = ViewController/Graphs/GraphIconsBarDescriptor.h; sourceTree = "<group>"; };
+		96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphIconsBarDescriptor.m; path = ViewController/Graphs/GraphIconsBarDescriptor.m; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -1030,6 +1033,8 @@
 				96F0F3541A3713200056D167 /* GraphVisualAppearanceDescriptor.m */,
 				96F0F3421A3702D60056D167 /* GraphTitleAreaDescriptor.h */,
 				96F0F3431A3702D60056D167 /* GraphTitleAreaDescriptor.m */,
+				96F0F3561A3729CB0056D167 /* GraphIconsBarDescriptor.h */,
+				96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */,
 				96F0F3371A36FAC70056D167 /* GraphDescriptor.h */,
 				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
 				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
@@ -2014,6 +2019,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */,
+				96F0F3581A3729CB0056D167 /* GraphIconsBarDescriptor.m in Sources */,
 				AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */,
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
 				AF51E4181A190DA500A7A6A5 /* TRPickerInputView.m in Sources */,

@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat graphContentLeadingPadding;
+@property (nonatomic, assign) CGFloat graphContentTrailingPadding;
 
 + (GraphVisualAppearanceDescriptor*)defaultDescriptor;
 
