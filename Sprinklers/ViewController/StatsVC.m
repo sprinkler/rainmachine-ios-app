@@ -29,6 +29,9 @@
 #import "ServerResponse.h"
 #import "AppDelegate.h"
 #import "+NSDate.h"
+#import "GraphTimeInterval.h"
+#import "StatsShowGraphsCell.h"
+#import "DashboardVC.h"
 
 const float kHomeScreenCellHeight = 63;
 
@@ -89,6 +92,17 @@ const float kHomeScreenCellHeight = 63;
 
     [_statusTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"HomeScreenCell" bundle:nil] forCellReuseIdentifier:@"HomeScreenCell"];
+    [_tableView registerNib:[UINib nibWithNibName:@"StatsShowGraphsCell" bundle:nil] forCellReuseIdentifier:@"StatsShowGraphsCell"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceNotSupported:) name:kDeviceNotSupported object:nil];
+
+    //Check if there is only one Sprinkler.
+    //If ONE -> do not show Device List.
+    //else :
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
@@ -98,12 +112,6 @@ const float kHomeScreenCellHeight = 63;
     else {
         self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceNotSupported:) name:kDeviceNotSupported object:nil];
-
-    //Check if there is only one Sprinkler.
-    //If ONE -> do not show Device List.
-    //else :
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -170,7 +178,7 @@ const float kHomeScreenCellHeight = 63;
     if (tableView == self.statusTableView) {
         return 1;
     }
-    return [self.data count];
+    return [self.data count] + (self.data.count > 0 ? [GraphTimeInterval graphTimeIntervals].count : 0);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -222,88 +230,98 @@ const float kHomeScreenCellHeight = 63;
         return cell;
     }
     
-    static NSString *CellIdentifier = @"HomeScreenCell";
-    HomeScreenTableViewCell *cell = (HomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    BOOL error = NO;
-    WeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
-    if ([ServerProxy usesAPI3]) {
-        error = (weatherData.error) && ([weatherData.error intValue] == 1);
-    }
-    
-    cell.waterPercentage = [weatherData.percentage floatValue] / self.weatherDataMaxPercentage;
-    cell.waterImage.image = self.waterImage;
-    cell.waterWavesImageView.image = self.waterWavesImage;
+    if (indexPath.row < self.data.count) {
+        static NSString *CellIdentifier = @"HomeScreenCell";
+        HomeScreenTableViewCell *cell = (HomeScreenTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        BOOL error = NO;
+        WeatherData *weatherData = [self.data objectAtIndex:indexPath.row];
+        if ([ServerProxy usesAPI3]) {
+            error = (weatherData.error) && ([weatherData.error intValue] == 1);
+        }
+        
+        cell.waterPercentage = [weatherData.percentage floatValue] / self.weatherDataMaxPercentage;
+        cell.waterImage.image = self.waterImage;
+        cell.waterWavesImageView.image = self.waterWavesImage;
 
-    cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(([ServerProxy usesAPI3] ? 100 : 1) * [weatherData.percentage floatValue])];
-    
-    BOOL maxtValid = ((!error) && (weatherData.maxt) && ([weatherData.maxt isKindOfClass:[NSNumber class]]) && ([weatherData.maxt intValue] != 32000) && ([weatherData.maxt intValue] != -32000));
-    BOOL mintValid = ((!error) && (weatherData.mint) && ([weatherData.mint isKindOfClass:[NSNumber class]]) && ([weatherData.mint intValue] != 32000) && ([weatherData.mint intValue] != -32000));
-    
-    cell.temperatureLabel.hidden = YES;
-    cell.temperatureLabelPart3.hidden = YES;
-    
-    if ((maxtValid) && (mintValid)) {
-        cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.maxt], weatherData.units];
-        cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-        cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.mint], weatherData.units];
+        cell.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(([ServerProxy usesAPI3] ? 100 : 1) * [weatherData.percentage floatValue])];
+        
+        BOOL maxtValid = ((!error) && (weatherData.maxt) && ([weatherData.maxt isKindOfClass:[NSNumber class]]) && ([weatherData.maxt intValue] != 32000) && ([weatherData.maxt intValue] != -32000));
+        BOOL mintValid = ((!error) && (weatherData.mint) && ([weatherData.mint isKindOfClass:[NSNumber class]]) && ([weatherData.mint intValue] != 32000) && ([weatherData.mint intValue] != -32000));
+        
+        cell.temperatureLabel.hidden = YES;
+        cell.temperatureLabelPart3.hidden = YES;
+        
+        if ((maxtValid) && (mintValid)) {
+            cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+            cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.maxt], weatherData.units];
+            cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+            cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.mint], weatherData.units];
 
-    } else {
-        if ((!maxtValid) && (!mintValid)) {
-            [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
-            [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
         } else {
-            if (!maxtValid) {
+            if ((!maxtValid) && (!mintValid)) {
                 [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
-                cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.mint], weatherData.units];
-            } else {
-                // !mintValid
-                cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
-                cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.maxt], weatherData.units];
                 [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
+            } else {
+                if (!maxtValid) {
+                    [cell.temperatureLabelPart2 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
+                    cell.temperatureLabelPart4.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+                    cell.temperatureLabelPart4.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.mint], weatherData.units];
+                } else {
+                    // !mintValid
+                    cell.temperatureLabelPart2.font = [UIFont systemFontOfSize:kWheatherValueFontSize];
+                    cell.temperatureLabelPart2.text = [NSString stringWithFormat:@"%@°%@", [self temperatureValue:weatherData.maxt], weatherData.units];
+                    [cell.temperatureLabelPart4 setCustomRMFontWithCode:icon_na size:kWheatherValueCustomFontSize];
+                }
             }
         }
-    }
-    
-    if ([weatherData.id intValue] == 0) {
-        cell.daylabel.text = @"Today";
-        cell.daylabel.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+        
+        if ([weatherData.id intValue] == 0) {
+            cell.daylabel.text = @"Today";
+            cell.daylabel.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+        }
+        else {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"LLL d";
+            NSDate *dayDate = [[NSDate date] dateByAddingDays:[weatherData.id intValue]];
+            cell.daylabel.text = [formatter stringFromDate:dayDate];
+            cell.daylabel.textColor = [UIColor blackColor];
+        }
+        
+        UIImage *weatherImage;
+        if ([ServerProxy usesAPI3]) {
+            weatherImage = [UIImage imageNamed:weatherData.icon];
+        } else {
+            weatherImage = [Utils weatherImageFromCode:((WeatherData4*)weatherData).icon];
+        }
+        cell.weatherImage.image = weatherImage;
+        
+        if ((error) || (!weatherData.percentage)) {
+            cell.waterImage.hidden = YES;
+            cell.waterWavesImageView.hidden = YES;
+            cell.percentageLabel.hidden = YES;
+            
+            cell.percentageNotAvailableLabel.hidden = NO;
+
+            [cell.percentageNotAvailableLabel setCustomRMFontWithCode:icon_na size:cell.percentageNotAvailableLabel.bounds.size.width];
+            cell.percentageNotAvailableLabel.textColor = cell.daylabel.textColor;// [UIColor colorWithRed:153.0 / 255 green:153.0 / 255 blue:153.0 / 255 alpha:1];
+        } else {
+            cell.waterImage.hidden = (cell.waterPercentage == 0);
+            cell.waterWavesImageView.hidden = (cell.waterPercentage == 0);
+            cell.percentageLabel.hidden = NO;
+            
+            cell.percentageNotAvailableLabel.hidden = YES;
+        }
+        
+        return cell;
     }
     else {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"LLL d";
-        NSDate *dayDate = [[NSDate date] dateByAddingDays:[weatherData.id intValue]];
-        cell.daylabel.text = [formatter stringFromDate:dayDate];
-        cell.daylabel.textColor = [UIColor blackColor];
-    }
-    
-    UIImage *weatherImage;
-    if ([ServerProxy usesAPI3]) {
-        weatherImage = [UIImage imageNamed:weatherData.icon];
-    } else {
-        weatherImage = [Utils weatherImageFromCode:((WeatherData4*)weatherData).icon];
-    }
-    cell.weatherImage.image = weatherImage;
-    
-    if ((error) || (!weatherData.percentage)) {
-        cell.waterImage.hidden = YES;
-        cell.waterWavesImageView.hidden = YES;
-        cell.percentageLabel.hidden = YES;
+        static NSString *CellIdentifier = @"StatsShowGraphsCell";
         
-        cell.percentageNotAvailableLabel.hidden = NO;
-
-        [cell.percentageNotAvailableLabel setCustomRMFontWithCode:icon_na size:cell.percentageNotAvailableLabel.bounds.size.width];
-        cell.percentageNotAvailableLabel.textColor = cell.daylabel.textColor;// [UIColor colorWithRed:153.0 / 255 green:153.0 / 255 blue:153.0 / 255 alpha:1];
-    } else {
-        cell.waterImage.hidden = (cell.waterPercentage == 0);
-        cell.waterWavesImageView.hidden = (cell.waterPercentage == 0);
-        cell.percentageLabel.hidden = NO;
+        StatsShowGraphsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell.graphsTimeInterval = [GraphTimeInterval graphTimeIntervals][indexPath.row - self.data.count];
         
-        cell.percentageNotAvailableLabel.hidden = YES;
+        return cell;
     }
-    
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -317,6 +335,15 @@ const float kHomeScreenCellHeight = 63;
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Resume sprinkler operation?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Resume", nil];
             alertView.tag = kAlertView_ResumeRainDelay;
             [alertView show];
+        }
+    } else {
+        if (indexPath.row < self.data.count) {
+            // TODO: Show day detail screen
+        } else {
+            DashboardVC *dashboardVC = [DashboardVC new];
+            dashboardVC.graphTimeInterval = [GraphTimeInterval graphTimeIntervals][indexPath.row - self.data.count];
+            
+            [self.navigationController pushViewController:dashboardVC animated:YES];
         }
     }
 }

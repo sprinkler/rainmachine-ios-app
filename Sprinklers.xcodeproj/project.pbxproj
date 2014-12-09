@@ -74,6 +74,12 @@
 		96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */; };
 		96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9091A27A020005974CC /* MixerDailyValue.m */; };
 		96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */; };
+		96F0F3351A36F18C0056D167 /* DashboardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3331A36F18C0056D167 /* DashboardVC.m */; };
+		96F0F3361A36F18C0056D167 /* DashboardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F0F3341A36F18C0056D167 /* DashboardVC.xib */; };
+		96F0F3391A36FAC70056D167 /* GraphDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3381A36FAC70056D167 /* GraphDescriptor.m */; };
+		96F0F33C1A36FC1F0056D167 /* GraphTimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F33B1A36FC1F0056D167 /* GraphTimeInterval.m */; };
+		96F0F3401A36FEE90056D167 /* StatsShowGraphsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F33E1A36FEE90056D167 /* StatsShowGraphsCell.m */; };
+		96F0F3411A36FEE90056D167 /* StatsShowGraphsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F0F33F1A36FEE90056D167 /* StatsShowGraphsCell.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -466,6 +472,16 @@
 		96DAB9091A27A020005974CC /* MixerDailyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MixerDailyValue.m; path = "Communication/Response objects/MixerDailyValue.m"; sourceTree = "<group>"; };
 		96DAB9141A27BBA5005974CC /* RainSensitivityGraphMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivityGraphMonthView.h; sourceTree = "<group>"; };
 		96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivityGraphMonthView.m; sourceTree = "<group>"; };
+		96F0F3321A36F18C0056D167 /* DashboardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardVC.h; path = ViewController/DashboardVC.h; sourceTree = "<group>"; };
+		96F0F3331A36F18C0056D167 /* DashboardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashboardVC.m; path = ViewController/DashboardVC.m; sourceTree = "<group>"; };
+		96F0F3341A36F18C0056D167 /* DashboardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DashboardVC.xib; path = ViewController/DashboardVC.xib; sourceTree = "<group>"; };
+		96F0F3371A36FAC70056D167 /* GraphDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDescriptor.h; path = ViewController/Graphs/GraphDescriptor.h; sourceTree = "<group>"; };
+		96F0F3381A36FAC70056D167 /* GraphDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDescriptor.m; path = ViewController/Graphs/GraphDescriptor.m; sourceTree = "<group>"; };
+		96F0F33A1A36FC1F0056D167 /* GraphTimeInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphTimeInterval.h; path = ViewController/Graphs/GraphTimeInterval.h; sourceTree = "<group>"; };
+		96F0F33B1A36FC1F0056D167 /* GraphTimeInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphTimeInterval.m; path = ViewController/Graphs/GraphTimeInterval.m; sourceTree = "<group>"; };
+		96F0F33D1A36FEE90056D167 /* StatsShowGraphsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatsShowGraphsCell.h; path = Cells/StatsShowGraphsCell.h; sourceTree = "<group>"; };
+		96F0F33E1A36FEE90056D167 /* StatsShowGraphsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatsShowGraphsCell.m; path = Cells/StatsShowGraphsCell.m; sourceTree = "<group>"; };
+		96F0F33F1A36FEE90056D167 /* StatsShowGraphsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StatsShowGraphsCell.xib; path = Cells/StatsShowGraphsCell.xib; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -988,6 +1004,17 @@
 			path = ViewController/Graphs;
 			sourceTree = "<group>";
 		};
+		96F0F3311A36ED9D0056D167 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				96F0F33A1A36FC1F0056D167 /* GraphTimeInterval.h */,
+				96F0F33B1A36FC1F0056D167 /* GraphTimeInterval.m */,
+				96F0F3371A36FAC70056D167 /* GraphDescriptor.h */,
+				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
+			);
+			name = Graphs;
+			sourceTree = "<group>";
+		};
 		AF085C981A2EBF8800519BF6 /* Provision */ = {
 			isa = PBXGroup;
 			children = (
@@ -1294,6 +1321,9 @@
 				964ADD231A1E7B82008281A8 /* FieldCapacityCell.h */,
 				964ADD241A1E7B82008281A8 /* FieldCapacityCell.m */,
 				964ADD251A1E7B82008281A8 /* FieldCapacityCell.xib */,
+				96F0F33D1A36FEE90056D167 /* StatsShowGraphsCell.h */,
+				96F0F33E1A36FEE90056D167 /* StatsShowGraphsCell.m */,
+				96F0F33F1A36FEE90056D167 /* StatsShowGraphsCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1615,12 +1645,16 @@
 		B1EF21111860494E00D9CE26 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
+				96F0F3311A36ED9D0056D167 /* Graphs */,
 				B1EF211A1860499200D9CE26 /* StatsVC.h */,
 				B1EF211B1860499200D9CE26 /* StatsVC.m */,
 				B1EF211C1860499200D9CE26 /* StatsVC.xib */,
 				B1EF2129186049C900D9CE26 /* StatsTestLevel1VC.h */,
 				B1EF212A186049C900D9CE26 /* StatsTestLevel1VC.m */,
 				B1EF212B186049C900D9CE26 /* StatsTestLevel1VC.xib */,
+				96F0F3321A36F18C0056D167 /* DashboardVC.h */,
+				96F0F3331A36F18C0056D167 /* DashboardVC.m */,
+				96F0F3341A36F18C0056D167 /* DashboardVC.xib */,
 			);
 			name = Stats;
 			sourceTree = "<group>";
@@ -1781,6 +1815,7 @@
 				AFE894D31A356538007FC7EB /* icon_wi-fi-full.png in Resources */,
 				AF4826881990DC9500D80B87 /* nskc.png in Resources */,
 				AFF935161A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib in Resources */,
+				96F0F3361A36F18C0056D167 /* DashboardVC.xib in Resources */,
 				B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */,
 				AFC5CEE418893A5B005191DE /* icon_waternow.png in Resources */,
 				AF4826691990DC9500D80B87 /* cold.png in Resources */,
@@ -1816,6 +1851,7 @@
 				AFE894D01A356538007FC7EB /* icon_wi-fi-1-bar@2x.png in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
 				964ADD2A1A1E7B82008281A8 /* FieldCapacityCell.xib in Resources */,
+				96F0F3411A36FEE90056D167 /* StatsShowGraphsCell.xib in Resources */,
 				AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */,
 				AFCC57B4185860FD001F48F0 /* icon_status_warning.png in Resources */,
 				B1583E7216A803970051B480 /* arrow.png in Resources */,
@@ -1960,6 +1996,7 @@
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				AF3E02E71A1D457E00E76C53 /* CloudAccountsVC.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
+				96F0F33C1A36FC1F0056D167 /* GraphTimeInterval.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
 				3A68C071192B956500821D4D /* MappingModelv1tov7.xcmappingmodel in Sources */,
 				AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */,
@@ -1973,6 +2010,7 @@
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
+				96F0F3401A36FEE90056D167 /* StatsShowGraphsCell.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
@@ -2011,6 +2049,7 @@
 				B1DF327916A6AA5100A1BF38 /* GCDAsyncSocket.m in Sources */,
 				964ADD121A1E5AA5008281A8 /* GoogleRequestTimezone.m in Sources */,
 				969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */,
+				96F0F3351A36F18C0056D167 /* DashboardVC.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
 				AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */,
 				B1EF20F3186046D300D9CE26 /* +UIColor.m in Sources */,
@@ -2025,6 +2064,7 @@
 				964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
+				96F0F3391A36FAC70056D167 /* GraphDescriptor.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
 				AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */,
 				AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */,
