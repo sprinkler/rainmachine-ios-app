@@ -28,6 +28,10 @@
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
 - (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor;
 
+@property (nonatomic, strong) NSArray *iconImageViews;
+@property (nonatomic, strong) NSArray *valueLabels;
+@property (nonatomic, strong) NSArray *dateValueLabels;
+
 @end
 
 #pragma mark -
@@ -87,6 +91,15 @@
         return;
     }
     
+    if (self.iconImageViews) {
+        for (NSInteger index = 0; index < descriptor.iconImages.count; index++) {
+            UIImageView *iconImageView = self.iconImageViews[index];
+            UIImage *iconImage = descriptor.iconImages[index];
+            iconImageView.image = [iconImage imageByFillingWithColor:descriptor.iconImagesColor];
+        }
+        return;
+    }
+    
     self.iconsBarContainerViewHeightLayoutConstraint.constant = descriptor.iconsBarHeight;
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
@@ -102,6 +115,8 @@
     BOOL isFirstHorizontalConstraint = YES;
     BOOL isLastHorizontalConstraint = NO;
     
+    NSMutableArray *iconImageViews = [NSMutableArray new];
+    
     for (UIImage *iconImage in descriptor.iconImages) {
         isLastHorizontalConstraint = (iconImage == descriptor.iconImages.lastObject);
         
@@ -111,6 +126,7 @@
         iconImageView.contentMode = UIViewContentModeScaleAspectFit;
         
         [self.iconsBarContainerView addSubview:iconImageView];
+        [iconImageViews addObject:iconImageView];
         
         if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
             if (previousIconImageView) {
@@ -133,11 +149,22 @@
         previousIconImageView = iconImageView;
         iconImageViewOriginX += iconImageViewWidth;
     }
+    
+    self.iconImageViews = iconImageViews;
 }
 
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor {
     if (!descriptor) {
         self.valuesBarContainerViewHeightLayoutConstraint.constant = 0.0;
+        return;
+    }
+    
+    if (self.valueLabels) {
+        for (NSInteger index = 0; index < descriptor.values.count; index++) {
+            UILabel *valueLabel = self.valueLabels[index];
+            NSNumber *value = descriptor.values[index];
+            valueLabel.text = [NSString stringWithFormat:@"%d",value.intValue];
+        }
         return;
     }
     
@@ -156,6 +183,8 @@
     BOOL isFirstHorizontalConstraint = YES;
     BOOL isLastHorizontalConstraint = NO;
     
+    NSMutableArray *valueLabels = [NSMutableArray new];
+    
     for (NSNumber *value in descriptor.values) {
         isLastHorizontalConstraint = (value == descriptor.values.lastObject);
         
@@ -167,6 +196,7 @@
         valueLabel.textAlignment = NSTextAlignmentCenter;
         
         [self.valuesBarContainerView addSubview:valueLabel];
+        [valueLabels addObject:valueLabel];
         
         if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
             if (previousValueLabel) {
@@ -190,6 +220,8 @@
         valueLabelOriginX += valueLabelWidth;
     }
     
+    self.valueLabels = valueLabels;
+    
     self.valuesUnitsLabel.text = descriptor.units;
     self.valuesUnitsLabel.textColor = descriptor.unitsColor;
     self.valuesUnitsLabel.font = descriptor.unitsFont;
@@ -201,6 +233,20 @@
 }
 
 - (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor {
+    if (!descriptor) {
+        self.dateBarContainerViewHeightLayoutConstraint.constant = 0.0;
+        return;
+    }
+    
+    if (self.dateValueLabels) {
+        for (NSInteger index = 0; index < descriptor.dateValues.count; index++) {
+            UILabel *dateValueLabel = self.dateValueLabels[index];
+            NSString *dateValue = descriptor.dateValues[index];
+            dateValueLabel.text = dateValue;
+        }
+        return;
+    }
+    
     self.dateBarContainerViewHeightLayoutConstraint.constant = descriptor.dateBarHeight;
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
@@ -216,6 +262,8 @@
     BOOL isFirstHorizontalConstraint = YES;
     BOOL isLastHorizontalConstraint = NO;
     
+    NSMutableArray *dateValueLabels = [NSMutableArray new];
+    
     for (NSString *dateValue in descriptor.dateValues) {
         isLastHorizontalConstraint = (dateValue == descriptor.dateValues.lastObject);
         
@@ -227,6 +275,7 @@
         dateValueLabel.textAlignment = NSTextAlignmentCenter;
         
         [self.dateBarContainerView addSubview:dateValueLabel];
+        [dateValueLabels addObject:dateValueLabel];
         
         if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
             if (previousDateValueLabel) {
@@ -249,6 +298,8 @@
         previousDateValueLabel = dateValueLabel;
         dateValueLabelOriginX += dateValueLabelWidth;
     }
+    
+    self.dateValueLabels = dateValueLabels;
     
     self.timeIntervalLabel.text = descriptor.timeIntervalValue;
     self.timeIntervalLabel.textColor = descriptor.timeIntervalColor;
