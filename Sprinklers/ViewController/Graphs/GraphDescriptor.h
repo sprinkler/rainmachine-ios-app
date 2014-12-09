@@ -8,6 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@class GraphTimeInterval;
+@class GraphVisualAppearanceDescriptor;
+@class GraphTitleAreaDescriptor;
+
 @interface GraphDescriptor : NSObject
+
+@property (nonatomic, strong) NSString *graphIdentifier;
+@property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
+@property (nonatomic, strong) GraphVisualAppearanceDescriptor *visualAppearanceDescriptor;
+@property (nonatomic, strong) GraphTitleAreaDescriptor *titleAreaDescriptor;
+
++ (GraphDescriptor*)defaultDescriptor;
 
 @end

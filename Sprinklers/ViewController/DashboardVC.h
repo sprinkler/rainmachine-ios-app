@@ -12,8 +12,12 @@
 
 @class GraphTimeInterval;
 
-@interface DashboardVC : BaseLevel2ViewController
+@interface DashboardVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
+
+@property (nonatomic, weak) IBOutlet UISegmentedControl *timeIntervalsSegmentedControl;
+@property (nonatomic, weak) IBOutlet UIView *headerSeparatorView;
+@property (nonatomic, weak) IBOutlet UITableView *graphsTableView;
 
 @end

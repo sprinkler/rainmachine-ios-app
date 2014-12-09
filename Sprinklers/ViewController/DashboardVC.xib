@@ -7,6 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DashboardVC">
             <connections>
+                <outlet property="graphsTableView" destination="9BC-GU-Aps" id="pkR-9O-3jB"/>
+                <outlet property="headerSeparatorView" destination="YoG-Mh-lgf" id="e32-jV-syA"/>
+                <outlet property="timeIntervalsSegmentedControl" destination="CZr-XH-hu6" id="hmG-1N-teo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,7 +17,46 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="CZr-XH-hu6">
+                    <rect key="frame" x="20" y="8" width="560" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="Kfx-qe-aPX"/>
+                    </constraints>
+                    <segments>
+                        <segment title="First"/>
+                        <segment title="Second"/>
+                    </segments>
+                </segmentedControl>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-GU-Aps">
+                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Qxb-a1-XfY"/>
+                        <outlet property="delegate" destination="-1" id="YuF-Gh-2Tv"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YoG-Mh-lgf">
+                    <rect key="frame" x="0.0" y="44" width="600" height="1"/>
+                    <color key="backgroundColor" white="0.80000000000000004" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="9YN-a4-7Db"/>
+                    </constraints>
+                </view>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="YoG-Mh-lgf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4ez-PC-lh9"/>
+                <constraint firstAttribute="trailing" secondItem="YoG-Mh-lgf" secondAttribute="trailing" id="75p-5u-mME"/>
+                <constraint firstAttribute="trailing" secondItem="CZr-XH-hu6" secondAttribute="trailing" constant="20" id="CJa-k8-3Gc"/>
+                <constraint firstItem="YoG-Mh-lgf" firstAttribute="top" secondItem="CZr-XH-hu6" secondAttribute="bottom" constant="8" id="FcM-ft-aAk"/>
+                <constraint firstItem="CZr-XH-hu6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="LVp-kY-v7D"/>
+                <constraint firstItem="9BC-GU-Aps" firstAttribute="top" secondItem="CZr-XH-hu6" secondAttribute="bottom" constant="8" id="RYN-0g-Dpp"/>
+                <constraint firstAttribute="bottom" secondItem="9BC-GU-Aps" secondAttribute="bottom" id="cMt-Ih-ezo"/>
+                <constraint firstAttribute="trailing" secondItem="9BC-GU-Aps" secondAttribute="trailing" id="g7t-SE-0rc"/>
+                <constraint firstItem="9BC-GU-Aps" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oqQ-ph-NRb"/>
+                <constraint firstItem="CZr-XH-hu6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="rrN-AL-sqn"/>
+            </constraints>
         </view>
     </objects>
 </document>
