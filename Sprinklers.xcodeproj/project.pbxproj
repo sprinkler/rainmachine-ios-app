@@ -248,6 +248,8 @@
 		AFE894D41A356538007FC7EB /* icon_wi-fi-full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894CA1A356538007FC7EB /* icon_wi-fi-full@2x.png */; };
 		AFE894D51A356538007FC7EB /* icon_wi-fi-locked.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894CB1A356538007FC7EB /* icon_wi-fi-locked.png */; };
 		AFE894D61A356538007FC7EB /* icon_wi-fi-locked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE894CC1A356538007FC7EB /* icon_wi-fi-locked@2x.png */; };
+		AFE894DB1A35733B007FC7EB /* ProvisionNameSetupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE894D91A35733B007FC7EB /* ProvisionNameSetupVC.m */; };
+		AFE894DC1A35733B007FC7EB /* ProvisionNameSetupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFE894DA1A35733B007FC7EB /* ProvisionNameSetupVC.xib */; };
 		AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB418BA36D700370F22 /* ProgramVC.xib */; };
 		AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */; };
 		AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */; };
@@ -718,6 +720,9 @@
 		AFE894CA1A356538007FC7EB /* icon_wi-fi-full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-full@2x.png"; path = "Resources/icon_wi-fi-full@2x.png"; sourceTree = "<group>"; };
 		AFE894CB1A356538007FC7EB /* icon_wi-fi-locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-locked.png"; path = "Resources/icon_wi-fi-locked.png"; sourceTree = "<group>"; };
 		AFE894CC1A356538007FC7EB /* icon_wi-fi-locked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_wi-fi-locked@2x.png"; path = "Resources/icon_wi-fi-locked@2x.png"; sourceTree = "<group>"; };
+		AFE894D81A35733B007FC7EB /* ProvisionNameSetupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionNameSetupVC.h; path = ViewController/Provision/ProvisionNameSetupVC.h; sourceTree = "<group>"; };
+		AFE894D91A35733B007FC7EB /* ProvisionNameSetupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionNameSetupVC.m; path = ViewController/Provision/ProvisionNameSetupVC.m; sourceTree = "<group>"; };
+		AFE894DA1A35733B007FC7EB /* ProvisionNameSetupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionNameSetupVC.xib; path = ViewController/Provision/ProvisionNameSetupVC.xib; sourceTree = "<group>"; };
 		AFEAECB418BA36D700370F22 /* ProgramVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramVC.xib; path = ViewController/ProgramVC.xib; sourceTree = "<group>"; };
 		AFEAECB618BA3F6000370F22 /* ProgramCellType3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType3.xib; path = Cells/ProgramCellType3.xib; sourceTree = "<group>"; };
 		AFEAECBA18BA3F8A00370F22 /* ProgramCellType4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType4.xib; path = Cells/ProgramCellType4.xib; sourceTree = "<group>"; };
@@ -1007,6 +1012,9 @@
 				AF26D5CD1A2EDD7F0010AB28 /* WiFiCell.h */,
 				AF26D5CE1A2EDD7F0010AB28 /* WiFiCell.m */,
 				AF26D5CF1A2EDD7F0010AB28 /* WiFiCell.xib */,
+				AFE894D81A35733B007FC7EB /* ProvisionNameSetupVC.h */,
+				AFE894D91A35733B007FC7EB /* ProvisionNameSetupVC.m */,
+				AFE894DA1A35733B007FC7EB /* ProvisionNameSetupVC.xib */,
 			);
 			name = Provision;
 			sourceTree = "<group>";
@@ -1824,6 +1832,7 @@
 				AFC0760318BC9C99007200BF /* SetDelayVC.xib in Resources */,
 				AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */,
 				AF4826671990DC9500D80B87 /* bkn.png in Resources */,
+				AFE894DC1A35733B007FC7EB /* ProvisionNameSetupVC.xib in Resources */,
 				AF4826811990DC9500D80B87 /* nra.png in Resources */,
 				AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */,
 				B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */,
@@ -1986,6 +1995,7 @@
 				AF085C9C1A2EBFB700519BF6 /* LocationSetupVC.m in Sources */,
 				964ADD0D1A1E5AA5008281A8 /* GoogleRequest.m in Sources */,
 				964ADD2B1A1E7B82008281A8 /* RainSensitivityCell.m in Sources */,
+				AFE894DB1A35733B007FC7EB /* ProvisionNameSetupVC.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
 				AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */,
 				964ADD111A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m in Sources */,

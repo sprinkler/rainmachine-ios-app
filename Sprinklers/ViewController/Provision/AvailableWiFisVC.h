@@ -12,4 +12,8 @@
 
 @interface AvailableWiFisVC : BaseLevel2ViewController<SprinklerResponseProtocol>
 
+@property (strong, nonatomic) NSString *macAddressOfSprinklerWithWiFiSetup;
+
+- (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password sprinklerId:(NSString*)sprinklerId;
+
 @end

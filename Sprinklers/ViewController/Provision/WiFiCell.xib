@@ -15,8 +15,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uii-Zi-Wbp">
-                        <rect key="frame" x="16" y="11.5" width="216" height="20.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uii-Zi-Wbp">
+                        <rect key="frame" x="16" y="11.5" width="244" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -41,15 +41,21 @@
                     <constraint firstItem="Y6X-Jb-rfM" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="A5I-9i-XfU"/>
                     <constraint firstAttribute="centerY" secondItem="uii-Zi-Wbp" secondAttribute="centerY" id="M7q-rX-frz"/>
                     <constraint firstItem="Y6X-Jb-rfM" firstAttribute="leading" secondItem="gRH-rj-nEm" secondAttribute="trailing" constant="8" id="SZI-9E-ePm"/>
+                    <constraint firstItem="gRH-rj-nEm" firstAttribute="leading" secondItem="uii-Zi-Wbp" secondAttribute="trailing" id="fIQ-nR-7uf"/>
                     <constraint firstAttribute="trailingMargin" secondItem="uii-Zi-Wbp" secondAttribute="trailing" constant="80" id="jPD-eH-BVI"/>
                     <constraint firstAttribute="centerY" secondItem="Y6X-Jb-rfM" secondAttribute="centerY" id="mZP-IN-FD4"/>
                     <constraint firstItem="uii-Zi-Wbp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="tWg-Ps-Jyh"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="jPD-eH-BVI"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="lockedImageView" destination="gRH-rj-nEm" id="ALU-HG-JzT"/>
                 <outlet property="signalImageView" destination="Y6X-Jb-rfM" id="97m-JX-pf8"/>
-                <outlet property="textField" destination="uii-Zi-Wbp" id="BnK-9T-3oI"/>
+                <outlet property="wifiTextLabel" destination="uii-Zi-Wbp" id="g87-EF-bZV"/>
             </connections>
         </tableViewCell>
     </objects>

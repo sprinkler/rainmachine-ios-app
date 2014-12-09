@@ -529,6 +529,19 @@ static int serverAPIMinorSubVersion = -1;
 
 #pragma mark - Provision
 
+- (void)requestCurrentWiFi
+{
+    [self.manager GET:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi"] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
 - (void)requestAvailableWiFis
 {
     [self.manager GET:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi/scan"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/getScanResults"] parameters:nil

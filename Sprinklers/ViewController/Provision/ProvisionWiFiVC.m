@@ -33,16 +33,12 @@
     
     self.forceShowKeyboard = YES;
     
+    // Show security option when it is unknown
     self.showSecurity = (self.securityOption == nil);
     if (!self.securityOption) {
         self.securityOption = @"None";
     }
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerNib:[UINib nibWithNibName:@"LabelAndTextFieldCell" bundle:nil] forCellReuseIdentifier:@"LabelAndTextFieldCell"];
     
     self.title = @"Enter Password";
@@ -67,9 +63,6 @@
     [self refreshUI];
     
     self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-    if (self.loginAutomatically) {
-        [self joinWiFi:self.SSID encryption:@"none" key:nil];
-    }
 }
 
 - (void)refreshUI
@@ -77,16 +70,28 @@
     self.navigationItem.rightBarButtonItem.enabled = (self.password.length > 0) && (self.SSID.length > 0);
 }
 
+- (void)dismiss
+{
+    for (UITableViewCell *cell in [self.tableView visibleCells]) {
+        if ([cell isKindOfClass:[LabelAndTextFieldCell class]]) {
+            LabelAndTextFieldCell *labelAndTextFieldCell = (LabelAndTextFieldCell*)cell;
+            [labelAndTextFieldCell.textField resignFirstResponder];
+        }
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)cancel
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismiss];
 }
 
 - (void)join
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    [self joinWiFi:self.SSID encryption:[self APISecurityOptionFromUIText] key:self.password];
+    [self.delegate joinWiFi:self.SSID encryption:[self APISecurityOptionFromUIText] key:self.password sprinklerId:self.sprinkler.sprinklerId];
+
+    [self dismiss];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -110,7 +115,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return self.showSSID ? 2 : 1;
+    return [self sectionForSecurity] + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -119,13 +124,7 @@
     }
     
     if (section == [self sectionForSecurity]) {
-        if ([self rowForSecurity] == -1) {
-            return 1; // Show only password
-        } else {
-            if (section == [self rowForPassword]) {
-                return [self.securityOption isEqualToString:@"None"] ? 1 : 2;
-            }
-        }
+        return [self rowForPassword] + 1;
     }
     
     return 1;
@@ -148,7 +147,7 @@
 
 - (int)rowForPassword
 {
-    return ([self.securityOption isEqualToString:@"None"] ? -1 : [self rowForSecurity] + 1);
+    return [self rowForSecurity] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -198,47 +197,11 @@
             }
         }
     }
-    
-    // Configure the cell...
-    
+
     assert(cell);
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -257,15 +220,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+#pragma mark -
 
 - (NSString*)APISecurityOptionFromUIText
 {
@@ -298,12 +253,6 @@
     return YES;
 }
 
-- (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password
-{
-    [self showHud];
-    [self.provisionServerProxy setWiFiWithSSID:SSID encryption:encryption key:password];
-}
-
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
@@ -316,7 +265,6 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     
     if (serverProxy == self.provisionServerProxy) {
-        NSLog(@"");
 //    TODO: handle error code
     }
     

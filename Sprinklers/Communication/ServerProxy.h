@@ -136,6 +136,7 @@ typedef enum {
 - (void)createHourlyRestriction:(HourlyRestriction*)restriction;
 - (void)deleteHourlyRestriction:(HourlyRestriction*)restriction;
 
+- (void)requestCurrentWiFi;
 - (void)requestAvailableWiFis;
 - (void)setWiFiWithSSID:(NSString*)ssid encryption:(NSString*)encryption key:(NSString*)password;
 - (void)setProvisionName:(NSString*)name;

@@ -10,7 +10,7 @@
 
 @interface WiFiCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *textField;
+@property (weak, nonatomic) IBOutlet UILabel *wifiTextLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *lockedImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *signalImageView;
 
