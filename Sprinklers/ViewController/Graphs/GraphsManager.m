@@ -10,6 +10,7 @@
 #import "GraphDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
 #import "GraphIconsBarDescriptor.h"
+#import "GraphValuesBarDescriptor.h"
 
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
 NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGraphIdentifier";
@@ -62,6 +63,8 @@ static GraphsManager *sharedGraphsManager = nil;
     totalProgramRuntimesGraph.titleAreaDescriptor.title = @"Total Program Runtimes";
     totalProgramRuntimesGraph.titleAreaDescriptor.units = @"%";
     totalProgramRuntimesGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
+    totalProgramRuntimesGraph.valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
+    totalProgramRuntimesGraph.valuesBarDescriptor.units = @"°F";
     [availableGraphs addObject:totalProgramRuntimesGraph];
     [availableGraphsDictionary setValue:totalProgramRuntimesGraph forKey:totalProgramRuntimesGraph.graphIdentifier];
     

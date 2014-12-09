@@ -67,14 +67,38 @@
                                     <constraint firstAttribute="height" constant="24" id="QYa-Ny-VVM"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nzb-8X-iOA">
+                                <rect key="frame" x="8" y="47" width="292" height="16"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WvY-GF-YX6">
+                                        <rect key="frame" x="250" y="0.0" width="42" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="42" id="xPc-7k-Z0C"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="WvY-GF-YX6" secondAttribute="trailing" id="Vfh-6v-cIl"/>
+                                    <constraint firstAttribute="height" constant="16" id="YtS-Gj-gIw"/>
+                                    <constraint firstItem="WvY-GF-YX6" firstAttribute="top" secondItem="Nzb-8X-iOA" secondAttribute="top" id="lKZ-rQ-k46"/>
+                                    <constraint firstAttribute="bottom" secondItem="WvY-GF-YX6" secondAttribute="bottom" id="pfe-1q-jkt"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
                             <constraint firstItem="PCv-hz-hds" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" constant="8" id="3ij-7J-mWD"/>
+                            <constraint firstItem="Nzb-8X-iOA" firstAttribute="top" secondItem="PCv-hz-hds" secondAttribute="bottom" id="Ahr-Pl-aQh"/>
                             <constraint firstAttribute="trailing" secondItem="RMU-7o-fci" secondAttribute="trailing" id="DdD-hd-mhR"/>
                             <constraint firstItem="RMU-7o-fci" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="IjV-Jb-Otf"/>
+                            <constraint firstAttribute="trailing" secondItem="Nzb-8X-iOA" secondAttribute="trailing" constant="8" id="Ocn-aF-sZm"/>
                             <constraint firstItem="RMU-7o-fci" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" id="RTs-Oc-y3C"/>
                             <constraint firstAttribute="trailing" secondItem="PCv-hz-hds" secondAttribute="trailing" constant="8" id="aYV-nZ-LrQ"/>
+                            <constraint firstItem="Nzb-8X-iOA" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" constant="8" id="agp-fX-P8o"/>
                             <constraint firstItem="PCv-hz-hds" firstAttribute="top" secondItem="RMU-7o-fci" secondAttribute="bottom" id="wlh-nE-Kpq"/>
                         </constraints>
                     </view>
@@ -95,6 +119,9 @@
                 <outlet property="titleAreaContainerView" destination="RMU-7o-fci" id="Kxg-RK-M3r"/>
                 <outlet property="titleAreaContainerViewHeightLayoutConstraint" destination="uPq-j7-eUb" id="WNE-bp-ctG"/>
                 <outlet property="titleAreaSeparatorView" destination="j08-QQ-cyL" id="BeY-Ch-fp2"/>
+                <outlet property="valuesBarContainerView" destination="Nzb-8X-iOA" id="T8c-J9-Xwa"/>
+                <outlet property="valuesBarContainerViewHeightLayoutConstraint" destination="YtS-Gj-gIw" id="4dh-Ik-Dgk"/>
+                <outlet property="valuesUnitsLabel" destination="WvY-GF-YX6" id="3O9-rF-gVZ"/>
             </connections>
             <point key="canvasLocation" x="213" y="188"/>
         </tableViewCell>

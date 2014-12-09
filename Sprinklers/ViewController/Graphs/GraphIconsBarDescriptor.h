@@ -17,6 +17,4 @@
 
 + (GraphIconsBarDescriptor*)defaultDescriptor;
 
-@property (nonatomic, assign) BOOL randomizeTestData;
-
 @end

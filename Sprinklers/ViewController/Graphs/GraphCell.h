@@ -25,4 +25,8 @@
 @property (nonatomic, weak) IBOutlet UIView *iconsBarContainerView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *iconsBarContainerViewHeightLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UIView *valuesBarContainerView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *valuesBarContainerViewHeightLayoutConstraint;
+@property (nonatomic, weak) IBOutlet UILabel *valuesUnitsLabel;
+
 @end
