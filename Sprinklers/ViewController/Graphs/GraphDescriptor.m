@@ -10,6 +10,7 @@
 #import "GraphTimeInterval.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
+#import "GraphDisplayAreaDescriptor.h"
 
 @implementation GraphDescriptor
 
@@ -18,6 +19,7 @@
     
     descriptor.visualAppearanceDescriptor = [GraphVisualAppearanceDescriptor defaultDescriptor];
     descriptor.titleAreaDescriptor = [GraphTitleAreaDescriptor defaultDescriptor];
+    descriptor.displayAreaDescriptor = [GraphDisplayAreaDescriptor defaultDescriptor];
     
     return descriptor;
 }

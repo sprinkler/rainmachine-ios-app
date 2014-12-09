@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoQ-gN-Nun" customClass="GraphView">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoQ-gN-Nun">
                         <rect key="frame" x="6" y="3" width="308" height="157.5"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RMU-7o-fci">
@@ -88,6 +88,13 @@
                                     <constraint firstAttribute="bottom" secondItem="WvY-GF-YX6" secondAttribute="bottom" id="pfe-1q-jkt"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFa-Ra-Xdq" customClass="GraphView">
+                                <rect key="frame" x="8" y="63" width="292" height="80"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="nnz-ZC-4Pk"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
@@ -99,6 +106,9 @@
                             <constraint firstItem="RMU-7o-fci" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" id="RTs-Oc-y3C"/>
                             <constraint firstAttribute="trailing" secondItem="PCv-hz-hds" secondAttribute="trailing" constant="8" id="aYV-nZ-LrQ"/>
                             <constraint firstItem="Nzb-8X-iOA" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" constant="8" id="agp-fX-P8o"/>
+                            <constraint firstAttribute="trailing" secondItem="fFa-Ra-Xdq" secondAttribute="trailing" constant="8" id="eyz-uF-GLa"/>
+                            <constraint firstItem="fFa-Ra-Xdq" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" constant="8" id="n26-I4-kjs"/>
+                            <constraint firstItem="fFa-Ra-Xdq" firstAttribute="top" secondItem="Nzb-8X-iOA" secondAttribute="bottom" id="o0A-t2-PF9"/>
                             <constraint firstItem="PCv-hz-hds" firstAttribute="top" secondItem="RMU-7o-fci" secondAttribute="bottom" id="wlh-nE-Kpq"/>
                         </constraints>
                     </view>
@@ -111,9 +121,12 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="graphContainerView" destination="ZoQ-gN-Nun" id="tYA-Xu-hBi"/>
                 <outlet property="graphTitleLabel" destination="m7A-of-lVI" id="V0D-Wl-sfQ"/>
                 <outlet property="graphUnitsLabel" destination="Y7a-WI-ED0" id="PcQ-lr-7It"/>
-                <outlet property="graphView" destination="ZoQ-gN-Nun" id="N39-Vg-nmJ"/>
+                <outlet property="graphUnitsLabelWidthLayoutConstraint" destination="GZ2-P1-Rd0" id="ETL-JN-WhE"/>
+                <outlet property="graphView" destination="fFa-Ra-Xdq" id="ZJb-Jc-5cR"/>
+                <outlet property="graphViewHeightLayoutConstraint" destination="nnz-ZC-4Pk" id="g2n-bD-efR"/>
                 <outlet property="iconsBarContainerView" destination="PCv-hz-hds" id="c7p-No-n68"/>
                 <outlet property="iconsBarContainerViewHeightLayoutConstraint" destination="QYa-Ny-VVM" id="U9w-xf-UKW"/>
                 <outlet property="titleAreaContainerView" destination="RMU-7o-fci" id="Kxg-RK-M3r"/>
@@ -122,6 +135,7 @@
                 <outlet property="valuesBarContainerView" destination="Nzb-8X-iOA" id="T8c-J9-Xwa"/>
                 <outlet property="valuesBarContainerViewHeightLayoutConstraint" destination="YtS-Gj-gIw" id="4dh-Ik-Dgk"/>
                 <outlet property="valuesUnitsLabel" destination="WvY-GF-YX6" id="3O9-rF-gVZ"/>
+                <outlet property="valuesUnitsLabelWidthLayoutConstraint" destination="xPc-7k-Z0C" id="OG2-jE-CK4"/>
             </connections>
             <point key="canvasLocation" x="213" y="188"/>
         </tableViewCell>

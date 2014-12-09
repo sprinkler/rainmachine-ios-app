@@ -88,6 +88,7 @@
 		96F0F3551A3713200056D167 /* GraphVisualAppearanceDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3541A3713200056D167 /* GraphVisualAppearanceDescriptor.m */; };
 		96F0F3581A3729CB0056D167 /* GraphIconsBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */; };
 		96F0F35B1A3768A90056D167 /* GraphValuesBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */; };
+		96F0F35E1A377D990056D167 /* GraphDisplayAreaDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -505,6 +506,8 @@
 		96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphIconsBarDescriptor.m; path = ViewController/Graphs/GraphIconsBarDescriptor.m; sourceTree = "<group>"; };
 		96F0F3591A3768A90056D167 /* GraphValuesBarDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphValuesBarDescriptor.h; path = ViewController/Graphs/GraphValuesBarDescriptor.h; sourceTree = "<group>"; };
 		96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphValuesBarDescriptor.m; path = ViewController/Graphs/GraphValuesBarDescriptor.m; sourceTree = "<group>"; };
+		96F0F35C1A377D990056D167 /* GraphDisplayAreaDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDisplayAreaDescriptor.h; path = ViewController/Graphs/GraphDisplayAreaDescriptor.h; sourceTree = "<group>"; };
+		96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDisplayAreaDescriptor.m; path = ViewController/Graphs/GraphDisplayAreaDescriptor.m; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -1040,6 +1043,8 @@
 				96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */,
 				96F0F3591A3768A90056D167 /* GraphValuesBarDescriptor.h */,
 				96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */,
+				96F0F35C1A377D990056D167 /* GraphDisplayAreaDescriptor.h */,
+				96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */,
 				96F0F3371A36FAC70056D167 /* GraphDescriptor.h */,
 				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
 				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
@@ -2102,6 +2107,7 @@
 				B1254CC1187DBD61004E2F0E /* RainDelayVC.m in Sources */,
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,
 				AF7782C4184CD3DE00DCBD54 /* Constants.m in Sources */,
+				96F0F35E1A377D990056D167 /* GraphDisplayAreaDescriptor.m in Sources */,
 				AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */,
 				964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,

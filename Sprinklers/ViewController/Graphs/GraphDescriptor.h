@@ -13,6 +13,7 @@
 @class GraphTitleAreaDescriptor;
 @class GraphIconsBarDescriptor;
 @class GraphValuesBarDescriptor;
+@class GraphDisplayAreaDescriptor;
 
 @interface GraphDescriptor : NSObject
 
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) GraphTitleAreaDescriptor *titleAreaDescriptor;
 @property (nonatomic, strong) GraphIconsBarDescriptor *iconsBarDescriptor;
 @property (nonatomic, strong) GraphValuesBarDescriptor *valuesBarDescriptor;
+@property (nonatomic, strong) GraphDisplayAreaDescriptor *displayAreaDescriptor;
 
 + (GraphDescriptor*)defaultDescriptor;
 

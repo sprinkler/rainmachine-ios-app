@@ -12,6 +12,7 @@
 #import "GraphTitleAreaDescriptor.h"
 #import "GraphIconsBarDescriptor.h"
 #import "GraphValuesBarDescriptor.h"
+#import "GraphDisplayAreaDescriptor.h"
 #import "Additions.h"
 
 #pragma mark -
@@ -23,6 +24,7 @@
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor;
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor;
+- (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
 
 @end
 
@@ -56,11 +58,12 @@
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
     [self setupIconImagesWithDescriptor:self.graphDescriptor.iconsBarDescriptor];
     [self setupValuesWithDescriptor:self.graphDescriptor.valuesBarDescriptor];
+    [self setupDisplayAreaWithDescriptor:self.graphDescriptor.displayAreaDescriptor];
 }
 
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {
-    self.graphView.backgroundColor = descriptor.backgroundColor;
-    if (descriptor.cornerRadius > 0.0) self.graphView.layer.cornerRadius = descriptor.cornerRadius;
+    self.graphContainerView.backgroundColor = descriptor.backgroundColor;
+    if (descriptor.cornerRadius > 0.0) self.graphContainerView.layer.cornerRadius = descriptor.cornerRadius;
 }
 
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor {
@@ -72,6 +75,7 @@
     self.graphUnitsLabel.text = descriptor.units;
     self.graphUnitsLabel.textColor = descriptor.unitsColor;
     self.graphUnitsLabel.font = descriptor.unitsFont;
+    self.graphUnitsLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
 }
 
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor {
@@ -186,6 +190,11 @@
     self.valuesUnitsLabel.text = descriptor.units;
     self.valuesUnitsLabel.textColor = descriptor.unitsColor;
     self.valuesUnitsLabel.font = descriptor.unitsFont;
+    self.valuesUnitsLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
+}
+
+- (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor {
+    self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;
 }
 
 @end
