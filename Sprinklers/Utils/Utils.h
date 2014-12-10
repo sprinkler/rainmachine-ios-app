@@ -64,6 +64,7 @@
 + (BOOL)hasOperationInternalServerErrorStatusCode:(AFHTTPRequestOperation *)operation;
 
 + (UIImage*)weatherImageFromCode:(NSNumber*)cod;
++ (UIImage*)smallWhiteWeatherImageFromCode:(NSNumber*)code;
 
 + (NSString*)vegetationTypeToString:(int)vegetation;
 + (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword;

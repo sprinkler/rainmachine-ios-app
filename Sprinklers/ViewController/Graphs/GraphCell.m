@@ -97,7 +97,7 @@
         for (NSInteger index = 0; index < descriptor.iconImages.count; index++) {
             UIImageView *iconImageView = self.iconImageViews[index];
             UIImage *iconImage = descriptor.iconImages[index];
-            iconImageView.image = [iconImage imageByFillingWithColor:descriptor.iconImagesColor];
+            iconImageView.image = iconImage;
         }
         return;
     }
@@ -121,7 +121,7 @@
     for (UIImage *iconImage in descriptor.iconImages) {
         isLastHorizontalConstraint = (iconImage == descriptor.iconImages.lastObject);
         
-        UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[iconImage imageByFillingWithColor:descriptor.iconImagesColor]];
+        UIImageView *iconImageView = [[UIImageView alloc] initWithImage:iconImage];
         iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
         iconImageView.frame = CGRectMake(iconImageViewOriginX, iconImageViewOriginY, iconImageViewWidth, iconImageViewHeight);
         iconImageView.contentMode = UIViewContentModeScaleAspectFit;

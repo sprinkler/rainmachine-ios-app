@@ -71,6 +71,61 @@
 		96CB93951A385DBB00F3691F /* GraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB93941A385DBB00F3691F /* GraphStyle.m */; };
 		96CB93981A385DD300F3691F /* GraphStyleBars.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB93971A385DD300F3691F /* GraphStyleBars.m */; };
 		96CB939B1A38818300F3691F /* GraphStyleLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB939A1A38818300F3691F /* GraphStyleLines.m */; };
+		96CB93D41A38AFAD00F3691F /* bkn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB939D1A38AFAD00F3691F /* bkn_small_white.png */; };
+		96CB93D51A38AFAD00F3691F /* blizzard_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB939E1A38AFAD00F3691F /* blizzard_small_white.png */; };
+		96CB93D61A38AFAD00F3691F /* cold_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB939F1A38AFAD00F3691F /* cold_small_white.png */; };
+		96CB93D71A38AFAD00F3691F /* du_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A01A38AFAD00F3691F /* du_small_white.png */; };
+		96CB93D81A38AFAD00F3691F /* few_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A11A38AFAD00F3691F /* few_small_white.png */; };
+		96CB93D91A38AFAD00F3691F /* fg_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A21A38AFAD00F3691F /* fg_small_white.png */; };
+		96CB93DA1A38AFAD00F3691F /* frza_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A31A38AFAD00F3691F /* frza_small_white.png */; };
+		96CB93DB1A38AFAD00F3691F /* fu_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A41A38AFAD00F3691F /* fu_small_white.png */; };
+		96CB93DC1A38AFAD00F3691F /* fzrara_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A51A38AFAD00F3691F /* fzrara_small_white.png */; };
+		96CB93DD1A38AFAD00F3691F /* hi_nshwrs_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A61A38AFAD00F3691F /* hi_nshwrs_small_white.png */; };
+		96CB93DE1A38AFAD00F3691F /* hi_ntsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A71A38AFAD00F3691F /* hi_ntsra_small_white.png */; };
+		96CB93DF1A38AFAD00F3691F /* hi_shwrs_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A81A38AFAD00F3691F /* hi_shwrs_small_white.png */; };
+		96CB93E01A38AFAD00F3691F /* hi_tsra-2_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93A91A38AFAD00F3691F /* hi_tsra-2_small_white.png */; };
+		96CB93E11A38AFAD00F3691F /* hi_tsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93AA1A38AFAD00F3691F /* hi_tsra_small_white.png */; };
+		96CB93E21A38AFAD00F3691F /* hot_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93AB1A38AFAD00F3691F /* hot_small_white.png */; };
+		96CB93E31A38AFAD00F3691F /* ip_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93AC1A38AFAD00F3691F /* ip_small_white.png */; };
+		96CB93E41A38AFAD00F3691F /* mist_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93AD1A38AFAD00F3691F /* mist_small_white.png */; };
+		96CB93E51A38AFAD00F3691F /* mix_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93AE1A38AFAD00F3691F /* mix_small_white.png */; };
+		96CB93E61A38AFAD00F3691F /* na_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93AF1A38AFAD00F3691F /* na_small_white.png */; };
+		96CB93E71A38AFAD00F3691F /* nbkn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B01A38AFAD00F3691F /* nbkn_small_white.png */; };
+		96CB93E81A38AFAD00F3691F /* nbknfg_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B11A38AFAD00F3691F /* nbknfg_small_white.png */; };
+		96CB93E91A38AFAD00F3691F /* ndu_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B21A38AFAD00F3691F /* ndu_small_white.png */; };
+		96CB93EA1A38AFAD00F3691F /* nfew_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B31A38AFAD00F3691F /* nfew_small_white.png */; };
+		96CB93EB1A38AFAD00F3691F /* nfg_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B41A38AFAD00F3691F /* nfg_small_white.png */; };
+		96CB93EC1A38AFAD00F3691F /* nfu_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B51A38AFAD00F3691F /* nfu_small_white.png */; };
+		96CB93ED1A38AFAD00F3691F /* nmix_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B61A38AFAD00F3691F /* nmix_small_white.png */; };
+		96CB93EE1A38AFAD00F3691F /* novc_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B71A38AFAD00F3691F /* novc_small_white.png */; };
+		96CB93EF1A38AFAD00F3691F /* nra1_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B81A38AFAD00F3691F /* nra1_small_white.png */; };
+		96CB93F01A38AFAD00F3691F /* nra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93B91A38AFAD00F3691F /* nra_small_white.png */; };
+		96CB93F11A38AFAD00F3691F /* nraip_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93BA1A38AFAD00F3691F /* nraip_small_white.png */; };
+		96CB93F21A38AFAD00F3691F /* nrasn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93BB1A38AFAD00F3691F /* nrasn_small_white.png */; };
+		96CB93F31A38AFAD00F3691F /* nsct_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93BC1A38AFAD00F3691F /* nsct_small_white.png */; };
+		96CB93F41A38AFAD00F3691F /* nscttsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93BD1A38AFAD00F3691F /* nscttsra_small_white.png */; };
+		96CB93F51A38AFAD00F3691F /* nshra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93BE1A38AFAD00F3691F /* nshra_small_white.png */; };
+		96CB93F61A38AFAD00F3691F /* nskc_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93BF1A38AFAD00F3691F /* nskc_small_white.png */; };
+		96CB93F71A38AFAD00F3691F /* nsn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C01A38AFAD00F3691F /* nsn_small_white.png */; };
+		96CB93F81A38AFAD00F3691F /* nsvrtsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C11A38AFAD00F3691F /* nsvrtsra_small_white.png */; };
+		96CB93F91A38AFAD00F3691F /* ntsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C21A38AFAD00F3691F /* ntsra_small_white.png */; };
+		96CB93FA1A38AFAD00F3691F /* nwind_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C31A38AFAD00F3691F /* nwind_small_white.png */; };
+		96CB93FB1A38AFAD00F3691F /* ovc_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C41A38AFAD00F3691F /* ovc_small_white.png */; };
+		96CB93FC1A38AFAD00F3691F /* ra1_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C51A38AFAD00F3691F /* ra1_small_white.png */; };
+		96CB93FD1A38AFAD00F3691F /* ra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C61A38AFAD00F3691F /* ra_small_white.png */; };
+		96CB93FE1A38AFAD00F3691F /* raip_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C71A38AFAD00F3691F /* raip_small_white.png */; };
+		96CB93FF1A38AFAD00F3691F /* rasn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C81A38AFAD00F3691F /* rasn_small_white.png */; };
+		96CB94001A38AFAD00F3691F /* sct_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93C91A38AFAD00F3691F /* sct_small_white.png */; };
+		96CB94011A38AFAD00F3691F /* sctfg_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93CA1A38AFAD00F3691F /* sctfg_small_white.png */; };
+		96CB94021A38AFAD00F3691F /* scttsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93CB1A38AFAD00F3691F /* scttsra_small_white.png */; };
+		96CB94031A38AFAD00F3691F /* shra1_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93CC1A38AFAD00F3691F /* shra1_small_white.png */; };
+		96CB94041A38AFAD00F3691F /* shra2_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93CD1A38AFAD00F3691F /* shra2_small_white.png */; };
+		96CB94051A38AFAD00F3691F /* shra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93CE1A38AFAD00F3691F /* shra_small_white.png */; };
+		96CB94061A38AFAD00F3691F /* skc_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93CF1A38AFAD00F3691F /* skc_small_white.png */; };
+		96CB94071A38AFAD00F3691F /* smoke_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D01A38AFAD00F3691F /* smoke_small_white.png */; };
+		96CB94081A38AFAD00F3691F /* sn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D11A38AFAD00F3691F /* sn_small_white.png */; };
+		96CB94091A38AFAD00F3691F /* tsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D21A38AFAD00F3691F /* tsra_small_white.png */; };
+		96CB940A1A38AFAD00F3691F /* wind_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D31A38AFAD00F3691F /* wind_small_white.png */; };
 		96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */; };
 		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
 		96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */; };
@@ -481,6 +536,61 @@
 		96CB93971A385DD300F3691F /* GraphStyleBars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphStyleBars.m; path = ViewController/Graphs/GraphStyleBars.m; sourceTree = "<group>"; };
 		96CB93991A38818300F3691F /* GraphStyleLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphStyleLines.h; path = ViewController/Graphs/GraphStyleLines.h; sourceTree = "<group>"; };
 		96CB939A1A38818300F3691F /* GraphStyleLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphStyleLines.m; path = ViewController/Graphs/GraphStyleLines.m; sourceTree = "<group>"; };
+		96CB939D1A38AFAD00F3691F /* bkn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bkn_small_white.png; sourceTree = "<group>"; };
+		96CB939E1A38AFAD00F3691F /* blizzard_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blizzard_small_white.png; sourceTree = "<group>"; };
+		96CB939F1A38AFAD00F3691F /* cold_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cold_small_white.png; sourceTree = "<group>"; };
+		96CB93A01A38AFAD00F3691F /* du_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = du_small_white.png; sourceTree = "<group>"; };
+		96CB93A11A38AFAD00F3691F /* few_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = few_small_white.png; sourceTree = "<group>"; };
+		96CB93A21A38AFAD00F3691F /* fg_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fg_small_white.png; sourceTree = "<group>"; };
+		96CB93A31A38AFAD00F3691F /* frza_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frza_small_white.png; sourceTree = "<group>"; };
+		96CB93A41A38AFAD00F3691F /* fu_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fu_small_white.png; sourceTree = "<group>"; };
+		96CB93A51A38AFAD00F3691F /* fzrara_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fzrara_small_white.png; sourceTree = "<group>"; };
+		96CB93A61A38AFAD00F3691F /* hi_nshwrs_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hi_nshwrs_small_white.png; sourceTree = "<group>"; };
+		96CB93A71A38AFAD00F3691F /* hi_ntsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hi_ntsra_small_white.png; sourceTree = "<group>"; };
+		96CB93A81A38AFAD00F3691F /* hi_shwrs_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hi_shwrs_small_white.png; sourceTree = "<group>"; };
+		96CB93A91A38AFAD00F3691F /* hi_tsra-2_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hi_tsra-2_small_white.png"; sourceTree = "<group>"; };
+		96CB93AA1A38AFAD00F3691F /* hi_tsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hi_tsra_small_white.png; sourceTree = "<group>"; };
+		96CB93AB1A38AFAD00F3691F /* hot_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hot_small_white.png; sourceTree = "<group>"; };
+		96CB93AC1A38AFAD00F3691F /* ip_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ip_small_white.png; sourceTree = "<group>"; };
+		96CB93AD1A38AFAD00F3691F /* mist_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mist_small_white.png; sourceTree = "<group>"; };
+		96CB93AE1A38AFAD00F3691F /* mix_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mix_small_white.png; sourceTree = "<group>"; };
+		96CB93AF1A38AFAD00F3691F /* na_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = na_small_white.png; sourceTree = "<group>"; };
+		96CB93B01A38AFAD00F3691F /* nbkn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nbkn_small_white.png; sourceTree = "<group>"; };
+		96CB93B11A38AFAD00F3691F /* nbknfg_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nbknfg_small_white.png; sourceTree = "<group>"; };
+		96CB93B21A38AFAD00F3691F /* ndu_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ndu_small_white.png; sourceTree = "<group>"; };
+		96CB93B31A38AFAD00F3691F /* nfew_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nfew_small_white.png; sourceTree = "<group>"; };
+		96CB93B41A38AFAD00F3691F /* nfg_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nfg_small_white.png; sourceTree = "<group>"; };
+		96CB93B51A38AFAD00F3691F /* nfu_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nfu_small_white.png; sourceTree = "<group>"; };
+		96CB93B61A38AFAD00F3691F /* nmix_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nmix_small_white.png; sourceTree = "<group>"; };
+		96CB93B71A38AFAD00F3691F /* novc_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = novc_small_white.png; sourceTree = "<group>"; };
+		96CB93B81A38AFAD00F3691F /* nra1_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nra1_small_white.png; sourceTree = "<group>"; };
+		96CB93B91A38AFAD00F3691F /* nra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nra_small_white.png; sourceTree = "<group>"; };
+		96CB93BA1A38AFAD00F3691F /* nraip_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nraip_small_white.png; sourceTree = "<group>"; };
+		96CB93BB1A38AFAD00F3691F /* nrasn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nrasn_small_white.png; sourceTree = "<group>"; };
+		96CB93BC1A38AFAD00F3691F /* nsct_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nsct_small_white.png; sourceTree = "<group>"; };
+		96CB93BD1A38AFAD00F3691F /* nscttsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nscttsra_small_white.png; sourceTree = "<group>"; };
+		96CB93BE1A38AFAD00F3691F /* nshra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nshra_small_white.png; sourceTree = "<group>"; };
+		96CB93BF1A38AFAD00F3691F /* nskc_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nskc_small_white.png; sourceTree = "<group>"; };
+		96CB93C01A38AFAD00F3691F /* nsn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nsn_small_white.png; sourceTree = "<group>"; };
+		96CB93C11A38AFAD00F3691F /* nsvrtsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nsvrtsra_small_white.png; sourceTree = "<group>"; };
+		96CB93C21A38AFAD00F3691F /* ntsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ntsra_small_white.png; sourceTree = "<group>"; };
+		96CB93C31A38AFAD00F3691F /* nwind_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nwind_small_white.png; sourceTree = "<group>"; };
+		96CB93C41A38AFAD00F3691F /* ovc_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ovc_small_white.png; sourceTree = "<group>"; };
+		96CB93C51A38AFAD00F3691F /* ra1_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ra1_small_white.png; sourceTree = "<group>"; };
+		96CB93C61A38AFAD00F3691F /* ra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ra_small_white.png; sourceTree = "<group>"; };
+		96CB93C71A38AFAD00F3691F /* raip_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raip_small_white.png; sourceTree = "<group>"; };
+		96CB93C81A38AFAD00F3691F /* rasn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rasn_small_white.png; sourceTree = "<group>"; };
+		96CB93C91A38AFAD00F3691F /* sct_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sct_small_white.png; sourceTree = "<group>"; };
+		96CB93CA1A38AFAD00F3691F /* sctfg_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sctfg_small_white.png; sourceTree = "<group>"; };
+		96CB93CB1A38AFAD00F3691F /* scttsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scttsra_small_white.png; sourceTree = "<group>"; };
+		96CB93CC1A38AFAD00F3691F /* shra1_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shra1_small_white.png; sourceTree = "<group>"; };
+		96CB93CD1A38AFAD00F3691F /* shra2_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shra2_small_white.png; sourceTree = "<group>"; };
+		96CB93CE1A38AFAD00F3691F /* shra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shra_small_white.png; sourceTree = "<group>"; };
+		96CB93CF1A38AFAD00F3691F /* skc_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skc_small_white.png; sourceTree = "<group>"; };
+		96CB93D01A38AFAD00F3691F /* smoke_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke_small_white.png; sourceTree = "<group>"; };
+		96CB93D11A38AFAD00F3691F /* sn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sn_small_white.png; sourceTree = "<group>"; };
+		96CB93D21A38AFAD00F3691F /* tsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tsra_small_white.png; sourceTree = "<group>"; };
+		96CB93D31A38AFAD00F3691F /* wind_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wind_small_white.png; sourceTree = "<group>"; };
 		96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivitySimulationGraphVC.h; sourceTree = "<group>"; };
 		96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivitySimulationGraphVC.m; sourceTree = "<group>"; };
 		96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivitySimulationGraphVC.xib; sourceTree = "<group>"; };
@@ -1026,6 +1136,69 @@
 			name = GoogleMaps;
 			sourceTree = "<group>";
 		};
+		96CB939C1A38AFAD00F3691F /* icons_weather_small_white */ = {
+			isa = PBXGroup;
+			children = (
+				96CB939D1A38AFAD00F3691F /* bkn_small_white.png */,
+				96CB939E1A38AFAD00F3691F /* blizzard_small_white.png */,
+				96CB939F1A38AFAD00F3691F /* cold_small_white.png */,
+				96CB93A01A38AFAD00F3691F /* du_small_white.png */,
+				96CB93A11A38AFAD00F3691F /* few_small_white.png */,
+				96CB93A21A38AFAD00F3691F /* fg_small_white.png */,
+				96CB93A31A38AFAD00F3691F /* frza_small_white.png */,
+				96CB93A41A38AFAD00F3691F /* fu_small_white.png */,
+				96CB93A51A38AFAD00F3691F /* fzrara_small_white.png */,
+				96CB93A61A38AFAD00F3691F /* hi_nshwrs_small_white.png */,
+				96CB93A71A38AFAD00F3691F /* hi_ntsra_small_white.png */,
+				96CB93A81A38AFAD00F3691F /* hi_shwrs_small_white.png */,
+				96CB93A91A38AFAD00F3691F /* hi_tsra-2_small_white.png */,
+				96CB93AA1A38AFAD00F3691F /* hi_tsra_small_white.png */,
+				96CB93AB1A38AFAD00F3691F /* hot_small_white.png */,
+				96CB93AC1A38AFAD00F3691F /* ip_small_white.png */,
+				96CB93AD1A38AFAD00F3691F /* mist_small_white.png */,
+				96CB93AE1A38AFAD00F3691F /* mix_small_white.png */,
+				96CB93AF1A38AFAD00F3691F /* na_small_white.png */,
+				96CB93B01A38AFAD00F3691F /* nbkn_small_white.png */,
+				96CB93B11A38AFAD00F3691F /* nbknfg_small_white.png */,
+				96CB93B21A38AFAD00F3691F /* ndu_small_white.png */,
+				96CB93B31A38AFAD00F3691F /* nfew_small_white.png */,
+				96CB93B41A38AFAD00F3691F /* nfg_small_white.png */,
+				96CB93B51A38AFAD00F3691F /* nfu_small_white.png */,
+				96CB93B61A38AFAD00F3691F /* nmix_small_white.png */,
+				96CB93B71A38AFAD00F3691F /* novc_small_white.png */,
+				96CB93B81A38AFAD00F3691F /* nra1_small_white.png */,
+				96CB93B91A38AFAD00F3691F /* nra_small_white.png */,
+				96CB93BA1A38AFAD00F3691F /* nraip_small_white.png */,
+				96CB93BB1A38AFAD00F3691F /* nrasn_small_white.png */,
+				96CB93BC1A38AFAD00F3691F /* nsct_small_white.png */,
+				96CB93BD1A38AFAD00F3691F /* nscttsra_small_white.png */,
+				96CB93BE1A38AFAD00F3691F /* nshra_small_white.png */,
+				96CB93BF1A38AFAD00F3691F /* nskc_small_white.png */,
+				96CB93C01A38AFAD00F3691F /* nsn_small_white.png */,
+				96CB93C11A38AFAD00F3691F /* nsvrtsra_small_white.png */,
+				96CB93C21A38AFAD00F3691F /* ntsra_small_white.png */,
+				96CB93C31A38AFAD00F3691F /* nwind_small_white.png */,
+				96CB93C41A38AFAD00F3691F /* ovc_small_white.png */,
+				96CB93C51A38AFAD00F3691F /* ra1_small_white.png */,
+				96CB93C61A38AFAD00F3691F /* ra_small_white.png */,
+				96CB93C71A38AFAD00F3691F /* raip_small_white.png */,
+				96CB93C81A38AFAD00F3691F /* rasn_small_white.png */,
+				96CB93C91A38AFAD00F3691F /* sct_small_white.png */,
+				96CB93CA1A38AFAD00F3691F /* sctfg_small_white.png */,
+				96CB93CB1A38AFAD00F3691F /* scttsra_small_white.png */,
+				96CB93CC1A38AFAD00F3691F /* shra1_small_white.png */,
+				96CB93CD1A38AFAD00F3691F /* shra2_small_white.png */,
+				96CB93CE1A38AFAD00F3691F /* shra_small_white.png */,
+				96CB93CF1A38AFAD00F3691F /* skc_small_white.png */,
+				96CB93D01A38AFAD00F3691F /* smoke_small_white.png */,
+				96CB93D11A38AFAD00F3691F /* sn_small_white.png */,
+				96CB93D21A38AFAD00F3691F /* tsra_small_white.png */,
+				96CB93D31A38AFAD00F3691F /* wind_small_white.png */,
+			);
+			name = icons_weather_small_white;
+			path = Resources/icons_weather_small_white;
+			sourceTree = "<group>";
+		};
 		96DAB8F51A27899D005974CC /* Graphs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1484,6 +1657,7 @@
 			isa = PBXGroup;
 			children = (
 				AF4826301990DC9500D80B87 /* icons_weather */,
+				96CB939C1A38AFAD00F3691F /* icons_weather_small_white */,
 				AFF6A6AB188834AC00825A37 /* checkbox-selected.png */,
 				AFF6A6AC188834AC00825A37 /* checkbox-selected@2x.png */,
 				AFF6A6AD188834AC00825A37 /* checkbox-unselected.png */,
@@ -1866,33 +2040,46 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */,
+				96CB93D61A38AFAD00F3691F /* cold_small_white.png in Resources */,
 				96F0F34F1A3705F00056D167 /* GraphCell.xib in Resources */,
 				AF4826741990DC9500D80B87 /* hot.png in Resources */,
 				AFF6A6B5188834E400825A37 /* icon_disclosure_triangle.png in Resources */,
 				96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */,
 				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
 				AFF3A06518BDE4D00060D0F6 /* TimePickerVC.xib in Resources */,
+				96CB93F91A38AFAD00F3691F /* ntsra_small_white.png in Resources */,
+				96CB93F51A38AFAD00F3691F /* nshra_small_white.png in Resources */,
 				3A443800188A93FD004F9E11 /* RestrictedHoursVC.xib in Resources */,
 				AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */,
 				B1E791971922738900BE8C1A /* Sprinkler_Icon_120.png in Resources */,
 				AFF6A6BA1888350400825A37 /* icon_status_warning@2x.png in Resources */,
 				AFE894D31A356538007FC7EB /* icon_wi-fi-full.png in Resources */,
+				96CB94011A38AFAD00F3691F /* sctfg_small_white.png in Resources */,
+				96CB93F61A38AFAD00F3691F /* nskc_small_white.png in Resources */,
+				96CB93E01A38AFAD00F3691F /* hi_tsra-2_small_white.png in Resources */,
 				AF4826881990DC9500D80B87 /* nskc.png in Resources */,
 				AFF935161A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib in Resources */,
 				96F0F3361A36F18C0056D167 /* DashboardVC.xib in Resources */,
+				96CB93F41A38AFAD00F3691F /* nscttsra_small_white.png in Resources */,
 				B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */,
+				96CB93DC1A38AFAD00F3691F /* fzrara_small_white.png in Resources */,
 				AFC5CEE418893A5B005191DE /* icon_waternow.png in Resources */,
 				AF4826691990DC9500D80B87 /* cold.png in Resources */,
+				96CB93EC1A38AFAD00F3691F /* nfu_small_white.png in Resources */,
 				AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */,
 				AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */,
 				AFE894CE1A356538007FC7EB /* icon_wi-fi-0-bar@2x.png in Resources */,
+				96CB93FF1A38AFAD00F3691F /* rasn_small_white.png in Resources */,
 				B1DF325816A6A68700A1BF38 /* InfoPlist.strings in Resources */,
+				96CB93E51A38AFAD00F3691F /* mix_small_white.png in Resources */,
 				AF48268E1990DC9500D80B87 /* ra.png in Resources */,
 				AF81E6E118BA3237007E9A03 /* ButtonCell.xib in Resources */,
 				AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */,
+				96CB93E91A38AFAD00F3691F /* ndu_small_white.png in Resources */,
 				AF4826841990DC9500D80B87 /* nrasn.png in Resources */,
 				AF48267E1990DC9500D80B87 /* nfu.png in Resources */,
 				B1DF326016A6A68700A1BF38 /* Default.png in Resources */,
+				96CB93F31A38AFAD00F3691F /* nsct_small_white.png in Resources */,
 				AF48266C1990DC9500D80B87 /* fg.png in Resources */,
 				AF4826721990DC9500D80B87 /* hi_shwrs.png in Resources */,
 				AF81E6EB18BA34ED007E9A03 /* ProgramCellType2.xib in Resources */,
@@ -1901,19 +2088,24 @@
 				B1DF326416A6A68700A1BF38 /* Default-568h@2x.png in Resources */,
 				96AD362C1A1CDB6A0019453C /* GoogleMaps.bundle in Resources */,
 				AF4826771990DC9500D80B87 /* mix.png in Resources */,
+				96CB93F81A38AFAD00F3691F /* nsvrtsra_small_white.png in Resources */,
 				3A3BF31B18F40ABA008333C5 /* programs-checkbox-unselected.png in Resources */,
 				B1EF21181860497B00D9CE26 /* SettingsVC.xib in Resources */,
+				96CB93E21A38AFAD00F3691F /* hot_small_white.png in Resources */,
+				96CB93FE1A38AFAD00F3691F /* raip_small_white.png in Resources */,
 				AF48268D1990DC9500D80B87 /* ovc.png in Resources */,
 				B1254CC7187ECE48004E2F0E /* ZoneVC.xib in Resources */,
 				AF04995F18C601C300D73860 /* VegetationTypeVC.xib in Resources */,
 				B1213EB918608FF6009D97F4 /* DevicesCellType2.xib in Resources */,
 				B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */,
 				AF7A72B918C4AAA300596148 /* DatePickerVC.xib in Resources */,
+				96CB94081A38AFAD00F3691F /* sn_small_white.png in Resources */,
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
 				AFE894D51A356538007FC7EB /* icon_wi-fi-locked.png in Resources */,
 				AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */,
 				AFE894D01A356538007FC7EB /* icon_wi-fi-1-bar@2x.png in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
+				96CB94071A38AFAD00F3691F /* smoke_small_white.png in Resources */,
 				964ADD2A1A1E7B82008281A8 /* FieldCapacityCell.xib in Resources */,
 				96F0F3411A36FEE90056D167 /* StatsShowGraphsCell.xib in Resources */,
 				AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */,
@@ -1926,9 +2118,14 @@
 				AF4826971990DC9500D80B87 /* shra2.png in Resources */,
 				AFE894D61A356538007FC7EB /* icon_wi-fi-locked@2x.png in Resources */,
 				AF4826921990DC9500D80B87 /* sct.png in Resources */,
+				96CB93FC1A38AFAD00F3691F /* ra1_small_white.png in Resources */,
 				AFC5CEE118893A5B005191DE /* icon_settings@2x.png in Resources */,
+				96CB940A1A38AFAD00F3691F /* wind_small_white.png in Resources */,
+				96CB94031A38AFAD00F3691F /* shra1_small_white.png in Resources */,
 				AF4826961990DC9500D80B87 /* shra1.png in Resources */,
+				96CB93F71A38AFAD00F3691F /* nsn_small_white.png in Resources */,
 				AF48266D1990DC9500D80B87 /* frza.png in Resources */,
+				96CB93E71A38AFAD00F3691F /* nbkn_small_white.png in Resources */,
 				AFC0760318BC9C99007200BF /* SetDelayVC.xib in Resources */,
 				AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */,
 				AF4826671990DC9500D80B87 /* bkn.png in Resources */,
@@ -1936,6 +2133,7 @@
 				AF4826811990DC9500D80B87 /* nra.png in Resources */,
 				AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */,
 				B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */,
+				96CB93E61A38AFAD00F3691F /* na_small_white.png in Resources */,
 				AF4826731990DC9500D80B87 /* hi_tsra.png in Resources */,
 				AFC5CEE518893A5B005191DE /* icon_waternow@2x.png in Resources */,
 				B1EF21101860493C00D9CE26 /* LoginVC.xib in Resources */,
@@ -1946,14 +2144,18 @@
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
 				AF4826901990DC9500D80B87 /* raip.png in Resources */,
 				AF4826801990DC9500D80B87 /* novc.png in Resources */,
+				96CB93DE1A38AFAD00F3691F /* hi_ntsra_small_white.png in Resources */,
 				B1254CCC187EE054004E2F0E /* EditCell.xib in Resources */,
+				96CB93EA1A38AFAD00F3691F /* nfew_small_white.png in Resources */,
 				AFA9B58018DADB4F00DB40E8 /* icon_devices.png in Resources */,
+				96CB93FD1A38AFAD00F3691F /* ra_small_white.png in Resources */,
 				AF48268C1990DC9500D80B87 /* nwind.png in Resources */,
 				AFE894CD1A356538007FC7EB /* icon_wi-fi-0-bar.png in Resources */,
 				AF48269C1990DC9500D80B87 /* wind.png in Resources */,
 				AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */,
 				AF4826761990DC9500D80B87 /* mist.png in Resources */,
 				AFC5CEE318893A5B005191DE /* icon_stats@2x.png in Resources */,
+				96CB93D41A38AFAD00F3691F /* bkn_small_white.png in Resources */,
 				B1E1EE4319227E1C004C8F5B /* Sprinkler_Icon_152.png in Resources */,
 				AF48267D1990DC9500D80B87 /* nfg.png in Resources */,
 				AF4826991990DC9500D80B87 /* smoke.png in Resources */,
@@ -1961,8 +2163,12 @@
 				AF48266B1990DC9500D80B87 /* few.png in Resources */,
 				9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */,
 				AF7A72BB18C4C3B800596148 /* SettingsTimePickerVC.xib in Resources */,
+				96CB93D71A38AFAD00F3691F /* du_small_white.png in Resources */,
+				96CB93D51A38AFAD00F3691F /* blizzard_small_white.png in Resources */,
 				AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */,
+				96CB93ED1A38AFAD00F3691F /* nmix_small_white.png in Resources */,
 				B1E1EE4219227E1C004C8F5B /* Sprinkler_Icon_76.png in Resources */,
+				96CB93EF1A38AFAD00F3691F /* nra1_small_white.png in Resources */,
 				3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */,
 				AF81E6E318BA32C6007E9A03 /* ProgramCellType1.xib in Resources */,
 				AF48269B1990DC9500D80B87 /* tsra.png in Resources */,
@@ -1978,16 +2184,20 @@
 				B1254CC2187DBD61004E2F0E /* RainDelayVC.xib in Resources */,
 				AF48266F1990DC9500D80B87 /* fzrara.png in Resources */,
 				B1254CB3187D77EB004E2F0E /* ZonesVC.xib in Resources */,
+				96CB94001A38AFAD00F3691F /* sct_small_white.png in Resources */,
 				AF085C9D1A2EBFB700519BF6 /* LocationSetupVC.xib in Resources */,
 				B1EF21231860499E00D9CE26 /* WaterNowVC.xib in Resources */,
 				AF48266A1990DC9500D80B87 /* du.png in Resources */,
 				AFF6A6B0188834AC00825A37 /* checkbox-selected@2x.png in Resources */,
+				96CB94021A38AFAD00F3691F /* scttsra_small_white.png in Resources */,
 				3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */,
 				3AC64A05192B39F10009061D /* PickerVC.xib in Resources */,
 				AF4826911990DC9500D80B87 /* rasn.png in Resources */,
 				AF48267A1990DC9500D80B87 /* nbknfg.png in Resources */,
+				96CB93E31A38AFAD00F3691F /* ip_small_white.png in Resources */,
 				AFF6A6B6188834E400825A37 /* icon_disclosure_triangle@2x.png in Resources */,
 				AF48267B1990DC9500D80B87 /* ndu.png in Resources */,
+				96CB93E41A38AFAD00F3691F /* mist_small_white.png in Resources */,
 				AF085CAE1A2EC36A00519BF6 /* AvailableWiFisVC.xib in Resources */,
 				AFE894CF1A356538007FC7EB /* icon_wi-fi-1-bar.png in Resources */,
 				AF4826781990DC9500D80B87 /* na.png in Resources */,
@@ -1995,40 +2205,55 @@
 				AF26D5D11A2EDD7F0010AB28 /* WiFiCell.xib in Resources */,
 				B1213EC0186090E7009D97F4 /* AddNewCell.xib in Resources */,
 				B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */,
+				96CB93D81A38AFAD00F3691F /* few_small_white.png in Resources */,
 				B1EF2132186049D800D9CE26 /* WaterNowLevel1VC.xib in Resources */,
 				AFEAECBB18BA3F8A00370F22 /* ProgramCellType4.xib in Resources */,
+				96CB93DB1A38AFAD00F3691F /* fu_small_white.png in Resources */,
 				B1EF210B1860492B00D9CE26 /* AddNewDeviceVC.xib in Resources */,
 				AFCF47BA188D532100C34727 /* separator_line.png in Resources */,
 				AFE894D41A356538007FC7EB /* icon_wi-fi-full@2x.png in Resources */,
+				96CB93D91A38AFAD00F3691F /* fg_small_white.png in Resources */,
 				AFE894D21A356538007FC7EB /* icon_wi-fi-2-bars@2x.png in Resources */,
 				AF4826871990DC9500D80B87 /* nshra.png in Resources */,
+				96CB93F21A38AFAD00F3691F /* nrasn_small_white.png in Resources */,
 				AFC5CEE218893A5B005191DE /* icon_stats.png in Resources */,
 				B173B50016B2C459000EB72D /* Sprinkler_Icon_114.png in Resources */,
+				96CB93FB1A38AFAD00F3691F /* ovc_small_white.png in Resources */,
 				AFF9350C1A2C759F008063D2 /* LabelAndTextFieldCell.xib in Resources */,
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AF4826821990DC9500D80B87 /* nra1.png in Resources */,
+				96CB93E11A38AFAD00F3691F /* hi_tsra_small_white.png in Resources */,
 				3A3BF31C18F40ABA008333C5 /* programs-checkbox-unselected@2x.png in Resources */,
 				3A3BF31918F40ABA008333C5 /* programs-checkbox-selected.png in Resources */,
+				96CB93DD1A38AFAD00F3691F /* hi_nshwrs_small_white.png in Resources */,
 				AF48269A1990DC9500D80B87 /* sn.png in Resources */,
 				AF4826861990DC9500D80B87 /* nscttsra.png in Resources */,
+				96CB94041A38AFAD00F3691F /* shra2_small_white.png in Resources */,
 				AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */,
+				96CB93E81A38AFAD00F3691F /* nbknfg_small_white.png in Resources */,
 				AF4826751990DC9500D80B87 /* ip.png in Resources */,
 				AF3E02E81A1D457E00E76C53 /* CloudAccountsVC.xib in Resources */,
 				960374F919D5FB3C009CB68A /* RestrictionsSwitchCell.xib in Resources */,
+				96CB93F11A38AFAD00F3691F /* nraip_small_white.png in Resources */,
 				AF48268A1990DC9500D80B87 /* nsvrtsra.png in Resources */,
 				AF48267C1990DC9500D80B87 /* nfew.png in Resources */,
 				B1EF2105186048F500D9CE26 /* DevicesVC.xib in Resources */,
 				96C223AB19D7729900683AC6 /* NewRestrictionVC.xib in Resources */,
 				3A3BF31A18F40ABA008333C5 /* programs-checkbox-selected@2x.png in Resources */,
+				96CB93FA1A38AFAD00F3691F /* nwind_small_white.png in Resources */,
 				AF4826711990DC9500D80B87 /* hi_ntsra.png in Resources */,
 				AFF6A6AF188834AC00825A37 /* checkbox-selected.png in Resources */,
 				AF48267F1990DC9500D80B87 /* nmix.png in Resources */,
+				96CB93EB1A38AFAD00F3691F /* nfg_small_white.png in Resources */,
 				AF4826701990DC9500D80B87 /* hi_nshwrs.png in Resources */,
 				AF4826941990DC9500D80B87 /* scttsra.png in Resources */,
+				96CB94051A38AFAD00F3691F /* shra_small_white.png in Resources */,
 				3AC64A03192B39C10009061D /* SetDelayVC-iPad.xib in Resources */,
 				AF4826891990DC9500D80B87 /* nsn.png in Resources */,
+				96CB93F01A38AFAD00F3691F /* nra_small_white.png in Resources */,
 				B11F7DB216BA6F3B00E36D00 /* form_inputbox_one.png in Resources */,
 				AFF6A6B91888350400825A37 /* icon_status_ok@2x.png in Resources */,
+				96CB93DA1A38AFAD00F3691F /* frza_small_white.png in Resources */,
 				AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */,
 				96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */,
 				AF4826981990DC9500D80B87 /* skc.png in Resources */,
@@ -2036,8 +2261,12 @@
 				AF4826791990DC9500D80B87 /* nbkn.png in Resources */,
 				96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */,
 				AF48268F1990DC9500D80B87 /* ra1.png in Resources */,
+				96CB93DF1A38AFAD00F3691F /* hi_shwrs_small_white.png in Resources */,
+				96CB93EE1A38AFAD00F3691F /* novc_small_white.png in Resources */,
 				AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */,
 				AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */,
+				96CB94091A38AFAD00F3691F /* tsra_small_white.png in Resources */,
+				96CB94061A38AFAD00F3691F /* skc_small_white.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

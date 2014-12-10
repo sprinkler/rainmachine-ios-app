@@ -41,7 +41,7 @@
         for (NSInteger index = 0; index < 7; index++) [iconImages addObject:[UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation]];
     } else {
         for (NSInteger index = 0; index < 7; index++) {
-            UIImage *image = [Utils weatherImageFromCode:@((int)((double)rand() / (double)RAND_MAX * 24.0))];
+            UIImage *image = [Utils smallWhiteWeatherImageFromCode:@((int)((double)rand() / (double)RAND_MAX * 24.0))];
             UIImage *iconImage = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation];
             [iconImages addObject:iconImage];
         }

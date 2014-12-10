@@ -583,6 +583,48 @@
     return nil;
 }
 
++ (UIImage*)smallWhiteWeatherImageFromCode:(NSNumber*)code {
+    static NSString *codesTable[] = {/*0,*/ @"bkn_small_white", // MostlyCloudy
+        /*1,*/ @"skc_small_white", // Fair
+        /*2,*/ @"few_small_white", // A Few Clouds
+        /*3,*/ @"sct_small_white", // Partly Cloudy
+        /*4,*/ @"ovc_small_white", // Overcast
+        /*5,*/ @"fg_small_white",  // Fog
+        /*6,*/ @"smoke_small_white", // Smoke
+        /*7,*/ @"fzrara_small_white",  // Freezing Rain
+        /*8,*/ @"ip_small_white",  // Ice Pellets
+        /*9,*/ @"raip_small_white", // Rain Ice Pellets
+        /*10,*/ @"rasn_small_white", // Rain Snow
+        /*11,*/ @"shra_small_white", // Rain Showers
+        /*12,*/ @"tsra_small_white", // Thunderstorms
+        /*13,*/ @"sn_small_white",   // Snow
+        /*14,*/ @"wind_small_white", // Windy
+        /*15,*/ @"hi_shwrs_small_white", // Showers in vicinity
+        /*16,*/ @"fzrara_small_white",   // Heavy Freezing Rain
+        /*17,*/ @"hi_tsra_small_white",  // Thunderstorms in Vicinity
+        /*18,*/ @"ra1_small_white",   // Light Rain
+        /*19,*/ @"ra_small_white",    // Heavy Rain
+        /*20,*/ @"nsvrtsra_small_white",   // Funnel Cloud in Vicinity
+        /*21,*/ @"du_small_white", // Dust
+        /*22,*/ @"mist_small_white", // Mist
+        /*23,*/ @"hot_small_white",  // Hot
+        /*24,*/ @"cold_small_white", // Cold
+        /*25,*/ @"na_small_white"
+    };
+    
+    int codesTableSize = sizeof(codesTable) / sizeof(codesTable[0]);
+    if ([code isKindOfClass:[NSNull class]]) {
+        return [UIImage imageNamed:@"na_small_white"];
+    } else {
+        if ([code intValue] < codesTableSize) {
+            NSString *imageName = codesTable[[code intValue]];
+            return [UIImage imageNamed:imageName];
+        }
+    }
+    
+    return nil;
+}
+
 + (NSString*)vegetationTypeToString:(int)vegetation
 {
     switch (vegetation) {
