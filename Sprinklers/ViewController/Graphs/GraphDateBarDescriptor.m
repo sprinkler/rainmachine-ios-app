@@ -13,7 +13,7 @@
 + (GraphDateBarDescriptor*)defaultDescriptor {
     GraphDateBarDescriptor *descriptor = [GraphDateBarDescriptor new];
     
-    descriptor.dateBarHeight = 18.0;
+    descriptor.dateBarHeight = 20.0;
     descriptor.timeIntervalFont = [UIFont systemFontOfSize:14.0];
     descriptor.timeIntervalColor = [UIColor whiteColor];
     descriptor.timeIntervalValue = @"oct";
