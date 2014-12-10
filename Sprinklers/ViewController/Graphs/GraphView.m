@@ -7,7 +7,15 @@
 //
 
 #import "GraphView.h"
+#import "GraphStyle.h"
 
 @implementation GraphView
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self.graphStyle plotInRect:self.bounds context:context];
+}
 
 @end

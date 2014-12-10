@@ -29,6 +29,10 @@
     return self;
 }
 
+- (void)awakeFromNib {
+    self.backgroundColor = [UIColor colorWithWhite:0.89 alpha:1.0];
+}
+
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"graphsTimeInterval"];
 }

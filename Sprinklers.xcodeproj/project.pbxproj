@@ -68,6 +68,8 @@
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
 		96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C223A819D7727F00683AC6 /* NewRestrictionVC.m */; };
 		96C223AB19D7729900683AC6 /* NewRestrictionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223AA19D7729900683AC6 /* NewRestrictionVC.xib */; };
+		96CB93951A385DBB00F3691F /* GraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB93941A385DBB00F3691F /* GraphStyle.m */; };
+		96CB93981A385DD300F3691F /* GraphStyleBars.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB93971A385DD300F3691F /* GraphStyleBars.m */; };
 		96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */; };
 		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
 		96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */; };
@@ -472,6 +474,10 @@
 		96C223A719D7727F00683AC6 /* NewRestrictionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewRestrictionVC.h; path = ViewController/NewRestrictionVC.h; sourceTree = "<group>"; };
 		96C223A819D7727F00683AC6 /* NewRestrictionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewRestrictionVC.m; path = ViewController/NewRestrictionVC.m; sourceTree = "<group>"; };
 		96C223AA19D7729900683AC6 /* NewRestrictionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewRestrictionVC.xib; sourceTree = "<group>"; };
+		96CB93931A385DBB00F3691F /* GraphStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphStyle.h; path = ViewController/Graphs/GraphStyle.h; sourceTree = "<group>"; };
+		96CB93941A385DBB00F3691F /* GraphStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphStyle.m; path = ViewController/Graphs/GraphStyle.m; sourceTree = "<group>"; };
+		96CB93961A385DD300F3691F /* GraphStyleBars.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphStyleBars.h; path = ViewController/Graphs/GraphStyleBars.h; sourceTree = "<group>"; };
+		96CB93971A385DD300F3691F /* GraphStyleBars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphStyleBars.m; path = ViewController/Graphs/GraphStyleBars.m; sourceTree = "<group>"; };
 		96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivitySimulationGraphVC.h; sourceTree = "<group>"; };
 		96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivitySimulationGraphVC.m; sourceTree = "<group>"; };
 		96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivitySimulationGraphVC.xib; sourceTree = "<group>"; };
@@ -1054,6 +1060,10 @@
 				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
 				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
 				96F0F3511A370D7D0056D167 /* GraphsManager.m */,
+				96CB93931A385DBB00F3691F /* GraphStyle.h */,
+				96CB93941A385DBB00F3691F /* GraphStyle.m */,
+				96CB93961A385DD300F3691F /* GraphStyleBars.h */,
+				96CB93971A385DD300F3691F /* GraphStyleBars.m */,
 				96F0F3451A3705B60056D167 /* GraphView.h */,
 				96F0F3461A3705B60056D167 /* GraphView.m */,
 				96F0F34B1A3705F00056D167 /* GraphCell.h */,
@@ -2141,6 +2151,7 @@
 				AFF935061A2C7462008063D2 /* ProvisionWiFiVC.m in Sources */,
 				AFF796C618E04C6400E3C109 /* CounterHelper.m in Sources */,
 				96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */,
+				96CB93951A385DBB00F3691F /* GraphStyle.m in Sources */,
 				96F0F35B1A3768A90056D167 /* GraphValuesBarDescriptor.m in Sources */,
 				AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */,
 				964ADD0E1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m in Sources */,
@@ -2206,6 +2217,7 @@
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */,
 				B1213EBC186090CC009D97F4 /* AddNewCell.m in Sources */,
+				96CB93981A385DD300F3691F /* GraphStyleBars.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
 				AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */,

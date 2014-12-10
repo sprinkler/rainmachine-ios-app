@@ -16,11 +16,13 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 Week" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="THe-5H-LjS">
                         <rect key="frame" x="20" y="0.0" width="259" height="44"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="THe-5H-LjS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="AAF-qN-dZc"/>
                     <constraint firstAttribute="bottom" secondItem="THe-5H-LjS" secondAttribute="bottom" id="mLI-nE-4rR"/>

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class GraphStyle;
+
 @interface GraphView : UIView
+
+@property (nonatomic, strong) GraphStyle *graphStyle;
 
 @end
