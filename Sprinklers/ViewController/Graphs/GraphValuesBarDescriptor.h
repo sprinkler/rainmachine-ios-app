@@ -13,7 +13,6 @@
 @property (nonatomic, assign) CGFloat valuesBarHeight;
 @property (nonatomic, strong) UIFont *valuesFont;
 @property (nonatomic, strong) UIColor *valuesColor;
-@property (nonatomic, strong) NSArray *values;
 @property (nonatomic, strong) UIFont *unitsFont;
 @property (nonatomic, strong) UIColor *unitsColor;
 @property (nonatomic, strong) NSString *units;

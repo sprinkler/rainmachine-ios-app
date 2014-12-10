@@ -14,12 +14,22 @@
 #import "GraphValuesBarDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
 #import "GraphDateBarDescriptor.h"
+#import "GraphsManager.h"
+
+#pragma mark -
+
+@interface GraphDescriptor ()
+
+@end
+
+#pragma mark -
 
 @implementation GraphDescriptor
 
 + (GraphDescriptor*)defaultDescriptor {
     GraphDescriptor *descriptor = [GraphDescriptor new];
     
+    descriptor.values = [self createValues];
     descriptor.visualAppearanceDescriptor = [GraphVisualAppearanceDescriptor defaultDescriptor];
     descriptor.titleAreaDescriptor = [GraphTitleAreaDescriptor defaultDescriptor];
     descriptor.displayAreaDescriptor = [GraphDisplayAreaDescriptor defaultDescriptor];
@@ -34,6 +44,22 @@
         self.valuesBarDescriptor.valuesBarHeight +
         self.displayAreaDescriptor.displayAreaHeight +
         self.dateBarDescriptor.dateBarHeight + 6.0;
+}
+
+#pragma mark - Helper methods
+
++ (NSArray*)createValues {
+    NSMutableArray *values = [NSMutableArray new];
+    
+    if (![GraphsManager randomizeTestData]) {
+        [values addObjectsFromArray:@[@0,@0,@0,@0,@0,@0,@0]];
+    } else {
+        for (NSInteger index = 0; index < 7; index++) {
+            [values addObject:@((int)((double)rand() / (double)RAND_MAX * 100.0))];
+        }
+    }
+    
+    return values;
 }
 
 @end

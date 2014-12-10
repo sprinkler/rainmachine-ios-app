@@ -21,6 +21,7 @@
     descriptor.dashedLinesColor = [UIColor colorWithRed:156.0 / 255.0 green:205.0 / 255.0 blue:230.0 / 255.0 alpha:1.0];
     
     descriptor.graphBarsWidth = 16.0;
+    descriptor.graphCirclesRadius = 2.0;
     descriptor.graphBarsTopPadding = 2.0;
     descriptor.graphBarsBottomPadding = 2.0;
     

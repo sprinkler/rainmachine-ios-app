@@ -11,6 +11,10 @@
 #import "GraphTitleAreaDescriptor.h"
 #import "GraphIconsBarDescriptor.h"
 #import "GraphValuesBarDescriptor.h"
+#import "GraphDisplayAreaDescriptor.h"
+#import "GraphStyle.h"
+#import "GraphStyleBars.h"
+#import "GraphStyleLines.h"
 
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
 NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGraphIdentifier";
@@ -55,6 +59,7 @@ static GraphsManager *sharedGraphsManager = nil;
     temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
     temperatureGraph.titleAreaDescriptor.title = @"Temperature";
     temperatureGraph.titleAreaDescriptor.units = @"°F";
+    temperatureGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
     [availableGraphs addObject:temperatureGraph];
     [availableGraphsDictionary setValue:temperatureGraph forKey:temperatureGraph.graphIdentifier];
     
@@ -65,6 +70,7 @@ static GraphsManager *sharedGraphsManager = nil;
     totalProgramRuntimesGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
     totalProgramRuntimesGraph.valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
     totalProgramRuntimesGraph.valuesBarDescriptor.units = @"°F";
+    totalProgramRuntimesGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
     [availableGraphs addObject:totalProgramRuntimesGraph];
     [availableGraphsDictionary setValue:totalProgramRuntimesGraph forKey:totalProgramRuntimesGraph.graphIdentifier];
     
@@ -93,6 +99,7 @@ static GraphsManager *sharedGraphsManager = nil;
 static BOOL GraphsManagerRandomizeTestData = NO;
 
 + (void)setRandomizeTestData:(BOOL)randomizeTestData {
+    srand((unsigned)time(NULL));
     GraphsManagerRandomizeTestData = randomizeTestData;
     sharedGraphsManager = nil;
 }

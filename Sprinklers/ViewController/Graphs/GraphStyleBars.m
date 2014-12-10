@@ -7,35 +7,35 @@
 //
 
 #import "GraphStyleBars.h"
+#import "GraphDescriptor.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
 
 @implementation GraphStyleBars
 
 - (void)plotGraphInRect:(CGRect)rect context:(CGContextRef)context {
-    NSInteger maxValue = 0;
-    for (NSNumber *value in self.values) {
-        if (value.integerValue > maxValue) maxValue = value.integerValue;
-    }
+    CGContextSaveGState(context);
     
-    CGContextSetFillColorWithColor(context, self.displayAreaDescriptor.graphDisplayColor.CGColor);
+    CGContextSetFillColorWithColor(context, self.graphDescriptor.displayAreaDescriptor.graphDisplayColor.CGColor);
     
-    CGFloat barSizeWidth = self.displayAreaDescriptor.graphBarsWidth;
-    CGFloat graphBarsTopPadding = self.displayAreaDescriptor.graphBarsTopPadding + self.displayAreaDescriptor.valuesDisplayHeight;
-    CGFloat graphBarsBottomPadding = self.displayAreaDescriptor.graphBarsBottomPadding - 1.0;
+    CGFloat barSizeWidth = self.graphDescriptor.displayAreaDescriptor.graphBarsWidth;
+    CGFloat graphBarsTopPadding = self.graphDescriptor.displayAreaDescriptor.graphBarsTopPadding + self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight;
+    CGFloat graphBarsBottomPadding = self.graphDescriptor.displayAreaDescriptor.graphBarsBottomPadding - 1.0;
     CGFloat displayHeight = rect.size.height - graphBarsTopPadding - graphBarsBottomPadding;
-    CGFloat displayWidth = rect.size.width - self.visualDescriptor.graphContentLeadingPadding - self.visualDescriptor.graphContentTrailingPadding;
+    CGFloat displayWidth = rect.size.width - self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding - self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     
     CGFloat barDisplayWidth = displayWidth / self.values.count;
-    CGFloat barOriginX = self.visualDescriptor.graphContentLeadingPadding + (barDisplayWidth - barSizeWidth) / 2.0;
+    CGFloat barOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + (barDisplayWidth - barSizeWidth) / 2.0;
     
     for (NSNumber *value in self.values) {
-        CGFloat barSizeHeight = value.doubleValue / (double)maxValue * displayHeight;
+        CGFloat barSizeHeight = value.doubleValue / 100.0 * displayHeight;
         CGRect barRect = CGRectIntegral(CGRectMake(barOriginX, rect.size.height - barSizeHeight - graphBarsBottomPadding, barSizeWidth, barSizeHeight));
         CGContextFillRect(context, barRect);
         
         barOriginX += barDisplayWidth;
     }
+    
+    CGContextRestoreGState(context);
 }
 
 @end

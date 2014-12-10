@@ -161,9 +161,9 @@
     }
     
     if (self.valueLabels) {
-        for (NSInteger index = 0; index < descriptor.values.count; index++) {
+        for (NSInteger index = 0; index < self.graphDescriptor.values.count; index++) {
             UILabel *valueLabel = self.valueLabels[index];
-            NSNumber *value = descriptor.values[index];
+            NSNumber *value = self.graphDescriptor.values[index];
             valueLabel.text = [NSString stringWithFormat:@"%d",value.intValue];
         }
         return;
@@ -173,7 +173,7 @@
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalValuesBarWidth = self.valuesBarContainerView.bounds.size.width - totalPaddingWidth;
-    CGFloat valueLabelWidth = round(totalValuesBarWidth / descriptor.values.count);
+    CGFloat valueLabelWidth = round(totalValuesBarWidth / self.graphDescriptor.values.count);
     CGFloat valueLabelHeight = descriptor.valuesBarHeight;
     
     CGFloat valueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
@@ -185,8 +185,8 @@
     
     NSMutableArray *valueLabels = [NSMutableArray new];
     
-    for (NSNumber *value in descriptor.values) {
-        isLastHorizontalConstraint = (value == descriptor.values.lastObject);
+    for (NSNumber *value in self.graphDescriptor.values) {
+        isLastHorizontalConstraint = (value == self.graphDescriptor.values.lastObject);
         
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(valueLabelOriginX, valueLabelOriginY, valueLabelWidth, valueLabelHeight)];
         valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -231,9 +231,8 @@
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor {
     self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;
     self.graphView.graphStyle = descriptor.graphStyle;
-    self.graphView.graphStyle.visualDescriptor = self.graphDescriptor.visualAppearanceDescriptor;
-    self.graphView.graphStyle.displayAreaDescriptor = self.graphDescriptor.displayAreaDescriptor;
-    self.graphView.graphStyle.values = self.graphDescriptor.valuesBarDescriptor.values; // TODO: this should be replaced with a different logic for transmitting values
+    self.graphView.graphStyle.graphDescriptor = self.graphDescriptor;
+    self.graphView.graphStyle.values = self.graphDescriptor.values;
     [self.graphView setNeedsDisplay];
 }
 

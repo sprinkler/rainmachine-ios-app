@@ -8,13 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class GraphVisualAppearanceDescriptor;
-@class GraphDisplayAreaDescriptor;
+@class GraphDescriptor;
 
 @interface GraphStyle : NSObject
 
-@property (nonatomic, strong) GraphVisualAppearanceDescriptor *visualDescriptor;
-@property (nonatomic, strong) GraphDisplayAreaDescriptor *displayAreaDescriptor;
+@property (nonatomic, strong) GraphDescriptor *graphDescriptor;
 @property (nonatomic, strong) NSArray *values;
 
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context;

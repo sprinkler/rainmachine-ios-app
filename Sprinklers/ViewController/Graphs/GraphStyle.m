@@ -7,6 +7,7 @@
 //
 
 #import "GraphStyle.h"
+#import "GraphDescriptor.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
 #import <CoreText/CoreText.h>
@@ -30,13 +31,15 @@
 @implementation GraphStyle
 
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context {
-    CGFloat maxValueOriginY = self.displayAreaDescriptor.graphBarsTopPadding + self.displayAreaDescriptor.valuesDisplayHeight;
-    CGFloat minValueOriginY = rect.size.height - self.displayAreaDescriptor.graphBarsBottomPadding;
+    CGContextSaveGState(context);
+    
+    CGFloat maxValueOriginY = self.graphDescriptor.displayAreaDescriptor.graphBarsTopPadding + self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight;
+    CGFloat minValueOriginY = rect.size.height - self.graphDescriptor.displayAreaDescriptor.graphBarsBottomPadding;
     CGFloat midValueOriginY = round((minValueOriginY + maxValueOriginY) / 2.0);
     
     // Draw dashed lines
     
-    CGContextSetStrokeColorWithColor(context, self.displayAreaDescriptor.dashedLinesColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, self.graphDescriptor.displayAreaDescriptor.dashedLinesColor.CGColor);
     CGContextSetLineWidth(context, 1.0);
     CGFloat dashPhase = 0.0;
     CGFloat dashLengths[] = {4.0, 4.0};
@@ -55,29 +58,31 @@
     
     // Draw min, mid, max values
     
-    [self drawText:[NSString stringWithFormat:@"%d",(int)self.displayAreaDescriptor.maxValue]
+    [self drawText:[NSString stringWithFormat:@"%d",(int)self.graphDescriptor.displayAreaDescriptor.maxValue]
               rect:rect
-          textRect:CGRectMake(0.0, maxValueOriginY - self.displayAreaDescriptor.valuesDisplayHeight, self.visualDescriptor.graphContentLeadingPadding, self.displayAreaDescriptor.valuesDisplayHeight)
-              font:self.displayAreaDescriptor.valuesFont
-             color:self.displayAreaDescriptor.valuesDisplayColor
+          textRect:CGRectMake(0.0, maxValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
+              font:self.graphDescriptor.displayAreaDescriptor.valuesFont
+             color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
      textAlignment:kCTTextAlignmentCenter
            context:context];
     
-    [self drawText:[NSString stringWithFormat:@"%d",(int)self.displayAreaDescriptor.midValue]
+    [self drawText:[NSString stringWithFormat:@"%d",(int)self.graphDescriptor.displayAreaDescriptor.midValue]
               rect:rect
-          textRect:CGRectMake(0.0, midValueOriginY - self.displayAreaDescriptor.valuesDisplayHeight, self.visualDescriptor.graphContentLeadingPadding, self.displayAreaDescriptor.valuesDisplayHeight)
-              font:self.displayAreaDescriptor.valuesFont
-             color:self.displayAreaDescriptor.valuesDisplayColor
+          textRect:CGRectMake(0.0, midValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
+              font:self.graphDescriptor.displayAreaDescriptor.valuesFont
+             color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
      textAlignment:kCTTextAlignmentCenter
            context:context];
     
-    [self drawText:[NSString stringWithFormat:@"%d",(int)self.displayAreaDescriptor.minValue]
+    [self drawText:[NSString stringWithFormat:@"%d",(int)self.graphDescriptor.displayAreaDescriptor.minValue]
               rect:rect
-          textRect:CGRectMake(0.0, minValueOriginY - self.displayAreaDescriptor.valuesDisplayHeight, self.visualDescriptor.graphContentLeadingPadding, self.displayAreaDescriptor.valuesDisplayHeight)
-              font:self.displayAreaDescriptor.valuesFont
-             color:self.displayAreaDescriptor.valuesDisplayColor
+          textRect:CGRectMake(0.0, minValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
+              font:self.graphDescriptor.displayAreaDescriptor.valuesFont
+             color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
      textAlignment:kCTTextAlignmentCenter
            context:context];
+    
+    CGContextRestoreGState(context);
 }
 
 - (void)plotGraphInRect:(CGRect)rect context:(CGContextRef)context {

@@ -70,6 +70,7 @@
 		96C223AB19D7729900683AC6 /* NewRestrictionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223AA19D7729900683AC6 /* NewRestrictionVC.xib */; };
 		96CB93951A385DBB00F3691F /* GraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB93941A385DBB00F3691F /* GraphStyle.m */; };
 		96CB93981A385DD300F3691F /* GraphStyleBars.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB93971A385DD300F3691F /* GraphStyleBars.m */; };
+		96CB939B1A38818300F3691F /* GraphStyleLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CB939A1A38818300F3691F /* GraphStyleLines.m */; };
 		96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */; };
 		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
 		96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */; };
@@ -478,6 +479,8 @@
 		96CB93941A385DBB00F3691F /* GraphStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphStyle.m; path = ViewController/Graphs/GraphStyle.m; sourceTree = "<group>"; };
 		96CB93961A385DD300F3691F /* GraphStyleBars.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphStyleBars.h; path = ViewController/Graphs/GraphStyleBars.h; sourceTree = "<group>"; };
 		96CB93971A385DD300F3691F /* GraphStyleBars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphStyleBars.m; path = ViewController/Graphs/GraphStyleBars.m; sourceTree = "<group>"; };
+		96CB93991A38818300F3691F /* GraphStyleLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphStyleLines.h; path = ViewController/Graphs/GraphStyleLines.h; sourceTree = "<group>"; };
+		96CB939A1A38818300F3691F /* GraphStyleLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphStyleLines.m; path = ViewController/Graphs/GraphStyleLines.m; sourceTree = "<group>"; };
 		96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivitySimulationGraphVC.h; sourceTree = "<group>"; };
 		96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivitySimulationGraphVC.m; sourceTree = "<group>"; };
 		96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivitySimulationGraphVC.xib; sourceTree = "<group>"; };
@@ -1058,17 +1061,19 @@
 				96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */,
 				96F0F3371A36FAC70056D167 /* GraphDescriptor.h */,
 				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
-				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
-				96F0F3511A370D7D0056D167 /* GraphsManager.m */,
 				96CB93931A385DBB00F3691F /* GraphStyle.h */,
 				96CB93941A385DBB00F3691F /* GraphStyle.m */,
 				96CB93961A385DD300F3691F /* GraphStyleBars.h */,
 				96CB93971A385DD300F3691F /* GraphStyleBars.m */,
+				96CB93991A38818300F3691F /* GraphStyleLines.h */,
+				96CB939A1A38818300F3691F /* GraphStyleLines.m */,
 				96F0F3451A3705B60056D167 /* GraphView.h */,
 				96F0F3461A3705B60056D167 /* GraphView.m */,
 				96F0F34B1A3705F00056D167 /* GraphCell.h */,
 				96F0F34C1A3705F00056D167 /* GraphCell.m */,
 				96F0F34D1A3705F00056D167 /* GraphCell.xib */,
+				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
+				96F0F3511A370D7D0056D167 /* GraphsManager.m */,
 			);
 			name = Graphs;
 			sourceTree = "<group>";
@@ -2186,6 +2191,7 @@
 				AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
+				96CB939B1A38818300F3691F /* GraphStyleLines.m in Sources */,
 				AFB69438190289440067CD7F /* Zone.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				968E25F11A1F8DD1008006D3 /* ProvisionSystem.m in Sources */,
