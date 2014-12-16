@@ -21,5 +21,7 @@ typedef enum {
 
 + (GraphTimeInterval*)graphTimeIntervalWithType:(GraphTimeIntervalType)type;
 + (NSArray*)graphTimeIntervals;
+- (NSString*)timeIntervalValue;
+- (NSArray*)dateValuesForCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
 
 @end

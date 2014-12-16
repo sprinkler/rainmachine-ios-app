@@ -89,6 +89,7 @@ int const kXCorrectionbetweenCustomAndNormalWheatherFont = (-6 * kWheatherValueC
 
 NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"};
 NSString *monthsOfYear[12] = {@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"};
+NSString *abbrevMonthsOfYear[12] = {@"Jan", @"Feb", @"Mar", @"Apr", @"May", @"June", @"July", @"Aug", @"Sept", @"Oct", @"Nov", @"Dec"};
 
 // ---- Custom font glyphs ----
 

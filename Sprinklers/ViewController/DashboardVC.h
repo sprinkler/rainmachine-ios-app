@@ -20,4 +20,6 @@
 @property (nonatomic, weak) IBOutlet UIView *headerSeparatorView;
 @property (nonatomic, weak) IBOutlet UITableView *graphsTableView;
 
+- (IBAction)onChangeTimeInterval:(id)sender;
+
 @end

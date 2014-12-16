@@ -25,8 +25,6 @@
 - (void)initializeTimeIntervalsSegmentedControl;
 - (void)initializeGraphsTableView;
 
-@property (nonatomic, strong) NSMutableArray *graphDescriptors;
-
 @end
 
 #pragma mark -
@@ -122,6 +120,15 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Actions
+
+- (IBAction)onChangeTimeInterval:(id)sender {
+    GraphTimeInterval *graphTimeInterval = [GraphTimeInterval graphTimeIntervals][self.timeIntervalsSegmentedControl.selectedSegmentIndex];
+    for (GraphDescriptor *graphDescriptor in [GraphsManager sharedGraphsManager].selectedGraphs) {
+        graphDescriptor.graphTimeInterval = graphTimeInterval;
+    }
 }
 
 @end

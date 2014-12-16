@@ -24,7 +24,9 @@
 
 #pragma mark -
 
-@implementation GraphDescriptor
+@implementation GraphDescriptor {
+    GraphTimeInterval *_graphTimeInterval;
+}
 
 + (GraphDescriptor*)defaultDescriptor {
     GraphDescriptor *descriptor = [GraphDescriptor new];
@@ -34,6 +36,7 @@
     descriptor.titleAreaDescriptor = [GraphTitleAreaDescriptor defaultDescriptor];
     descriptor.displayAreaDescriptor = [GraphDisplayAreaDescriptor defaultDescriptor];
     descriptor.dateBarDescriptor = [GraphDateBarDescriptor defaultDescriptor];
+    descriptor.graphTimeInterval = [GraphTimeInterval graphTimeIntervalWithType:GraphTimeIntervalType_Weekly];
     
     return descriptor;
 }
@@ -44,6 +47,20 @@
         self.valuesBarDescriptor.valuesBarHeight +
         self.displayAreaDescriptor.displayAreaHeight +
         self.dateBarDescriptor.dateBarHeight + 6.0;
+}
+
+- (GraphTimeInterval*)graphTimeInterval {
+    return _graphTimeInterval;
+}
+
+- (void)setGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
+    _graphTimeInterval = graphTimeInterval;
+    
+    NSInteger currentDateValueIndex = -1;
+    
+    self.dateBarDescriptor.timeIntervalValue = graphTimeInterval.timeIntervalValue;
+    self.dateBarDescriptor.dateValues = [graphTimeInterval dateValuesForCount:7 currentDateValueIndex:&currentDateValueIndex];
+    self.dateBarDescriptor.selectedDateValueIndex = currentDateValueIndex;
 }
 
 #pragma mark - Helper methods
