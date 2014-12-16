@@ -13,6 +13,7 @@
 @interface GraphDateBarDescriptor : NSObject
 
 @property (nonatomic, assign) CGFloat dateBarHeight;
+@property (nonatomic, assign) CGFloat dateBarBottomPadding;
 @property (nonatomic, strong) UIFont *timeIntervalFont;
 @property (nonatomic, strong) UIColor *timeIntervalColor;
 @property (nonatomic, strong) NSString *timeIntervalValue;

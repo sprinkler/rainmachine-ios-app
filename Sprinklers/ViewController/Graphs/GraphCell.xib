@@ -99,7 +99,7 @@
                                 <rect key="frame" x="8" y="143" width="292" height="18"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="oct" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1v-Cb-oqF">
-                                        <rect key="frame" x="0.0" y="0.0" width="28" height="18"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="28" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="28" id="4gM-1J-5B9"/>
                                         </constraints>
@@ -111,7 +111,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="C1v-Cb-oqF" firstAttribute="top" secondItem="yEs-ao-8P4" secondAttribute="top" id="1xv-ya-7gc"/>
-                                    <constraint firstAttribute="bottom" secondItem="C1v-Cb-oqF" secondAttribute="bottom" id="6jI-Dg-0Bo"/>
+                                    <constraint firstAttribute="bottom" secondItem="C1v-Cb-oqF" secondAttribute="bottom" constant="2" id="6jI-Dg-0Bo"/>
                                     <constraint firstItem="C1v-Cb-oqF" firstAttribute="leading" secondItem="yEs-ao-8P4" secondAttribute="leading" id="GlW-gC-fuo"/>
                                     <constraint firstAttribute="height" constant="18" id="xdr-06-xAl"/>
                                 </constraints>

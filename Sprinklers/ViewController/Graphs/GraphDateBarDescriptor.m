@@ -13,11 +13,12 @@
 + (GraphDateBarDescriptor*)defaultDescriptor {
     GraphDateBarDescriptor *descriptor = [GraphDateBarDescriptor new];
     
-    descriptor.dateBarHeight = 20.0;
-    descriptor.timeIntervalFont = [UIFont systemFontOfSize:12.0];
+    descriptor.dateBarHeight = 18.0;
+    descriptor.dateBarBottomPadding = 2.0;
+    descriptor.timeIntervalFont = [UIFont boldSystemFontOfSize:12.0];
     descriptor.timeIntervalColor = [UIColor whiteColor];
     descriptor.timeIntervalValue = nil;
-    descriptor.dateValuesFont = [UIFont systemFontOfSize:12.0];
+    descriptor.dateValuesFont = [UIFont boldSystemFontOfSize:12.0];
     descriptor.dateValuesColor = [UIColor whiteColor];
     descriptor.dateValueSelectionColor = [UIColor whiteColor];
     descriptor.dateValues = nil;

@@ -18,14 +18,14 @@
     descriptor.displayAreaHeight = 80.0;
     descriptor.graphDisplayColor = [UIColor whiteColor];
     descriptor.valuesDisplayColor = [UIColor whiteColor];
-    descriptor.dashedLinesColor = [UIColor colorWithRed:156.0 / 255.0 green:205.0 / 255.0 blue:230.0 / 255.0 alpha:1.0];
+    descriptor.dashedLinesColor = [UIColor colorWithRed:206.0 / 255.0 green:225.0 / 255.0 blue:235.0 / 255.0 alpha:1.0];
     
     descriptor.graphBarsWidth = 16.0;
     descriptor.graphCirclesRadius = 2.5;
-    descriptor.graphBarsTopPadding = 2.0;
-    descriptor.graphBarsBottomPadding = 2.0;
+    descriptor.graphBarsTopPadding = 4.0;
+    descriptor.graphBarsBottomPadding = 6.0;
     
-    descriptor.valuesFont = [UIFont systemFontOfSize:12.0];
+    descriptor.valuesFont = [UIFont boldSystemFontOfSize:12.0];
     descriptor.valuesDisplayHeight = 16.0;
     descriptor.minValue = 0;
     descriptor.midValue = 50;

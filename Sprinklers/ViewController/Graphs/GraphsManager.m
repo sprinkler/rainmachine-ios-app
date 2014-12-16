@@ -16,6 +16,7 @@
 #import "GraphStyleBars.h"
 #import "GraphStyleLines.h"
 
+NSString *kWaterConsumeGraphIdentifier              = @"WaterConsumeGraphIdentifier";
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
 NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGraphIdentifier";
 
@@ -55,13 +56,25 @@ static GraphsManager *sharedGraphsManager = nil;
     NSMutableArray *availableGraphs = [NSMutableArray new];
     NSMutableDictionary *availableGraphsDictionary = [NSMutableDictionary new];
     
+    GraphDescriptor *waterConsumeGraph = [GraphDescriptor defaultDescriptor];
+    waterConsumeGraph.graphIdentifier = kWaterConsumeGraphIdentifier;
+    waterConsumeGraph.titleAreaDescriptor.title = @"Water Consume";
+    waterConsumeGraph.titleAreaDescriptor.units = @"%";
+    waterConsumeGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
+    waterConsumeGraph.valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
+    waterConsumeGraph.valuesBarDescriptor.units = @"°F";
+    waterConsumeGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
+    [availableGraphs addObject:waterConsumeGraph];
+    availableGraphsDictionary[waterConsumeGraph.graphIdentifier] = waterConsumeGraph;
+    
+    
     GraphDescriptor *temperatureGraph = [GraphDescriptor defaultDescriptor];
     temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
     temperatureGraph.titleAreaDescriptor.title = @"Temperature";
     temperatureGraph.titleAreaDescriptor.units = @"°F";
     temperatureGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
     [availableGraphs addObject:temperatureGraph];
-    [availableGraphsDictionary setValue:temperatureGraph forKey:temperatureGraph.graphIdentifier];
+    availableGraphsDictionary[temperatureGraph.graphIdentifier] = temperatureGraph;
     
     GraphDescriptor *totalProgramRuntimesGraph = [GraphDescriptor defaultDescriptor];
     totalProgramRuntimesGraph.graphIdentifier = kTotalProgramRuntimesGraphIdentifier;
@@ -72,7 +85,7 @@ static GraphsManager *sharedGraphsManager = nil;
     totalProgramRuntimesGraph.valuesBarDescriptor.units = @"°F";
     totalProgramRuntimesGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
     [availableGraphs addObject:totalProgramRuntimesGraph];
-    [availableGraphsDictionary setValue:totalProgramRuntimesGraph forKey:totalProgramRuntimesGraph.graphIdentifier];
+    availableGraphsDictionary[totalProgramRuntimesGraph.graphIdentifier] = totalProgramRuntimesGraph;
     
     self.availableGraphsDictionary = availableGraphsDictionary;
     self.availableGraphs = availableGraphs;

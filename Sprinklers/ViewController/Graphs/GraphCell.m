@@ -265,7 +265,7 @@
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
     CGFloat dateValueLabelWidth = round(totalDatesBarWidth / descriptor.dateValues.count);
-    CGFloat dateValueLabelHeight = descriptor.dateBarHeight;
+    CGFloat dateValueLabelHeight = descriptor.dateBarHeight - descriptor.dateBarBottomPadding;
     
     CGFloat dateValueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
     CGFloat dateValueLabelOriginY = 0.0;
@@ -357,7 +357,7 @@
         
         self.dateSelectionView.hidden = NO;
         self.dateSelectionView.frame = CGRectMake(0.0, 0.0, dateSelectionViewBoundingSize.width, descriptor.dateBarHeight - 2.0);
-        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / descriptor.dateValues.count * (descriptor.selectedDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round(descriptor.dateBarHeight / 2.0));
+        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / descriptor.dateValues.count * (descriptor.selectedDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round((descriptor.dateBarHeight - descriptor.dateBarBottomPadding) / 2.0));
     } else {
         self.dateSelectionView.hidden = YES;
     }

@@ -87,7 +87,8 @@
 }
 
 - (void)initializeGraphsTableView {
-    self.graphsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.graphsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 3.0)];
+    self.graphsTableView.tableFooterView.backgroundColor = [UIColor clearColor];
     self.graphsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.graphsTableView.contentInset = UIEdgeInsetsMake(3.0, 0.0, 0.0, 0.0);
 }
