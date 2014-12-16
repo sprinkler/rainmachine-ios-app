@@ -40,7 +40,7 @@
     // Draw dashed lines
     
     CGContextSetStrokeColorWithColor(context, self.graphDescriptor.displayAreaDescriptor.dashedLinesColor.CGColor);
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetLineWidth(context, 1.0 / [UIScreen mainScreen].scale);
     CGFloat dashPhase = 0.0;
     CGFloat dashLengths[] = {4.0, 4.0};
     CGContextSetLineDash(context, dashPhase, dashLengths, 2);

@@ -14,10 +14,10 @@
     GraphDateBarDescriptor *descriptor = [GraphDateBarDescriptor new];
     
     descriptor.dateBarHeight = 20.0;
-    descriptor.timeIntervalFont = [UIFont systemFontOfSize:14.0];
+    descriptor.timeIntervalFont = [UIFont systemFontOfSize:12.0];
     descriptor.timeIntervalColor = [UIColor whiteColor];
     descriptor.timeIntervalValue = @"oct";
-    descriptor.dateValuesFont = [UIFont systemFontOfSize:14.0];
+    descriptor.dateValuesFont = [UIFont systemFontOfSize:12.0];
     descriptor.dateValuesColor = [UIColor whiteColor];
     descriptor.dateValues = @[@"08", @"09", @"10", @"11", @"12", @"13", @"14"];
     

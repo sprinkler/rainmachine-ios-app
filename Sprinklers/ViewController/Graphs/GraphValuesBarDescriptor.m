@@ -17,9 +17,9 @@
     GraphValuesBarDescriptor *descriptor = [GraphValuesBarDescriptor new];
     
     descriptor.valuesBarHeight = 16.0;
-    descriptor.valuesFont = [UIFont systemFontOfSize:14.0];
+    descriptor.valuesFont = [UIFont systemFontOfSize:12.0];
     descriptor.valuesColor = [UIColor whiteColor];
-    descriptor.unitsFont = [UIFont systemFontOfSize:14.0];
+    descriptor.unitsFont = [UIFont systemFontOfSize:12.0];
     descriptor.unitsColor = [UIColor whiteColor];
     
     return descriptor;

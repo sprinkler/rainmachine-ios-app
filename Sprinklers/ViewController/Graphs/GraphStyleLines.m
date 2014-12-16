@@ -23,7 +23,7 @@
     
     CGContextSetStrokeColorWithColor(context, self.graphDescriptor.displayAreaDescriptor.graphDisplayColor.CGColor);
     CGContextSetFillColorWithColor(context, self.graphDescriptor.visualAppearanceDescriptor.backgroundColor.CGColor);
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetLineWidth(context, 1.0 / [UIScreen mainScreen].scale);
     
     CGFloat graphCirclesRadius = self.graphDescriptor.displayAreaDescriptor.graphCirclesRadius;
     
