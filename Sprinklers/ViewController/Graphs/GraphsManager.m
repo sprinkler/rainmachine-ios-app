@@ -20,13 +20,15 @@ NSString *kWaterConsumeGraphIdentifier              = @"WaterConsumeGraphIdentif
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
 NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGraphIdentifier";
 
+NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
+
 #pragma mark -
 
 @interface GraphsManager ()
 
 @property (nonatomic, strong) NSDictionary *availableGraphsDictionary;
 @property (nonatomic, strong) NSArray *availableGraphs;
-@property (nonatomic, strong) NSArray *selectedGraphs;
+@property (nonatomic, strong) NSMutableArray *selectedGraphs;
 
 - (void)registerAvailableGraphs;
 
@@ -104,7 +106,24 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)selectAllGraphs {
-    self.selectedGraphs = [NSArray arrayWithArray:self.availableGraphs];
+    if (!self.selectedGraphs.count) self.selectedGraphs = [NSArray arrayWithArray:self.availableGraphs];
+}
+
+- (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
+    GraphDescriptor *graph = [self.selectedGraphs objectAtIndex:sourceIndex];
+    
+    NSMutableArray *selectedGraphs = [NSMutableArray arrayWithArray:self.selectedGraphs];
+    [selectedGraphs removeObjectAtIndex:sourceIndex];
+    [selectedGraphs insertObject:graph atIndex:destinationIndex];
+    
+    _selectedGraphs = selectedGraphs;
+}
+
+- (void)replaceGraphAtIndex:(NSInteger)index withGraph:(GraphDescriptor*)graph {
+    NSMutableArray *selectedGraphs = [NSMutableArray arrayWithArray:self.selectedGraphs];
+    [selectedGraphs replaceObjectAtIndex:index withObject:graph];
+    
+    _selectedGraphs = selectedGraphs;
 }
 
 #pragma mark - Randomize test data
@@ -112,6 +131,8 @@ static GraphsManager *sharedGraphsManager = nil;
 static BOOL GraphsManagerRandomizeTestData = NO;
 
 + (void)setRandomizeTestData:(BOOL)randomizeTestData {
+    if (GraphsManagerRandomizeTestData == randomizeTestData) return;
+    
     srand((unsigned)time(NULL));
     GraphsManagerRandomizeTestData = randomizeTestData;
     sharedGraphsManager = nil;
@@ -119,6 +140,32 @@ static BOOL GraphsManagerRandomizeTestData = NO;
 
 + (BOOL)randomizeTestData {
     return GraphsManagerRandomizeTestData;
+}
+
+@end
+
+#pragma mark - Empty graph descriptor
+
+@implementation EmptyGraphDescriptor {
+    CGFloat _totalGraphHeight;
+}
+
++ (EmptyGraphDescriptor*)emptyGraphDescriptorWithTotalGraphHeight:(CGFloat)totalGraphHeight {
+    return [[self alloc] initWithTotalGraphHeight:totalGraphHeight];
+}
+
+- (id)initWithTotalGraphHeight:(CGFloat)totalGraphHeight {
+    self = [super init];
+    if (!self) return nil;
+    
+    _totalGraphHeight = totalGraphHeight;
+    self.graphIdentifier = kEmptyGraphIdentifier;
+    
+    return self;
+}
+
+- (CGFloat)totalGraphHeight {
+    return _totalGraphHeight;
 }
 
 @end

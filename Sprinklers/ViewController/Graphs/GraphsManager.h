@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class GraphDescriptor;
+#import "GraphDescriptor.h"
 
 @interface GraphsManager : NSObject
 
@@ -20,7 +19,19 @@
 - (void)deselectGraph:(GraphDescriptor*)graph;
 - (void)selectAllGraphs;
 
+- (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex;
+- (void)replaceGraphAtIndex:(NSInteger)index withGraph:(GraphDescriptor*)graph;
+
 + (void)setRandomizeTestData:(BOOL)randomizeTestData;
 + (BOOL)randomizeTestData;
 
 @end
+
+#pragma mark
+
+@interface EmptyGraphDescriptor : GraphDescriptor
+
++ (EmptyGraphDescriptor*)emptyGraphDescriptorWithTotalGraphHeight:(CGFloat)totalGraphHeight;
+
+@end
+

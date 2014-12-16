@@ -25,6 +25,8 @@
 - (void)initializeTimeIntervalsSegmentedControl;
 - (void)initializeGraphsTableView;
 
+@property (nonatomic, strong) NSMutableDictionary *graphCells;
+
 @end
 
 #pragma mark -
@@ -47,11 +49,15 @@
     
     [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphCell" bundle:nil] forCellReuseIdentifier:@"GraphCell"];
     
+    self.graphCells = [NSMutableDictionary new];
+    
     [self initializeConfiguration];
     [self initializeUserInterface];
     
     [GraphsManager setRandomizeTestData:YES];
     [[GraphsManager sharedGraphsManager] selectAllGraphs];
+    
+    [self onChangeTimeInterval:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,10 +93,17 @@
 }
 
 - (void)initializeGraphsTableView {
+    self.graphsTableView.canReorder = NO;
+    self.graphsTableView.draggingViewOpacity = 0.75;
+    
     self.graphsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 3.0)];
     self.graphsTableView.tableFooterView.backgroundColor = [UIColor clearColor];
     self.graphsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.graphsTableView.contentInset = UIEdgeInsetsMake(3.0, 0.0, 0.0, 0.0);
+    
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem.target = self;
+    self.navigationItem.rightBarButtonItem.action = @selector(onEditGraphsTable:);
 }
 
 #pragma mark - Table view datasource
@@ -109,18 +122,47 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    static NSString *GraphCellIdentifier = @"GraphCell";
+    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    GraphCell *graphCell = self.graphCells[graphDescriptor.graphIdentifier];
     
-    GraphCell *graphCell = [tableView dequeueReusableCellWithIdentifier:GraphCellIdentifier];
-    graphCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    if (!graphCell) {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"GraphCell" owner:self options:nil];
+        graphCell = (GraphCell*)[nib objectAtIndex:0];
+        graphCell.graphDescriptor = graphDescriptor;
+        
+        self.graphCells[graphDescriptor.graphIdentifier] = graphCell;
+    }
     
     return graphCell;
+}
+
+- (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
+    return NO;
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Reorder table view delegate
+
+- (id)saveObjectAndInsertBlankRowAtIndexPath:(NSIndexPath*)indexPath {
+    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    EmptyGraphDescriptor *emptyGraphDescriptor = [EmptyGraphDescriptor emptyGraphDescriptorWithTotalGraphHeight:graphDescriptor.totalGraphHeight];
+
+    [[GraphsManager sharedGraphsManager] replaceGraphAtIndex:indexPath.row withGraph:emptyGraphDescriptor];
+    
+    return graphDescriptor;
+}
+
+- (void)moveRowAtIndexPath:(NSIndexPath*)fromIndexPath toIndexPath:(NSIndexPath*)toIndexPath {
+    [[GraphsManager sharedGraphsManager] moveGraphFromIndex:fromIndexPath.row toIndex:toIndexPath.row];
+}
+
+- (void)finishReorderingWithObject:(id)object atIndexPath:(NSIndexPath*)indexPath {
+    [[GraphsManager sharedGraphsManager] replaceGraphAtIndex:indexPath.row withGraph:(GraphDescriptor*)object];
 }
 
 #pragma mark - Actions
@@ -130,6 +172,15 @@
     for (GraphDescriptor *graphDescriptor in [GraphsManager sharedGraphsManager].selectedGraphs) {
         graphDescriptor.graphTimeInterval = graphTimeInterval;
     }
+}
+
+- (IBAction)onEditGraphsTable:(id)sender {
+    BOOL editing = !self.editing;
+    
+    [self setEditing:editing animated:YES];
+    [self.graphsTableView setEditing:editing animated:YES];
+    
+    self.graphsTableView.canReorder = editing;
 }
 
 @end

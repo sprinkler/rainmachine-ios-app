@@ -132,6 +132,7 @@
 		96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */; };
 		96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9091A27A020005974CC /* MixerDailyValue.m */; };
 		96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */; };
+		96EF1A8B1A40BB5F002CF2E0 /* BVReorderTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EF1A8A1A40BB5F002CF2E0 /* BVReorderTableView.m */; };
 		96F0F3351A36F18C0056D167 /* DashboardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3331A36F18C0056D167 /* DashboardVC.m */; };
 		96F0F3361A36F18C0056D167 /* DashboardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F0F3341A36F18C0056D167 /* DashboardVC.xib */; };
 		96F0F3391A36FAC70056D167 /* GraphDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3381A36FAC70056D167 /* GraphDescriptor.m */; };
@@ -601,6 +602,8 @@
 		96DAB9091A27A020005974CC /* MixerDailyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MixerDailyValue.m; path = "Communication/Response objects/MixerDailyValue.m"; sourceTree = "<group>"; };
 		96DAB9141A27BBA5005974CC /* RainSensitivityGraphMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivityGraphMonthView.h; sourceTree = "<group>"; };
 		96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivityGraphMonthView.m; sourceTree = "<group>"; };
+		96EF1A891A40BB5F002CF2E0 /* BVReorderTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BVReorderTableView.h; path = Controls/BVReorderTableView.h; sourceTree = "<group>"; };
+		96EF1A8A1A40BB5F002CF2E0 /* BVReorderTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BVReorderTableView.m; path = Controls/BVReorderTableView.m; sourceTree = "<group>"; };
 		96F0F3321A36F18C0056D167 /* DashboardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardVC.h; path = ViewController/DashboardVC.h; sourceTree = "<group>"; };
 		96F0F3331A36F18C0056D167 /* DashboardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashboardVC.m; path = ViewController/DashboardVC.m; sourceTree = "<group>"; };
 		96F0F3341A36F18C0056D167 /* DashboardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DashboardVC.xib; path = ViewController/DashboardVC.xib; sourceTree = "<group>"; };
@@ -1486,6 +1489,8 @@
 				B1583E5816A7F7170051B480 /* UIStrokeLabel.m */,
 				AFE749851880255500CC3620 /* ColoredBackgroundButton.h */,
 				AFE749861880255500CC3620 /* ColoredBackgroundButton.m */,
+				96EF1A891A40BB5F002CF2E0 /* BVReorderTableView.h */,
+				96EF1A8A1A40BB5F002CF2E0 /* BVReorderTableView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2430,6 +2435,7 @@
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
 				AF726E331A2C670D0024604B /* WiFi.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
+				96EF1A8B1A40BB5F002CF2E0 /* BVReorderTableView.m in Sources */,
 				AF0B1F5119AF3B1200FDC406 /* TimeResponse4.m in Sources */,
 				AF7AC9D0184E3DD30047BD9E /* AFHTTPSessionManager.m in Sources */,
 				AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */,

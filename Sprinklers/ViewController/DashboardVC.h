@@ -7,19 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BVReorderTableView.h"
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
 
 @class GraphTimeInterval;
 
-@interface DashboardVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DashboardVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, ReorderTableViewDelegate>
 
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
 
 @property (nonatomic, weak) IBOutlet UISegmentedControl *timeIntervalsSegmentedControl;
 @property (nonatomic, weak) IBOutlet UIView *headerSeparatorView;
-@property (nonatomic, weak) IBOutlet UITableView *graphsTableView;
+@property (nonatomic, weak) IBOutlet BVReorderTableView *graphsTableView;
 
 - (IBAction)onChangeTimeInterval:(id)sender;
+- (IBAction)onEditGraphsTable:(id)sender;
 
 @end
