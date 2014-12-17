@@ -214,9 +214,9 @@
                          } completion:^(BOOL finished) {
                              [_draggingView removeFromSuperview];
                              
-                             //[self beginUpdates];
-                             //[self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-                             //[self insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                             [self beginUpdates];
+                             [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                             [self insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
                              
                              if ([self.delegate respondsToSelector:@selector(finishReorderingWithObject:atIndexPath:)])
                              {
@@ -225,15 +225,13 @@
                              else {
                                  NSLog(@"finishReorderingWithObject:atIndexPath: is not implemented");
                              }
-                             //[self endUpdates];
+                             [self endUpdates];
                              
-                             /*// reload the rows that were affected just to be safe
+                             // reload the rows that were affected just to be safe
                              NSMutableArray *visibleRows = [[self indexPathsForVisibleRows] mutableCopy];
                              [visibleRows removeObject:indexPath];
-                             [self reloadRowsAtIndexPaths:visibleRows withRowAnimation:UITableViewRowAnimationNone];*/
-                             
-                             [self reloadData];
-                             
+                             [self reloadRowsAtIndexPaths:visibleRows withRowAnimation:UITableViewRowAnimationNone];
+                            
                              self.currentLocationIndexPath = nil;
                              self.draggingView = nil;
                          }];

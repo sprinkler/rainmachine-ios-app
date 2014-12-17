@@ -25,8 +25,6 @@
 - (void)initializeTimeIntervalsSegmentedControl;
 - (void)initializeGraphsTableView;
 
-@property (nonatomic, strong) NSMutableDictionary *graphCells;
-
 @end
 
 #pragma mark -
@@ -48,8 +46,6 @@
     [super viewDidLoad];
     
     [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphCell" bundle:nil] forCellReuseIdentifier:@"GraphCell"];
-    
-    self.graphCells = [NSMutableDictionary new];
     
     [self initializeConfiguration];
     [self initializeUserInterface];
@@ -122,16 +118,10 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
-    GraphCell *graphCell = self.graphCells[graphDescriptor.graphIdentifier];
+    static NSString *GraphCellIdentifier = @"GraphCell";
     
-    if (!graphCell) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"GraphCell" owner:self options:nil];
-        graphCell = (GraphCell*)[nib objectAtIndex:0];
-        graphCell.graphDescriptor = graphDescriptor;
-        
-        self.graphCells[graphDescriptor.graphIdentifier] = graphCell;
-    }
+    GraphCell *graphCell = [tableView dequeueReusableCellWithIdentifier:GraphCellIdentifier];
+    graphCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
     
     return graphCell;
 }

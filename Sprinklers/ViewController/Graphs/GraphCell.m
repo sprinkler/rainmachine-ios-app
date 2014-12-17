@@ -78,6 +78,7 @@
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {
     self.graphContainerView.backgroundColor = descriptor.backgroundColor;
     if (descriptor.cornerRadius > 0.0) self.graphContainerView.layer.cornerRadius = descriptor.cornerRadius;
+    else self.graphContainerView.layer.cornerRadius = 0.0;
 }
 
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor {
@@ -95,6 +96,10 @@
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor {
     if (!descriptor) {
         self.iconsBarContainerViewHeightLayoutConstraint.constant = 0.0;
+        for (UIImageView *iconImageView in self.iconImageViews) {
+            [iconImageView removeFromSuperview];
+        }
+        self.iconImageViews = nil;
         return;
     }
     
@@ -162,6 +167,10 @@
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor {
     if (!descriptor) {
         self.valuesBarContainerViewHeightLayoutConstraint.constant = 0.0;
+        for (UILabel *valueLabel in self.valueLabels) {
+            [valueLabel removeFromSuperview];
+        }
+        self.valueLabels = nil;
         return;
     }
     
