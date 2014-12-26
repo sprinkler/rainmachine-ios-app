@@ -12,7 +12,6 @@
 
 @property (nonatomic, assign) CGFloat iconsBarHeight;
 @property (nonatomic, assign) CGFloat iconsHeight;
-@property (nonatomic, strong) NSArray *iconImages;
 @property (nonatomic, strong) UIColor *iconImagesColor;
 
 + (GraphIconsBarDescriptor*)defaultDescriptor;

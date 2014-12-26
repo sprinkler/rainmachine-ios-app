@@ -7,6 +7,7 @@
 //
 
 #import "GraphTimeInterval.h"
+#import "GraphDataSource.h"
 #import "Constants.h"
 
 #pragma mark -
@@ -197,6 +198,12 @@ static NSMutableArray *registeredTimeIntervals = nil;
     if (*currentDateValueIndex) *currentDateValueIndex = currentMonthIndex;
     
     return monthsArray;
+}
+
+#pragma mark - Values and data sources
+
+- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource {
+    return dataSource.values;
 }
 
 @end

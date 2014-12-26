@@ -15,11 +15,12 @@
 @class GraphValuesBarDescriptor;
 @class GraphDisplayAreaDescriptor;
 @class GraphDateBarDescriptor;
+@class GraphDataSource;
 
 @interface GraphDescriptor : NSObject
 
 @property (nonatomic, strong) NSString *graphIdentifier;
-@property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) GraphDataSource *dataSource;
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
 @property (nonatomic, strong) GraphVisualAppearanceDescriptor *visualAppearanceDescriptor;
 @property (nonatomic, strong) GraphTitleAreaDescriptor *titleAreaDescriptor;

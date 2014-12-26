@@ -16,6 +16,8 @@
 #import "GraphDisplayAreaDescriptor.h"
 #import "GraphDateBarDescriptor.h"
 #import "GraphStyle.h"
+#import "GraphTimeInterval.h"
+#import "GraphDataSource.h"
 #import "Additions.h"
 
 #pragma mark -
@@ -25,8 +27,8 @@
 - (void)setup;
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
-- (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor;
-- (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor;
+- (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
+- (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
 - (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor;
 - (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor;
@@ -68,8 +70,8 @@
 - (void)setup {
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
-    [self setupIconImagesWithDescriptor:self.graphDescriptor.iconsBarDescriptor];
-    [self setupValuesWithDescriptor:self.graphDescriptor.valuesBarDescriptor];
+    [self setupIconImagesWithDescriptor:self.graphDescriptor.iconsBarDescriptor dataSource:self.graphDescriptor.dataSource];
+    [self setupValuesWithDescriptor:self.graphDescriptor.valuesBarDescriptor dataSource:self.graphDescriptor.dataSource];
     [self setupDisplayAreaWithDescriptor:self.graphDescriptor.displayAreaDescriptor];
     [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor];
     [self.graphView setNeedsDisplay];
@@ -93,7 +95,7 @@
     self.graphUnitsLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
 }
 
-- (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor {
+- (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource {
     if (!descriptor) {
         self.iconsBarContainerViewHeightLayoutConstraint.constant = 0.0;
         for (UIImageView *iconImageView in self.iconImageViews) {
@@ -104,9 +106,9 @@
     }
     
     if (self.iconImageViews) {
-        for (NSInteger index = 0; index < descriptor.iconImages.count; index++) {
+        for (NSInteger index = 0; index < dataSource.iconImages.count; index++) {
             UIImageView *iconImageView = self.iconImageViews[index];
-            UIImage *iconImage = descriptor.iconImages[index];
+            UIImage *iconImage = dataSource.iconImages[index];
             iconImageView.image = iconImage;
         }
         return;
@@ -116,7 +118,7 @@
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalIconBarWidth = self.iconsBarContainerView.bounds.size.width - totalPaddingWidth;
-    CGFloat iconImageViewWidth = round(totalIconBarWidth / descriptor.iconImages.count);
+    CGFloat iconImageViewWidth = round(totalIconBarWidth / dataSource.iconImages.count);
     CGFloat iconImageViewHeight = descriptor.iconsHeight;
     
     CGFloat iconImageViewOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
@@ -128,8 +130,9 @@
     
     NSMutableArray *iconImageViews = [NSMutableArray new];
     
-    for (UIImage *iconImage in descriptor.iconImages) {
-        isLastHorizontalConstraint = (iconImage == descriptor.iconImages.lastObject);
+    NSInteger index = 0;
+    for (UIImage *iconImage in dataSource.iconImages) {
+        isLastHorizontalConstraint = (index++ == dataSource.iconImages.count - 1);
         
         UIImageView *iconImageView = [[UIImageView alloc] initWithImage:iconImage];
         iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -164,7 +167,7 @@
     self.iconImageViews = iconImageViews;
 }
 
-- (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor {
+- (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource {
     if (!descriptor) {
         self.valuesBarContainerViewHeightLayoutConstraint.constant = 0.0;
         for (UILabel *valueLabel in self.valueLabels) {
@@ -174,10 +177,12 @@
         return;
     }
     
+    NSArray *dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:dataSource];
+    
     if (self.valueLabels) {
-        for (NSInteger index = 0; index < self.graphDescriptor.values.count; index++) {
+        for (NSInteger index = 0; index < dataSourceValues.count; index++) {
             UILabel *valueLabel = self.valueLabels[index];
-            NSNumber *value = self.graphDescriptor.values[index];
+            NSNumber *value = dataSourceValues[index];
             valueLabel.text = [NSString stringWithFormat:@"%d",value.intValue];
         }
         return;
@@ -187,7 +192,7 @@
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalValuesBarWidth = self.valuesBarContainerView.bounds.size.width - totalPaddingWidth;
-    CGFloat valueLabelWidth = round(totalValuesBarWidth / self.graphDescriptor.values.count);
+    CGFloat valueLabelWidth = round(totalValuesBarWidth / dataSourceValues.count);
     CGFloat valueLabelHeight = descriptor.valuesBarHeight;
     
     CGFloat valueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
@@ -199,8 +204,9 @@
     
     NSMutableArray *valueLabels = [NSMutableArray new];
     
-    for (NSNumber *value in self.graphDescriptor.values) {
-        isLastHorizontalConstraint = (value == self.graphDescriptor.values.lastObject);
+    NSInteger index = 0;
+    for (NSNumber *value in dataSourceValues) {
+        isLastHorizontalConstraint = (index++ == dataSourceValues.count - 1);
         
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(valueLabelOriginX, valueLabelOriginY, valueLabelWidth, valueLabelHeight)];
         valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -246,7 +252,7 @@
     self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;
     self.graphView.graphStyle = descriptor.graphStyle;
     self.graphView.graphStyle.graphDescriptor = self.graphDescriptor;
-    self.graphView.graphStyle.values = self.graphDescriptor.values;
+    self.graphView.graphStyle.values = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource];
     [self.graphView setNeedsDisplay];
 }
 

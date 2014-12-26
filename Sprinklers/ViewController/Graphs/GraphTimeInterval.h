@@ -14,6 +14,8 @@ typedef enum {
     GraphTimeIntervalType_Yearly
 } GraphTimeIntervalType;
 
+@class GraphDataSource;
+
 @interface GraphTimeInterval : NSObject
 
 @property (nonatomic, readonly) GraphTimeIntervalType type;
@@ -23,5 +25,6 @@ typedef enum {
 + (NSArray*)graphTimeIntervals;
 - (NSString*)timeIntervalValue;
 - (NSArray*)dateValuesForCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
+- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource;
 
 @end

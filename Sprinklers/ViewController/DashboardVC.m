@@ -60,6 +60,16 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [GraphsManager sharedGraphsManager].presentationViewController = self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [GraphsManager sharedGraphsManager].presentationViewController = self;
+}
+
 #pragma mark - Helper methods
 
 - (void)initializeConfiguration {

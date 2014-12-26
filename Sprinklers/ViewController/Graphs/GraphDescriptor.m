@@ -14,13 +14,8 @@
 #import "GraphValuesBarDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
 #import "GraphDateBarDescriptor.h"
+#import "GraphDataSource.h"
 #import "GraphsManager.h"
-
-#pragma mark -
-
-@interface GraphDescriptor ()
-
-@end
 
 #pragma mark -
 
@@ -31,7 +26,7 @@
 + (GraphDescriptor*)defaultDescriptor {
     GraphDescriptor *descriptor = [GraphDescriptor new];
     
-    descriptor.values = [self createValues];
+    descriptor.dataSource = [GraphDataSource defaultDataSource];
     descriptor.visualAppearanceDescriptor = [GraphVisualAppearanceDescriptor defaultDescriptor];
     descriptor.titleAreaDescriptor = [GraphTitleAreaDescriptor defaultDescriptor];
     descriptor.displayAreaDescriptor = [GraphDisplayAreaDescriptor defaultDescriptor];
@@ -61,22 +56,6 @@
     self.dateBarDescriptor.timeIntervalValue = graphTimeInterval.timeIntervalValue;
     self.dateBarDescriptor.dateValues = [graphTimeInterval dateValuesForCount:7 currentDateValueIndex:&currentDateValueIndex];
     self.dateBarDescriptor.selectedDateValueIndex = currentDateValueIndex;
-}
-
-#pragma mark - Helper methods
-
-+ (NSArray*)createValues {
-    NSMutableArray *values = [NSMutableArray new];
-    
-    if (![GraphsManager randomizeTestData]) {
-        [values addObjectsFromArray:@[@0,@0,@0,@0,@0,@0,@0]];
-    } else {
-        for (NSInteger index = 0; index < 7; index++) {
-            [values addObject:@((int)((double)rand() / (double)RAND_MAX * 100.0))];
-        }
-    }
-    
-    return values;
 }
 
 @end

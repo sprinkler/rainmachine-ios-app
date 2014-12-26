@@ -15,6 +15,7 @@
 #import "GraphStyle.h"
 #import "GraphStyleBars.h"
 #import "GraphStyleLines.h"
+#import "AFNetworking.h"
 
 NSString *kWaterConsumeGraphIdentifier              = @"WaterConsumeGraphIdentifier";
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
@@ -140,6 +141,19 @@ static BOOL GraphsManagerRandomizeTestData = NO;
 
 + (BOOL)randomizeTestData {
     return GraphsManagerRandomizeTestData;
+}
+
+#pragma mark - ProxyService delegate
+
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+}
+
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [self.presentationViewController handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+}
+
+- (void)loggedOut {
+    [self.presentationViewController handleLoggedOutSprinklerError];
 }
 
 @end

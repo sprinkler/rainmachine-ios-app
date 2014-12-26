@@ -7,9 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseLevel2ViewController.h"
 #import "GraphDescriptor.h"
+#import "ServerProxy.h"
 
-@interface GraphsManager : NSObject
+@interface GraphsManager : NSObject <SprinklerResponseProtocol>
+
+@property (nonatomic, weak) BaseLevel2ViewController *presentationViewController;
 
 @property (nonatomic, readonly) NSArray *availableGraphs;
 @property (nonatomic, readonly) NSArray *selectedGraphs;
