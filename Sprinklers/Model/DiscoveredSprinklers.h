@@ -16,5 +16,6 @@
 @property (nonatomic, strong) NSDate *updated;
 @property (nonatomic, strong) NSString *host;
 @property (nonatomic) int port;
+@property (nonatomic, strong) NSString *apFlag;
 
 @end

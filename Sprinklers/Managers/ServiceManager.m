@@ -167,8 +167,23 @@ static ServiceManager *current = nil;
     self.discoveredSprinklers = [NSMutableArray arrayWithArray:updatedSprinklers];
 }
 
-- (NSMutableArray *)getDiscoveredSprinklers {
-    return [self.discoveredSprinklers copy];
+- (NSMutableArray *)getDiscoveredSprinklersWithAPFlag:(BOOL)apFlag {
+    NSMutableArray *filteredDiscoveredSprinklers = [NSMutableArray array];
+    for (DiscoveredSprinklers *sprinkler in self.discoveredSprinklers) {
+        BOOL add = NO;
+        if (apFlag) {
+            // Return only the fully setup sprinklers: API3 sprinklers || API4 with apFlag=1
+            add = !(sprinkler.apFlag) || ([sprinkler.apFlag isEqualToString:@"1"]);
+        } else {
+            add = [sprinkler.apFlag isEqualToString:@"0"];
+        }
+        
+        if (add) {
+            [filteredDiscoveredSprinklers addObject:sprinkler];
+        }
+    }
+    
+    return filteredDiscoveredSprinklers;
 }
 
 #pragma mark - GCGAsyncUdpSocket delegate
@@ -212,6 +227,7 @@ static ServiceManager *current = nil;
             sprinkler.updated = [NSDate date];
             sprinkler.host = host;
             sprinkler.port = port;
+            sprinkler.apFlag = splits.count >= 5 ? splits[4] : nil;
             
             [self.discoveredSprinklers addObject:sprinkler];
         }

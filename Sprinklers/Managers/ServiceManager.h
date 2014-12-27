@@ -35,7 +35,7 @@
 - (BOOL)sendBroadcast:(BOOL)silent;
 - (BOOL)stopBroadcast;
 
-- (NSMutableArray *)getDiscoveredSprinklers;
+- (NSMutableArray *)getDiscoveredSprinklersWithAPFlag:(BOOL)apFlag;
 
 + (id)current;
 
