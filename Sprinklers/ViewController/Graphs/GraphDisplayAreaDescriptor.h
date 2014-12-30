@@ -10,6 +10,11 @@
 
 @class GraphStyle;
 
+typedef enum {
+    GraphScalingMode_Scale,
+    GraphScalingMode_PresetMinMaxValues
+} GraphScalingMode;
+
 @interface GraphDisplayAreaDescriptor : NSObject
 
 @property (nonatomic, assign) CGFloat displayAreaHeight;
@@ -24,6 +29,7 @@
 
 @property (nonatomic, strong) UIFont *valuesFont;
 @property (nonatomic, assign) CGFloat valuesDisplayHeight;
+@property (nonatomic, assign) GraphScalingMode scalingMode;
 @property (nonatomic, assign) double minValue;
 @property (nonatomic, assign) double maxValue;
 @property (nonatomic, assign) double midValue;

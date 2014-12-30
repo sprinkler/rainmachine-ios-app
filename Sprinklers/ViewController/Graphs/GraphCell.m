@@ -80,7 +80,9 @@
 - (void)setup {
     self.dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
     
-    [self updateMinMaxValuesFromValues:self.dataSourceValues];
+    if (self.graphDescriptor.displayAreaDescriptor.scalingMode == GraphScalingMode_Scale) {
+        [self updateMinMaxValuesFromValues:self.dataSourceValues];
+    }
     
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];

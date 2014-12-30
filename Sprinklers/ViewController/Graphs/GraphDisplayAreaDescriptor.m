@@ -27,6 +27,7 @@
     
     descriptor.valuesFont = [UIFont boldSystemFontOfSize:12.0];
     descriptor.valuesDisplayHeight = 16.0;
+    descriptor.scalingMode = GraphScalingMode_Scale;
     descriptor.minValue = 0.0;
     descriptor.midValue = 50.0;
     descriptor.maxValue = 100.0;
