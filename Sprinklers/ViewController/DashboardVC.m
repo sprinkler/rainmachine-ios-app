@@ -51,7 +51,6 @@
     [self initializeUserInterface];
     
     [[GraphsManager sharedGraphsManager] selectAllGraphs];
-    [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
     
     [self onChangeTimeInterval:nil];
 }
@@ -63,6 +62,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [GraphsManager sharedGraphsManager].presentationViewController = self;
+    [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

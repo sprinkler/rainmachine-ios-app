@@ -40,8 +40,6 @@
     self = [super init];
     if (!self) return nil;
     
-    _serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    
     return self;
 }
 
@@ -54,6 +52,7 @@
 #pragma mark - Override in subclasses
 
 - (void)startLoading {
+    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     [self requestData];
 }
 
