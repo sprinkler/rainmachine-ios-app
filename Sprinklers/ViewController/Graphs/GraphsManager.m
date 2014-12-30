@@ -138,22 +138,6 @@ static GraphsManager *sharedGraphsManager = nil;
     _selectedGraphs = selectedGraphs;
 }
 
-#pragma mark - Randomize test data
-
-static BOOL GraphsManagerRandomizeTestData = NO;
-
-+ (void)setRandomizeTestData:(BOOL)randomizeTestData {
-    if (GraphsManagerRandomizeTestData == randomizeTestData) return;
-    
-    srand((unsigned)time(NULL));
-    GraphsManagerRandomizeTestData = randomizeTestData;
-    sharedGraphsManager = nil;
-}
-
-+ (BOOL)randomizeTestData {
-    return GraphsManagerRandomizeTestData;
-}
-
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {

@@ -27,9 +27,6 @@
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex;
 - (void)replaceGraphAtIndex:(NSInteger)index withGraph:(GraphDescriptor*)graph;
 
-+ (void)setRandomizeTestData:(BOOL)randomizeTestData;
-+ (BOOL)randomizeTestData;
-
 @end
 
 #pragma mark

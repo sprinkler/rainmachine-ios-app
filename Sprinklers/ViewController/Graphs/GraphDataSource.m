@@ -56,9 +56,7 @@
 #pragma mark - Override in subclasses
 
 - (void)startLoading {
-    if (![GraphsManager randomizeTestData]) {
-        [self requestData];
-    }
+    [self requestData];
 }
 
 - (void)requestData {
@@ -74,13 +72,8 @@
 - (NSDictionary*)createValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    if (![GraphsManager randomizeTestData]) {
-        for (NSInteger index = 0; index < self.maxValuesCount; index++) [values setValue:@0 forKey:[NSString stringWithFormat:@"%d",(int)index]];
-    } else {
-        for (NSInteger index = 0; index < self.maxValuesCount; index++) {
-            [values setValue:@((int)((double)rand() / (double)RAND_MAX * 100.0))
-                      forKey:[NSString stringWithFormat:@"%d",(int)index]];
-        }
+    for (NSInteger index = 0; index < self.maxValuesCount; index++) {
+        [values setValue:@0 forKey:[NSString stringWithFormat:@"%d",(int)index]];
     }
     
     return values;
@@ -89,17 +82,9 @@
 - (NSArray*)createIconImages {
     NSMutableArray *iconImages = [NSMutableArray new];
     
-    if (![GraphsManager randomizeTestData]) {
-        UIImage *image = [UIImage imageNamed:@"na_small_white"];
-        UIImage *iconImage = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation];
-        for (NSInteger index = 0; index < self.maxValuesCount; index++) [iconImages addObject:iconImage];
-    } else {
-        for (NSInteger index = 0; index < self.maxValuesCount; index++) {
-            UIImage *image = [Utils smallWhiteWeatherImageFromCode:@((int)((double)rand() / (double)RAND_MAX * 24.0))];
-            UIImage *iconImage = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation];
-            [iconImages addObject:iconImage];
-        }
-    }
+    UIImage *image = [UIImage imageNamed:@"na_small_white"];
+    UIImage *iconImage = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation];
+    for (NSInteger index = 0; index < self.maxValuesCount; index++) [iconImages addObject:iconImage];
     
     return iconImages;
 }
