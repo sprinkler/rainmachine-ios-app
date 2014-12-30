@@ -25,6 +25,8 @@ typedef enum {
 + (NSArray*)graphTimeIntervals;
 - (NSString*)timeIntervalValue;
 - (NSArray*)dateValuesForCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
-- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource;
+- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource valuesCount:(NSInteger)count;
+
+@property (nonatomic, readonly) NSInteger maxValuesCount;
 
 @end

@@ -17,7 +17,7 @@
 
 @property (nonatomic, readonly) NSInteger maxValuesCount;
 
-- (NSArray*)createValues;
+- (NSDictionary*)createValues;
 - (NSArray*)createIconImages;
 
 @end
@@ -29,10 +29,11 @@
 #pragma mark - Initialization
 
 + (GraphDataSource*)defaultDataSource {
-    GraphDataSource *dataSource = [GraphDataSource new];
+    GraphDataSource *dataSource = [self new];
     
     dataSource.values = [dataSource createValues];
     dataSource.iconImages = [dataSource createIconImages];
+    dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     
     return dataSource;
 }
@@ -55,23 +56,30 @@
 #pragma mark - Override in subclasses
 
 - (void)startLoading {
+    if (![GraphsManager randomizeTestData]) {
+        [self requestData];
+    }
+}
+
+- (void)requestData {
     
 }
 
-- (NSArray*)valuesFromLoadedData:(id)data {
+- (NSDictionary*)valuesFromLoadedData:(id)data {
     return nil;
 }
 
 #pragma mark - Helper methods
 
-- (NSArray*)createValues {
-    NSMutableArray *values = [NSMutableArray new];
+- (NSDictionary*)createValues {
+    NSMutableDictionary *values = [NSMutableDictionary new];
     
     if (![GraphsManager randomizeTestData]) {
-        for (NSInteger index = 0; index < self.maxValuesCount; index++) [values addObject:@0];
+        for (NSInteger index = 0; index < self.maxValuesCount; index++) [values setValue:@0 forKey:[NSString stringWithFormat:@"%d",(int)index]];
     } else {
         for (NSInteger index = 0; index < self.maxValuesCount; index++) {
-            [values addObject:@((int)((double)rand() / (double)RAND_MAX * 100.0))];
+            [values setValue:@((int)((double)rand() / (double)RAND_MAX * 100.0))
+                      forKey:[NSString stringWithFormat:@"%d",(int)index]];
         }
     }
     
@@ -99,7 +107,7 @@
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    NSArray *values = [self valuesFromLoadedData:data];
+    NSDictionary *values = [self valuesFromLoadedData:data];
     if (values) self.values = values;
     
     self.serverProxy = nil;

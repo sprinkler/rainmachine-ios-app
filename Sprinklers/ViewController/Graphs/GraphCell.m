@@ -38,6 +38,10 @@
 @property (nonatomic, strong) NSArray *dateValueLabels;
 @property (nonatomic, strong) UIView *dateSelectionView;
 
+- (void)updateMinMaxValuesFromValues:(NSArray*)values;
+
+@property (nonatomic, strong) NSArray *dataSourceValues;
+
 @end
 
 #pragma mark -
@@ -52,6 +56,9 @@
     
     [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.graphTimeInterval" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.values" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImages" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
@@ -59,6 +66,9 @@
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"graphDescriptor"];
     [self removeObserver:self forKeyPath:@"graphDescriptor.graphTimeInterval"];
+    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource"];
+    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.values"];
+    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImages"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -68,13 +78,46 @@
 #pragma mark - Helper methods
 
 - (void)setup {
+    self.dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
+    
+    [self updateMinMaxValuesFromValues:self.dataSourceValues];
+    
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
     [self setupIconImagesWithDescriptor:self.graphDescriptor.iconsBarDescriptor dataSource:self.graphDescriptor.dataSource];
     [self setupValuesWithDescriptor:self.graphDescriptor.valuesBarDescriptor dataSource:self.graphDescriptor.dataSource];
     [self setupDisplayAreaWithDescriptor:self.graphDescriptor.displayAreaDescriptor];
     [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor];
+    
     [self.graphView setNeedsDisplay];
+}
+
+- (void)updateMinMaxValuesFromValues:(NSArray*)values {
+    if (!values.count) return;
+    
+    double minValue = 0.0;
+    double maxValue = 0.0;
+    
+    BOOL minValueSet = NO;
+    BOOL maxValueSet = NO;
+    
+    for (id value in values) {
+        if (value == [NSNull null]) continue;
+        NSNumber *numberValue = (NSNumber*)value;
+        
+        if (!minValueSet) minValue = numberValue.doubleValue;
+        if (!maxValueSet) maxValue = numberValue.doubleValue;
+        minValueSet = maxValueSet = YES;
+        
+        if (numberValue.doubleValue < minValue) minValue = floor(numberValue.doubleValue);
+        if (numberValue.doubleValue > maxValue) maxValue = ceil(numberValue.doubleValue);
+    }
+    
+    double midValue = (minValue + maxValue) / 2.0;
+    
+    self.graphDescriptor.displayAreaDescriptor.minValue = minValue;
+    self.graphDescriptor.displayAreaDescriptor.maxValue = maxValue;
+    self.graphDescriptor.displayAreaDescriptor.midValue = midValue;
 }
 
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {
@@ -177,13 +220,14 @@
         return;
     }
     
-    NSArray *dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:dataSource];
-    
     if (self.valueLabels) {
-        for (NSInteger index = 0; index < dataSourceValues.count; index++) {
+        for (NSInteger index = 0; index < self.dataSourceValues.count; index++) {
+            id value = self.dataSourceValues[index];
+            if (value == [NSNull null]) continue;
+            
             UILabel *valueLabel = self.valueLabels[index];
-            NSNumber *value = dataSourceValues[index];
-            valueLabel.text = [NSString stringWithFormat:@"%d",value.intValue];
+            NSNumber *numberValue = (NSNumber*)value;
+            valueLabel.text = [NSString stringWithFormat:@"%1.1lf",numberValue.doubleValue];
         }
         return;
     }
@@ -192,7 +236,7 @@
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalValuesBarWidth = self.valuesBarContainerView.bounds.size.width - totalPaddingWidth;
-    CGFloat valueLabelWidth = round(totalValuesBarWidth / dataSourceValues.count);
+    CGFloat valueLabelWidth = round(totalValuesBarWidth / self.dataSourceValues.count);
     CGFloat valueLabelHeight = descriptor.valuesBarHeight;
     
     CGFloat valueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
@@ -205,12 +249,12 @@
     NSMutableArray *valueLabels = [NSMutableArray new];
     
     NSInteger index = 0;
-    for (NSNumber *value in dataSourceValues) {
-        isLastHorizontalConstraint = (index++ == dataSourceValues.count - 1);
+    for (id value in self.dataSourceValues) {
+        isLastHorizontalConstraint = (index++ == self.dataSourceValues.count - 1);
         
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(valueLabelOriginX, valueLabelOriginY, valueLabelWidth, valueLabelHeight)];
         valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        valueLabel.text = [NSString stringWithFormat:@"%d",value.intValue];
+        valueLabel.text = (value == [NSNull null] ? nil : [NSString stringWithFormat:@"%1.1lf",((NSNumber*)value).doubleValue]);
         valueLabel.textColor = descriptor.valuesColor;
         valueLabel.font = descriptor.valuesFont;
         valueLabel.textAlignment = NSTextAlignmentCenter;
@@ -252,7 +296,7 @@
     self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;
     self.graphView.graphStyle = descriptor.graphStyle;
     self.graphView.graphStyle.graphDescriptor = self.graphDescriptor;
-    self.graphView.graphStyle.values = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource];
+    self.graphView.graphStyle.values = self.dataSourceValues;
     [self.graphView setNeedsDisplay];
 }
 

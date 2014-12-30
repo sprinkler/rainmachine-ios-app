@@ -27,6 +27,11 @@
 - (NSArray*)daysArrayInMonthWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
 - (NSArray*)monthsArrayInYearWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
 
+@property (nonatomic, readonly) NSArray *allDateStringsInTimeInterval;
+@property (nonatomic, readonly) NSArray *allDateStringsInWeek;
+@property (nonatomic, readonly) NSArray *allDateStringsInMonth;
+@property (nonatomic, readonly) NSArray *allDateStringsInYear;
+
 @end
 
 #pragma mark -
@@ -202,8 +207,82 @@ static NSMutableArray *registeredTimeIntervals = nil;
 
 #pragma mark - Values and data sources
 
-- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource {
-    return dataSource.values;
+- (NSInteger)maxValuesCount {
+    return 7;
+}
+
+- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource valuesCount:(NSInteger)count {
+    NSMutableArray *timeIntervalRestrictedValues = [NSMutableArray new];
+    NSArray *dateStrings = self.allDateStringsInTimeInterval;
+    
+    for (NSString *dateString in dateStrings) {
+        id value = dataSource.values[dateString];
+        if (value) [timeIntervalRestrictedValues addObject:value];
+        else [timeIntervalRestrictedValues addObject:[NSNull null]];
+    }
+    
+    return timeIntervalRestrictedValues;
+}
+
+- (NSArray*)allDateStringsInTimeInterval {
+    if (self.type == GraphTimeIntervalType_Weekly) return self.allDateStringsInWeek;
+    if (self.type == GraphTimeIntervalType_Monthly) return self.allDateStringsInMonth;
+    if (self.type == GraphTimeIntervalType_Yearly) return self.allDateStringsInYear;
+    return nil;
+}
+
+- (NSArray*)allDateStringsInWeek {
+    NSMutableArray *allDateStringsInWeek = [NSMutableArray new];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *date = [NSDate date];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:date];
+    
+    NSArray *daysArrayInWeek = [self daysArrayInWeekCurrentDateValueIndex:nil];
+    
+    for (NSNumber *dayValue in daysArrayInWeek) {
+        NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, dayValue.intValue];
+        [allDateStringsInWeek addObject:dateString];
+    }
+    
+    return allDateStringsInWeek;
+}
+
+- (NSArray*)allDateStringsInMonth {
+    NSMutableArray *allDateStringsInMonth = [NSMutableArray new];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *date = [NSDate date];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    NSRange daysRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
+    
+    for (NSInteger day = 1; day <= daysRange.length; day++) {
+        NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, (int)day];
+        [allDateStringsInMonth addObject:dateString];
+    }
+    
+    return allDateStringsInMonth;
+}
+
+- (NSArray*)allDateStringsInYear {
+    NSMutableArray *allDateStringsInYear = [NSMutableArray new];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *date = [NSDate date];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear fromDate:date];
+    
+    for (NSInteger month = 0; month < 12; month++) {
+        dateComponents.month = month + 1;
+        
+        NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
+        
+        for (NSInteger day = 0; day < monthRange.length; day++) {
+            NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)month + 1, (int)day + 1];
+            [allDateStringsInYear addObject:dateString];
+        }
+    }
+    
+    return allDateStringsInYear;
 }
 
 @end

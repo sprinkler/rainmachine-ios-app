@@ -15,6 +15,9 @@
 #import "GraphStyle.h"
 #import "GraphStyleBars.h"
 #import "GraphStyleLines.h"
+#import "GraphDataSource.h"
+#import "GraphDataSourceTemperature.h"
+#import "Utils.h"
 #import "AFNetworking.h"
 
 NSString *kWaterConsumeGraphIdentifier              = @"WaterConsumeGraphIdentifier";
@@ -65,7 +68,7 @@ static GraphsManager *sharedGraphsManager = nil;
     waterConsumeGraph.titleAreaDescriptor.units = @"%";
     waterConsumeGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
     waterConsumeGraph.valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
-    waterConsumeGraph.valuesBarDescriptor.units = @"°F";
+    waterConsumeGraph.valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
     waterConsumeGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
     [availableGraphs addObject:waterConsumeGraph];
     availableGraphsDictionary[waterConsumeGraph.graphIdentifier] = waterConsumeGraph;
@@ -74,8 +77,10 @@ static GraphsManager *sharedGraphsManager = nil;
     GraphDescriptor *temperatureGraph = [GraphDescriptor defaultDescriptor];
     temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
     temperatureGraph.titleAreaDescriptor.title = @"Temperature";
-    temperatureGraph.titleAreaDescriptor.units = @"°F";
+    temperatureGraph.titleAreaDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
     temperatureGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
+    temperatureGraph.dataSource = [GraphDataSourceTemperature defaultDataSource];
+    temperatureGraph.dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     [availableGraphs addObject:temperatureGraph];
     availableGraphsDictionary[temperatureGraph.graphIdentifier] = temperatureGraph;
     
@@ -85,7 +90,7 @@ static GraphsManager *sharedGraphsManager = nil;
     totalProgramRuntimesGraph.titleAreaDescriptor.units = @"%";
     totalProgramRuntimesGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
     totalProgramRuntimesGraph.valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
-    totalProgramRuntimesGraph.valuesBarDescriptor.units = @"°F";
+    totalProgramRuntimesGraph.valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
     totalProgramRuntimesGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
     [availableGraphs addObject:totalProgramRuntimesGraph];
     availableGraphsDictionary[totalProgramRuntimesGraph.graphIdentifier] = totalProgramRuntimesGraph;
@@ -108,6 +113,12 @@ static GraphsManager *sharedGraphsManager = nil;
 
 - (void)selectAllGraphs {
     if (!self.selectedGraphs.count) self.selectedGraphs = [NSArray arrayWithArray:self.availableGraphs];
+}
+
+- (void)reloadAllSelectedGraphs {
+    for (GraphDescriptor *graph in self.selectedGraphs) {
+        [graph.dataSource startLoading];
+    }
 }
 
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
@@ -146,6 +157,7 @@ static BOOL GraphsManagerRandomizeTestData = NO;
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    
 }
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {

@@ -44,6 +44,7 @@
 		964ADD301A1E7BA1008281A8 /* RainSensitivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */; };
 		964ADD311A1E7BA1008281A8 /* RainSensitivityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */; };
 		965F565A1A4DCDCE00DD5B23 /* GraphDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F56591A4DCDCE00DD5B23 /* GraphDataSource.m */; };
+		965F565D1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m in Sources */ = {isa = PBXBuildFile; fileRef = 965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */; };
 		9672C3A319D8069D00236DFB /* RestrictionsCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */; };
 		9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */; };
 		967C004519D983870071B4CB /* ProgramCellType6.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C004319D983870071B4CB /* ProgramCellType6.m */; };
@@ -500,6 +501,8 @@
 		964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RainSensitivityVC.xib; path = ViewController/RainSensitivityVC.xib; sourceTree = "<group>"; };
 		965F56581A4DCDCE00DD5B23 /* GraphDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSource.h; path = ViewController/Graphs/GraphDataSource.h; sourceTree = "<group>"; };
 		965F56591A4DCDCE00DD5B23 /* GraphDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSource.m; path = ViewController/Graphs/GraphDataSource.m; sourceTree = "<group>"; };
+		965F565B1A4DE2E100DD5B23 /* GraphDataSourceTemperature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceTemperature.h; path = ViewController/Graphs/GraphDataSourceTemperature.h; sourceTree = "<group>"; };
+		965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceTemperature.m; path = ViewController/Graphs/GraphDataSourceTemperature.m; sourceTree = "<group>"; };
 		9672C3A119D8069D00236DFB /* RestrictionsCheckCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsCheckCell.h; path = Cells/RestrictionsCheckCell.h; sourceTree = "<group>"; };
 		9672C3A219D8069D00236DFB /* RestrictionsCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsCheckCell.m; path = Cells/RestrictionsCheckCell.m; sourceTree = "<group>"; };
 		9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestrictionsCheckCell.xib; sourceTree = "<group>"; };
@@ -1242,6 +1245,8 @@
 				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
 				965F56581A4DCDCE00DD5B23 /* GraphDataSource.h */,
 				965F56591A4DCDCE00DD5B23 /* GraphDataSource.m */,
+				965F565B1A4DE2E100DD5B23 /* GraphDataSourceTemperature.h */,
+				965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */,
 				96CB93931A385DBB00F3691F /* GraphStyle.h */,
 				96CB93941A385DBB00F3691F /* GraphStyle.m */,
 				96CB93961A385DD300F3691F /* GraphStyleBars.h */,
@@ -2337,6 +2342,7 @@
 				AF26D5D01A2EDD7F0010AB28 /* WiFiCell.m in Sources */,
 				AF085C9C1A2EBFB700519BF6 /* LocationSetupVC.m in Sources */,
 				964ADD0D1A1E5AA5008281A8 /* GoogleRequest.m in Sources */,
+				965F565D1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m in Sources */,
 				964ADD2B1A1E7B82008281A8 /* RainSensitivityCell.m in Sources */,
 				AFE894DB1A35733B007FC7EB /* ProvisionNameSetupVC.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,

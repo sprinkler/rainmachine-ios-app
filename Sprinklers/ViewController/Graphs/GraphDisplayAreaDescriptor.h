@@ -24,9 +24,9 @@
 
 @property (nonatomic, strong) UIFont *valuesFont;
 @property (nonatomic, assign) CGFloat valuesDisplayHeight;
-@property (nonatomic, assign) NSInteger minValue;
-@property (nonatomic, assign) NSInteger maxValue;
-@property (nonatomic, assign) NSInteger midValue;
+@property (nonatomic, assign) double minValue;
+@property (nonatomic, assign) double maxValue;
+@property (nonatomic, assign) double midValue;
 
 @property (nonatomic, strong) GraphStyle *graphStyle;
 

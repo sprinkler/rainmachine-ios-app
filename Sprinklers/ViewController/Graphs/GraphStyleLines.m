@@ -16,9 +16,11 @@
 - (void)plotGraphInRect:(CGRect)rect context:(CGContextRef)context {
     CGContextSaveGState(context);
     
-    NSInteger maxValue = 0;
-    for (NSNumber *value in self.values) {
-        if (value.integerValue > maxValue) maxValue = value.integerValue;
+    double maxValue = 0;
+    for (id value in self.values) {
+        if (value == [NSNull null]) continue;
+        NSNumber *numberValue = (NSNumber*)value;
+        if (numberValue.doubleValue > maxValue) maxValue = ceil(numberValue.doubleValue);
     }
     
     CGContextSetStrokeColorWithColor(context, self.graphDescriptor.displayAreaDescriptor.graphDisplayColor.CGColor);
@@ -37,8 +39,17 @@
     CGFloat oldBarCenterX = barCenterX;
     
     BOOL firstPoint = YES;
-    for (NSNumber *value in self.values) {
-        CGFloat barSizeHeight = value.doubleValue / 100.0 * displayHeight;
+    for (id value in self.values) {
+        if (value == [NSNull null]) {
+            CGContextStrokePath(context);
+            barCenterX += barDisplayWidth;
+            firstPoint = YES;
+            continue;
+        }
+        
+        NSNumber *numberValue = (NSNumber*)value;
+        
+        CGFloat barSizeHeight = numberValue.doubleValue / (self.graphDescriptor.displayAreaDescriptor.maxValue == 0.0 ? 100.0 : self.graphDescriptor.displayAreaDescriptor.maxValue) * displayHeight;
         CGFloat barCenterY = rect.size.height - barSizeHeight - graphBottomPadding;
         
         if (firstPoint) CGContextMoveToPoint(context, round(barCenterX), round(barCenterY));
@@ -52,8 +63,15 @@
     
     barCenterX = oldBarCenterX;
     
-    for (NSNumber *value in self.values) {
-        CGFloat barSizeHeight = value.doubleValue / 100.0 * displayHeight;
+    for (id value in self.values) {
+        if (value == [NSNull null]) {
+            barCenterX += barDisplayWidth;
+            continue;
+        }
+        
+        NSNumber *numberValue = (NSNumber*)value;
+        
+        CGFloat barSizeHeight = numberValue.doubleValue / (self.graphDescriptor.displayAreaDescriptor.maxValue == 0.0 ? 100.0 : self.graphDescriptor.displayAreaDescriptor.maxValue) * displayHeight;
         CGFloat barCenterY = rect.size.height - barSizeHeight - graphBottomPadding;
         CGRect circleRect = CGRectIntegral(CGRectMake(barCenterX - graphCirclesRadius, barCenterY - graphCirclesRadius, graphCirclesRadius * 2.0, graphCirclesRadius * 2.0));
         

@@ -27,8 +27,16 @@
     CGFloat barDisplayWidth = displayWidth / self.values.count;
     CGFloat barOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + (barDisplayWidth - barSizeWidth) / 2.0;
     
-    for (NSNumber *value in self.values) {
-        CGFloat barSizeHeight = value.doubleValue / 100.0 * displayHeight;
+    for (id value in self.values) {
+        if (value == [NSNull null]) {
+            barOriginX += barDisplayWidth;
+            continue;
+            
+        }
+        
+        NSNumber *numberValue = (NSNumber*)value;
+        
+        CGFloat barSizeHeight = numberValue.doubleValue / 100.0 * displayHeight;
         CGRect barRect = CGRectIntegral(CGRectMake(barOriginX, rect.size.height - barSizeHeight - graphBarsBottomPadding, barSizeWidth, barSizeHeight));
         CGContextFillRect(context, barRect);
         

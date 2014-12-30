@@ -50,8 +50,8 @@
     [self initializeConfiguration];
     [self initializeUserInterface];
     
-    [GraphsManager setRandomizeTestData:YES];
     [[GraphsManager sharedGraphsManager] selectAllGraphs];
+    [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
     
     [self onChangeTimeInterval:nil];
 }

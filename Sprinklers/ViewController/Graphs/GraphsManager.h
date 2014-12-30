@@ -22,6 +22,7 @@
 - (void)selectGraph:(GraphDescriptor*)graph;
 - (void)deselectGraph:(GraphDescriptor*)graph;
 - (void)selectAllGraphs;
+- (void)reloadAllSelectedGraphs;
 
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex;
 - (void)replaceGraphAtIndex:(NSInteger)index withGraph:(GraphDescriptor*)graph;
