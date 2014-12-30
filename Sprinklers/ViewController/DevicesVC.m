@@ -339,7 +339,7 @@
 
 -(void) SprinklersDiscovered
 {
-    NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
+    NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:YES];
  
     // Mark all non-discovered sprinklers as not-alive
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];

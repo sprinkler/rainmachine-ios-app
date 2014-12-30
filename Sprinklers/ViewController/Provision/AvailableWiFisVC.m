@@ -137,7 +137,7 @@ const float kWifiSignalMax = -50;
     NSLog(@"connected to network: %@", [self fetchSSIDInfo]);
 #endif
     
-    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklers];
+    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:NO];
 
     DiscoveredSprinklers *newSprinkler = [self.discoveredSprinklers firstObject];
     DiscoveredSprinklers *currentSprinkler = self.sprinkler;
