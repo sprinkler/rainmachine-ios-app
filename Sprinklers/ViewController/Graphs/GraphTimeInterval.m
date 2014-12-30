@@ -27,10 +27,10 @@
 - (NSArray*)daysArrayInMonthWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
 - (NSArray*)monthsArrayInYearWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
 
-@property (nonatomic, readonly) NSArray *allDateStringsInTimeInterval;
-@property (nonatomic, readonly) NSArray *allDateStringsInWeek;
-@property (nonatomic, readonly) NSArray *allDateStringsInMonth;
-@property (nonatomic, readonly) NSArray *allDateStringsInYear;
+- (NSArray*)allDateStringGroupsInTimeIntervalForCount:(NSInteger)count;
+- (NSArray*)allDateStringGroupsInWeekForCount:(NSInteger)count;
+- (NSArray*)allDateStringGroupsInMonthForCount:(NSInteger)count;
+- (NSArray*)allDateStringGroupsInYearForCount:(NSInteger)count;
 
 @end
 
@@ -112,13 +112,13 @@ static NSMutableArray *registeredTimeIntervals = nil;
     NSInteger currentDayIndex = 3;
     
     if (firstDay < 1) {
-        currentDayIndex += (1 - firstDay);
+        currentDayIndex += (firstDay - 1);
         lastDay += (1 - firstDay);
         firstDay = 1;
     }
     
     if (lastDay > daysRange.length) {
-        currentDayIndex -= (lastDay - daysRange.length);
+        currentDayIndex += (lastDay - daysRange.length);
         firstDay -= (lastDay - daysRange.length);
         lastDay = daysRange.length;
     }
@@ -151,7 +151,7 @@ static NSMutableArray *registeredTimeIntervals = nil;
         NSString *day = [NSString stringWithFormat:@"%02d",(int)(round(dayIndex) + 1)];
         [daysArray addObject:day];
         
-        if (round(dayIndex) + 1 < dateComponents.day && dateComponents.day < round(dayIndex) + 1) {
+        if (round(oldDayIndex) + 1 < dateComponents.day && dateComponents.day < round(dayIndex) + 1) {
             [daysArray removeLastObject];
             [daysArray addObject:[NSString stringWithFormat:@"%02d",(int)dateComponents.day]];
             currentDayIndex = index;
@@ -159,8 +159,8 @@ static NSMutableArray *registeredTimeIntervals = nil;
             currentDayIndex = index;
         }
         
-        dayIndex += intervalLength;
         oldDayIndex = dayIndex;
+        dayIndex += intervalLength;
     }
     
     if (currentDateValueIndex) *currentDateValueIndex = currentDayIndex;
@@ -196,8 +196,8 @@ static NSMutableArray *registeredTimeIntervals = nil;
             currentMonthIndex = index;
         }
         
-        monthIndex += intervalLength;
         oldMonthIndex = monthIndex;
+        monthIndex += intervalLength;
     }
     
     if (*currentDateValueIndex) *currentDateValueIndex = currentMonthIndex;
@@ -213,25 +213,40 @@ static NSMutableArray *registeredTimeIntervals = nil;
 
 - (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource valuesCount:(NSInteger)count {
     NSMutableArray *timeIntervalRestrictedValues = [NSMutableArray new];
-    NSArray *dateStrings = self.allDateStringsInTimeInterval;
+    NSArray *dateStringGroups = [self allDateStringGroupsInTimeIntervalForCount:count];
     
-    for (NSString *dateString in dateStrings) {
-        id value = dataSource.values[dateString];
-        if (value) [timeIntervalRestrictedValues addObject:value];
-        else [timeIntervalRestrictedValues addObject:[NSNull null]];
+    for (NSArray *dateStringGroup in dateStringGroups) {
+        double groupValuesSum = 0.0;
+        NSInteger groupValuesCount = 0;
+        
+        for (NSString *dateString in dateStringGroup) {
+            id value = dataSource.values[dateString];
+            if (!value) continue;
+            
+            NSNumber *numberValue = (NSNumber*)value;
+            groupValuesSum += numberValue.doubleValue;
+            groupValuesCount++;
+        }
+        
+        if (groupValuesCount == 0) [timeIntervalRestrictedValues addObject:[NSNull null]];
+        else {
+            if (dataSource.groupingModel == GraphDataSourceGroupingModel_Sum) [timeIntervalRestrictedValues addObject:@(groupValuesSum)];
+            else if (dataSource.groupingModel == GraphDataSourceGroupingModel_Average) [timeIntervalRestrictedValues addObject:@(groupValuesSum / groupValuesCount)];
+            else [timeIntervalRestrictedValues addObject:[NSNull null]];
+        }
     }
     
     return timeIntervalRestrictedValues;
 }
 
-- (NSArray*)allDateStringsInTimeInterval {
-    if (self.type == GraphTimeIntervalType_Weekly) return self.allDateStringsInWeek;
-    if (self.type == GraphTimeIntervalType_Monthly) return self.allDateStringsInMonth;
-    if (self.type == GraphTimeIntervalType_Yearly) return self.allDateStringsInYear;
+- (NSArray*)allDateStringGroupsInTimeIntervalForCount:(NSInteger)count {
+    if (self.type == GraphTimeIntervalType_Weekly) return [self allDateStringGroupsInWeekForCount:count];
+    if (self.type == GraphTimeIntervalType_Monthly) return [self allDateStringGroupsInMonthForCount:count];
+    if (self.type == GraphTimeIntervalType_Yearly) return [self allDateStringGroupsInYearForCount:count];
     return nil;
 }
 
-- (NSArray*)allDateStringsInWeek {
+- (NSArray*)allDateStringGroupsInWeekForCount:(NSInteger)count {
     NSMutableArray *allDateStringsInWeek = [NSMutableArray new];
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -242,47 +257,74 @@ static NSMutableArray *registeredTimeIntervals = nil;
     
     for (NSNumber *dayValue in daysArrayInWeek) {
         NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, dayValue.intValue];
-        [allDateStringsInWeek addObject:dateString];
+        [allDateStringsInWeek addObject:@[dateString]];
     }
     
     return allDateStringsInWeek;
 }
 
-- (NSArray*)allDateStringsInMonth {
-    NSMutableArray *allDateStringsInMonth = [NSMutableArray new];
+- (NSArray*)allDateStringGroupsInMonthForCount:(NSInteger)count {
+    NSMutableArray *allDateStringGroupsInMonth = [NSMutableArray new];
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDate *date = [NSDate date];
     NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
     NSRange daysRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
     
+    double groupLength = (double)daysRange.length / (double)count;
+    NSInteger groupLengthCounter = 0;
+    
+    NSMutableArray *dateStringsGroup = [NSMutableArray new];
+    
     for (NSInteger day = 1; day <= daysRange.length; day++) {
         NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, (int)day];
-        [allDateStringsInMonth addObject:dateString];
+        [dateStringsGroup addObject:dateString];
+        
+        groupLengthCounter++;
+        if (groupLengthCounter > groupLength && allDateStringGroupsInMonth.count < count - 1) {
+            [allDateStringGroupsInMonth addObject:dateStringsGroup];
+            dateStringsGroup = [NSMutableArray new];
+            groupLengthCounter = 0;
+        }
     }
     
-    return allDateStringsInMonth;
+    [allDateStringGroupsInMonth addObject:dateStringsGroup];
+    
+    return allDateStringGroupsInMonth;
 }
 
-- (NSArray*)allDateStringsInYear {
-    NSMutableArray *allDateStringsInYear = [NSMutableArray new];
+- (NSArray*)allDateStringGroupsInYearForCount:(NSInteger)count {
+    NSMutableArray *allDateStringGroupsInYear = [NSMutableArray new];
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDate *date = [NSDate date];
     NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear fromDate:date];
     
+    double groupLength = 365.0 / count;
+    NSInteger groupLengthCounter = 0;
+    
+    NSMutableArray *dateStringsGroup = [NSMutableArray new];
+    
     for (NSInteger month = 0; month < 12; month++) {
         dateComponents.month = month + 1;
-        
         NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
         
         for (NSInteger day = 0; day < monthRange.length; day++) {
             NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)month + 1, (int)day + 1];
-            [allDateStringsInYear addObject:dateString];
+            [dateStringsGroup addObject:dateString];
+            
+            groupLengthCounter++;
+            if (groupLengthCounter > groupLength && allDateStringGroupsInYear.count < count - 1) {
+                [allDateStringGroupsInYear addObject:dateStringsGroup];
+                dateStringsGroup = [NSMutableArray new];
+                groupLengthCounter = 0;
+            }
         }
     }
     
-    return allDateStringsInYear;
+    [allDateStringGroupsInYear addObject:dateStringsGroup];
+    
+    return allDateStringGroupsInYear;
 }
 
 @end

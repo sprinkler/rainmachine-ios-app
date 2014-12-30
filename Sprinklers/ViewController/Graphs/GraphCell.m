@@ -115,6 +115,15 @@
         if (numberValue.doubleValue > maxValue) maxValue = ceil(numberValue.doubleValue);
     }
     
+    if (minValue == maxValue) {
+        if (maxValue > 0.0) minValue = 0.0;
+        else if (maxValue < 0.0) maxValue = 0.0;
+        else {
+            maxValue = 1.0;
+            minValue = - 1.0;
+        }
+    }
+    
     double midValue = (minValue + maxValue) / 2.0;
     
     self.graphDescriptor.displayAreaDescriptor.minValue = minValue;
