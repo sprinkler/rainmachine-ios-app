@@ -19,6 +19,7 @@
 #import "GraphTimeInterval.h"
 #import "GraphDataSource.h"
 #import "Additions.h"
+#import "Utils.h"
 
 #pragma mark -
 
@@ -42,6 +43,10 @@
 - (void)hideShowInterfaceComponents;
 
 @property (nonatomic, strong) NSArray *dataSourceValues;
+@property (nonatomic, strong) NSArray *dataSourceTopValues;
+@property (nonatomic, strong) NSArray *dataSourceIconImageIndexes;
+
+- (UIImage*)iconImageForIconImageIndex:(id)iconImageIndex;
 
 @end
 
@@ -59,7 +64,8 @@
     [self addObserver:self forKeyPath:@"graphDescriptor.graphTimeInterval" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.dataSource" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.values" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImages" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImageIndexes" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
@@ -69,7 +75,8 @@
     [self removeObserver:self forKeyPath:@"graphDescriptor.graphTimeInterval"];
     [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource"];
     [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.values"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImages"];
+    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues"];
+    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImageIndexes"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -80,6 +87,8 @@
 
 - (void)setup {
     self.dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
+    self.dataSourceTopValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedTopValuesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
+    self.dataSourceIconImageIndexes = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedIconImageIndexesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
     
     if (self.graphDescriptor.displayAreaDescriptor.scalingMode == GraphScalingMode_Scale) {
         [self updateMinMaxValuesFromValues:self.dataSourceValues];
@@ -178,9 +187,9 @@
     }
     
     if (self.iconImageViews) {
-        for (NSInteger index = 0; index < dataSource.iconImages.count; index++) {
+        for (NSInteger index = 0; index < self.dataSourceIconImageIndexes.count; index++) {
             UIImageView *iconImageView = self.iconImageViews[index];
-            UIImage *iconImage = dataSource.iconImages[index];
+            UIImage *iconImage = [self iconImageForIconImageIndex:self.dataSourceIconImageIndexes[index]];
             iconImageView.image = iconImage;
         }
         return;
@@ -190,7 +199,7 @@
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalIconBarWidth = self.iconsBarContainerView.bounds.size.width - totalPaddingWidth;
-    CGFloat iconImageViewWidth = round(totalIconBarWidth / dataSource.iconImages.count);
+    CGFloat iconImageViewWidth = round(totalIconBarWidth / self.dataSourceIconImageIndexes.count);
     CGFloat iconImageViewHeight = descriptor.iconsHeight;
     
     CGFloat iconImageViewOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
@@ -203,10 +212,10 @@
     NSMutableArray *iconImageViews = [NSMutableArray new];
     
     NSInteger index = 0;
-    for (UIImage *iconImage in dataSource.iconImages) {
-        isLastHorizontalConstraint = (index++ == dataSource.iconImages.count - 1);
+    for (id iconImageIndex in self.dataSourceIconImageIndexes) {
+        isLastHorizontalConstraint = (index++ == self.dataSourceIconImageIndexes.count - 1);
         
-        UIImageView *iconImageView = [[UIImageView alloc] initWithImage:iconImage];
+        UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[self iconImageForIconImageIndex:iconImageIndex]];
         iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
         iconImageView.frame = CGRectMake(iconImageViewOriginX, iconImageViewOriginY, iconImageViewWidth, iconImageViewHeight);
         iconImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -250,13 +259,10 @@
     }
     
     if (self.valueLabels) {
-        for (NSInteger index = 0; index < self.dataSourceValues.count; index++) {
-            id value = self.dataSourceValues[index];
-            if (value == [NSNull null]) continue;
-            
+        for (NSInteger index = 0; index < self.dataSourceTopValues.count; index++) {
+            id value = self.dataSourceTopValues[index];
             UILabel *valueLabel = self.valueLabels[index];
-            NSNumber *numberValue = (NSNumber*)value;
-            valueLabel.text = [NSString stringWithFormat:@"%1.1lf",numberValue.doubleValue];
+            valueLabel.text = (value == [NSNull null] ? nil : [NSString stringWithFormat:@"%1.1lf",((NSNumber*)value).doubleValue]);
         }
         return;
     }
@@ -265,7 +271,7 @@
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalValuesBarWidth = self.valuesBarContainerView.bounds.size.width - totalPaddingWidth;
-    CGFloat valueLabelWidth = round(totalValuesBarWidth / self.dataSourceValues.count);
+    CGFloat valueLabelWidth = round(totalValuesBarWidth / self.dataSourceTopValues.count);
     CGFloat valueLabelHeight = descriptor.valuesBarHeight;
     
     CGFloat valueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
@@ -278,8 +284,8 @@
     NSMutableArray *valueLabels = [NSMutableArray new];
     
     NSInteger index = 0;
-    for (id value in self.dataSourceValues) {
-        isLastHorizontalConstraint = (index++ == self.dataSourceValues.count - 1);
+    for (id value in self.dataSourceTopValues) {
+        isLastHorizontalConstraint = (index++ == self.dataSourceTopValues.count - 1);
         
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(valueLabelOriginX, valueLabelOriginY, valueLabelWidth, valueLabelHeight)];
         valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -449,6 +455,12 @@
     } else {
         self.dateSelectionView.hidden = YES;
     }
+}
+
+- (UIImage*)iconImageForIconImageIndex:(id)iconImageIndex {
+    UIImage *image = [UIImage imageNamed:@"na_small_white"];
+    if (iconImageIndex != [NSNull null]) image = [Utils smallWhiteWeatherImageFromCode:(NSNumber*)iconImageIndex];
+    return [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation];
 }
 
 @end

@@ -128,6 +128,7 @@
 		96CB94081A38AFAD00F3691F /* sn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D11A38AFAD00F3691F /* sn_small_white.png */; };
 		96CB94091A38AFAD00F3691F /* tsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D21A38AFAD00F3691F /* tsra_small_white.png */; };
 		96CB940A1A38AFAD00F3691F /* wind_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D31A38AFAD00F3691F /* wind_small_white.png */; };
+		96D8F8BF1A53645300139940 /* GraphDataSourceWaterConsume.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */; };
 		96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */; };
 		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
 		96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FF1A279437005974CC /* RainSensitivityGraphMonthCell.m */; };
@@ -598,6 +599,8 @@
 		96CB93D11A38AFAD00F3691F /* sn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sn_small_white.png; sourceTree = "<group>"; };
 		96CB93D21A38AFAD00F3691F /* tsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tsra_small_white.png; sourceTree = "<group>"; };
 		96CB93D31A38AFAD00F3691F /* wind_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wind_small_white.png; sourceTree = "<group>"; };
+		96D8F8BD1A53645300139940 /* GraphDataSourceWaterConsume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceWaterConsume.h; path = ViewController/Graphs/GraphDataSourceWaterConsume.h; sourceTree = "<group>"; };
+		96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceWaterConsume.m; path = ViewController/Graphs/GraphDataSourceWaterConsume.m; sourceTree = "<group>"; };
 		96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivitySimulationGraphVC.h; sourceTree = "<group>"; };
 		96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivitySimulationGraphVC.m; sourceTree = "<group>"; };
 		96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RainSensitivitySimulationGraphVC.xib; sourceTree = "<group>"; };
@@ -1245,6 +1248,8 @@
 				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
 				965F56581A4DCDCE00DD5B23 /* GraphDataSource.h */,
 				965F56591A4DCDCE00DD5B23 /* GraphDataSource.m */,
+				96D8F8BD1A53645300139940 /* GraphDataSourceWaterConsume.h */,
+				96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */,
 				965F565B1A4DE2E100DD5B23 /* GraphDataSourceTemperature.h */,
 				965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */,
 				96CB93931A385DBB00F3691F /* GraphStyle.h */,
@@ -2455,6 +2460,7 @@
 				B1EF20F9186046D300D9CE26 /* +UIView.m in Sources */,
 				B1EF210F1860493C00D9CE26 /* LoginVC.m in Sources */,
 				AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */,
+				96D8F8BF1A53645300139940 /* GraphDataSourceWaterConsume.m in Sources */,
 				AF927C9019C84B91009C59EA /* CloudUtils.m in Sources */,
 				96F0F3441A3702D60056D167 /* GraphTitleAreaDescriptor.m in Sources */,
 				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,

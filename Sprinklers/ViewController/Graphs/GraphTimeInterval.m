@@ -239,6 +239,76 @@ static NSMutableArray *registeredTimeIntervals = nil;
     return timeIntervalRestrictedValues;
 }
 
+- (NSArray*)timeIntervalRestrictedTopValuesForGraphDataSource:(GraphDataSource*)dataSource valuesCount:(NSInteger)count {
+    NSMutableArray *timeIntervalRestrictedTopValues = [NSMutableArray new];
+    NSArray *dateStringGroups = [self allDateStringGroupsInTimeIntervalForCount:count];
+    
+    for (NSArray *dateStringGroup in dateStringGroups) {
+        double groupValuesSum = 0.0;
+        NSInteger groupValuesCount = 0;
+        
+        for (NSString *dateString in dateStringGroup) {
+            id value = dataSource.topValues[dateString];
+            if (!value) continue;
+            
+            NSNumber *numberValue = (NSNumber*)value;
+            groupValuesSum += numberValue.doubleValue;
+            groupValuesCount++;
+        }
+        
+        if (groupValuesCount == 0) [timeIntervalRestrictedTopValues addObject:[NSNull null]];
+        else {
+            if (dataSource.groupingModel == GraphDataSourceGroupingModel_Sum) [timeIntervalRestrictedTopValues addObject:@(groupValuesSum)];
+            else if (dataSource.groupingModel == GraphDataSourceGroupingModel_Average) [timeIntervalRestrictedTopValues addObject:@(groupValuesSum / groupValuesCount)];
+            else [timeIntervalRestrictedTopValues addObject:[NSNull null]];
+        }
+    }
+    
+    return timeIntervalRestrictedTopValues;
+}
+
+- (NSArray*)timeIntervalRestrictedIconImageIndexesForGraphDataSource:(GraphDataSource*)dataSource valuesCount:(NSInteger)count {
+    NSMutableArray *timeIntervalRestrictedIconImageIndexes = [NSMutableArray new];
+    NSArray *dateStringGroups = [self allDateStringGroupsInTimeIntervalForCount:count];
+    
+    for (NSArray *dateStringGroup in dateStringGroups) {
+        NSMutableDictionary *iconImageIndexCountsInGroup = [NSMutableDictionary new];
+        
+        for (NSString *dateString in dateStringGroup) {
+            id iconImageIndex = dataSource.iconImageIndexes[dateString];
+            if (!iconImageIndex) continue;
+            
+            NSNumber *iconImageIndexValue = (NSNumber*)iconImageIndex;
+            NSNumber *iconIndexCount = iconImageIndexCountsInGroup[iconImageIndexValue];
+            if (!iconIndexCount) iconIndexCount = @1;
+            else iconIndexCount = @(iconIndexCount.integerValue + 1);
+            iconImageIndexCountsInGroup[iconImageIndexValue] = iconIndexCount;
+        }
+        
+        NSInteger maxIconImageIndexCount = 0;
+        for (NSNumber *iconImageIndexCount in iconImageIndexCountsInGroup.allValues) {
+            if (iconImageIndexCount.integerValue > maxIconImageIndexCount) maxIconImageIndexCount = iconImageIndexCount.integerValue;
+        }
+        
+        BOOL iconImageIndexFound = NO;
+        
+        for (NSNumber *iconImageIndex in iconImageIndexCountsInGroup.allKeys) {
+            NSNumber *iconImageIndexCount = iconImageIndexCountsInGroup[iconImageIndex];
+            if (iconImageIndexCount.integerValue == maxIconImageIndexCount) {
+                [timeIntervalRestrictedIconImageIndexes addObject:iconImageIndex];
+                iconImageIndexFound = YES;
+                break;
+            }
+        }
+        
+        if (!iconImageIndexFound) {
+            [timeIntervalRestrictedIconImageIndexes addObject:[NSNull null]];
+        }
+    }
+    
+    return timeIntervalRestrictedIconImageIndexes;
+}
+
 - (NSArray*)allDateStringGroupsInTimeIntervalForCount:(NSInteger)count {
     if (self.type == GraphTimeIntervalType_Weekly) return [self allDateStringGroupsInWeekForCount:count];
     if (self.type == GraphTimeIntervalType_Monthly) return [self allDateStringGroupsInMonthForCount:count];

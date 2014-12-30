@@ -19,19 +19,7 @@
 
 - (NSDictionary*)valuesFromLoadedData:(id)data {
     if (![data isKindOfClass:[NSArray class]]) return nil;
-    NSArray *array = (NSArray*)data;
-    
-    NSMutableDictionary *values = [NSMutableDictionary new];
-    
-    for (id item in array) {
-        NSString *day = [item valueForKey:@"day"];
-        NSNumber *maxt = [item valueForKey:@"maxt"];
-        if (!day.length || !maxt) continue;
-        
-        values[day] = maxt;
-    }
-    
-    return values;
+    return [self valuesFromArray:(NSArray*)data key:@"maxt"];
 }
 
 @end

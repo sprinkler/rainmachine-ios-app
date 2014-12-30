@@ -17,6 +17,7 @@
 #import "GraphStyleLines.h"
 #import "GraphDataSource.h"
 #import "GraphDataSourceTemperature.h"
+#import "GraphDataSourceWaterConsume.h"
 #import "Utils.h"
 #import "AFNetworking.h"
 
@@ -74,6 +75,8 @@ static GraphsManager *sharedGraphsManager = nil;
     waterConsumeGraph.displayAreaDescriptor.minValue = 0.0;
     waterConsumeGraph.displayAreaDescriptor.midValue = 50.0;
     waterConsumeGraph.displayAreaDescriptor.maxValue = 100.0;
+    waterConsumeGraph.dataSource = [GraphDataSourceWaterConsume defaultDataSource];
+    waterConsumeGraph.dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     [availableGraphs addObject:waterConsumeGraph];
     availableGraphsDictionary[waterConsumeGraph.graphIdentifier] = waterConsumeGraph;
     

@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSNumber *percentage;
 @property (nonatomic, strong) NSNumber *wateringFlag;
 @property (nonatomic, strong) NSArray *vibration;
+@property (nonatomic, strong) NSNumber *simulatedPercentage;
+@property (nonatomic, strong) NSArray *simulatedVibration;
 
 // Fill 'units' field programmatically
 @property (nonatomic, strong) NSString *units;

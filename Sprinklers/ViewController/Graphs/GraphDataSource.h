@@ -17,7 +17,8 @@ typedef enum {
 @interface GraphDataSource : NSObject <SprinklerResponseProtocol>
 
 @property (nonatomic, strong) NSDictionary *values;
-@property (nonatomic, strong) NSArray *iconImages;
+@property (nonatomic, strong) NSDictionary *topValues;
+@property (nonatomic, strong) NSDictionary *iconImageIndexes;
 @property (nonatomic, strong) ServerProxy *serverProxy;
 @property (nonatomic, strong) NSError *error;
 
@@ -26,7 +27,11 @@ typedef enum {
 
 @property (nonatomic, assign) GraphDataSourceGroupingModel groupingModel;
 
+- (NSDictionary*)valuesFromArray:(NSArray*)array key:(NSString*)key;
+
 - (void)requestData;
 - (NSDictionary*)valuesFromLoadedData:(id)data;
+- (NSDictionary*)topValuesFromLoadedData:(id)data;
+- (NSDictionary*)iconImageIndexesFromLoadedData:(id)data;
 
 @end

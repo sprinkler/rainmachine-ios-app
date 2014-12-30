@@ -17,8 +17,6 @@
 
 @property (nonatomic, readonly) NSInteger maxValuesCount;
 
-- (NSArray*)createIconImages;
-
 @end
 
 #pragma mark -
@@ -30,7 +28,6 @@
 + (GraphDataSource*)defaultDataSource {
     GraphDataSource *dataSource = [self new];
     
-    dataSource.iconImages = [dataSource createIconImages];
     dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     
     return dataSource;
@@ -64,16 +61,28 @@
     return nil;
 }
 
+- (NSDictionary*)topValuesFromLoadedData:(id)data {
+    return nil;
+}
+
+- (NSDictionary*)iconImageIndexesFromLoadedData:(id)data {
+    return nil;
+}
+
 #pragma mark - Helper methods
 
-- (NSArray*)createIconImages {
-    NSMutableArray *iconImages = [NSMutableArray new];
+- (NSDictionary*)valuesFromArray:(NSArray*)array key:(NSString*)key {
+    NSMutableDictionary *values = [NSMutableDictionary new];
     
-    UIImage *image = [UIImage imageNamed:@"na_small_white"];
-    UIImage *iconImage = [UIImage imageWithCGImage:image.CGImage scale:[UIScreen mainScreen].scale orientation:image.imageOrientation];
-    for (NSInteger index = 0; index < self.maxValuesCount; index++) [iconImages addObject:iconImage];
+    for (id item in array) {
+        NSString *day = [item valueForKey:@"day"];
+        id value = [item valueForKey:key];
+        if (!day.length || !value) continue;
+        
+        values[day] = value;
+    }
     
-    return iconImages;
+    return values;
 }
 
 #pragma mark - ProxyService delegate
@@ -81,6 +90,12 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     NSDictionary *values = [self valuesFromLoadedData:data];
     if (values) self.values = values;
+    
+    NSDictionary *topValues = [self topValuesFromLoadedData:data];
+    if (topValues) self.topValues = topValues;
+    
+    NSDictionary *iconImageIndexes = [self iconImageIndexesFromLoadedData:data];
+    if (iconImageIndexes) self.iconImageIndexes = iconImageIndexes;
     
     self.serverProxy = nil;
     
