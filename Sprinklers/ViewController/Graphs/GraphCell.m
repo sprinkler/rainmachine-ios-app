@@ -39,6 +39,7 @@
 @property (nonatomic, strong) UIView *dateSelectionView;
 
 - (void)updateMinMaxValuesFromValues:(NSArray*)values;
+- (void)hideShowInterfaceComponents;
 
 @property (nonatomic, strong) NSArray *dataSourceValues;
 
@@ -92,6 +93,8 @@
     [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor];
     
     [self.graphView setNeedsDisplay];
+    
+    [self hideShowInterfaceComponents];
 }
 
 - (void)updateMinMaxValuesFromValues:(NSArray*)values {
@@ -129,6 +132,21 @@
     self.graphDescriptor.displayAreaDescriptor.minValue = minValue;
     self.graphDescriptor.displayAreaDescriptor.maxValue = maxValue;
     self.graphDescriptor.displayAreaDescriptor.midValue = midValue;
+}
+
+- (void)hideShowInterfaceComponents {
+    BOOL hasValues = NO;
+    for (id value in self.graphDescriptor.dataSource.values) {
+        if (value != [NSNull null]) {
+            hasValues = YES;
+            break;
+        }
+    }
+    
+    self.emptyGraphLabel.hidden = hasValues;
+    self.iconsBarContainerView.hidden = !hasValues;
+    self.valuesBarContainerView.hidden = !hasValues;
+    self.valuesUnitsLabel.hidden = !hasValues;
 }
 
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {

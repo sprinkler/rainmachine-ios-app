@@ -17,7 +17,6 @@
 
 @property (nonatomic, readonly) NSInteger maxValuesCount;
 
-- (NSDictionary*)createValues;
 - (NSArray*)createIconImages;
 
 @end
@@ -31,7 +30,6 @@
 + (GraphDataSource*)defaultDataSource {
     GraphDataSource *dataSource = [self new];
     
-    dataSource.values = [dataSource createValues];
     dataSource.iconImages = [dataSource createIconImages];
     dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     
@@ -68,16 +66,6 @@
 }
 
 #pragma mark - Helper methods
-
-- (NSDictionary*)createValues {
-    NSMutableDictionary *values = [NSMutableDictionary new];
-    
-    for (NSInteger index = 0; index < self.maxValuesCount; index++) {
-        [values setValue:@0 forKey:[NSString stringWithFormat:@"%d",(int)index]];
-    }
-    
-    return values;
-}
 
 - (NSArray*)createIconImages {
     NSMutableArray *iconImages = [NSMutableArray new];

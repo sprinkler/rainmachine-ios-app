@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
 @property (nonatomic, strong) NSArray *values;
+@property (nonatomic, readonly) BOOL hasValues;
 
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context;
 - (void)plotGraphInRect:(CGRect)rect context:(CGContextRef)context;

@@ -39,4 +39,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *timeIntervalLabel;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *timeIntervalLabelWidthLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UILabel *emptyGraphLabel;
+
 @end

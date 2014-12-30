@@ -32,7 +32,16 @@
 
 @implementation GraphStyle
 
+- (BOOL)hasValues {
+    for (id value in self.values) {
+        if (value != [NSNull null]) return YES;
+    }
+    return NO;
+}
+
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context {
+    BOOL hasValues = self.hasValues;
+    
     CGContextSaveGState(context);
     
     CGFloat maxValueOriginY = self.graphDescriptor.displayAreaDescriptor.graphBarsTopPadding + self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight;
@@ -47,11 +56,13 @@
     CGFloat dashLengths[] = {3.0, 3.0};
     CGContextSetLineDash(context, dashPhase, dashLengths, 2);
     
-    CGContextMoveToPoint(context, 0.0, maxValueOriginY);
-    CGContextAddLineToPoint(context, rect.size.width, maxValueOriginY);
-    
-    CGContextMoveToPoint(context, 0.0, midValueOriginY);
-    CGContextAddLineToPoint(context, rect.size.width, midValueOriginY);
+    if (hasValues) {
+        CGContextMoveToPoint(context, 0.0, maxValueOriginY);
+        CGContextAddLineToPoint(context, rect.size.width, maxValueOriginY);
+        
+        CGContextMoveToPoint(context, 0.0, midValueOriginY);
+        CGContextAddLineToPoint(context, rect.size.width, midValueOriginY);
+    }
     
     CGContextMoveToPoint(context, 0.0, minValueOriginY);
     CGContextAddLineToPoint(context, rect.size.width, minValueOriginY);
@@ -60,29 +71,31 @@
     
     // Draw min, mid, max values
     
-    [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.maxValue]]
-              rect:rect
-          textRect:CGRectMake(0.0, maxValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
-              font:self.graphDescriptor.displayAreaDescriptor.valuesFont
-             color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
-     textAlignment:kCTTextAlignmentCenter
-           context:context];
-    
-    [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.midValue]]
-              rect:rect
-          textRect:CGRectMake(0.0, midValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
-              font:self.graphDescriptor.displayAreaDescriptor.valuesFont
-             color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
-     textAlignment:kCTTextAlignmentCenter
-           context:context];
-    
-    [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.minValue]]
-              rect:rect
-          textRect:CGRectMake(0.0, minValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
-              font:self.graphDescriptor.displayAreaDescriptor.valuesFont
-             color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
-     textAlignment:kCTTextAlignmentCenter
-           context:context];
+    if (hasValues) {
+        [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.maxValue]]
+                  rect:rect
+              textRect:CGRectMake(0.0, maxValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
+                  font:self.graphDescriptor.displayAreaDescriptor.valuesFont
+                 color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
+         textAlignment:kCTTextAlignmentCenter
+               context:context];
+        
+        [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.midValue]]
+                  rect:rect
+              textRect:CGRectMake(0.0, midValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
+                  font:self.graphDescriptor.displayAreaDescriptor.valuesFont
+                 color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
+         textAlignment:kCTTextAlignmentCenter
+               context:context];
+        
+        [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.minValue]]
+                  rect:rect
+              textRect:CGRectMake(0.0, minValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
+                  font:self.graphDescriptor.displayAreaDescriptor.valuesFont
+                 color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
+         textAlignment:kCTTextAlignmentCenter
+               context:context];
+    }
     
     CGContextRestoreGState(context);
 }
@@ -93,7 +106,7 @@
 
 - (void)plotInRect:(CGRect)rect context:(CGContextRef)context {
     [self plotRasterInRect:rect context:context];
-    [self plotGraphInRect:rect context:context];
+    if (self.hasValues) [self plotGraphInRect:rect context:context];
 }
 
 #pragma mark - Helper methods

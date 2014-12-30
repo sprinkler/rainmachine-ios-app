@@ -116,6 +116,16 @@
                                     <constraint firstAttribute="height" constant="18" id="xdr-06-xAl"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amX-yS-EFz">
+                                <rect key="frame" x="119" y="70" width="69" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="69" id="4af-BS-xYJ"/>
+                                    <constraint firstAttribute="height" constant="21" id="RYv-kK-bOq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
@@ -124,6 +134,8 @@
                             <constraint firstAttribute="trailing" secondItem="RMU-7o-fci" secondAttribute="trailing" id="DdD-hd-mhR"/>
                             <constraint firstItem="RMU-7o-fci" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="IjV-Jb-Otf"/>
                             <constraint firstAttribute="trailing" secondItem="Nzb-8X-iOA" secondAttribute="trailing" constant="8" id="Ocn-aF-sZm"/>
+                            <constraint firstAttribute="centerX" secondItem="amX-yS-EFz" secondAttribute="centerX" id="Oha-O5-Aoe"/>
+                            <constraint firstAttribute="centerY" secondItem="amX-yS-EFz" secondAttribute="centerY" id="RKS-QR-VnD"/>
                             <constraint firstItem="RMU-7o-fci" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" id="RTs-Oc-y3C"/>
                             <constraint firstAttribute="trailing" secondItem="PCv-hz-hds" secondAttribute="trailing" constant="8" id="aYV-nZ-LrQ"/>
                             <constraint firstItem="Nzb-8X-iOA" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" constant="8" id="agp-fX-P8o"/>
@@ -147,6 +159,7 @@
             <connections>
                 <outlet property="dateBarContainerView" destination="yEs-ao-8P4" id="Opa-Fe-Cx7"/>
                 <outlet property="dateBarContainerViewHeightLayoutConstraint" destination="xdr-06-xAl" id="hjD-LY-iuK"/>
+                <outlet property="emptyGraphLabel" destination="amX-yS-EFz" id="Ux0-BA-XQs"/>
                 <outlet property="graphContainerView" destination="ZoQ-gN-Nun" id="tYA-Xu-hBi"/>
                 <outlet property="graphTitleLabel" destination="m7A-of-lVI" id="V0D-Wl-sfQ"/>
                 <outlet property="graphUnitsLabel" destination="Y7a-WI-ED0" id="PcQ-lr-7It"/>
