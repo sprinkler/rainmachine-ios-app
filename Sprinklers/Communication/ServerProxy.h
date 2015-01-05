@@ -84,6 +84,8 @@ typedef enum {
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password rememberMe:(BOOL)rememberMe;
 
 + (void)setSprinklerVersionMajor:(int)major minor:(int)minor subMinor:(int)subMinor;
++ (void)pushSprinklerVersion;
++ (void)popSprinklerVersion;
 + (int)serverAPIMainVersion;
 + (int)usesAPI3;
 + (int)usesAPI4;

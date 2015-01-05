@@ -19,7 +19,7 @@
 #import "ProvisionNameSetupVC.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
-#define kPollInterval 6
+#define kPollInterval 3
 
 const float kWifiSignalMin = -100;
 const float kWifiSignalMax = -50;
@@ -52,8 +52,11 @@ const float kWifiSignalMax = -50;
 
     [self.tableView registerNib:[UINib nibWithNibName:@"WiFiCell" bundle:nil] forCellReuseIdentifier:@"WiFiCell"];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
+
     self.view.backgroundColor = self.tableView.backgroundColor;
     
+    [ServerProxy pushSprinklerVersion];
     [ServerProxy setSprinklerVersionMajor:4 minor:0 subMinor:0];
     
     self.headerView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 46)];
@@ -77,13 +80,13 @@ const float kWifiSignalMax = -50;
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)appDidBecomeActive
 {
-    [super viewDidAppear:animated];
-
-    [self restartPolling];
-    
-    [self.devicesPollTimer fire];
+    if (self.availableWiFis.count == 0) {
+        [self showHud];
+    }
+//    [self restartPolling];
+//    [self.devicesPollTimer fire];
 }
 
 - (void)restartPolling
@@ -101,7 +104,12 @@ const float kWifiSignalMax = -50;
 {
     [super viewWillAppear:animated];
     
-    [self refreshUI];
+    if (self.availableWiFis.count == 0) {
+        [self showHud];
+        [self restartPolling];
+    }
+
+//    [self refreshUI];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -133,9 +141,9 @@ const float kWifiSignalMax = -50;
         return;
     }
     
-#if DEBUG
-    NSLog(@"connected to network: %@", [self fetchSSIDInfo]);
-#endif
+    DLog(@"connected to network: %@", [self fetchSSIDInfo]);
+    
+    [self hideHud];
     
     self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:NO];
 
@@ -144,6 +152,7 @@ const float kWifiSignalMax = -50;
     BOOL areUrlsEqual = [[newSprinkler url] isEqualToString:[currentSprinkler url]];
     if (!areUrlsEqual) {
         self.sprinkler = newSprinkler;
+        self.availableWiFis = nil;
 
         if (self.sprinkler) {
             [self showHud];
@@ -209,11 +218,11 @@ const float kWifiSignalMax = -50;
              if (signalDiscreteValue == 2) {
                  imageName = [NSString stringWithFormat:@"icon_wi-fi-%d-bars", signalDiscreteValue];
              } else {
-                 imageName = [wifi.isEncrypted boolValue] ? @"icon_wi-fi-full" : nil;
+                 imageName = @"icon_wi-fi-full";
              }
          }
          cell.signalImageView.image = [UIImage imageNamed:imageName];
-         cell.lockedImageView.image = [UIImage imageNamed:@"icon_wi-fi-locked.png"];
+         cell.lockedImageView.image = [wifi.isEncrypted boolValue] ? [UIImage imageNamed:@"icon_wi-fi-locked.png"] : nil;
      } else {
          if (indexPath.row == [self rowForOtherNetwork]) {
              cell = (WiFiCell*)[tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
@@ -300,7 +309,6 @@ const float kWifiSignalMax = -50;
                 doNameSetup = [self.macAddressOfSprinklerWithWiFiSetup isEqualToString:[self.sprinkler sprinklerId]];
             }
             if (doNameSetup) {
-                NSLog(@"*****");
                 UINavigationController *navigationController = self.navigationController;
                 [self.navigationController popToRootViewControllerAnimated:NO];
                 ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
@@ -313,7 +321,9 @@ const float kWifiSignalMax = -50;
     }
     
     if (serverProxy == self.provisionServerProxy) {
-        self.availableWiFis = data;
+        if ([data isKindOfClass:[NSArray class]]) {
+            self.availableWiFis = data;
+        }
         [self hideHud];
         [self refreshUI];
     }

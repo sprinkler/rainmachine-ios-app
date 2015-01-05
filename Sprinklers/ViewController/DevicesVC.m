@@ -170,6 +170,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [ServerProxy popSprinklerVersion];
+    
     if (self.cloudAccountsVC) {
         NSMutableSet *deletedSprinklers = [NSMutableSet setWithArray:self.cloudEmails];
         NSMutableSet *secondSet = [NSMutableSet setWithArray:self.cloudAccountsVC.cloudEmails];
@@ -879,6 +881,8 @@
 #pragma mark - Communication callbacks
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
+
     [self hideHud];
 }
 

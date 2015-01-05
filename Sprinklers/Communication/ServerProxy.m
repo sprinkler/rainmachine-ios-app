@@ -47,6 +47,11 @@
 #import "MixerDailyValue.h"
 #import "WiFi.h"
 
+static int savedServerAPIMainVersion = 0;
+static int savedServerAPISubVersion = 0;
+static int savedServerAPIMinorSubVersion = -1;
+static BOOL isServerStateSaved = NO;
+
 static int serverAPIMainVersion = 0;
 static int serverAPISubVersion = 0;
 static int serverAPIMinorSubVersion = -1;
@@ -103,6 +108,24 @@ static int serverAPIMinorSubVersion = -1;
 - (int)operationCount
 {
     return (int)(self.manager.operationQueue.operationCount);
+}
+
++ (void)pushSprinklerVersion
+{
+    isServerStateSaved = YES;
+    savedServerAPIMainVersion = serverAPIMainVersion;
+    savedServerAPISubVersion = serverAPISubVersion;
+    savedServerAPIMinorSubVersion = serverAPIMinorSubVersion;
+}
+
++ (void)popSprinklerVersion
+{
+    if (isServerStateSaved) {
+        serverAPIMainVersion = savedServerAPIMainVersion;
+        serverAPISubVersion = savedServerAPISubVersion;
+        serverAPIMinorSubVersion = savedServerAPIMinorSubVersion;
+        isServerStateSaved = NO;
+    }
 }
 
 + (void)setSprinklerVersionMajor:(int)major minor:(int)minor subMinor:(int)subMinor
