@@ -49,7 +49,11 @@
         
         NSNumber *numberValue = (NSNumber*)value;
         
-        CGFloat barSizeHeight = numberValue.doubleValue / (self.graphDescriptor.displayAreaDescriptor.maxValue == 0.0 ? 100.0 : self.graphDescriptor.displayAreaDescriptor.maxValue) * displayHeight;
+        CGFloat absoluteValue = (numberValue.doubleValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+        CGFloat valuesIntervalLength = (self.graphDescriptor.displayAreaDescriptor.maxValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+        if (valuesIntervalLength == 0.0) valuesIntervalLength = 1.0;
+        
+        CGFloat barSizeHeight = absoluteValue / valuesIntervalLength * displayHeight;
         CGFloat barCenterY = rect.size.height - barSizeHeight - graphBottomPadding;
         
         if (firstPoint) CGContextMoveToPoint(context, round(barCenterX), round(barCenterY));
@@ -71,7 +75,11 @@
         
         NSNumber *numberValue = (NSNumber*)value;
         
-        CGFloat barSizeHeight = numberValue.doubleValue / (self.graphDescriptor.displayAreaDescriptor.maxValue == 0.0 ? 100.0 : self.graphDescriptor.displayAreaDescriptor.maxValue) * displayHeight;
+        CGFloat absoluteValue = (numberValue.doubleValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+        CGFloat valuesIntervalLength = (self.graphDescriptor.displayAreaDescriptor.maxValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+        if (valuesIntervalLength == 0.0) valuesIntervalLength = 1.0;
+        
+        CGFloat barSizeHeight = absoluteValue / valuesIntervalLength * displayHeight;
         CGFloat barCenterY = rect.size.height - barSizeHeight - graphBottomPadding;
         CGRect circleRect = CGRectIntegral(CGRectMake(barCenterX - graphCirclesRadius, barCenterY - graphCirclesRadius, graphCirclesRadius * 2.0, graphCirclesRadius * 2.0));
         

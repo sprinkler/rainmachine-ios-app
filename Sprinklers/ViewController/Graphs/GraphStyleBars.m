@@ -36,7 +36,11 @@
         
         NSNumber *numberValue = (NSNumber*)value;
         
-        CGFloat barSizeHeight = numberValue.doubleValue / 100.0 * displayHeight;
+        CGFloat absoluteValue = (numberValue.doubleValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+        CGFloat valuesIntervalLength = (self.graphDescriptor.displayAreaDescriptor.maxValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+        if (valuesIntervalLength == 0.0) valuesIntervalLength = 1.0;
+        
+        CGFloat barSizeHeight = absoluteValue / valuesIntervalLength * displayHeight;
         CGRect barRect = CGRectIntegral(CGRectMake(barOriginX, rect.size.height - barSizeHeight - graphBarsBottomPadding, barSizeWidth, barSizeHeight));
         CGContextFillRect(context, barRect);
         
