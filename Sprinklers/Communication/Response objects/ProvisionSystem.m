@@ -33,7 +33,7 @@
         system.selfTest = [jsonObj nullProofedBoolValueForKey:@"selfTest"];
         system.netName = [jsonObj nullProofedStringValueForKey:@"netName"];
         system.localValveCount = [jsonObj nullProofedIntValueForKey:@"localValveCount"];
-        system.zoneDuration = [jsonObj nullProofedIntValueForKey:@"zoneDuration"];
+        system.zoneDuration = [jsonObj objectForKey:@"zoneDuration"];
         system.keepDataHistory = [jsonObj nullProofedBoolValueForKey:@"keepDataHistory"];
         
         return system;

@@ -27,7 +27,7 @@
 @property (nonatomic, assign) BOOL selfTest;
 @property (nonatomic, strong) NSString *netName;
 @property (nonatomic, assign) int localValveCount;
-@property (nonatomic, assign) int zoneDuration;
+@property (nonatomic, strong) NSArray *zoneDuration;
 @property (nonatomic, assign) BOOL keepDataHistory;
 
 + (ProvisionSystem*)createFromJson:(NSDictionary*)jsonObj;
