@@ -37,9 +37,12 @@
 }
 
 - (CGFloat)totalGraphHeight {
+    GraphIconsBarDescriptor *iconsBarDescriptor = (self.graphTimeInterval ? self.iconsBarDescriptorsDictionary[@(self.graphTimeInterval.type)] : nil);
+    GraphValuesBarDescriptor *valuesBarDescriptor = (self.graphTimeInterval ? self.valuesBarDescriptorsDictionary[@(self.graphTimeInterval.type)] : nil);
+    
     return self.titleAreaDescriptor.titleAreaHeight +
-        self.iconsBarDescriptor.iconsBarHeight +
-        self.valuesBarDescriptor.valuesBarHeight +
+        iconsBarDescriptor.iconsBarHeight +
+        valuesBarDescriptor.valuesBarHeight +
         self.displayAreaDescriptor.displayAreaHeight +
         self.dateBarDescriptor.dateBarHeight + 6.0;
 }

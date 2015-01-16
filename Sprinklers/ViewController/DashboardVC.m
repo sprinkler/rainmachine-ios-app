@@ -9,6 +9,7 @@
 #import "DashboardVC.h"
 #import "GraphTimeInterval.h"
 #import "GraphCell.h"
+#import "GraphScrollableCell.h"
 #import "GraphsManager.h"
 #import "GraphDescriptor.h"
 #import "Constants.h"
@@ -45,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphCell" bundle:nil] forCellReuseIdentifier:@"GraphCell"];
+    [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCell" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCell"];
     
     [self initializeConfiguration];
     [self initializeUserInterface];
@@ -128,12 +129,13 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    static NSString *GraphCellIdentifier = @"GraphCell";
+    static NSString *GraphScrollableCellIdentifier = @"GraphScrollableCell";
     
-    GraphCell *graphCell = [tableView dequeueReusableCellWithIdentifier:GraphCellIdentifier];
-    graphCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    GraphScrollableCell *graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifier];
+    graphScrollableCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    graphScrollableCell.graphScrollableCellDelegate = self;
     
-    return graphCell;
+    return graphScrollableCell;
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -165,6 +167,15 @@
     [[GraphsManager sharedGraphsManager] replaceGraphAtIndex:indexPath.row withGraph:(GraphDescriptor*)object];
 }
 
+#pragma mark - Graph scrollable cell delegate
+
+- (void)graphScrollableCell:(GraphScrollableCell*)graphScrollableCell didScrollToContentOffset:(CGPoint)contentOffset {
+    for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
+        if (cell == graphScrollableCell) continue;
+        [cell scrollToContentOffset:contentOffset animated:NO];
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)onChangeTimeInterval:(id)sender {
@@ -172,6 +183,7 @@
     for (GraphDescriptor *graphDescriptor in [GraphsManager sharedGraphsManager].selectedGraphs) {
         graphDescriptor.graphTimeInterval = graphTimeInterval;
     }
+    [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (IBAction)onEditGraphsTable:(id)sender {

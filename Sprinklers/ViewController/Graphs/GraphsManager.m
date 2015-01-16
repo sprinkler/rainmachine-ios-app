@@ -15,6 +15,7 @@
 #import "GraphStyle.h"
 #import "GraphStyleBars.h"
 #import "GraphStyleLines.h"
+#import "GraphTimeInterval.h"
 #import "GraphDataSource.h"
 #import "GraphDataSourceTemperature.h"
 #import "GraphDataSourceWaterConsume.h"
@@ -63,13 +64,18 @@ static GraphsManager *sharedGraphsManager = nil;
     NSMutableArray *availableGraphs = [NSMutableArray new];
     NSMutableDictionary *availableGraphsDictionary = [NSMutableDictionary new];
     
+    GraphIconsBarDescriptor *iconsBarDescriptor = nil;
+    GraphValuesBarDescriptor *valuesBarDescriptor = nil;
+    
     GraphDescriptor *waterConsumeGraph = [GraphDescriptor defaultDescriptor];
     waterConsumeGraph.graphIdentifier = kWaterConsumeGraphIdentifier;
     waterConsumeGraph.titleAreaDescriptor.title = @"Water Consume";
     waterConsumeGraph.titleAreaDescriptor.units = @"%";
-    waterConsumeGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
-    waterConsumeGraph.valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
-    waterConsumeGraph.valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+    iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
+    waterConsumeGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
+    valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
+    valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+    waterConsumeGraph.valuesBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : valuesBarDescriptor};
     waterConsumeGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
     waterConsumeGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
     waterConsumeGraph.displayAreaDescriptor.minValue = 0.0;
@@ -79,7 +85,6 @@ static GraphsManager *sharedGraphsManager = nil;
     waterConsumeGraph.dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     [availableGraphs addObject:waterConsumeGraph];
     availableGraphsDictionary[waterConsumeGraph.graphIdentifier] = waterConsumeGraph;
-    
     
     GraphDescriptor *temperatureGraph = [GraphDescriptor defaultDescriptor];
     temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
@@ -96,9 +101,11 @@ static GraphsManager *sharedGraphsManager = nil;
     totalProgramRuntimesGraph.graphIdentifier = kTotalProgramRuntimesGraphIdentifier;
     totalProgramRuntimesGraph.titleAreaDescriptor.title = @"Total Program Runtimes";
     totalProgramRuntimesGraph.titleAreaDescriptor.units = @"%";
-    totalProgramRuntimesGraph.iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
-    totalProgramRuntimesGraph.valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
-    totalProgramRuntimesGraph.valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+    iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
+    totalProgramRuntimesGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
+    valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
+    valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+    totalProgramRuntimesGraph.valuesBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : valuesBarDescriptor};
     totalProgramRuntimesGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
     totalProgramRuntimesGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
     totalProgramRuntimesGraph.displayAreaDescriptor.minValue = 0.0;

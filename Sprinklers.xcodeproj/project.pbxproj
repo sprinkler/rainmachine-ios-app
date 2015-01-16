@@ -27,6 +27,8 @@
 		3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3AC64A06192B56130009061D /* MappingModev1tov6.xcmappingmodel */; };
 		960374F819D5FB3C009CB68A /* RestrictionsSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */; };
 		960374F919D5FB3C009CB68A /* RestrictionsSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */; };
+		9637286C1A69A6C700BE7202 /* GraphScrollableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */; };
+		9637286D1A69A6C700BE7202 /* GraphScrollableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9637286B1A69A6C700BE7202 /* GraphScrollableCell.xib */; };
 		964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */; };
 		964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */; };
 		964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCFB1A1E5AA5008281A8 /* GoogleElevation.m */; };
@@ -471,6 +473,9 @@
 		960374F519D5FB3C009CB68A /* RestrictionsSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsSwitchCell.h; path = Cells/RestrictionsSwitchCell.h; sourceTree = "<group>"; };
 		960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsSwitchCell.m; path = Cells/RestrictionsSwitchCell.m; sourceTree = "<group>"; };
 		960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsSwitchCell.xib; path = Cells/RestrictionsSwitchCell.xib; sourceTree = "<group>"; };
+		963728691A69A6C700BE7202 /* GraphScrollableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphScrollableCell.h; path = ViewController/Graphs/GraphScrollableCell.h; sourceTree = "<group>"; };
+		9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphScrollableCell.m; path = ViewController/Graphs/GraphScrollableCell.m; sourceTree = "<group>"; };
+		9637286B1A69A6C700BE7202 /* GraphScrollableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCell.xib; path = ViewController/Graphs/GraphScrollableCell.xib; sourceTree = "<group>"; };
 		964ADCF61A1E5AA5008281A8 /* GoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAddress.h; sourceTree = "<group>"; };
 		964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAddress.m; sourceTree = "<group>"; };
 		964ADCF81A1E5AA5008281A8 /* GoogleAutocompletePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAutocompletePrediction.h; sourceTree = "<group>"; };
@@ -1263,6 +1268,9 @@
 				96F0F34B1A3705F00056D167 /* GraphCell.h */,
 				96F0F34C1A3705F00056D167 /* GraphCell.m */,
 				96F0F34D1A3705F00056D167 /* GraphCell.xib */,
+				963728691A69A6C700BE7202 /* GraphScrollableCell.h */,
+				9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */,
+				9637286B1A69A6C700BE7202 /* GraphScrollableCell.xib */,
 				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
 				96F0F3511A370D7D0056D167 /* GraphsManager.m */,
 			);
@@ -2190,6 +2198,7 @@
 				B1E1EE4219227E1C004C8F5B /* Sprinkler_Icon_76.png in Resources */,
 				96CB93EF1A38AFAD00F3691F /* nra1_small_white.png in Resources */,
 				3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */,
+				9637286D1A69A6C700BE7202 /* GraphScrollableCell.xib in Resources */,
 				AF81E6E318BA32C6007E9A03 /* ProgramCellType1.xib in Resources */,
 				AF48269B1990DC9500D80B87 /* tsra.png in Resources */,
 				AF48266E1990DC9500D80B87 /* fu.png in Resources */,
@@ -2444,6 +2453,7 @@
 				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
 				96CB939B1A38818300F3691F /* GraphStyleLines.m in Sources */,
 				AFB69438190289440067CD7F /* Zone.m in Sources */,
+				9637286C1A69A6C700BE7202 /* GraphScrollableCell.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				968E25F11A1F8DD1008006D3 /* ProvisionSystem.m in Sources */,
 				964ADD0F1A1E5AA5008281A8 /* GoogleRequestElevation.m in Sources */,

@@ -11,17 +11,11 @@
 @class GraphDescriptor;
 @class GraphView;
 
-@interface GraphCell : UITableViewCell
+@interface GraphCell : UICollectionViewCell
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
 
 @property (nonatomic, weak) IBOutlet UIView *graphContainerView;
-@property (nonatomic, weak) IBOutlet UIView *titleAreaContainerView;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *titleAreaContainerViewHeightLayoutConstraint;
-@property (nonatomic, weak) IBOutlet UIView *titleAreaSeparatorView;
-@property (nonatomic, weak) IBOutlet UILabel *graphTitleLabel;
-@property (nonatomic, weak) IBOutlet UILabel *graphUnitsLabel;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *graphUnitsLabelWidthLayoutConstraint;
 
 @property (nonatomic, weak) IBOutlet UIView *iconsBarContainerView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *iconsBarContainerViewHeightLayoutConstraint;

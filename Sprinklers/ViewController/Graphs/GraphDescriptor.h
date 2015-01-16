@@ -11,8 +11,6 @@
 @class GraphTimeInterval;
 @class GraphVisualAppearanceDescriptor;
 @class GraphTitleAreaDescriptor;
-@class GraphIconsBarDescriptor;
-@class GraphValuesBarDescriptor;
 @class GraphDisplayAreaDescriptor;
 @class GraphDateBarDescriptor;
 @class GraphDataSource;
@@ -24,8 +22,8 @@
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
 @property (nonatomic, strong) GraphVisualAppearanceDescriptor *visualAppearanceDescriptor;
 @property (nonatomic, strong) GraphTitleAreaDescriptor *titleAreaDescriptor;
-@property (nonatomic, strong) GraphIconsBarDescriptor *iconsBarDescriptor;
-@property (nonatomic, strong) GraphValuesBarDescriptor *valuesBarDescriptor;
+@property (nonatomic, strong) NSDictionary *iconsBarDescriptorsDictionary;
+@property (nonatomic, strong) NSDictionary *valuesBarDescriptorsDictionary;
 @property (nonatomic, strong) GraphDisplayAreaDescriptor *displayAreaDescriptor;
 @property (nonatomic, strong) GraphDateBarDescriptor *dateBarDescriptor;
 

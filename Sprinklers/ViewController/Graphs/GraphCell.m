@@ -10,7 +10,6 @@
 #import "GraphView.h"
 #import "GraphDescriptor.h"
 #import "GraphVisualAppearanceDescriptor.h"
-#import "GraphTitleAreaDescriptor.h"
 #import "GraphIconsBarDescriptor.h"
 #import "GraphValuesBarDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
@@ -26,8 +25,6 @@
 @interface GraphCell ()
 
 - (void)setup;
-- (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
-- (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
@@ -61,7 +58,6 @@
     if (!self) return nil;
     
     [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.graphTimeInterval" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.dataSource" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.values" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
@@ -72,7 +68,6 @@
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"graphDescriptor"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.graphTimeInterval"];
     [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource"];
     [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.values"];
     [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues"];
@@ -94,10 +89,14 @@
         [self updateMinMaxValuesFromValues:self.dataSourceValues];
     }
     
-    [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
-    [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
-    [self setupIconImagesWithDescriptor:self.graphDescriptor.iconsBarDescriptor dataSource:self.graphDescriptor.dataSource];
-    [self setupValuesWithDescriptor:self.graphDescriptor.valuesBarDescriptor dataSource:self.graphDescriptor.dataSource];
+    self.graphContainerView.backgroundColor = [UIColor clearColor];
+    
+    GraphIconsBarDescriptor *iconsBarDescriptor = (self.graphDescriptor.graphTimeInterval ? self.graphDescriptor.iconsBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)] : nil);
+    GraphValuesBarDescriptor *valuesBarDescriptor = (self.graphDescriptor.graphTimeInterval ? self.graphDescriptor.valuesBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)] : nil);
+
+    [self setupIconImagesWithDescriptor:iconsBarDescriptor dataSource:self.graphDescriptor.dataSource];
+    [self setupValuesWithDescriptor:valuesBarDescriptor dataSource:self.graphDescriptor.dataSource];
+    
     [self setupDisplayAreaWithDescriptor:self.graphDescriptor.displayAreaDescriptor];
     [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor];
     
@@ -156,24 +155,6 @@
     self.iconsBarContainerView.hidden = !hasValues;
     self.valuesBarContainerView.hidden = !hasValues;
     self.valuesUnitsLabel.hidden = !hasValues;
-}
-
-- (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {
-    self.graphContainerView.backgroundColor = descriptor.backgroundColor;
-    if (descriptor.cornerRadius > 0.0) self.graphContainerView.layer.cornerRadius = descriptor.cornerRadius;
-    else self.graphContainerView.layer.cornerRadius = 0.0;
-}
-
-- (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor {
-    self.titleAreaContainerViewHeightLayoutConstraint.constant = descriptor.titleAreaHeight;
-    self.titleAreaSeparatorView.backgroundColor = descriptor.titleAreaSeparatorColor;
-    self.graphTitleLabel.text = descriptor.title;
-    self.graphTitleLabel.textColor = descriptor.titleColor;
-    self.graphTitleLabel.font = descriptor.titleFont;
-    self.graphUnitsLabel.text = descriptor.units;
-    self.graphUnitsLabel.textColor = descriptor.unitsColor;
-    self.graphUnitsLabel.font = descriptor.unitsFont;
-    self.graphUnitsLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
 }
 
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource {
