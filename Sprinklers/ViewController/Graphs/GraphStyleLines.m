@@ -8,6 +8,7 @@
 
 #import "GraphStyleLines.h"
 #import "GraphDescriptor.h"
+#import "GraphTimeInterval.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
 
@@ -27,7 +28,7 @@
     CGContextSetFillColorWithColor(context, self.graphDescriptor.visualAppearanceDescriptor.backgroundColor.CGColor);
     CGContextSetLineWidth(context, 1.0 / [UIScreen mainScreen].scale);
     
-    CGFloat graphCirclesRadius = self.graphDescriptor.displayAreaDescriptor.graphCirclesRadius;
+    CGFloat graphCirclesRadius = (self.graphDescriptor.graphTimeInterval ? [self.graphDescriptor.displayAreaDescriptor.graphCirclesRadiusDictionary[@(self.graphDescriptor.graphTimeInterval.type)] doubleValue] : 0.0);
     
     CGFloat graphTopPadding = self.graphDescriptor.displayAreaDescriptor.graphBarsTopPadding + self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight;
     CGFloat graphBottomPadding = self.graphDescriptor.displayAreaDescriptor.graphBarsBottomPadding - 1.0;
@@ -65,28 +66,30 @@
     
     CGContextStrokePath(context);
     
-    barCenterX = oldBarCenterX;
-    
-    for (id value in self.values) {
-        if (value == [NSNull null]) {
+    if (graphCirclesRadius > 0.0) {
+        barCenterX = oldBarCenterX;
+        
+        for (id value in self.values) {
+            if (value == [NSNull null]) {
+                barCenterX += barDisplayWidth;
+                continue;
+            }
+            
+            NSNumber *numberValue = (NSNumber*)value;
+            
+            CGFloat absoluteValue = (numberValue.doubleValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+            CGFloat valuesIntervalLength = (self.graphDescriptor.displayAreaDescriptor.maxValue - self.graphDescriptor.displayAreaDescriptor.minValue);
+            if (valuesIntervalLength == 0.0) valuesIntervalLength = 1.0;
+            
+            CGFloat barSizeHeight = absoluteValue / valuesIntervalLength * displayHeight;
+            CGFloat barCenterY = rect.size.height - barSizeHeight - graphBottomPadding;
+            CGRect circleRect = CGRectIntegral(CGRectMake(barCenterX - graphCirclesRadius, barCenterY - graphCirclesRadius, graphCirclesRadius * 2.0, graphCirclesRadius * 2.0));
+            
+            CGContextFillEllipseInRect(context, circleRect);
+            CGContextStrokeEllipseInRect(context, circleRect);
+            
             barCenterX += barDisplayWidth;
-            continue;
         }
-        
-        NSNumber *numberValue = (NSNumber*)value;
-        
-        CGFloat absoluteValue = (numberValue.doubleValue - self.graphDescriptor.displayAreaDescriptor.minValue);
-        CGFloat valuesIntervalLength = (self.graphDescriptor.displayAreaDescriptor.maxValue - self.graphDescriptor.displayAreaDescriptor.minValue);
-        if (valuesIntervalLength == 0.0) valuesIntervalLength = 1.0;
-        
-        CGFloat barSizeHeight = absoluteValue / valuesIntervalLength * displayHeight;
-        CGFloat barCenterY = rect.size.height - barSizeHeight - graphBottomPadding;
-        CGRect circleRect = CGRectIntegral(CGRectMake(barCenterX - graphCirclesRadius, barCenterY - graphCirclesRadius, graphCirclesRadius * 2.0, graphCirclesRadius * 2.0));
-        
-        CGContextFillEllipseInRect(context, circleRect);
-        CGContextStrokeEllipseInRect(context, circleRect);
-        
-        barCenterX += barDisplayWidth;
     }
     
     CGContextRestoreGState(context);

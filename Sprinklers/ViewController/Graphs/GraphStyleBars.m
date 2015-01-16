@@ -8,6 +8,7 @@
 
 #import "GraphStyleBars.h"
 #import "GraphDescriptor.h"
+#import "GraphTimeInterval.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
 
@@ -18,7 +19,7 @@
     
     CGContextSetFillColorWithColor(context, self.graphDescriptor.displayAreaDescriptor.graphDisplayColor.CGColor);
     
-    CGFloat barSizeWidth = self.graphDescriptor.displayAreaDescriptor.graphBarsWidth;
+    CGFloat barSizeWidth = (self.graphDescriptor.graphTimeInterval ? [self.graphDescriptor.displayAreaDescriptor.graphBarsWidthDictionary[@(self.graphDescriptor.graphTimeInterval.type)] doubleValue] : 0.0);
     CGFloat graphBarsTopPadding = self.graphDescriptor.displayAreaDescriptor.graphBarsTopPadding + self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight;
     CGFloat graphBarsBottomPadding = self.graphDescriptor.displayAreaDescriptor.graphBarsBottomPadding - 1.0;
     CGFloat displayHeight = rect.size.height - graphBarsTopPadding - graphBarsBottomPadding;

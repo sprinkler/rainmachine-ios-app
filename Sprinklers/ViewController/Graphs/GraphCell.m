@@ -81,9 +81,19 @@
 #pragma mark - Helper methods
 
 - (void)setup {
-    self.dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
-    self.dataSourceTopValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedTopValuesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
-    self.dataSourceIconImageIndexes = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedIconImageIndexesForGraphDataSource:self.graphDescriptor.dataSource valuesCount:self.graphDescriptor.graphTimeInterval.maxValuesCount];
+    self.dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource];
+    
+    if (self.graphDescriptor.graphTimeInterval && self.graphDescriptor.valuesBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)]) {
+        self.dataSourceTopValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedTopValuesForGraphDataSource:self.graphDescriptor.dataSource];
+    } else {
+        self.dataSourceTopValues = nil;
+    }
+
+    if (self.graphDescriptor.graphTimeInterval && self.graphDescriptor.iconsBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)]) {
+        self.dataSourceIconImageIndexes = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedIconImageIndexesForGraphDataSource:self.graphDescriptor.dataSource];
+    } else {
+        self.dataSourceIconImageIndexes = nil;
+    }
     
     if (self.graphDescriptor.displayAreaDescriptor.scalingMode == GraphScalingMode_Scale) {
         [self updateMinMaxValuesFromValues:self.dataSourceValues];
@@ -424,11 +434,8 @@
                                                                    lineBreakMode:NSLineBreakByWordWrapping];
         }
         
-        if (dateSelectionViewBoundingSize.width < self.graphDescriptor.displayAreaDescriptor.graphBarsWidth) {
-            dateSelectionViewBoundingSize.width = self.graphDescriptor.displayAreaDescriptor.graphBarsWidth + 2.0 / [UIScreen mainScreen].scale;
-        } else {
-            dateSelectionViewBoundingSize.width = dateSelectionViewBoundingSize.width + 4.0;
-        }
+        if (dateSelectionViewBoundingSize.width < 16.0) dateSelectionViewBoundingSize.width = 16.0;
+        else dateSelectionViewBoundingSize.width = dateSelectionViewBoundingSize.width + 4.0;
         
         self.dateSelectionView.hidden = NO;
         self.dateSelectionView.frame = CGRectMake(0.0, 0.0, dateSelectionViewBoundingSize.width, descriptor.dateBarHeight - 2.0);

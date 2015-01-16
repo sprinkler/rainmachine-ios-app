@@ -22,8 +22,8 @@ typedef enum {
 @property (nonatomic, strong) UIColor *valuesDisplayColor;
 @property (nonatomic, strong) UIColor *dashedLinesColor;
 
-@property (nonatomic, assign) CGFloat graphBarsWidth;
-@property (nonatomic, assign) CGFloat graphCirclesRadius;
+@property (nonatomic, strong) NSDictionary *graphBarsWidthDictionary;
+@property (nonatomic, strong) NSDictionary *graphCirclesRadiusDictionary;
 @property (nonatomic, assign) CGFloat graphBarsTopPadding;
 @property (nonatomic, assign) CGFloat graphBarsBottomPadding;
 

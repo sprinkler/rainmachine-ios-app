@@ -9,6 +9,7 @@
 #import "GraphDisplayAreaDescriptor.h"
 #import "GraphStyle.h"
 #import "GraphStyleBars.h"
+#import "GraphTimeInterval.h"
 
 @implementation GraphDisplayAreaDescriptor
 
@@ -20,8 +21,13 @@
     descriptor.valuesDisplayColor = [UIColor whiteColor];
     descriptor.dashedLinesColor = [UIColor colorWithRed:206.0 / 255.0 green:225.0 / 255.0 blue:235.0 / 255.0 alpha:1.0];
     
-    descriptor.graphBarsWidth = 16.0;
-    descriptor.graphCirclesRadius = 2.5;
+    descriptor.graphBarsWidthDictionary = @{@(GraphTimeIntervalType_Weekly) : @(16.0),
+                                            @(GraphTimeIntervalType_Monthly) : @(4.0),
+                                            @(GraphTimeIntervalType_Yearly) : @(1.0)};
+    
+    descriptor.graphCirclesRadiusDictionary = @{@(GraphTimeIntervalType_Weekly) : @(2.5),
+                                                @(GraphTimeIntervalType_Monthly) : @(1.5),
+                                                @(GraphTimeIntervalType_Yearly) : @(0.0)};
     descriptor.graphBarsTopPadding = 4.0;
     descriptor.graphBarsBottomPadding = 6.0;
     

@@ -13,23 +13,12 @@
 
 #pragma mark -
 
-@interface GraphDataSource ()
-
-@property (nonatomic, readonly) NSInteger maxValuesCount;
-
-@end
-
-#pragma mark -
-
 @implementation GraphDataSource
 
 #pragma mark - Initialization
 
 + (GraphDataSource*)defaultDataSource {
     GraphDataSource *dataSource = [self new];
-    
-    dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
-    
     return dataSource;
 }
 
@@ -38,12 +27,6 @@
     if (!self) return nil;
     
     return self;
-}
-
-#pragma mark - Configuration
-
-- (NSInteger)maxValuesCount {
-    return 7;
 }
 
 #pragma mark - Override in subclasses

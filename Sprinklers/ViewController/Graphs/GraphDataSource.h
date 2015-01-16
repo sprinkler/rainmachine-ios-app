@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ServerProxy.h"
 
-typedef enum {
-    GraphDataSourceGroupingModel_Average,
-    GraphDataSourceGroupingModel_Sum
-} GraphDataSourceGroupingModel;
-
 @interface GraphDataSource : NSObject <SprinklerResponseProtocol>
 
 @property (nonatomic, strong) NSDictionary *values;
@@ -24,8 +19,6 @@ typedef enum {
 
 + (GraphDataSource*)defaultDataSource;
 - (void)startLoading;
-
-@property (nonatomic, assign) GraphDataSourceGroupingModel groupingModel;
 
 - (NSDictionary*)valuesFromArray:(NSArray*)array key:(NSString*)key;
 

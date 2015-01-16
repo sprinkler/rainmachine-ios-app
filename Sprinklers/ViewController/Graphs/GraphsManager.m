@@ -82,7 +82,6 @@ static GraphsManager *sharedGraphsManager = nil;
     waterConsumeGraph.displayAreaDescriptor.midValue = 50.0;
     waterConsumeGraph.displayAreaDescriptor.maxValue = 100.0;
     waterConsumeGraph.dataSource = [GraphDataSourceWaterConsume defaultDataSource];
-    waterConsumeGraph.dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     [availableGraphs addObject:waterConsumeGraph];
     availableGraphsDictionary[waterConsumeGraph.graphIdentifier] = waterConsumeGraph;
     
@@ -93,7 +92,6 @@ static GraphsManager *sharedGraphsManager = nil;
     temperatureGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
     temperatureGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_Scale;
     temperatureGraph.dataSource = [GraphDataSourceTemperature defaultDataSource];
-    temperatureGraph.dataSource.groupingModel = GraphDataSourceGroupingModel_Average;
     [availableGraphs addObject:temperatureGraph];
     availableGraphsDictionary[temperatureGraph.graphIdentifier] = temperatureGraph;
     
