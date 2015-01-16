@@ -198,7 +198,7 @@ static NSString *kWifiInterface = @"en0";
     NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey] mutableCopy];
     
     NSMutableDictionary *urlDictionary = [keychainDictionary[baseUrl] mutableCopy];
-    keychainDictionary[baseUrl] = urlDictionary;
+    [keychainDictionary setValue:urlDictionary forKey:baseUrl];
     
     NSMutableDictionary *cookiesDictionary = [urlDictionary[kSprinklerKeychain_CookiesKey] mutableCopy];
     urlDictionary[kSprinklerKeychain_CookiesKey] = cookiesDictionary;
