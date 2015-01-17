@@ -29,6 +29,16 @@
     return self;
 }
 
+#pragma mark - Customization
+
+- (NSInteger)futureDays {
+    return 7;
+}
+
+- (NSInteger)totalDays {
+    return 365;
+}
+
 #pragma mark - Override in subclasses
 
 - (void)startLoading {

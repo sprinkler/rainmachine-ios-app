@@ -27,4 +27,7 @@
 - (NSDictionary*)topValuesFromLoadedData:(id)data;
 - (NSDictionary*)iconImageIndexesFromLoadedData:(id)data;
 
+@property (nonatomic, readonly) NSInteger futureDays;
+@property (nonatomic, readonly) NSInteger totalDays;
+
 @end
