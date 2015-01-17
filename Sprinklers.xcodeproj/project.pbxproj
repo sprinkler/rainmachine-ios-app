@@ -1135,6 +1135,81 @@
 			path = "Resources/programs-cell";
 			sourceTree = "<group>";
 		};
+		969051D61A6B14400029304D /* Time Intervals */ = {
+			isa = PBXGroup;
+			children = (
+				96F0F33A1A36FC1F0056D167 /* GraphTimeInterval.h */,
+				96F0F33B1A36FC1F0056D167 /* GraphTimeInterval.m */,
+				969051D31A6AFB9E0029304D /* GraphTimeIntervalPart.h */,
+				969051D41A6AFB9E0029304D /* GraphTimeIntervalPart.m */,
+			);
+			name = "Time Intervals";
+			sourceTree = "<group>";
+		};
+		969051D71A6B144D0029304D /* Visual Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				96F0F3531A3713200056D167 /* GraphVisualAppearanceDescriptor.h */,
+				96F0F3541A3713200056D167 /* GraphVisualAppearanceDescriptor.m */,
+				96F0F3421A3702D60056D167 /* GraphTitleAreaDescriptor.h */,
+				96F0F3431A3702D60056D167 /* GraphTitleAreaDescriptor.m */,
+				96F0F3561A3729CB0056D167 /* GraphIconsBarDescriptor.h */,
+				96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */,
+				96F0F3591A3768A90056D167 /* GraphValuesBarDescriptor.h */,
+				96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */,
+				96F0F35C1A377D990056D167 /* GraphDisplayAreaDescriptor.h */,
+				96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */,
+				96F0F35F1A3781570056D167 /* GraphDateBarDescriptor.h */,
+				96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */,
+				96F0F3371A36FAC70056D167 /* GraphDescriptor.h */,
+				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
+			);
+			name = "Visual Appearance";
+			sourceTree = "<group>";
+		};
+		969051D81A6B14610029304D /* Data Sources */ = {
+			isa = PBXGroup;
+			children = (
+				965F56581A4DCDCE00DD5B23 /* GraphDataSource.h */,
+				965F56591A4DCDCE00DD5B23 /* GraphDataSource.m */,
+				96D8F8BD1A53645300139940 /* GraphDataSourceWaterConsume.h */,
+				96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */,
+				965F565B1A4DE2E100DD5B23 /* GraphDataSourceTemperature.h */,
+				965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */,
+				969051D01A6AECE30029304D /* GraphDataSourceProgramRunTime.h */,
+				969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */,
+			);
+			name = "Data Sources";
+			sourceTree = "<group>";
+		};
+		969051D91A6B14760029304D /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				96CB93931A385DBB00F3691F /* GraphStyle.h */,
+				96CB93941A385DBB00F3691F /* GraphStyle.m */,
+				96CB93961A385DD300F3691F /* GraphStyleBars.h */,
+				96CB93971A385DD300F3691F /* GraphStyleBars.m */,
+				96CB93991A38818300F3691F /* GraphStyleLines.h */,
+				96CB939A1A38818300F3691F /* GraphStyleLines.m */,
+			);
+			name = Styles;
+			sourceTree = "<group>";
+		};
+		969051DA1A6B14930029304D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				96F0F3451A3705B60056D167 /* GraphView.h */,
+				96F0F3461A3705B60056D167 /* GraphView.m */,
+				96F0F34B1A3705F00056D167 /* GraphCell.h */,
+				96F0F34C1A3705F00056D167 /* GraphCell.m */,
+				96F0F34D1A3705F00056D167 /* GraphCell.xib */,
+				963728691A69A6C700BE7202 /* GraphScrollableCell.h */,
+				9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */,
+				9637286B1A69A6C700BE7202 /* GraphScrollableCell.xib */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		96AD34D31A1CB1500019453C /* Geocoding */ = {
 			isa = PBXGroup;
 			children = (
@@ -1253,46 +1328,11 @@
 		96F0F3311A36ED9D0056D167 /* Graphs */ = {
 			isa = PBXGroup;
 			children = (
-				96F0F33A1A36FC1F0056D167 /* GraphTimeInterval.h */,
-				96F0F33B1A36FC1F0056D167 /* GraphTimeInterval.m */,
-				969051D31A6AFB9E0029304D /* GraphTimeIntervalPart.h */,
-				969051D41A6AFB9E0029304D /* GraphTimeIntervalPart.m */,
-				96F0F3531A3713200056D167 /* GraphVisualAppearanceDescriptor.h */,
-				96F0F3541A3713200056D167 /* GraphVisualAppearanceDescriptor.m */,
-				96F0F3421A3702D60056D167 /* GraphTitleAreaDescriptor.h */,
-				96F0F3431A3702D60056D167 /* GraphTitleAreaDescriptor.m */,
-				96F0F3561A3729CB0056D167 /* GraphIconsBarDescriptor.h */,
-				96F0F3571A3729CB0056D167 /* GraphIconsBarDescriptor.m */,
-				96F0F3591A3768A90056D167 /* GraphValuesBarDescriptor.h */,
-				96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */,
-				96F0F35C1A377D990056D167 /* GraphDisplayAreaDescriptor.h */,
-				96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */,
-				96F0F35F1A3781570056D167 /* GraphDateBarDescriptor.h */,
-				96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */,
-				96F0F3371A36FAC70056D167 /* GraphDescriptor.h */,
-				96F0F3381A36FAC70056D167 /* GraphDescriptor.m */,
-				965F56581A4DCDCE00DD5B23 /* GraphDataSource.h */,
-				965F56591A4DCDCE00DD5B23 /* GraphDataSource.m */,
-				96D8F8BD1A53645300139940 /* GraphDataSourceWaterConsume.h */,
-				96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */,
-				965F565B1A4DE2E100DD5B23 /* GraphDataSourceTemperature.h */,
-				965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */,
-				969051D01A6AECE30029304D /* GraphDataSourceProgramRunTime.h */,
-				969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */,
-				96CB93931A385DBB00F3691F /* GraphStyle.h */,
-				96CB93941A385DBB00F3691F /* GraphStyle.m */,
-				96CB93961A385DD300F3691F /* GraphStyleBars.h */,
-				96CB93971A385DD300F3691F /* GraphStyleBars.m */,
-				96CB93991A38818300F3691F /* GraphStyleLines.h */,
-				96CB939A1A38818300F3691F /* GraphStyleLines.m */,
-				96F0F3451A3705B60056D167 /* GraphView.h */,
-				96F0F3461A3705B60056D167 /* GraphView.m */,
-				96F0F34B1A3705F00056D167 /* GraphCell.h */,
-				96F0F34C1A3705F00056D167 /* GraphCell.m */,
-				96F0F34D1A3705F00056D167 /* GraphCell.xib */,
-				963728691A69A6C700BE7202 /* GraphScrollableCell.h */,
-				9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */,
-				9637286B1A69A6C700BE7202 /* GraphScrollableCell.xib */,
+				969051D61A6B14400029304D /* Time Intervals */,
+				969051D71A6B144D0029304D /* Visual Appearance */,
+				969051D81A6B14610029304D /* Data Sources */,
+				969051D91A6B14760029304D /* Styles */,
+				969051DA1A6B14930029304D /* Cells */,
 				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
 				96F0F3511A370D7D0056D167 /* GraphsManager.m */,
 			);
