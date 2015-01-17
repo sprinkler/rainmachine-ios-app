@@ -17,5 +17,6 @@
 
 @property (nonatomic, assign) int realDurationSum;
 @property (nonatomic, assign) int userDurationSum;
+@property (nonatomic, readonly) double durationPercentage;
 
 @end

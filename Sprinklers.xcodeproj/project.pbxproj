@@ -58,6 +58,7 @@
 		969051C91A6ACDBD0029304D /* WaterLogZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051C81A6ACDBD0029304D /* WaterLogZone.m */; };
 		969051CC1A6ACDCF0029304D /* WaterLogProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051CB1A6ACDCF0029304D /* WaterLogProgram.m */; };
 		969051CF1A6ACDF60029304D /* WaterLogDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051CE1A6ACDF60029304D /* WaterLogDay.m */; };
+		969051D21A6AECE30029304D /* GraphDataSourceProgramRunTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */; };
 		969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969EB3B819DAD11A00D10887 /* CloudServerVC.m */; };
 		969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969EB3B919DAD11A00D10887 /* CloudServerVC.xib */; };
 		96AD34E71A1CB20D0019453C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD34E51A1CB20D0019453C /* CoreLocation.framework */; };
@@ -533,6 +534,8 @@
 		969051CB1A6ACDCF0029304D /* WaterLogProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterLogProgram.m; path = "Communication/Response objects/WaterLogProgram.m"; sourceTree = "<group>"; };
 		969051CD1A6ACDF60029304D /* WaterLogDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterLogDay.h; path = "Communication/Response objects/WaterLogDay.h"; sourceTree = "<group>"; };
 		969051CE1A6ACDF60029304D /* WaterLogDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterLogDay.m; path = "Communication/Response objects/WaterLogDay.m"; sourceTree = "<group>"; };
+		969051D01A6AECE30029304D /* GraphDataSourceProgramRunTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceProgramRunTime.h; path = ViewController/Graphs/GraphDataSourceProgramRunTime.h; sourceTree = "<group>"; };
+		969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceProgramRunTime.m; path = ViewController/Graphs/GraphDataSourceProgramRunTime.m; sourceTree = "<group>"; };
 		969EB3B719DAD11A00D10887 /* CloudServerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudServerVC.h; path = ViewController/CloudServerVC.h; sourceTree = "<group>"; };
 		969EB3B819DAD11A00D10887 /* CloudServerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudServerVC.m; path = ViewController/CloudServerVC.m; sourceTree = "<group>"; };
 		969EB3B919DAD11A00D10887 /* CloudServerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudServerVC.xib; path = ViewController/CloudServerVC.xib; sourceTree = "<group>"; };
@@ -1269,6 +1272,8 @@
 				96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */,
 				965F565B1A4DE2E100DD5B23 /* GraphDataSourceTemperature.h */,
 				965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */,
+				969051D01A6AECE30029304D /* GraphDataSourceProgramRunTime.h */,
+				969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */,
 				96CB93931A385DBB00F3691F /* GraphStyle.h */,
 				96CB93941A385DBB00F3691F /* GraphStyle.m */,
 				96CB93961A385DD300F3691F /* GraphStyleBars.h */,
@@ -2367,6 +2372,7 @@
 				AF961ED119C36D2300A2A13C /* WaterNowZone4.m in Sources */,
 				B1B6061A187958990046FDDC /* ProgramsVC.m in Sources */,
 				AF61117219C5491D008AA62B /* ZoneProperties4.m in Sources */,
+				969051D21A6AECE30029304D /* GraphDataSourceProgramRunTime.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				969051CF1A6ACDF60029304D /* WaterLogDay.m in Sources */,

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class WaterLogProgram;
+
 @interface WaterLogDay : NSObject
 
 @property (nonatomic, strong) NSString *date;
@@ -23,5 +25,10 @@
 @property (nonatomic, assign) int simulatedUserDurationSum;
 @property (nonatomic, readonly) double durationPercentage;
 @property (nonatomic, readonly) double simulatedDurationPercentage;
+
+- (WaterLogProgram*)waterLogProgramForProgramId:(int)programId;
+- (WaterLogProgram*)simulatedWaterLogProgramForProgramId:(int)programId;
+
+@property (nonatomic, readonly) NSDictionary *programIDs;
 
 @end

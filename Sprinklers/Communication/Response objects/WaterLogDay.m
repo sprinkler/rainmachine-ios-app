@@ -70,4 +70,26 @@
     return (double)self.simulatedRealDurationSum / (double)self.simulatedUserDurationSum;
 }
 
+- (WaterLogProgram*)waterLogProgramForProgramId:(int)programId {
+    for (WaterLogProgram *program in self.programs) {
+        if (program.programId == programId) return program;
+    }
+    return nil;
+}
+
+- (WaterLogProgram*)simulatedWaterLogProgramForProgramId:(int)programId {
+    for (WaterLogProgram *program in self.simulatedPrograms) {
+        if (program.programId == programId) return program;
+    }
+    return nil;
+}
+
+- (NSDictionary*)programIDs {
+    NSMutableDictionary *programIDs = [NSMutableDictionary new];
+    for (WaterLogProgram *program in self.programs) {
+        [programIDs setObject:@(TRUE) forKey:@(program.programId)];
+    }
+    return programIDs;
+}
+
 @end

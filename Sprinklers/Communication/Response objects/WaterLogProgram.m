@@ -41,4 +41,9 @@
     return nil;
 }
 
+- (double)durationPercentage {
+    if (self.userDurationSum == 0) return 0.0;
+    return (double)self.realDurationSum / (double)self.userDurationSum;
+}
+
 @end

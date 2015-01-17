@@ -19,13 +19,16 @@
 #import "GraphDataSource.h"
 #import "GraphDataSourceTemperature.h"
 #import "GraphDataSourceWaterConsume.h"
+#import "GraphDataSourceProgramRunTime.h"
+#import "WaterLogDay.h"
+#import "WaterLogProgram.h"
 #import "Utils.h"
 #import "Additions.h"
 #import "AFNetworking.h"
 
 NSString *kDailyWaterNeedGraphIdentifier            = @"DailyWaterNeedGraphIdentifier";
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
-NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGraphIdentifier";
+NSString *kProgramRuntimeGraphIdentifier            = @"kProgramRuntimeGraphIdentifier";
 
 NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 
@@ -46,6 +49,9 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 - (void)requestMixerData;
 - (void)requestWateringLogDetailsData;
 - (void)requestWateringLogSimulatedDetailsData;
+
+- (void)registerProgramGraphsForProgramIDs:(NSArray*)programIDs;
+- (void)registerProgramGraphsForWaterLogDays:(NSArray*)waterLogDays;
 
 @end
 
@@ -105,23 +111,6 @@ static GraphsManager *sharedGraphsManager = nil;
     [availableGraphs addObject:temperatureGraph];
     availableGraphsDictionary[temperatureGraph.graphIdentifier] = temperatureGraph;
     
-    GraphDescriptor *totalProgramRuntimesGraph = [GraphDescriptor defaultDescriptor];
-    totalProgramRuntimesGraph.graphIdentifier = kTotalProgramRuntimesGraphIdentifier;
-    totalProgramRuntimesGraph.titleAreaDescriptor.title = @"Total Program Runtimes";
-    totalProgramRuntimesGraph.titleAreaDescriptor.units = @"%";
-    iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
-    totalProgramRuntimesGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
-    valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
-    valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
-    totalProgramRuntimesGraph.valuesBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : valuesBarDescriptor};
-    totalProgramRuntimesGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
-    totalProgramRuntimesGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
-    totalProgramRuntimesGraph.displayAreaDescriptor.minValue = 0.0;
-    totalProgramRuntimesGraph.displayAreaDescriptor.midValue = 50.0;
-    totalProgramRuntimesGraph.displayAreaDescriptor.maxValue = 100.0;
-    [availableGraphs addObject:totalProgramRuntimesGraph];
-    availableGraphsDictionary[totalProgramRuntimesGraph.graphIdentifier] = totalProgramRuntimesGraph;
-    
     self.availableGraphsDictionary = availableGraphsDictionary;
     self.availableGraphs = availableGraphs;
 }
@@ -139,7 +128,7 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)selectAllGraphs {
-    if (!self.selectedGraphs.count) self.selectedGraphs = [NSArray arrayWithArray:self.availableGraphs];
+    self.selectedGraphs = [NSArray arrayWithArray:self.availableGraphs];
 }
 
 - (void)reloadAllSelectedGraphs {
@@ -219,6 +208,63 @@ static GraphsManager *sharedGraphsManager = nil;
     [self.requestWateringLogSimulatedDetailsServerProxy requestWateringLogSimulatedDetalsFromDate:dateString daysCount:self.totalDays];
 }
 
+- (void)registerProgramGraphsForProgramIDs:(NSArray*)programIDs {
+    NSMutableArray *newGraphs = [NSMutableArray new];
+    NSMutableDictionary *newGraphsDictionary = [NSMutableDictionary new];
+    
+    for (NSNumber *programID in programIDs) {
+        NSString *graphIdentifier = [NSString stringWithFormat:@"%@%@",kProgramRuntimeGraphIdentifier,programID];
+        if ([self.availableGraphsDictionary valueForKey:graphIdentifier]) continue;
+        
+        GraphDescriptor *programRuntimeGraph = [GraphDescriptor defaultDescriptor];
+        programRuntimeGraph.graphIdentifier = graphIdentifier;
+        programRuntimeGraph.titleAreaDescriptor.title = [NSString stringWithFormat:@"Program %@",programID];
+        programRuntimeGraph.titleAreaDescriptor.units = @"%";
+        GraphIconsBarDescriptor *iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
+        programRuntimeGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
+        GraphValuesBarDescriptor *valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
+        valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+        programRuntimeGraph.valuesBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : valuesBarDescriptor};
+        programRuntimeGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
+        programRuntimeGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
+        programRuntimeGraph.displayAreaDescriptor.minValue = 0.0;
+        programRuntimeGraph.displayAreaDescriptor.midValue = 50.0;
+        programRuntimeGraph.displayAreaDescriptor.maxValue = 100.0;
+        GraphDataSourceProgramRunTime *dataSource = (GraphDataSourceProgramRunTime*)[GraphDataSourceProgramRunTime defaultDataSource];
+        dataSource.programID = programID.intValue;
+        programRuntimeGraph.dataSource = dataSource;
+        
+        [newGraphs addObject:programRuntimeGraph];
+        newGraphsDictionary[programRuntimeGraph.graphIdentifier] = programRuntimeGraph;
+    }
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"graphIdentifier" ascending:YES];
+    [newGraphs sortUsingDescriptors:@[sortDescriptor]];
+    
+    NSMutableDictionary *availableGraphsDictionary = [self.availableGraphsDictionary mutableCopy];
+    [availableGraphsDictionary addEntriesFromDictionary:newGraphsDictionary];
+    self.availableGraphsDictionary = availableGraphsDictionary;
+    
+    NSMutableArray *availableGraphs = [self.availableGraphs mutableCopy];
+    [availableGraphs addObjectsFromArray:newGraphs];
+    self.availableGraphs = availableGraphs;
+    
+    [self selectAllGraphs];
+}
+
+- (void)registerProgramGraphsForWaterLogDays:(NSArray*)waterLogDays {
+    NSMutableDictionary *programIDs = [NSMutableDictionary dictionary];
+    
+    for (WaterLogDay *waterLogDay in waterLogDays) {
+        [programIDs addEntriesFromDictionary:waterLogDay.programIDs];
+    }
+    
+    NSMutableArray *programIDsArray = [NSMutableArray arrayWithArray:programIDs.allKeys];
+    [programIDsArray sortedArrayUsingSelector:@selector(compare:)];
+    
+    [self registerProgramGraphsForProgramIDs:programIDsArray];
+}
+
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
@@ -229,6 +275,8 @@ static GraphsManager *sharedGraphsManager = nil;
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) {
         self.wateringLogDetailsData = data;
         self.requestWateringLogDetailsServerProxy = nil;
+        
+        [self registerProgramGraphsForWaterLogDays:(NSArray*)data];
     }
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) {
         self.wateringLogSimulatedDetailsData = data;

@@ -40,7 +40,17 @@
     
     self.title = @"Dashboard";
     
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"selectedGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    
     return self;
+}
+
+- (void)dealloc {
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"selectedGraphs"];
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    [self.graphsTableView reloadData];
 }
 
 - (void)viewDidLoad {
