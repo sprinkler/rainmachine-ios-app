@@ -7,7 +7,10 @@
 //
 
 #import "GraphTimeInterval.h"
+#import "GraphTimeIntervalPart.h"
 #import "GraphDataSource.h"
+#import "GraphsManager.h"
+#import "Additions.h"
 #import "Constants.h"
 
 #pragma mark -
@@ -32,6 +35,11 @@
 @property (nonatomic, readonly) NSArray *allDateStringsInMonth;
 @property (nonatomic, readonly) NSArray *allDateStringsInYear;
 
+- (void)createGraphTimeIntervalPartsArray;
+- (void)createWeeklyGraphTimeIntervalParts;
+- (void)createMonthlyGraphTimeIntervalParts;
+- (void)createYearlyGraphTimeIntervalParts;
+
 @end
 
 #pragma mark -
@@ -51,6 +59,8 @@ static NSMutableArray *registeredTimeIntervals = nil;
     graphTimeInterval.type = type;
     graphTimeInterval.name = name;
     
+    [graphTimeInterval createGraphTimeIntervalPartsArray];
+    
     [registeredTimeIntervalsDictionary setObject:graphTimeInterval forKey:@(type)];
     [registeredTimeIntervals addObject:graphTimeInterval];
 }
@@ -69,241 +79,70 @@ static NSMutableArray *registeredTimeIntervals = nil;
     return registeredTimeIntervals;
 }
 
-- (NSString*)timeIntervalValue {
-    if (self.type == GraphTimeIntervalType_Weekly) return self.currentMonthString;
-    if (self.type == GraphTimeIntervalType_Monthly) return self.currentMonthString;
-    if (self.type == GraphTimeIntervalType_Yearly) return self.currentYearString;
-    return nil;
+#pragma mark - Graph time interval parts
+
+- (void)createGraphTimeIntervalPartsArray {
+    if (self.type == GraphTimeIntervalType_Weekly) [self createWeeklyGraphTimeIntervalParts];
+    else if (self.type == GraphTimeIntervalType_Monthly) [self createMonthlyGraphTimeIntervalParts];
+    else if (self.type == GraphTimeIntervalType_Yearly) [self createYearlyGraphTimeIntervalParts];
 }
 
-- (NSArray*)dateValuesForCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex {
-    if (self.type == GraphTimeIntervalType_Weekly) return [self daysArrayInWeekCurrentDateValueIndex:currentDateValueIndex];
-    if (self.type == GraphTimeIntervalType_Monthly) return [self daysArrayInMonthWithCount:count currentDateValueIndex:currentDateValueIndex];
-    if (self.type == GraphTimeIntervalType_Yearly) return [self monthsArrayInYearWithCount:count currentDateValueIndex:currentDateValueIndex];
-    return nil;
-}
+- (void)createWeeklyGraphTimeIntervalParts {
+    NSMutableArray *graphTimeIntervalParts = [NSMutableArray new];
+    
+    NSInteger totalDays = 0;
+    NSDate *startDate = [GraphsManager sharedGraphsManager].startDate;
+    
+    while (totalDays < [GraphsManager sharedGraphsManager].totalDays) {
+        GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
+        graphTimeIntervalPart.startDate = startDate;
+        graphTimeIntervalPart.endDate = [startDate dateByAddingDays:6];
+        graphTimeIntervalPart.length = 7;
+        graphTimeIntervalPart.type = GraphTimeIntervalPartType_DisplayDays;
 
-#pragma mark - Helper methods
-
-- (NSString*)currentMonthString {
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"MMM";
-    return [[dateFormatter stringFromDate:[NSDate date]] lowercaseString];
-}
-
-- (NSString*)currentYearString {
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yy";
-    return [NSString stringWithFormat:@"'%@",[dateFormatter stringFromDate:[NSDate date]]];
-}
-
-- (NSArray*)monthsOfYear {
-    return [NSArray arrayWithObjects:abbrevMonthsOfYear count:12];
-}
-
-- (NSArray*)daysArrayInWeekCurrentDateValueIndex:(NSInteger*)currentDateValueIndex {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *date = [NSDate date];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay fromDate:date];
-    NSRange daysRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
-    
-    NSInteger firstDay = dateComponents.day - 3;
-    NSInteger lastDay = dateComponents.day + 3;
-    NSInteger currentDayIndex = 3;
-    
-    if (firstDay < 1) {
-        currentDayIndex += (firstDay - 1);
-        lastDay += (1 - firstDay);
-        firstDay = 1;
-    }
-    
-    if (lastDay > daysRange.length) {
-        currentDayIndex += (lastDay - daysRange.length);
-        firstDay -= (lastDay - daysRange.length);
-        lastDay = daysRange.length;
-    }
-    
-    NSMutableArray *daysArray = [NSMutableArray new];
-    
-    for (NSInteger index = firstDay; index <= lastDay; index++) {
-        [daysArray addObject:[NSString stringWithFormat:@"%02d",(int)index]];
-    }
-    
-    if (currentDateValueIndex) *currentDateValueIndex = currentDayIndex;
-    
-    return daysArray;
-}
-
-- (NSArray*)daysArrayInMonthWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *date = [NSDate date];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay fromDate:date];
-    NSRange daysRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
-    
-    double intervalLength = (daysRange.length - 1) / (count - 1.0);
-    double dayIndex = 0.0;
-    double oldDayIndex = 0.0;
-    
-    NSInteger currentDayIndex = -1;
-    NSMutableArray *daysArray = [NSMutableArray new];
-    
-    for (NSInteger index = 0; index < count; index++) {
-        NSString *day = [NSString stringWithFormat:@"%02d",(int)(round(dayIndex) + 1)];
-        [daysArray addObject:day];
+        [graphTimeIntervalPart initialize];
+        [graphTimeIntervalParts addObject:graphTimeIntervalPart];
         
-        if (round(oldDayIndex) + 1 < dateComponents.day && dateComponents.day < round(dayIndex) + 1) {
-            [daysArray removeLastObject];
-            [daysArray addObject:[NSString stringWithFormat:@"%02d",(int)dateComponents.day]];
-            currentDayIndex = index;
-        } else if (round(dayIndex) + 1 == dateComponents.day) {
-            currentDayIndex = index;
-        }
+        totalDays += graphTimeIntervalPart.length;
+        startDate = [startDate dateByAddingDays:graphTimeIntervalPart.length];
+    }
+    
+    self.graphTimeIntervalParts = graphTimeIntervalParts;
+}
+
+- (void)createMonthlyGraphTimeIntervalParts {
+    NSMutableArray *graphTimeIntervalParts = [NSMutableArray new];
+    
+    NSInteger totalDays = 0;
+    NSDate *startDate = [GraphsManager sharedGraphsManager].startDate;
+    
+    while (totalDays < [GraphsManager sharedGraphsManager].totalDays) {
+        GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
+        graphTimeIntervalPart.startDate = startDate;
+        graphTimeIntervalPart.endDate = [startDate dateByAddingDays:6];
+        graphTimeIntervalPart.length = 30;
+        graphTimeIntervalPart.type = GraphTimeIntervalPartType_DisplayDays;
         
-        oldDayIndex = dayIndex;
-        dayIndex += intervalLength;
-    }
-    
-    if (currentDateValueIndex) *currentDateValueIndex = currentDayIndex;
-    
-    return daysArray;
-}
-
-- (NSArray*)monthsArrayInYearWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *date = [NSDate date];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:date];
-    
-    NSArray *monthsOfYear = self.monthsOfYear;
-    
-    double intervalLength = (monthsOfYear.count - 1) / (count - 1.0);
-    double monthIndex = 0.0;
-    double oldMonthIndex = 0.0;
-    
-    NSInteger currentMonthIndex = -1;
-    NSMutableArray *monthsArray = [NSMutableArray new];
-    
-    for (NSInteger index = 0; index < count; index++) {
-        if (monthIndex > monthsOfYear.count - 1) monthIndex = monthsOfYear.count - 1;
+        [graphTimeIntervalPart initialize];
+        [graphTimeIntervalParts addObject:graphTimeIntervalPart];
         
-        NSString *month = [[monthsOfYear objectAtIndex:(int)round(monthIndex)] lowercaseString];
-        [monthsArray addObject:month];
-        
-        if (round(oldMonthIndex) + 1 < dateComponents.month && dateComponents.month < round(monthIndex) + 1) {
-            [monthsArray removeLastObject];
-            [monthsArray addObject:[[monthsOfYear objectAtIndex:dateComponents.month - 1] lowercaseString]];
-            currentMonthIndex = index;
-        } else if (round(monthIndex) + 1 == dateComponents.month) {
-            currentMonthIndex = index;
-        }
-        
-        oldMonthIndex = monthIndex;
-        monthIndex += intervalLength;
+        totalDays += graphTimeIntervalPart.length;
+        startDate = [startDate dateByAddingDays:graphTimeIntervalPart.length];
     }
     
-    if (*currentDateValueIndex) *currentDateValueIndex = currentMonthIndex;
-    
-    return monthsArray;
+    self.graphTimeIntervalParts = graphTimeIntervalParts;
 }
 
-#pragma mark - Values and data sources
-
-- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource {
-    NSMutableArray *timeIntervalRestrictedValues = [NSMutableArray new];
-    NSArray *dateStrings = self.allDateStringsInTimeInterval;
+- (void)createYearlyGraphTimeIntervalParts {
+    GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
+    graphTimeIntervalPart.startDate = [GraphsManager sharedGraphsManager].startDate;
+    graphTimeIntervalPart.endDate = [[GraphsManager sharedGraphsManager].startDate dateByAddingDays:[GraphsManager sharedGraphsManager].totalDays];
+    graphTimeIntervalPart.length = [GraphsManager sharedGraphsManager].totalDays;
+    graphTimeIntervalPart.type = GraphTimeIntervalPartType_DisplayMonths;
     
-    for (NSArray *dateString in dateStrings) {
-        id value = dataSource.values[dateString];
-        if (value) [timeIntervalRestrictedValues addObject:value];
-        else [timeIntervalRestrictedValues addObject:[NSNull null]];
-    }
+    [graphTimeIntervalPart initialize];
     
-    return timeIntervalRestrictedValues;
-}
-
-- (NSArray*)timeIntervalRestrictedTopValuesForGraphDataSource:(GraphDataSource*)dataSource {
-    NSMutableArray *timeIntervalRestrictedTopValues = [NSMutableArray new];
-    NSArray *dateStrings = self.allDateStringsInTimeInterval;
-    
-    for (NSArray *dateString in dateStrings) {
-        id value = dataSource.topValues[dateString];
-        if (value) [timeIntervalRestrictedTopValues addObject:value];
-        else [timeIntervalRestrictedTopValues addObject:[NSNull null]];
-    }
-    
-    return timeIntervalRestrictedTopValues;
-}
-
-- (NSArray*)timeIntervalRestrictedIconImageIndexesForGraphDataSource:(GraphDataSource*)dataSource {
-    NSMutableArray *timeIntervalRestrictedIconImageIndexes = [NSMutableArray new];
-    NSArray *dateStrings = self.allDateStringsInTimeInterval;
-    
-    for (NSArray *dateString in dateStrings) {
-        id iconImageIndex = dataSource.iconImageIndexes[dateString];
-        if (iconImageIndex) [timeIntervalRestrictedIconImageIndexes addObject:iconImageIndex];
-        else [timeIntervalRestrictedIconImageIndexes addObject:[NSNull null]];
-    }
-    
-    return timeIntervalRestrictedIconImageIndexes;
-}
-
-- (NSArray*)allDateStringsInTimeInterval {
-    if (self.type == GraphTimeIntervalType_Weekly) return self.allDateStringsInWeek;
-    if (self.type == GraphTimeIntervalType_Monthly) return self.allDateStringsInMonth;
-    if (self.type == GraphTimeIntervalType_Yearly) return self.allDateStringsInYear;
-    return nil;
-}
-
-- (NSArray*)allDateStringsInWeek {
-    NSMutableArray *allDateStringsInWeek = [NSMutableArray new];
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *date = [NSDate date];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth fromDate:date];
-    
-    NSArray *daysArrayInWeek = [self daysArrayInWeekCurrentDateValueIndex:nil];
-    
-    for (NSNumber *dayValue in daysArrayInWeek) {
-        NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, dayValue.intValue];
-        [allDateStringsInWeek addObject:dateString];
-    }
-    
-    return allDateStringsInWeek;
-}
-
-- (NSArray*)allDateStringsInMonth {
-    NSMutableArray *allDateStringsInMonth = [NSMutableArray new];
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *date = [NSDate date];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
-    NSRange daysRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
-    
-    for (NSInteger day = 1; day <= daysRange.length; day++) {
-        NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, (int)day];
-        [allDateStringsInMonth addObject:dateString];
-    }
-    
-    return allDateStringsInMonth;
-}
-
-- (NSArray*)allDateStringsInYear {
-    NSMutableArray *allDateStringsInYear = [NSMutableArray new];
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *date = [NSDate date];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear fromDate:date];
-    
-    for (NSInteger month = 0; month < 12; month++) {
-        dateComponents.month = month + 1;
-        NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:[calendar dateFromComponents:dateComponents]];
-        
-        for (NSInteger day = 0; day < monthRange.length; day++) {
-            NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)month + 1, (int)day + 1];
-            [allDateStringsInYear addObject:dateString];
-        }
-    }
-    
-    return allDateStringsInYear;
+    self.graphTimeIntervalParts = @[graphTimeIntervalPart];
 }
 
 @end

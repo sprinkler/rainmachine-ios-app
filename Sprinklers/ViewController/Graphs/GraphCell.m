@@ -16,6 +16,7 @@
 #import "GraphDateBarDescriptor.h"
 #import "GraphStyle.h"
 #import "GraphTimeInterval.h"
+#import "GraphTimeIntervalPart.h"
 #import "GraphDataSource.h"
 #import "Additions.h"
 #import "Utils.h"
@@ -28,7 +29,7 @@
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
-- (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor;
+- (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalType:(GraphTimeIntervalPart*)timeIntervalPart;
 - (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor;
 
 @property (nonatomic, strong) NSArray *iconImageViews;
@@ -81,16 +82,16 @@
 #pragma mark - Helper methods
 
 - (void)setup {
-    self.dataSourceValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource];
+    self.dataSourceValues = [self.graphTimeIntervalPart timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource];
     
-    if (self.graphDescriptor.graphTimeInterval && self.graphDescriptor.valuesBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)]) {
-        self.dataSourceTopValues = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedTopValuesForGraphDataSource:self.graphDescriptor.dataSource];
+    if (self.graphTimeIntervalPart && self.graphDescriptor.valuesBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)]) {
+        self.dataSourceTopValues = [self.graphTimeIntervalPart timeIntervalRestrictedTopValuesForGraphDataSource:self.graphDescriptor.dataSource];
     } else {
         self.dataSourceTopValues = nil;
     }
 
     if (self.graphDescriptor.graphTimeInterval && self.graphDescriptor.iconsBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)]) {
-        self.dataSourceIconImageIndexes = [self.graphDescriptor.graphTimeInterval timeIntervalRestrictedIconImageIndexesForGraphDataSource:self.graphDescriptor.dataSource];
+        self.dataSourceIconImageIndexes = [self.graphTimeIntervalPart timeIntervalRestrictedIconImageIndexesForGraphDataSource:self.graphDescriptor.dataSource];
     } else {
         self.dataSourceIconImageIndexes = nil;
     }
@@ -108,7 +109,7 @@
     [self setupValuesWithDescriptor:valuesBarDescriptor dataSource:self.graphDescriptor.dataSource];
     
     [self setupDisplayAreaWithDescriptor:self.graphDescriptor.displayAreaDescriptor];
-    [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor];
+    [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalType:self.graphTimeIntervalPart];
     
     [self.graphView setNeedsDisplay];
     
@@ -319,20 +320,20 @@
     [self.graphView setNeedsDisplay];
 }
 
-- (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor {
+- (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalType:(GraphTimeIntervalPart*)timeIntervalPart {
     if (!descriptor) {
         self.dateBarContainerViewHeightLayoutConstraint.constant = 0.0;
         return;
     }
     
     if (self.dateValueLabels) {
-        for (NSInteger index = 0; index < descriptor.dateValues.count; index++) {
+        for (NSInteger index = 0; index < timeIntervalPart.dateValues.count; index++) {
             UILabel *dateValueLabel = self.dateValueLabels[index];
-            NSString *dateValue = descriptor.dateValues[index];
+            NSString *dateValue = timeIntervalPart .dateValues[index];
             dateValueLabel.text = dateValue;
         }
         
-        self.timeIntervalLabel.text = descriptor.timeIntervalValue;
+        self.timeIntervalLabel.text = timeIntervalPart.timeIntervalPartValue;
         [self setupCurrentDateWithDescriptor:descriptor];
         
         return;
@@ -342,7 +343,7 @@
     
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
-    CGFloat dateValueLabelWidth = round(totalDatesBarWidth / descriptor.dateValues.count);
+    CGFloat dateValueLabelWidth = round(totalDatesBarWidth / timeIntervalPart.dateValues.count);
     CGFloat dateValueLabelHeight = descriptor.dateBarHeight - descriptor.dateBarBottomPadding;
     
     CGFloat dateValueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
@@ -354,8 +355,8 @@
     
     NSMutableArray *dateValueLabels = [NSMutableArray new];
     
-    for (NSString *dateValue in descriptor.dateValues) {
-        isLastHorizontalConstraint = (dateValue == descriptor.dateValues.lastObject);
+    for (NSString *dateValue in timeIntervalPart.dateValues) {
+        isLastHorizontalConstraint = (dateValue == timeIntervalPart.dateValues.lastObject);
         
         UILabel *dateValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(dateValueLabelOriginX, dateValueLabelOriginY, dateValueLabelWidth, dateValueLabelHeight)];
         dateValueLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -391,7 +392,7 @@
     
     self.dateValueLabels = dateValueLabels;
     
-    self.timeIntervalLabel.text = descriptor.timeIntervalValue;
+    self.timeIntervalLabel.text = timeIntervalPart.timeIntervalPartValue;
     self.timeIntervalLabel.textColor = descriptor.timeIntervalColor;
     self.timeIntervalLabel.font = descriptor.timeIntervalFont;
     self.timeIntervalLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
@@ -409,7 +410,7 @@
         [self.dateBarContainerView addSubview:self.dateSelectionView];
     }
     
-    if (descriptor.selectedDateValueIndex != -1 && descriptor.dateValues.count) {
+    if (descriptor.selectedDateValueIndex != -1 && self.graphTimeIntervalPart.dateValues.count) {
         CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
         CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
         
@@ -432,7 +433,7 @@
         
         self.dateSelectionView.hidden = NO;
         self.dateSelectionView.frame = CGRectMake(0.0, 0.0, dateSelectionViewBoundingSize.width, descriptor.dateBarHeight - 2.0);
-        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / descriptor.dateValues.count * (descriptor.selectedDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round((descriptor.dateBarHeight - descriptor.dateBarBottomPadding) / 2.0));
+        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (descriptor.selectedDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round((descriptor.dateBarHeight - descriptor.dateBarBottomPadding) / 2.0));
     } else {
         self.dateSelectionView.hidden = YES;
     }

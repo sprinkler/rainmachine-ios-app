@@ -23,10 +23,7 @@ typedef enum {
 
 + (GraphTimeInterval*)graphTimeIntervalWithType:(GraphTimeIntervalType)type;
 + (NSArray*)graphTimeIntervals;
-- (NSString*)timeIntervalValue;
-- (NSArray*)dateValuesForCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
-- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource;
-- (NSArray*)timeIntervalRestrictedTopValuesForGraphDataSource:(GraphDataSource*)dataSource;
-- (NSArray*)timeIntervalRestrictedIconImageIndexesForGraphDataSource:(GraphDataSource*)dataSource;
+
+@property (nonatomic, strong) NSArray *graphTimeIntervalParts;
 
 @end

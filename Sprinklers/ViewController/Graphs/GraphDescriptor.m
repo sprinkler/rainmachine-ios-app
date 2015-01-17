@@ -47,18 +47,4 @@
         self.dateBarDescriptor.dateBarHeight + 6.0;
 }
 
-- (GraphTimeInterval*)graphTimeInterval {
-    return _graphTimeInterval;
-}
-
-- (void)setGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
-    _graphTimeInterval = graphTimeInterval;
-    
-    NSInteger currentDateValueIndex = -1;
-    
-    self.dateBarDescriptor.timeIntervalValue = graphTimeInterval.timeIntervalValue;
-    self.dateBarDescriptor.dateValues = [graphTimeInterval dateValuesForCount:7 currentDateValueIndex:&currentDateValueIndex];
-    self.dateBarDescriptor.selectedDateValueIndex = currentDateValueIndex;
-}
-
 @end

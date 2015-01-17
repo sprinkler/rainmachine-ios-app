@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class GraphDescriptor;
+@class GraphTimeIntervalPart;
 @class GraphView;
 
 @interface GraphCell : UICollectionViewCell
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
+@property (nonatomic, strong) GraphTimeIntervalPart *graphTimeIntervalPart;
 
 @property (nonatomic, weak) IBOutlet UIView *graphContainerView;
 

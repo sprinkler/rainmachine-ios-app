@@ -16,11 +16,9 @@
 @property (nonatomic, assign) CGFloat dateBarBottomPadding;
 @property (nonatomic, strong) UIFont *timeIntervalFont;
 @property (nonatomic, strong) UIColor *timeIntervalColor;
-@property (nonatomic, strong) NSString *timeIntervalValue;
 @property (nonatomic, strong) UIFont *dateValuesFont;
 @property (nonatomic, strong) UIColor *dateValuesColor;
 @property (nonatomic, strong) UIColor *dateValueSelectionColor;
-@property (nonatomic, strong) NSArray *dateValues;
 @property (nonatomic, assign) NSInteger selectedDateValueIndex;
 
 + (GraphDateBarDescriptor*)defaultDescriptor;

@@ -9,6 +9,8 @@
 #import "GraphScrollableCell.h"
 #import "GraphCell.h"
 #import "GraphDescriptor.h"
+#import "GraphTimeInterval.h"
+#import "GraphTimeIntervalPart.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
 
@@ -101,11 +103,15 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 12;
+    return self.graphDescriptor.graphTimeInterval.graphTimeIntervalParts.count;
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView*)collectionView cellForItemAtIndexPath:(NSIndexPath*)indexPath {
+    GraphTimeIntervalPart *graphTimeIntervalPart = nil;
+    if (indexPath.item < self.graphDescriptor.graphTimeInterval.graphTimeIntervalParts.count) graphTimeIntervalPart = self.graphDescriptor.graphTimeInterval.graphTimeIntervalParts[indexPath.item];
+    
     GraphCell *graphCell =[collectionView dequeueReusableCellWithReuseIdentifier:@"GraphCell" forIndexPath:indexPath];
+    graphCell.graphTimeIntervalPart = graphTimeIntervalPart;
     graphCell.graphDescriptor = self.graphDescriptor;
     return graphCell;
 }
