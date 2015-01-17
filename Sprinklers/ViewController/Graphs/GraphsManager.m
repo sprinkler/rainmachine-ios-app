@@ -22,7 +22,7 @@
 #import "Utils.h"
 #import "AFNetworking.h"
 
-NSString *kWaterConsumeGraphIdentifier              = @"WaterConsumeGraphIdentifier";
+NSString *kDailyWaterNeedGraphIdentifier            = @"DailyWaterNeedGraphIdentifier";
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
 NSString *kTotalProgramRuntimesGraphIdentifier      = @"TotalProgramRuntimesGraphIdentifier";
 
@@ -67,23 +67,23 @@ static GraphsManager *sharedGraphsManager = nil;
     GraphIconsBarDescriptor *iconsBarDescriptor = nil;
     GraphValuesBarDescriptor *valuesBarDescriptor = nil;
     
-    GraphDescriptor *waterConsumeGraph = [GraphDescriptor defaultDescriptor];
-    waterConsumeGraph.graphIdentifier = kWaterConsumeGraphIdentifier;
-    waterConsumeGraph.titleAreaDescriptor.title = @"Water Consume";
-    waterConsumeGraph.titleAreaDescriptor.units = @"%";
+    GraphDescriptor *dailyWaterNeedGraph = [GraphDescriptor defaultDescriptor];
+    dailyWaterNeedGraph.graphIdentifier = kDailyWaterNeedGraphIdentifier;
+    dailyWaterNeedGraph.titleAreaDescriptor.title = @"Daily Water Need";
+    dailyWaterNeedGraph.titleAreaDescriptor.units = @"%";
     iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
-    waterConsumeGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
+    dailyWaterNeedGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
     valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
     valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
-    waterConsumeGraph.valuesBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : valuesBarDescriptor};
-    waterConsumeGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
-    waterConsumeGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
-    waterConsumeGraph.displayAreaDescriptor.minValue = 0.0;
-    waterConsumeGraph.displayAreaDescriptor.midValue = 50.0;
-    waterConsumeGraph.displayAreaDescriptor.maxValue = 100.0;
-    waterConsumeGraph.dataSource = [GraphDataSourceWaterConsume defaultDataSource];
-    [availableGraphs addObject:waterConsumeGraph];
-    availableGraphsDictionary[waterConsumeGraph.graphIdentifier] = waterConsumeGraph;
+    dailyWaterNeedGraph.valuesBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : valuesBarDescriptor};
+    dailyWaterNeedGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
+    dailyWaterNeedGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
+    dailyWaterNeedGraph.displayAreaDescriptor.minValue = 0.0;
+    dailyWaterNeedGraph.displayAreaDescriptor.midValue = 50.0;
+    dailyWaterNeedGraph.displayAreaDescriptor.maxValue = 100.0;
+    dailyWaterNeedGraph.dataSource = [GraphDataSourceWaterConsume defaultDataSource];
+    [availableGraphs addObject:dailyWaterNeedGraph];
+    availableGraphsDictionary[dailyWaterNeedGraph.graphIdentifier] = dailyWaterNeedGraph;
     
     GraphDescriptor *temperatureGraph = [GraphDescriptor defaultDescriptor];
     temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
