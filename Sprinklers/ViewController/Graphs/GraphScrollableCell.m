@@ -96,6 +96,10 @@
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
 }
 
+- (void)stopScrolling {
+    [self.graphCollectionView setContentOffset:self.graphCollectionView.contentOffset animated:NO];
+}
+
 #pragma mark - Graph collection view data source
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {

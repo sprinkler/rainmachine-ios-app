@@ -24,6 +24,7 @@ typedef enum {
 
 @property (nonatomic, strong) NSArray *dateValues;
 @property (nonatomic, strong) NSArray *dateStrings;
+@property (nonatomic, strong) NSDictionary *randValues;
 @property (nonatomic, strong) NSString *timeIntervalPartValue;
 
 - (void)initialize;

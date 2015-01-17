@@ -89,11 +89,19 @@ static NSMutableArray *registeredTimeIntervals = nil;
 
 - (void)createWeeklyGraphTimeIntervalParts {
     NSMutableArray *graphTimeIntervalParts = [NSMutableArray new];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    calendar.firstWeekday = 2;
     
     NSInteger totalDays = 0;
     NSDate *startDate = [GraphsManager sharedGraphsManager].startDate;
     
-    while (totalDays < [GraphsManager sharedGraphsManager].totalDays) {
+    NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear fromDate:startDate];
+    NSInteger startWeekDay = startDateComponents.weekday;
+    
+    startDateComponents.weekday = 2;
+    startDate = [calendar dateFromComponents:startDateComponents];
+    
+    while (totalDays < [GraphsManager sharedGraphsManager].totalDays + startWeekDay - 1) {
         GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
         graphTimeIntervalPart.startDate = startDate;
         graphTimeIntervalPart.endDate = [startDate dateByAddingDays:6];
@@ -112,15 +120,24 @@ static NSMutableArray *registeredTimeIntervals = nil;
 
 - (void)createMonthlyGraphTimeIntervalParts {
     NSMutableArray *graphTimeIntervalParts = [NSMutableArray new];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSInteger totalDays = 0;
     NSDate *startDate = [GraphsManager sharedGraphsManager].startDate;
     
-    while (totalDays < [GraphsManager sharedGraphsManager].totalDays) {
+    NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:startDate];
+    NSInteger startDay = startDateComponents.day;
+    
+    startDateComponents.day = 1;
+    startDate = [calendar dateFromComponents:startDateComponents];
+    
+    while (totalDays < [GraphsManager sharedGraphsManager].totalDays + startDay - 1) {
+        NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:startDate];
+        
         GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
         graphTimeIntervalPart.startDate = startDate;
-        graphTimeIntervalPart.endDate = [startDate dateByAddingDays:6];
-        graphTimeIntervalPart.length = 30;
+        graphTimeIntervalPart.endDate = [startDate dateByAddingDays:monthRange.length];
+        graphTimeIntervalPart.length = monthRange.length;
         graphTimeIntervalPart.type = GraphTimeIntervalPartType_DisplayDays;
         
         [graphTimeIntervalPart initialize];

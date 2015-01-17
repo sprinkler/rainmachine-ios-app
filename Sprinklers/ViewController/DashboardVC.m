@@ -189,10 +189,15 @@
 #pragma mark - Actions
 
 - (IBAction)onChangeTimeInterval:(id)sender {
+    for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
+        [cell stopScrolling];
+    }
+    
     GraphTimeInterval *graphTimeInterval = [GraphTimeInterval graphTimeIntervals][self.timeIntervalsSegmentedControl.selectedSegmentIndex];
     for (GraphDescriptor *graphDescriptor in [GraphsManager sharedGraphsManager].selectedGraphs) {
         graphDescriptor.graphTimeInterval = graphTimeInterval;
     }
+    
     [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 }
 

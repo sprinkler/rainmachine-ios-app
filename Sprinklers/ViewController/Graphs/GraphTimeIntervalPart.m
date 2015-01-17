@@ -11,6 +11,8 @@
 #import "Additions.h"
 #import "Constants.h"
 
+#define GRAPHTIMEINTERVALPART_RANDOMIZE     NO
+
 #pragma mark -
 
 @interface GraphTimeIntervalPart ()
@@ -18,6 +20,7 @@
 - (void)createDateValues;
 - (void)createDateStrings;
 - (void)createTimeIntervalPartValue;
+- (void)createRandomizedValues;
 
 @end
 
@@ -29,6 +32,7 @@
     [self createDateValues];
     [self createDateStrings];
     [self createTimeIntervalPartValue];
+    if (GRAPHTIMEINTERVALPART_RANDOMIZE) [self createRandomizedValues];
 }
 
 #pragma mark - Values and data sources
@@ -36,10 +40,18 @@
 - (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource {
     NSMutableArray *timeIntervalRestrictedValues = [NSMutableArray new];
     
-    for (NSArray *dateString in self.dateStrings) {
-        id value = dataSource.values[dateString];
-        if (value) [timeIntervalRestrictedValues addObject:value];
-        else [timeIntervalRestrictedValues addObject:[NSNull null]];
+    if (self.randValues) {
+        for (NSArray *dateString in self.dateStrings) {
+            id value = self.randValues[dateString];
+            if (value) [timeIntervalRestrictedValues addObject:value];
+            else [timeIntervalRestrictedValues addObject:[NSNull null]];
+        }
+    } else {
+        for (NSArray *dateString in self.dateStrings) {
+            id value = dataSource.values[dateString];
+            if (value) [timeIntervalRestrictedValues addObject:value];
+            else [timeIntervalRestrictedValues addObject:[NSNull null]];
+        }
     }
     
     return timeIntervalRestrictedValues;
@@ -48,10 +60,18 @@
 - (NSArray*)timeIntervalRestrictedTopValuesForGraphDataSource:(GraphDataSource*)dataSource {
     NSMutableArray *timeIntervalRestrictedTopValues = [NSMutableArray new];
     
-    for (NSArray *dateString in self.dateStrings) {
-        id value = dataSource.topValues[dateString];
-        if (value) [timeIntervalRestrictedTopValues addObject:value];
-        else [timeIntervalRestrictedTopValues addObject:[NSNull null]];
+    if (self.randValues) {
+        for (NSArray *dateString in self.dateStrings) {
+            id value = self.randValues[dateString];
+            if (value) [timeIntervalRestrictedTopValues addObject:value];
+            else [timeIntervalRestrictedTopValues addObject:[NSNull null]];
+        }
+    } else {
+        for (NSArray *dateString in self.dateStrings) {
+            id value = dataSource.topValues[dateString];
+            if (value) [timeIntervalRestrictedTopValues addObject:value];
+            else [timeIntervalRestrictedTopValues addObject:[NSNull null]];
+        }
     }
     
     return timeIntervalRestrictedTopValues;
@@ -75,7 +95,7 @@
     NSMutableArray *dateValues = [NSMutableArray new];
     
     NSInteger count = 7;
-    double dayIncrementer = (double)self.length / (double)count;
+    double dayIncrementer = (double)(self.length - 1) / (double)(count - 1);
     double dayOffset = 0.0;
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -126,6 +146,21 @@
         dateFormatter.dateFormat = @"yy";
         self.timeIntervalPartValue = [NSString stringWithFormat:@"'%@",[dateFormatter stringFromDate:self.startDate]];
     }
+}
+
+- (void)createRandomizedValues {
+    NSMutableDictionary *randValues = [NSMutableDictionary new];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    for (NSInteger index = 0; index < self.length; index++) {
+        NSDate *date = [self.startDate dateByAddingDays:index];
+        NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
+        NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, (int)dateComponents.day];
+        
+        [randValues setObject:@((double)rand() / (double)RAND_MAX * 100) forKey:dateString];
+    }
+    
+    self.randValues = randValues;
 }
 
 @end
