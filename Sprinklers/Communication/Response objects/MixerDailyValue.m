@@ -33,7 +33,7 @@
         mixerDailyValue.et0 = [jsonObj nullProofedDoubleValueForKey:@"et0"];
         mixerDailyValue.pop = [jsonObj nullProofedDoubleValueForKey:@"pop"];
         mixerDailyValue.qpf = [jsonObj nullProofedDoubleValueForKey:@"qpf"];
-        mixerDailyValue.condition = [jsonObj nullProofedDoubleValueForKey:@"condition"];
+        mixerDailyValue.condition = [jsonObj nullProofedIntValueForKey:@"condition"];
         mixerDailyValue.pressure = [jsonObj nullProofedDoubleValueForKey:@"pressure"];
         mixerDailyValue.dewPoint = [jsonObj nullProofedDoubleValueForKey:@"dewPoint"];
         mixerDailyValue.minTemp = [jsonObj nullProofedDoubleValueForKey:@"minTemp"];

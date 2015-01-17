@@ -32,15 +32,8 @@
 
 @implementation GraphStyle
 
-- (BOOL)hasValues {
-    for (id value in self.values) {
-        if (value != [NSNull null]) return YES;
-    }
-    return NO;
-}
-
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context {
-    BOOL hasValues = self.hasValues;
+    BOOL hasValues = (self.values != nil);
     
     CGContextSaveGState(context);
     
@@ -106,7 +99,7 @@
 
 - (void)plotInRect:(CGRect)rect context:(CGContextRef)context {
     [self plotRasterInRect:rect context:context];
-    if (self.hasValues) [self plotGraphInRect:rect context:context];
+    if (self.values != nil) [self plotGraphInRect:rect context:context];
 }
 
 #pragma mark - Helper methods

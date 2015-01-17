@@ -7,6 +7,7 @@
 //
 
 #import "GraphDataSourceTemperature.h"
+#import "GraphsManager.h"
 #import "ServerProxy.h"
 #import "MixerDailyValue.h"
 #import "Additions.h"
@@ -23,17 +24,29 @@
 
 @implementation GraphDataSourceTemperature
 
-- (void)requestData {
-    NSDate *startDate = [NSDate dateWithDaysBeforeNow:self.totalDays - self.futureDays];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:startDate];
+#pragma mark - Initialization
 
-    NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year,(int)dateComponents.month,(int)dateComponents.day];
+- (id)init {
+    self = [super init];
+    if (!self) return nil;
     
-    [self.serverProxy requestMixerDataFromDate:dateString daysCount:self.totalDays];
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"mixerData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    
+    return self;
 }
 
-- (NSDictionary*)valuesFromLoadedData:(id)data {
+- (void)dealloc {
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"mixerData"];
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    [self reloadGraphDataSource];
+}
+
+#pragma mark - Data
+
+- (NSDictionary*)valuesFromLoadedData {
+    id data = [GraphsManager sharedGraphsManager].mixerData;
     if (![data isKindOfClass:[NSArray class]]) return nil;
     return [self maxTempValuesFromMixerDailyValues:(NSArray*)data];
 }

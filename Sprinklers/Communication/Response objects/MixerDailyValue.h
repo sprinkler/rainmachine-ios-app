@@ -20,7 +20,7 @@
 @property (nonatomic, assign) double et0;
 @property (nonatomic, assign) double pop;
 @property (nonatomic, assign) double qpf;
-@property (nonatomic, assign) double condition;
+@property (nonatomic, assign) int condition;
 @property (nonatomic, assign) double pressure;
 @property (nonatomic, assign) double dewPoint;
 @property (nonatomic, assign) double minTemp;

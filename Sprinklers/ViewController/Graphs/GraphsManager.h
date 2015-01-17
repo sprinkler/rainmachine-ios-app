@@ -27,6 +27,13 @@
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex;
 - (void)replaceGraphAtIndex:(NSInteger)index withGraph:(GraphDescriptor*)graph;
 
+@property (nonatomic, readonly) NSInteger futureDays;
+@property (nonatomic, readonly) NSInteger totalDays;
+
+@property (nonatomic, strong) id mixerData;
+@property (nonatomic, strong) id wateringLogDetailsData;
+@property (nonatomic, strong) id wateringLogSimulatedDetailsData;
+
 @end
 
 #pragma mark

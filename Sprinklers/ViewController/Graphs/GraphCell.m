@@ -153,14 +153,7 @@
 }
 
 - (void)hideShowInterfaceComponents {
-    BOOL hasValues = NO;
-    for (id value in self.graphDescriptor.dataSource.values) {
-        if (value != [NSNull null]) {
-            hasValues = YES;
-            break;
-        }
-    }
-    
+    BOOL hasValues = (self.graphDescriptor.dataSource.values != nil);
     self.emptyGraphLabel.hidden = hasValues;
     self.iconsBarContainerView.hidden = !hasValues;
     self.valuesBarContainerView.hidden = !hasValues;
@@ -322,7 +315,7 @@
     self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;
     self.graphView.graphStyle = descriptor.graphStyle;
     self.graphView.graphStyle.graphDescriptor = self.graphDescriptor;
-    self.graphView.graphStyle.values = self.dataSourceValues;
+    self.graphView.graphStyle.values = (self.graphDescriptor.dataSource.values ? self.dataSourceValues : nil);
     [self.graphView setNeedsDisplay];
 }
 

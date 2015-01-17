@@ -29,36 +29,28 @@
     return self;
 }
 
-#pragma mark - Customization
-
-- (NSInteger)futureDays {
-    return 7;
-}
-
-- (NSInteger)totalDays {
-    return 365;
+- (void)reloadGraphDataSource {
+    NSDictionary *values = [self valuesFromLoadedData];
+    if (values) self.values = values;
+    
+    NSDictionary *topValues = [self topValuesFromLoadedData];
+    if (topValues) self.topValues = topValues;
+    
+    NSDictionary *iconImageIndexes = [self iconImageIndexesFromLoadedData];
+    if (iconImageIndexes) self.iconImageIndexes = iconImageIndexes;
 }
 
 #pragma mark - Override in subclasses
 
-- (void)startLoading {
-    self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    [self requestData];
-}
-
-- (void)requestData {
-    
-}
-
-- (NSDictionary*)valuesFromLoadedData:(id)data {
+- (NSDictionary*)valuesFromLoadedData {
     return nil;
 }
 
-- (NSDictionary*)topValuesFromLoadedData:(id)data {
+- (NSDictionary*)topValuesFromLoadedData {
     return nil;
 }
 
-- (NSDictionary*)iconImageIndexesFromLoadedData:(id)data {
+- (NSDictionary*)iconImageIndexesFromLoadedData {
     return nil;
 }
 
@@ -76,34 +68,6 @@
     }
     
     return values;
-}
-
-#pragma mark - ProxyService delegate
-
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    NSDictionary *values = [self valuesFromLoadedData:data];
-    if (values) self.values = values;
-    
-    NSDictionary *topValues = [self topValuesFromLoadedData:data];
-    if (topValues) self.topValues = topValues;
-    
-    NSDictionary *iconImageIndexes = [self iconImageIndexesFromLoadedData:data];
-    if (iconImageIndexes) self.iconImageIndexes = iconImageIndexes;
-    
-    self.serverProxy = nil;
-    
-    [[GraphsManager sharedGraphsManager] serverResponseReceived:data serverProxy:serverProxy userInfo:userInfo];
-}
-
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    self.error = error;
-    self.serverProxy = nil;
-    
-    [[GraphsManager sharedGraphsManager] serverErrorReceived:error serverProxy:serverProxy operation:operation userInfo:userInfo];
-}
-
-- (void)loggedOut {
-    [[GraphsManager sharedGraphsManager] loggedOut];
 }
 
 @end

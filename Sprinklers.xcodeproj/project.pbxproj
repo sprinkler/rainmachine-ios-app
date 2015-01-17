@@ -54,6 +54,10 @@
 		968E25EF1A1F8DD1008006D3 /* Provision.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EA1A1F8DD1008006D3 /* Provision.m */; };
 		968E25F01A1F8DD1008006D3 /* ProvisionLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EC1A1F8DD1008006D3 /* ProvisionLocation.m */; };
 		968E25F11A1F8DD1008006D3 /* ProvisionSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EE1A1F8DD1008006D3 /* ProvisionSystem.m */; };
+		969051C61A6ACDAA0029304D /* WaterLogZoneCycle.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051C51A6ACDAA0029304D /* WaterLogZoneCycle.m */; };
+		969051C91A6ACDBD0029304D /* WaterLogZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051C81A6ACDBD0029304D /* WaterLogZone.m */; };
+		969051CC1A6ACDCF0029304D /* WaterLogProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051CB1A6ACDCF0029304D /* WaterLogProgram.m */; };
+		969051CF1A6ACDF60029304D /* WaterLogDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051CE1A6ACDF60029304D /* WaterLogDay.m */; };
 		969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969EB3B819DAD11A00D10887 /* CloudServerVC.m */; };
 		969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969EB3B919DAD11A00D10887 /* CloudServerVC.xib */; };
 		96AD34E71A1CB20D0019453C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD34E51A1CB20D0019453C /* CoreLocation.framework */; };
@@ -521,6 +525,14 @@
 		968E25EC1A1F8DD1008006D3 /* ProvisionLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionLocation.m; path = "Communication/Response objects/ProvisionLocation.m"; sourceTree = "<group>"; };
 		968E25ED1A1F8DD1008006D3 /* ProvisionSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionSystem.h; path = "Communication/Response objects/ProvisionSystem.h"; sourceTree = "<group>"; };
 		968E25EE1A1F8DD1008006D3 /* ProvisionSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionSystem.m; path = "Communication/Response objects/ProvisionSystem.m"; sourceTree = "<group>"; };
+		969051C41A6ACDAA0029304D /* WaterLogZoneCycle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterLogZoneCycle.h; path = "Communication/Response objects/WaterLogZoneCycle.h"; sourceTree = "<group>"; };
+		969051C51A6ACDAA0029304D /* WaterLogZoneCycle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterLogZoneCycle.m; path = "Communication/Response objects/WaterLogZoneCycle.m"; sourceTree = "<group>"; };
+		969051C71A6ACDBD0029304D /* WaterLogZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterLogZone.h; path = "Communication/Response objects/WaterLogZone.h"; sourceTree = "<group>"; };
+		969051C81A6ACDBD0029304D /* WaterLogZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterLogZone.m; path = "Communication/Response objects/WaterLogZone.m"; sourceTree = "<group>"; };
+		969051CA1A6ACDCF0029304D /* WaterLogProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterLogProgram.h; path = "Communication/Response objects/WaterLogProgram.h"; sourceTree = "<group>"; };
+		969051CB1A6ACDCF0029304D /* WaterLogProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterLogProgram.m; path = "Communication/Response objects/WaterLogProgram.m"; sourceTree = "<group>"; };
+		969051CD1A6ACDF60029304D /* WaterLogDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterLogDay.h; path = "Communication/Response objects/WaterLogDay.h"; sourceTree = "<group>"; };
+		969051CE1A6ACDF60029304D /* WaterLogDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterLogDay.m; path = "Communication/Response objects/WaterLogDay.m"; sourceTree = "<group>"; };
 		969EB3B719DAD11A00D10887 /* CloudServerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudServerVC.h; path = ViewController/CloudServerVC.h; sourceTree = "<group>"; };
 		969EB3B819DAD11A00D10887 /* CloudServerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudServerVC.m; path = ViewController/CloudServerVC.m; sourceTree = "<group>"; };
 		969EB3B919DAD11A00D10887 /* CloudServerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudServerVC.xib; path = ViewController/CloudServerVC.xib; sourceTree = "<group>"; };
@@ -1677,6 +1689,14 @@
 				96DAB9091A27A020005974CC /* MixerDailyValue.m */,
 				AF726E311A2C670D0024604B /* WiFi.h */,
 				AF726E321A2C670D0024604B /* WiFi.m */,
+				969051C41A6ACDAA0029304D /* WaterLogZoneCycle.h */,
+				969051C51A6ACDAA0029304D /* WaterLogZoneCycle.m */,
+				969051C71A6ACDBD0029304D /* WaterLogZone.h */,
+				969051C81A6ACDBD0029304D /* WaterLogZone.m */,
+				969051CA1A6ACDCF0029304D /* WaterLogProgram.h */,
+				969051CB1A6ACDCF0029304D /* WaterLogProgram.m */,
+				969051CD1A6ACDF60029304D /* WaterLogDay.h */,
+				969051CE1A6ACDF60029304D /* WaterLogDay.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2334,6 +2354,7 @@
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
+				969051CC1A6ACDCF0029304D /* WaterLogProgram.m in Sources */,
 				96F0F3401A36FEE90056D167 /* StatsShowGraphsCell.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
 				3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */,
@@ -2348,6 +2369,7 @@
 				AF61117219C5491D008AA62B /* ZoneProperties4.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
+				969051CF1A6ACDF60029304D /* WaterLogDay.m in Sources */,
 				AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */,
@@ -2394,6 +2416,7 @@
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				96F0F3391A36FAC70056D167 /* GraphDescriptor.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
+				969051C61A6ACDAA0029304D /* WaterLogZoneCycle.m in Sources */,
 				AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */,
 				AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */,
 				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,
@@ -2407,6 +2430,7 @@
 				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
 				AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */,
+				969051C91A6ACDBD0029304D /* WaterLogZone.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */,
 				96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */,

@@ -45,6 +45,7 @@
 #import "ProvisionSystem.h"
 #import "ProvisionLocation.h"
 #import "MixerDailyValue.h"
+#import "WaterLogDay.h"
 #import "WiFi.h"
 
 static int savedServerAPIMainVersion = 0;
@@ -651,6 +652,46 @@ static int serverAPIMinorSubVersion = -1;
                           [mixerDataByDate addObject:[MixerDailyValue createFromJson:mixerDictByDate]];
                       }
                       [self.delegate serverResponseReceived:mixerDataByDate serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)requestWateringLogDetalsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"/api/4/watering/log/details/%@/%d",dateString,(int)daysCount]] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSDictionary *waterLog = [responseObject objectForKey:@"waterLog"];
+                      NSArray *waterLogDaysDicts = [waterLog objectForKey:@"days"];
+                      
+                      NSMutableArray *waterLogDays = [NSMutableArray new];
+                      for (NSDictionary *waterLogDict in waterLogDaysDicts) {
+                          [waterLogDays addObject:[WaterLogDay createFromJson:waterLogDict]];
+                      }
+                      
+                      [self.delegate serverResponseReceived:waterLogDays serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)requestWateringLogSimulatedDetalsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"/api/4/watering/log/simulated/details/%@/%d",dateString,(int)daysCount]] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSDictionary *waterLog = [responseObject objectForKey:@"waterLog"];
+                      NSArray *waterLogDaysDicts = [waterLog objectForKey:@"days"];
+                      
+                      NSMutableArray *waterLogDays = [NSMutableArray new];
+                      for (NSDictionary *waterLogDict in waterLogDaysDicts) {
+                          [waterLogDays addObject:[WaterLogDay createFromJson:waterLogDict]];
+                      }
+                      
+                      [self.delegate serverResponseReceived:waterLogDays serverProxy:self userInfo:nil];
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
