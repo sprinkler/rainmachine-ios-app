@@ -29,6 +29,8 @@
 
 @property (nonatomic, readonly) NSInteger futureDays;
 @property (nonatomic, readonly) NSInteger totalDays;
+@property (nonatomic, readonly) NSDate *startDate;
+@property (nonatomic, readonly) NSString *startDateString;
 
 @property (nonatomic, strong) id mixerData;
 @property (nonatomic, strong) id wateringLogDetailsData;

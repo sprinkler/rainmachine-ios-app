@@ -164,48 +164,35 @@ static GraphsManager *sharedGraphsManager = nil;
     return 365;
 }
 
+- (NSDate*)startDate {
+    return [NSDate dateWithDaysBeforeNow:self.totalDays - self.futureDays];
+}
+
+- (NSString*)startDateString {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:self.startDate];
+    return [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year,(int)dateComponents.month,(int)dateComponents.day];
+}
+
+
 #pragma mark - Server communication
 
 - (void)requestMixerData {
     if (self.requestMixerDataServerProxy) return;
-    
-    NSDate *startDate = [NSDate dateWithDaysBeforeNow:self.totalDays - self.futureDays];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:startDate];
-    
-    NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year,(int)dateComponents.month,(int)dateComponents.day];
-    
     self.requestMixerDataServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    
-    [self.requestMixerDataServerProxy requestMixerDataFromDate:dateString daysCount:self.totalDays];
+    [self.requestMixerDataServerProxy requestMixerDataFromDate:self.startDateString daysCount:self.totalDays];
 }
 
 - (void)requestWateringLogDetailsData {
     if (self.requestWateringLogDetailsServerProxy) return;
-    
-    NSDate *startDate = [NSDate dateWithDaysBeforeNow:self.totalDays - self.futureDays];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:startDate];
-    
-    NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year,(int)dateComponents.month,(int)dateComponents.day];
-    
     self.requestWateringLogDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    
-    [self.requestWateringLogDetailsServerProxy requestWateringLogDetalsFromDate:dateString daysCount:self.totalDays];
+    [self.requestWateringLogDetailsServerProxy requestWateringLogDetalsFromDate:self.startDateString daysCount:self.totalDays];
 }
 
 - (void)requestWateringLogSimulatedDetailsData {
     if (self.requestWateringLogSimulatedDetailsServerProxy) return;
-    
-    NSDate *startDate = [NSDate dateWithDaysBeforeNow:self.totalDays - self.futureDays];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:startDate];
-    
-    NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year,(int)dateComponents.month,(int)dateComponents.day];
-    
     self.requestWateringLogSimulatedDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    
-    [self.requestWateringLogSimulatedDetailsServerProxy requestWateringLogSimulatedDetalsFromDate:dateString daysCount:self.totalDays];
+    [self.requestWateringLogSimulatedDetailsServerProxy requestWateringLogSimulatedDetalsFromDate:self.startDateString daysCount:self.totalDays];
 }
 
 - (void)registerProgramGraphsForProgramIDs:(NSArray*)programIDs {
@@ -273,10 +260,9 @@ static GraphsManager *sharedGraphsManager = nil;
         self.requestMixerDataServerProxy = nil;
     }
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) {
+        [self registerProgramGraphsForWaterLogDays:(NSArray*)data];
         self.wateringLogDetailsData = data;
         self.requestWateringLogDetailsServerProxy = nil;
-        
-        [self registerProgramGraphsForWaterLogDays:(NSArray*)data];
     }
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) {
         self.wateringLogSimulatedDetailsData = data;
