@@ -7,13 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ServerProxy.h"
 
-@interface GraphDataSource : NSObject <SprinklerResponseProtocol>
+@interface GraphDataSource : NSObject
 
 @property (nonatomic, strong) NSDictionary *values;
 @property (nonatomic, strong) NSDictionary *topValues;
 @property (nonatomic, strong) NSDictionary *iconImageIndexes;
+
+@property (nonatomic, assign) double minValue;
+@property (nonatomic, assign) double midValue;
+@property (nonatomic, assign) double maxValue;
 
 + (GraphDataSource*)defaultDataSource;
 - (void)reloadGraphDataSource;

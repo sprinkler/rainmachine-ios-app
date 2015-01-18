@@ -10,7 +10,7 @@
 
 @class GraphDescriptor;
 
-@interface GraphStyle : NSObject
+@interface GraphStyle : NSObject <NSCopying>
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
 @property (nonatomic, strong) NSArray *values;

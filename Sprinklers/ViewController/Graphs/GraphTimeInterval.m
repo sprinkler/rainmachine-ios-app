@@ -26,10 +26,6 @@
 @property (nonatomic, readonly) NSString *currentYearString;
 @property (nonatomic, readonly) NSArray *monthsOfYear;
 
-- (NSArray*)daysArrayInWeekCurrentDateValueIndex:(NSInteger*)currentDateValueIndex;
-- (NSArray*)daysArrayInMonthWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
-- (NSArray*)monthsArrayInYearWithCount:(NSInteger)count currentDateValueIndex:(NSInteger*)currentDateValueIndex;
-
 @property (nonatomic, readonly) NSArray *allDateStringsInTimeInterval;
 @property (nonatomic, readonly) NSArray *allDateStringsInWeek;
 @property (nonatomic, readonly) NSArray *allDateStringsInMonth;
@@ -77,6 +73,15 @@ static NSMutableArray *registeredTimeIntervals = nil;
 
 + (NSArray*)graphTimeIntervals {
     return registeredTimeIntervals;
+}
+
+- (NSInteger)currentDateTimeIntervalPartIndex {
+    NSDate *date = [NSDate date];
+    for (GraphTimeIntervalPart *timeIntervalPart in self.graphTimeIntervalParts) {
+        if ([timeIntervalPart.startDate isEqualToDateIgnoringTime:date] || [timeIntervalPart.endDate isEqualToDateIgnoringTime:date]) return [self.graphTimeIntervalParts indexOfObject:timeIntervalPart];
+        if ([timeIntervalPart.startDate isEarlierThanDate:date] && [date isEarlierThanDate:timeIntervalPart.endDate]) return [self.graphTimeIntervalParts indexOfObject:timeIntervalPart];
+    }
+    return -1;
 }
 
 #pragma mark - Graph time interval parts

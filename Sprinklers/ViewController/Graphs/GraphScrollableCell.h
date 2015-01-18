@@ -27,6 +27,7 @@
 @property (nonatomic, weak) IBOutlet UICollectionView *graphCollectionView;
 
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate;
+- (void)scrollToCurrentDateAnimated:(BOOL)animate;
 - (void)stopScrolling;
 
 @end

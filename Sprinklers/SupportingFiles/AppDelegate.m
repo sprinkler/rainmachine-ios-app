@@ -11,7 +11,7 @@
 #import "StorageManager.h"
 #import "Constants.h"
 #import "DevicesVC.h"
-#import "StatsVC.h"
+#import "DashboardVC.h"
 #import "SettingsVC.h"
 #import "WaterNowVC.h"
 #import "Additions.h"
@@ -78,12 +78,12 @@
     if ([[StorageManager current] currentSprinkler]) {
         UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
         devicesVC.tabBarItem = tabBarItemDevices;
-
-        self.statsVC = [[StatsVC alloc] initWithUnits:unit];
-        UINavigationController *navStats = [[UINavigationController alloc] initWithRootViewController:self.statsVC];
-        UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
-        self.statsVC.tabBarItem = tabBarItemStats;
         
+        self.dashboardVC = [[DashboardVC alloc] init];
+        UINavigationController *navDashboard = [[UINavigationController alloc] initWithRootViewController:self.dashboardVC];
+        UITabBarItem *tabBarItemDashboard = [[UITabBarItem alloc] initWithTitle:@"Dashboard" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
+        self.dashboardVC.tabBarItem = tabBarItemDashboard;
+                
         WaterNowVC *waterVC = [[WaterNowVC alloc] init];
         UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
         UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Zones" image:[UIImage imageNamed:@"icon_waternow"] tag:2];
@@ -95,13 +95,13 @@
         settingsVC.tabBarItem = tabBarItemSettings;
         
         _tabBarController = [[UITabBarController alloc] init];
-        _tabBarController.viewControllers = @[navDevices, navStats, navWater, navSettings];
+        _tabBarController.viewControllers = @[navDevices, navDashboard, navWater, navSettings];
         
-        _tabBarController.selectedViewController = navStats;
+        _tabBarController.selectedViewController = navDashboard;
         self.window.rootViewController = _tabBarController;
     } else {
         self.window.rootViewController = navDevices;
-        self.statsVC = nil;
+        self.dashboardVC = nil;
     }
 }
 

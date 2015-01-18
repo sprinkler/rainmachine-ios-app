@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class StatsVC;
+@class DashboardVC;
 @class UpdateManager;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) UITabBarController *tabBarController;
-@property (nonatomic, strong) StatsVC *statsVC;
+@property (nonatomic, strong) DashboardVC *dashboardVC;
 @property (strong, nonatomic) UpdateManager *updateManager;
 
 - (void)refreshRootViews:(NSString*)unit;

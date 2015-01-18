@@ -132,6 +132,10 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)reloadAllSelectedGraphs {
+    if (self.reloadingGraphs) return;
+    
+    self.reloadingGraphs = YES;
+    
     [self requestMixerData];
     [self requestWateringLogDetailsData];
     [self requestWateringLogSimulatedDetailsData];
@@ -268,12 +272,22 @@ static GraphsManager *sharedGraphsManager = nil;
         self.wateringLogSimulatedDetailsData = data;
         self.requestWateringLogSimulatedDetailsServerProxy = nil;
     }
+    
+    if (!self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
+        if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
+        self.reloadingGraphs = NO;
+    }
 }
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     if (serverProxy == self.requestMixerDataServerProxy) self.requestMixerDataServerProxy = nil;
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) self.requestWateringLogDetailsServerProxy = nil;
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) self.requestWateringLogSimulatedDetailsServerProxy = nil;
+    
+    if (!self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
+        if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
+        self.reloadingGraphs = NO;
+    }
     
     [self.presentationViewController handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 }

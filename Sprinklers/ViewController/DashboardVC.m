@@ -13,6 +13,7 @@
 #import "GraphsManager.h"
 #import "GraphDescriptor.h"
 #import "Constants.h"
+#import "MBProgressHUD.h"
 
 #pragma mark -
 
@@ -25,6 +26,16 @@
 - (void)initializeUserInterface;
 - (void)initializeTimeIntervalsSegmentedControl;
 - (void)initializeGraphsTableView;
+
+@property (nonatomic, strong) MBProgressHUD *hud;
+
+- (void)startHud:(NSString*)text;
+- (void)scrollGraphsToCurrentDateAnimated:(BOOL)animate;
+
+@property (nonatomic, assign) CGPoint globalContentOffset;
+@property (nonatomic, assign) BOOL globalContentOffsetSet;
+
+- (void)resetGlobalContentOffset;
 
 @end
 
@@ -41,22 +52,45 @@
     self.title = @"Dashboard";
     
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"selectedGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"reloadingGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"firstGraphsReloadFinished" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
 
 - (void)dealloc {
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"selectedGraphs"];
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"reloadingGraphs"];
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"firstGraphsReloadFinished"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
-    [self.graphsTableView reloadData];
+    if ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
+        if (![GraphsManager sharedGraphsManager].reloadingGraphs) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.hud = nil;
+            [self.graphsTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.0];
+        }
+        if ([keyPath isEqualToString:@"firstGraphsReloadFinished"] && [GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
+            [self.graphsTableView reloadData];
+            [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.0];
+        }
+    }
+}
+
+- (void)scrollToCurrentDateAfterDelay {
+    [self scrollGraphsToCurrentDateAnimated:NO];
+    [self resetGlobalContentOffset];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCell" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCell"];
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellWeek" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellWeek"];
+    [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellMonth" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellMonth"];
+    [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellYear" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellYear"];
     
     [self initializeConfiguration];
     [self initializeUserInterface];
@@ -73,12 +107,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [GraphsManager sharedGraphsManager].presentationViewController = self;
-    [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [GraphsManager sharedGraphsManager].presentationViewController = self;
+    [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
+    [self startHud:nil];
 }
 
 #pragma mark - Helper methods
@@ -107,6 +142,7 @@
     NSInteger selectedTimeInterval = NSNotFound;
     if (self.graphTimeInterval) selectedTimeInterval = [[GraphTimeInterval graphTimeIntervals] indexOfObject:self.graphTimeInterval];
     if (selectedTimeInterval != NSNotFound) self.timeIntervalsSegmentedControl.selectedSegmentIndex = selectedTimeInterval;
+    else self.timeIntervalsSegmentedControl.selectedSegmentIndex = 0;
 }
 
 - (void)initializeGraphsTableView {
@@ -123,6 +159,25 @@
     self.navigationItem.rightBarButtonItem.action = @selector(onEditGraphsTable:);
 }
 
+- (void)startHud:(NSString *)text {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.labelText = text;
+}
+
+- (void)scrollGraphsToCurrentDateAnimated:(BOOL)animate {
+    for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
+        [cell scrollToCurrentDateAnimated:animate];
+    }
+}
+
+- (void)resetGlobalContentOffset {
+    GraphScrollableCell *firstCell = self.graphsTableView.visibleCells.firstObject;
+    if (firstCell) {
+        self.globalContentOffset = firstCell.graphCollectionView.contentOffset;
+        self.globalContentOffsetSet = YES;
+    }
+}
+
 #pragma mark - Table view datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -130,7 +185,7 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    return [GraphsManager sharedGraphsManager].selectedGraphs.count;
+    return ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished ? [GraphsManager sharedGraphsManager].selectedGraphs.count : 0);
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -139,11 +194,24 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    static NSString *GraphScrollableCellIdentifier = @"GraphScrollableCell";
+    static NSString *GraphScrollableCellIdentifierWeek = @"GraphScrollableCellWeek";
+    static NSString *GraphScrollableCellIdentifierMonth = @"GraphScrollableCellMonth";
+    static NSString *GraphScrollableCellIdentifierYear = @"GraphScrollableCellYear";
     
-    GraphScrollableCell *graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifier];
+    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    
+    GraphScrollableCell *graphScrollableCell = nil;
+    if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 0) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierWeek];
+    else if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 1) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierMonth];
+    else if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 2) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierYear];
+    
+    graphScrollableCell.frame = CGRectMake(0.0, 0.0, tableView.frame.size.width, graphDescriptor.totalGraphHeight);
     graphScrollableCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
     graphScrollableCell.graphScrollableCellDelegate = self;
+    
+    if (self.globalContentOffsetSet) {
+        [graphScrollableCell scrollToContentOffset:self.globalContentOffset animated:NO];
+    }
     
     return graphScrollableCell;
 }
@@ -183,6 +251,9 @@
     for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
         if (cell == graphScrollableCell) continue;
         [cell scrollToContentOffset:contentOffset animated:NO];
+        
+        self.globalContentOffset = contentOffset;
+        self.globalContentOffsetSet = YES;
     }
 }
 
@@ -199,6 +270,7 @@
     }
     
     [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.0];
 }
 
 - (IBAction)onEditGraphsTable:(id)sender {

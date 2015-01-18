@@ -25,5 +25,6 @@ typedef enum {
 + (NSArray*)graphTimeIntervals;
 
 @property (nonatomic, strong) NSArray *graphTimeIntervalParts;
+@property (nonatomic, readonly) NSInteger currentDateTimeIntervalPartIndex;
 
 @end

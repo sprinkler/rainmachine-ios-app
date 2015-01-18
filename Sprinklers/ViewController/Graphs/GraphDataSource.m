@@ -13,6 +13,14 @@
 
 #pragma mark -
 
+@interface GraphDataSource ()
+
+- (void)updateMinMaxValuesFromValues:(NSArray*)values;
+
+@end
+
+#pragma mark -
+
 @implementation GraphDataSource
 
 #pragma mark - Initialization
@@ -26,11 +34,16 @@
     self = [super init];
     if (!self) return nil;
     
+    _minValue = -1.0;
+    _midValue = 0.0;
+    _maxValue = 1.0;
+    
     return self;
 }
 
 - (void)reloadGraphDataSource {
     NSDictionary *values = [self valuesFromLoadedData];
+    [self updateMinMaxValuesFromValues:values.allValues];
     if (values) self.values = values;
     
     NSDictionary *topValues = [self topValuesFromLoadedData];
@@ -68,6 +81,43 @@
     }
     
     return values;
+}
+
+- (void)updateMinMaxValuesFromValues:(NSArray*)values {
+    if (!values.count) return;
+    
+    double minValue = 0.0;
+    double maxValue = 0.0;
+    
+    BOOL minValueSet = NO;
+    BOOL maxValueSet = NO;
+    
+    for (id value in values) {
+        if (value == [NSNull null]) continue;
+        NSNumber *numberValue = (NSNumber*)value;
+        
+        if (!minValueSet) minValue = numberValue.doubleValue;
+        if (!maxValueSet) maxValue = numberValue.doubleValue;
+        minValueSet = maxValueSet = YES;
+        
+        if (numberValue.doubleValue < minValue) minValue = floor(numberValue.doubleValue);
+        if (numberValue.doubleValue > maxValue) maxValue = ceil(numberValue.doubleValue);
+    }
+    
+    if (minValue == maxValue) {
+        if (maxValue > 0.0) minValue = 0.0;
+        else if (maxValue < 0.0) maxValue = 0.0;
+        else {
+            maxValue = 1.0;
+            minValue = - 1.0;
+        }
+    }
+    
+    double midValue = (minValue + maxValue) / 2.0;
+    
+    self.minValue = minValue;
+    self.maxValue = maxValue;
+    self.midValue = midValue;
 }
 
 @end

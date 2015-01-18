@@ -17,6 +17,8 @@
 
 @property (nonatomic, readonly) NSArray *availableGraphs;
 @property (nonatomic, readonly) NSArray *selectedGraphs;
+@property (nonatomic, assign) BOOL reloadingGraphs;
+@property (nonatomic, assign) BOOL firstGraphsReloadFinished;
 
 + (GraphsManager*)sharedGraphsManager;
 - (void)selectGraph:(GraphDescriptor*)graph;

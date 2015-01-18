@@ -37,9 +37,6 @@
 @property (nonatomic, strong) NSArray *dateValueLabels;
 @property (nonatomic, strong) UIView *dateSelectionView;
 
-- (void)updateMinMaxValuesFromValues:(NSArray*)values;
-- (void)hideShowInterfaceComponents;
-
 @property (nonatomic, strong) NSArray *dataSourceValues;
 @property (nonatomic, strong) NSArray *dataSourceTopValues;
 @property (nonatomic, strong) NSArray *dataSourceIconImageIndexes;
@@ -59,20 +56,12 @@
     if (!self) return nil;
     
     [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.values" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImageIndexes" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"graphDescriptor"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.values"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImageIndexes"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -97,7 +86,9 @@
     }
     
     if (self.graphDescriptor.displayAreaDescriptor.scalingMode == GraphScalingMode_Scale) {
-        [self updateMinMaxValuesFromValues:self.dataSourceValues];
+        self.graphDescriptor.displayAreaDescriptor.minValue = self.graphDescriptor.dataSource.minValue;
+        self.graphDescriptor.displayAreaDescriptor.maxValue = self.graphDescriptor.dataSource.maxValue;
+        self.graphDescriptor.displayAreaDescriptor.midValue = self.graphDescriptor.dataSource.midValue;
     }
     
     self.graphContainerView.backgroundColor = [UIColor clearColor];
@@ -112,53 +103,6 @@
     [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalType:self.graphTimeIntervalPart];
     
     [self.graphView setNeedsDisplay];
-    
-    [self hideShowInterfaceComponents];
-}
-
-- (void)updateMinMaxValuesFromValues:(NSArray*)values {
-    if (!values.count) return;
-    
-    double minValue = 0.0;
-    double maxValue = 0.0;
-    
-    BOOL minValueSet = NO;
-    BOOL maxValueSet = NO;
-    
-    for (id value in values) {
-        if (value == [NSNull null]) continue;
-        NSNumber *numberValue = (NSNumber*)value;
-        
-        if (!minValueSet) minValue = numberValue.doubleValue;
-        if (!maxValueSet) maxValue = numberValue.doubleValue;
-        minValueSet = maxValueSet = YES;
-        
-        if (numberValue.doubleValue < minValue) minValue = floor(numberValue.doubleValue);
-        if (numberValue.doubleValue > maxValue) maxValue = ceil(numberValue.doubleValue);
-    }
-    
-    if (minValue == maxValue) {
-        if (maxValue > 0.0) minValue = 0.0;
-        else if (maxValue < 0.0) maxValue = 0.0;
-        else {
-            maxValue = 1.0;
-            minValue = - 1.0;
-        }
-    }
-    
-    double midValue = (minValue + maxValue) / 2.0;
-    
-    self.graphDescriptor.displayAreaDescriptor.minValue = minValue;
-    self.graphDescriptor.displayAreaDescriptor.maxValue = maxValue;
-    self.graphDescriptor.displayAreaDescriptor.midValue = midValue;
-}
-
-- (void)hideShowInterfaceComponents {
-    BOOL hasValues = (self.graphDescriptor.dataSource.values != nil);
-    self.emptyGraphLabel.hidden = hasValues;
-    self.iconsBarContainerView.hidden = !hasValues;
-    self.valuesBarContainerView.hidden = !hasValues;
-    self.valuesUnitsLabel.hidden = !hasValues;
 }
 
 - (void)setupIconImagesWithDescriptor:(GraphIconsBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource {
@@ -314,7 +258,7 @@
 
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor {
     self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;
-    self.graphView.graphStyle = descriptor.graphStyle;
+    self.graphView.graphStyle = [descriptor.graphStyle copy];
     self.graphView.graphStyle.graphDescriptor = self.graphDescriptor;
     self.graphView.graphStyle.values = (self.graphDescriptor.dataSource.values ? self.dataSourceValues : nil);
     [self.graphView setNeedsDisplay];

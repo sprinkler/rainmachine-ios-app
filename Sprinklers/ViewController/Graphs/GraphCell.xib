@@ -73,16 +73,6 @@
                                     <constraint firstAttribute="height" constant="18" id="xdr-06-xAl"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amX-yS-EFz">
-                                <rect key="frame" x="125" y="59" width="69" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="69" id="4af-BS-xYJ"/>
-                                    <constraint firstAttribute="height" constant="21" id="RYv-kK-bOq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
@@ -90,8 +80,6 @@
                             <constraint firstItem="Nzb-8X-iOA" firstAttribute="top" secondItem="PCv-hz-hds" secondAttribute="bottom" id="Ahr-Pl-aQh"/>
                             <constraint firstItem="PCv-hz-hds" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" id="C0E-rE-zjT"/>
                             <constraint firstAttribute="trailing" secondItem="Nzb-8X-iOA" secondAttribute="trailing" id="Ocn-aF-sZm"/>
-                            <constraint firstAttribute="centerX" secondItem="amX-yS-EFz" secondAttribute="centerX" id="Oha-O5-Aoe"/>
-                            <constraint firstAttribute="centerY" secondItem="amX-yS-EFz" secondAttribute="centerY" id="RKS-QR-VnD"/>
                             <constraint firstAttribute="trailing" secondItem="PCv-hz-hds" secondAttribute="trailing" id="aYV-nZ-LrQ"/>
                             <constraint firstItem="Nzb-8X-iOA" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="agp-fX-P8o"/>
                             <constraint firstAttribute="trailing" secondItem="fFa-Ra-Xdq" secondAttribute="trailing" id="eyz-uF-GLa"/>
@@ -115,7 +103,6 @@
             <connections>
                 <outlet property="dateBarContainerView" destination="yEs-ao-8P4" id="Opa-Fe-Cx7"/>
                 <outlet property="dateBarContainerViewHeightLayoutConstraint" destination="xdr-06-xAl" id="hjD-LY-iuK"/>
-                <outlet property="emptyGraphLabel" destination="amX-yS-EFz" id="Ux0-BA-XQs"/>
                 <outlet property="graphContainerView" destination="ZoQ-gN-Nun" id="tIr-GZ-o39"/>
                 <outlet property="graphView" destination="fFa-Ra-Xdq" id="ZJb-Jc-5cR"/>
                 <outlet property="graphViewHeightLayoutConstraint" destination="nnz-ZC-4Pk" id="g2n-bD-efR"/>

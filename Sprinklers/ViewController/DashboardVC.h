@@ -22,6 +22,8 @@
 @property (nonatomic, weak) IBOutlet UIView *headerSeparatorView;
 @property (nonatomic, weak) IBOutlet BVReorderTableView *graphsTableView;
 
+@property (nonatomic, strong) NSString *unitsText;
+
 - (IBAction)onChangeTimeInterval:(id)sender;
 - (IBAction)onEditGraphsTable:(id)sender;
 

@@ -32,6 +32,13 @@
 
 @implementation GraphStyle
 
+- (id)copyWithZone:(NSZone*)zone {
+    GraphStyle *graphStyle = [[[self class] alloc] init];
+    graphStyle.graphDescriptor = self.graphDescriptor;
+    graphStyle.values = self.values;
+    return graphStyle;
+}
+
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context {
     BOOL hasValues = (self.values != nil);
     

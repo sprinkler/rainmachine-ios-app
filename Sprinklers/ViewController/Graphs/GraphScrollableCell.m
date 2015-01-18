@@ -9,6 +9,7 @@
 #import "GraphScrollableCell.h"
 #import "GraphCell.h"
 #import "GraphDescriptor.h"
+#import "GraphDataSource.h"
 #import "GraphTimeInterval.h"
 #import "GraphTimeIntervalPart.h"
 #import "GraphVisualAppearanceDescriptor.h"
@@ -35,20 +36,12 @@
     if (!self) return nil;
     
     [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.values" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self addObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImageIndexes" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"graphDescriptor"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.values"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.topValues"];
-    [self removeObserver:self forKeyPath:@"graphDescriptor.dataSource.iconImageIndexes"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -64,6 +57,7 @@
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
     
+    [self.graphCollectionView.collectionViewLayout invalidateLayout];
     [self.graphCollectionView reloadData];
 }
 
@@ -96,6 +90,21 @@
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
 }
 
+- (void)scrollToCurrentDateAnimated:(BOOL)animate {
+    if (!self.graphDescriptor.graphTimeInterval) return;
+    NSInteger timeIntervalIndex = self.graphDescriptor.graphTimeInterval.currentDateTimeIntervalPartIndex;
+    if (timeIntervalIndex == -1) return;
+    
+    id graphCollectionViewDelegate = self.graphCollectionView.delegate;
+    self.graphCollectionView.delegate = nil;
+    
+    [self.graphCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:timeIntervalIndex inSection:0]
+                                     atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                             animated:animate];
+    
+    self.graphCollectionView.delegate = graphCollectionViewDelegate;
+}
+
 - (void)stopScrolling {
     [self.graphCollectionView setContentOffset:self.graphCollectionView.contentOffset animated:NO];
 }
@@ -117,6 +126,7 @@
     GraphCell *graphCell =[collectionView dequeueReusableCellWithReuseIdentifier:@"GraphCell" forIndexPath:indexPath];
     graphCell.graphTimeIntervalPart = graphTimeIntervalPart;
     graphCell.graphDescriptor = self.graphDescriptor;
+    
     return graphCell;
 }
 
