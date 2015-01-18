@@ -10,6 +10,8 @@
 #import "GraphsManager.h"
 #import "ServerProxy.h"
 #import "MixerDailyValue.h"
+#import "WeatherData.h"
+#import "WeatherData4.h"
 #import "Additions.h"
 
 #pragma mark -
@@ -17,6 +19,7 @@
 @interface GraphDataSourceTemperature ()
 
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues;
+- (NSDictionary*)maxTempValuesFromWeatherData3Values:(NSArray*)weatherDataValues;
     
 @end
 
@@ -31,12 +34,14 @@
     if (!self) return nil;
     
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"mixerData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"weatherData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
 
 - (void)dealloc {
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"mixerData"];
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"weatherData"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -46,9 +51,17 @@
 #pragma mark - Data
 
 - (NSDictionary*)valuesFromLoadedData {
-    id data = [GraphsManager sharedGraphsManager].mixerData;
-    if (![data isKindOfClass:[NSArray class]]) return nil;
-    return [self maxTempValuesFromMixerDailyValues:(NSArray*)data];
+    if ([ServerProxy usesAPI4]) {
+        id data = [GraphsManager sharedGraphsManager].mixerData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self maxTempValuesFromMixerDailyValues:(NSArray*)data];
+    }
+    else if ([ServerProxy usesAPI3]) {
+        id data = [GraphsManager sharedGraphsManager].weatherData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self maxTempValuesFromWeatherData3Values:(NSArray*)data];
+    }
+    return nil;
 }
 
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
@@ -62,6 +75,22 @@
         if (!day.length) continue;
         
         values[day] = @(mixerDailyValue.maxTemp);
+    }
+    
+    return values;
+}
+
+- (NSDictionary*)maxTempValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
+    NSMutableDictionary *values = [NSMutableDictionary new];
+    
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"yyyy-MM-dd";
+    
+    for (WeatherData *weatherDataValue in weatherDataValues) {
+        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        if (!day.length) continue;
+        
+        values[day] = weatherDataValue.maxt;
     }
     
     return values;

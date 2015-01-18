@@ -49,21 +49,39 @@
 #pragma mark - Data
 
 - (NSDictionary*)valuesFromLoadedData {
-    id data = [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData;
-    if (![data isKindOfClass:[NSArray class]]) return nil;
-    return [self percentageValuesFromWateringLogSimulatedValues:data];
+    if ([ServerProxy usesAPI4]) {
+        id data = [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self percentageValuesFromWateringLogSimulatedValues:data];
+    }
+    else if ([ServerProxy usesAPI3]) {
+        return @{};
+    }
+    return nil;
 }
 
 - (NSDictionary*)topValuesFromLoadedData {
-    id data = [GraphsManager sharedGraphsManager].mixerData;
-    if (![data isKindOfClass:[NSArray class]]) return nil;
-    return [self maxTempValuesFromMixerDailyValues:(NSArray*)data];
+    if ([ServerProxy usesAPI4]) {
+        id data = [GraphsManager sharedGraphsManager].mixerData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self maxTempValuesFromMixerDailyValues:(NSArray*)data];
+    }
+    else if ([ServerProxy usesAPI3]) {
+        return @{};
+    }
+    return nil;
 }
 
 - (NSDictionary*)iconImageIndexesFromLoadedData {
-    id data = [GraphsManager sharedGraphsManager].mixerData;
-    if (![data isKindOfClass:[NSArray class]]) return nil;
-    return [self conditionValuesFromMixerDailyValues:(NSArray*)data];
+    if ([ServerProxy usesAPI4]) {
+        id data = [GraphsManager sharedGraphsManager].mixerData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self conditionValuesFromMixerDailyValues:(NSArray*)data];
+    }
+    else if ([ServerProxy usesAPI3]) {
+        return @{};
+    }
+    return nil;
 }
 
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {

@@ -283,7 +283,6 @@
     [self.graphsTableView setEditing:NO animated:YES];
     
     self.graphsTableView.canReorder = NO;
-    
     [self.graphsTableView setContentOffset:self.graphsTableView.contentOffset animated:NO];
     
     for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
@@ -296,7 +295,7 @@
     }
     
     [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-    [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.0];
+    [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.1];
 }
 
 - (IBAction)onEditGraphsTable:(id)sender {

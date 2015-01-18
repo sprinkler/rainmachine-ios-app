@@ -38,6 +38,7 @@
 @property (nonatomic, strong) id mixerData;
 @property (nonatomic, strong) id wateringLogDetailsData;
 @property (nonatomic, strong) id wateringLogSimulatedDetailsData;
+@property (nonatomic, strong) id weatherData;
 
 @end
 
