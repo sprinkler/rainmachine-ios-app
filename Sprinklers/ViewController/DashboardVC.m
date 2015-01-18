@@ -260,6 +260,8 @@
 #pragma mark - Actions
 
 - (IBAction)onChangeTimeInterval:(id)sender {
+    [self.graphsTableView setContentOffset:self.graphsTableView.contentOffset animated:NO];
+    
     for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
         [cell stopScrolling];
     }
