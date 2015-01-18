@@ -141,6 +141,13 @@ static GraphsManager *sharedGraphsManager = nil;
     [self requestWateringLogSimulatedDetailsData];
 }
 
+- (void)reregisterAllGraphs {
+    self.availableGraphs = nil;
+    self.availableGraphsDictionary = nil;
+    self.firstGraphsReloadFinished = NO;
+    [self registerAvailableGraphs];
+}
+
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
     GraphDescriptor *graph = [self.selectedGraphs objectAtIndex:sourceIndex];
     

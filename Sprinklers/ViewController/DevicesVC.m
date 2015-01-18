@@ -29,6 +29,7 @@
 #import "LocationSetupVC.h"
 #import "CloudAccountsVC.h"
 #import "AvailableWiFisVC.h"
+#import "GraphsManager.h"
 
 #define kDebugSettingsNrBeforeCloudServer 6
 
@@ -876,6 +877,8 @@
         login.parent = self;
         [self.navigationController pushViewController:login animated:YES];
     }
+    
+    [[GraphsManager sharedGraphsManager] reregisterAllGraphs];
 }
 
 #pragma mark - Communication callbacks
