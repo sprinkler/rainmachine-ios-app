@@ -266,6 +266,7 @@
 
 - (void)graphScrollableCell:(GraphScrollableCell*)graphScrollableCell didScrollToContentOffset:(CGPoint)contentOffset {
     if (self.reorderingInProgress) return;
+    if (contentOffset.x == 0.0) return;
     
     for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
         if (cell == graphScrollableCell) continue;
