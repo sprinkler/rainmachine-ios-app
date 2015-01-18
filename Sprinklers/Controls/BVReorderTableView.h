@@ -39,6 +39,10 @@
 // object you returned in saveObjectAndInsertBlankRowAtIndexPath:. Simply update the data source so the
 // object is in its new position. You should do any saving/cleanup here.
 - (void)finishReorderingWithObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
+
+- (void)startReordering;
+- (void)finishedReordering;
+
 @end
 
 @interface BVReorderTableView : UITableView

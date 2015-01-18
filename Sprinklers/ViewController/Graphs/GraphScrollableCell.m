@@ -14,6 +14,7 @@
 #import "GraphTimeIntervalPart.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
+#import "GraphsManager.h"
 
 #pragma mark -
 

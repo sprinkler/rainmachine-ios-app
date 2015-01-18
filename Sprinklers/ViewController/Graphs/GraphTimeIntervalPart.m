@@ -28,6 +28,15 @@
 
 @implementation GraphTimeIntervalPart
 
+- (id)init {
+    self = [super init];
+    if (!self) return nil;
+    
+    _currentDateValueIndex = -1;
+    
+    return self;
+}
+
 - (void)initialize {
     [self createDateValues];
     [self createDateStrings];
@@ -92,6 +101,8 @@
 #pragma mark - Helper methods
 
 - (void)createDateValues {
+    NSDate *currentDate = [NSDate date];
+    
     NSMutableArray *dateValues = [NSMutableArray new];
     
     NSInteger count = 7;
@@ -107,11 +118,15 @@
             NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%02d",(int)dateComponents.day];
             [dateValues addObject:dateValue];
+            
+            if ([date isEqualToDateIgnoringTime:currentDate]) self.currentDateValueIndex = index;
         }
         else if (self.type == GraphTimeIntervalPartType_DisplayMonths) {
             NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%@",[abbrevMonthsOfYear[dateComponents.month - 1] lowercaseString]];
             [dateValues addObject:dateValue];
+            
+            if ([date isSameMonthAsDate:currentDate]) self.currentDateValueIndex = index;
         }
         
         dayOffset += dayIncrementer;

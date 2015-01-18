@@ -27,6 +27,8 @@ typedef enum {
 @property (nonatomic, strong) NSDictionary *randValues;
 @property (nonatomic, strong) NSString *timeIntervalPartValue;
 
+@property (nonatomic, assign) NSInteger currentDateValueIndex;
+
 - (void)initialize;
 
 - (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource;

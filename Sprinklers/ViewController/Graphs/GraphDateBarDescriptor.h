@@ -19,7 +19,6 @@
 @property (nonatomic, strong) UIFont *dateValuesFont;
 @property (nonatomic, strong) UIColor *dateValuesColor;
 @property (nonatomic, strong) UIColor *dateValueSelectionColor;
-@property (nonatomic, assign) NSInteger selectedDateValueIndex;
 
 + (GraphDateBarDescriptor*)defaultDescriptor;
 

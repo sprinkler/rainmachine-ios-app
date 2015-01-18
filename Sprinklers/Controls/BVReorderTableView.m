@@ -110,6 +110,9 @@
     
     // started
     if (gesture.state == UIGestureRecognizerStateBegan) {
+        if ([self.delegate respondsToSelector:@selector(startReordering)]) {
+            [self.delegate startReordering];
+        }
         
         UITableViewCell *cell = [self cellForRowAtIndexPath:indexPath];
         self.draggingRowHeight = cell.frame.size.height;
@@ -225,6 +228,7 @@
                              else {
                                  NSLog(@"finishReorderingWithObject:atIndexPath: is not implemented");
                              }
+                             
                              [self endUpdates];
                              
                              // reload the rows that were affected just to be safe
@@ -234,6 +238,10 @@
                             
                              self.currentLocationIndexPath = nil;
                              self.draggingView = nil;
+                             
+                             if ([self.delegate respondsToSelector:@selector(finishedReordering)]) {
+                                 [self.delegate finishedReordering];
+                             }
                          }];
     }
 }

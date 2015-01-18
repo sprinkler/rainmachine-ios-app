@@ -37,6 +37,9 @@
 
 - (void)resetGlobalContentOffset;
 
+@property (nonatomic, assign) BOOL reorderingInProgress;
+@property (nonatomic, strong) GraphScrollableCell *emptyGraphScrollableCell;
+
 @end
 
 #pragma mark -
@@ -91,6 +94,7 @@
     [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellWeek" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellWeek"];
     [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellMonth" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellMonth"];
     [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellYear" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellYear"];
+    [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellEmpty" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellEmpty"];
     
     [self initializeConfiguration];
     [self initializeUserInterface];
@@ -197,13 +201,18 @@
     static NSString *GraphScrollableCellIdentifierWeek = @"GraphScrollableCellWeek";
     static NSString *GraphScrollableCellIdentifierMonth = @"GraphScrollableCellMonth";
     static NSString *GraphScrollableCellIdentifierYear = @"GraphScrollableCellYear";
+    static NSString *GraphScrollableCellIdentifierEmpty = @"GraphScrollableCellEmpty";
     
     GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
-    
     GraphScrollableCell *graphScrollableCell = nil;
-    if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 0) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierWeek];
-    else if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 1) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierMonth];
-    else if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 2) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierYear];
+    
+    if ([graphDescriptor isKindOfClass:[EmptyGraphDescriptor class]]) {
+        graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierEmpty];
+    } else {
+        if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 0) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierWeek];
+        else if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 1) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierMonth];
+        else if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 2) graphScrollableCell = [tableView dequeueReusableCellWithIdentifier:GraphScrollableCellIdentifierYear];
+    }
     
     graphScrollableCell.frame = CGRectMake(0.0, 0.0, tableView.frame.size.width, graphDescriptor.totalGraphHeight);
     graphScrollableCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
@@ -231,7 +240,7 @@
 - (id)saveObjectAndInsertBlankRowAtIndexPath:(NSIndexPath*)indexPath {
     GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
     EmptyGraphDescriptor *emptyGraphDescriptor = [EmptyGraphDescriptor emptyGraphDescriptorWithTotalGraphHeight:graphDescriptor.totalGraphHeight];
-
+    
     [[GraphsManager sharedGraphsManager] replaceGraphAtIndex:indexPath.row withGraph:emptyGraphDescriptor];
     
     return graphDescriptor;
@@ -245,9 +254,19 @@
     [[GraphsManager sharedGraphsManager] replaceGraphAtIndex:indexPath.row withGraph:(GraphDescriptor*)object];
 }
 
+- (void)startReordering {
+    self.reorderingInProgress = YES;
+}
+
+- (void)finishedReordering {
+    self.reorderingInProgress = NO;
+}
+
 #pragma mark - Graph scrollable cell delegate
 
 - (void)graphScrollableCell:(GraphScrollableCell*)graphScrollableCell didScrollToContentOffset:(CGPoint)contentOffset {
+    if (self.reorderingInProgress) return;
+    
     for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
         if (cell == graphScrollableCell) continue;
         [cell scrollToContentOffset:contentOffset animated:NO];
@@ -260,6 +279,11 @@
 #pragma mark - Actions
 
 - (IBAction)onChangeTimeInterval:(id)sender {
+    [self setEditing:NO animated:YES];
+    [self.graphsTableView setEditing:NO animated:YES];
+    
+    self.graphsTableView.canReorder = NO;
+    
     [self.graphsTableView setContentOffset:self.graphsTableView.contentOffset animated:NO];
     
     for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {

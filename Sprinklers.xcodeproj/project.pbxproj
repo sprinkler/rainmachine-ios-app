@@ -30,6 +30,7 @@
 		96116DD31A6BE9680017FB3F /* GraphScrollableCellMonth.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD01A6BE9680017FB3F /* GraphScrollableCellMonth.xib */; };
 		96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */; };
 		96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */; };
+		96116DD71A6C34020017FB3F /* GraphScrollableCellEmpty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */; };
 		9637286C1A69A6C700BE7202 /* GraphScrollableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */; };
 		964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */; };
 		964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */; };
@@ -484,6 +485,7 @@
 		96116DD01A6BE9680017FB3F /* GraphScrollableCellMonth.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellMonth.xib; path = ViewController/Graphs/GraphScrollableCellMonth.xib; sourceTree = "<group>"; };
 		96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellWeek.xib; path = ViewController/Graphs/GraphScrollableCellWeek.xib; sourceTree = "<group>"; };
 		96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellYear.xib; path = ViewController/Graphs/GraphScrollableCellYear.xib; sourceTree = "<group>"; };
+		96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellEmpty.xib; path = ViewController/Graphs/GraphScrollableCellEmpty.xib; sourceTree = "<group>"; };
 		963728691A69A6C700BE7202 /* GraphScrollableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphScrollableCell.h; path = ViewController/Graphs/GraphScrollableCell.h; sourceTree = "<group>"; };
 		9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphScrollableCell.m; path = ViewController/Graphs/GraphScrollableCell.m; sourceTree = "<group>"; };
 		964ADCF61A1E5AA5008281A8 /* GoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAddress.h; sourceTree = "<group>"; };
@@ -1212,6 +1214,7 @@
 				96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */,
 				96116DD01A6BE9680017FB3F /* GraphScrollableCellMonth.xib */,
 				96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */,
+				96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -2232,6 +2235,7 @@
 				96CB93E71A38AFAD00F3691F /* nbkn_small_white.png in Resources */,
 				AFC0760318BC9C99007200BF /* SetDelayVC.xib in Resources */,
 				AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */,
+				96116DD71A6C34020017FB3F /* GraphScrollableCellEmpty.xib in Resources */,
 				AF4826671990DC9500D80B87 /* bkn.png in Resources */,
 				AFE894DC1A35733B007FC7EB /* ProvisionNameSetupVC.xib in Resources */,
 				AF4826811990DC9500D80B87 /* nra.png in Resources */,

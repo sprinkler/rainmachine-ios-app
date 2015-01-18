@@ -30,7 +30,7 @@
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
 - (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalType:(GraphTimeIntervalPart*)timeIntervalPart;
-- (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor;
+- (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart;
 
 @property (nonatomic, strong) NSArray *iconImageViews;
 @property (nonatomic, strong) NSArray *valueLabels;
@@ -66,6 +66,11 @@
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
     [self setup];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self setupCurrentDateWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalPart:self.graphTimeIntervalPart];
 }
 
 #pragma mark - Helper methods
@@ -278,7 +283,7 @@
         }
         
         self.timeIntervalLabel.text = timeIntervalPart.timeIntervalPartValue;
-        [self setupCurrentDateWithDescriptor:descriptor];
+        [self setupCurrentDateWithDescriptor:descriptor timeIntervalPart:timeIntervalPart];
         
         return;
     }
@@ -341,10 +346,10 @@
     self.timeIntervalLabel.font = descriptor.timeIntervalFont;
     self.timeIntervalLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     
-    [self setupCurrentDateWithDescriptor:descriptor];
+    [self setupCurrentDateWithDescriptor:descriptor timeIntervalPart:timeIntervalPart];
 }
 
-- (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor {
+- (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart {
     if (!self.dateSelectionView) {
         self.dateSelectionView = [[UIView alloc] initWithFrame:CGRectZero];
         self.dateSelectionView.backgroundColor = [UIColor clearColor];
@@ -354,11 +359,11 @@
         [self.dateBarContainerView addSubview:self.dateSelectionView];
     }
     
-    if (descriptor.selectedDateValueIndex != -1 && self.graphTimeIntervalPart.dateValues.count) {
+    if (timeIntervalPart.currentDateValueIndex != -1 && self.graphTimeIntervalPart.dateValues.count) {
         CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
         CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
         
-        UILabel *selectedDateLabel = self.dateValueLabels[descriptor.selectedDateValueIndex];
+        UILabel *selectedDateLabel = self.dateValueLabels[timeIntervalPart.currentDateValueIndex];
         CGSize dateSelectionViewBoundingSize = CGSizeZero;
         
         if ([[UIDevice currentDevice] iOSGreaterThan:7.0]) {
@@ -377,7 +382,7 @@
         
         self.dateSelectionView.hidden = NO;
         self.dateSelectionView.frame = CGRectMake(0.0, 0.0, dateSelectionViewBoundingSize.width, descriptor.dateBarHeight - 2.0);
-        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (descriptor.selectedDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round((descriptor.dateBarHeight - descriptor.dateBarBottomPadding) / 2.0));
+        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (timeIntervalPart.currentDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round((descriptor.dateBarHeight - descriptor.dateBarBottomPadding) / 2.0));
     } else {
         self.dateSelectionView.hidden = YES;
     }

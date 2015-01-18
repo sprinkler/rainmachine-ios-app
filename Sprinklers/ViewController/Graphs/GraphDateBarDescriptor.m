@@ -20,7 +20,6 @@
     descriptor.dateValuesFont = [UIFont boldSystemFontOfSize:12.0];
     descriptor.dateValuesColor = [UIColor whiteColor];
     descriptor.dateValueSelectionColor = [UIColor whiteColor];
-    descriptor.selectedDateValueIndex = -1;
     
     return descriptor;
 }
