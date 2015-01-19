@@ -272,7 +272,7 @@ static NSString *kWifiInterface = @"en0";
 {
     NSString *port = [NSString stringWithFormat:@"%d", sprinkler.port];
     NSString *url = [Utils fixedSprinklerAddress:sprinkler.host];
-    NSLog(@"invalidateLoginForDiscoveredSprinkler. port: %@, url:%@", port, url);
+    DLog(@"invalidateLoginForDiscoveredSprinkler. url: %@, port: %@", url, port);
     
     [self invalidateLoginForBaseUrl:url port:port];
 }
