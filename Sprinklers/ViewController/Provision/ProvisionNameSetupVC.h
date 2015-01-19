@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AvailableWiFisVC.h"
+//#import "AvailableWiFisVC.h"
 #import "DiscoveredSprinklers.h"
 #import "Protocols.h"
+#import "BaseLevel2ViewController.h"
 
-@interface ProvisionNameSetupVC : UIViewController<SprinklerResponseProtocol, UITextFieldDelegate>
+@interface ProvisionNameSetupVC : BaseLevel2ViewController<SprinklerResponseProtocol, UITextFieldDelegate>
 
-@property (nonatomic, weak) AvailableWiFisVC *delegate;
+//@property (nonatomic, weak) AvailableWiFisVC *delegate;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
 
 @end

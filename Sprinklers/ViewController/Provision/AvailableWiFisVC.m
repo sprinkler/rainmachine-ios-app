@@ -30,9 +30,6 @@ const float kWifiSignalMax = -50;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (strong, nonatomic) NSArray *discoveredSprinklers;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
-@property (strong, nonatomic) ServerProxy *provisionServerProxy;
-@property (strong, nonatomic) ServerProxy *loginServerProxy;
-@property (strong, nonatomic) ServerProxy *requestCurrentWiFiProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) MBProgressHUD *wifiRebootHud;
 @property (strong, nonatomic) NSArray *availableWiFis;
@@ -40,6 +37,16 @@ const float kWifiSignalMax = -50;
 @property (strong, nonatomic) ProvisionWiFiVC *provisionWiFiVC;
 @property (assign, nonatomic) BOOL isScrolling;
 @property (strong, nonatomic) UILabel *headerView;
+@property (assign, nonatomic) BOOL loggedIn;
+@property (assign, nonatomic) BOOL firstStart;
+@property (assign, nonatomic) BOOL timedOut;
+@property (strong, nonatomic) UIAlertView *alertView;
+@property (strong, nonatomic) NSDate *startDateWifiJoin;
+
+@property (strong, nonatomic) ServerProxy *requestAvailableWiFisProvisionServerProxy;
+@property (strong, nonatomic) ServerProxy *loginServerProxy;
+@property (strong, nonatomic) ServerProxy *requestCurrentWiFiProxy;
+@property (strong, nonatomic) ServerProxy *joinWifiServerProxy;
 
 @end
 
@@ -48,16 +55,19 @@ const float kWifiSignalMax = -50;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [ServerProxy pushSprinklerVersion];
+    [ServerProxy setSprinklerVersionMajor:4 minor:0 subMinor:0];
+    
+    self.firstStart = YES;
+    
     self.isScrolling = NO;
 
     [self.tableView registerNib:[UINib nibWithNibName:@"WiFiCell" bundle:nil] forCellReuseIdentifier:@"WiFiCell"];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive) name:@"ApplicationDidBecomeActive" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidResignActive) name:@"ApplicationDidResignActive" object:nil];
 
     self.view.backgroundColor = self.tableView.backgroundColor;
-    
-    [ServerProxy pushSprinklerVersion];
-    [ServerProxy setSprinklerVersionMajor:4 minor:0 subMinor:0];
     
     self.headerView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 46)];
     self.headerView.text = @"Connect your Rain Machine to a WiFi network";
@@ -68,7 +78,9 @@ const float kWifiSignalMax = -50;
     // Do any additional setup after loading the view from its nib.
     [self refreshUI];
 
-    self.title = @"New RainMachine";
+    self.title = @"Setup";
+
+    self.firstStart = NO;
 }
 
 - (void)updateTVHeaderToHidden:(BOOL)hidden
@@ -80,13 +92,26 @@ const float kWifiSignalMax = -50;
     }
 }
 
+- (void)shouldStartBroadcastForceUIRefresh:(BOOL)forceUIRefresh
+{
+    [self shouldStopBroadcast];
+    [[ServiceManager current] startBroadcastForSprinklers:NO];
+}
+
 - (void)appDidBecomeActive
 {
+    [self shouldStartBroadcastForceUIRefresh:NO];
+
+    self.timedOut = NO;
     if (self.availableWiFis.count == 0) {
         [self showHud];
     }
 //    [self restartPolling];
 //    [self.devicesPollTimer fire];
+}
+
+- (void)appDidResignActive {
+    [self shouldStopBroadcast];
 }
 
 - (void)restartPolling
@@ -116,6 +141,10 @@ const float kWifiSignalMax = -50;
 {
     [super viewWillDisappear:animated];
     
+    [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
+    self.requestAvailableWiFisProvisionServerProxy = nil;
+    
+    [self shouldStopBroadcast];
     [self.devicesPollTimer invalidate];
     self.devicesPollTimer = nil;
 }
@@ -137,19 +166,60 @@ const float kWifiSignalMax = -50;
 
 - (void)refreshUI
 {
-    if (self.isScrolling) {
-        return;
-    }
-    
     DLog(@"connected to network: %@", [self fetchSSIDInfo]);
     
     [self hideHud];
     
-    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:NO];
+    if (self.isScrolling) {
+        return;
+    }
+    
+    if (self.alertView) {
+        return;
+    }
+    
+    if ((self.sprinkler) && (!self.availableWiFis)) {
+        [self showHud];
+    }
+    
+    if (self.startDateWifiJoin) {
+        NSTimeInterval since = -[self.startDateWifiJoin timeIntervalSinceNow];
+        if (since > kWizard_TimeoutWifiJoin) {
+            self.startDateWifiJoin = nil;
+            self.timedOut = YES;
 
-    DiscoveredSprinklers *newSprinkler = [self.discoveredSprinklers firstObject];
+            [self hideHud];
+            [self hideWifiRebootHud];
+            
+            self.alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:@"Joining to your home network timed out. Go to Settings and connect back to your home network" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.alertView.tag = kAlertView_SetupWizard_WifiJoinTimedOut;
+            [self.alertView show];
+            
+            return;
+        }
+    }
+    
+    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:@NO];
+
+    DiscoveredSprinklers *newSprinkler = nil;
+    if (self.inputSprinkler) {
+        for (DiscoveredSprinklers *ds in self.discoveredSprinklers) {
+            if ([ds.sprinklerId isEqualToString:self.inputSprinkler.sprinklerId]) {
+                newSprinkler = ds;
+                break;
+            }
+        }
+        self.inputSprinkler = nil;
+    } else {
+        newSprinkler = [self.discoveredSprinklers firstObject];
+    }
+    
     DiscoveredSprinklers *currentSprinkler = self.sprinkler;
-    BOOL areUrlsEqual = [[newSprinkler url] isEqualToString:[currentSprinkler url]];
+    BOOL areUrlsEqual = YES;
+    if ((currentSprinkler != nil) || (newSprinkler != nil)) {
+        areUrlsEqual = [[newSprinkler url] isEqualToString:[currentSprinkler url]];
+    }
+    
     if (!areUrlsEqual) {
         self.sprinkler = newSprinkler;
         self.availableWiFis = nil;
@@ -157,20 +227,33 @@ const float kWifiSignalMax = -50;
         if (self.sprinkler) {
             [self showHud];
             
-            self.requestCurrentWiFiProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
-            [self.requestCurrentWiFiProxy requestCurrentWiFi];
+            [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
+            
+            DLog(@"currentSprinkler: %@", currentSprinkler);
+            DLog(@"newSprinkler: %@", newSprinkler);
+            
+            [self.loginServerProxy cancelAllOperations];
+            self.loginServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
+            
+            // Try to log in automatically
+            [self.loginServerProxy loginWithUserName:@"admin" password:@"" rememberMe:YES];
         }
+//        else {
+//            DLog(@"");
+//            DLog(@"newSprinkler: nil");
+//            DLog(@"");
+//        }
     }
+    
+    self.messageLabel.hidden = (self.firstStart) || (self.macAddressOfSprinklerWithWiFiSetup != nil);
     
     if (self.sprinkler) {
         self.tableView.hidden = NO;
         [self updateTVHeaderToHidden:(self.availableWiFis == nil)];
-        self.messageLabel.hidden = YES;
-        self.title = self.sprinkler.sprinklerName;
+//        self.title = self.sprinkler.sprinklerName;
     } else {
         self.tableView.hidden = YES;
         [self updateTVHeaderToHidden:YES];
-        self.messageLabel.hidden = NO;
     }
     
     [self.tableView reloadData];
@@ -180,7 +263,7 @@ const float kWifiSignalMax = -50;
 {
     [self refreshUI];
 
-    [[ServiceManager current] startBroadcastForSprinklers:NO];
+    [self shouldStartBroadcastForceUIRefresh:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -280,8 +363,7 @@ const float kWifiSignalMax = -50;
         [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     }
     
-    if (serverProxy == self.provisionServerProxy) {
-//        self.provisionServerProxy = nil;
+    if (serverProxy == self.requestAvailableWiFisProvisionServerProxy) {
     }
     
     [self hideHud];
@@ -291,14 +373,14 @@ const float kWifiSignalMax = -50;
     
     if (serverProxy == self.requestCurrentWiFiProxy) {
         NSDictionary *currentWifi = data;
+        self.requestCurrentWiFiProxy = nil;
         if ((currentWifi[@"ssid"] == nil) || ([currentWifi[@"ssid"] isKindOfClass:[NSNull class]])) {
             // Continue with the WiFi setup wizard
-            self.requestCurrentWiFiProxy = nil;
-            self.loginServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
-            self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+            [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
             
-            // Try to log in automatically
-            [self.loginServerProxy loginWithUserName:@"" password:@"" rememberMe:YES];
+            self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+            [self requestAvailableWiFis];
+            
         } else {
             // Continue with the RainMachine name setup wizard
             [self hideWifiRebootHud];
@@ -306,7 +388,7 @@ const float kWifiSignalMax = -50;
             // Otherwise, make sure that we continue with the setup of the current device
             BOOL doNameSetup = YES;
             if (self.macAddressOfSprinklerWithWiFiSetup) {
-                doNameSetup = [self.macAddressOfSprinklerWithWiFiSetup isEqualToString:[self.sprinkler sprinklerId]];
+                doNameSetup = YES;//[self.macAddressOfSprinklerWithWiFiSetup isEqualToString:[self.sprinkler sprinklerId]];
             }
             if (doNameSetup) {
                 UINavigationController *navigationController = self.navigationController;
@@ -320,13 +402,25 @@ const float kWifiSignalMax = -50;
         }
     }
     
-    if (serverProxy == self.provisionServerProxy) {
+    if (serverProxy == self.requestAvailableWiFisProvisionServerProxy) {
         if ([data isKindOfClass:[NSArray class]]) {
             self.availableWiFis = data;
         }
-        [self hideHud];
-        [self refreshUI];
+        [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestAvailableWiFis) userInfo:nil repeats:NO];
     }
+    
+    if (serverProxy == self.joinWifiServerProxy) {
+        // The sprinkler retarts, and if the connection to the home wifi succeeds it will get a new url
+        self.joinWifiServerProxy = nil;
+    }
+    
+    [self hideHud];
+    [self refreshUI];
+}
+
+- (void)requestAvailableWiFis
+{
+    [self.requestAvailableWiFisProvisionServerProxy requestAvailableWiFis];
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
@@ -345,17 +439,30 @@ const float kWifiSignalMax = -50;
 
     self.loginServerProxy = nil;
     
-    [self.provisionServerProxy requestAvailableWiFis];
+    self.requestCurrentWiFiProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
+    [self.requestCurrentWiFiProxy requestCurrentWiFi];
+
+    self.loggedIn = YES;
 }
 
 - (void)loggedOut {
     
     [self hideHud];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
-    
-    [self.devicesPollTimer invalidate];
-    self.devicesPollTimer = nil;
+    [self.loginServerProxy cancelAllOperations];
+    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    self.alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start setup wizard" message:@"Press a button on your sprinkler." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    self.alertView.tag = kAlertView_SetupWizard_CannotStart;
+    [self.alertView show];
+}
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (theAlertView.tag == kAlertView_SetupWizard_CannotStart) {
+        self.alertView = nil;
+        self.sprinkler = nil;
+        
+        [self showHud];
+    }
 }
 
 - (void)showHud {
@@ -403,14 +510,31 @@ const float kWifiSignalMax = -50;
 
 - (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password sprinklerId:(NSString*)sprinklerId
 {
-    self.macAddressOfSprinklerWithWiFiSetup = self.sprinkler.sprinklerId;
-    [self.provisionServerProxy setWiFiWithSSID:SSID encryption:encryption key:password];
-
-    [self showWifiRebootHud];
-    self.sprinkler = nil;
+    self.startDateWifiJoin = [NSDate date];
     
-//    [self refreshUI];
+    self.macAddressOfSprinklerWithWiFiSetup = self.sprinkler.sprinklerId;
+    self.joinWifiServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
+    [self.joinWifiServerProxy setWiFiWithSSID:SSID encryption:encryption key:password];
+
+    // After this point we should monitor the wifi change and handle the timeout and if macAddressOfSprinklerWithWiFiSetup is discovered on the new network
+    // it means that the network was succesfully set up on the sprinkler and the setup wizard can continue
+    // Don't test for sprinkler's current wifi to be the same as the iPhone's wifi, because it would be redundant (the device is discovered
+    // only when it's on the same network, and since it was previously connected to the rainmachine's network the wifi change means rainmachine wifi > home wifi)
+    
+    [self showWifiRebootHud];
+    
     [self restartPolling];
+}
+
+- (void)shouldStopBroadcast {
+    
+    [[ServiceManager current] stopBroadcast];
+}
+
+- (void)dealloc
+{
+    [self shouldStopBroadcast];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

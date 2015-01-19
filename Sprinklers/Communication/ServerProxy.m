@@ -586,7 +586,7 @@ static int serverAPIMinorSubVersion = -1;
                              @"encryption" : encryption,
                              @"key" : password};
     
-    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi/ssid"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/setSSID"] parameters:params
+    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi/settings"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/setSSID"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
@@ -599,7 +599,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)setProvisionName:(NSString*)name
 {
-    NSDictionary *params = @{@"name" : name};
+    NSDictionary *params = @{@"netName" : name};
     
     [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/name"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/setNetName"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -624,6 +624,23 @@ static int serverAPIMinorSubVersion = -1;
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   [self handleError:error fromOperation:operation userInfo:nil];
               }];
+}
+
+- (void)setLocation:(double)latitude longitude:(double)longitude timezone:(NSString*)timezone
+{
+    NSDictionary *params = @{@"location" : @{@"latitude" : @(latitude),
+                                             @"longitude" : @(longitude),
+                                             @"timezone" : timezone}};
+    
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
 }
 
 - (void)saveRainSensitivityFromProvision:(Provision*)provision

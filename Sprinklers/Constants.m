@@ -8,7 +8,6 @@ NSString *const TestServerURL = @"https://ns.tremend.ro";
 NSString *const TestServerPort = @"2443"; // 3.59
 //NSString *const TestServerPort = @"65076";
 
-
 NSString *const kGoogleMapsAPIKey = @"AIzaSyBnob64WT9Tm2x7y8bVIfiq2jNPMc2LKt0";
 NSString *const kGooglePlacesAPIServerKey = @"AIzaSyCKT3TO8ALbcSVtwVjlN8z6NVgvjuti8T0";
 
@@ -86,6 +85,8 @@ int const kWheatherValueFontSize = 13;
 int const kWheatherValueCustomFontSize = (kWheatherValueFontSize * 2);
 int const kXCorrectionbetweenCustomAndNormalWheatherFont = (-6 * kWheatherValueCustomFontSize) / 30 + 1;
 //int const kYCorrectionbetweenCustomNormalWheatherFont = (-10 * kWheatherValueCustomFontSize) / kWheatherValueFontSize;
+
+int const kWizard_TimeoutWifiJoin = 240; // Usually the device restarts in a little bit more than 2 minutes
 
 NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"};
 NSString *monthsOfYear[12] = {@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"};

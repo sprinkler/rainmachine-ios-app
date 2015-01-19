@@ -167,15 +167,20 @@ static ServiceManager *current = nil;
     self.discoveredSprinklers = [NSMutableArray arrayWithArray:updatedSprinklers];
 }
 
-- (NSMutableArray *)getDiscoveredSprinklersWithAPFlag:(BOOL)apFlag {
+- (NSMutableArray *)getDiscoveredSprinklersWithAPFlag:(NSNumber*)apFlag {
     NSMutableArray *filteredDiscoveredSprinklers = [NSMutableArray array];
     for (DiscoveredSprinklers *sprinkler in self.discoveredSprinklers) {
         BOOL add = NO;
         if (apFlag) {
-            // Return only the fully setup sprinklers: API3 sprinklers || API4 with apFlag=1
-            add = !(sprinkler.apFlag) || ([sprinkler.apFlag isEqualToString:@"1"]);
+            if ([apFlag boolValue]) {
+                // Return only the fully setup sprinklers: API3 sprinklers || API4 with apFlag=1
+                add = !(sprinkler.apFlag) || ([sprinkler.apFlag isEqualToString:@"1"]);
+            } else {
+                add = [sprinkler.apFlag isEqualToString:@"0"];
+            }
         } else {
-            add = [sprinkler.apFlag isEqualToString:@"0"];
+            // apFlag is nil, add everything
+            add = YES;
         }
         
         if (add) {
@@ -197,6 +202,8 @@ static ServiceManager *current = nil;
     
     // Overwrite port value. For the discovered sprinklers we will set a default port
     port = 443;
+    
+//    DLog(@"discovery string:%@", string);
     
     NSArray *splits = [string componentsSeparatedByString:messageDelimiter];
     if (splits.count >= 5) {
@@ -232,8 +239,6 @@ static ServiceManager *current = nil;
             [self.discoveredSprinklers addObject:sprinkler];
         }
     }
-    
-//    DLog(@"discovery string:%@", string);
     
     [self updateSprinklers];
 }

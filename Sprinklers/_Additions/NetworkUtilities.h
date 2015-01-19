@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Login4Response;
+@class Login4Response, DiscoveredSprinklers;
 
 @interface NetworkUtilities : NSObject
 
@@ -19,6 +19,7 @@
 + (NSString *)netmaskForWifi;
 + (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl;
 + (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort;
++ (void)invalidateLoginForDiscoveredSprinkler:(DiscoveredSprinklers*)sprinkler;
 
 + (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort;
 + (void)restoreCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)port;

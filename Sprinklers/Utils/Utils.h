@@ -21,6 +21,7 @@
 + (NSString*)currentSprinklerURL;
 + (Sprinkler *)currentSprinkler;
 
++ (BOOL)isSprinklerInAPMode:(Sprinkler*)sprinkler;
 + (BOOL)isDeviceInactive:(Sprinkler*)sprinkler;
 + (BOOL)isManuallyAddedDevice:(Sprinkler*)sprinkler;
 + (BOOL)isCloudDevice:(Sprinkler*)sprinkler;

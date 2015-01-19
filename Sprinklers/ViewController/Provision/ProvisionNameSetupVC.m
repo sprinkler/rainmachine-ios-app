@@ -30,6 +30,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    assert(self.sprinkler != nil);
+
+    [ServerProxy pushSprinklerVersion];
+    [ServerProxy setSprinklerVersionMajor:4 minor:0 subMinor:0];
 
     [self.nextButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
     self.provisionNameServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
@@ -47,7 +52,9 @@
         self.verifyPasswordLabel.tintColor = self.verifyPasswordLabel.textColor;
     }
 
-    self.title = self.sprinkler.sprinklerName;
+    self.title = @"Setup";//self.sprinkler.sprinklerName;
+
+    [self.deviceNameLabel becomeFirstResponder];
 
     [self refreshUI];
 }
@@ -79,13 +86,14 @@
         return;
     }
     
+    [self showHud];
     [self.provisionNameServerProxy setProvisionName:self.deviceNameLabel.text];
 }
 
 #pragma mark - ProxyService delegate
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [self.delegate handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 
     if (serverProxy == self.provisionNameServerProxy) {
     }
@@ -101,6 +109,8 @@
     if (serverProxy == self.provisionPasswordServerProxy) {
         [self hideHud];
         LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
+        locationSetupVC.sprinkler = self.sprinkler;
+        locationSetupVC.delegate = self;
         [self.navigationController pushViewController:locationSetupVC animated:YES];
     }
 }

@@ -39,6 +39,11 @@
     return rs;
 }
 
++ (BOOL)isSprinklerInAPMode:(Sprinkler*)sprinkler
+{
+    return sprinkler.apFlag && (![sprinkler.apFlag boolValue]);
+}
+
 + (BOOL)isDeviceInactive:(Sprinkler*)sprinkler
 {
     return ([sprinkler.nrOfFailedConsecutiveDiscoveries intValue] >= [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]);
@@ -436,12 +441,16 @@
         cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
     
     // TODO: decide upon local/remote type on runtime
-    cell.labelInfo.text = @"";
+    if ([Utils isSprinklerInAPMode:sprinkler]) {
+//        cell.labelInfo.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+        cell.labelInfo.text = @"setup";
+    } else {
+        cell.labelInfo.text = nil;
+    }
     
     BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
     
     cell.disclosureImageView.hidden = tableView.isEditing || (isDeviceInactive) || (forceHiddenDisclosure);
-    cell.labelInfo.hidden = tableView.isEditing;
     cell.labelMainTitle.textColor = isDeviceInactive ? [UIColor lightGrayColor] : [UIColor blackColor];
     cell.labelMainSubtitle.textColor = cell.labelMainTitle.textColor;
     

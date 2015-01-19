@@ -2,8 +2,8 @@
 //  Sprinkler.h
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 17/11/14.
-//  Copyright (c) 2014 Tremend. All rights reserved.
+//  Created by Fabian Matyas on 17/01/15.
+//  Copyright (c) 2015 Tremend. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -23,10 +23,11 @@
 @property (nonatomic, retain) NSNumber * loginRememberMe;
 @property (nonatomic, retain) NSString * mac;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * nrOfFailedConsecutiveDiscoveries;
 @property (nonatomic, retain) NSString * port;
 @property (nonatomic, retain) NSString * sprinklerId;
 @property (nonatomic, retain) NSString * username;
-@property (nonatomic, retain) NSNumber * nrOfFailedConsecutiveDiscoveries;
+@property (nonatomic, retain) NSNumber * apFlag;
 @property (nonatomic, retain) NSSet *zones;
 @end
 

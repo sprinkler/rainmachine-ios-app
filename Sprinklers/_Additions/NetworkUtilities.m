@@ -12,6 +12,8 @@
 #import "StorageManager.h"
 #import "ServerProxy.h"
 #import "Login4Response.h"
+#import "DiscoveredSprinklers.h"
+#import "Utils.h"
 
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -198,14 +200,16 @@ static NSString *kWifiInterface = @"en0";
     NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey] mutableCopy];
     
     NSMutableDictionary *urlDictionary = [keychainDictionary[baseUrl] mutableCopy];
-    [keychainDictionary setValue:urlDictionary forKey:baseUrl];
-    
-    NSMutableDictionary *cookiesDictionary = [urlDictionary[kSprinklerKeychain_CookiesKey] mutableCopy];
-    urlDictionary[kSprinklerKeychain_CookiesKey] = cookiesDictionary;
-    
-    [cookiesDictionary removeObjectForKey:port];
-    
-    [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    if (urlDictionary) {
+        [keychainDictionary setValue:urlDictionary forKey:baseUrl];
+        
+        NSMutableDictionary *cookiesDictionary = [urlDictionary[kSprinklerKeychain_CookiesKey] mutableCopy];
+        urlDictionary[kSprinklerKeychain_CookiesKey] = cookiesDictionary;
+        
+        [cookiesDictionary removeObjectForKey:port];
+        
+        [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    }
 }
 
 + (BOOL)containsDictionarySessionOnlyCookies:(NSDictionary*)cookiesDictionary forPort:(NSString*)port
@@ -262,6 +266,15 @@ static NSString *kWifiInterface = @"en0";
     }
     
     return NO;
+}
+
++ (void)invalidateLoginForDiscoveredSprinkler:(DiscoveredSprinklers*)sprinkler
+{
+    NSString *port = [NSString stringWithFormat:@"%d", sprinkler.port];
+    NSString *url = [Utils fixedSprinklerAddress:sprinkler.host];
+    NSLog(@"invalidateLoginForDiscoveredSprinkler. port: %@, url:%@", port, url);
+    
+    [self invalidateLoginForBaseUrl:url port:port];
 }
 
 + (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort

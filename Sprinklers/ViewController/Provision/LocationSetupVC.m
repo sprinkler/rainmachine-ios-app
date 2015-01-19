@@ -22,6 +22,9 @@
 #import "GoogleRequestTimezone.h"
 #import "MBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
+#import "ServerProxy.h"
+#import "MBProgressHUD.h"
+#import "NetworkUtilities.h"
 
 const double LocationSetup_MapView_InitializeTimeout                = 3.0;
 const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
@@ -51,6 +54,9 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 - (NSString*)displayStringForLocation:(GoogleAddress*)location;
 - (void)updateLocationSearchBar;
 
+@property (strong, nonatomic) ServerProxy *provisionServerProxy;
+@property (strong, nonatomic) MBProgressHUD *hud;
+
 @end
 
 #pragma mark -
@@ -63,7 +69,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (!self) return nil;
     
-    self.title = @"Location";
+    self.title = @"Select your location";
     
     return self;
 }
@@ -84,12 +90,8 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     self.mapView.myLocationEnabled = YES;
     self.mapView.settings.myLocationButton = YES;
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self performSelector:@selector(hideHUDAddedToView) withObject:nil afterDelay:LocationSetup_MapView_InitializeTimeout];
-}
-
-- (void)hideHUDAddedToView {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self showHud];
+    [self performSelector:@selector(hideHud) withObject:nil afterDelay:LocationSetup_MapView_InitializeTimeout];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -111,10 +113,10 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
         
         [self moveCameraToLocation:self.mapView.myLocation animated:YES];
         
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideHUDAddedToView) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideHud) object:nil];
         [[GoogleRequestReverseGeocoding reverseGeocodingRequestWithLocation:self.mapView.myLocation] executeRequestWithCompletionHandler:^(GoogleAddress *result, NSError *error) {
             if (error) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self hideHud];
                 return;
             }
             
@@ -126,7 +128,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
                 self.selectedLocationElevation = result;
                 [[GoogleRequestTimezone timezoneRequestWithLocation:self.selectedLocationAddress.location] executeRequestWithCompletionHandler:^(GoogleTimezone *result, NSError *error) {
                     self.selectedLocationTimezone = result;
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [self hideHud];
                 }];
             }];
         }];
@@ -293,10 +295,10 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     
     GoogleAutocompletePrediction *prediction = self.autocompletePredictions[indexPath.row];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self showHud];
     [[GoogleRequestPlaceDetails placeDetailsRequestWithAutocompletePrediction:prediction] executeRequestWithCompletionHandler:^(GoogleAddress *result, NSError *error) {
         if (error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self hideHud];
             return;
         }
         
@@ -310,7 +312,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
             self.selectedLocationElevation = result;
             [[GoogleRequestTimezone timezoneRequestWithLocation:self.selectedLocationAddress.location] executeRequestWithCompletionHandler:^(GoogleTimezone *result, NSError *error) {
                 self.selectedLocationTimezone = result;
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self hideHud];
             }];
         }];
     }];
@@ -318,10 +320,63 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 #pragma mark - Actions
 
-- (IBAction)onNext:(id)sender {
-    // self.selectedLocationAddress contains the selected location
-    // self.selectedLocationElevation.elevation contains the elevation of the selected location
-    // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
+- (IBAction)onNext:(id)sender
+{
+    if (self.selectedLocationAddress.location) {
+        // self.selectedLocationAddress contains the selected location
+        // self.selectedLocationElevation.elevation contains the elevation of the selected location
+        // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
+        self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+        [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
+                                     longitude:self.selectedLocationAddress.location.coordinate.longitude
+                                      timezone:self.selectedLocationTimezone.timeZoneId];
+        
+        [self showHud];
+    }
+}
+
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [self.delegate handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    
+    if (serverProxy == self.provisionServerProxy) {
+    }
+    
+    [self hideHud];
+}
+
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    
+    if (serverProxy == self.provisionServerProxy) {
+        //    TODO: handle error code
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"Your Rainmachine was succesfully set up." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+    [self hideHud];
+}
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
+- (void)loggedOut {
+    
+    [self hideHud];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)showHud {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.view.userInteractionEnabled = NO;
+}
+
+- (void)hideHud {
+    self.hud = nil;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.view.userInteractionEnabled = YES;
 }
 
 @end

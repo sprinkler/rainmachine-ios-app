@@ -308,6 +308,7 @@
 		AFB6943B190289670067CD7F /* WateringRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6943A190289670067CD7F /* WateringRestrictions.m */; };
 		AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB6943D190427A20067CD7F /* RainDelayPoller.m */; };
 		AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB7E05E192F388E003A3461 /* NSDictionary+Keychain.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		AFB94C861A6CE25200AF5D86 /* Sprinklers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AFB94C7B1A6CE25200AF5D86 /* Sprinklers.xcdatamodeld */; };
 		AFC075F918BBDDAD007200BF /* WeekdaysVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */; };
 		AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */; };
 		AFC0760118BBDFC3007200BF /* SimpleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFC0760018BBDFC3007200BF /* SimpleCell.xib */; };
@@ -364,7 +365,6 @@
 		AFF935161A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF935141A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib */; };
 		AFFDCF34199B97A800EAC3D5 /* Login4Response.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFDCF33199B97A800EAC3D5 /* Login4Response.m */; };
 		AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFDCF36199BA82900EAC3D5 /* WeatherData4.m */; };
-		B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */; };
 		B111987016A7EED00094EF9F /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986F16A7EED00094EF9F /* StorageManager.m */; };
 		B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */ = {isa = PBXBuildFile; fileRef = B111987516A7F38C0094EF9F /* DiscoveredSprinklers.m */; };
 		B11F7DB216BA6F3B00E36D00 /* form_inputbox_one.png in Resources */ = {isa = PBXBuildFile; fileRef = B11F7DB016BA6F3B00E36D00 /* form_inputbox_one.png */; };
@@ -478,7 +478,6 @@
 		3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SetDelayVC-iPad.xib"; path = "ViewController/SetDelayVC-iPad.xib"; sourceTree = "<group>"; };
 		3AC64A04192B39F10009061D /* PickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerVC.xib; path = ViewController/PickerVC.xib; sourceTree = "<group>"; };
 		3AC64A06192B56130009061D /* MappingModev1tov6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = MappingModev1tov6.xcmappingmodel; path = Model/MappingModev1tov6.xcmappingmodel; sourceTree = "<group>"; };
-		3AC64A0B192B76950009061D /* Sprinklers 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 7.xcdatamodel"; sourceTree = "<group>"; };
 		960374F519D5FB3C009CB68A /* RestrictionsSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsSwitchCell.h; path = Cells/RestrictionsSwitchCell.h; sourceTree = "<group>"; };
 		960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsSwitchCell.m; path = Cells/RestrictionsSwitchCell.m; sourceTree = "<group>"; };
 		960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsSwitchCell.xib; path = Cells/RestrictionsSwitchCell.xib; sourceTree = "<group>"; };
@@ -698,7 +697,6 @@
 		AF167D51189A8520003E659D /* APIVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIVersion.m; path = "Communication/Response objects/APIVersion.m"; sourceTree = "<group>"; };
 		AF167D53189AB222003E659D /* UpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateManager.h; path = Managers/UpdateManager.h; sourceTree = "<group>"; };
 		AF167D54189AB222003E659D /* UpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateManager.m; path = Managers/UpdateManager.m; sourceTree = "<group>"; };
-		AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 3.xcdatamodel"; sourceTree = "<group>"; };
 		AF167D57189ABF6C003E659D /* UpdateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInfo.h; path = "Communication/Response objects/UpdateInfo.h"; sourceTree = "<group>"; };
 		AF167D58189ABF6C003E659D /* UpdateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInfo.m; path = "Communication/Response objects/UpdateInfo.m"; sourceTree = "<group>"; };
 		AF167D5A189ACBA6003E659D /* UpdateStartInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateStartInfo.h; path = "Communication/Response objects/UpdateStartInfo.h"; sourceTree = "<group>"; };
@@ -706,7 +704,6 @@
 		AF167D64189AD72E003E659D /* UpdaterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdaterVC.h; path = ViewController/UpdaterVC.h; sourceTree = "<group>"; };
 		AF167D65189AD72E003E659D /* UpdaterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdaterVC.m; path = ViewController/UpdaterVC.m; sourceTree = "<group>"; };
 		AF167D67189AD74D003E659D /* UpdaterVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdaterVC.xib; path = ViewController/UpdaterVC.xib; sourceTree = "<group>"; };
-		AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 4.xcdatamodel"; sourceTree = "<group>"; };
 		AF26D5CD1A2EDD7F0010AB28 /* WiFiCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WiFiCell.h; path = ViewController/Provision/WiFiCell.h; sourceTree = "<group>"; };
 		AF26D5CE1A2EDD7F0010AB28 /* WiFiCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WiFiCell.m; path = ViewController/Provision/WiFiCell.m; sourceTree = "<group>"; };
 		AF26D5CF1A2EDD7F0010AB28 /* WiFiCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WiFiCell.xib; path = ViewController/Provision/WiFiCell.xib; sourceTree = "<group>"; };
@@ -836,7 +833,6 @@
 		AF7AC9DF184E3E080047BD9E /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFSecurityPolicy.m; path = Sprinklers/3rdParty/AFNetworking/AFSecurityPolicy.m; sourceTree = "<group>"; };
 		AF7AC9E1184E3ECE0047BD9E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AF7AC9E3184E3EDF0047BD9E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 5.xcdatamodel"; sourceTree = "<group>"; };
 		AF81E6DA18BA24D2007E9A03 /* ProgramVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramVC.h; path = ViewController/ProgramVC.h; sourceTree = "<group>"; };
 		AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramVC.m; path = ViewController/ProgramVC.m; sourceTree = "<group>"; };
 		AF81E6DD18BA3216007E9A03 /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonCell.h; path = Cells/ButtonCell.h; sourceTree = "<group>"; };
@@ -854,7 +850,6 @@
 		AF91C7F31858D640005888AA /* StartStopWatering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartStopWatering.m; path = "Communication/Request objects/StartStopWatering.m"; sourceTree = "<group>"; };
 		AF91C7F51858D757005888AA /* ServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerResponse.h; path = "Communication/Response objects/ServerResponse.h"; sourceTree = "<group>"; };
 		AF91C7F61858D757005888AA /* ServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerResponse.m; path = "Communication/Response objects/ServerResponse.m"; sourceTree = "<group>"; };
-		AF927C8A19C8124E009C59EA /* Sprinklers 8 (cloud).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 8 (cloud).xcdatamodel"; sourceTree = "<group>"; };
 		AF927C8E19C84B91009C59EA /* CloudUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudUtils.h; sourceTree = "<group>"; };
 		AF927C8F19C84B91009C59EA /* CloudUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudUtils.m; sourceTree = "<group>"; };
 		AF94FBBE18B7CC9D006FE76D /* SetRainDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetRainDelay.h; path = "Communication/Request objects/SetRainDelay.h"; sourceTree = "<group>"; };
@@ -878,7 +873,6 @@
 		AFA9081419AB7DD3008769A0 /* UpdateInfo4PackageDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInfo4PackageDetails.m; path = "Communication/Response objects/UpdateInfo4PackageDetails.m"; sourceTree = "<group>"; };
 		AFA9B57E18DADB4F00DB40E8 /* icon_devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_devices.png; path = Resources/icon_devices.png; sourceTree = "<group>"; };
 		AFA9B57F18DADB4F00DB40E8 /* icon_devices@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_devices@2x.png"; path = "Resources/icon_devices@2x.png"; sourceTree = "<group>"; };
-		AFB694291901A2A10067CD7F /* Sprinklers 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 6.xcdatamodel"; sourceTree = "<group>"; };
 		AFB6942D1901A5A20067CD7F /* DBZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBZone.h; path = Model/DBZone.h; sourceTree = "<group>"; };
 		AFB6942E1901A5A20067CD7F /* DBZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBZone.m; path = Model/DBZone.m; sourceTree = "<group>"; };
 		AFB69436190289440067CD7F /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zone.h; path = "Communication/Response objects/Zone.h"; sourceTree = "<group>"; };
@@ -889,6 +883,16 @@
 		AFB6943D190427A20067CD7F /* RainDelayPoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainDelayPoller.m; sourceTree = "<group>"; };
 		AFB7E05D192F388E003A3461 /* NSDictionary+Keychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Keychain.h"; sourceTree = "<group>"; };
 		AFB7E05E192F388E003A3461 /* NSDictionary+Keychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Keychain.m"; sourceTree = "<group>"; };
+		AFB94C7C1A6CE25200AF5D86 /* Sprinklers 10 (APFlag).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 10 (APFlag).xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C7D1A6CE25200AF5D86 /* Sprinklers 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 2.xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C7E1A6CE25200AF5D86 /* Sprinklers 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 3.xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C7F1A6CE25200AF5D86 /* Sprinklers 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 4.xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C801A6CE25200AF5D86 /* Sprinklers 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 5.xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C811A6CE25200AF5D86 /* Sprinklers 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 6.xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C821A6CE25200AF5D86 /* Sprinklers 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 7.xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C831A6CE25200AF5D86 /* Sprinklers 8 (cloud).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 8 (cloud).xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C841A6CE25200AF5D86 /* Sprinklers 9 (MAC).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 9 (MAC).xcdatamodel"; sourceTree = "<group>"; };
+		AFB94C851A6CE25200AF5D86 /* Sprinklers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sprinklers.xcdatamodel; sourceTree = "<group>"; };
 		AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WeekdaysVC.xib; path = ViewController/WeekdaysVC.xib; sourceTree = "<group>"; };
 		AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeekdaysVC.h; path = ViewController/WeekdaysVC.h; sourceTree = "<group>"; };
 		AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeekdaysVC.m; path = ViewController/WeekdaysVC.m; sourceTree = "<group>"; };
@@ -896,7 +900,6 @@
 		AFC0760218BC9C99007200BF /* SetDelayVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SetDelayVC.xib; path = ViewController/SetDelayVC.xib; sourceTree = "<group>"; };
 		AFC0760418BC9DEB007200BF /* SetDelayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetDelayVC.h; path = ViewController/SetDelayVC.h; sourceTree = "<group>"; };
 		AFC0760518BC9DEB007200BF /* SetDelayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetDelayVC.m; path = ViewController/SetDelayVC.m; sourceTree = "<group>"; };
-		AFC22B0A1A18C93B00220BAA /* Sprinklers 9 (MAC).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 9 (MAC).xcdatamodel"; sourceTree = "<group>"; };
 		AFC58170184E58FD00C8D06A /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData.h; path = "Communication/Response objects/WeatherData.h"; sourceTree = "<group>"; };
 		AFC58171184E58FD00C8D06A /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData.m; path = "Communication/Response objects/WeatherData.m"; sourceTree = "<group>"; };
 		AFC5CEDA18893A5B005191DE /* icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings.png; path = Resources/icon_settings.png; sourceTree = "<group>"; };
@@ -908,7 +911,6 @@
 		AFC7E93618579D7600ACA626 /* icon_status_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_status_ok.png; path = Resources/icon_status_ok.png; sourceTree = "<group>"; };
 		AFC7E93818579EE900ACA626 /* HomeScreenDataSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeScreenDataSourceCell.h; path = Cells/HomeScreenDataSourceCell.h; sourceTree = "<group>"; };
 		AFC7E93918579EE900ACA626 /* HomeScreenDataSourceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeScreenDataSourceCell.m; path = Cells/HomeScreenDataSourceCell.m; sourceTree = "<group>"; };
-		AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 2.xcdatamodel"; sourceTree = "<group>"; };
 		AFCC57B3185860FD001F48F0 /* icon_status_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_status_warning.png; path = Resources/icon_status_warning.png; sourceTree = "<group>"; };
 		AFCDF79D185DBE2700F9C57E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AFCDF79E185DBE2700F9C57E /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
@@ -963,7 +965,6 @@
 		AFFDCF33199B97A800EAC3D5 /* Login4Response.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Login4Response.m; path = "Communication/Response objects/Login4Response.m"; sourceTree = "<group>"; };
 		AFFDCF35199BA82900EAC3D5 /* WeatherData4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData4.h; path = "Communication/Response objects/WeatherData4.h"; sourceTree = "<group>"; };
 		AFFDCF36199BA82900EAC3D5 /* WeatherData4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherData4.m; path = "Communication/Response objects/WeatherData4.m"; sourceTree = "<group>"; };
-		B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sprinklers.xcdatamodel; sourceTree = "<group>"; };
 		B111986E16A7EED00094EF9F /* StorageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StorageManager.h; path = Managers/StorageManager.h; sourceTree = "<group>"; };
 		B111986F16A7EED00094EF9F /* StorageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StorageManager.m; path = Managers/StorageManager.m; sourceTree = "<group>"; };
 		B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscoveredSprinklers.h; path = Model/DiscoveredSprinklers.h; sourceTree = "<group>"; };
@@ -1666,12 +1667,12 @@
 		B111984216A7E1E60094EF9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AFB94C7B1A6CE25200AF5D86 /* Sprinklers.xcdatamodeld */,
 				AF3DE1FB1A1A50A600C4B1FC /* Sprinkler.h */,
 				AF3DE1FC1A1A50A600C4B1FC /* Sprinkler.m */,
 				3AC64A06192B56130009061D /* MappingModev1tov6.xcmappingmodel */,
 				3A68C070192B956500821D4D /* MappingModelv1tov7.xcmappingmodel */,
 				3A68C06E192B8DEE00821D4D /* MappingModelv6tov7.xcmappingmodel */,
-				B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */,
 				AFB6942D1901A5A20067CD7F /* DBZone.h */,
 				AFB6942E1901A5A20067CD7F /* DBZone.m */,
 				B111987416A7F38C0094EF9F /* DiscoveredSprinklers.h */,
@@ -2515,7 +2516,6 @@
 				AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */,
-				B111984616A7E2690094EF9F /* Sprinklers.xcdatamodeld in Sources */,
 				AFF3A06318BDE4C10060D0F6 /* TimePickerVC.m in Sources */,
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AFFDCF34199B97A800EAC3D5 /* Login4Response.m in Sources */,
@@ -2545,6 +2545,7 @@
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
 				968E25F11A1F8DD1008006D3 /* ProvisionSystem.m in Sources */,
 				964ADD0F1A1E5AA5008281A8 /* GoogleRequestElevation.m in Sources */,
+				AFB94C861A6CE25200AF5D86 /* Sprinklers.xcdatamodeld in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
@@ -2725,20 +2726,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B111984416A7E2690094EF9F /* Sprinklers.xcdatamodeld */ = {
+		AFB94C7B1A6CE25200AF5D86 /* Sprinklers.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				AF927C8A19C8124E009C59EA /* Sprinklers 8 (cloud).xcdatamodel */,
-				AFC22B0A1A18C93B00220BAA /* Sprinklers 9 (MAC).xcdatamodel */,
-				3AC64A0B192B76950009061D /* Sprinklers 7.xcdatamodel */,
-				AF23633D18AA762E00A57B53 /* Sprinklers 4.xcdatamodel */,
-				AF7BFAE818B62FE70013F337 /* Sprinklers 5.xcdatamodel */,
-				AFB694291901A2A10067CD7F /* Sprinklers 6.xcdatamodel */,
-				AFCC57B218585A06001F48F0 /* Sprinklers 2.xcdatamodel */,
-				AF167D56189AB378003E659D /* Sprinklers 3.xcdatamodel */,
-				B111984516A7E2690094EF9F /* Sprinklers.xcdatamodel */,
+				AFB94C7C1A6CE25200AF5D86 /* Sprinklers 10 (APFlag).xcdatamodel */,
+				AFB94C7D1A6CE25200AF5D86 /* Sprinklers 2.xcdatamodel */,
+				AFB94C7E1A6CE25200AF5D86 /* Sprinklers 3.xcdatamodel */,
+				AFB94C7F1A6CE25200AF5D86 /* Sprinklers 4.xcdatamodel */,
+				AFB94C801A6CE25200AF5D86 /* Sprinklers 5.xcdatamodel */,
+				AFB94C811A6CE25200AF5D86 /* Sprinklers 6.xcdatamodel */,
+				AFB94C821A6CE25200AF5D86 /* Sprinklers 7.xcdatamodel */,
+				AFB94C831A6CE25200AF5D86 /* Sprinklers 8 (cloud).xcdatamodel */,
+				AFB94C841A6CE25200AF5D86 /* Sprinklers 9 (MAC).xcdatamodel */,
+				AFB94C851A6CE25200AF5D86 /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = AFC22B0A1A18C93B00220BAA /* Sprinklers 9 (MAC).xcdatamodel */;
+			currentVersion = AFB94C7C1A6CE25200AF5D86 /* Sprinklers 10 (APFlag).xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

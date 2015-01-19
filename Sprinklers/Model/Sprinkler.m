@@ -2,8 +2,8 @@
 //  Sprinkler.m
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 17/11/14.
-//  Copyright (c) 2014 Tremend. All rights reserved.
+//  Created by Fabian Matyas on 17/01/15.
+//  Copyright (c) 2015 Tremend. All rights reserved.
 //
 
 #import "Sprinkler.h"
@@ -22,10 +22,11 @@
 @dynamic loginRememberMe;
 @dynamic mac;
 @dynamic name;
+@dynamic nrOfFailedConsecutiveDiscoveries;
 @dynamic port;
 @dynamic sprinklerId;
 @dynamic username;
-@dynamic nrOfFailedConsecutiveDiscoveries;
+@dynamic apFlag;
 @dynamic zones;
 
 @end

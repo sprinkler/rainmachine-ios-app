@@ -9,7 +9,7 @@
 #define resendTimeout   1.0
 #define keepAliveTime   0.05
 
-#define burstBroadcasts 3
+#define burstBroadcasts 1
 #define keepAliveTo     50
 
 #define messageDelimiter    @"||"
@@ -75,6 +75,8 @@ extern int const kWheatherValueFontSize;
 extern int const kWheatherValueCustomFontSize;
 extern int const kXCorrectionbetweenCustomAndNormalWheatherFont;
 
+extern int const kWizard_TimeoutWifiJoin;
+
 extern NSString *daysOfTheWeek[7];
 extern NSString *monthsOfYear[12];
 extern NSString *abbrevMonthsOfYear[12];
@@ -90,6 +92,8 @@ extern NSString *abbrevMonthsOfYear[12];
 #define kAlertView_NoActiveZones 9
 #define kAlertView_DeviceNotSupported 10
 #define kAlertView_ApiVerConnectionError 11
+#define kAlertView_SetupWizard_CannotStart 12
+#define kAlertView_SetupWizard_WifiJoinTimedOut 13
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 
