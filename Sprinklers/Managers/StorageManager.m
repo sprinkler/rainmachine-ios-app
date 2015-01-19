@@ -155,7 +155,17 @@ static StorageManager *current = nil;
     return nil;
 }
 
-- (Sprinkler *)getSprinkler:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local email:(NSString*)email {
+- (Sprinkler *)getSprinkler:(NSString*)mac name:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local email:(NSString*)email
+{
+    Sprinkler *sprinklerBasedOnMac = nil;
+    if (mac) {
+        sprinklerBasedOnMac = [self getSprinklerBasedOnId:mac local:local];
+    }
+    
+    if (sprinklerBasedOnMac) {
+        return sprinklerBasedOnMac;
+    }
+
     NSError *error;
     NSArray *items;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -299,6 +309,44 @@ static StorageManager *current = nil;
     if (remoteSprinklers.count > 0) {
         [self saveData];
     }
+}
+
+- (void)applyDuplicatedMacsFix
+{
+    NSMutableDictionary *sprinklersGrouped = [NSMutableDictionary dictionary];
+    
+    NSArray *sprinklersFromNetworks = [self getAllSprinklersFromNetwork];
+    for (Sprinkler *sprinkler in sprinklersFromNetworks) {
+        NSMutableArray *sprinklersWithIdenticMac = sprinklersGrouped[sprinkler.mac];
+        if (!sprinklersWithIdenticMac) {
+            sprinklersWithIdenticMac = [NSMutableArray array];
+            sprinklersGrouped[sprinkler.mac] = sprinklersWithIdenticMac;
+        }
+        [sprinklersWithIdenticMac addObject:sprinkler];
+    }
+    
+    for (NSArray *sprinklersWithIdenticMac in [sprinklersGrouped allValues]) {
+        // Select the first alive sprinkler, or the last non-alive sprinkler
+        Sprinkler *selectedSprinkler = nil;
+        for (Sprinkler *sprinkler in sprinklersWithIdenticMac) {
+            if ([sprinkler.isDiscovered boolValue]) {
+                selectedSprinkler = sprinkler;
+                break;
+            }
+        }
+        if (!selectedSprinkler) {
+            selectedSprinkler = [sprinklersWithIdenticMac lastObject];
+        }
+        
+        // Delete the other sprinklers from db
+        for (Sprinkler *sprinkler in sprinklersWithIdenticMac) {
+            if (selectedSprinkler != sprinkler) {
+                [self.managedObjectContext deleteObject:sprinkler];
+            }
+        }
+    }
+
+    [self saveData];
 }
 
 - (void)fixBrokenSprinklerAddresses
@@ -738,6 +786,8 @@ static StorageManager *current = nil;
     }
     
     [self fixBrokenSprinklerAddresses];
+    
+    [self applyDuplicatedMacsFix];
     
     return __persistentStoreCoordinator;
 }

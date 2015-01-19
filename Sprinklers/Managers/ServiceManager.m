@@ -203,7 +203,7 @@ static ServiceManager *current = nil;
     // Overwrite port value. For the discovered sprinklers we will set a default port
     port = 443;
     
-//    DLog(@"discovery string:%@", string);
+//    DLog(@"discovery string: %@", string);
     
     NSArray *splits = [string componentsSeparatedByString:messageDelimiter];
     if (splits.count >= 5) {

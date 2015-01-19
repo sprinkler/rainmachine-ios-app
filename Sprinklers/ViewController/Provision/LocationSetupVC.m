@@ -357,7 +357,6 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 

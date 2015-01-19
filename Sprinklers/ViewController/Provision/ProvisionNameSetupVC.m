@@ -71,12 +71,12 @@
 
 - (IBAction)onNext:(id)sender {
     if (self.deviceNameLabel.text.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Rain Machine Name" message:@"Provide a name for your name machine" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Rain Machine Name" message:@"Provide a name for your rain machine" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         return;
     }
     if (self.passwordLabel.text.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Password" message:@"Provide a password for your name machine" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Password" message:@"Provide a password for your rain machine" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         return;
     }
@@ -92,7 +92,8 @@
 
 #pragma mark - ProxyService delegate
 
-- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
+{
     [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 
     if (serverProxy == self.provisionNameServerProxy) {
@@ -106,7 +107,7 @@
     if (serverProxy == self.provisionNameServerProxy) {
         [self.provisionPasswordServerProxy setNewPassword:self.passwordLabel.text confirmPassword:self.verifyPasswordLabel.text oldPassword:@""];
     }
-    if (serverProxy == self.provisionPasswordServerProxy) {
+    else if (serverProxy == self.provisionPasswordServerProxy) {
         [self hideHud];
         LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
         locationSetupVC.sprinkler = self.sprinkler;

@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "NetworkUtilities.h"
 #import "Utils.h"
+#import "ServerProxy.h"
 
 static UIAlertView *alertView;
 
@@ -60,6 +61,30 @@ static UIAlertView *alertView;
     [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 }
 
+- (BOOL)handleSprinklerErrorMessageBodyResponse:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage tag:(int)tag
+{
+    id responseObject = [operation responseObject];
+    if (responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSArray *allKeys = [responseObject allKeys];
+            if (allKeys.count == 2) {
+                if ((([allKeys[0] isEqualToString:@"message"]) && ([allKeys[1] isEqualToString:@"statusCode"])) ||
+                    (([allKeys[1] isEqualToString:@"message"]) && ([allKeys[0] isEqualToString:@"statusCode"]))) {
+                    NSNumber *statusCode = [responseObject objectForKey:@"statusCode"];
+                    if ([statusCode intValue] != API4StatusCode_Success) {
+                        NSString *message = [responseObject objectForKey:@"message"];
+                        [self handleSprinklerError:message title:@"Sprinkler error" showErrorMessage:showErrorMessage tag:tag];
+                        
+                        return YES;
+                    }
+                }
+            }
+        }
+    }
+    
+    return NO;
+}
+
 - (void)handleSprinklerNetworkError:(NSError *)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage
 {
     if ((error) || (operation)) {
@@ -69,8 +94,9 @@ static UIAlertView *alertView;
             BOOL malformedJSON = ([error.domain isEqualToString:NSCocoaErrorDomain] && error.code == NSPropertyListReadCorruptError);
             if (!malformedJSON) {
                 int tag = kAlertView_Error;
-                
-                [self handleSprinklerError:[error localizedDescription] title:[error.domain isEqualToString:@"Sprinkler"] ? @"Sprinkler error" : @"Network error" showErrorMessage:showErrorMessage tag:tag];
+                if (![self handleSprinklerErrorMessageBodyResponse:operation showErrorMessage:showErrorMessage tag:tag]) {
+                    [self handleSprinklerError:[error localizedDescription] title:[error.domain isEqualToString:@"Sprinkler"] ? @"Sprinkler error" : @"Network error" showErrorMessage:showErrorMessage tag:tag];
+                }
             }
         }
     }

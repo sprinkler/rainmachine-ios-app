@@ -19,7 +19,7 @@
 #import "ProvisionNameSetupVC.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
-#define kPollInterval 3
+#define kPollInterval 6
 
 const float kWifiSignalMin = -100;
 const float kWifiSignalMax = -50;
