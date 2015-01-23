@@ -35,6 +35,7 @@
 @property (nonatomic, readonly) NSDate *startDate;
 @property (nonatomic, readonly) NSString *startDateString;
 
+@property (nonatomic, strong) NSArray *programs;
 @property (nonatomic, strong) id mixerData;
 @property (nonatomic, strong) id wateringLogDetailsData;
 @property (nonatomic, strong) id wateringLogSimulatedDetailsData;

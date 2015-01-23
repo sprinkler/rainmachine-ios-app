@@ -8,8 +8,10 @@
 
 #import "GraphDataSource.h"
 
+@class Program;
+
 @interface GraphDataSourceProgramRunTime : GraphDataSource
 
-@property (nonatomic, assign) int programID;
+@property (nonatomic, strong) Program *program;
 
 @end

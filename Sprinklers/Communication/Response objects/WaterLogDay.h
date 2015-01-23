@@ -29,6 +29,4 @@
 - (WaterLogProgram*)waterLogProgramForProgramId:(int)programId;
 - (WaterLogProgram*)simulatedWaterLogProgramForProgramId:(int)programId;
 
-@property (nonatomic, readonly) NSDictionary *programIDs;
-
 @end

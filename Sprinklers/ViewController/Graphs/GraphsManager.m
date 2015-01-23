@@ -22,6 +22,8 @@
 #import "GraphDataSourceProgramRunTime.h"
 #import "WaterLogDay.h"
 #import "WaterLogProgram.h"
+#import "Program.h"
+#import "Program4.h"
 #import "Utils.h"
 #import "Additions.h"
 #import "AFNetworking.h"
@@ -46,14 +48,15 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 @property (nonatomic, strong) ServerProxy *requestWateringLogDetailsServerProxy;
 @property (nonatomic, strong) ServerProxy *requestWateringLogSimulatedDetailsServerProxy;
 @property (nonatomic, strong) ServerProxy *requestWeatherDataServerProxy;
+@property (nonatomic, strong) ServerProxy *requestProgramsServerProxy;
 
 - (void)requestMixerData;
 - (void)requestWateringLogDetailsData;
 - (void)requestWateringLogSimulatedDetailsData;
 - (void)requestWeatherData;
+- (void)requestPrograms;
 
-- (void)registerProgramGraphsForProgramIDs:(NSArray*)programIDs;
-- (void)registerProgramGraphsForWaterLogDays:(NSArray*)waterLogDays;
+- (void)registerProgramGraphsForPrograms:(NSArray*)programs;
 
 @end
 
@@ -138,6 +141,8 @@ static GraphsManager *sharedGraphsManager = nil;
     
     self.reloadingGraphs = YES;
     
+    [self requestPrograms];
+    
     if ([ServerProxy usesAPI4]) {
         [self requestMixerData];
         [self requestWateringLogDetailsData];
@@ -145,9 +150,6 @@ static GraphsManager *sharedGraphsManager = nil;
     }
     else if ([ServerProxy usesAPI3]) {
         [self requestWeatherData];
-    }
-    else {
-        self.reloadingGraphs = NO;
     }
 }
 
@@ -222,17 +224,23 @@ static GraphsManager *sharedGraphsManager = nil;
     [self.requestWeatherDataServerProxy requestWeatherData];
 }
 
-- (void)registerProgramGraphsForProgramIDs:(NSArray*)programIDs {
+- (void)requestPrograms {
+    if (self.requestProgramsServerProxy) return;
+    self.requestProgramsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    [self.requestProgramsServerProxy requestPrograms];
+}
+
+- (void)registerProgramGraphsForPrograms:(NSArray*)programs {
     NSMutableArray *newGraphs = [NSMutableArray new];
     NSMutableDictionary *newGraphsDictionary = [NSMutableDictionary new];
     
-    for (NSNumber *programID in programIDs) {
-        NSString *graphIdentifier = [NSString stringWithFormat:@"%@%@",kProgramRuntimeGraphIdentifier,programID];
+    for (Program *program in programs) {
+        NSString *graphIdentifier = [NSString stringWithFormat:@"%@%d",kProgramRuntimeGraphIdentifier,program.programId];
         if ([self.availableGraphsDictionary valueForKey:graphIdentifier]) continue;
         
         GraphDescriptor *programRuntimeGraph = [GraphDescriptor defaultDescriptor];
         programRuntimeGraph.graphIdentifier = graphIdentifier;
-        programRuntimeGraph.titleAreaDescriptor.title = [NSString stringWithFormat:@"Program %@",programID];
+        programRuntimeGraph.titleAreaDescriptor.title = program.name;
         programRuntimeGraph.titleAreaDescriptor.units = @"%";
         programRuntimeGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
         programRuntimeGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
@@ -240,7 +248,7 @@ static GraphsManager *sharedGraphsManager = nil;
         programRuntimeGraph.displayAreaDescriptor.midValue = 50.0;
         programRuntimeGraph.displayAreaDescriptor.maxValue = 100.0;
         GraphDataSourceProgramRunTime *dataSource = (GraphDataSourceProgramRunTime*)[GraphDataSourceProgramRunTime defaultDataSource];
-        dataSource.programID = programID.intValue;
+        dataSource.program = program;
         programRuntimeGraph.dataSource = dataSource;
         
         [newGraphs addObject:programRuntimeGraph];
@@ -261,28 +269,19 @@ static GraphsManager *sharedGraphsManager = nil;
     [self selectAllGraphs];
 }
 
-- (void)registerProgramGraphsForWaterLogDays:(NSArray*)waterLogDays {
-    NSMutableDictionary *programIDs = [NSMutableDictionary dictionary];
-    
-    for (WaterLogDay *waterLogDay in waterLogDays) {
-        [programIDs addEntriesFromDictionary:waterLogDay.programIDs];
-    }
-    
-    NSMutableArray *programIDsArray = [NSMutableArray arrayWithArray:programIDs.allKeys];
-    [programIDsArray sortedArrayUsingSelector:@selector(compare:)];
-    
-    [self registerProgramGraphsForProgramIDs:programIDsArray];
-}
-
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    if (serverProxy == self.requestProgramsServerProxy) {
+        self.programs = (NSArray*)data;
+        self.requestProgramsServerProxy = nil;
+        [self registerProgramGraphsForPrograms:self.programs];
+    }
     if (serverProxy == self.requestMixerDataServerProxy) {
         self.mixerData = data;
         self.requestMixerDataServerProxy = nil;
     }
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) {
-        [self registerProgramGraphsForWaterLogDays:(NSArray*)data];
         self.wateringLogDetailsData = data;
         self.requestWateringLogDetailsServerProxy = nil;
     }
@@ -295,19 +294,20 @@ static GraphsManager *sharedGraphsManager = nil;
         self.requestWeatherDataServerProxy = nil;
     }
     
-    if (!self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
+    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }
 }
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    if (serverProxy == self.requestMixerDataServerProxy) self.requestMixerDataServerProxy = nil;
+    if (serverProxy == self.requestProgramsServerProxy) self.requestProgramsServerProxy = nil;
+    else if (serverProxy == self.requestMixerDataServerProxy) self.requestMixerDataServerProxy = nil;
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) self.requestWateringLogDetailsServerProxy = nil;
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) self.requestWateringLogSimulatedDetailsServerProxy = nil;
     else if (serverProxy == self.requestWeatherDataServerProxy) self.requestWeatherDataServerProxy = nil;
     
-    if (!self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
+    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }

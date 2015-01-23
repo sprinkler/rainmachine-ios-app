@@ -218,11 +218,13 @@
     graphScrollableCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
     graphScrollableCell.graphScrollableCellDelegate = self;
     
-    if (self.globalContentOffsetSet) {
-        [graphScrollableCell scrollToContentOffset:self.globalContentOffset animated:NO];
-    }
+    if (self.globalContentOffsetSet) [graphScrollableCell scrollToContentOffsetInLayoutSubviews:self.globalContentOffset];
     
     return graphScrollableCell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {

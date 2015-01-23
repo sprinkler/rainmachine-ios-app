@@ -11,6 +11,8 @@
 #import "MixerDailyValue.h"
 #import "WaterLogDay.h"
 #import "WaterLogProgram.h"
+#import "Program.h"
+#import "Program4.h"
 
 #pragma mark -
 
@@ -106,7 +108,7 @@
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     
     for (WaterLogDay *waterLogDay in wateringLogValues) {
-        WaterLogProgram *waterLogProgram = [waterLogDay waterLogProgramForProgramId:self.programID];
+        WaterLogProgram *waterLogProgram = [waterLogDay waterLogProgramForProgramId:self.program.programId];
         
         NSString *date = waterLogDay.date;
         if (!date.length) continue;

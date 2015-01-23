@@ -84,12 +84,4 @@
     return nil;
 }
 
-- (NSDictionary*)programIDs {
-    NSMutableDictionary *programIDs = [NSMutableDictionary new];
-    for (WaterLogProgram *program in self.programs) {
-        [programIDs setObject:@(TRUE) forKey:@(program.programId)];
-    }
-    return programIDs;
-}
-
 @end

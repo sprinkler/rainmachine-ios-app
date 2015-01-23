@@ -24,6 +24,8 @@
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
 
+@property (nonatomic, assign) CGPoint layoutSubviewsContentOffset;
+
 @end
 
 #pragma mark -
@@ -36,6 +38,7 @@
     self = [super initWithCoder:aDecoder];
     if (!self) return nil;
     
+    _layoutSubviewsContentOffset = CGPointZero;
     [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
@@ -60,6 +63,14 @@
     
     [self.graphCollectionView.collectionViewLayout invalidateLayout];
     [self.graphCollectionView reloadData];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    if (!CGPointEqualToPoint(self.layoutSubviewsContentOffset, CGPointZero) && self.graphCollectionView.contentSize.width > 0) {
+        [self scrollToContentOffset:self.layoutSubviewsContentOffset animated:NO];
+        self.layoutSubviewsContentOffset = CGPointZero;
+    }
 }
 
 #pragma mark - Visual appearance
@@ -89,6 +100,10 @@
     self.graphCollectionView.delegate = nil;
     [self.graphCollectionView setContentOffset:contentOffset animated:animate];
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
+}
+
+- (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset {
+    self.layoutSubviewsContentOffset = contentOffset;
 }
 
 - (void)scrollToCurrentDateAnimated:(BOOL)animate {
