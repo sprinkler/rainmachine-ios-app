@@ -14,13 +14,15 @@
 
 @class GraphTimeInterval;
 
-@interface DashboardVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, GraphScrollableCellDelegate, ReorderTableViewDelegate>
+@interface DashboardVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, GraphScrollableCellDelegate, ReorderTableViewDelegate, RainDelayPollerDelegate>
 
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
 
 @property (nonatomic, weak) IBOutlet UISegmentedControl *timeIntervalsSegmentedControl;
 @property (nonatomic, weak) IBOutlet UIView *headerSeparatorView;
 @property (nonatomic, weak) IBOutlet BVReorderTableView *graphsTableView;
+@property (nonatomic, weak) IBOutlet UITableView *statusTableView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *statusTableViewHeightLayoutConstraint;
 
 @property (nonatomic, strong) NSString *unitsText;
 

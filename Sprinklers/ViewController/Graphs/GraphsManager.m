@@ -160,6 +160,14 @@ static GraphsManager *sharedGraphsManager = nil;
     [self registerAvailableGraphs];
 }
 
+- (void)cancel {
+    [self.requestMixerDataServerProxy cancelAllOperations];
+    [self.requestWateringLogDetailsServerProxy cancelAllOperations];
+    [self.requestWateringLogSimulatedDetailsServerProxy cancelAllOperations];
+    [self.requestWeatherDataServerProxy cancelAllOperations];
+    [self.requestProgramsServerProxy cancelAllOperations];
+}
+
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
     GraphDescriptor *graph = [self.selectedGraphs objectAtIndex:sourceIndex];
     

@@ -9,6 +9,8 @@
             <connections>
                 <outlet property="graphsTableView" destination="9BC-GU-Aps" id="pkR-9O-3jB"/>
                 <outlet property="headerSeparatorView" destination="YoG-Mh-lgf" id="e32-jV-syA"/>
+                <outlet property="statusTableView" destination="F6y-sg-D33" id="M43-8q-bF2"/>
+                <outlet property="statusTableViewHeightLayoutConstraint" destination="QK9-gp-KdC" id="K3b-Ub-Tb7"/>
                 <outlet property="timeIntervalsSegmentedControl" destination="CZr-XH-hu6" id="hmG-1N-teo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -32,7 +34,7 @@
                     </connections>
                 </segmentedControl>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9BC-GU-Aps" customClass="BVReorderTableView">
-                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                    <rect key="frame" x="0.0" y="44" width="600" height="502"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Qxb-a1-XfY"/>
@@ -46,6 +48,17 @@
                         <constraint firstAttribute="height" constant="1" id="9YN-a4-7Db"/>
                     </constraints>
                 </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="F6y-sg-D33">
+                    <rect key="frame" x="0.0" y="546" width="600" height="54"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="54" id="QK9-gp-KdC"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="YWC-JQ-TBE"/>
+                        <outlet property="delegate" destination="-1" id="7Dq-ob-SYy"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -55,9 +68,12 @@
                 <constraint firstItem="YoG-Mh-lgf" firstAttribute="top" secondItem="CZr-XH-hu6" secondAttribute="bottom" constant="8" id="FcM-ft-aAk"/>
                 <constraint firstItem="CZr-XH-hu6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="LVp-kY-v7D"/>
                 <constraint firstItem="9BC-GU-Aps" firstAttribute="top" secondItem="CZr-XH-hu6" secondAttribute="bottom" constant="8" id="RYN-0g-Dpp"/>
-                <constraint firstAttribute="bottom" secondItem="9BC-GU-Aps" secondAttribute="bottom" id="cMt-Ih-ezo"/>
+                <constraint firstItem="F6y-sg-D33" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="V3t-4U-Djw"/>
+                <constraint firstItem="F6y-sg-D33" firstAttribute="top" secondItem="9BC-GU-Aps" secondAttribute="bottom" id="cYQ-ua-H6a"/>
                 <constraint firstAttribute="trailing" secondItem="9BC-GU-Aps" secondAttribute="trailing" id="g7t-SE-0rc"/>
+                <constraint firstAttribute="bottom" secondItem="F6y-sg-D33" secondAttribute="bottom" id="lEj-Ok-WaU"/>
                 <constraint firstItem="9BC-GU-Aps" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oqQ-ph-NRb"/>
+                <constraint firstAttribute="trailing" secondItem="F6y-sg-D33" secondAttribute="trailing" id="qvM-6E-xlq"/>
                 <constraint firstItem="CZr-XH-hu6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="rrN-AL-sqn"/>
             </constraints>
         </view>

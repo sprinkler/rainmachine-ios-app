@@ -13,6 +13,14 @@
 #import "GraphsManager.h"
 #import "GraphDescriptor.h"
 #import "Constants.h"
+#import "Additions.h"
+#import "HomeScreenDataSourceCell.h"
+#import "StorageManager.h"
+#import "UpdateManager.h"
+#import "RainDelayPoller.h"
+#import "RainDelay.h"
+#import "WeatherData.h"
+#import "AppDelegate.h"
 #import "MBProgressHUD.h"
 
 #pragma mark -
@@ -39,6 +47,7 @@
 
 @property (nonatomic, assign) BOOL reorderingInProgress;
 @property (nonatomic, strong) GraphScrollableCell *emptyGraphScrollableCell;
+@property (nonatomic, strong) RainDelayPoller *rainDelayPoller;
 
 @end
 
@@ -73,6 +82,7 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.hud = nil;
             [self.graphsTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.0];
+            [self.statusTableView reloadData];
         }
         if ([keyPath isEqualToString:@"firstGraphsReloadFinished"] && [GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
             [self.graphsTableView reloadData];
@@ -96,12 +106,24 @@
     [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellYear" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellYear"];
     [self.graphsTableView registerNib:[UINib nibWithNibName:@"GraphScrollableCellEmpty" bundle:nil] forCellReuseIdentifier:@"GraphScrollableCellEmpty"];
     
+    [self.statusTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
+    
     [self initializeConfiguration];
     [self initializeUserInterface];
     
     [[GraphsManager sharedGraphsManager] selectAllGraphs];
     
     [self onChangeTimeInterval:nil];
+    
+    self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
+    [self refreshStatus];
+    
+    if ([StorageManager current].currentSprinkler) {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.updateManager poll];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceNotSupported:) name:kDeviceNotSupported object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,9 +137,18 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [GraphsManager sharedGraphsManager].presentationViewController = self;
     [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
     [self startHud:nil];
+    
+    [self.rainDelayPoller scheduleNextPoll:0];
+    [self refreshStatus];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.rainDelayPoller stopPollRequests];
 }
 
 #pragma mark - Helper methods
@@ -182,6 +213,59 @@
     }
 }
 
+#pragma mark - Rain delay
+
+- (void)deviceNotSupported:(id)object {
+    [[GraphsManager sharedGraphsManager] cancel];
+    [self.rainDelayPoller stopPollRequests];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)setRainDelay {
+    [self hideRainDelayActivityIndicator:NO];
+    [self.rainDelayPoller setRainDelay];
+}
+
+- (void)hideRainDelayActivityIndicator:(BOOL)hide {
+    HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    cell.setRainDelayActivityIndicator.hidden = hide;
+}
+
+- (void)rainDelayResponseReceived {
+    [self refreshStatus];
+}
+
+- (void)hideHUD {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)refreshStatus {
+    [self setupRainDelayMode:[self.rainDelayPoller rainDelayMode]];
+    [self.statusTableView reloadData];
+}
+
+- (void)setupRainDelayMode:(BOOL)rainDelayMode {
+    self.statusTableViewHeightLayoutConstraint.constant = (rainDelayMode ? 54.0 : 0.0);
+    self.statusTableView.hidden = !rainDelayMode;
+}
+
+- (void)loggedOut {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self handleLoggedOutSprinklerError];
+}
+
+#pragma mark - Alert view delegate
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (theAlertView.tag == kAlertView_ResumeRainDelay) {
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            [self setRainDelay];
+        }
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    }
+}
+
 #pragma mark - Table view datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -189,15 +273,31 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.statusTableView) return 1;
     return ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished ? [GraphsManager sharedGraphsManager].selectedGraphs.count : 0);
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (tableView == self.statusTableView) return 54.0;
     GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
     return graphDescriptor.totalGraphHeight;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (tableView == self.statusTableView) {
+        static NSString *HomeDataSourceCellIdentifier = @"HomeDataSourceCell";
+        
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell*)[tableView dequeueReusableCellWithIdentifier:HomeDataSourceCellIdentifier forIndexPath:indexPath];
+        
+        if ([self.rainDelayPoller rainDelayMode]) {
+            [cell setRainDelayUITo:YES withValue:[self.rainDelayPoller.rainDelayData.delayCounter intValue]];
+        } else {
+            [cell setRainDelayUITo:NO withValue:0];
+        }
+        
+        return cell;
+    }
+    
     static NSString *GraphScrollableCellIdentifierWeek = @"GraphScrollableCellWeek";
     static NSString *GraphScrollableCellIdentifierMonth = @"GraphScrollableCellMonth";
     static NSString *GraphScrollableCellIdentifierYear = @"GraphScrollableCellYear";
@@ -223,10 +323,6 @@
     return graphScrollableCell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
-
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
     return NO;
 }
@@ -235,6 +331,15 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (tableView == self.statusTableView) {
+        HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:indexPath];
+        if (cell.selectionStyle != UITableViewCellSelectionStyleNone) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Resume sprinkler operation?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Resume", nil];
+            alertView.tag = kAlertView_ResumeRainDelay;
+            [alertView show];
+        }
+    }
 }
 
 #pragma mark - Reorder table view delegate
