@@ -24,8 +24,6 @@
    textAlignment:(CTTextAlignment)textAlignment
          context:(CGContextRef)context;
 
-- (NSString*)stringForMinMaxValue:(double)minMaxValue;
-
 @end
 
 #pragma mark -
@@ -68,34 +66,6 @@
     CGContextAddLineToPoint(context, rect.size.width, minValueOriginY);
     
     CGContextStrokePath(context);
-    
-    // Draw min, mid, max values
-    
-    if (hasValues) {
-        [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.maxValue]]
-                  rect:rect
-              textRect:CGRectMake(0.0, maxValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
-                  font:self.graphDescriptor.displayAreaDescriptor.valuesFont
-                 color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
-         textAlignment:kCTTextAlignmentCenter
-               context:context];
-        
-        [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.midValue]]
-                  rect:rect
-              textRect:CGRectMake(0.0, midValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
-                  font:self.graphDescriptor.displayAreaDescriptor.valuesFont
-                 color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
-         textAlignment:kCTTextAlignmentCenter
-               context:context];
-        
-        [self drawText:[NSString stringWithFormat:@"%@",[self stringForMinMaxValue:self.graphDescriptor.displayAreaDescriptor.minValue]]
-                  rect:rect
-              textRect:CGRectMake(0.0, minValueOriginY - self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight, self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight)
-                  font:self.graphDescriptor.displayAreaDescriptor.valuesFont
-                 color:self.graphDescriptor.displayAreaDescriptor.valuesDisplayColor
-         textAlignment:kCTTextAlignmentCenter
-               context:context];
-    }
     
     CGContextRestoreGState(context);
 }
@@ -150,12 +120,6 @@
     CFRelease(frameSetter);
     
     CGContextRestoreGState(context);
-}
-
-- (NSString*)stringForMinMaxValue:(double)minMaxValue {
-    double roundedMinMaxValue = round(minMaxValue);
-    if (roundedMinMaxValue == minMaxValue) return [NSString stringWithFormat:@"%d",(int)minMaxValue];
-    return [NSString stringWithFormat:@"%1.1lf",minMaxValue];
 }
 
 @end

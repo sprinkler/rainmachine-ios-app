@@ -21,6 +21,7 @@
     descriptor.valuesColor = [UIColor whiteColor];
     descriptor.unitsFont = [UIFont boldSystemFontOfSize:12.0];
     descriptor.unitsColor = [UIColor whiteColor];
+    descriptor.valuesRoundingMode = GraphValuesRoundingMode_None;
     
     return descriptor;
 }

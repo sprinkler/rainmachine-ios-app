@@ -196,7 +196,17 @@
         for (NSInteger index = 0; index < self.dataSourceTopValues.count; index++) {
             id value = self.dataSourceTopValues[index];
             UILabel *valueLabel = self.valueLabels[index];
-            valueLabel.text = (value == [NSNull null] ? nil : [NSString stringWithFormat:@"%1.1lf",((NSNumber*)value).doubleValue]);
+            if (value == [NSNull null]) {
+                valueLabel.text = nil;
+            } else {
+                switch (descriptor.valuesRoundingMode) {
+                    case GraphValuesRoundingMode_None: valueLabel.text = [NSString stringWithFormat:@"%1.1lf",((NSNumber*)value).doubleValue]; break;
+                    case GraphValuesRoundingMode_Round: valueLabel.text = [NSString stringWithFormat:@"%1.0lf",round(((NSNumber*)value).doubleValue)]; break;
+                    case GraphValuesRoundingMode_Ceil: valueLabel.text = [NSString stringWithFormat:@"%1.0lf",ceil(((NSNumber*)value).doubleValue)]; break;
+                    case GraphValuesRoundingMode_Floor: valueLabel.text = [NSString stringWithFormat:@"%1.0lf",floor(((NSNumber*)value).doubleValue)]; break;
+                    default: valueLabel.text = nil;
+                }
+            }
         }
         return;
     }
@@ -223,10 +233,21 @@
         
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(valueLabelOriginX, valueLabelOriginY, valueLabelWidth, valueLabelHeight)];
         valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        valueLabel.text = (value == [NSNull null] ? nil : [NSString stringWithFormat:@"%1.1lf",((NSNumber*)value).doubleValue]);
         valueLabel.textColor = descriptor.valuesColor;
         valueLabel.font = descriptor.valuesFont;
         valueLabel.textAlignment = NSTextAlignmentCenter;
+        
+        if (value == [NSNull null]) {
+            valueLabel.text = nil;
+        } else {
+            switch (descriptor.valuesRoundingMode) {
+                case GraphValuesRoundingMode_None: valueLabel.text = [NSString stringWithFormat:@"%1.1lf",((NSNumber*)value).doubleValue]; break;
+                case GraphValuesRoundingMode_Round: valueLabel.text = [NSString stringWithFormat:@"%1.0lf",round(((NSNumber*)value).doubleValue)]; break;
+                case GraphValuesRoundingMode_Ceil: valueLabel.text = [NSString stringWithFormat:@"%1.0lf",ceil(((NSNumber*)value).doubleValue)]; break;
+                case GraphValuesRoundingMode_Floor: valueLabel.text = [NSString stringWithFormat:@"%1.0lf",floor(((NSNumber*)value).doubleValue)]; break;
+                default: valueLabel.text = nil;
+            }
+        }
         
         [self.valuesBarContainerView addSubview:valueLabel];
         [valueLabels addObject:valueLabel];

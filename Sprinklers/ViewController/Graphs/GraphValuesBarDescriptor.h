@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    GraphValuesRoundingMode_None,
+    GraphValuesRoundingMode_Round,
+    GraphValuesRoundingMode_Ceil,
+    GraphValuesRoundingMode_Floor
+} GraphValuesRoundingMode;
+
 @interface GraphValuesBarDescriptor : NSObject
 
 @property (nonatomic, assign) CGFloat valuesBarHeight;
@@ -16,6 +23,7 @@
 @property (nonatomic, strong) UIFont *unitsFont;
 @property (nonatomic, strong) UIColor *unitsColor;
 @property (nonatomic, strong) NSString *units;
+@property (nonatomic, assign) GraphValuesRoundingMode valuesRoundingMode;
 
 + (GraphValuesBarDescriptor*)defaultDescriptor;
 

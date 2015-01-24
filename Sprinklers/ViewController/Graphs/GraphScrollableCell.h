@@ -24,6 +24,13 @@
 @property (nonatomic, weak) IBOutlet UILabel *graphUnitsLabel;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *graphUnitsLabelWidthLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UILabel *minValueLabel;
+@property (nonatomic, weak) IBOutlet UILabel *midValueLabel;
+@property (nonatomic, weak) IBOutlet UILabel *maxValueLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *minValueLabelBottomSpaceLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *midValueLabelBottomSpaceLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *maxValueLabelBottomSpaceLayoutConstraint;
+
 @property (nonatomic, weak) IBOutlet UICollectionView *graphCollectionView;
 
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate;

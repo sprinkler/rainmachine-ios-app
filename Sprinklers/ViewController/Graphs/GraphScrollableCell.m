@@ -14,6 +14,8 @@
 #import "GraphTimeIntervalPart.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
+#import "GraphDisplayAreaDescriptor.h"
+#import "GraphDateBarDescriptor.h"
 #import "GraphsManager.h"
 
 #pragma mark -
@@ -23,8 +25,11 @@
 - (void)setup;
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
+- (void)setupMinMaxValuesWithDescriptor:(GraphDescriptor*)descriptor;
 
 @property (nonatomic, assign) CGPoint layoutSubviewsContentOffset;
+
+- (NSString*)stringForMinMaxValue:(double)minMaxValue;
 
 @end
 
@@ -60,6 +65,7 @@
 - (void)setup {
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
+    [self setupMinMaxValuesWithDescriptor:self.graphDescriptor];
     
     [self.graphCollectionView.collectionViewLayout invalidateLayout];
     [self.graphCollectionView reloadData];
@@ -93,6 +99,31 @@
     self.graphUnitsLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
 }
 
+- (void)setupMinMaxValuesWithDescriptor:(GraphDescriptor*)descriptor {
+    BOOL hasValues = (descriptor.dataSource.minValue != descriptor.dataSource.maxValue);
+    
+    self.minValueLabel.hidden = !hasValues;
+    self.midValueLabel.hidden = !hasValues;
+    self.maxValueLabel.hidden = !hasValues;
+    
+    if (hasValues) {
+        self.minValueLabelBottomSpaceLayoutConstraint.constant = descriptor.displayAreaDescriptor.graphBarsBottomPadding + descriptor.dateBarDescriptor.dateBarHeight;
+        self.minValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
+        self.minValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
+        self.minValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.minValue];
+        
+        self.maxValueLabelBottomSpaceLayoutConstraint.constant = descriptor.dateBarDescriptor.dateBarHeight + descriptor.displayAreaDescriptor.displayAreaHeight - descriptor.displayAreaDescriptor.valuesDisplayHeight - descriptor.displayAreaDescriptor.graphBarsTopPadding;
+        self.maxValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
+        self.maxValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
+        self.maxValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.maxValue];
+        
+        self.midValueLabelBottomSpaceLayoutConstraint.constant = round((self.minValueLabelBottomSpaceLayoutConstraint.constant + self.maxValueLabelBottomSpaceLayoutConstraint.constant) / 2.0);
+        self.midValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
+        self.midValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
+        self.midValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.midValue];
+    }
+}
+
 #pragma mark - Utils
 
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate {
@@ -123,6 +154,12 @@
 
 - (void)stopScrolling {
     [self.graphCollectionView setContentOffset:self.graphCollectionView.contentOffset animated:NO];
+}
+
+- (NSString*)stringForMinMaxValue:(double)minMaxValue {
+    double roundedMinMaxValue = round(minMaxValue);
+    if (roundedMinMaxValue == minMaxValue) return [NSString stringWithFormat:@"%d",(int)minMaxValue];
+    return [NSString stringWithFormat:@"%1.1lf",minMaxValue];
 }
 
 #pragma mark - Graph collection view data source
