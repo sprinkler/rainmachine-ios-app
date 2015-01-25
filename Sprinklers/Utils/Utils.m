@@ -155,7 +155,8 @@
 
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler
 {
-    return [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];
+    NSString *address = [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];
+    return [Utils fixedSprinklerAddress:address];
 }
 
 +(NSString*)currentSprinklerURL
