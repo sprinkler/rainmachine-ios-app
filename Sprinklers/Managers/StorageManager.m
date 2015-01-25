@@ -361,12 +361,9 @@ static StorageManager *current = nil;
     NSArray *sprinklers = [self getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in sprinklers) {
         NSString *port = [Utils getPort:sprinkler.address];
-
+        sprinkler.address = [Utils getBaseUrl:sprinkler.address];
+        
         if ([port length] > 0) {
-            if ([port length] + 1  < [sprinkler.address length]) {
-                sprinkler.address = [sprinkler.address substringToIndex:[sprinkler.address length] - ([port length] + 1)];
-            }
-            
             sprinkler.port = port;
             
             wasFixed = YES;

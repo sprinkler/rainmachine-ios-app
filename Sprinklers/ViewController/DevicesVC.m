@@ -30,7 +30,6 @@
 #import "CloudAccountsVC.h"
 #import "AvailableWiFisVC.h"
 #import "GraphsManager.h"
-#import "ProvisionDateAndTimeManualVC.h"
 
 #define kDebugSettingsNrBeforeCloudServer 6
 
@@ -845,7 +844,7 @@
                 
                 [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
             } else if (indexPath.section == [self tvNewRainMachineSetup]) {
-                ProvisionDateAndTimeManualVC *detailVC = [[ProvisionDateAndTimeManualVC alloc] init];
+                AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
                 [self.navigationController pushViewController:detailVC animated:YES];
             }
             else {
@@ -949,12 +948,7 @@
             for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
                 NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
                 NSString *port = [Utils getPort:fullAddress];
-                NSString *address = fullAddress;
-                if ([port length] > 0) {
-                    if ([port length] + 1  < [fullAddress length]) {
-                        address = [fullAddress substringToIndex:[fullAddress length] - ([port length] + 1)];
-                    }
-                }
+                NSString *address = [Utils getBaseUrl:fullAddress];
                 port = port ? port : @"443";
                 // Add or update the remote sprinkler
                 Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address port:port local:@NO email:email];

@@ -125,11 +125,7 @@
             return;
         }
         
-        if ([port length] > 0) {
-            if ([port length] + 1  < [address length]) {
-                address = [address substringToIndex:[address length] - ([port length] + 1)];
-            }
-        }
+        address = [Utils getBaseUrl:address];
         
         if ([name length] == 0) {
             name = address;

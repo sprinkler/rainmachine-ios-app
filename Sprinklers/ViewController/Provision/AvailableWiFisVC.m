@@ -427,15 +427,9 @@ const float kWifiSignalMax = -50;
 - (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
     
     NSString *address = self.sprinkler.url;
-    if ([address hasSuffix:@"/"]) {
-        address = [address substringToIndex:address.length - 1];
-    }
     NSString *port = [Utils getPort:address];
-    if ([port length] > 0) {
-        if ([port length] + 1  < [address length]) {
-            address = [address substringToIndex:[address length] - ([port length] + 1)];
-        }
-    }
+    address = [Utils getBaseUrl:address];
+    
     [NetworkUtilities saveAccessTokenForBaseURL:address port:port loginResponse:(Login4Response*)loginResponse];
 
     self.loginServerProxy = nil;

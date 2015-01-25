@@ -327,7 +327,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
         self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
         [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
                                      longitude:self.selectedLocationAddress.location.coordinate.longitude
-                                      timezone:nil];
+                                      timezone:[[NSTimeZone localTimeZone] name]];
         
         [self showHud];
     }
