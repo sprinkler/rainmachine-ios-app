@@ -174,7 +174,7 @@ static ServiceManager *current = nil;
         if (apFlag) {
             if ([apFlag boolValue]) {
                 // Return only the fully setup sprinklers: API3 sprinklers || API4 with apFlag=1
-                add = !(sprinkler.apFlag) || ([sprinkler.apFlag isEqualToString:@"1"]);
+                add = !(sprinkler.apFlag) || (![sprinkler.apFlag isEqualToString:@"0"]);
             } else {
                 add = [sprinkler.apFlag isEqualToString:@"0"];
             }

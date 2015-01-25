@@ -88,9 +88,13 @@
 
 + (NSString*)getPort:(NSString*)address
 {
+    NSURL *url = [NSURL URLWithString:address];
+    NSString *port = [NSString stringWithFormat:@"%@", url.port];
+    
     address = [address stringByReplacingOccurrencesOfString:@"http://" withString:@""];
     address = [address stringByReplacingOccurrencesOfString:@"https://" withString:@""];
     NSArray *vals = [address componentsSeparatedByString:@":"];
+    
     if (vals.count == 2) {
         return vals[1];
     }

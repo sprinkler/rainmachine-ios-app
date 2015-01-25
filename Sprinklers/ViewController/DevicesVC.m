@@ -128,14 +128,32 @@
     if (![[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey]) {
         [[NSUserDefaults standardUserDefaults] setObject:kCloudProxyFinderURL forKey:kCloudProxyFinderURLKey];
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
 
     self.cloudServers = [NSMutableArray new];
     [self.cloudServers addObject:kCloudProxyFinderStagingURL];
     [self.cloudServers addObject:kCloudProxyFinderURL];
 
     NSString *selectedServer = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
+    selectedServer = [self fixSelectedServer:selectedServer];
+    [[NSUserDefaults standardUserDefaults] setObject:selectedServer forKey:kCloudProxyFinderURLKey];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     self.selectedCloudServerIndex = [self.cloudServers indexOfObject:selectedServer];
+}
+
+- (NSString*)fixSelectedServer:(NSString*)selectedServer
+{
+    // Workaround done because the port was dropped in the meantime from the server address, so this means that the saved server url might not be valid
+    if (([kCloudProxyFinderStagingURL hasPrefix:selectedServer]) || ([selectedServer hasPrefix:kCloudProxyFinderStagingURL])) {
+        selectedServer = kCloudProxyFinderStagingURL;
+    }
+    
+    if (([kCloudProxyFinderURL hasPrefix:selectedServer]) || ([selectedServer hasPrefix:kCloudProxyFinderURL])) {
+        selectedServer = kCloudProxyFinderURL;
+    }
+
+    return selectedServer;
 }
 
 // Overwrites BaseViewController's updateTitle

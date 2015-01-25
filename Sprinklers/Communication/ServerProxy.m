@@ -153,7 +153,8 @@ static int serverAPIMinorSubVersion = -1;
 
 - (NSString*)urlByAppendingAccessTokenToUrl:(NSString*)urlString {
     NSURL *baseURL = self.manager.baseURL;
-    NSString *accessToken = [NetworkUtilities accessTokenForBaseUrl:[NSString stringWithFormat:@"%@://%@",baseURL.scheme,baseURL.host] port:[NSString stringWithFormat:@"%@",baseURL.port]];
+    NSString *port = [Utils getPort:self.serverURL];
+    NSString *accessToken = [NetworkUtilities accessTokenForBaseUrl:[NSString stringWithFormat:@"%@://%@",baseURL.scheme,baseURL.host] port:port];
     return (accessToken.length ? [NSString stringWithFormat:@"%@?access_token=%@",urlString,accessToken] : urlString);
 }
 
@@ -1688,6 +1689,8 @@ static int serverAPIMinorSubVersion = -1;
         [params[@"credentials"] addObject:@{@"email" : email, @"pwd" : accounts[email]}];
     }
 
+    [self.manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
     [self.manager POST:@"get-sprinklers" parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
