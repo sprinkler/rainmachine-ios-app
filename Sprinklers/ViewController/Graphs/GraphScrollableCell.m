@@ -110,16 +110,22 @@
         self.minValueLabelBottomSpaceLayoutConstraint.constant = descriptor.displayAreaDescriptor.graphBarsBottomPadding + descriptor.dateBarDescriptor.dateBarHeight;
         self.minValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.minValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
+        self.minValueLabel.shadowColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0];
+        self.minValueLabel.shadowOffset = CGSizeMake(1.0, 1.0);
         self.minValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.minValue];
         
         self.maxValueLabelBottomSpaceLayoutConstraint.constant = descriptor.dateBarDescriptor.dateBarHeight + descriptor.displayAreaDescriptor.displayAreaHeight - descriptor.displayAreaDescriptor.valuesDisplayHeight - descriptor.displayAreaDescriptor.graphBarsTopPadding;
         self.maxValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.maxValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
+        self.maxValueLabel.shadowColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0];
+        self.maxValueLabel.shadowOffset = CGSizeMake(1.0, 1.0);
         self.maxValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.maxValue];
         
         self.midValueLabelBottomSpaceLayoutConstraint.constant = round((self.minValueLabelBottomSpaceLayoutConstraint.constant + self.maxValueLabelBottomSpaceLayoutConstraint.constant) / 2.0);
         self.midValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.midValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
+        self.midValueLabel.shadowColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0];
+        self.midValueLabel.shadowOffset = CGSizeMake(1.0, 1.0);
         self.midValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.midValue];
     }
 }

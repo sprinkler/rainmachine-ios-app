@@ -165,12 +165,14 @@
     if (self.type == GraphTimeIntervalPartType_DisplayDays) {
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         dateFormatter.dateFormat = @"MMM";
-        self.timeIntervalPartValue = [[dateFormatter stringFromDate:self.startDate] lowercaseString];
+        self.timeIntervalPartStartValue = [[dateFormatter stringFromDate:self.startDate] lowercaseString];
+        self.timeIntervalPartEndValue = [[dateFormatter stringFromDate:self.endDate] lowercaseString];
     }
     else if (self.type == GraphTimeIntervalPartType_DisplayMonths) {
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         dateFormatter.dateFormat = @"yy";
-        self.timeIntervalPartValue = [NSString stringWithFormat:@"'%@",[dateFormatter stringFromDate:self.startDate]];
+        self.timeIntervalPartStartValue = [NSString stringWithFormat:@"'%@",[dateFormatter stringFromDate:self.startDate]];
+        self.timeIntervalPartEndValue = [NSString stringWithFormat:@"'%@",[dateFormatter stringFromDate:self.endDate]];
     }
 }
 

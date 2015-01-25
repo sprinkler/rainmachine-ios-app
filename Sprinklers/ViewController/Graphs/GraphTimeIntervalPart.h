@@ -26,7 +26,8 @@ typedef enum {
 @property (nonatomic, strong) NSArray *dateStrings;
 @property (nonatomic, strong) NSString *prevDateString;
 @property (nonatomic, strong) NSString *nextDateString;
-@property (nonatomic, strong) NSString *timeIntervalPartValue;
+@property (nonatomic, strong) NSString *timeIntervalPartStartValue;
+@property (nonatomic, strong) NSString *timeIntervalPartEndValue;
 
 @property (nonatomic, assign) NSInteger currentDateValueIndex;
 

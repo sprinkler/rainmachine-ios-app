@@ -19,6 +19,7 @@
 #import "GraphTimeIntervalPart.h"
 #import "GraphDataSource.h"
 #import "Additions.h"
+#import "Constants.h"
 #import "Utils.h"
 
 #pragma mark -
@@ -307,13 +308,12 @@
     if (self.dateValueLabels) {
         for (NSInteger index = 0; index < timeIntervalPart.dateValues.count; index++) {
             UILabel *dateValueLabel = self.dateValueLabels[index];
-            NSString *dateValue = timeIntervalPart .dateValues[index];
+            NSString *dateValue = timeIntervalPart.dateValues[index];
+            if (index == 0) dateValue = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartStartValue, dateValue];
+            else if ([dateValue isEqualToString:@"01"] || [dateValue isEqualToString:[abbrevMonthsOfYear[0] lowercaseString]]) dateValue = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartEndValue, dateValue];
             dateValueLabel.text = dateValue;
         }
-        
-        self.timeIntervalLabel.text = timeIntervalPart.timeIntervalPartValue;
         [self setupCurrentDateWithDescriptor:descriptor timeIntervalPart:timeIntervalPart];
-        
         return;
     }
     
@@ -333,12 +333,19 @@
     
     NSMutableArray *dateValueLabels = [NSMutableArray new];
     
+    BOOL isFirstDateValue = YES;
     for (NSString *dateValue in timeIntervalPart.dateValues) {
         isLastHorizontalConstraint = (dateValue == timeIntervalPart.dateValues.lastObject);
         
+        NSString *dateValueString = dateValue;
+        if (isFirstDateValue) {
+            dateValueString = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartStartValue, dateValueString];
+            isFirstDateValue = NO;
+        } else if ([dateValueString isEqualToString:@"01"] || [dateValueString isEqualToString:[abbrevMonthsOfYear[0] lowercaseString]]) dateValueString = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartEndValue, dateValueString];
+        
         UILabel *dateValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(dateValueLabelOriginX, dateValueLabelOriginY, dateValueLabelWidth, dateValueLabelHeight)];
         dateValueLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        dateValueLabel.text = dateValue;
+        dateValueLabel.text = dateValueString;
         dateValueLabel.textColor = descriptor.dateValuesColor;
         dateValueLabel.font = descriptor.dateValuesFont;
         dateValueLabel.textAlignment = NSTextAlignmentCenter;
@@ -369,12 +376,6 @@
     }
     
     self.dateValueLabels = dateValueLabels;
-    
-    self.timeIntervalLabel.text = timeIntervalPart.timeIntervalPartValue;
-    self.timeIntervalLabel.textColor = descriptor.timeIntervalColor;
-    self.timeIntervalLabel.font = descriptor.timeIntervalFont;
-    self.timeIntervalLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
-    
     [self setupCurrentDateWithDescriptor:descriptor timeIntervalPart:timeIntervalPart];
 }
 

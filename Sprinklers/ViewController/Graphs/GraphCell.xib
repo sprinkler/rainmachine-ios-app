@@ -54,22 +54,8 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yEs-ao-8P4">
                                 <rect key="frame" x="0.0" y="120" width="320" height="18"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="oct" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1v-Cb-oqF">
-                                        <rect key="frame" x="0.0" y="0.0" width="28" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="28" id="4gM-1J-5B9"/>
-                                            <constraint firstAttribute="height" constant="16" id="wH5-0Z-8F1"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="C1v-Cb-oqF" firstAttribute="top" secondItem="yEs-ao-8P4" secondAttribute="top" id="1xv-ya-7gc"/>
-                                    <constraint firstItem="C1v-Cb-oqF" firstAttribute="leading" secondItem="yEs-ao-8P4" secondAttribute="leading" id="GlW-gC-fuo"/>
                                     <constraint firstAttribute="height" constant="18" id="xdr-06-xAl"/>
                                 </constraints>
                             </view>
@@ -108,8 +94,6 @@
                 <outlet property="graphViewHeightLayoutConstraint" destination="nnz-ZC-4Pk" id="g2n-bD-efR"/>
                 <outlet property="iconsBarContainerView" destination="PCv-hz-hds" id="c7p-No-n68"/>
                 <outlet property="iconsBarContainerViewHeightLayoutConstraint" destination="QYa-Ny-VVM" id="U9w-xf-UKW"/>
-                <outlet property="timeIntervalLabel" destination="C1v-Cb-oqF" id="mne-5D-yNB"/>
-                <outlet property="timeIntervalLabelWidthLayoutConstraint" destination="4gM-1J-5B9" id="xFG-eX-XVh"/>
                 <outlet property="valuesBarContainerView" destination="Nzb-8X-iOA" id="T8c-J9-Xwa"/>
                 <outlet property="valuesBarContainerViewHeightLayoutConstraint" destination="YtS-Gj-gIw" id="4dh-Ik-Dgk"/>
                 <outlet property="valuesUnitsLabel" destination="WvY-GF-YX6" id="3O9-rF-gVZ"/>
