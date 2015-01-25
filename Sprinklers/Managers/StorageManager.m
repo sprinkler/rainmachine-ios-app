@@ -155,7 +155,7 @@ static StorageManager *current = nil;
     return nil;
 }
 
-- (Sprinkler *)getSprinkler:(NSString*)mac name:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local email:(NSString*)email
+- (Sprinkler *)getSprinkler:(NSString*)mac name:(NSString *)name address:(NSString*)address local:(NSNumber*)local email:(NSString*)email
 {
     Sprinkler *sprinklerBasedOnMac = nil;
     if (mac) {
@@ -176,9 +176,9 @@ static StorageManager *current = nil;
     NSPredicate *predicate = nil;
     
     if (local) {
-        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND isLocalDevice == %@ AND email == %@", name, address, port, local, email];
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND isLocalDevice == %@ AND email == %@", name, address, local, email];
     } else {
-        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND email == %@", name, address, port, email];
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND email == %@", name, address, email];
     }
     [fetchRequest setPredicate:predicate];
     

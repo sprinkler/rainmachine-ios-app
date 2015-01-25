@@ -314,7 +314,7 @@
                     break;
                 }
             }
-        }
+        } 
     }
     
     for (Sprinkler *cloudSprinkler in duplicateCloudSprinklers) {
@@ -380,9 +380,10 @@
     for (int i = 0; i < [discoveredSprinklers count]; i++) {
         DiscoveredSprinklers *discoveredSprinkler = discoveredSprinklers[i];
         NSString *port = [NSString stringWithFormat:@"%d", discoveredSprinkler.port];
-        Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerId name:discoveredSprinkler.sprinklerName address:[Utils fixedSprinklerAddress:discoveredSprinkler.host] port:port local:@YES email:nil];
+        NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:discoveredSprinkler.host]];
+        Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerId name:discoveredSprinkler.sprinklerName address:address local:@YES email:nil];
         if (!sprinkler) {
-            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES email:nil mac:discoveredSprinkler.sprinklerId save:NO];
+            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:address port:port isLocal:@YES email:nil mac:discoveredSprinkler.sprinklerId save:NO];
         }
         sprinkler.address = [Utils fixedSprinklerAddress:discoveredSprinkler.host];
         sprinkler.port = port;
@@ -948,20 +949,20 @@
             for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
                 NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
                 NSString *port = [Utils getPort:fullAddress];
-                NSString *address = [Utils getBaseUrl:fullAddress];
+                NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:fullAddress]];
                 port = port ? port : @"443";
                 // Add or update the remote sprinkler
-                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address port:port local:@NO email:email];
+                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address local:@NO email:email];
                 if (!sprinkler) {
                     sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
                 } else {
                     if (address) {
                         sprinkler.address = address;
                     }
-                    sprinkler.port = port;
                     sprinkler.name = sprinklerInfo[@"name"];
                 }
                 
+                sprinkler.port = port;
                 sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
                 sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
                 sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
