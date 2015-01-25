@@ -30,6 +30,7 @@
 #import "CloudAccountsVC.h"
 #import "AvailableWiFisVC.h"
 #import "GraphsManager.h"
+#import "ProvisionDateAndTimeManualVC.h"
 
 #define kDebugSettingsNrBeforeCloudServer 6
 
@@ -374,7 +375,7 @@
         sprinkler.isDiscovered = @YES;
         sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
         
-        sprinkler.apFlag = @([discoveredSprinkler.apFlag boolValue]);
+        sprinkler.apFlag = discoveredSprinkler.apFlag ? @([discoveredSprinkler.apFlag boolValue]) : nil;
     }
     
     [[StorageManager current] saveData];
@@ -826,7 +827,7 @@
                 
                 [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
             } else if (indexPath.section == [self tvNewRainMachineSetup]) {
-                AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
+                ProvisionDateAndTimeManualVC *detailVC = [[ProvisionDateAndTimeManualVC alloc] init];
                 [self.navigationController pushViewController:detailVC animated:YES];
             }
             else {

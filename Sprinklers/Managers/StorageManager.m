@@ -317,12 +317,14 @@ static StorageManager *current = nil;
     
     NSArray *sprinklersFromNetworks = [self getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in sprinklersFromNetworks) {
-        NSMutableArray *sprinklersWithIdenticMac = sprinklersGrouped[sprinkler.mac];
-        if (!sprinklersWithIdenticMac) {
-            sprinklersWithIdenticMac = [NSMutableArray array];
-            sprinklersGrouped[sprinkler.mac] = sprinklersWithIdenticMac;
+        if (sprinkler.mac) {
+            NSMutableArray *sprinklersWithIdenticMac = sprinklersGrouped[sprinkler.mac];
+            if (!sprinklersWithIdenticMac) {
+                sprinklersWithIdenticMac = [NSMutableArray array];
+                sprinklersGrouped[sprinkler.mac] = sprinklersWithIdenticMac;
+            }
+            [sprinklersWithIdenticMac addObject:sprinkler];
         }
-        [sprinklersWithIdenticMac addObject:sprinkler];
     }
     
     for (NSArray *sprinklersWithIdenticMac in [sprinklersGrouped allValues]) {

@@ -347,6 +347,7 @@ const float kWifiSignalMax = -50;
             [self joinWiFi:wifi.SSID encryption:@"none" key:@"" sprinklerId:self.sprinkler.sprinklerId];
         }
     } else {
+        // Other...
         self.provisionWiFiVC = [[ProvisionWiFiVC alloc] init];
         self.provisionWiFiVC.securityOption = nil;
         self.provisionWiFiVC.showSSID = YES;

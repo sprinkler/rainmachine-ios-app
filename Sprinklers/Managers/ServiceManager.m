@@ -235,6 +235,8 @@ static ServiceManager *current = nil;
             sprinkler.host = host;
             sprinkler.port = port;
             sprinkler.apFlag = splits.count >= 5 ? splits[4] : nil;
+            // Keep apFlag's value only if it is 0 or 1. This way we filter out possible garbage values received from SPK1
+            sprinkler.apFlag = (([sprinkler.apFlag isEqualToString:@"0"]) || ([sprinkler.apFlag isEqualToString:@"1"])) ? sprinkler.apFlag : nil;
             
             [self.discoveredSprinklers addObject:sprinkler];
         }
