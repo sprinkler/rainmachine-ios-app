@@ -28,8 +28,6 @@
 
     self.timezones = [NSTimeZone knownTimeZoneNames];
     
-    self.searchDisplayController.searchBar.text = self.delegate.timeZoneName;
-
     self.navigationItem.titleView = self.searchDisplayController.searchBar;
     self.searchDisplayController.searchBar.showsCancelButton = YES;
     
@@ -47,6 +45,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    self.searchDisplayController.searchBar.text = self.delegate.timeZoneName;
     
     [self.searchDisplayController.searchBar becomeFirstResponder];
 }
@@ -121,9 +121,14 @@
     return NO;
 }
 
-- (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    return YES;
 }
 
 @end

@@ -19,8 +19,6 @@
 #define kDateKey        @"date"    // key for obtaining the data source item's date value
 
 // keep track of which rows have date cells
-#define kDateRow   0
-#define kTimeZoneRow 1
 
 static NSString *kDateCellID = @"dateCell";     // the cells with the start or end date
 static NSString *kDatePickerID = @"datePicker"; // the cell containing the date picker
@@ -99,6 +97,19 @@ static NSString *kTimeZoneCell = @"timeZoneCell";     // the remaining cells at 
                                                   object:nil];
 }
 
+- (int)dateRowIndex
+{
+    return 0;
+}
+
+- (int)timezoneRowIndex
+{
+    if ([self hasInlineDatePicker]) {
+        return 2;
+    }
+    
+    return 1;
+}
 
 #pragma mark - Locale
 
@@ -194,8 +205,9 @@ NSUInteger DeviceSystemMajorVersion()
 {
     BOOL hasDate = NO;
     
-    if ((indexPath.row == kDateRow) ||
-        ([self hasInlineDatePicker]))
+    if (indexPath.row == [self dateRowIndex])
+//        ||
+//        ([self hasInlineDatePicker]))
     {
         hasDate = YES;
     }
@@ -205,7 +217,7 @@ NSUInteger DeviceSystemMajorVersion()
 
 - (BOOL)indexPathHasTimeZone:(NSIndexPath *)indexPath
 {
-    return (indexPath.row == kTimeZoneRow);
+    return (indexPath.row == [self timezoneRowIndex]);
 }
 
 #pragma mark - UITableViewDataSource
