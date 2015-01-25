@@ -17,8 +17,8 @@
 + (GraphIconsBarDescriptor*)defaultDescriptor {
     GraphIconsBarDescriptor *descriptor = [GraphIconsBarDescriptor new];
     
-    descriptor.iconsBarHeight = 24.0;
-    descriptor.iconsHeight = 22.0;
+    descriptor.iconsBarHeight = 28.0;
+    descriptor.iconsHeight = 26.0;
     descriptor.iconImagesColor = [UIColor whiteColor];
     
     return descriptor;
