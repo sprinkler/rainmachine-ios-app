@@ -39,8 +39,15 @@
     CGFloat barCenterX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + barDisplayWidth / 2.0;
     CGFloat oldBarCenterX = barCenterX;
     
+    NSMutableArray *values = [NSMutableArray arrayWithArray:self.values];
+    if (self.prevValue) {
+        [values insertObject:self.prevValue atIndex:0];
+        barCenterX -=barDisplayWidth;
+    }
+    if (self.nextValue) [values addObject:self.nextValue];
+    
     BOOL firstPoint = YES;
-    for (id value in self.values) {
+    for (id value in values) {
         if (value == [NSNull null]) {
             CGContextStrokePath(context);
             barCenterX += barDisplayWidth;

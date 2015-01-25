@@ -16,8 +16,8 @@
     
     descriptor.backgroundColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
     descriptor.cornerRadius = 4.0;
-    descriptor.graphContentLeadingPadding = 28.0;
-    descriptor.graphContentTrailingPadding = 28.0;
+    descriptor.graphContentLeadingPadding = 0.0;
+    descriptor.graphContentTrailingPadding = 0.0;
     
     return descriptor;
 }

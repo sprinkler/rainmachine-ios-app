@@ -24,7 +24,8 @@ typedef enum {
 
 @property (nonatomic, strong) NSArray *dateValues;
 @property (nonatomic, strong) NSArray *dateStrings;
-@property (nonatomic, strong) NSDictionary *randValues;
+@property (nonatomic, strong) NSString *prevDateString;
+@property (nonatomic, strong) NSString *nextDateString;
 @property (nonatomic, strong) NSString *timeIntervalPartValue;
 
 @property (nonatomic, assign) NSInteger currentDateValueIndex;
@@ -32,6 +33,9 @@ typedef enum {
 - (void)initialize;
 
 - (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource;
+- (NSArray*)timeIntervalRestrictedValuesForGraphDataSource:(GraphDataSource*)dataSource
+                                             prevDateValue:(id*)prevDateValue
+                                             nextDateValue:(id*)nextDateValue;
 - (NSArray*)timeIntervalRestrictedTopValuesForGraphDataSource:(GraphDataSource*)dataSource;
 - (NSArray*)timeIntervalRestrictedIconImageIndexesForGraphDataSource:(GraphDataSource*)dataSource;
 

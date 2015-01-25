@@ -38,6 +38,8 @@
 @property (nonatomic, strong) UIView *dateSelectionView;
 
 @property (nonatomic, strong) NSArray *dataSourceValues;
+@property (nonatomic, strong) id dataSourcePrevDateValue;
+@property (nonatomic, strong) id dataSourceNextDateValue;
 @property (nonatomic, strong) NSArray *dataSourceTopValues;
 @property (nonatomic, strong) NSArray *dataSourceIconImageIndexes;
 
@@ -76,7 +78,11 @@
 #pragma mark - Helper methods
 
 - (void)setup {
-    self.dataSourceValues = [self.graphTimeIntervalPart timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource];
+    id prevDateValue = nil;
+    id nextDateValue = nil;
+    self.dataSourceValues = [self.graphTimeIntervalPart timeIntervalRestrictedValuesForGraphDataSource:self.graphDescriptor.dataSource prevDateValue:&prevDateValue nextDateValue:&nextDateValue];
+    self.dataSourcePrevDateValue = prevDateValue;
+    self.dataSourceNextDateValue = nextDateValue;
     
     if (self.graphTimeIntervalPart && self.graphDescriptor.valuesBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)]) {
         self.dataSourceTopValues = [self.graphTimeIntervalPart timeIntervalRestrictedTopValuesForGraphDataSource:self.graphDescriptor.dataSource];
@@ -287,6 +293,8 @@
     self.graphView.graphStyle = [descriptor.graphStyle copy];
     self.graphView.graphStyle.graphDescriptor = self.graphDescriptor;
     self.graphView.graphStyle.values = (self.graphDescriptor.dataSource.values ? self.dataSourceValues : nil);
+    self.graphView.graphStyle.prevValue = self.dataSourcePrevDateValue;
+    self.graphView.graphStyle.nextValue = self.dataSourceNextDateValue;
     [self.graphView setNeedsDisplay];
 }
 

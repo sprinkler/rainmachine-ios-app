@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
 @property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) id prevValue;
+@property (nonatomic, strong) id nextValue;
 
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context;
 - (void)plotGraphInRect:(CGRect)rect context:(CGContextRef)context;
