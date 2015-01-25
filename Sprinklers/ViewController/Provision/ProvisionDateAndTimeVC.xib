@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProvisionDateAndTimeVC">
+            <connections>
+                <outlet property="buttonSetTimeManually" destination="Sdh-tY-knk" id="sw6-jk-viN"/>
+                <outlet property="date" destination="ce1-L3-owC" id="W8t-2e-W16"/>
+                <outlet property="time" destination="sX3-fj-RLp" id="N1X-rd-M3C"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rain Machine Internet Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQe-uF-amP">
+                    <rect key="frame" x="195" y="27" width="210.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ce1-L3-owC">
+                    <rect key="frame" x="283" y="63" width="34" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sX3-fj-RLp">
+                    <rect key="frame" x="283" y="87.5" width="33.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sdh-tY-knk" customClass="ColoredBackgroundButton">
+                    <rect key="frame" x="20" y="121" width="560" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" title="Set time manually">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="setTimeManually:" destination="-1" eventType="touchUpInside" id="uv2-Lo-uRD"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Sdh-tY-knk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="1hr-Rj-vBu"/>
+                <constraint firstItem="Sdh-tY-knk" firstAttribute="top" secondItem="sX3-fj-RLp" secondAttribute="bottom" constant="16" id="2ce-j3-tNK"/>
+                <constraint firstAttribute="trailing" secondItem="Sdh-tY-knk" secondAttribute="trailing" constant="20" id="42m-Tc-K4B"/>
+                <constraint firstItem="sX3-fj-RLp" firstAttribute="top" secondItem="ce1-L3-owC" secondAttribute="bottom" constant="4" id="Cdb-eC-zPl"/>
+                <constraint firstAttribute="centerX" secondItem="Sdh-tY-knk" secondAttribute="centerX" id="G9Y-FY-Dab"/>
+                <constraint firstItem="ce1-L3-owC" firstAttribute="top" secondItem="FQe-uF-amP" secondAttribute="bottom" constant="16" id="RHO-S7-Kf3"/>
+                <constraint firstAttribute="centerX" secondItem="sX3-fj-RLp" secondAttribute="centerX" id="VV7-IQ-6XJ"/>
+                <constraint firstItem="FQe-uF-amP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="b1o-pp-7dF"/>
+                <constraint firstAttribute="centerX" secondItem="FQe-uF-amP" secondAttribute="centerX" id="oKd-Xd-tNz"/>
+                <constraint firstAttribute="centerX" secondItem="ce1-L3-owC" secondAttribute="centerX" id="wD6-5F-KyK"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="G9Y-FY-Dab"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

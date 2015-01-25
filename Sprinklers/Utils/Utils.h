@@ -33,6 +33,8 @@
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;
 + (NSString*)getPort:(NSString*)address;
++ (NSString*)getBaseUrl:(NSString*)address;
++ (NSString*)addressWithoutPrefix:(NSString*)address;
 + (NSString*)activeDevicesPredicate;
 + (NSString*)inactiveDevicesPredicate;
 + (NSString*)fixedSprinklerAddress:(NSString*)address;

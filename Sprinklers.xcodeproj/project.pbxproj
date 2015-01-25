@@ -249,6 +249,13 @@
 		AF48269C1990DC9500D80B87 /* wind.png in Resources */ = {isa = PBXBuildFile; fileRef = AF4826661990DC9500D80B87 /* wind.png */; };
 		AF51E4181A190DA500A7A6A5 /* TRPickerInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */; };
 		AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */; };
+		AF5CF4431A7212DB00D2BB9C /* ProvisionDateAndTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5CF4411A7212DB00D2BB9C /* ProvisionDateAndTimeVC.m */; };
+		AF5CF4441A7212DB00D2BB9C /* ProvisionDateAndTimeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5CF4421A7212DB00D2BB9C /* ProvisionDateAndTimeVC.xib */; };
+		AF5CF44D1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5CF44B1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.m */; };
+		AF5CF44E1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5CF44C1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.xib */; };
+		AF5CF4521A72231F00D2BB9C /* ProvisionTimezonesListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5CF4501A72231F00D2BB9C /* ProvisionTimezonesListVC.m */; };
+		AF5CF4581A73705D00D2BB9C /* ProvisionDatePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5CF4571A73705D00D2BB9C /* ProvisionDatePickerCell.xib */; };
+		AF5CF46E1A74B4F400D2BB9C /* ProvisionTimezonesListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5CF46D1A74B4F400D2BB9C /* ProvisionTimezonesListVC.xib */; };
 		AF5DD95018BD0A0E00E2CE27 /* ProgramListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */; };
 		AF5DD95318BD0A7A00E2CE27 /* ProgramListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */; };
 		AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6008AD18D9E69300DB6D75 /* StartStopProgramResponse.m */; };
@@ -777,6 +784,16 @@
 		AF51E4161A190DA500A7A6A5 /* TRPickerInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPickerInputView.h; path = ViewController/TRPickerInputView.h; sourceTree = "<group>"; };
 		AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPickerInputView.m; path = ViewController/TRPickerInputView.m; sourceTree = "<group>"; };
 		AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerInputView.xib; path = ViewController/PickerInputView.xib; sourceTree = "<group>"; };
+		AF5CF4401A7212DB00D2BB9C /* ProvisionDateAndTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionDateAndTimeVC.h; path = ViewController/Provision/ProvisionDateAndTimeVC.h; sourceTree = "<group>"; };
+		AF5CF4411A7212DB00D2BB9C /* ProvisionDateAndTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionDateAndTimeVC.m; path = ViewController/Provision/ProvisionDateAndTimeVC.m; sourceTree = "<group>"; };
+		AF5CF4421A7212DB00D2BB9C /* ProvisionDateAndTimeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionDateAndTimeVC.xib; path = ViewController/Provision/ProvisionDateAndTimeVC.xib; sourceTree = "<group>"; };
+		AF5CF44A1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionDateAndTimeManualVC.h; path = ViewController/Provision/ProvisionDateAndTimeManualVC.h; sourceTree = "<group>"; };
+		AF5CF44B1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionDateAndTimeManualVC.m; path = ViewController/Provision/ProvisionDateAndTimeManualVC.m; sourceTree = "<group>"; };
+		AF5CF44C1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionDateAndTimeManualVC.xib; path = ViewController/Provision/ProvisionDateAndTimeManualVC.xib; sourceTree = "<group>"; };
+		AF5CF44F1A72231F00D2BB9C /* ProvisionTimezonesListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionTimezonesListVC.h; path = ViewController/Provision/ProvisionTimezonesListVC.h; sourceTree = "<group>"; };
+		AF5CF4501A72231F00D2BB9C /* ProvisionTimezonesListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionTimezonesListVC.m; path = ViewController/Provision/ProvisionTimezonesListVC.m; sourceTree = "<group>"; };
+		AF5CF4571A73705D00D2BB9C /* ProvisionDatePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionDatePickerCell.xib; path = ViewController/Provision/ProvisionDatePickerCell.xib; sourceTree = "<group>"; };
+		AF5CF46D1A74B4F400D2BB9C /* ProvisionTimezonesListVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionTimezonesListVC.xib; path = ViewController/Provision/ProvisionTimezonesListVC.xib; sourceTree = "<group>"; };
 		AF5DD94F18BD0A0E00E2CE27 /* ProgramListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramListCell.xib; path = Cells/ProgramListCell.xib; sourceTree = "<group>"; };
 		AF5DD95118BD0A7A00E2CE27 /* ProgramListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramListCell.h; path = Cells/ProgramListCell.h; sourceTree = "<group>"; };
 		AF5DD95218BD0A7A00E2CE27 /* ProgramListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramListCell.m; path = Cells/ProgramListCell.m; sourceTree = "<group>"; };
@@ -1376,6 +1393,16 @@
 				AFE894D81A35733B007FC7EB /* ProvisionNameSetupVC.h */,
 				AFE894D91A35733B007FC7EB /* ProvisionNameSetupVC.m */,
 				AFE894DA1A35733B007FC7EB /* ProvisionNameSetupVC.xib */,
+				AF5CF4571A73705D00D2BB9C /* ProvisionDatePickerCell.xib */,
+				AF5CF4401A7212DB00D2BB9C /* ProvisionDateAndTimeVC.h */,
+				AF5CF4411A7212DB00D2BB9C /* ProvisionDateAndTimeVC.m */,
+				AF5CF4421A7212DB00D2BB9C /* ProvisionDateAndTimeVC.xib */,
+				AF5CF44A1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.h */,
+				AF5CF44B1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.m */,
+				AF5CF44C1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.xib */,
+				AF5CF46D1A74B4F400D2BB9C /* ProvisionTimezonesListVC.xib */,
+				AF5CF44F1A72231F00D2BB9C /* ProvisionTimezonesListVC.h */,
+				AF5CF4501A72231F00D2BB9C /* ProvisionTimezonesListVC.m */,
 			);
 			name = Provision;
 			sourceTree = "<group>";
@@ -2160,6 +2187,7 @@
 				3A443800188A93FD004F9E11 /* RestrictedHoursVC.xib in Resources */,
 				AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */,
 				B1E791971922738900BE8C1A /* Sprinkler_Icon_120.png in Resources */,
+				AF5CF4581A73705D00D2BB9C /* ProvisionDatePickerCell.xib in Resources */,
 				AFF6A6BA1888350400825A37 /* icon_status_warning@2x.png in Resources */,
 				AFE894D31A356538007FC7EB /* icon_wi-fi-full.png in Resources */,
 				96CB94011A38AFAD00F3691F /* sctfg_small_white.png in Resources */,
@@ -2175,6 +2203,7 @@
 				AF4826691990DC9500D80B87 /* cold.png in Resources */,
 				96CB93EC1A38AFAD00F3691F /* nfu_small_white.png in Resources */,
 				AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */,
+				AF5CF46E1A74B4F400D2BB9C /* ProvisionTimezonesListVC.xib in Resources */,
 				AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */,
 				AFE894CE1A356538007FC7EB /* icon_wi-fi-0-bar@2x.png in Resources */,
 				96CB93FF1A38AFAD00F3691F /* rasn_small_white.png in Resources */,
@@ -2240,6 +2269,7 @@
 				AF4826671990DC9500D80B87 /* bkn.png in Resources */,
 				AFE894DC1A35733B007FC7EB /* ProvisionNameSetupVC.xib in Resources */,
 				AF4826811990DC9500D80B87 /* nra.png in Resources */,
+				AF5CF4441A7212DB00D2BB9C /* ProvisionDateAndTimeVC.xib in Resources */,
 				AFEAECB718BA3F6000370F22 /* ProgramCellType3.xib in Resources */,
 				B1EF211E1860499200D9CE26 /* StatsVC.xib in Resources */,
 				96CB93E61A38AFAD00F3691F /* na_small_white.png in Resources */,
@@ -2309,6 +2339,7 @@
 				AF48267B1990DC9500D80B87 /* ndu.png in Resources */,
 				96CB93E41A38AFAD00F3691F /* mist_small_white.png in Resources */,
 				AF085CAE1A2EC36A00519BF6 /* AvailableWiFisVC.xib in Resources */,
+				AF5CF44E1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.xib in Resources */,
 				AFE894CF1A356538007FC7EB /* icon_wi-fi-1-bar.png in Resources */,
 				AF4826781990DC9500D80B87 /* na.png in Resources */,
 				AF4826851990DC9500D80B87 /* nsct.png in Resources */,
@@ -2434,6 +2465,7 @@
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				969051CF1A6ACDF60029304D /* WaterLogDay.m in Sources */,
+				AF5CF44D1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.m in Sources */,
 				AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */,
@@ -2520,6 +2552,7 @@
 				AF7AC9C9184E3DBE0047BD9E /* AFHTTPRequestOperationManager.m in Sources */,
 				AFFDCF34199B97A800EAC3D5 /* Login4Response.m in Sources */,
 				AFEAECC118BA3FA900370F22 /* ProgramCellType3.m in Sources */,
+				AF5CF4431A7212DB00D2BB9C /* ProvisionDateAndTimeVC.m in Sources */,
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */,
@@ -2548,6 +2581,7 @@
 				AFB94C861A6CE25200AF5D86 /* Sprinklers.xcdatamodeld in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,
+				AF5CF4521A72231F00D2BB9C /* ProvisionTimezonesListVC.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
 				AF726E331A2C670D0024604B /* WiFi.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,

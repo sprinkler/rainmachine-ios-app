@@ -155,7 +155,7 @@ static StorageManager *current = nil;
     return nil;
 }
 
-- (Sprinkler *)getSprinkler:(NSString*)mac name:(NSString *)name address:(NSString*)address port:(NSString*)port local:(NSNumber*)local email:(NSString*)email
+- (Sprinkler *)getSprinkler:(NSString*)mac name:(NSString *)name address:(NSString*)address local:(NSNumber*)local email:(NSString*)email
 {
     Sprinkler *sprinklerBasedOnMac = nil;
     if (mac) {
@@ -176,9 +176,9 @@ static StorageManager *current = nil;
     NSPredicate *predicate = nil;
     
     if (local) {
-        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND isLocalDevice == %@ AND email == %@", name, address, port, local, email];
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND isLocalDevice == %@ AND email == %@", name, address, local, email];
     } else {
-        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND port == %@ AND email == %@", name, address, port, email];
+        predicate = [NSPredicate predicateWithFormat:@"name == %@ AND address == %@ AND email == %@", name, address, email];
     }
     [fetchRequest setPredicate:predicate];
     
@@ -317,12 +317,14 @@ static StorageManager *current = nil;
     
     NSArray *sprinklersFromNetworks = [self getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in sprinklersFromNetworks) {
-        NSMutableArray *sprinklersWithIdenticMac = sprinklersGrouped[sprinkler.mac];
-        if (!sprinklersWithIdenticMac) {
-            sprinklersWithIdenticMac = [NSMutableArray array];
-            sprinklersGrouped[sprinkler.mac] = sprinklersWithIdenticMac;
+        if (sprinkler.mac) {
+            NSMutableArray *sprinklersWithIdenticMac = sprinklersGrouped[sprinkler.mac];
+            if (!sprinklersWithIdenticMac) {
+                sprinklersWithIdenticMac = [NSMutableArray array];
+                sprinklersGrouped[sprinkler.mac] = sprinklersWithIdenticMac;
+            }
+            [sprinklersWithIdenticMac addObject:sprinkler];
         }
-        [sprinklersWithIdenticMac addObject:sprinkler];
     }
     
     for (NSArray *sprinklersWithIdenticMac in [sprinklersGrouped allValues]) {
@@ -359,12 +361,9 @@ static StorageManager *current = nil;
     NSArray *sprinklers = [self getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in sprinklers) {
         NSString *port = [Utils getPort:sprinkler.address];
-
+        sprinkler.address = [Utils getBaseUrl:sprinkler.address];
+        
         if ([port length] > 0) {
-            if ([port length] + 1  < [sprinkler.address length]) {
-                sprinkler.address = [sprinkler.address substringToIndex:[sprinkler.address length] - ([port length] + 1)];
-            }
-            
             sprinkler.port = port;
             
             wasFixed = YES;

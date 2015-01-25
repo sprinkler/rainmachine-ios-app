@@ -10,7 +10,6 @@
 #import "ColoredBackgroundButton.h"
 #import "Constants.h"
 #import "Additions.h"
-#import "GoogleAddress.h"
 #import "GoogleElevation.h"
 #import "GoogleTimezone.h"
 #import "GoogleAutocompletePrediction.h"
@@ -23,8 +22,8 @@
 #import "MBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
 #import "ServerProxy.h"
-#import "MBProgressHUD.h"
 #import "NetworkUtilities.h"
+#import "ProvisionDateAndTimeManualVC.h"
 
 const double LocationSetup_MapView_InitializeTimeout                = 3.0;
 const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
@@ -45,9 +44,8 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 - (void)moveCameraToLocation:(CLLocation*)location animated:(BOOL)animate;
 
 @property (nonatomic, assign) BOOL startLocationFound;
-@property (nonatomic, strong) GoogleAddress *selectedLocationAddress;
-@property (nonatomic, strong) GoogleElevation *selectedLocationElevation;
 @property (nonatomic, strong) GoogleTimezone *selectedLocationTimezone;
+@property (nonatomic, strong) GoogleElevation *selectedLocationElevation;
 @property (nonatomic, strong) GMSMarker *selectedLocationMarker;
 
 - (void)markSelectedLocationAnimated:(BOOL)animate;
@@ -329,7 +327,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
         self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
         [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
                                      longitude:self.selectedLocationAddress.location.coordinate.longitude
-                                      timezone:self.selectedLocationTimezone.timeZoneId];
+                                      timezone:[[NSTimeZone localTimeZone] name]];
         
         [self showHud];
     }
@@ -348,16 +346,16 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     
     if (serverProxy == self.provisionServerProxy) {
         //    TODO: handle error code
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"Your Rainmachine was succesfully set up." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
+        [self hideHud];
+        ProvisionDateAndTimeManualVC *dateTimeVC = [[ProvisionDateAndTimeManualVC alloc] init];
+        dateTimeVC.sprinkler = self.sprinkler;
+        dateTimeVC.delegate = self.delegate;
+        dateTimeVC.locationSetupVC = self;
+        [self.navigationController pushViewController:dateTimeVC animated:YES];
+        
     }
     
     [self hideHud];
-}
-
-- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)loggedOut {

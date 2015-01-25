@@ -342,6 +342,8 @@ static NSString *kWifiInterface = @"en0";
     
     NSString *port = (thePort.length ? thePort : @"443");
     
+    baseUrl = [Utils getBaseUrl:baseUrl];
+
     NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
     NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
     
@@ -354,6 +356,8 @@ static NSString *kWifiInterface = @"en0";
 
 + (NSString*)accessTokenForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort {
     NSString *port = (thePort.length ? thePort : @"443");
+    
+    baseUrl = [Utils getBaseUrl:baseUrl];
     
     NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
     NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];

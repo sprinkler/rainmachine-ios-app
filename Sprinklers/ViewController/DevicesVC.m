@@ -127,14 +127,32 @@
     if (![[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey]) {
         [[NSUserDefaults standardUserDefaults] setObject:kCloudProxyFinderURL forKey:kCloudProxyFinderURLKey];
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
 
     self.cloudServers = [NSMutableArray new];
     [self.cloudServers addObject:kCloudProxyFinderStagingURL];
     [self.cloudServers addObject:kCloudProxyFinderURL];
 
     NSString *selectedServer = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
+    selectedServer = [self fixSelectedServer:selectedServer];
+    [[NSUserDefaults standardUserDefaults] setObject:selectedServer forKey:kCloudProxyFinderURLKey];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     self.selectedCloudServerIndex = [self.cloudServers indexOfObject:selectedServer];
+}
+
+- (NSString*)fixSelectedServer:(NSString*)selectedServer
+{
+    // Workaround done because the port was dropped in the meantime from the server address, so this means that the saved server url might not be valid
+    if (([kCloudProxyFinderStagingURL hasPrefix:selectedServer]) || ([selectedServer hasPrefix:kCloudProxyFinderStagingURL])) {
+        selectedServer = kCloudProxyFinderStagingURL;
+    }
+    
+    if (([kCloudProxyFinderURL hasPrefix:selectedServer]) || ([selectedServer hasPrefix:kCloudProxyFinderURL])) {
+        selectedServer = kCloudProxyFinderURL;
+    }
+
+    return selectedServer;
 }
 
 // Overwrites BaseViewController's updateTitle
@@ -296,7 +314,7 @@
                     break;
                 }
             }
-        }
+        } 
     }
     
     for (Sprinkler *cloudSprinkler in duplicateCloudSprinklers) {
@@ -362,9 +380,10 @@
     for (int i = 0; i < [discoveredSprinklers count]; i++) {
         DiscoveredSprinklers *discoveredSprinkler = discoveredSprinklers[i];
         NSString *port = [NSString stringWithFormat:@"%d", discoveredSprinkler.port];
-        Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerId name:discoveredSprinkler.sprinklerName address:[Utils fixedSprinklerAddress:discoveredSprinkler.host] port:port local:@YES email:nil];
+        NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:discoveredSprinkler.host]];
+        Sprinkler *sprinkler = [[StorageManager current] getSprinkler:discoveredSprinkler.sprinklerId name:discoveredSprinkler.sprinklerName address:address local:@YES email:nil];
         if (!sprinkler) {
-            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:discoveredSprinkler.host port:port isLocal:@YES email:nil mac:discoveredSprinkler.sprinklerId save:NO];
+            sprinkler = [[StorageManager current] addSprinkler:discoveredSprinkler.sprinklerName ipAddress:address port:port isLocal:@YES email:nil mac:discoveredSprinkler.sprinklerId save:NO];
         }
         sprinkler.address = [Utils fixedSprinklerAddress:discoveredSprinkler.host];
         sprinkler.port = port;
@@ -374,7 +393,7 @@
         sprinkler.isDiscovered = @YES;
         sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
         
-        sprinkler.apFlag = @([discoveredSprinkler.apFlag boolValue]);
+        sprinkler.apFlag = discoveredSprinkler.apFlag ? @([discoveredSprinkler.apFlag boolValue]) : nil;
     }
     
     [[StorageManager current] saveData];
@@ -930,25 +949,20 @@
             for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
                 NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
                 NSString *port = [Utils getPort:fullAddress];
-                NSString *address = fullAddress;
-                if ([port length] > 0) {
-                    if ([port length] + 1  < [fullAddress length]) {
-                        address = [fullAddress substringToIndex:[fullAddress length] - ([port length] + 1)];
-                    }
-                }
+                NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:fullAddress]];
                 port = port ? port : @"443";
                 // Add or update the remote sprinkler
-                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address port:port local:@NO email:email];
+                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address local:@NO email:email];
                 if (!sprinkler) {
                     sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
                 } else {
                     if (address) {
                         sprinkler.address = address;
                     }
-                    sprinkler.port = port;
                     sprinkler.name = sprinklerInfo[@"name"];
                 }
                 
+                sprinkler.port = port;
                 sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
                 sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
                 sprinkler.nrOfFailedConsecutiveDiscoveries = @0;

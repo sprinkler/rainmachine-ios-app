@@ -86,16 +86,61 @@
     return address;
 }
 
-+ (NSString*)getPort:(NSString*)address
++ (NSString*)getStrippedDownHelperAddress:(NSString*)address
 {
+    if ([address hasSuffix:@"/"]) {
+        address = [address substringToIndex:address.length - 1];
+    }
+    
     address = [address stringByReplacingOccurrencesOfString:@"http://" withString:@""];
     address = [address stringByReplacingOccurrencesOfString:@"https://" withString:@""];
+    
+    return address;
+}
+
++ (NSString*)getPort:(NSString*)address
+{
+    address = [Utils getStrippedDownHelperAddress:address];
+    
     NSArray *vals = [address componentsSeparatedByString:@":"];
+    
     if (vals.count == 2) {
         return vals[1];
     }
     
     return nil;
+}
+
++ (NSString*)getBaseUrl:(NSString*)address
+{
+    NSString *port = [self getPort:address];
+
+    address = [Utils getStrippedDownHelperAddress:address];
+    
+    NSRange rangeHttp = [address rangeOfString:@"http://"];
+    NSRange rangeHttps = [address rangeOfString:@"https://"];
+    
+    if ([port length] > 0) {
+        if ([port length] + 1 < [address length]) {
+            address = [address substringToIndex:[address length] - ([port length] + 1)];
+        }
+    }
+
+    if (rangeHttp.location != NSNotFound) {
+        return [@"http://" stringByAppendingString:address];
+    }
+    if (rangeHttps.location != NSNotFound) {
+        return [@"https://" stringByAppendingString:address];
+    }
+    return address;
+}
+
++ (NSString*)addressWithoutPrefix:(NSString*)address
+{
+    address = [address stringByReplacingOccurrencesOfString:@"http://" withString:@""];
+    address = [address stringByReplacingOccurrencesOfString:@"https://" withString:@""];
+
+    return address;
 }
 
 + (NSString*)activeDevicesPredicate
@@ -110,7 +155,8 @@
 
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler
 {
-    return [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];
+    NSString *address = [NSString stringWithFormat:@"%@:%@", sprinkler.address, sprinkler.port ? sprinkler.port : @"443"];
+    return [Utils fixedSprinklerAddress:address];
 }
 
 +(NSString*)currentSprinklerURL
@@ -432,7 +478,7 @@
     cell.labelMainTitle.text = sprinkler.name;
     
     // remove https from address
-    NSString *adressWithoutPrefix = [sprinkler.address substringWithRange:NSMakeRange(8, [sprinkler.address length] - 8)];
+    NSString *adressWithoutPrefix = [Utils addressWithoutPrefix:sprinkler.address];
     
     // we don't have to print the default port
     if([sprinkler.port isEqual: @"443"])

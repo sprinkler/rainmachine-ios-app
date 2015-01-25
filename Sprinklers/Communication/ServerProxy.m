@@ -87,6 +87,8 @@ static int serverAPIMinorSubVersion = -1;
         return nil;
     }
     
+    serverURL = [Utils fixedSprinklerAddress:serverURL];
+    
     self.delegate = del;
     self.serverURL = serverURL;
     
@@ -152,8 +154,9 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (NSString*)urlByAppendingAccessTokenToUrl:(NSString*)urlString {
-    NSURL *baseURL = self.manager.baseURL;
-    NSString *accessToken = [NetworkUtilities accessTokenForBaseUrl:[NSString stringWithFormat:@"%@://%@",baseURL.scheme,baseURL.host] port:[NSString stringWithFormat:@"%@",baseURL.port]];
+    NSString *baseURL = [Utils getBaseUrl:self.serverURL];
+    NSString *port = [Utils getPort:self.serverURL];
+    NSString *accessToken = [NetworkUtilities accessTokenForBaseUrl:baseURL port:port];
     return (accessToken.length ? [NSString stringWithFormat:@"%@?access_token=%@",urlString,accessToken] : urlString);
 }
 
@@ -628,10 +631,20 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)setLocation:(double)latitude longitude:(double)longitude timezone:(NSString*)timezone
 {
-    NSDictionary *params = @{@"location" : @{@"latitude" : @(latitude),
+    NSDictionary *params;
+    if (timezone) {
+        params = @{@"location" : @{@"latitude" : @(latitude),
                                              @"longitude" : @(longitude),
-                                             @"timezone" : timezone}};
-    
+                                             @"timezone" : timezone
+                                   }
+                   };
+    } else {
+        params = @{@"location" : @{@"latitude" : @(latitude),
+                                   @"longitude" : @(longitude)
+                                   }
+                   };
+    }
+        
     [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
