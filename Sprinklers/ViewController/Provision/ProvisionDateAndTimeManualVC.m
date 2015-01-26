@@ -543,7 +543,7 @@ NSUInteger DeviceSystemMajorVersion()
         //    TODO: handle error code
         [self hideHud];
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"Your Rainmachine was succesfully set up." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your Rain Machine is set up!" message:@"Now you can go ahead and create your first program." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }
     
