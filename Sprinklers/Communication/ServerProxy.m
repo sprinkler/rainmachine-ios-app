@@ -16,6 +16,7 @@
 #import "WaterNowZone.h"
 #import "WaterNowZone4.h"
 #import "ZoneProperties4.h"
+#import "ZoneAdvancedProperties.h"
 #import "StartStopWatering.h"
 #import "SetRainDelay.h"
 #import "ServerResponse.h"
@@ -1487,7 +1488,8 @@ static int serverAPIMinorSubVersion = -1;
                              @"soil" : zone.soil,
                              @"master" : @(zone.masterValve),
                              @"before": @(zone.before),
-                             @"after" : @(zone.after)
+                             @"after" : @(zone.after),
+                             @"waterSense" : [zone.advancedProperties toDictionary]
                              };
     NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? @"api/4/zone/%d/properties" : @"api/4/zoneProperties/%d";
     [self.manager POST: [self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:relUrl, zone.zoneId]] parameters:params

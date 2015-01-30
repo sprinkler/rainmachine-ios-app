@@ -146,6 +146,11 @@
 		96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */; };
 		96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9091A27A020005974CC /* MixerDailyValue.m */; };
 		96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */; };
+		96E70AF51A7BC34200A07D94 /* ZoneAdvancedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */; };
+		96E70AF61A7BC34200A07D94 /* ZoneAdvancedVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */; };
+		96E70AFA1A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E70AF81A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m */; };
+		96E70AFB1A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96E70AF91A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.xib */; };
+		96E70AFE1A7BCE0000A07D94 /* ZoneAdvancedProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E70AFD1A7BCE0000A07D94 /* ZoneAdvancedProperties.m */; };
 		96EF1A8B1A40BB5F002CF2E0 /* BVReorderTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EF1A8A1A40BB5F002CF2E0 /* BVReorderTableView.m */; };
 		96F0F3351A36F18C0056D167 /* DashboardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3331A36F18C0056D167 /* DashboardVC.m */; };
 		96F0F3361A36F18C0056D167 /* DashboardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F0F3341A36F18C0056D167 /* DashboardVC.xib */; };
@@ -646,6 +651,14 @@
 		96DAB9091A27A020005974CC /* MixerDailyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MixerDailyValue.m; path = "Communication/Response objects/MixerDailyValue.m"; sourceTree = "<group>"; };
 		96DAB9141A27BBA5005974CC /* RainSensitivityGraphMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivityGraphMonthView.h; sourceTree = "<group>"; };
 		96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivityGraphMonthView.m; sourceTree = "<group>"; };
+		96E70AF21A7BC34200A07D94 /* ZoneAdvancedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneAdvancedVC.h; path = ViewController/ZoneAdvancedVC.h; sourceTree = "<group>"; };
+		96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneAdvancedVC.m; path = ViewController/ZoneAdvancedVC.m; sourceTree = "<group>"; };
+		96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZoneAdvancedVC.xib; path = ViewController/ZoneAdvancedVC.xib; sourceTree = "<group>"; };
+		96E70AF71A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneAdvancedPropertyCell.h; path = Cells/ZoneAdvancedPropertyCell.h; sourceTree = "<group>"; };
+		96E70AF81A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneAdvancedPropertyCell.m; path = Cells/ZoneAdvancedPropertyCell.m; sourceTree = "<group>"; };
+		96E70AF91A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZoneAdvancedPropertyCell.xib; path = Cells/ZoneAdvancedPropertyCell.xib; sourceTree = "<group>"; };
+		96E70AFC1A7BCE0000A07D94 /* ZoneAdvancedProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneAdvancedProperties.h; path = "Communication/Response objects/ZoneAdvancedProperties.h"; sourceTree = "<group>"; };
+		96E70AFD1A7BCE0000A07D94 /* ZoneAdvancedProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneAdvancedProperties.m; path = "Communication/Response objects/ZoneAdvancedProperties.m"; sourceTree = "<group>"; };
 		96EF1A891A40BB5F002CF2E0 /* BVReorderTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BVReorderTableView.h; path = Controls/BVReorderTableView.h; sourceTree = "<group>"; };
 		96EF1A8A1A40BB5F002CF2E0 /* BVReorderTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BVReorderTableView.m; path = Controls/BVReorderTableView.m; sourceTree = "<group>"; };
 		96F0F3321A36F18C0056D167 /* DashboardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardVC.h; path = ViewController/DashboardVC.h; sourceTree = "<group>"; };
@@ -1687,6 +1700,9 @@
 				96F0F33D1A36FEE90056D167 /* StatsShowGraphsCell.h */,
 				96F0F33E1A36FEE90056D167 /* StatsShowGraphsCell.m */,
 				96F0F33F1A36FEE90056D167 /* StatsShowGraphsCell.xib */,
+				96E70AF71A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.h */,
+				96E70AF81A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m */,
+				96E70AF91A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1732,6 +1748,8 @@
 				AF961ED019C36D2300A2A13C /* WaterNowZone4.m */,
 				AF61117019C5491D008AA62B /* ZoneProperties4.h */,
 				AF61117119C5491D008AA62B /* ZoneProperties4.m */,
+				96E70AFC1A7BCE0000A07D94 /* ZoneAdvancedProperties.h */,
+				96E70AFD1A7BCE0000A07D94 /* ZoneAdvancedProperties.m */,
 				AFC58170184E58FD00C8D06A /* WeatherData.h */,
 				AFC58171184E58FD00C8D06A /* WeatherData.m */,
 				AFFDCF35199BA82900EAC3D5 /* WeatherData4.h */,
@@ -2111,6 +2129,9 @@
 				B1254CC3187ECE48004E2F0E /* ZoneVC.h */,
 				B1254CC4187ECE48004E2F0E /* ZoneVC.m */,
 				B1254CC5187ECE48004E2F0E /* ZoneVC.xib */,
+				96E70AF21A7BC34200A07D94 /* ZoneAdvancedVC.h */,
+				96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */,
+				96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */,
 				964ADD2D1A1E7BA1008281A8 /* RainSensitivityVC.h */,
 				964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */,
 				964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */,
@@ -2277,6 +2298,7 @@
 				AFC5CEE518893A5B005191DE /* icon_waternow@2x.png in Resources */,
 				B1EF21101860493C00D9CE26 /* LoginVC.xib in Resources */,
 				AF4826681990DC9500D80B87 /* blizzard.png in Resources */,
+				96E70AF61A7BC34200A07D94 /* ZoneAdvancedVC.xib in Resources */,
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
 				B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */,
 				964ADD311A1E7BA1008281A8 /* RainSensitivityVC.xib in Resources */,
@@ -2401,6 +2423,7 @@
 				96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */,
 				AF4826981990DC9500D80B87 /* skc.png in Resources */,
 				B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */,
+				96E70AFB1A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.xib in Resources */,
 				AF4826791990DC9500D80B87 /* nbkn.png in Resources */,
 				96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */,
 				AF48268F1990DC9500D80B87 /* ra1.png in Resources */,
@@ -2444,6 +2467,7 @@
 				96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */,
 				AFB6943B190289670067CD7F /* WateringRestrictions.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* RestrictedHoursVC.m in Sources */,
+				96E70AFE1A7BCE0000A07D94 /* ZoneAdvancedProperties.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
@@ -2510,6 +2534,7 @@
 				AF94FBC318B8B505006FE76D /* RainDelay.m in Sources */,
 				964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */,
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
+				96E70AF51A7BC34200A07D94 /* ZoneAdvancedVC.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
 				96F0F3391A36FAC70056D167 /* GraphDescriptor.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
@@ -2522,6 +2547,7 @@
 				B1254CC6187ECE48004E2F0E /* ZoneVC.m in Sources */,
 				AF91C7F01858D047005888AA /* WaterNowZone.m in Sources */,
 				964ADD301A1E7BA1008281A8 /* RainSensitivityVC.m in Sources */,
+				96E70AFA1A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m in Sources */,
 				AFEAECC418BA6B9B00370F22 /* ProgramCellType5.m in Sources */,
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,

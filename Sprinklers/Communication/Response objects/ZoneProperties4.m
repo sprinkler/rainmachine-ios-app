@@ -7,6 +7,7 @@
 //
 
 #import "ZoneProperties4.h"
+#import "ZoneAdvancedProperties.h"
 #import "ServerProxy.h"
 #import "Additions.h"
 
@@ -34,6 +35,7 @@
         zone.soil = [jsonObj objectForKey:@"soil"];
         zone.group_id = [jsonObj objectForKey:@"group_id"];
         zone.history = [jsonObj objectForKey:@"history"];
+        zone.advancedProperties = [ZoneAdvancedProperties createFromJson:[jsonObj objectForKey:@"waterSense"]];
         
         if (zone.before < 0)
             zone.before = 0;
@@ -144,6 +146,7 @@
     zone.soil = [self.soil copy];
     zone.group_id = [self.group_id copy];
     zone.history = [self.history copy];
+    zone.advancedProperties = [self.advancedProperties copy];
 
     return zone;
 }
@@ -168,6 +171,7 @@
     isEqual &= ([zone.soil isEqualToNumber:self.soil]);
     isEqual &= ([zone.group_id isEqualToNumber:self.group_id]);
     isEqual &= ([zone.history isEqualToNumber:self.history]);
+    isEqual &= ([zone.advancedProperties isEqualToZoneAdvancedProperties:self.advancedProperties]);
     
     return isEqual;
 }

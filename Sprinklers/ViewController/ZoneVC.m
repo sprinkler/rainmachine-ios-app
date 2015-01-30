@@ -7,6 +7,7 @@
 //
 
 #import "ZoneVC.h"
+#import "ZoneAdvancedVC.h"
 #import "Additions.h"
 #import "ProgramCellType1.h"
 #import "MBProgressHUD.h"
@@ -42,6 +43,7 @@ typedef enum {
     int activeSectionIndex;
     int vegetationTypeIndex;
     int statisticalSectionIndex;
+    int advancedSectionIndex;
     
     int didEdit;
     int getZonesCount;
@@ -81,6 +83,7 @@ typedef enum {
     activeSectionIndex = nameSectionIndex + 1;
     vegetationTypeIndex = activeSectionIndex + 1;
     statisticalSectionIndex = vegetationTypeIndex + 1;
+    advancedSectionIndex = statisticalSectionIndex + 1;
     
     if (!self.showInitialUnsavedAlert) {
         // In the case when 'showInitialUnsavedAlert' is YES, zoneCopyBeforeSave is set beforehand
@@ -390,7 +393,7 @@ typedef enum {
         return 2;
     }
     
-    return statisticalSectionIndex + 1;
+    return ([ServerProxy usesAPI4] ? advancedSectionIndex + 1 : statisticalSectionIndex + 1);
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -598,6 +601,16 @@ typedef enum {
             return cell;
         }
     }
+    else if (indexPath.section == advancedSectionIndex) {
+        static NSString *CellIdentifier6 = @"Cell6";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier6];
+        if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier6];
+        
+        cell.textLabel.text = @"Advanced";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        return cell;
+    }
     
     return nil;
 }
@@ -637,6 +650,14 @@ typedef enum {
                 _zone.historicalAverage = !_zone.historicalAverage;
                 [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
             }
+        }
+        else if (indexPath.section == advancedSectionIndex) {
+            ZoneAdvancedVC *zoneAdvancedVC = [[ZoneAdvancedVC alloc] init];
+            zoneAdvancedVC.parent = self;
+            zoneAdvancedVC.zone = self.zone;
+            
+            [self willPushChildView];
+            [self.navigationController pushViewController:zoneAdvancedVC animated:YES];
         }
     } else {
         if (indexPath.section == 0) {

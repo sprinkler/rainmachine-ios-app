@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class ZoneAdvancedProperties;
+
 @interface ZoneProperties4 : NSObject
 
 @property (nonatomic, assign) int zoneId;
@@ -26,6 +28,7 @@
 @property (nonatomic, assign) int masterValve;
 @property (nonatomic, assign) int before;
 @property (nonatomic, assign) int after;
+@property (nonatomic, strong) ZoneAdvancedProperties *advancedProperties;
 
 + (ZoneProperties4 *)createFromJson:(NSDictionary *)jsonObj;
 - (BOOL)isEqualToZone:(ZoneProperties4*)zone;

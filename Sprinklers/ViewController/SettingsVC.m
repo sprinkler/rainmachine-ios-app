@@ -69,6 +69,10 @@ NSString *kSettingsAbout              = @"About";
     
     self.settings = settings;
     self.settingsSectionNames = @[@"", @"", @"Device Settings"];
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
