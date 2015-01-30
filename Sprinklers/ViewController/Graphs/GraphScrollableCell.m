@@ -63,6 +63,12 @@
 }
 
 - (void)setup {
+    if (self.graphDescriptor.displayAreaDescriptor.scalingMode == GraphScalingMode_Scale) {
+        self.graphDescriptor.displayAreaDescriptor.minValue = self.graphDescriptor.dataSource.minValue;
+        self.graphDescriptor.displayAreaDescriptor.maxValue = self.graphDescriptor.dataSource.maxValue;
+        self.graphDescriptor.displayAreaDescriptor.midValue = self.graphDescriptor.dataSource.midValue;
+    }
+    
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
     [self setupMinMaxValuesWithDescriptor:self.graphDescriptor];

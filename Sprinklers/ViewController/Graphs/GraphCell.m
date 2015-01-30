@@ -97,12 +97,6 @@
         self.dataSourceIconImageIndexes = nil;
     }
     
-    if (self.graphDescriptor.displayAreaDescriptor.scalingMode == GraphScalingMode_Scale) {
-        self.graphDescriptor.displayAreaDescriptor.minValue = self.graphDescriptor.dataSource.minValue;
-        self.graphDescriptor.displayAreaDescriptor.maxValue = self.graphDescriptor.dataSource.maxValue;
-        self.graphDescriptor.displayAreaDescriptor.midValue = self.graphDescriptor.dataSource.midValue;
-    }
-    
     self.graphContainerView.backgroundColor = [UIColor clearColor];
     
     GraphIconsBarDescriptor *iconsBarDescriptor = (self.graphDescriptor.graphTimeInterval ? self.graphDescriptor.iconsBarDescriptorsDictionary[@(self.graphDescriptor.graphTimeInterval.type)] : nil);

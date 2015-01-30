@@ -10,6 +10,7 @@
 #import "GraphsManager.h"
 #import "MixerDailyValue.h"
 #import "WaterLogDay.h"
+#import "Utils.h"
 
 #pragma mark -
 
@@ -90,11 +91,17 @@
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     
+    NSString *units = [Utils sprinklerTemperatureUnits];
+    BOOL isFahrenheit = [units isEqualToString:@"F"];
+    
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
         NSString *day = [dateFormatter stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
         
-        values[day] = @(mixerDailyValue.maxTemp);
+        double maxTemp = mixerDailyValue.maxTemp;
+        if (isFahrenheit) maxTemp = maxTemp * 1.8 + 32;
+        
+        values[day] = @(maxTemp);
     }
     
     return values;
