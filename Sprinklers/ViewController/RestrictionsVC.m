@@ -287,6 +287,7 @@
         cell.restrictionDescriptionLabel.text = @"Allow extra watering";
         cell.restrictionEnabledSwitch.on = self.wateringRestrictions.hotDaysExtraWatering;
         cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        cell.switchTrailingSpaceLayoutConstraint.constant = 37.0;
         
         return cell;
     }
@@ -307,6 +308,7 @@
         cell.restrictionDescriptionLabel.text = [NSString stringWithFormat:@"Do not water under %d°%@",(int)freezeProtectTemperature,temperatureUnits];
         cell.restrictionEnabledSwitch.on = self.wateringRestrictions.freezeProtectEnabled;
         cell.restrictionDescriptionLabel.textColor = [UIColor lightGrayColor];
+        cell.switchTrailingSpaceLayoutConstraint.constant = 4.0;
         
         return cell;
     }

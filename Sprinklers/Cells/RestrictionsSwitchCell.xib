@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -46,6 +46,7 @@
                 <outlet property="restrictionDescriptionLabel" destination="Pjz-oP-7Co" id="G7h-VP-NSO"/>
                 <outlet property="restrictionEnabledSwitch" destination="a7Y-9t-HYK" id="fiR-1D-ac5"/>
                 <outlet property="restrictionNameLabel" destination="Xu6-7V-4Ma" id="ooU-mk-lCm"/>
+                <outlet property="switchTrailingSpaceLayoutConstraint" destination="adh-rW-d0p" id="sLd-2x-Wdl"/>
             </connections>
             <point key="canvasLocation" x="139" y="153"/>
         </tableViewCell>

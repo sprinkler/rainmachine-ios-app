@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *restrictionNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *restrictionDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *restrictionEnabledSwitch;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *switchTrailingSpaceLayoutConstraint;
 
 - (IBAction)onSwitch:(id)sender;
 
