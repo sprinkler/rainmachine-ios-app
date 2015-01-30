@@ -53,6 +53,7 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) UILabel *footer;
 @property (assign, nonatomic) BOOL shouldRefreshContent;
+@property (assign, nonatomic) BOOL animatingKeyboard;
 
 @end
 
@@ -153,7 +154,9 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
- 
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
     // Don't request the program when the view is created because the program list already is up-to-date
     if (getZonesCount > 0) {
         // There is no getProgrambyId request, so we extract the program from the programs list
@@ -175,7 +178,9 @@ typedef enum {
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    
     if ([CCTBackButtonActionHelper sharedInstance].delegate) {
         // The back was done using back-swipe gesture
         if ([self hasUnsavedChanged]) {
@@ -670,6 +675,25 @@ typedef enum {
     return 54;
 }
 
+#pragma mark - Keyboard notifications
+
+- (void)keyboardWillShow:(NSNotification*)notification {
+    if (!self.showMasterValve) return;
+    
+    double keyboardAnimationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    NSUInteger keyboardAnimationCurve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    
+    self.animatingKeyboard = YES;
+    
+    [UIView animateWithDuration:keyboardAnimationDuration delay:0.0 options:keyboardAnimationCurve animations:^{
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:nameSectionIndex]
+                              atScrollPosition:UITableViewScrollPositionTop
+                                      animated:NO];
+    } completion:^(BOOL finished) {
+        self.animatingKeyboard = NO;
+    }];
+}
+
 #pragma mark - CCTBackButtonActionHelper delegate
 
 - (BOOL)cct_navigationBar:(UINavigationBar *)navigationBar willPopItem:(UINavigationItem *)item {
@@ -698,6 +722,7 @@ typedef enum {
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (self.animatingKeyboard) return;
     [self.tableView endEditing:YES];
 }
 
