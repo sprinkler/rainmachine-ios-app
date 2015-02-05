@@ -25,7 +25,8 @@
         zone.noOfCycles = [jsonObj objectForKey:@"noOfCycles"];
         zone.restriction = [jsonObj objectForKey:@"restriction"];
 
-        zone.type = [jsonObj objectForKey:@"type"];
+        id type = [jsonObj objectForKey:@"type"];
+        zone.type = [type isKindOfClass:[NSString class]] ? [NSNumber numberWithInt:[(NSString*)type intValue]] : type;
         zone.master = [jsonObj objectForKey:@"master"];
 
         return zone;

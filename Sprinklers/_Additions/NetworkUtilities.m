@@ -290,15 +290,7 @@ static NSString *kWifiInterface = @"en0";
         
         // Remove access token from user defaults
         
-        NSString *port = (thePort.length ? thePort : @"443");
-        
-        NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
-        NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
-        [accessTokensForBaseUrl setValue:nil forKey:port];
-        [accessTokensDictionary setValue:accessTokensForBaseUrl forKey:baseUrl];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:accessTokensDictionary forKey:kSprinklerUserDefaults_AccessTokensDictionaryKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self invalidateAccessTokenForBaseUrl:baseUrl port:thePort];
     }
 }
 
@@ -369,6 +361,19 @@ static NSString *kWifiInterface = @"en0";
     }
     
     return nil;
+}
+
++ (void)invalidateAccessTokenForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort {
+    NSString *port = (thePort.length ? thePort : @"443");
+    
+    baseUrl = [Utils getBaseUrl:baseUrl];
+    NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
+    NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
+    [accessTokensForBaseUrl setValue:nil forKey:port];
+    [accessTokensDictionary setValue:accessTokensForBaseUrl forKey:baseUrl];
+
+    [[NSUserDefaults standardUserDefaults] setObject:accessTokensDictionary forKey:kSprinklerUserDefaults_AccessTokensDictionaryKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

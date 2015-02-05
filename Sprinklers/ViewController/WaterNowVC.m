@@ -150,12 +150,12 @@
 
 - (void)requestDetailsOfZones
 {
-    if ([ServerProxy usesAPI3]) {
+//    if ([ServerProxy usesAPI3]) {
         for (int i = 0; i < [self.zones count]; i++) {
             WaterNowZone *wateringZoneInList = self.zones[i];
             [self.zonesDetailsServerProxy requestWaterActionsForZone:wateringZoneInList.id];
         }
-    }
+//    }
 }
 
 - (BOOL)areAllStopped
@@ -801,7 +801,10 @@
         }
     } else {
         for (int i = 0; i < self.zones.count; i++) {
-            WaterNowZone *destZone = self.zones[i];
+            WaterNowZone *currentZ = self.zones[i];
+            int indexInPrevList = [self indexOfZoneWithId:currentZ.id fromZonesArray:previousZonesCopy];
+            WaterNowZone *prevZ = (indexInPrevList != -1) ? previousZonesCopy[indexInPrevList] : self.zones[i];
+            WaterNowZone *destZone = currentZ;
             BOOL isIdle = [Utils isZoneIdle:destZone];
             
             if (isIdle) {
@@ -809,6 +812,9 @@
             }
             
             destZone.counter = [Utils fixedZoneCounter:destZone.counter isIdle:isIdle];
+
+            // Restore previous state if current is empty
+            [self updateZoneAtIndex:i withCounterFromZone:prevZ setState:NO];
         }
     }
 }
@@ -870,22 +876,28 @@
 
 - (void)updateZoneAtIndex:(int)index withCounterFromZone:(WaterNowZone *)sourceZone setState:(BOOL)setState
 {
-    assert([ServerProxy usesAPI3]); // because of .state members
-    
     if (index != -1) {
-        WaterNowZone *destZone = self.zones[index];
-        destZone.counter = sourceZone.counter;
-        if (setState) {
-            destZone.state = sourceZone.state;
+        if ([ServerProxy usesAPI3]) {
+            WaterNowZone *destZone = self.zones[index];
+            destZone.counter = sourceZone.counter;
+            if (setState) {
+                destZone.state = sourceZone.state;
+            }
+            
+            BOOL isIdle = [Utils isZoneIdle:destZone];
+            
+            if (isIdle) {
+                [self updateCounterFromDBForZone:destZone];
+            }
+            
+            destZone.counter = [Utils fixedZoneCounter:destZone.counter isIdle:isIdle];
+        } else {
+            // usesAPI4
+            WaterNowZone4 *destZone = self.zones[index];
+            WaterNowZone4 *sourceZone4 = (WaterNowZone4 *)sourceZone;
+            destZone.type = sourceZone4.type;
+            destZone.master = sourceZone4.master;
         }
-        
-        BOOL isIdle = [Utils isZoneIdle:destZone];
-
-        if (isIdle) {
-            [self updateCounterFromDBForZone:destZone];
-        }
-        
-        destZone.counter = [Utils fixedZoneCounter:destZone.counter isIdle:isIdle];
     }
 }
 
@@ -929,9 +941,9 @@
 {
     if ([StorageManager current].currentSprinkler) {
         self.pollServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-        if ([ServerProxy usesAPI3]) {
+//        if ([ServerProxy usesAPI3]) {
             self.zonesDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-        }
+//        }
         self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
         self.stopAllServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     }
