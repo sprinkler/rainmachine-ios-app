@@ -242,9 +242,13 @@ static GraphsManager *sharedGraphsManager = nil;
 - (void)registerProgramGraphsForPrograms:(NSArray*)programs {
     NSMutableArray *newGraphs = [NSMutableArray new];
     NSMutableDictionary *newGraphsDictionary = [NSMutableDictionary new];
+    NSMutableSet *allProgramRuntimeGraphIdentifiers = [NSMutableSet new];
     
     for (Program *program in programs) {
+        if (!program.active) continue;
+        
         NSString *graphIdentifier = [NSString stringWithFormat:@"%@%d",kProgramRuntimeGraphIdentifier,program.programId];
+        [allProgramRuntimeGraphIdentifiers addObject:graphIdentifier];
         if ([self.availableGraphsDictionary valueForKey:graphIdentifier]) continue;
         
         GraphDescriptor *programRuntimeGraph = [GraphDescriptor defaultDescriptor];
@@ -264,15 +268,27 @@ static GraphsManager *sharedGraphsManager = nil;
         newGraphsDictionary[programRuntimeGraph.graphIdentifier] = programRuntimeGraph;
     }
     
+    NSMutableArray *programRuntimeGraphsToRemove = [NSMutableArray new];
+    NSMutableArray *programRuntimeGraphIdentifiersToRemove = [NSMutableArray new];
+    
+    for (GraphDescriptor *graphDescriptor in self.availableGraphs) {
+        if (![graphDescriptor.graphIdentifier hasPrefix:kProgramRuntimeGraphIdentifier]) continue;
+        if ([allProgramRuntimeGraphIdentifiers containsObject:graphDescriptor.graphIdentifier]) continue;
+        [programRuntimeGraphsToRemove addObject:graphDescriptor];
+        [programRuntimeGraphIdentifiersToRemove addObject:graphDescriptor.graphIdentifier];
+    }
+    
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"graphIdentifier" ascending:YES];
     [newGraphs sortUsingDescriptors:@[sortDescriptor]];
     
     NSMutableDictionary *availableGraphsDictionary = [self.availableGraphsDictionary mutableCopy];
     [availableGraphsDictionary addEntriesFromDictionary:newGraphsDictionary];
+    [availableGraphsDictionary removeObjectsForKeys:programRuntimeGraphIdentifiersToRemove];
     self.availableGraphsDictionary = availableGraphsDictionary;
     
     NSMutableArray *availableGraphs = [self.availableGraphs mutableCopy];
     [availableGraphs addObjectsFromArray:newGraphs];
+    [availableGraphs removeObjectsInArray:programRuntimeGraphsToRemove];
     self.availableGraphs = availableGraphs;
     
     [self selectAllGraphs];
@@ -303,7 +319,7 @@ static GraphsManager *sharedGraphsManager = nil;
         self.requestWeatherDataServerProxy = nil;
     }
     
-    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
+    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }
@@ -316,7 +332,7 @@ static GraphsManager *sharedGraphsManager = nil;
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) self.requestWateringLogSimulatedDetailsServerProxy = nil;
     else if (serverProxy == self.requestWeatherDataServerProxy) self.requestWeatherDataServerProxy = nil;
     
-    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy) {
+    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }

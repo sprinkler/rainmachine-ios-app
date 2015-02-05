@@ -36,6 +36,11 @@
     return descriptor;
 }
 
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[GraphDescriptor class]]) return NO;
+    return [self.graphIdentifier isEqualToString:((GraphDescriptor*)object).graphIdentifier];
+}
+
 - (CGFloat)totalGraphHeight {
     GraphIconsBarDescriptor *iconsBarDescriptor = (self.graphTimeInterval ? self.iconsBarDescriptorsDictionary[@(self.graphTimeInterval.type)] : nil);
     GraphValuesBarDescriptor *valuesBarDescriptor = (self.graphTimeInterval ? self.valuesBarDescriptorsDictionary[@(self.graphTimeInterval.type)] : nil);
