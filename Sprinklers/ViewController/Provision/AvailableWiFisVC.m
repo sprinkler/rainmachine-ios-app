@@ -17,6 +17,7 @@
 #import "NetworkUtilities.h"
 #import "WiFiCell.h"
 #import "ProvisionNameSetupVC.h"
+#import "LocationSetupVC.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
 #define kPollInterval 6
@@ -41,11 +42,13 @@ const float kWifiSignalMax = -50;
 @property (assign, nonatomic) BOOL firstStart;
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (strong, nonatomic) NSDate *startDateWifiJoin;
+@property (strong, nonatomic) NSDictionary *sprinklerCurrentWiFi;
 
 @property (strong, nonatomic) ServerProxy *requestAvailableWiFisProvisionServerProxy;
 @property (strong, nonatomic) ServerProxy *loginServerProxy;
 @property (strong, nonatomic) ServerProxy *requestCurrentWiFiProxy;
 @property (strong, nonatomic) ServerProxy *joinWifiServerProxy;
+@property (strong, nonatomic) ServerProxy *requestDiagProxy;
 
 @end
 
@@ -242,11 +245,18 @@ const float kWifiSignalMax = -50;
                 DLog(@"currentSprinkler: %@", currentSprinkler);
                 DLog(@"newSprinkler: %@", newSprinkler);
                 
-                [self.loginServerProxy cancelAllOperations];
-                self.loginServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
-                
-                // Try to log in automatically
-                [self.loginServerProxy loginWithUserName:@"admin" password:@"" rememberMe:YES];
+                NSString *address = self.sprinkler.url;
+                NSString *port = [Utils getPort:address];
+                address = [Utils getBaseUrl:address];
+                if (![NetworkUtilities accessTokenForBaseUrl:address port:port]) {
+                    [self.loginServerProxy cancelAllOperations];
+                    self.loginServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
+                    
+                    // Try to log in automatically
+                    [self.loginServerProxy loginWithUserName:@"admin" password:@"" rememberMe:YES];
+                } else {
+                    [self requestCurrentWiFi];
+                }
             }
         } else {
             if (self.sprinkler) {
@@ -254,11 +264,6 @@ const float kWifiSignalMax = -50;
                 [self.requestCurrentWiFiProxy requestCurrentWiFi];
             }
         }
-//        else {
-//            DLog(@"");
-//            DLog(@"newSprinkler: nil");
-//            DLog(@"");
-//        }
     }
     
     self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart);
@@ -387,39 +392,54 @@ const float kWifiSignalMax = -50;
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    
     if (serverProxy == self.requestCurrentWiFiProxy) {
-        NSDictionary *currentWifi = data;
+        self.sprinklerCurrentWiFi = data;
         self.requestCurrentWiFiProxy = nil;
+        self.requestDiagProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:NO];
+        [self.requestDiagProxy requestDiag];
+    }
+    else if (serverProxy == self.requestDiagProxy) {
+        self.requestDiagProxy = nil;
         
-        BOOL hasSprinklerWiFiSetUp = !((currentWifi[@"ssid"] == nil) || ([currentWifi[@"ssid"] isKindOfClass:[NSNull class]]));
-        if (self.duringWiFiRestart) {
-            // We expected for the sprinkler to reconnect to home WiFi, but reconnected back to the sprinkler's AP WiFi
+        NSDictionary *diag = (NSDictionary*)data;
+        BOOL standaloneMode = [diag[@"standaloneMode"] boolValue];
+        
+        if (standaloneMode) {
+            BOOL hasSprinklerWiFiSetUp = !((self.sprinklerCurrentWiFi[@"ssid"] == nil) || ([self.sprinklerCurrentWiFi[@"ssid"] isKindOfClass:[NSNull class]]));
+            if (self.duringWiFiRestart) {
+                // We expected for the sprinkler to reconnect to home WiFi, but reconnected back to the sprinkler's AP WiFi
 //            if ([self.apNetworkNameOfSprinkler isEqualToString:[self currentWiFiName]]) {
-            if (!hasSprinklerWiFiSetUp) {
-                self.alertView = [[UIAlertView alloc] initWithTitle:@"WiFi Setup failed" message:@"It seems that the WiFi setup on your sprinkler failed. Please retry setting up the WiFi." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                self.alertView.tag = kAlertView_SetupWizard_ReconnectedToSprinkler;
-                [self.alertView show];
+                if (!hasSprinklerWiFiSetUp) {
+                    self.alertView = [[UIAlertView alloc] initWithTitle:@"WiFi Setup failed" message:@"It seems that the WiFi setup on your sprinkler failed. Please retry setting up the WiFi." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    self.alertView.tag = kAlertView_SetupWizard_ReconnectedToSprinkler;
+                    [self.alertView show];
+                }
+                
+                [self resetWiFiSetup];
             }
-            
-            [self resetWiFiSetup];
-        }
-        if (!hasSprinklerWiFiSetUp) {
-            // Sprinkler hasn't connected yet to any WiFi
-            // Continue with the WiFi setup wizard
-            [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
-            
-            self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-            [self requestAvailableWiFis];
-            
+            if (!hasSprinklerWiFiSetUp) {
+                // Sprinkler hasn't connected yet to any WiFi
+                // Continue with the WiFi setup wizard
+                [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
+                
+                self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+                [self requestAvailableWiFis];
+                
+            } else {
+                // Continue with the RainMachine name setup wizard
+                [self hideWifiRebootHud];
+                UINavigationController *navigationController = self.navigationController;
+                [self.navigationController popToRootViewControllerAnimated:NO];
+                ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
+                provisionNameSetupVC.sprinkler = self.sprinkler;
+                [navigationController pushViewController:provisionNameSetupVC animated:YES];
+            }
         } else {
-            // Continue with the RainMachine name setup wizard
-            [self hideWifiRebootHud];
-            UINavigationController *navigationController = self.navigationController;
-            [self.navigationController popToRootViewControllerAnimated:NO];
-            ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
-            provisionNameSetupVC.sprinkler = self.sprinkler;
-            [navigationController pushViewController:provisionNameSetupVC animated:YES];
+            // Continue with the location setup
+            LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
+            locationSetupVC.sprinkler = self.sprinkler;
+            locationSetupVC.delegate = self;
+            [self.navigationController pushViewController:locationSetupVC animated:YES];
         }
     }
     
@@ -454,6 +474,11 @@ const float kWifiSignalMax = -50;
 
     self.loginServerProxy = nil;
     
+    [self requestCurrentWiFi];
+}
+
+- (void)requestCurrentWiFi
+{
     self.requestCurrentWiFiProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
     [self.requestCurrentWiFiProxy requestCurrentWiFi];
 

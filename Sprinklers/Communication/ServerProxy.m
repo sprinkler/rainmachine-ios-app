@@ -584,6 +584,19 @@ static int serverAPIMinorSubVersion = -1;
               }];
 }
 
+- (void)requestDiag
+{
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"/api/4/diag"] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
 - (void)setWiFiWithSSID:(NSString*)ssid encryption:(NSString*)encryption key:(NSString*)password
 {
     NSDictionary *params = @{@"ssid" : ssid,
