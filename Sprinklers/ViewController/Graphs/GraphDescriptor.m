@@ -32,6 +32,8 @@
     descriptor.displayAreaDescriptor = [GraphDisplayAreaDescriptor defaultDescriptor];
     descriptor.dateBarDescriptor = [GraphDateBarDescriptor defaultDescriptor];
     descriptor.graphTimeInterval = [GraphTimeInterval graphTimeIntervalWithType:GraphTimeIntervalType_Weekly];
+    descriptor.canDisable = YES;
+    descriptor.isDisabled = NO;
     
     return descriptor;
 }
@@ -48,6 +50,8 @@
     descriptor.valuesBarDescriptorsDictionary = self.valuesBarDescriptorsDictionary;
     descriptor.displayAreaDescriptor = self.displayAreaDescriptor;
     descriptor.dateBarDescriptor = self.dateBarDescriptor;
+    descriptor.canDisable = self.canDisable;
+    descriptor.isDisabled = self.isDisabled;
 
     return descriptor;
 }
@@ -66,6 +70,19 @@
         valuesBarDescriptor.valuesBarHeight +
         self.displayAreaDescriptor.displayAreaHeight +
         self.dateBarDescriptor.dateBarHeight + 6.0;
+}
+
+- (void)setIsDisabled:(BOOL)isDisabled {
+    _isDisabled = isDisabled;
+    if (isDisabled) {
+        self.visualAppearanceDescriptor.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+        self.titleAreaDescriptor.titleAreaSeparatorColor = [UIColor colorWithWhite:221.0 / 255.0 alpha:1.0];
+        self.displayAreaDescriptor.dashedLinesColor = [UIColor colorWithWhite:236.0 / 255.0 alpha:1.0];
+    } else {
+        self.visualAppearanceDescriptor.backgroundColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+        self.titleAreaDescriptor.titleAreaSeparatorColor = [UIColor colorWithRed:156.0 / 255.0 green:205.0 / 255.0 blue:230.0 / 255.0 alpha:1.0];
+        self.displayAreaDescriptor.dashedLinesColor = [UIColor colorWithRed:206.0 / 255.0 green:225.0 / 255.0 blue:235.0 / 255.0 alpha:1.0];
+    }
 }
 
 @end

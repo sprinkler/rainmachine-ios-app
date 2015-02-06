@@ -23,7 +23,8 @@
 + (GraphsManager*)sharedGraphsManager;
 - (void)selectGraph:(GraphDescriptor*)graph;
 - (void)deselectGraph:(GraphDescriptor*)graph;
-- (void)selectAllGraphs;
+- (BOOL)isGraphSelected:(GraphDescriptor*)graph;
+- (void)initializeAllSelectedGraphs;
 - (void)reloadAllSelectedGraphs;
 - (void)reregisterAllGraphs;
 - (void)cancel;

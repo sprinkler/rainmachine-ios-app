@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSDictionary *valuesBarDescriptorsDictionary;
 @property (nonatomic, strong) GraphDisplayAreaDescriptor *displayAreaDescriptor;
 @property (nonatomic, strong) GraphDateBarDescriptor *dateBarDescriptor;
+@property (nonatomic, assign) BOOL canDisable;
+@property (nonatomic, assign) BOOL isDisabled;
 
 + (GraphDescriptor*)defaultDescriptor;
 

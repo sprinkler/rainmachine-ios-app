@@ -8,6 +8,7 @@
 
 #import "GraphsManager.h"
 #import "GraphDescriptor.h"
+#import "GraphVisualAppearanceDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
 #import "GraphIconsBarDescriptor.h"
 #import "GraphValuesBarDescriptor.h"
@@ -26,6 +27,7 @@
 #import "Program4.h"
 #import "Utils.h"
 #import "Additions.h"
+#import "Constants.h"
 #import "AFNetworking.h"
 
 NSString *kDailyWaterNeedGraphIdentifier            = @"DailyWaterNeedGraphIdentifier";
@@ -41,6 +43,7 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 @property (nonatomic, strong) NSDictionary *availableGraphsDictionary;
 @property (nonatomic, strong) NSArray *availableGraphs;
 @property (nonatomic, strong) NSMutableArray *selectedGraphs;
+@property (nonatomic, strong) NSMutableArray *disabledGraphIdentifiers;
 
 - (void)registerAvailableGraphs;
 
@@ -104,6 +107,7 @@ static GraphsManager *sharedGraphsManager = nil;
     dailyWaterNeedGraph.displayAreaDescriptor.midValue = 50.0;
     dailyWaterNeedGraph.displayAreaDescriptor.maxValue = 100.0;
     dailyWaterNeedGraph.dataSource = [GraphDataSourceWaterConsume defaultDataSource];
+    dailyWaterNeedGraph.canDisable = NO;
     [availableGraphs addObject:dailyWaterNeedGraph];
     availableGraphsDictionary[dailyWaterNeedGraph.graphIdentifier] = dailyWaterNeedGraph;
     
@@ -122,19 +126,57 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)selectGraph:(GraphDescriptor*)graph {
+    graph = [self.availableGraphsDictionary valueForKey:graph.graphIdentifier];
     if ([self.selectedGraphs containsObject:graph]) return;
+    
+    graph.isDisabled = NO;
+    
     self.selectedGraphs = [self.selectedGraphs arrayByAddingObject:graph];
+    
+    [self.disabledGraphIdentifiers removeObject:graph.graphIdentifier];
+    [[NSUserDefaults standardUserDefaults] setObject:self.disabledGraphIdentifiers forKey:kDashboardDisabledGraphIdentifiers];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)deselectGraph:(GraphDescriptor*)graph {
+    graph = [self.availableGraphsDictionary valueForKey:graph.graphIdentifier];
     if (![self.selectedGraphs containsObject:graph]) return;
+    
+    graph.isDisabled = YES;
+    
     NSMutableArray *selectedGraphs = [NSMutableArray arrayWithArray:self.selectedGraphs];
     [selectedGraphs removeObject:graph];
     self.selectedGraphs = selectedGraphs;
+    
+    [self.disabledGraphIdentifiers addObject:graph.graphIdentifier];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:self.disabledGraphIdentifiers forKey:kDashboardDisabledGraphIdentifiers];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)selectAllGraphs {
-    self.selectedGraphs = [NSArray arrayWithArray:self.availableGraphs];
+- (BOOL)isGraphSelected:(GraphDescriptor*)graph {
+    return ![self.disabledGraphIdentifiers containsObject:graph.graphIdentifier];
+}
+
+- (void)initializeAllSelectedGraphs {
+    self.disabledGraphIdentifiers = [[[NSUserDefaults standardUserDefaults] objectForKey:kDashboardDisabledGraphIdentifiers] mutableCopy];
+    if (!self.disabledGraphIdentifiers) {
+        self.disabledGraphIdentifiers = [NSMutableArray new];
+        [[NSUserDefaults standardUserDefaults] setObject:self.disabledGraphIdentifiers forKey:kDashboardDisabledGraphIdentifiers];
+    }
+    
+    NSMutableArray *selectedGraphs = [NSMutableArray new];
+    
+    for (GraphDescriptor *graph in self.availableGraphs) {
+        if ([self.disabledGraphIdentifiers containsObject:graph.graphIdentifier]) {
+            graph.isDisabled = YES;
+            continue;
+        }
+        graph.isDisabled = NO;
+        [selectedGraphs addObject:graph];
+    }
+    
+    self.selectedGraphs = selectedGraphs;
 }
 
 - (void)reloadAllSelectedGraphs {
@@ -157,6 +199,8 @@ static GraphsManager *sharedGraphsManager = nil;
 - (void)reregisterAllGraphs {
     self.availableGraphs = nil;
     self.availableGraphsDictionary = nil;
+    self.selectedGraphs = nil;
+    self.disabledGraphIdentifiers = nil;
     self.firstGraphsReloadFinished = NO;
     [self registerAvailableGraphs];
 }
@@ -291,7 +335,7 @@ static GraphsManager *sharedGraphsManager = nil;
     [availableGraphs removeObjectsInArray:programRuntimeGraphsToRemove];
     self.availableGraphs = availableGraphs;
     
-    [self selectAllGraphs];
+    [self initializeAllSelectedGraphs];
 }
 
 #pragma mark - ProxyService delegate

@@ -12,6 +12,7 @@
 #import "GraphDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
 #import "GraphScrollableCell.h"
+#import "GraphsManager.h"
 #import "Additions.h"
 
 #pragma mark -
@@ -43,10 +44,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
 }
 
 #pragma mark - Helper methods
@@ -126,7 +123,9 @@
         graphOptionCell.textLabel.text = @"Show on Dashboard";
         graphOptionCell.accessoryView = [UISwitch new];
         graphOptionCell.accessoryType = UITableViewCellAccessoryNone;
-        ((UISwitch*)graphOptionCell.accessoryView).on = YES;
+        
+        ((UISwitch*)graphOptionCell.accessoryView).on = !self.isGraphDisabledOnDashboard;
+        [(UISwitch*)graphOptionCell.accessoryView addTarget:self action:@selector(onShowOnDashboard:) forControlEvents:UIControlEventValueChanged];
     }
     else if (indexPath.row == 1) {
         graphOptionCell.textLabel.text = @"Show all Data";
@@ -150,6 +149,12 @@
     self.graphDescriptor.graphTimeInterval = self.graphTimeInterval;
     
     [self initializeGraphScrollableHeaderCell];
+}
+
+- (IBAction)onShowOnDashboard:(id)sender {
+    UISwitch *showOnDashboardSwitch = (UISwitch*)sender;
+    if (showOnDashboardSwitch.isOn) [[GraphsManager sharedGraphsManager] selectGraph:self.graphDescriptor];
+    else [[GraphsManager sharedGraphsManager] deselectGraph:self.graphDescriptor];
 }
 
 @end

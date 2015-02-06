@@ -47,6 +47,8 @@ extern NSString *const kDeviceNotSupported;
 
 extern NSString *const kShowSettingsZones;
 
+extern NSString *const kDashboardDisabledGraphIdentifiers;
+
 NSString *kVegetationType[9];
 NSString *kVegetationTypeAPI4[9];
 

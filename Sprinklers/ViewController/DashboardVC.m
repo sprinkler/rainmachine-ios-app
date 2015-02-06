@@ -109,7 +109,7 @@
     [self initializeConfiguration];
     [self initializeUserInterface];
     
-    [[GraphsManager sharedGraphsManager] selectAllGraphs];
+    [[GraphsManager sharedGraphsManager] initializeAllSelectedGraphs];
     
     [self onChangeTimeInterval:nil];
     
@@ -272,12 +272,20 @@
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.statusTableView) return 1;
-    return ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished ? [GraphsManager sharedGraphsManager].selectedGraphs.count : 0);
+    if ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
+        if (!self.editing) return [GraphsManager sharedGraphsManager].selectedGraphs.count;
+        return [GraphsManager sharedGraphsManager].availableGraphs.count;
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (tableView == self.statusTableView) return 54.0;
-    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+
+    GraphDescriptor *graphDescriptor = nil;
+    if (!self.editing) graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    else graphDescriptor = [GraphsManager sharedGraphsManager].availableGraphs[indexPath.row];
+    
     return graphDescriptor.totalGraphHeight;
 }
 
@@ -301,7 +309,10 @@
     static NSString *GraphScrollableCellIdentifierYear = @"GraphScrollableCellYear";
     static NSString *GraphScrollableCellIdentifierEmpty = @"GraphScrollableCellEmpty";
     
-    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    GraphDescriptor *graphDescriptor = nil;
+    if (!self.editing) graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    else graphDescriptor = [GraphsManager sharedGraphsManager].availableGraphs[indexPath.row];
+    
     GraphScrollableCell *graphScrollableCell = nil;
     
     if ([graphDescriptor isKindOfClass:[EmptyGraphDescriptor class]]) {
@@ -313,7 +324,7 @@
     }
     
     graphScrollableCell.frame = CGRectMake(0.0, 0.0, tableView.frame.size.width, graphDescriptor.totalGraphHeight);
-    graphScrollableCell.graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    graphScrollableCell.graphDescriptor = graphDescriptor;
     graphScrollableCell.graphScrollableCellDelegate = self;
     
     if (self.globalContentOffsetSet) [graphScrollableCell scrollToContentOffsetInLayoutSubviews:self.globalContentOffset];
@@ -387,6 +398,8 @@
     
     DashboardGraphVC *dashboardGraphVC = [[DashboardGraphVC alloc] init];
     dashboardGraphVC.graphDescriptor = [graphDescriptor copy];
+    dashboardGraphVC.graphDescriptor.isDisabled = NO;
+    dashboardGraphVC.isGraphDisabledOnDashboard = graphDescriptor.isDisabled;
     dashboardGraphVC.graphTimeInterval = self.graphTimeInterval;
     dashboardGraphVC.parent = self;
     
@@ -422,6 +435,14 @@
     [self.graphsTableView setEditing:editing animated:YES];
     
     self.graphsTableView.canReorder = editing;
+    
+    if ([GraphsManager sharedGraphsManager].selectedGraphs.count == [GraphsManager sharedGraphsManager].availableGraphs.count) {
+        [self.graphsTableView reloadData];
+    } else {
+        [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    
+    [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.1];
 }
 
 @end
