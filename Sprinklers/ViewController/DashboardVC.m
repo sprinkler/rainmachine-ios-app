@@ -7,6 +7,7 @@
 //
 
 #import "DashboardVC.h"
+#import "DashboardGraphVC.h"
 #import "GraphTimeInterval.h"
 #import "GraphCell.h"
 #import "GraphScrollableCell.h"
@@ -26,9 +27,6 @@
 #pragma mark -
 
 @interface DashboardVC ()
-
-@property (nonatomic, strong) UIColor *graphsBlueTintColor;
-@property (nonatomic, strong) UIColor *graphsGraySepratorColor;
 
 - (void)initializeConfiguration;
 - (void)initializeUserInterface;
@@ -384,6 +382,17 @@
     }
 }
 
+- (void)graphScrollableCellTapped:(GraphScrollableCell*)graphScrollableCell {
+    GraphDescriptor *graphDescriptor = graphScrollableCell.graphDescriptor;
+    
+    DashboardGraphVC *dashboardGraphVC = [[DashboardGraphVC alloc] init];
+    dashboardGraphVC.graphDescriptor = [graphDescriptor copy];
+    dashboardGraphVC.graphTimeInterval = self.graphTimeInterval;
+    dashboardGraphVC.parent = self;
+    
+    [self.navigationController pushViewController:dashboardGraphVC animated:YES];
+}
+
 #pragma mark - Actions
 
 - (IBAction)onChangeTimeInterval:(id)sender {
@@ -397,9 +406,9 @@
         [cell stopScrolling];
     }
     
-    GraphTimeInterval *graphTimeInterval = [GraphTimeInterval graphTimeIntervals][self.timeIntervalsSegmentedControl.selectedSegmentIndex];
+    self.graphTimeInterval = [GraphTimeInterval graphTimeIntervals][self.timeIntervalsSegmentedControl.selectedSegmentIndex];
     for (GraphDescriptor *graphDescriptor in [GraphsManager sharedGraphsManager].selectedGraphs) {
-        graphDescriptor.graphTimeInterval = graphTimeInterval;
+        graphDescriptor.graphTimeInterval = self.graphTimeInterval;
     }
     
     [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];

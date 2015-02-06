@@ -24,6 +24,9 @@
 @property (nonatomic, weak) IBOutlet UITableView *statusTableView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *statusTableViewHeightLayoutConstraint;
 
+@property (nonatomic, strong) UIColor *graphsBlueTintColor;
+@property (nonatomic, strong) UIColor *graphsGraySepratorColor;
+
 @property (nonatomic, strong) NSString *unitsText;
 
 - (IBAction)onChangeTimeInterval:(id)sender;

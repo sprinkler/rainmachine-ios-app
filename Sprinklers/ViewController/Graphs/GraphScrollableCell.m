@@ -22,6 +22,8 @@
 
 @interface GraphScrollableCell ()
 
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+
 - (void)setup;
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
@@ -49,7 +51,18 @@
     return self;
 }
 
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (!self) return nil;
+    
+    _layoutSubviewsContentOffset = CGPointZero;
+    [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    
+    return self;
+}
+
 - (void)dealloc {
+    [self removeGestureRecognizer:self.tapGestureRecognizer];
     [self removeObserver:self forKeyPath:@"graphDescriptor"];
 }
 
@@ -58,6 +71,9 @@
 }
 
 - (void)awakeFromNib {
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollableCellTapped:)];
+    [self addGestureRecognizer:self.tapGestureRecognizer];
+    
     [self.graphCollectionView registerNib:[UINib nibWithNibName:@"GraphCell" bundle:nil] forCellWithReuseIdentifier:@"GraphCell"];
     [self.graphCollectionView reloadData];
 }
@@ -221,11 +237,19 @@
     return CGSizeZero;
 }
 
-#pragma mark Scroll view delegate
+#pragma mark - Scroll view delegate
 
 - (void)scrollViewDidScroll:(UIScrollView*)scrollView {
     if (self.graphScrollableCellDelegate && [self.graphScrollableCellDelegate respondsToSelector:@selector(graphScrollableCell:didScrollToContentOffset:)]) {
         [self.graphScrollableCellDelegate graphScrollableCell:self didScrollToContentOffset:self.graphCollectionView.contentOffset];
+    }
+}
+
+#pragma mark - Tap gesture recognizer
+
+- (void)scrollableCellTapped:(UIGestureRecognizer*)gesture {
+    if (self.graphScrollableCellDelegate && [self.graphScrollableCellDelegate respondsToSelector:@selector(graphScrollableCellTapped:)]) {
+        [self.graphScrollableCellDelegate graphScrollableCellTapped:self];
     }
 }
 

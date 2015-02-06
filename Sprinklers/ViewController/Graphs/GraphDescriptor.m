@@ -36,6 +36,22 @@
     return descriptor;
 }
 
+- (id)copyWithZone:(NSZone*)zone {
+    GraphDescriptor *descriptor = [GraphDescriptor new];
+    
+    descriptor.graphIdentifier = self.graphIdentifier;
+    descriptor.dataSource = self.dataSource;
+    descriptor.graphTimeInterval = self.graphTimeInterval;
+    descriptor.visualAppearanceDescriptor = self.visualAppearanceDescriptor;
+    descriptor.titleAreaDescriptor = self.titleAreaDescriptor;
+    descriptor.iconsBarDescriptorsDictionary = self.iconsBarDescriptorsDictionary;
+    descriptor.valuesBarDescriptorsDictionary = self.valuesBarDescriptorsDictionary;
+    descriptor.displayAreaDescriptor = self.displayAreaDescriptor;
+    descriptor.dateBarDescriptor = self.dateBarDescriptor;
+
+    return descriptor;
+}
+
 - (BOOL)isEqual:(id)object {
     if (![object isKindOfClass:[GraphDescriptor class]]) return NO;
     return [self.graphIdentifier isEqualToString:((GraphDescriptor*)object).graphIdentifier];

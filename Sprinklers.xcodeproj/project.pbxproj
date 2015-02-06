@@ -31,6 +31,8 @@
 		96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */; };
 		96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */; };
 		96116DD71A6C34020017FB3F /* GraphScrollableCellEmpty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */; };
+		962D81971A83C659004E00DB /* DashboardGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphVC.m */; };
+		962D81981A83C659004E00DB /* DashboardGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphVC.xib */; };
 		9637286C1A69A6C700BE7202 /* GraphScrollableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */; };
 		964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */; };
 		964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */; };
@@ -497,6 +499,9 @@
 		96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellWeek.xib; path = ViewController/Graphs/GraphScrollableCellWeek.xib; sourceTree = "<group>"; };
 		96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellYear.xib; path = ViewController/Graphs/GraphScrollableCellYear.xib; sourceTree = "<group>"; };
 		96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellEmpty.xib; path = ViewController/Graphs/GraphScrollableCellEmpty.xib; sourceTree = "<group>"; };
+		962D81941A83C659004E00DB /* DashboardGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphVC.h; path = ViewController/DashboardGraphVC.h; sourceTree = "<group>"; };
+		962D81951A83C659004E00DB /* DashboardGraphVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashboardGraphVC.m; path = ViewController/DashboardGraphVC.m; sourceTree = "<group>"; };
+		962D81961A83C659004E00DB /* DashboardGraphVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DashboardGraphVC.xib; path = ViewController/DashboardGraphVC.xib; sourceTree = "<group>"; };
 		963728691A69A6C700BE7202 /* GraphScrollableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphScrollableCell.h; path = ViewController/Graphs/GraphScrollableCell.h; sourceTree = "<group>"; };
 		9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphScrollableCell.m; path = ViewController/Graphs/GraphScrollableCell.m; sourceTree = "<group>"; };
 		964ADCF61A1E5AA5008281A8 /* GoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAddress.h; sourceTree = "<group>"; };
@@ -2045,6 +2050,9 @@
 				96F0F3321A36F18C0056D167 /* DashboardVC.h */,
 				96F0F3331A36F18C0056D167 /* DashboardVC.m */,
 				96F0F3341A36F18C0056D167 /* DashboardVC.xib */,
+				962D81941A83C659004E00DB /* DashboardGraphVC.h */,
+				962D81951A83C659004E00DB /* DashboardGraphVC.m */,
+				962D81961A83C659004E00DB /* DashboardGraphVC.xib */,
 			);
 			name = Stats;
 			sourceTree = "<group>";
@@ -2406,6 +2414,7 @@
 				96C223AB19D7729900683AC6 /* NewRestrictionVC.xib in Resources */,
 				3A3BF31A18F40ABA008333C5 /* programs-checkbox-selected@2x.png in Resources */,
 				96CB93FA1A38AFAD00F3691F /* nwind_small_white.png in Resources */,
+				962D81981A83C659004E00DB /* DashboardGraphVC.xib in Resources */,
 				AF4826711990DC9500D80B87 /* hi_ntsra.png in Resources */,
 				AFF6A6AF188834AC00825A37 /* checkbox-selected.png in Resources */,
 				AF48267F1990DC9500D80B87 /* nmix.png in Resources */,
@@ -2536,6 +2545,7 @@
 				AF7AC9DC184E3DFB0047BD9E /* AFNetworkReachabilityManager.m in Sources */,
 				96E70AF51A7BC34200A07D94 /* ZoneAdvancedVC.m in Sources */,
 				AFE749871880255500CC3620 /* ColoredBackgroundButton.m in Sources */,
+				962D81971A83C659004E00DB /* DashboardGraphVC.m in Sources */,
 				96F0F3391A36FAC70056D167 /* GraphDescriptor.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
 				969051C61A6ACDAA0029304D /* WaterLogZoneCycle.m in Sources */,

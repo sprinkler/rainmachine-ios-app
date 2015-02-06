@@ -47,5 +47,6 @@
 @optional
 
 - (void)graphScrollableCell:(GraphScrollableCell*)graphScrollableCell didScrollToContentOffset:(CGPoint)contentOffset;
+- (void)graphScrollableCellTapped:(GraphScrollableCell*)graphScrollableCell;
 
 @end
