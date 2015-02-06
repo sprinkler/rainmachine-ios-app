@@ -13,8 +13,10 @@
 
 @interface AvailableWiFisVC : BaseLevel2ViewController<SprinklerResponseProtocol>
 
-@property (strong, nonatomic) NSString *macAddressOfSprinklerWithWiFiSetup;
-@property (strong, nonatomic) Sprinkler *inputSprinkler;
+//@property (strong, nonatomic) NSString *networkSSIDChoosenForSprinkler;
+//@property (strong, nonatomic) NSString *apNetworkNameOfSprinkler;
+@property (strong, nonatomic) NSString *inputSprinklerMAC;
+@property (assign, nonatomic) BOOL duringWiFiRestart;
 
 - (void)joinWiFi:(NSString*)SSID encryption:(NSString*)encryption key:(NSString*)password sprinklerId:(NSString*)sprinklerId;
 

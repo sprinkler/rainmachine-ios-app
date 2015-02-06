@@ -870,7 +870,7 @@
 {
     if ([Utils isSprinklerInAPMode:sprinkler]) {
         AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
-        detailVC.inputSprinkler = sprinkler;
+        detailVC.inputSprinklerMAC = sprinkler.sprinklerId;
         [self.navigationController pushViewController:detailVC animated:YES];
     } else {
         BOOL isAutomaticLogin = NO;

@@ -86,7 +86,7 @@ int const kWheatherValueCustomFontSize = (kWheatherValueFontSize * 2);
 int const kXCorrectionbetweenCustomAndNormalWheatherFont = (-6 * kWheatherValueCustomFontSize) / 30 + 1;
 //int const kYCorrectionbetweenCustomNormalWheatherFont = (-10 * kWheatherValueCustomFontSize) / kWheatherValueFontSize;
 
-int const kWizard_TimeoutWifiJoin = 240; // Usually the device restarts in a little bit more than 2 minutes
+int const kWizard_TimeoutWifiJoin = 3 * 60; // Usually the device restarts in a little bit more than 2 minutes
 
 NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"};
 NSString *monthsOfYear[12] = {@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"};
