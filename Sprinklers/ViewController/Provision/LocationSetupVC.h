@@ -22,7 +22,7 @@
 @property (nonatomic, weak) IBOutlet UIView *mapContentView;
 @property (nonatomic, weak) IBOutlet GMSMapView *mapView;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
-@property (nonatomic, weak) ProvisionNameSetupVC *delegate;
+@property (nonatomic, weak) BaseNetworkHandlingVC *delegate;
 @property (nonatomic, strong) GoogleAddress *selectedLocationAddress;
 
 - (IBAction)onNext:(id)sender;
