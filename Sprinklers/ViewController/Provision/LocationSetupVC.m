@@ -106,6 +106,12 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 {
     self.mapView.myLocationEnabled = NO;
     self.mapView.myLocationEnabled = YES;
+
+    self.mapView.settings.myLocationButton = NO;
+    self.mapView.settings.myLocationButton = YES;
+    
+    self.mapView.mapType = kGMSTypeNone;
+    self.mapView.mapType = kGMSTypeNormal;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

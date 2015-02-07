@@ -506,8 +506,9 @@ const float kWifiSignalMax = -50;
     self.alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start setup wizard" message:@"Press a button on your sprinkler." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     self.alertView.tag = kAlertView_SetupWizard_CannotStart;
     [self.alertView show];
-
+    
     [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
+    self.sprinkler = nil;
 }
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
