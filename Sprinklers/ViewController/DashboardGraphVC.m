@@ -15,6 +15,9 @@
 #import "GraphsManager.h"
 #import "Additions.h"
 
+#define ROW_DASHBOARDGRAPH_SHOWONDASHBOARD      0
+#define ROW_DASHBOARDGRAPH_SHOWALLDATA          1
+
 #pragma mark -
 
 @interface DashboardGraphVC ()
@@ -23,7 +26,7 @@
 @property (nonatomic, strong) UIColor *graphsBlueTintColor;
 
 - (void)initializeTimeIntervalsSegmentedControl;
-- (void)initializeGraphScrollableHeaderCell;
+- (void)initializeGraphScrollableHeaderCellAnimated:(BOOL)animate;
 
 @end
 
@@ -37,7 +40,7 @@
     self.title = self.graphDescriptor.titleAreaDescriptor.title;
     
     [self initializeTimeIntervalsSegmentedControl];
-    [self initializeGraphScrollableHeaderCell];
+    [self initializeGraphScrollableHeaderCellAnimated:NO];
     
     self.tableView.tableHeaderView = self.headerContainerView;
 }
@@ -64,10 +67,8 @@
     else self.timeIntervalsSegmentedControl.selectedSegmentIndex = 0;
 }
 
-- (void)initializeGraphScrollableHeaderCell {
+- (void)initializeGraphScrollableHeaderCellAnimated:(BOOL)animate {
     [self.graphScrollableHeaderCell removeFromSuperview];
-    
-    self.headerContainerView.frame = CGRectMake(0.0, 0.0, self.tableView.frame.size.width, self.timeIntervalsSegmentedControl.frame.size.height + self.graphDescriptor.totalGraphHeight + 24.0);
     
     NSString *graphScrollableCellIdentifier = nil;
     if (self.timeIntervalsSegmentedControl.selectedSegmentIndex == 0) graphScrollableCellIdentifier = @"GraphScrollableCellWeek";
@@ -89,8 +90,16 @@
         [self.graphContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_graphScrollableHeaderCell]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_graphScrollableHeaderCell)]];
     }
     
-    self.tableView.tableHeaderView = nil;
-    self.tableView.tableHeaderView = self.headerContainerView;
+    if (animate) {
+        [UIView animateWithDuration:0.2 animations:^() {
+            self.headerContainerView.frame = CGRectMake(0.0, 0.0, self.tableView.frame.size.width, self.timeIntervalsSegmentedControl.frame.size.height + self.graphDescriptor.totalGraphHeight + 24.0);
+            self.tableView.tableHeaderView = self.headerContainerView;
+        }];
+    } else {
+        self.headerContainerView.frame = CGRectMake(0.0, 0.0, self.tableView.frame.size.width, self.timeIntervalsSegmentedControl.frame.size.height + self.graphDescriptor.totalGraphHeight + 24.0);
+        self.tableView.tableHeaderView = nil;
+        self.tableView.tableHeaderView = self.headerContainerView;
+    }
     
     [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.1];
 }
@@ -119,18 +128,23 @@
     UITableViewCell *graphOptionCell = [tableView dequeueReusableCellWithIdentifier:GraphOptionCellIdentifier];
     if (!graphOptionCell) graphOptionCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:GraphOptionCellIdentifier];
     
-    if (indexPath.row == 0) {
+    if (indexPath.row == ROW_DASHBOARDGRAPH_SHOWONDASHBOARD) {
         graphOptionCell.textLabel.text = @"Show on Dashboard";
         graphOptionCell.accessoryView = [UISwitch new];
         graphOptionCell.accessoryType = UITableViewCellAccessoryNone;
+        graphOptionCell.selectionStyle = (self.graphDescriptor.canDisable ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone);
         
         ((UISwitch*)graphOptionCell.accessoryView).on = !self.isGraphDisabledOnDashboard;
         [(UISwitch*)graphOptionCell.accessoryView addTarget:self action:@selector(onShowOnDashboard:) forControlEvents:UIControlEventValueChanged];
+        
+        graphOptionCell.textLabel.textColor = (self.graphDescriptor.canDisable ? [UIColor blackColor] : [UIColor lightGrayColor]);
+        ((UISwitch*)graphOptionCell.accessoryView).enabled = self.graphDescriptor.canDisable;
     }
-    else if (indexPath.row == 1) {
+    else if (indexPath.row == ROW_DASHBOARDGRAPH_SHOWALLDATA) {
         graphOptionCell.textLabel.text = @"Show all Data";
         graphOptionCell.accessoryView = nil;
         graphOptionCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        graphOptionCell.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
     
     return graphOptionCell;
@@ -140,6 +154,13 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row == ROW_DASHBOARDGRAPH_SHOWONDASHBOARD && self.graphDescriptor.canDisable) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        UISwitch *showOnDashboardSwitch = (UISwitch*)cell.accessoryView;
+        showOnDashboardSwitch.on = !showOnDashboardSwitch.isOn;
+        [self onShowOnDashboard:showOnDashboardSwitch];
+    }
 }
 
 #pragma mark - Actions
@@ -148,7 +169,7 @@
     self.graphTimeInterval = [GraphTimeInterval graphTimeIntervals][self.timeIntervalsSegmentedControl.selectedSegmentIndex];
     self.graphDescriptor.graphTimeInterval = self.graphTimeInterval;
     
-    [self initializeGraphScrollableHeaderCell];
+    [self initializeGraphScrollableHeaderCellAnimated:YES];
 }
 
 - (IBAction)onShowOnDashboard:(id)sender {
