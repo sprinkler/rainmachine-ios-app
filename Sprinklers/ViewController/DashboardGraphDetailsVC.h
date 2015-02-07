@@ -1,5 +1,5 @@
 //
-//  DashboardGraphVC.h
+//  DashboardGraphDetailsVC.h
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 05/02/15.
@@ -12,7 +12,7 @@
 @class GraphTimeInterval;
 @class DashboardVC;
 
-@interface DashboardGraphVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DashboardGraphDetailsVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
 @property (nonatomic, assign) BOOL isGraphDisabledOnDashboard;

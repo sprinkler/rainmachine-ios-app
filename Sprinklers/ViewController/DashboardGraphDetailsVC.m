@@ -1,12 +1,12 @@
 //
-//  DashboardGraphVC.m
+//  DashboardGraphDetailsVC.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 05/02/15.
 //  Copyright (c) 2015 Tremend. All rights reserved.
 //
 
-#import "DashboardGraphVC.h"
+#import "DashboardGraphDetailsVC.h"
 #import "DashboardVC.h"
 #import "GraphTimeInterval.h"
 #import "GraphDescriptor.h"
@@ -15,12 +15,12 @@
 #import "GraphsManager.h"
 #import "Additions.h"
 
-#define ROW_DASHBOARDGRAPH_SHOWONDASHBOARD      0
-#define ROW_DASHBOARDGRAPH_SHOWALLDATA          1
+#define ROW_DASHBOARDGRAPHDETAILS_SHOWONDASHBOARD      0
+#define ROW_DASHBOARDGRAPHDETAILS_SHOWALLDATA          1
 
 #pragma mark -
 
-@interface DashboardGraphVC ()
+@interface DashboardGraphDetailsVC ()
 
 @property (nonatomic, strong) GraphScrollableCell *graphScrollableHeaderCell;
 @property (nonatomic, strong) UIColor *graphsBlueTintColor;
@@ -32,7 +32,7 @@
 
 #pragma mark -
 
-@implementation DashboardGraphVC
+@implementation DashboardGraphDetailsVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -128,7 +128,7 @@
     UITableViewCell *graphOptionCell = [tableView dequeueReusableCellWithIdentifier:GraphOptionCellIdentifier];
     if (!graphOptionCell) graphOptionCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:GraphOptionCellIdentifier];
     
-    if (indexPath.row == ROW_DASHBOARDGRAPH_SHOWONDASHBOARD) {
+    if (indexPath.row == ROW_DASHBOARDGRAPHDETAILS_SHOWONDASHBOARD) {
         graphOptionCell.textLabel.text = @"Show on Dashboard";
         graphOptionCell.accessoryView = [UISwitch new];
         graphOptionCell.accessoryType = UITableViewCellAccessoryNone;
@@ -140,7 +140,7 @@
         graphOptionCell.textLabel.textColor = (self.graphDescriptor.canDisable ? [UIColor blackColor] : [UIColor lightGrayColor]);
         ((UISwitch*)graphOptionCell.accessoryView).enabled = self.graphDescriptor.canDisable;
     }
-    else if (indexPath.row == ROW_DASHBOARDGRAPH_SHOWALLDATA) {
+    else if (indexPath.row == ROW_DASHBOARDGRAPHDETAILS_SHOWALLDATA) {
         graphOptionCell.textLabel.text = @"Show all Data";
         graphOptionCell.accessoryView = nil;
         graphOptionCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -155,7 +155,7 @@
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.row == ROW_DASHBOARDGRAPH_SHOWONDASHBOARD && self.graphDescriptor.canDisable) {
+    if (indexPath.row == ROW_DASHBOARDGRAPHDETAILS_SHOWONDASHBOARD && self.graphDescriptor.canDisable) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UISwitch *showOnDashboardSwitch = (UISwitch*)cell.accessoryView;
         showOnDashboardSwitch.on = !showOnDashboardSwitch.isOn;

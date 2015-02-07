@@ -214,20 +214,20 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
-    GraphDescriptor *graph = [self.selectedGraphs objectAtIndex:sourceIndex];
+    GraphDescriptor *graph = [self.availableGraphs objectAtIndex:sourceIndex];
     
-    NSMutableArray *selectedGraphs = [NSMutableArray arrayWithArray:self.selectedGraphs];
-    [selectedGraphs removeObjectAtIndex:sourceIndex];
-    [selectedGraphs insertObject:graph atIndex:destinationIndex];
+    NSMutableArray *availableGraphs = [NSMutableArray arrayWithArray:self.availableGraphs];
+    [availableGraphs removeObjectAtIndex:sourceIndex];
+    [availableGraphs insertObject:graph atIndex:destinationIndex];
     
-    _selectedGraphs = selectedGraphs;
+    _availableGraphs = availableGraphs;
 }
 
 - (void)replaceGraphAtIndex:(NSInteger)index withGraph:(GraphDescriptor*)graph {
-    NSMutableArray *selectedGraphs = [NSMutableArray arrayWithArray:self.selectedGraphs];
-    [selectedGraphs replaceObjectAtIndex:index withObject:graph];
+    NSMutableArray *availableGraphs = [NSMutableArray arrayWithArray:self.availableGraphs];
+    [availableGraphs replaceObjectAtIndex:index withObject:graph];
     
-    _selectedGraphs = selectedGraphs;
+    _availableGraphs = availableGraphs;
 }
 
 #pragma mark - Customization

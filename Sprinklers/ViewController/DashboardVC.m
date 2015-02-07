@@ -7,7 +7,7 @@
 //
 
 #import "DashboardVC.h"
-#import "DashboardGraphVC.h"
+#import "DashboardGraphDetailsVC.h"
 #import "GraphTimeInterval.h"
 #import "GraphCell.h"
 #import "GraphScrollableCell.h"
@@ -354,7 +354,7 @@
 #pragma mark - Reorder table view delegate
 
 - (id)saveObjectAndInsertBlankRowAtIndexPath:(NSIndexPath*)indexPath {
-    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].selectedGraphs[indexPath.row];
+    GraphDescriptor *graphDescriptor = [GraphsManager sharedGraphsManager].availableGraphs[indexPath.row];
     EmptyGraphDescriptor *emptyGraphDescriptor = [EmptyGraphDescriptor emptyGraphDescriptorWithTotalGraphHeight:graphDescriptor.totalGraphHeight];
     
     [[GraphsManager sharedGraphsManager] replaceGraphAtIndex:indexPath.row withGraph:emptyGraphDescriptor];
@@ -396,14 +396,14 @@
 - (void)graphScrollableCellTapped:(GraphScrollableCell*)graphScrollableCell {
     GraphDescriptor *graphDescriptor = graphScrollableCell.graphDescriptor;
     
-    DashboardGraphVC *dashboardGraphVC = [[DashboardGraphVC alloc] init];
-    dashboardGraphVC.graphDescriptor = [graphDescriptor copy];
-    dashboardGraphVC.graphDescriptor.isDisabled = NO;
-    dashboardGraphVC.isGraphDisabledOnDashboard = graphDescriptor.isDisabled;
-    dashboardGraphVC.graphTimeInterval = self.graphTimeInterval;
-    dashboardGraphVC.parent = self;
+    DashboardGraphDetailsVC *dashboardGraphDetailsVC = [[DashboardGraphDetailsVC alloc] init];
+    dashboardGraphDetailsVC.graphDescriptor = [graphDescriptor copy];
+    dashboardGraphDetailsVC.graphDescriptor.isDisabled = NO;
+    dashboardGraphDetailsVC.isGraphDisabledOnDashboard = graphDescriptor.isDisabled;
+    dashboardGraphDetailsVC.graphTimeInterval = self.graphTimeInterval;
+    dashboardGraphDetailsVC.parent = self;
     
-    [self.navigationController pushViewController:dashboardGraphVC animated:YES];
+    [self.navigationController pushViewController:dashboardGraphDetailsVC animated:YES];
 }
 
 #pragma mark - Actions
