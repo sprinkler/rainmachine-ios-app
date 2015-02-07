@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class GraphDataFormatter;
+
 @interface GraphDataSource : NSObject
 
 @property (nonatomic, strong) NSDictionary *values;
@@ -25,5 +27,8 @@
 - (NSDictionary*)valuesFromLoadedData;
 - (NSDictionary*)topValuesFromLoadedData;
 - (NSDictionary*)iconImageIndexesFromLoadedData;
+- (NSArray*)valuesForGraphDataFormatter;
+
+@property (nonatomic, readonly) Class graphDataFormatterClass;
 
 @end

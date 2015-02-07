@@ -7,6 +7,7 @@
 //
 
 #import "GraphDataSource.h"
+#import "GraphDataFormatter.h"
 #import "GraphsManager.h"
 #import "ServerProxy.h"
 #import "Utils.h"
@@ -73,6 +74,10 @@
     if (iconImageIndexes) self.iconImageIndexes = iconImageIndexes;
 }
 
+- (Class)graphDataFormatterClass {
+    return [GraphDataFormatter class];
+}
+
 #pragma mark - Override in subclasses
 
 - (NSDictionary*)valuesFromLoadedData {
@@ -84,6 +89,10 @@
 }
 
 - (NSDictionary*)iconImageIndexesFromLoadedData {
+    return nil;
+}
+
+- (NSArray*)valuesForGraphDataFormatter {
     return nil;
 }
 

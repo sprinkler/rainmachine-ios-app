@@ -7,6 +7,7 @@
 //
 
 #import "DashboardGraphDetailsVC.h"
+#import "DashboardGraphAllDataVC.h"
 #import "DashboardVC.h"
 #import "GraphTimeInterval.h"
 #import "GraphDescriptor.h"
@@ -160,6 +161,12 @@
         UISwitch *showOnDashboardSwitch = (UISwitch*)cell.accessoryView;
         showOnDashboardSwitch.on = !showOnDashboardSwitch.isOn;
         [self onShowOnDashboard:showOnDashboardSwitch];
+    }
+    
+    else if (indexPath.row == ROW_DASHBOARDGRAPHDETAILS_SHOWALLDATA) {
+        DashboardGraphAllDataVC *dashboardGraphAllDataVC = [[DashboardGraphAllDataVC alloc] init];
+        dashboardGraphAllDataVC.graphDescriptor = self.graphDescriptor;
+        [self.navigationController pushViewController:dashboardGraphAllDataVC animated:YES];
     }
 }
 

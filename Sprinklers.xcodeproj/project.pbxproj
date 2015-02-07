@@ -141,6 +141,18 @@
 		96CB94081A38AFAD00F3691F /* sn_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D11A38AFAD00F3691F /* sn_small_white.png */; };
 		96CB94091A38AFAD00F3691F /* tsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D21A38AFAD00F3691F /* tsra_small_white.png */; };
 		96CB940A1A38AFAD00F3691F /* wind_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D31A38AFAD00F3691F /* wind_small_white.png */; };
+		96CD40DD1A85F58500CD7E90 /* DashboardGraphAllDataVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40DB1A85F58500CD7E90 /* DashboardGraphAllDataVC.m */; };
+		96CD40DE1A85F58500CD7E90 /* DashboardGraphAllDataVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96CD40DC1A85F58500CD7E90 /* DashboardGraphAllDataVC.xib */; };
+		96CD40E21A85FA6900CD7E90 /* GraphDataFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40E11A85FA6900CD7E90 /* GraphDataFormatter.m */; };
+		96CD40E51A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40E41A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m */; };
+		96CD40E91A86059900CD7E90 /* GraphDataFormatterCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40E71A86059900CD7E90 /* GraphDataFormatterCell1.m */; };
+		96CD40EA1A86059900CD7E90 /* GraphDataFormatterCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96CD40E81A86059900CD7E90 /* GraphDataFormatterCell1.xib */; };
+		96CD40EE1A8605D400CD7E90 /* GraphDataFormatterCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40EC1A8605D400CD7E90 /* GraphDataFormatterCell2.m */; };
+		96CD40EF1A8605D400CD7E90 /* GraphDataFormatterCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96CD40ED1A8605D400CD7E90 /* GraphDataFormatterCell2.xib */; };
+		96CD40F31A8605F400CD7E90 /* GraphDataFormatterCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40F11A8605F400CD7E90 /* GraphDataFormatterCell3.m */; };
+		96CD40F41A8605F400CD7E90 /* GraphDataFormatterCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96CD40F21A8605F400CD7E90 /* GraphDataFormatterCell3.xib */; };
+		96CD40F81A8616E600CD7E90 /* GraphDataFormatterCell4.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40F61A8616E600CD7E90 /* GraphDataFormatterCell4.m */; };
+		96CD40F91A8616E600CD7E90 /* GraphDataFormatterCell4.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96CD40F71A8616E600CD7E90 /* GraphDataFormatterCell4.xib */; };
 		96D8F8BF1A53645300139940 /* GraphDataSourceWaterConsume.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */; };
 		96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */; };
 		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
@@ -644,6 +656,25 @@
 		96CB93D11A38AFAD00F3691F /* sn_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sn_small_white.png; sourceTree = "<group>"; };
 		96CB93D21A38AFAD00F3691F /* tsra_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tsra_small_white.png; sourceTree = "<group>"; };
 		96CB93D31A38AFAD00F3691F /* wind_small_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wind_small_white.png; sourceTree = "<group>"; };
+		96CD40DA1A85F58500CD7E90 /* DashboardGraphAllDataVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphAllDataVC.h; path = ViewController/DashboardGraphAllDataVC.h; sourceTree = "<group>"; };
+		96CD40DB1A85F58500CD7E90 /* DashboardGraphAllDataVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashboardGraphAllDataVC.m; path = ViewController/DashboardGraphAllDataVC.m; sourceTree = "<group>"; };
+		96CD40DC1A85F58500CD7E90 /* DashboardGraphAllDataVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DashboardGraphAllDataVC.xib; path = ViewController/DashboardGraphAllDataVC.xib; sourceTree = "<group>"; };
+		96CD40E01A85FA6900CD7E90 /* GraphDataFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatter.h; path = ViewController/Graphs/GraphDataFormatter.h; sourceTree = "<group>"; };
+		96CD40E11A85FA6900CD7E90 /* GraphDataFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatter.m; path = ViewController/Graphs/GraphDataFormatter.m; sourceTree = "<group>"; };
+		96CD40E31A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterProgramRuntime.h; path = ViewController/Graphs/GraphDataFormatterProgramRuntime.h; sourceTree = "<group>"; };
+		96CD40E41A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterProgramRuntime.m; path = ViewController/Graphs/GraphDataFormatterProgramRuntime.m; sourceTree = "<group>"; };
+		96CD40E61A86059900CD7E90 /* GraphDataFormatterCell1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterCell1.h; path = ViewController/Graphs/GraphDataFormatterCell1.h; sourceTree = "<group>"; };
+		96CD40E71A86059900CD7E90 /* GraphDataFormatterCell1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterCell1.m; path = ViewController/Graphs/GraphDataFormatterCell1.m; sourceTree = "<group>"; };
+		96CD40E81A86059900CD7E90 /* GraphDataFormatterCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphDataFormatterCell1.xib; path = ViewController/Graphs/GraphDataFormatterCell1.xib; sourceTree = "<group>"; };
+		96CD40EB1A8605D400CD7E90 /* GraphDataFormatterCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterCell2.h; path = ViewController/Graphs/GraphDataFormatterCell2.h; sourceTree = "<group>"; };
+		96CD40EC1A8605D400CD7E90 /* GraphDataFormatterCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterCell2.m; path = ViewController/Graphs/GraphDataFormatterCell2.m; sourceTree = "<group>"; };
+		96CD40ED1A8605D400CD7E90 /* GraphDataFormatterCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphDataFormatterCell2.xib; path = ViewController/Graphs/GraphDataFormatterCell2.xib; sourceTree = "<group>"; };
+		96CD40F01A8605F400CD7E90 /* GraphDataFormatterCell3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterCell3.h; path = ViewController/Graphs/GraphDataFormatterCell3.h; sourceTree = "<group>"; };
+		96CD40F11A8605F400CD7E90 /* GraphDataFormatterCell3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterCell3.m; path = ViewController/Graphs/GraphDataFormatterCell3.m; sourceTree = "<group>"; };
+		96CD40F21A8605F400CD7E90 /* GraphDataFormatterCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphDataFormatterCell3.xib; path = ViewController/Graphs/GraphDataFormatterCell3.xib; sourceTree = "<group>"; };
+		96CD40F51A8616E600CD7E90 /* GraphDataFormatterCell4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterCell4.h; path = ViewController/Graphs/GraphDataFormatterCell4.h; sourceTree = "<group>"; };
+		96CD40F61A8616E600CD7E90 /* GraphDataFormatterCell4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterCell4.m; path = ViewController/Graphs/GraphDataFormatterCell4.m; sourceTree = "<group>"; };
+		96CD40F71A8616E600CD7E90 /* GraphDataFormatterCell4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphDataFormatterCell4.xib; path = ViewController/Graphs/GraphDataFormatterCell4.xib; sourceTree = "<group>"; };
 		96D8F8BD1A53645300139940 /* GraphDataSourceWaterConsume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceWaterConsume.h; path = ViewController/Graphs/GraphDataSourceWaterConsume.h; sourceTree = "<group>"; };
 		96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceWaterConsume.m; path = ViewController/Graphs/GraphDataSourceWaterConsume.m; sourceTree = "<group>"; };
 		96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivitySimulationGraphVC.h; sourceTree = "<group>"; };
@@ -1354,6 +1385,29 @@
 			path = Resources/icons_weather_small_white;
 			sourceTree = "<group>";
 		};
+		96CD40DF1A85FA3000CD7E90 /* Data Formatting */ = {
+			isa = PBXGroup;
+			children = (
+				96CD40E61A86059900CD7E90 /* GraphDataFormatterCell1.h */,
+				96CD40E71A86059900CD7E90 /* GraphDataFormatterCell1.m */,
+				96CD40E81A86059900CD7E90 /* GraphDataFormatterCell1.xib */,
+				96CD40EB1A8605D400CD7E90 /* GraphDataFormatterCell2.h */,
+				96CD40EC1A8605D400CD7E90 /* GraphDataFormatterCell2.m */,
+				96CD40ED1A8605D400CD7E90 /* GraphDataFormatterCell2.xib */,
+				96CD40F01A8605F400CD7E90 /* GraphDataFormatterCell3.h */,
+				96CD40F11A8605F400CD7E90 /* GraphDataFormatterCell3.m */,
+				96CD40F21A8605F400CD7E90 /* GraphDataFormatterCell3.xib */,
+				96CD40F51A8616E600CD7E90 /* GraphDataFormatterCell4.h */,
+				96CD40F61A8616E600CD7E90 /* GraphDataFormatterCell4.m */,
+				96CD40F71A8616E600CD7E90 /* GraphDataFormatterCell4.xib */,
+				96CD40E01A85FA6900CD7E90 /* GraphDataFormatter.h */,
+				96CD40E11A85FA6900CD7E90 /* GraphDataFormatter.m */,
+				96CD40E31A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.h */,
+				96CD40E41A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m */,
+			);
+			name = "Data Formatting";
+			sourceTree = "<group>";
+		};
 		96DAB8F51A27899D005974CC /* Graphs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1376,6 +1430,7 @@
 				969051D61A6B14400029304D /* Time Intervals */,
 				969051D71A6B144D0029304D /* Visual Appearance */,
 				969051D81A6B14610029304D /* Data Sources */,
+				96CD40DF1A85FA3000CD7E90 /* Data Formatting */,
 				969051D91A6B14760029304D /* Styles */,
 				969051DA1A6B14930029304D /* Cells */,
 				96F0F3501A370D7D0056D167 /* GraphsManager.h */,
@@ -2053,6 +2108,9 @@
 				962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */,
 				962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */,
 				962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */,
+				96CD40DA1A85F58500CD7E90 /* DashboardGraphAllDataVC.h */,
+				96CD40DB1A85F58500CD7E90 /* DashboardGraphAllDataVC.m */,
+				96CD40DC1A85F58500CD7E90 /* DashboardGraphAllDataVC.xib */,
 			);
 			name = Stats;
 			sourceTree = "<group>";
@@ -2253,6 +2311,7 @@
 				B1DF326216A6A68700A1BF38 /* Default@2x.png in Resources */,
 				B1DF326416A6A68700A1BF38 /* Default-568h@2x.png in Resources */,
 				96AD362C1A1CDB6A0019453C /* GoogleMaps.bundle in Resources */,
+				96CD40DE1A85F58500CD7E90 /* DashboardGraphAllDataVC.xib in Resources */,
 				AF4826771990DC9500D80B87 /* mix.png in Resources */,
 				96CB93F81A38AFAD00F3691F /* nsvrtsra_small_white.png in Resources */,
 				3A3BF31B18F40ABA008333C5 /* programs-checkbox-unselected.png in Resources */,
@@ -2268,6 +2327,7 @@
 				96CB94081A38AFAD00F3691F /* sn_small_white.png in Resources */,
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
 				AFE894D51A356538007FC7EB /* icon_wi-fi-locked.png in Resources */,
+				96CD40EF1A8605D400CD7E90 /* GraphDataFormatterCell2.xib in Resources */,
 				AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */,
 				AFE894D01A356538007FC7EB /* icon_wi-fi-1-bar@2x.png in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
@@ -2309,9 +2369,11 @@
 				96E70AF61A7BC34200A07D94 /* ZoneAdvancedVC.xib in Resources */,
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
 				B1254CBD187DB55A004E2F0E /* ZoneCell.xib in Resources */,
+				96CD40F91A8616E600CD7E90 /* GraphDataFormatterCell4.xib in Resources */,
 				964ADD311A1E7BA1008281A8 /* RainSensitivityVC.xib in Resources */,
 				B173B4FE16B2C459000EB72D /* Sprinkler_Icon_57.png in Resources */,
 				AF4826901990DC9500D80B87 /* raip.png in Resources */,
+				96CD40EA1A86059900CD7E90 /* GraphDataFormatterCell1.xib in Resources */,
 				AF4826801990DC9500D80B87 /* novc.png in Resources */,
 				96CB93DE1A38AFAD00F3691F /* hi_ntsra_small_white.png in Resources */,
 				B1254CCC187EE054004E2F0E /* EditCell.xib in Resources */,
@@ -2338,6 +2400,7 @@
 				AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */,
 				96CB93ED1A38AFAD00F3691F /* nmix_small_white.png in Resources */,
 				B1E1EE4219227E1C004C8F5B /* Sprinkler_Icon_76.png in Resources */,
+				96CD40F41A8605F400CD7E90 /* GraphDataFormatterCell3.xib in Resources */,
 				96CB93EF1A38AFAD00F3691F /* nra1_small_white.png in Resources */,
 				3A9AB58718854521005B79B9 /* RestrictionsVC.xib in Resources */,
 				AF81E6E318BA32C6007E9A03 /* ProgramCellType1.xib in Resources */,
@@ -2456,6 +2519,7 @@
 				96F0F3581A3729CB0056D167 /* GraphIconsBarDescriptor.m in Sources */,
 				AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */,
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
+				96CD40F81A8616E600CD7E90 /* GraphDataFormatterCell4.m in Sources */,
 				AF51E4181A190DA500A7A6A5 /* TRPickerInputView.m in Sources */,
 				B1254CA7187ADF9B004E2F0E /* ProgramWateringTimes.m in Sources */,
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
@@ -2465,6 +2529,7 @@
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				AF3E02E71A1D457E00E76C53 /* CloudAccountsVC.m in Sources */,
 				965F565A1A4DCDCE00DD5B23 /* GraphDataSource.m in Sources */,
+				96CD40E21A85FA6900CD7E90 /* GraphDataFormatter.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
 				96F0F33C1A36FC1F0056D167 /* GraphTimeInterval.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
@@ -2477,6 +2542,7 @@
 				AFB6943B190289670067CD7F /* WateringRestrictions.m in Sources */,
 				3A4437FF188A93FD004F9E11 /* RestrictedHoursVC.m in Sources */,
 				96E70AFE1A7BCE0000A07D94 /* ZoneAdvancedProperties.m in Sources */,
+				96CD40EE1A8605D400CD7E90 /* GraphDataFormatterCell2.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
@@ -2517,6 +2583,7 @@
 				AFF9350B1A2C759F008063D2 /* LabelAndTextFieldCell.m in Sources */,
 				AFB6943E190427A20067CD7F /* RainDelayPoller.m in Sources */,
 				960374F819D5FB3C009CB68A /* RestrictionsSwitchCell.m in Sources */,
+				96CD40F31A8605F400CD7E90 /* GraphDataFormatterCell3.m in Sources */,
 				96F0F3471A3705B60056D167 /* GraphView.m in Sources */,
 				AF81E6E618BA32D8007E9A03 /* ProgramCellType1.m in Sources */,
 				B1EF20F4186046D300D9CE26 /* +UIDevice.m in Sources */,
@@ -2564,6 +2631,7 @@
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
 				AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */,
 				969051C91A6ACDBD0029304D /* WaterLogZone.m in Sources */,
+				96CD40E51A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */,
 				96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */,
@@ -2598,6 +2666,7 @@
 				96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */,
 				964ADD291A1E7B82008281A8 /* FieldCapacityCell.m in Sources */,
 				96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */,
+				96CD40E91A86059900CD7E90 /* GraphDataFormatterCell1.m in Sources */,
 				AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */,
 				AFF935151A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m in Sources */,
 				AF73880918E08ADE00F184A9 /* BaseNetworkHandlingVC.m in Sources */,
@@ -2606,6 +2675,7 @@
 				B1254CB2187D77EB004E2F0E /* ZonesVC.m in Sources */,
 				B111987616A7F38C0094EF9F /* DiscoveredSprinklers.m in Sources */,
 				AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */,
+				96CD40DD1A85F58500CD7E90 /* DashboardGraphAllDataVC.m in Sources */,
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
 				96CB939B1A38818300F3691F /* GraphStyleLines.m in Sources */,

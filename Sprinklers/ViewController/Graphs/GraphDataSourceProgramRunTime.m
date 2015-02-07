@@ -7,6 +7,7 @@
 //
 
 #import "GraphDataSourceProgramRunTime.h"
+#import "GraphDataFormatterProgramRuntime.h"
 #import "GraphsManager.h"
 #import "MixerDailyValue.h"
 #import "WaterLogDay.h"
@@ -49,6 +50,10 @@
     [self reloadGraphDataSource];
 }
 
+- (Class)graphDataFormatterClass {
+    return [GraphDataFormatterProgramRuntime class];
+}
+
 #pragma mark - Data
 
 - (NSDictionary*)valuesFromLoadedData {
@@ -67,6 +72,24 @@
     id data = [GraphsManager sharedGraphsManager].mixerData;
     if (![data isKindOfClass:[NSArray class]]) return nil;
     return [self conditionValuesFromMixerDailyValues:(NSArray*)data];
+}
+
+- (NSArray*)valuesForGraphDataFormatter {
+    NSMutableArray *values = [NSMutableArray new];
+    
+    for (WaterLogDay *waterLogDay in [GraphsManager sharedGraphsManager].wateringLogDetailsData) {
+        WaterLogProgram *waterLogProgram = [waterLogDay waterLogProgramForProgramId:self.program.programId];
+        if (!waterLogProgram) continue;
+        [values addObject:@{@"date" : waterLogDay.date,
+                            @"userDuration" : @(waterLogProgram.userDurationSum),
+                            @"realDuration" : @(waterLogProgram.realDurationSum),
+                            @"zones" : waterLogProgram.zones}];
+    }
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+    [values sortUsingDescriptors:@[sortDescriptor]];
+    
+    return values;
 }
 
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
