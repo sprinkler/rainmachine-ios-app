@@ -100,6 +100,7 @@ extern NSString *abbrevMonthsOfYear[12];
 #define kAlertView_SetupWizard_ReconnectedToSprinkler 15
 #define kAlertView_SetupWizard_NoLocationWithContinueMessage 16
 #define kAlertView_SetupWizard_NoLocationWithoutContinueMessage 17
+#define kAlertView_SetupWizard_SkipLocationSetup 18
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 

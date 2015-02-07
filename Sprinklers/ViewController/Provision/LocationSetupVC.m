@@ -54,6 +54,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 @property (strong, nonatomic) ServerProxy *provisionServerProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *skipButton;
 
 @end
 
@@ -62,11 +63,6 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 @implementation LocationSetupVC
 
 #pragma mark - Init
-
-- (instancetype)init {
-    NSLog(@"LocationSetupVC");
-    return [super init];
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -80,9 +76,13 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.skipButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
+    
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(onNext:)];
+    
+    self.mapView.superview.backgroundColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
     
     if (![self initializeLocationServices]) {
         [self displayLocationServicesDisabledAlert];
@@ -95,6 +95,17 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     
     [self showHud];
     [self performSelector:@selector(hideHud) withObject:nil afterDelay:LocationSetup_MapView_InitializeTimeout];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)applicationWillEnterForeground:(id)notif
+{
+    self.mapView.myLocationEnabled = NO;
+    self.mapView.myLocationEnabled = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -197,29 +208,47 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     }
 }
 
-- (void)displayNoLocationAlertWithContinueMessage:(BOOL)continueMessage {
+- (void)displayNoLocationAlertWithContinueMessage:(BOOL)continueMessage skip:(BOOL)skip {
+    NSString *titleMessage = skip ? @"Skip location setup" : @"Location couldn't be retrieved";
+    NSString *bodyMessage = skip ? @"Do you really want to skip location setup?" : @"Do you want to enter the location manually?";
     NSString *cancelMessage = continueMessage ? @"No, continue setup" : @"Cancel";
+    if (skip) {
+        cancelMessage = @"Cancel";
+    }
+    NSString *okTitle = skip ? @"Skip" : @"Enter location";
     if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Location couldn't be retrieved"
-                                                                                 message:@"Do you want to enter the location manually?"
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:titleMessage
+                                                                                 message:bodyMessage
                                                                           preferredStyle:UIAlertControllerStyleAlert];
         [alertController addAction:[UIAlertAction actionWithTitle:cancelMessage style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            if (continueMessage) {
-                [self continueSetup];
+            if (skip) {
+                // Cancel
+            } else {
+                if (continueMessage) {
+                    [self continueSetup];
+                }
             }
         }]];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Enter location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self.locationSearchBar becomeFirstResponder];
+        [alertController addAction:[UIAlertAction actionWithTitle:okTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            if (skip) {
+                self.selectedLocationAddress = nil;
+                [self continueSetup];
+            } else {
+                [self.locationSearchBar becomeFirstResponder];
+            }
         }]];
         [alertController.view setTintColor:[UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1]];
         [self presentViewController:alertController animated:YES completion:nil];
     } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location couldn't be retrieved"
-                                                            message:@"Do you want to enter the location manually?"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:titleMessage
+                                                            message:bodyMessage
                                                            delegate:self
                                                   cancelButtonTitle:cancelMessage
-                                                  otherButtonTitles:@"Enter location", nil];
+                                                  otherButtonTitles:okTitle, nil];
         alertView.tag = continueMessage ? kAlertView_SetupWizard_NoLocationWithContinueMessage : kAlertView_SetupWizard_NoLocationWithoutContinueMessage;
+        if (skip) {
+            alertView.tag = kAlertView_SetupWizard_SkipLocationSetup;
+        }
         [alertView show];
     }
 }
@@ -228,7 +257,11 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 {
     // This is the no location alert view
     if (buttonIndex != theAlertView.cancelButtonIndex) {
-        [self.locationSearchBar becomeFirstResponder];
+        if (theAlertView.tag == kAlertView_SetupWizard_SkipLocationSetup) {
+            [self continueSetup];
+        } else {
+            [self.locationSearchBar becomeFirstResponder];
+        }
     } else {
         if (theAlertView.tag == kAlertView_SetupWizard_NoLocationWithContinueMessage) {
             [self continueSetup];
@@ -388,15 +421,19 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)continueSetup
 {
-    // self.selectedLocationAddress contains the selected location
-    // self.selectedLocationElevation.elevation contains the elevation of the selected location
-    // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
-    self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-    [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
-                                 longitude:self.selectedLocationAddress.location.coordinate.longitude
-                                  timezone:[[NSTimeZone localTimeZone] name]];
-    
-    [self showHud];
+    if (self.selectedLocationAddress.location) {
+        // self.selectedLocationAddress contains the selected location
+        // self.selectedLocationElevation.elevation contains the elevation of the selected location
+        // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
+        self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+        [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
+                                     longitude:self.selectedLocationAddress.location.coordinate.longitude
+                                      timezone:[[NSTimeZone localTimeZone] name]];
+        
+        [self showHud];
+    } else {
+        [self continueWithDateTime];
+    }
 }
 
 - (IBAction)onNext:(id)sender
@@ -404,7 +441,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     if (self.selectedLocationAddress.location) {
         [self continueSetup];
     } else {
-        [self displayNoLocationAlertWithContinueMessage:YES];
+        [self displayNoLocationAlertWithContinueMessage:YES skip:NO];
     }
 }
 
@@ -422,12 +459,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     if (serverProxy == self.provisionServerProxy) {
         //    TODO: handle error code
         [self hideHud];
-        ProvisionDateAndTimeManualVC *dateTimeVC = [[ProvisionDateAndTimeManualVC alloc] init];
-        dateTimeVC.sprinkler = self.sprinkler;
-        dateTimeVC.delegate = self.delegate;
-        dateTimeVC.locationSetupVC = self;
-        [self.navigationController pushViewController:dateTimeVC animated:YES];
-        
+        [self continueWithDateTime];
     }
     
     [self hideHud];
@@ -454,7 +486,20 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error
 {
-    [self displayNoLocationAlertWithContinueMessage:NO];
+    [self displayNoLocationAlertWithContinueMessage:NO skip:NO];
+}
+
+- (IBAction)onSkipLocation:(id)sender {
+    [self displayNoLocationAlertWithContinueMessage:YES skip:YES];
+}
+
+- (void)continueWithDateTime
+{
+    ProvisionDateAndTimeManualVC *dateTimeVC = [[ProvisionDateAndTimeManualVC alloc] init];
+    dateTimeVC.sprinkler = self.sprinkler;
+    dateTimeVC.delegate = self.delegate;
+    dateTimeVC.locationSetupVC = self;
+    [self.navigationController pushViewController:dateTimeVC animated:YES];
 }
 
 @end
