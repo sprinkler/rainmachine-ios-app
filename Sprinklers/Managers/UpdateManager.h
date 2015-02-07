@@ -18,6 +18,7 @@
 - (instancetype)initWithDelegate:(id<UpdateManagerDelegate>)delegate;
 - (void)poll;
 - (void)stop;
+- (void)stopAll;
 - (void)startUpdate;
 - (void)setSprinklerVersionMajor:(int)major minor:(int)minor subMinor:(int)subMinor;
 

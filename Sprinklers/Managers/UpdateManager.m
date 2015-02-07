@@ -58,6 +58,15 @@ static UpdateManager *current = nil;
     return self;
 }
 
+- (void)stopAll
+{
+    [self.serverProxyDetect35x cancelAllOperations];
+    self.serverProxyDetect35x = nil;
+
+    [self.serverProxy cancelAllOperations];
+    self.serverProxy = nil;
+}
+
 - (void)stop
 {
     [self.serverProxy cancelAllOperations];

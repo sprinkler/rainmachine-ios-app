@@ -19,6 +19,8 @@
 #import "ProvisionNameSetupVC.h"
 #import "LocationSetupVC.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import "AppDelegate.h"
+#import "UpdateManager.h"
 
 #define kPollInterval 6
 
@@ -57,6 +59,9 @@ const float kWifiSignalMax = -50;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.updateManager stopAll];
+
     [ServerProxy pushSprinklerVersion];
     [ServerProxy setSprinklerVersionMajor:4 minor:0 subMinor:0];
     
@@ -206,7 +211,7 @@ const float kWifiSignalMax = -50;
             self.alertView.tag = kAlertView_SetupWizard_WifiJoinTimedOut;
             [self.alertView show];
 
-            [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
+//            [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
             
             return;
         }
@@ -385,6 +390,7 @@ const float kWifiSignalMax = -50;
     }
     
     if (serverProxy == self.requestAvailableWiFisProvisionServerProxy) {
+        self.sprinkler = nil;
     }
     
     [self hideHud];
@@ -401,7 +407,7 @@ const float kWifiSignalMax = -50;
         self.requestDiagProxy = nil;
         
         NSDictionary *diag = (NSDictionary*)data;
-        NSString *wifiMode = diag[@"wifiMode"];
+        NSNumber *standaloneMode = diag[@"standaloneMode"];
         
         BOOL hasSprinklerWiFiSetUp = !((self.sprinklerCurrentWiFi[@"ssid"] == nil) || ([self.sprinklerCurrentWiFi[@"ssid"] isKindOfClass:[NSNull class]]));
         if (self.duringWiFiRestart) {
@@ -428,20 +434,22 @@ const float kWifiSignalMax = -50;
             
         } else {
             // Continue with the RainMachine name setup wizard or with location setup
-            if ([wifiMode isEqualToString:@"ap"]) {
+//            if (![standaloneMode boolValue]) {
                 [self hideWifiRebootHud];
                 UINavigationController *navigationController = self.navigationController;
                 [self.navigationController popToRootViewControllerAnimated:NO];
                 ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
                 provisionNameSetupVC.sprinkler = self.sprinkler;
+                [self cancelAllOperations];
                 [navigationController pushViewController:provisionNameSetupVC animated:YES];
-            } else {
-                // Continue with the location setup
-                LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
-                locationSetupVC.sprinkler = self.sprinkler;
-                locationSetupVC.delegate = self;
-                [self.navigationController pushViewController:locationSetupVC animated:YES];
-            }
+//            } else {
+//                // Continue with the location setup
+//                LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
+//                locationSetupVC.sprinkler = self.sprinkler;
+//                locationSetupVC.delegate = self;
+//                [self cancelAllOperations];
+//                [self.navigationController pushViewController:locationSetupVC animated:YES];
+//            }
         }
     }
     else if (serverProxy == self.requestAvailableWiFisProvisionServerProxy) {
@@ -589,6 +597,15 @@ const float kWifiSignalMax = -50;
 - (void)resetWiFiSetup
 {
     self.duringWiFiRestart = NO;
+}
+
+- (void)cancelAllOperations
+{
+    [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
+    [self.loginServerProxy cancelAllOperations];
+    [self.requestCurrentWiFiProxy cancelAllOperations];
+    [self.joinWifiServerProxy cancelAllOperations];
+    [self.requestDiagProxy cancelAllOperations];
 }
 
 @end

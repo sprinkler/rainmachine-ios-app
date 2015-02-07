@@ -63,6 +63,11 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 #pragma mark - Init
 
+- (instancetype)init {
+    NSLog(@"LocationSetupVC");
+    return [super init];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (!self) return nil;
@@ -143,12 +148,35 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     if (![CLLocationManager locationServicesEnabled]) return NO;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.delegate = self;
     
-    if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
-        [self.locationManager requestWhenInUseAuthorization];
-    }
+    [self enableMyLocation];
     
     return YES;
+}
+
+- (void)enableMyLocation
+{
+    if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
+        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+        
+        if (status == kCLAuthorizationStatusNotDetermined) {
+            [self.locationManager requestWhenInUseAuthorization];
+        }
+        else if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
+            [self displayLocationServicesDisabledAlert];
+        } else {
+            [self.locationManager startUpdatingLocation];
+        }
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if (status != kCLAuthorizationStatusNotDetermined) {
+        [self performSelectorOnMainThread:@selector(enableMyLocation) withObject:nil waitUntilDone:[NSThread isMainThread]];
+    }
 }
 
 - (void)displayLocationServicesDisabledAlert {
@@ -157,6 +185,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
                                                                                  message:@"Allow RainMachine to access your location in your phone's settings."
                                                                           preferredStyle:UIAlertControllerStyleAlert];
         [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        [alertController.view setTintColor:[UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1]];
         [self presentViewController:alertController animated:YES completion:nil];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location Services disabled"
@@ -165,6 +194,45 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
+    }
+}
+
+- (void)displayNoLocationAlertWithContinueMessage:(BOOL)continueMessage {
+    NSString *cancelMessage = continueMessage ? @"No, continue setup" : @"Cancel";
+    if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Location couldn't be retrieved"
+                                                                                 message:@"Do you want to enter the location manually?"
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:cancelMessage style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            if (continueMessage) {
+                [self continueSetup];
+            }
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Enter location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self.locationSearchBar becomeFirstResponder];
+        }]];
+        [alertController.view setTintColor:[UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1]];
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location couldn't be retrieved"
+                                                            message:@"Do you want to enter the location manually?"
+                                                           delegate:self
+                                                  cancelButtonTitle:cancelMessage
+                                                  otherButtonTitles:@"Enter location", nil];
+        alertView.tag = continueMessage ? kAlertView_SetupWizard_NoLocationWithContinueMessage : kAlertView_SetupWizard_NoLocationWithoutContinueMessage;
+        [alertView show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    // This is the no location alert view
+    if (buttonIndex != theAlertView.cancelButtonIndex) {
+        [self.locationSearchBar becomeFirstResponder];
+    } else {
+        if (theAlertView.tag == kAlertView_SetupWizard_NoLocationWithContinueMessage) {
+            [self continueSetup];
+        }
     }
 }
 
@@ -318,18 +386,25 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 #pragma mark - Actions
 
+- (void)continueSetup
+{
+    // self.selectedLocationAddress contains the selected location
+    // self.selectedLocationElevation.elevation contains the elevation of the selected location
+    // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
+    self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+    [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
+                                 longitude:self.selectedLocationAddress.location.coordinate.longitude
+                                  timezone:[[NSTimeZone localTimeZone] name]];
+    
+    [self showHud];
+}
+
 - (IBAction)onNext:(id)sender
 {
     if (self.selectedLocationAddress.location) {
-        // self.selectedLocationAddress contains the selected location
-        // self.selectedLocationElevation.elevation contains the elevation of the selected location
-        // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
-        self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-        [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
-                                     longitude:self.selectedLocationAddress.location.coordinate.longitude
-                                      timezone:[[NSTimeZone localTimeZone] name]];
-        
-        [self showHud];
+        [self continueSetup];
+    } else {
+        [self displayNoLocationAlertWithContinueMessage:YES];
     }
 }
 
@@ -374,6 +449,12 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     self.hud = nil;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     self.view.userInteractionEnabled = YES;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    [self displayNoLocationAlertWithContinueMessage:NO];
 }
 
 @end
