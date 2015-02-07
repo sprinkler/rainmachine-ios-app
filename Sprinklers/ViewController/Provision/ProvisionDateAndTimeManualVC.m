@@ -11,6 +11,7 @@
 #import "+NSDate.h"
 #import "MBProgressHUD.h"
 #import "ServerProxy.h"
+#import "SettingsDate.h"
 
 #define kPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define kDatePickerTag              99     // view tag identifiying the date picker view
@@ -26,7 +27,8 @@ static NSString *kTimeZoneCell = @"timeZoneCell";     // the remaining cells at 
 
 @interface ProvisionDateAndTimeManualVC ()
 
-@property (strong, nonatomic) ServerProxy *provisionServerProxy;
+@property (strong, nonatomic) ServerProxy *provisionTimezoneServerProxy;
+@property (strong, nonatomic) ServerProxy *provisionDateTimeServerProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) ProvisionDateAndTimeManualVC *provisionDateAndTimeManualVC;
 
@@ -510,17 +512,15 @@ NSUInteger DeviceSystemMajorVersion()
 
 - (IBAction)onNext:(id)sender
 {
-    if (self.locationSetupVC.selectedLocationAddress.location) {
-        // self.selectedLocationAddress contains the selected location
-        // self.selectedLocationElevation.elevation contains the elevation of the selected location
-        // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
-        self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-        [self.provisionServerProxy setLocation:self.locationSetupVC.selectedLocationAddress.location.coordinate.latitude
-                                     longitude:self.locationSetupVC.selectedLocationAddress.location.coordinate.longitude
-                                      timezone:self.timeZoneName];
-        
-        [self showHud];
-    }
+    // self.selectedLocationAddress contains the selected location
+    // self.selectedLocationElevation.elevation contains the elevation of the selected location
+    // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
+    self.provisionTimezoneServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+    [self.provisionTimezoneServerProxy setLocation:self.locationSetupVC.selectedLocationAddress.location.coordinate.latitude
+                                 longitude:self.locationSetupVC.selectedLocationAddress.location.coordinate.longitude
+                                  timezone:self.timeZoneName];
+    
+    [self showHud];
 }
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -531,7 +531,7 @@ NSUInteger DeviceSystemMajorVersion()
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self.delegate handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
-    if (serverProxy == self.provisionServerProxy) {
+    if (serverProxy == self.provisionTimezoneServerProxy) {
     }
     
     [self hideHud];
@@ -539,12 +539,21 @@ NSUInteger DeviceSystemMajorVersion()
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     
-    if (serverProxy == self.provisionServerProxy) {
-        //    TODO: handle error code
+    if (serverProxy == self.provisionDateTimeServerProxy) {
         [self hideHud];
-        
+
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your Rain Machine is set up!" message:@"Now you can go ahead and create your first program." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
+    }
+
+    if (serverProxy == self.provisionTimezoneServerProxy) {
+        //    TODO: handle error code
+
+        SettingsDate *settingsDate = [SettingsDate new];
+        settingsDate.time_format = @24;
+        settingsDate.appDate = [self stringFromDate:[self constructDateFromPicker]];
+        self.provisionDateTimeServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+        [self.provisionDateTimeServerProxy setSettingsDate:settingsDate];
     }
     
     [self hideHud];
@@ -571,6 +580,52 @@ NSUInteger DeviceSystemMajorVersion()
 - (void)timeZoneSelected:(NSString*)timezone
 {
     self.timeZoneName = timezone;
+}
+
+- (NSString*)stringFromDate:(NSDate*)date
+{
+    return [[self dateFormatterWithTimeFormat:24] stringFromDate:date];
+}
+
+- (NSDate*)constructDateFromPicker
+{
+    NSDate *date = self.pickerView.date;
+    NSCalendar* timeCal = [NSCalendar currentCalendar];
+    NSDateComponents* timeComp = [timeCal components:(
+                                                      NSHourCalendarUnit |
+                                                      NSMinuteCalendarUnit
+                                                      )
+                                            fromDate:date];
+    
+    NSCalendar* dateCal = [NSCalendar currentCalendar];
+    NSDateComponents* dateComp = [dateCal components:(
+                                                      NSMonthCalendarUnit |
+                                                      NSYearCalendarUnit |
+                                                      NSDayCalendarUnit
+                                                      )
+                                            fromDate:date];
+    
+    dateComp.hour = timeComp.hour;
+    dateComp.minute = timeComp.minute;
+    
+    return [dateCal dateFromComponents:dateComp];
+}
+
+- (NSDateFormatter*)dateFormatterWithTimeFormat:(int)timeFormat
+{
+    NSDateFormatter *df = [NSDate getDateFormaterFixedFormatParsing];
+    
+    // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
+    if (timeFormat == 24) {
+        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d H:m:s";
+        else df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
+    }
+    else if (timeFormat == 12) {
+        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d K:m:s a";
+        else df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
+    }
+    
+    return df;
 }
 
 @end

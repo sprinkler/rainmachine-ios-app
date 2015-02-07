@@ -16,7 +16,7 @@
 
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
 @property (nonatomic, weak) LocationSetupVC *locationSetupVC;
-@property (nonatomic, weak) ProvisionNameSetupVC *delegate;
+@property (nonatomic, weak) BaseNetworkHandlingVC *delegate;
 @property (strong, nonatomic) NSString *timeZoneName;
 
 - (void)timeZoneSelected:(NSString*)timezone;

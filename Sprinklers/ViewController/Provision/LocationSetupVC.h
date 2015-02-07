@@ -16,7 +16,7 @@
 
 @class ColoredBackgroundButton;
 
-@interface LocationSetupVC : UIViewController <GMSMapViewDelegate, SprinklerResponseProtocol, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface LocationSetupVC : UIViewController <GMSMapViewDelegate, SprinklerResponseProtocol, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 
 @property (nonatomic, weak) IBOutlet UISearchBar *locationSearchBar;
 @property (nonatomic, weak) IBOutlet UIView *mapContentView;

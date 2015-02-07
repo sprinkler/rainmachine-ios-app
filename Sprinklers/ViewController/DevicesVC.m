@@ -48,9 +48,11 @@
 @property (strong, nonatomic) NSArray *cloudEmails;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
+@property (strong, nonatomic) ServerProxy *diagServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
 @property (strong, nonatomic) CloudAccountsVC *cloudAccountsVC;
+@property (strong, nonatomic) Sprinkler *selectedSprinkler;
 
 @property (nonatomic, weak) IBOutlet UITextField *debugTextField;
 @property (strong, nonatomic) NSMutableArray *cloudServers;
@@ -868,7 +870,18 @@
 
 - (void)sprinklerSelected:(Sprinkler*)sprinkler
 {
-    if ([Utils isSprinklerInAPMode:sprinkler]) {
+    self.selectedSprinkler = sprinkler;
+
+    [self startHud:nil];
+    self.diagServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:NO];
+    [self.diagServerProxy requestDiag];
+}
+
+- (void)continueSprinklerSelectionAction:(Sprinkler*)sprinkler diag:(NSDictionary*)diag
+{
+    BOOL wizardHasRun = [diag[@"wizardHasRun"] boolValue];
+
+    if (!wizardHasRun) {
         AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
         detailVC.inputSprinklerMAC = sprinkler.sprinklerId;
         [self.navigationController pushViewController:detailVC animated:YES];
@@ -920,60 +933,73 @@
 #pragma mark - Communication callbacks
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
 
     [self hideHud];
+
+    if (serverProxy == self.cloudServerProxy) {
+        [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
+    }
+    else if (serverProxy == self.diagServerProxy) {
+        [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+        self.diagServerProxy = nil;
+    }
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    [self hideHud];
-//    NSError *e = nil;
-//    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"dragos@oriunde.com\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"2180:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
-//    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];
-    
-    // The cloud is continuosly pulled, so if the table finished editing the cloud state will refresh at the next timer poll
-    if (!self.tableView.isEditing) {
-        [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
-        // Mark all cloud devices is a cloud device as not alive
-        NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
-        for (Sprinkler *sprinkler in aliveRemoteDevices) {
-            if ([Utils isCloudDevice:sprinkler]) {
-                sprinkler.isDiscovered = @NO;
-            }
-        }
+    if (serverProxy == self.cloudServerProxy) {
+        [self hideHud];
+    //    NSError *e = nil;
+    //    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"dragos@oriunde.com\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"2180:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
+    //    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];
         
-        self.cloudResponse = data;
-        NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
-        for (NSDictionary *cloudInfo in cloudInfos) {
-            NSString *email = cloudInfo[@"email"];
-            for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
-                NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
-                NSString *port = [Utils getPort:fullAddress];
-                NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:fullAddress]];
-                port = port ? port : @"443";
-                // Add or update the remote sprinkler
-                Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address local:@NO email:email];
-                if (!sprinkler) {
-                    sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
-                } else {
-                    if (address) {
-                        sprinkler.address = address;
-                    }
-                    sprinkler.name = sprinklerInfo[@"name"];
+        // The cloud is continuosly pulled, so if the table finished editing the cloud state will refresh at the next timer poll
+        if (!self.tableView.isEditing) {
+            [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
+            // Mark all cloud devices is a cloud device as not alive
+            NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
+            for (Sprinkler *sprinkler in aliveRemoteDevices) {
+                if ([Utils isCloudDevice:sprinkler]) {
+                    sprinkler.isDiscovered = @NO;
                 }
-                
-                sprinkler.port = port;
-                sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
-                sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
-                sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
             }
+            
+            self.cloudResponse = data;
+            NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
+            for (NSDictionary *cloudInfo in cloudInfos) {
+                NSString *email = cloudInfo[@"email"];
+                for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
+                    NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
+                    NSString *port = [Utils getPort:fullAddress];
+                    NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:fullAddress]];
+                    port = port ? port : @"443";
+                    // Add or update the remote sprinkler
+                    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address local:@NO email:email];
+                    if (!sprinkler) {
+                        sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
+                    } else {
+                        if (address) {
+                            sprinkler.address = address;
+                        }
+                        sprinkler.name = sprinklerInfo[@"name"];
+                    }
+                    
+                    sprinkler.port = port;
+                    sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
+                    sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
+                    sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
+                }
+            }
+            
+            [[StorageManager current] saveData];
+            
+            [self refreshSprinklerList];
+            
+            [self.tableView reloadData];
         }
-        
-        [[StorageManager current] saveData];
-        
-        [self refreshSprinklerList];
-        
-        [self.tableView reloadData];
+    }
+    else if (serverProxy == self.diagServerProxy) {
+        self.diagServerProxy = nil;
+        [self continueSprinklerSelectionAction:self.selectedSprinkler diag:(NSDictionary*)data];
     }
 }
 
