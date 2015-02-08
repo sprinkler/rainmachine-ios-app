@@ -207,7 +207,11 @@ const float kWifiSignalMax = -50;
             [self resetWiFiSetup];
 
             // The WiFi is home network / another network / Rainmachine AP / or no-network
-            self.alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:@"Connecting the Rainmachine to your home network timed out. Go to Settings and connect back to your Rainmachine in order to restart the setup" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            NSString *message = @"Connecting the Rainmachine to your home network timed out. Go to Settings and connect back to your Rainmachine in order to restart the setup.";
+            if ([self currentWiFiName] == nil) {
+                message = @"Connecting the Rainmachine to your home network timed out because your device didn't reconnect to your home network. Go to Settings and connect to your home network in order to continue the setup.";
+            }
+            self.alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             self.alertView.tag = kAlertView_SetupWizard_WifiJoinTimedOut;
             [self.alertView show];
 
@@ -433,23 +437,24 @@ const float kWifiSignalMax = -50;
             [self requestAvailableWiFis];
             
         } else {
+            // TODO: here to decide if the name+pass was set up
             // Continue with the RainMachine name setup wizard or with location setup
-//            if (![standaloneMode boolValue]) {
-                [self hideWifiRebootHud];
-                UINavigationController *navigationController = self.navigationController;
-                [self.navigationController popToRootViewControllerAnimated:NO];
-                ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
-                provisionNameSetupVC.sprinkler = self.sprinkler;
-                [self cancelAllOperations];
-                [navigationController pushViewController:provisionNameSetupVC animated:YES];
-//            } else {
-//                // Continue with the location setup
-//                LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
-//                locationSetupVC.sprinkler = self.sprinkler;
-//                locationSetupVC.delegate = self;
-//                [self cancelAllOperations];
-//                [self.navigationController pushViewController:locationSetupVC animated:YES];
-//            }
+            //            if (![standaloneMode boolValue]) {
+            [self hideWifiRebootHud];
+            UINavigationController *navigationController = self.navigationController;
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
+            provisionNameSetupVC.sprinkler = self.sprinkler;
+            [self cancelAllOperations];
+            [navigationController pushViewController:provisionNameSetupVC animated:YES];
+            //            } else {
+            //                // Continue with the location setup
+            //                LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
+            //                locationSetupVC.sprinkler = self.sprinkler;
+            //                locationSetupVC.delegate = self;
+            //                [self cancelAllOperations];
+            //                [self.navigationController pushViewController:locationSetupVC animated:YES];
+            //            }
         }
     }
     else if (serverProxy == self.requestAvailableWiFisProvisionServerProxy) {
@@ -501,8 +506,9 @@ const float kWifiSignalMax = -50;
     self.alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start setup wizard" message:@"Press a button on your sprinkler." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     self.alertView.tag = kAlertView_SetupWizard_CannotStart;
     [self.alertView show];
-
+    
     [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
+    self.sprinkler = nil;
 }
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex

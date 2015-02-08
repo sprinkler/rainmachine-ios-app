@@ -148,6 +148,7 @@ typedef enum {
 - (void)saveRainSensitivityFromProvision:(Provision*)provision;
 
 - (void)setLocation:(double)latitude longitude:(double)longitude timezone:(NSString*)timezone;
+- (void)setTimezone:(NSString*)timezone;
 
 - (void)requestMixerDataFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
 - (void)requestWateringLogDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;

@@ -516,10 +516,7 @@ NSUInteger DeviceSystemMajorVersion()
     // self.selectedLocationElevation.elevation contains the elevation of the selected location
     // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
     self.provisionTimezoneServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-    [self.provisionTimezoneServerProxy setLocation:self.locationSetupVC.selectedLocationAddress.location.coordinate.latitude
-                                 longitude:self.locationSetupVC.selectedLocationAddress.location.coordinate.longitude
-                                  timezone:self.timeZoneName];
-    
+    [self.provisionTimezoneServerProxy setTimezone:self.timeZoneName];
     [self showHud];
 }
 
@@ -589,7 +586,7 @@ NSUInteger DeviceSystemMajorVersion()
 
 - (NSDate*)constructDateFromPicker
 {
-    NSDate *date = self.pickerView.date;
+    NSDate *date = self.dataArray[0][kDateKey];
     NSCalendar* timeCal = [NSCalendar currentCalendar];
     NSDateComponents* timeComp = [timeCal components:(
                                                       NSHourCalendarUnit |
@@ -617,11 +614,11 @@ NSUInteger DeviceSystemMajorVersion()
     
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
     if (timeFormat == 24) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d H:m:s";
+        if ([ServerProxy usesAPI4]) df.dateFormat = [ServerProxy usesAPI3] ? @"yyyy-M-d H:m:s" : @"yyyy-M-d H:m";
         else df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
     }
     else if (timeFormat == 12) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d K:m:s a";
+        if ([ServerProxy usesAPI4]) df.dateFormat = [ServerProxy usesAPI3] ? @"yyyy-M-d K:m:s a" : @"yyyy-M-d K:m a";
         else df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
     }
     

@@ -648,8 +648,8 @@ static int serverAPIMinorSubVersion = -1;
     NSDictionary *params;
     if (timezone) {
         params = @{@"location" : @{@"latitude" : @(latitude),
-                                             @"longitude" : @(longitude),
-                                             @"timezone" : timezone
+                                   @"longitude" : @(longitude),
+                                   @"timezone" : timezone
                                    }
                    };
     } else {
@@ -658,7 +658,22 @@ static int serverAPIMinorSubVersion = -1;
                                    }
                    };
     }
-        
+    
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)setTimezone:(NSString*)timezone
+{
+    NSDictionary *params = @{@"location" : @{@"timezone" : timezone}};
+    
     [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
