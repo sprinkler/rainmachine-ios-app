@@ -680,6 +680,36 @@
     return nil;
 }
 
++ (NSInteger)codeFromWeatherImageName:(NSString*)imageName {
+    if ([imageName isEqualToString:@"bkn"]) return 0;
+    if ([imageName isEqualToString:@"skc"]) return 1;
+    if ([imageName isEqualToString:@"few"]) return 2;
+    if ([imageName isEqualToString:@"sct"]) return 3;
+    if ([imageName isEqualToString:@"ovc"]) return 4;
+    if ([imageName isEqualToString:@"fg"]) return 5;
+    if ([imageName isEqualToString:@"smoke"]) return 6;
+    if ([imageName isEqualToString:@"fzrara"]) return 7;
+    if ([imageName isEqualToString:@"ip"]) return 8;
+    if ([imageName isEqualToString:@"raip"]) return 9;
+    if ([imageName isEqualToString:@"rasn"]) return 10;
+    if ([imageName isEqualToString:@"shra"]) return 11;
+    if ([imageName isEqualToString:@"tsra"]) return 12;
+    if ([imageName isEqualToString:@"sn"]) return 13;
+    if ([imageName isEqualToString:@"wind"]) return 14;
+    if ([imageName isEqualToString:@"hi_shwrs"]) return 15;
+    if ([imageName isEqualToString:@"fzrara"]) return 16;
+    if ([imageName isEqualToString:@"hi_tsra"]) return 17;
+    if ([imageName isEqualToString:@"ra1"]) return 18;
+    if ([imageName isEqualToString:@"ra"]) return 19;
+    if ([imageName isEqualToString:@"nsvrtsra"]) return 20;
+    if ([imageName isEqualToString:@"du"]) return 21;
+    if ([imageName isEqualToString:@"mist"]) return 22;
+    if ([imageName isEqualToString:@"hot"]) return 23;
+    if ([imageName isEqualToString:@"cold"]) return 24;
+    if ([imageName isEqualToString:@"na"]) return 25;
+    return 25;
+}
+
 + (NSString*)vegetationTypeToString:(int)vegetation
 {
     switch (vegetation) {

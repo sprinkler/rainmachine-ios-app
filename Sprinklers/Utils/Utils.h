@@ -68,6 +68,7 @@
 
 + (UIImage*)weatherImageFromCode:(NSNumber*)cod;
 + (UIImage*)smallWhiteWeatherImageFromCode:(NSNumber*)code;
++ (NSInteger)codeFromWeatherImageName:(NSString*)imageName;
 
 + (NSString*)vegetationTypeToString:(int)vegetation;
 + (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword;

@@ -11,7 +11,9 @@
 #import "GraphsManager.h"
 #import "MixerDailyValue.h"
 #import "WaterLogDay.h"
+#import "WeatherData.h"
 #import "Utils.h"
+#import "Additions.h"
 
 #pragma mark -
 
@@ -20,6 +22,9 @@
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues;
 - (NSDictionary*)conditionValuesFromMixerDailyValues:(NSArray*)mixerDailyValues;
 - (NSDictionary*)percentageValuesFromWateringLogSimulatedValues:(NSArray*)wateringLogSimulatedValues;
+- (NSDictionary*)maxTempValuesFromWeatherData3Values:(NSArray*)weatherDataValues;
+- (NSDictionary*)iconValuesFromWeatherData3Values:(NSArray*)weatherDataValues;
+- (NSDictionary*)percentageValuesFromWeatherData3Values:(NSArray*)weatherDataValues;
 
 @end
 
@@ -35,6 +40,7 @@
     
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"mixerData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"wateringLogSimulatedDetailsData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"weatherData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
@@ -42,6 +48,7 @@
 - (void)dealloc {
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"mixerData"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"wateringLogSimulatedDetailsData"];
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"weatherData"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -61,7 +68,9 @@
         return [self percentageValuesFromWateringLogSimulatedValues:data];
     }
     else if ([ServerProxy usesAPI3]) {
-        return @{};
+        id data = [GraphsManager sharedGraphsManager].weatherData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self percentageValuesFromWeatherData3Values:(NSArray*)data];
     }
     return nil;
 }
@@ -73,7 +82,9 @@
         return [self maxTempValuesFromMixerDailyValues:(NSArray*)data];
     }
     else if ([ServerProxy usesAPI3]) {
-        return @{};
+        id data = [GraphsManager sharedGraphsManager].weatherData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self maxTempValuesFromWeatherData3Values:(NSArray*)data];
     }
     return nil;
 }
@@ -85,7 +96,9 @@
         return [self conditionValuesFromMixerDailyValues:(NSArray*)data];
     }
     else if ([ServerProxy usesAPI3]) {
-        return @{};
+        id data = [GraphsManager sharedGraphsManager].weatherData;
+        if (![data isKindOfClass:[NSArray class]]) return nil;
+        return [self iconValuesFromWeatherData3Values:(NSArray*)data];
     }
     return nil;
 }
@@ -157,6 +170,54 @@
         NSString *date = waterLogDay.date;
         if (!date.length) continue;
         values[date] = @(waterLogDay.simulatedDurationPercentage * 100.0);
+    }
+    
+    return values;
+}
+
+- (NSDictionary*)maxTempValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
+    NSMutableDictionary *values = [NSMutableDictionary new];
+    
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"yyyy-MM-dd";
+    
+    for (WeatherData *weatherDataValue in weatherDataValues) {
+        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        if (!day.length) continue;
+        
+        values[day] = weatherDataValue.maxt;
+    }
+    
+    return values;
+}
+
+- (NSDictionary*)iconValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
+    NSMutableDictionary *values = [NSMutableDictionary new];
+    
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"yyyy-MM-dd";
+    
+    for (WeatherData *weatherDataValue in weatherDataValues) {
+        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        if (!day.length) continue;
+        
+        values[day] = @([Utils codeFromWeatherImageName:weatherDataValue.icon]);
+    }
+    
+    return values;
+}
+
+- (NSDictionary*)percentageValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
+    NSMutableDictionary *values = [NSMutableDictionary new];
+    
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"yyyy-MM-dd";
+    
+    for (WeatherData *weatherDataValue in weatherDataValues) {
+        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        if (!day.length) continue;
+        
+        values[day] = @(weatherDataValue.percentage.doubleValue * 100.0);
     }
     
     return values;
