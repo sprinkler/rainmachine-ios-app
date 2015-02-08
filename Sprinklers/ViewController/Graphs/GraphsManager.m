@@ -28,13 +28,15 @@
 #import "Utils.h"
 #import "Additions.h"
 #import "Constants.h"
-#import "AFNetworking.h"
+#import "APIVersion.h"
 
 NSString *kDailyWaterNeedGraphIdentifier            = @"DailyWaterNeedGraphIdentifier";
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
 NSString *kProgramRuntimeGraphIdentifier            = @"kProgramRuntimeGraphIdentifier";
 
 NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
+
+NSInteger kShowAllGraphsMinAPI3Subversion           = 63;
 
 #pragma mark -
 
@@ -46,6 +48,7 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 @property (nonatomic, strong) NSMutableArray *disabledGraphIdentifiers;
 
 - (void)registerAvailableGraphs;
+- (BOOL)shouldDisplayAllGraphs;
 
 @property (nonatomic, strong) ServerProxy *requestMixerDataServerProxy;
 @property (nonatomic, strong) ServerProxy *requestWateringLogDetailsServerProxy;
@@ -53,6 +56,7 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 @property (nonatomic, strong) ServerProxy *requestWeatherDataServerProxy;
 @property (nonatomic, strong) ServerProxy *requestProgramsServerProxy;
 @property (nonatomic, strong) ServerProxy *requestZonesServerProxy;
+@property (nonatomic, strong) ServerProxy *requestAPIVersionServerProxy;
 
 - (void)requestMixerData;
 - (void)requestWateringLogDetailsData;
@@ -60,6 +64,8 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 - (void)requestWeatherData;
 - (void)requestPrograms;
 - (void)requestZones;
+
+@property (nonatomic, strong) APIVersion *APIVersion;
 
 - (void)registerProgramGraphsForPrograms:(NSArray*)programs;
 
@@ -110,18 +116,28 @@ static GraphsManager *sharedGraphsManager = nil;
     [availableGraphs addObject:dailyWaterNeedGraph];
     availableGraphsDictionary[dailyWaterNeedGraph.graphIdentifier] = dailyWaterNeedGraph;
     
-    GraphDescriptor *temperatureGraph = [GraphDescriptor defaultDescriptor];
-    temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
-    temperatureGraph.titleAreaDescriptor.title = @"Temperature";
-    temperatureGraph.titleAreaDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
-    temperatureGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
-    temperatureGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_Scale;
-    temperatureGraph.dataSource = [GraphDataSourceTemperature defaultDataSource];
-    [availableGraphs addObject:temperatureGraph];
-    availableGraphsDictionary[temperatureGraph.graphIdentifier] = temperatureGraph;
+    if (self.shouldDisplayAllGraphs) {
+        GraphDescriptor *temperatureGraph = [GraphDescriptor defaultDescriptor];
+        temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
+        temperatureGraph.titleAreaDescriptor.title = @"Temperature";
+        temperatureGraph.titleAreaDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+        temperatureGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
+        temperatureGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_Scale;
+        temperatureGraph.dataSource = [GraphDataSourceTemperature defaultDataSource];
+        [availableGraphs addObject:temperatureGraph];
+        availableGraphsDictionary[temperatureGraph.graphIdentifier] = temperatureGraph;
+    }
     
     self.availableGraphsDictionary = availableGraphsDictionary;
     self.availableGraphs = availableGraphs;
+}
+
+- (BOOL)shouldDisplayAllGraphs {
+    if ([ServerProxy usesAPI4]) return YES;
+    
+    NSArray *versionComponents = [Utils parseApiVersion:self.APIVersion];
+    if ([versionComponents[1] integerValue] >= kShowAllGraphsMinAPI3Subversion) return YES;
+    return NO;
 }
 
 - (void)selectGraph:(GraphDescriptor*)graph {
@@ -205,9 +221,14 @@ static GraphsManager *sharedGraphsManager = nil;
     self.availableGraphsDictionary = nil;
     self.firstGraphsReloadFinished = NO;
     
-    [self registerAvailableGraphs];
-    [self initializeAllSelectedGraphs];
-    [self reloadAllSelectedGraphs];
+    if ([ServerProxy usesAPI3]) {
+        self.requestAPIVersionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+        [self.requestAPIVersionServerProxy requestAPIVersion];
+    } else {
+        [self registerAvailableGraphs];
+        [self initializeAllSelectedGraphs];
+        [self reloadAllSelectedGraphs];
+    }
 }
 
 - (void)cancel {
@@ -217,6 +238,15 @@ static GraphsManager *sharedGraphsManager = nil;
     [self.requestWeatherDataServerProxy cancelAllOperations];
     [self.requestProgramsServerProxy cancelAllOperations];
     [self.requestZonesServerProxy cancelAllOperations];
+    [self.requestAPIVersionServerProxy cancelAllOperations];
+    
+    self.requestMixerDataServerProxy = nil;
+    self.requestWateringLogDetailsServerProxy = nil;
+    self.requestWateringLogSimulatedDetailsServerProxy = nil;
+    self.requestWeatherDataServerProxy = nil;
+    self.requestProgramsServerProxy = nil;
+    self.requestZonesServerProxy = nil;
+    self.requestAPIVersionServerProxy = nil;
     
     self.reloadingGraphs = NO;
 }
@@ -298,6 +328,8 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)registerProgramGraphsForPrograms:(NSArray*)programs {
+    if (!self.shouldDisplayAllGraphs) return;
+    
     NSMutableArray *newGraphs = [NSMutableArray new];
     NSMutableDictionary *newGraphsDictionary = [NSMutableDictionary new];
     NSMutableSet *allProgramRuntimeGraphIdentifiers = [NSMutableSet new];
@@ -380,8 +412,16 @@ static GraphsManager *sharedGraphsManager = nil;
         self.weatherData = data;
         self.requestWeatherDataServerProxy = nil;
     }
+    else if (serverProxy == self.requestAPIVersionServerProxy) {
+        self.APIVersion = (APIVersion*)data;
+        self.requestAPIVersionServerProxy = nil;
+        
+        [self registerAvailableGraphs];
+        [self initializeAllSelectedGraphs];
+        [self reloadAllSelectedGraphs];
+    }
     
-    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
+    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy && !self.requestAPIVersionServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }
@@ -394,8 +434,9 @@ static GraphsManager *sharedGraphsManager = nil;
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) self.requestWateringLogDetailsServerProxy = nil;
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) self.requestWateringLogSimulatedDetailsServerProxy = nil;
     else if (serverProxy == self.requestWeatherDataServerProxy) self.requestWeatherDataServerProxy = nil;
+    else if (serverProxy == self.requestAPIVersionServerProxy) self.requestAPIVersionServerProxy = nil;
     
-    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
+    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy && !self.requestAPIVersionServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }
