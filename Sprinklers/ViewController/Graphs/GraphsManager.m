@@ -336,6 +336,7 @@ static GraphsManager *sharedGraphsManager = nil;
     
     for (Program *program in programs) {
         if (!program.active) continue;
+        if (program.programId == -1) continue;
         
         NSString *graphIdentifier = [NSString stringWithFormat:@"%@%d",kProgramRuntimeGraphIdentifier,program.programId];
         [allProgramRuntimeGraphIdentifiers addObject:graphIdentifier];
