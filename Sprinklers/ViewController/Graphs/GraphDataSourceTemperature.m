@@ -7,6 +7,7 @@
 //
 
 #import "GraphDataSourceTemperature.h"
+#import "GraphDataFormatterTemperature.h"
 #import "GraphsManager.h"
 #import "ServerProxy.h"
 #import "MixerDailyValue.h"
@@ -49,6 +50,10 @@
     [self reloadGraphDataSource];
 }
 
+- (Class)graphDataFormatterClass {
+    return [GraphDataFormatterTemperature class];
+}
+
 #pragma mark - Data
 
 - (NSDictionary*)valuesFromLoadedData {
@@ -63,6 +68,32 @@
         return [self maxTempValuesFromWeatherData3Values:(NSArray*)data];
     }
     return nil;
+}
+
+- (NSArray*)valuesForGraphDataFormatter {
+    NSMutableArray *values = [NSMutableArray new];
+    
+    if ([ServerProxy usesAPI4]) {
+        NSString *units = [Utils sprinklerTemperatureUnits];
+        BOOL isFahrenheit = [units isEqualToString:@"F"];
+        
+        for (MixerDailyValue *mixerDailyValue in [GraphsManager sharedGraphsManager].mixerData) {
+            [values addObject:@{@"date" : mixerDailyValue.day,
+                                @"maxt" : @(isFahrenheit ? mixerDailyValue.maxTemp * 1.8 + 32 : mixerDailyValue.maxTemp),
+                                @"mint" : @(isFahrenheit ? mixerDailyValue.minTemp * 1.8 + 32 : mixerDailyValue.minTemp)}];
+        }
+    } else {
+        for (WeatherData *weatherDataValue in [GraphsManager sharedGraphsManager].weatherData) {
+            [values addObject:@{@"date" : [[NSDate date] dateByAddingDays:weatherDataValue.id.intValue],
+                                @"maxt" : weatherDataValue.maxt,
+                                @"mint" : weatherDataValue.mint}];
+        }
+    }
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+    [values sortUsingDescriptors:@[sortDescriptor]];
+    
+    return values;
 }
 
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {

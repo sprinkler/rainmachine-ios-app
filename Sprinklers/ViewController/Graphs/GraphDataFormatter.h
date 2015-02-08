@@ -11,8 +11,10 @@
 typedef enum {
     GraphDataFormatterFieldTypeString,
     GraphDataFormatterFieldTypeNumber,
+    GraphDataFormatterFieldTypeDateString,
     GraphDataFormatterFieldTypeDate,
-    GraphDataFormatterFieldTypeTime
+    GraphDataFormatterFieldTypeTime,
+    GraphDataFormatterFieldTypeTemperature
 } GraphDataFormatterFieldType;
 
 extern NSString *GraphDataFormatterDescriptorFieldType;

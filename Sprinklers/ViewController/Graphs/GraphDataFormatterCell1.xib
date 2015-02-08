@@ -29,7 +29,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="label" destination="trb-FB-9Kp" id="Gd1-RF-IxX"/>
+                <outlet property="label1" destination="trb-FB-9Kp" id="gTc-Lq-OXt"/>
             </connections>
         </tableViewCell>
     </objects>

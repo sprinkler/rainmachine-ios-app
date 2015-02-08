@@ -11,6 +11,7 @@
 #import "GraphDataFormatterCell1.h"
 #import "GraphDataFormatterCell2.h"
 #import "GraphDataFormatterCell3.h"
+#import "Utils.h"
 
 NSString *GraphDataFormatterDescriptorFieldType             = @"GraphDataFormatterDescriptorFieldType";
 NSString *GraphDataFormatterDescriptorFieldKey              = @"GraphDataFormatterDescriptorFieldKey";
@@ -29,7 +30,9 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
 - (NSString*)formattedStringFromValue:(id)value fieldType:(GraphDataFormatterFieldType)fieldType;
 - (NSString*)formattedNumberFromValue:(id)value;
 - (NSString*)formattedDateStringFromString:(NSString*)string;
+- (NSString*)formattedDateStringFromDate:(NSDate*)date;
 - (NSString*)formattedTimeStringFromNumber:(NSNumber*)number;
+- (NSString*)formattedTemperatureStringFromNumber:(NSNumber*)number;
 
 @property (nonatomic, strong) NSDateFormatter *reverseDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -154,14 +157,20 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
 
 - (NSString*)formattedStringFromValue:(id)value fieldType:(GraphDataFormatterFieldType)fieldType {
     if (fieldType == GraphDataFormatterFieldTypeString) return value;
-    else if (fieldType == GraphDataFormatterFieldTypeNumber) return [self formattedNumberFromValue:value];
-    else if (fieldType == GraphDataFormatterFieldTypeDate) return [self formattedDateStringFromString:value];
-    else if (fieldType == GraphDataFormatterFieldTypeTime) return [self formattedTimeStringFromNumber:value];
+    if (fieldType == GraphDataFormatterFieldTypeNumber) return [self formattedNumberFromValue:value];
+    if (fieldType == GraphDataFormatterFieldTypeDateString) return [self formattedDateStringFromString:value];
+    if (fieldType == GraphDataFormatterFieldTypeDate) return [self formattedDateStringFromDate:value];
+    if (fieldType == GraphDataFormatterFieldTypeTime) return [self formattedTimeStringFromNumber:value];
+    if (fieldType == GraphDataFormatterFieldTypeTemperature) return [self formattedTemperatureStringFromNumber:value];
     return nil;
 }
 
 - (NSString*)formattedDateStringFromString:(NSString*)string {
     return [self.dateFormatter stringFromDate:[self.reverseDateFormatter dateFromString:string]];
+}
+
+- (NSString*)formattedDateStringFromDate:(NSDate*)date {
+    return [self.dateFormatter stringFromDate:date];
 }
 
 - (NSString*)formattedNumberFromValue:(id)value {
@@ -177,6 +186,10 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
     if (hours) formattedString = [NSString stringWithFormat:@"%dh %@",(int)hours,formattedString];
     
     return formattedString;
+}
+
+- (NSString*)formattedTemperatureStringFromNumber:(NSNumber*)number {
+    return [NSString stringWithFormat:@"%d°%@",number.intValue,[Utils sprinklerTemperatureUnits]];
 }
 
 @end

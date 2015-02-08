@@ -34,6 +34,13 @@
     [self.graphDataFormatter registerFormatterCellsInTableView:self.tableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.graphDataFormatter.graphDataSourceValues = self.graphDescriptor.dataSource.valuesForGraphDataFormatter;
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {

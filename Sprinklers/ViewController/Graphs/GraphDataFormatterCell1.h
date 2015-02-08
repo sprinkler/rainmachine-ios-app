@@ -10,6 +10,6 @@
 
 @interface GraphDataFormatterCell1 : UITableViewCell
 
-@property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, weak) IBOutlet UILabel *label1;
 
 @end

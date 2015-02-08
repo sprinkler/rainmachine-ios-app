@@ -17,7 +17,7 @@
     
     GraphDataFormatter *formatter1 = [GraphDataFormatter new];
     formatter1.subFormatterIndex = 0;
-    formatter1.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeDate),
+    formatter1.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeDateString),
                                  GraphDataFormatterDescriptorFieldKey : @"date",
                                  GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentCenter),
                                  GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
