@@ -114,6 +114,13 @@
         }
     }
     else if ([ServerProxy usesAPI3]) {
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        dateFormatter.dateFormat = @"yyyy-MM-dd";
+        
+        for (WeatherData *weatherDataValue in [GraphsManager sharedGraphsManager].weatherData) {
+            [values addObject:@{@"date" : [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]],
+                                @"percentage" : weatherDataValue.percentage}];
+        }
     }
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
