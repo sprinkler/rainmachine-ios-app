@@ -154,6 +154,7 @@
 		96CD40F81A8616E600CD7E90 /* GraphDataFormatterCell4.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CD40F61A8616E600CD7E90 /* GraphDataFormatterCell4.m */; };
 		96CD40F91A8616E600CD7E90 /* GraphDataFormatterCell4.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96CD40F71A8616E600CD7E90 /* GraphDataFormatterCell4.xib */; };
 		96D22A591A8769AB0051B941 /* GraphDataFormatterTemperature.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D22A581A8769AB0051B941 /* GraphDataFormatterTemperature.m */; };
+		96D22A5C1A8774BD0051B941 /* GraphDataFormatterWaterConsume.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D22A5B1A8774BD0051B941 /* GraphDataFormatterWaterConsume.m */; };
 		96D8F8BF1A53645300139940 /* GraphDataSourceWaterConsume.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */; };
 		96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB8FA1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m */; };
 		96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB8FC1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib */; };
@@ -678,6 +679,8 @@
 		96CD40F71A8616E600CD7E90 /* GraphDataFormatterCell4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphDataFormatterCell4.xib; path = ViewController/Graphs/GraphDataFormatterCell4.xib; sourceTree = "<group>"; };
 		96D22A571A8769AB0051B941 /* GraphDataFormatterTemperature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterTemperature.h; path = ViewController/Graphs/GraphDataFormatterTemperature.h; sourceTree = "<group>"; };
 		96D22A581A8769AB0051B941 /* GraphDataFormatterTemperature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterTemperature.m; path = ViewController/Graphs/GraphDataFormatterTemperature.m; sourceTree = "<group>"; };
+		96D22A5A1A8774BD0051B941 /* GraphDataFormatterWaterConsume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterWaterConsume.h; path = ViewController/Graphs/GraphDataFormatterWaterConsume.h; sourceTree = "<group>"; };
+		96D22A5B1A8774BD0051B941 /* GraphDataFormatterWaterConsume.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterWaterConsume.m; path = ViewController/Graphs/GraphDataFormatterWaterConsume.m; sourceTree = "<group>"; };
 		96D8F8BD1A53645300139940 /* GraphDataSourceWaterConsume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceWaterConsume.h; path = ViewController/Graphs/GraphDataSourceWaterConsume.h; sourceTree = "<group>"; };
 		96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceWaterConsume.m; path = ViewController/Graphs/GraphDataSourceWaterConsume.m; sourceTree = "<group>"; };
 		96DAB8F91A278A7E005974CC /* RainSensitivitySimulationGraphVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivitySimulationGraphVC.h; sourceTree = "<group>"; };
@@ -1405,6 +1408,8 @@
 				96CD40F71A8616E600CD7E90 /* GraphDataFormatterCell4.xib */,
 				96CD40E01A85FA6900CD7E90 /* GraphDataFormatter.h */,
 				96CD40E11A85FA6900CD7E90 /* GraphDataFormatter.m */,
+				96D22A5A1A8774BD0051B941 /* GraphDataFormatterWaterConsume.h */,
+				96D22A5B1A8774BD0051B941 /* GraphDataFormatterWaterConsume.m */,
 				96D22A571A8769AB0051B941 /* GraphDataFormatterTemperature.h */,
 				96D22A581A8769AB0051B941 /* GraphDataFormatterTemperature.m */,
 				96CD40E31A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.h */,
@@ -2584,6 +2589,7 @@
 				AFE894DB1A35733B007FC7EB /* ProvisionNameSetupVC.m in Sources */,
 				AF167D55189AB222003E659D /* UpdateManager.m in Sources */,
 				AF4397EA19ACCC36000F415D /* SetPassword4Response.m in Sources */,
+				96D22A5C1A8774BD0051B941 /* GraphDataFormatterWaterConsume.m in Sources */,
 				964ADD111A1E5AA5008281A8 /* GoogleRequestReverseGeocoding.m in Sources */,
 				96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */,
 				AFF9350B1A2C759F008063D2 /* LabelAndTextFieldCell.m in Sources */,

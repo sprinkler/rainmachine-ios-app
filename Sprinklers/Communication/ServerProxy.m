@@ -703,7 +703,7 @@ static int serverAPIMinorSubVersion = -1;
               }];
 }
 
-- (void)requestWateringLogDetalsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
+- (void)requestWateringLogDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
     [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"/api/4/watering/log/details/%@/%d",dateString,(int)daysCount]] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
@@ -723,7 +723,7 @@ static int serverAPIMinorSubVersion = -1;
               }];
 }
 
-- (void)requestWateringLogSimulatedDetalsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
+- (void)requestWateringLogSimulatedDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
     [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"/api/4/watering/log/simulated/details/%@/%d",dateString,(int)daysCount]] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {

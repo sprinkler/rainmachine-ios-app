@@ -262,13 +262,13 @@ static GraphsManager *sharedGraphsManager = nil;
 - (void)requestWateringLogDetailsData {
     if (self.requestWateringLogDetailsServerProxy) return;
     self.requestWateringLogDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    [self.requestWateringLogDetailsServerProxy requestWateringLogDetalsFromDate:self.startDateString daysCount:self.totalDays];
+    [self.requestWateringLogDetailsServerProxy requestWateringLogDetailsFromDate:self.startDateString daysCount:self.totalDays];
 }
 
 - (void)requestWateringLogSimulatedDetailsData {
     if (self.requestWateringLogSimulatedDetailsServerProxy) return;
     self.requestWateringLogSimulatedDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    [self.requestWateringLogSimulatedDetailsServerProxy requestWateringLogSimulatedDetalsFromDate:self.startDateString daysCount:self.totalDays];
+    [self.requestWateringLogSimulatedDetailsServerProxy requestWateringLogSimulatedDetailsFromDate:self.startDateString daysCount:self.totalDays];
 }
 
 - (void)requestWeatherData {

@@ -150,8 +150,8 @@ typedef enum {
 - (void)setLocation:(double)latitude longitude:(double)longitude timezone:(NSString*)timezone;
 
 - (void)requestMixerDataFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
-- (void)requestWateringLogDetalsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
-- (void)requestWateringLogSimulatedDetalsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
+- (void)requestWateringLogDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
+- (void)requestWateringLogSimulatedDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
 
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
 

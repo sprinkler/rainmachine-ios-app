@@ -82,7 +82,8 @@
                                 @"maxt" : @(isFahrenheit ? mixerDailyValue.maxTemp * 1.8 + 32 : mixerDailyValue.maxTemp),
                                 @"mint" : @(isFahrenheit ? mixerDailyValue.minTemp * 1.8 + 32 : mixerDailyValue.minTemp)}];
         }
-    } else {
+    }
+    else if ([ServerProxy usesAPI3]) {
         for (WeatherData *weatherDataValue in [GraphsManager sharedGraphsManager].weatherData) {
             [values addObject:@{@"date" : [[NSDate date] dateByAddingDays:weatherDataValue.id.intValue],
                                 @"maxt" : weatherDataValue.maxt,
