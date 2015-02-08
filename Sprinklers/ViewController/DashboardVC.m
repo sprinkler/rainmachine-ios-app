@@ -37,6 +37,7 @@
 
 - (void)startHud:(NSString*)text;
 - (void)scrollGraphsToCurrentDateAnimated:(BOOL)animate;
+- (void)scrollToGlobalContentOffsetAnimated:(BOOL)animate;
 
 @property (nonatomic, assign) CGPoint globalContentOffset;
 @property (nonatomic, assign) BOOL globalContentOffsetSet;
@@ -93,6 +94,10 @@
 - (void)scrollToCurrentDateAfterDelay {
     [self scrollGraphsToCurrentDateAnimated:NO];
     [self resetGlobalContentOffset];
+}
+
+- (void)scrollToGlobalContentOffsetAfterDelay {
+    [self scrollToGlobalContentOffsetAnimated:NO];
 }
 
 - (void)viewDidLoad {
@@ -201,6 +206,12 @@
 - (void)scrollGraphsToCurrentDateAnimated:(BOOL)animate {
     for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
         [cell scrollToCurrentDateAnimated:animate];
+    }
+}
+
+- (void)scrollToGlobalContentOffsetAnimated:(BOOL)animate {
+    for (GraphScrollableCell *cell in self.graphsTableView.visibleCells) {
+        [cell scrollToContentOffset:self.globalContentOffset animated:animate];
     }
 }
 
@@ -377,6 +388,7 @@
 
 - (void)finishedReordering {
     self.reorderingInProgress = NO;
+    [self.graphsTableView reloadData];
 }
 
 #pragma mark - Graph scrollable cell delegate
@@ -445,7 +457,7 @@
         [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     
-    [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(scrollToGlobalContentOffsetAfterDelay) withObject:nil afterDelay:0.1];
 }
 
 @end

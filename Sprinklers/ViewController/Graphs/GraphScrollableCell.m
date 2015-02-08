@@ -166,6 +166,7 @@
 
 - (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset {
     self.layoutSubviewsContentOffset = contentOffset;
+    [self setNeedsLayout];
 }
 
 - (void)scrollToCurrentDateAnimated:(BOOL)animate {
