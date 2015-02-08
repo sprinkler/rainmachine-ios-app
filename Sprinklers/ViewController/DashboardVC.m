@@ -61,6 +61,7 @@
     
     self.title = @"Dashboard";
     
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"availableGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"selectedGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"reloadingGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"firstGraphsReloadFinished" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
@@ -69,6 +70,7 @@
 }
 
 - (void)dealloc {
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"availableGraphs"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"selectedGraphs"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"reloadingGraphs"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"firstGraphsReloadFinished"];
@@ -79,14 +81,13 @@
         if (![GraphsManager sharedGraphsManager].reloadingGraphs) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.hud = nil;
-            [self.graphsTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.0];
             [self.statusTableView reloadData];
         }
         if ([keyPath isEqualToString:@"firstGraphsReloadFinished"] && [GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
-            [self.graphsTableView reloadData];
             [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.0];
         }
     }
+    [self.graphsTableView reloadData];
 }
 
 - (void)scrollToCurrentDateAfterDelay {
@@ -109,8 +110,6 @@
     [self initializeConfiguration];
     [self initializeUserInterface];
     
-    [[GraphsManager sharedGraphsManager] initializeAllSelectedGraphs];
-    
     [self onChangeTimeInterval:nil];
     
     self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
@@ -131,6 +130,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [GraphsManager sharedGraphsManager].presentationViewController = self;
+    [self.graphsTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -147,6 +147,7 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.rainDelayPoller stopPollRequests];
+    [[GraphsManager sharedGraphsManager] cancel];
 }
 
 #pragma mark - Helper methods
@@ -424,7 +425,9 @@
         graphDescriptor.graphTimeInterval = self.graphTimeInterval;
     }
     
-    [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    if (!sender) [self.graphsTableView reloadData];
+    else [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    
     [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.1];
 }
 

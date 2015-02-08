@@ -466,6 +466,8 @@
         return;
     }
     
+    [[GraphsManager sharedGraphsManager] reregisterAllGraphs];
+    
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate refreshRootViews:unit];
 }
@@ -926,8 +928,6 @@
             [self.navigationController pushViewController:login animated:YES];
         }
     }
-    
-    [[GraphsManager sharedGraphsManager] reregisterAllGraphs];
 }
 
 #pragma mark - Communication callbacks

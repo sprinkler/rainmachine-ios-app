@@ -72,10 +72,7 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 static GraphsManager *sharedGraphsManager = nil;
 
 + (GraphsManager*)sharedGraphsManager {
-    if (!sharedGraphsManager) {
-        sharedGraphsManager = [GraphsManager new];
-        [sharedGraphsManager registerAvailableGraphs];
-    }
+    if (!sharedGraphsManager) sharedGraphsManager = [GraphsManager new];
     return sharedGraphsManager;
 }
 
@@ -200,12 +197,17 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)reregisterAllGraphs {
+    [self cancel];
+    
+    self.disabledGraphIdentifiers = nil;
+    self.selectedGraphs = nil;
     self.availableGraphs = nil;
     self.availableGraphsDictionary = nil;
-    self.selectedGraphs = nil;
-    self.disabledGraphIdentifiers = nil;
     self.firstGraphsReloadFinished = NO;
+    
     [self registerAvailableGraphs];
+    [self initializeAllSelectedGraphs];
+    [self reloadAllSelectedGraphs];
 }
 
 - (void)cancel {
@@ -215,6 +217,8 @@ static GraphsManager *sharedGraphsManager = nil;
     [self.requestWeatherDataServerProxy cancelAllOperations];
     [self.requestProgramsServerProxy cancelAllOperations];
     [self.requestZonesServerProxy cancelAllOperations];
+    
+    self.reloadingGraphs = NO;
 }
 
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
@@ -377,20 +381,21 @@ static GraphsManager *sharedGraphsManager = nil;
         self.requestWeatherDataServerProxy = nil;
     }
     
-    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
+    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }
 }
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    if (serverProxy == self.requestProgramsServerProxy) self.requestProgramsServerProxy = nil;
+    if (serverProxy == self.requestZonesServerProxy) self.requestZonesServerProxy = nil;
+    else if (serverProxy == self.requestProgramsServerProxy) self.requestProgramsServerProxy = nil;
     else if (serverProxy == self.requestMixerDataServerProxy) self.requestMixerDataServerProxy = nil;
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) self.requestWateringLogDetailsServerProxy = nil;
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) self.requestWateringLogSimulatedDetailsServerProxy = nil;
     else if (serverProxy == self.requestWeatherDataServerProxy) self.requestWeatherDataServerProxy = nil;
     
-    if (!self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
+    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }
