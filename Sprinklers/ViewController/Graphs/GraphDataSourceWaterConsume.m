@@ -109,6 +109,7 @@
     if ([ServerProxy usesAPI4]) {
         for (WaterLogDay *waterLogDay in [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData) {
             [values addObject:@{@"date" : waterLogDay.date,
+                                @"percentage" : @(waterLogDay.simulatedDurationPercentage),
                                 @"simulatedUserDurationSum" : @(waterLogDay.simulatedUserDurationSum),
                                 @"simulatedRealDurationSum" : @(waterLogDay.simulatedRealDurationSum)}];
         }

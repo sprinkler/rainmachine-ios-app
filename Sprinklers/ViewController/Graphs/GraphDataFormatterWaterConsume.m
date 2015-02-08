@@ -26,6 +26,17 @@
         GraphDataFormatter *formatter2 = [GraphDataFormatter new];
         formatter2.subFormatterIndex = 1;
         formatter2.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
+                                     GraphDataFormatterDescriptorFieldValue : @"Water Consumed",
+                                     GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
+                                     GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
+                                   @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypePercetage),
+                                     GraphDataFormatterDescriptorFieldKey : @"percentage",
+                                     GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
+                                     GraphDataFormatterDescriptorFieldColor : [UIColor darkGrayColor]}];
+        
+        GraphDataFormatter *formatter3 = [GraphDataFormatter new];
+        formatter3.subFormatterIndex = 2;
+        formatter3.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
                                      GraphDataFormatterDescriptorFieldValue : @"Programed",
                                      GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
                                      GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
@@ -34,9 +45,9 @@
                                      GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
                                      GraphDataFormatterDescriptorFieldColor : [UIColor darkGrayColor]}];
         
-        GraphDataFormatter *formatter3 = [GraphDataFormatter new];
-        formatter3.subFormatterIndex = 2;
-        formatter3.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
+        GraphDataFormatter *formatter4 = [GraphDataFormatter new];
+        formatter4.subFormatterIndex = 3;
+        formatter4.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
                                      GraphDataFormatterDescriptorFieldValue : @"Watered",
                                      GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
                                      GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
@@ -45,7 +56,7 @@
                                      GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
                                      GraphDataFormatterDescriptorFieldColor : [UIColor darkGrayColor]}];
         
-        self.subFormatters = @[formatter1, formatter2, formatter3];
+        self.subFormatters = @[formatter1, formatter2, formatter3, formatter4];
     }
     else if ([ServerProxy usesAPI3]) {
         GraphDataFormatter *formatter1 = [GraphDataFormatter new];
