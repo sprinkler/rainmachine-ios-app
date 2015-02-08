@@ -72,7 +72,8 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
     for (GraphDataFormatter *subFormatter in self.subFormatters) {
         if (!subFormatter.formatterKey.length) numberOfRows++;
         else {
-            id value = [self.graphDataSourceValues valueForKey:subFormatter.formatterKey];
+            id value = self.graphDataSourceValues[section];
+            value = [value valueForKey:subFormatter.formatterKey];
             if (![value isKindOfClass:[NSArray class]]) numberOfRows++;
             else numberOfRows += ((NSArray*)value).count;
         }

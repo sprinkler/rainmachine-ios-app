@@ -52,8 +52,8 @@
     GraphDataFormatter *formatter3 = [GraphDataFormatter new];
     formatter3.formatterKey = @"zones";
     formatter3.subFormatterIndex = 2;
-    formatter3.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeNumber),
-                                 GraphDataFormatterDescriptorFieldKey : @"zoneId",
+    formatter3.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
+                                 GraphDataFormatterDescriptorFieldKey : @"zoneName",
                                  GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
                                  GraphDataFormatterDescriptorFieldColor : [UIColor blackColor],
                                  GraphDataFormatterDescriptorFieldFont : [UIFont systemFontOfSize:15.0]},

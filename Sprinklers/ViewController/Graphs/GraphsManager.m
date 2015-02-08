@@ -52,12 +52,14 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 @property (nonatomic, strong) ServerProxy *requestWateringLogSimulatedDetailsServerProxy;
 @property (nonatomic, strong) ServerProxy *requestWeatherDataServerProxy;
 @property (nonatomic, strong) ServerProxy *requestProgramsServerProxy;
+@property (nonatomic, strong) ServerProxy *requestZonesServerProxy;
 
 - (void)requestMixerData;
 - (void)requestWateringLogDetailsData;
 - (void)requestWateringLogSimulatedDetailsData;
 - (void)requestWeatherData;
 - (void)requestPrograms;
+- (void)requestZones;
 
 - (void)registerProgramGraphsForPrograms:(NSArray*)programs;
 
@@ -185,6 +187,7 @@ static GraphsManager *sharedGraphsManager = nil;
     self.reloadingGraphs = YES;
     
     [self requestPrograms];
+    [self requestZones];
     
     if ([ServerProxy usesAPI4]) {
         [self requestMixerData];
@@ -211,6 +214,7 @@ static GraphsManager *sharedGraphsManager = nil;
     [self.requestWateringLogSimulatedDetailsServerProxy cancelAllOperations];
     [self.requestWeatherDataServerProxy cancelAllOperations];
     [self.requestProgramsServerProxy cancelAllOperations];
+    [self.requestZonesServerProxy cancelAllOperations];
 }
 
 - (void)moveGraphFromIndex:(NSInteger)sourceIndex toIndex:(NSInteger)destinationIndex {
@@ -283,6 +287,12 @@ static GraphsManager *sharedGraphsManager = nil;
     [self.requestProgramsServerProxy requestPrograms];
 }
 
+- (void)requestZones {
+    if (self.requestZonesServerProxy) return;
+    self.requestZonesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    [self.requestZonesServerProxy requestZones];
+}
+
 - (void)registerProgramGraphsForPrograms:(NSArray*)programs {
     NSMutableArray *newGraphs = [NSMutableArray new];
     NSMutableDictionary *newGraphsDictionary = [NSMutableDictionary new];
@@ -346,7 +356,11 @@ static GraphsManager *sharedGraphsManager = nil;
         self.requestProgramsServerProxy = nil;
         [self registerProgramGraphsForPrograms:self.programs];
     }
-    if (serverProxy == self.requestMixerDataServerProxy) {
+    else if (serverProxy == self.requestZonesServerProxy) {
+        self.zones = (NSArray*)data;
+        self.requestZonesServerProxy = nil;
+    }
+    else if (serverProxy == self.requestMixerDataServerProxy) {
         self.mixerData = data;
         self.requestMixerDataServerProxy = nil;
     }

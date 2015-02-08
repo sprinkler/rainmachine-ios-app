@@ -12,6 +12,7 @@
 #import "MixerDailyValue.h"
 #import "WaterLogDay.h"
 #import "WaterLogProgram.h"
+#import "WaterLogZone.h"
 #import "Program.h"
 #import "Program4.h"
 
@@ -75,11 +76,21 @@
 }
 
 - (NSArray*)valuesForGraphDataFormatter {
+    NSMutableDictionary *zoneNamesDictionary = [NSMutableDictionary new];
+    for (Zone *zone in [GraphsManager sharedGraphsManager].zones) {
+        [zoneNamesDictionary setObject:zone.name forKey:@(zone.zoneId)];
+    }
+    
     NSMutableArray *values = [NSMutableArray new];
     
     for (WaterLogDay *waterLogDay in [GraphsManager sharedGraphsManager].wateringLogDetailsData) {
         WaterLogProgram *waterLogProgram = [waterLogDay waterLogProgramForProgramId:self.program.programId];
         if (!waterLogProgram) continue;
+        
+        for (WaterLogZone *zone in waterLogProgram.zones) {
+            zone.zoneName = [zoneNamesDictionary objectForKey:@(zone.zoneId)];
+        }
+        
         [values addObject:@{@"date" : waterLogDay.date,
                             @"userDuration" : @(waterLogProgram.userDurationSum),
                             @"realDuration" : @(waterLogProgram.realDurationSum),

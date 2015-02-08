@@ -11,6 +11,7 @@
 @interface WaterLogZone : NSObject
 
 @property (nonatomic, assign) int zoneId;
+@property (nonatomic, strong) NSString *zoneName;
 @property (nonatomic, assign) int flag;
 @property (nonatomic, strong) NSArray *cycles;
 
