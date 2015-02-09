@@ -109,9 +109,9 @@
     if ([ServerProxy usesAPI4]) {
         for (WaterLogDay *waterLogDay in [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData) {
             [values addObject:@{@"date" : waterLogDay.date,
-                                @"percentage" : @(waterLogDay.simulatedDurationPercentage),
-                                @"simulatedUserDurationSum" : @(waterLogDay.simulatedUserDurationSum),
-                                @"simulatedRealDurationSum" : @(waterLogDay.simulatedRealDurationSum)}];
+                                @"percentage" : @(waterLogDay.durationPercentage),
+                                @"simulatedUserDurationSum" : @(waterLogDay.userDurationSum),
+                                @"simulatedRealDurationSum" : @(waterLogDay.realDurationSum)}];
         }
     }
     else if ([ServerProxy usesAPI3]) {
@@ -177,7 +177,7 @@
     for (WaterLogDay *waterLogDay in wateringLogSimulatedValues) {
         NSString *date = waterLogDay.date;
         if (!date.length) continue;
-        values[date] = @(waterLogDay.simulatedDurationPercentage * 100.0);
+        values[date] = @(waterLogDay.durationPercentage * 100.0);
     }
     
     return values;

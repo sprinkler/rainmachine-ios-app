@@ -26,13 +26,6 @@
         
         waterLogDay.programs = programs;
         
-        NSMutableArray *simulatedPrograms = [NSMutableArray new];
-        for (NSDictionary *programJson in [jsonObj objectForKey:@"simulatedPrograms"]) {
-            [simulatedPrograms addObject:[WaterLogProgram createFromJson:programJson]];
-        }
-        
-        waterLogDay.simulatedPrograms = simulatedPrograms;
-        
         int realDurationSum = 0;
         int userDurationSum = 0;
         
@@ -44,17 +37,6 @@
         waterLogDay.realDurationSum = realDurationSum;
         waterLogDay.userDurationSum = userDurationSum;
         
-        int simulatedRealDurationSum = 0;
-        int simulatedUserDurationSum = 0;
-        
-        for (WaterLogProgram *program in waterLogDay.simulatedPrograms) {
-            simulatedRealDurationSum += program.realDurationSum;
-            simulatedUserDurationSum += program.userDurationSum;
-        }
-        
-        waterLogDay.simulatedRealDurationSum = simulatedRealDurationSum;
-        waterLogDay.simulatedUserDurationSum = simulatedUserDurationSum;
-        
         return waterLogDay;
     }
     return nil;
@@ -65,20 +47,8 @@
     return (double)self.realDurationSum / (double)self.userDurationSum;
 }
 
-- (double)simulatedDurationPercentage {
-    if (self.simulatedUserDurationSum == 0) return 0.0;
-    return (double)self.simulatedRealDurationSum / (double)self.simulatedUserDurationSum;
-}
-
 - (WaterLogProgram*)waterLogProgramForProgramId:(int)programId {
     for (WaterLogProgram *program in self.programs) {
-        if (program.programId == programId) return program;
-    }
-    return nil;
-}
-
-- (WaterLogProgram*)simulatedWaterLogProgramForProgramId:(int)programId {
-    for (WaterLogProgram *program in self.simulatedPrograms) {
         if (program.programId == programId) return program;
     }
     return nil;
