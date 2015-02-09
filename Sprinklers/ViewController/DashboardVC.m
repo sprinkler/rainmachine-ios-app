@@ -246,6 +246,7 @@
 }
 
 - (void)hideHUD {
+    if (self.hud) return;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
