@@ -995,17 +995,15 @@
                     NSString *port = [Utils getPort:fullAddress];
                     NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:fullAddress]];
                     port = port ? port : @"443";
+                    
                     // Add or update the remote sprinkler
+                    
                     Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address local:@NO email:email];
                     if (!sprinkler) {
                         sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
-                    } else {
-                        if (address) {
-                            sprinkler.address = address;
-                        }
-                        sprinkler.name = sprinklerInfo[@"name"];
                     }
-                    
+                    if (address) sprinkler.address = address;
+                    sprinkler.name = sprinklerInfo[@"name"];
                     sprinkler.port = port;
                     sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
                     sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
