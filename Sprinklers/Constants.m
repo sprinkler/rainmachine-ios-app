@@ -19,6 +19,8 @@ NSString *const kDebugDeviceGreyOutRetryCount = @"DebugDeviceGreyOutRetryCount";
 NSString *const kCloudProxyFinderURLKey = @"CloudProxyFinderURLKey";
 NSString *const kCloudProxyFinderStagingURL = @"https://54.186.224.58:9000";
 NSString *const kCloudProxyFinderURL = @"https://54.72.36.178:9000";
+NSString *const kCloudProxyFinderStagingName = @"Staging";
+NSString *const kCloudProxyFinderName = @"Dev";
 
 NSString* const kSprinklerKeychain_CookieDictionaryStorageKey = @"SprinklerKeychain_CookieDictionaryStorageKey";
 NSString* const kSprinklerKeychain_CookiesKey = @"SprinklerKeychain_CookiesKey";

@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *cloudServers;
+@property (strong, nonatomic) NSMutableArray *cloudServerNames;
 @property (assign, nonatomic) NSUInteger selectedCloudServerIndex;
 
 @end
@@ -39,8 +40,12 @@
     [self.cloudServers addObject:kCloudProxyFinderStagingURL];
     [self.cloudServers addObject:kCloudProxyFinderURL];
     
+    self.cloudServerNames = [NSMutableArray new];
+    [self.cloudServerNames addObject:kCloudProxyFinderStagingName];
+    [self.cloudServerNames addObject:kCloudProxyFinderName];
+    
     NSString *selectedServer = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
-    if (!selectedServer.length) selectedServer = kCloudProxyFinderURL;
+    if (!selectedServer.length) selectedServer = kCloudProxyFinderStagingURL;
     self.selectedCloudServerIndex = [self.cloudServers indexOfObject:selectedServer];
     
     [_tableView registerNib:[UINib nibWithNibName:@"SimpleCell" bundle:nil] forCellReuseIdentifier:@"SimpleCell"];
@@ -60,7 +65,7 @@
     static NSString *CellIdentifier = @"SimpleCell";
     UITableViewCell *cell = (UITableViewCell*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.text = self.cloudServers[indexPath.row];
+    cell.textLabel.text = self.cloudServerNames[indexPath.row];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         cell.tintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];

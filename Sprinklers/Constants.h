@@ -30,6 +30,8 @@ extern NSString* const TestServerPort;
 extern NSString* const kCloudProxyFinderURLKey;
 extern NSString *const kCloudProxyFinderStagingURL;
 extern NSString *const kCloudProxyFinderURL;
+extern NSString *const kCloudProxyFinderStagingName;
+extern NSString *const kCloudProxyFinderName;
 
 extern NSString* const kSprinklerKeychain_CookieDictionaryStorageKey;
 extern NSString* const kSprinklerKeychain_CookiesKey;

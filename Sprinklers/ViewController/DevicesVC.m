@@ -57,6 +57,7 @@
 
 @property (nonatomic, weak) IBOutlet UITextField *debugTextField;
 @property (strong, nonatomic) NSMutableArray *cloudServers;
+@property (strong, nonatomic) NSMutableArray *cloudServerNames;
 @property (assign, nonatomic) NSUInteger selectedCloudServerIndex;
 
 @end
@@ -66,7 +67,7 @@
 #pragma mark - Init
 
 + (void)initialize {
-    NSDictionary *defaults = @{kCloudProxyFinderURLKey : kCloudProxyFinderURL};
+    NSDictionary *defaults = @{kCloudProxyFinderURLKey : kCloudProxyFinderStagingURL};
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
@@ -134,6 +135,10 @@
     self.cloudServers = [NSMutableArray new];
     [self.cloudServers addObject:kCloudProxyFinderStagingURL];
     [self.cloudServers addObject:kCloudProxyFinderURL];
+    
+    self.cloudServerNames = [NSMutableArray new];
+    [self.cloudServerNames addObject:kCloudProxyFinderStagingName];
+    [self.cloudServerNames addObject:kCloudProxyFinderName];
 
     NSString *selectedServer = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
     selectedServer = [self fixSelectedServer:selectedServer];
@@ -702,7 +707,7 @@
             cell.textLabel.text = @"Device Grey Out Retry Count";
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount]];
         } else {
-            cell.textLabel.text = self.cloudServers[indexPath.row - kDebugSettingsNrBeforeCloudServer];
+            cell.textLabel.text = self.cloudServerNames[indexPath.row - kDebugSettingsNrBeforeCloudServer];
             cell.accessoryType = ((indexPath.row - kDebugSettingsNrBeforeCloudServer) == self.selectedCloudServerIndex ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
         }
         
