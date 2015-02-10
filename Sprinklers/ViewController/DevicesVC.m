@@ -49,6 +49,7 @@
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
 @property (strong, nonatomic) ServerProxy *diagServerProxy;
+@property (strong, nonatomic) ServerProxy *versionServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
 @property (strong, nonatomic) CloudAccountsVC *cloudAccountsVC;
@@ -873,17 +874,17 @@
 - (void)sprinklerSelected:(Sprinkler*)sprinkler
 {
     self.selectedSprinkler = sprinkler;
-
+    
     [self startHud:nil];
-    self.diagServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:NO];
-    [self.diagServerProxy requestDiag];
+    self.versionServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:YES];
+    [self.versionServerProxy requestAPIVersion];
 }
 
 - (void)continueSprinklerSelectionAction:(Sprinkler*)sprinkler diag:(NSDictionary*)diag
 {
     BOOL wizardHasRun = [diag[@"wizardHasRun"] boolValue];
 
-    if (!wizardHasRun) {
+    if (diag && !wizardHasRun) {
         AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
         detailVC.inputSprinklerMAC = sprinkler.sprinklerId;
         [self.navigationController pushViewController:detailVC animated:YES];
@@ -943,6 +944,10 @@
         [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
         self.diagServerProxy = nil;
     }
+    else if (serverProxy == self.versionServerProxy) {
+        [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+        self.versionServerProxy = nil;
+    }
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
@@ -995,6 +1000,20 @@
             [self refreshSprinklerList];
             
             [self.tableView reloadData];
+        }
+    }
+    else if (serverProxy == self.versionServerProxy) {
+        self.versionServerProxy = nil;
+        
+        NSArray *versionComponents = [Utils parseApiVersion:data];
+        NSInteger versionComponentMajor = -1;
+        if (versionComponents.count) versionComponentMajor = [[versionComponents firstObject] integerValue];
+        
+        if (versionComponentMajor == 3) {
+            [self continueSprinklerSelectionAction:self.selectedSprinkler diag:nil];
+        } else {
+            self.diagServerProxy = [[ServerProxy alloc] initWithSprinkler:self.selectedSprinkler delegate:self jsonRequest:NO];
+            [self.diagServerProxy requestDiag];
         }
     }
     else if (serverProxy == self.diagServerProxy) {
