@@ -8,7 +8,7 @@ NSString *const TestServerURL = @"https://ns.tremend.ro";
 NSString *const TestServerPort = @"2443"; // 3.59
 //NSString *const TestServerPort = @"65076";
 
-NSString *const kGoogleMapsAPIKey = @"AIzaSyBnob64WT9Tm2x7y8bVIfiq2jNPMc2LKt0";
+NSString *const kGoogleMapsAPIKey = @"AIzaSyBmibJFgRN24DBK24m96jR3MgjwpIK9TeE";
 NSString *const kGooglePlacesAPIServerKey = @"AIzaSyCKT3TO8ALbcSVtwVjlN8z6NVgvjuti8T0";
 
 NSString *const kDebugNewAPIVersion = @"DebugNewAPIVersion";
