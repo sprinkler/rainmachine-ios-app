@@ -597,6 +597,26 @@ static int serverAPIMinorSubVersion = -1;
               }];
 }
 
+- (void)requestDiagWithTimeoutInterval:(NSTimeInterval)timeoutInterval
+{
+    NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:@"GET"
+                                                                           URLString:[[NSURL URLWithString:[self urlByAppendingAccessTokenToUrl:@"/api/4/diag"] relativeToURL:self.manager.baseURL] absoluteString]
+                                                                          parameters:nil];
+    request.timeoutInterval = timeoutInterval;
+    
+    AFHTTPRequestOperation *operation =
+        [self.manager HTTPRequestOperationWithRequest:request
+                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                                                      [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
+                                                  }
+                                              }
+                                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                  [self handleError:error fromOperation:operation userInfo:nil];
+                                              }];
+    [self.manager.operationQueue addOperation:operation];
+}
+
 - (void)setWiFiWithSSID:(NSString*)ssid encryption:(NSString*)encryption key:(NSString*)password
 {
     NSDictionary *params = @{@"ssid" : ssid,

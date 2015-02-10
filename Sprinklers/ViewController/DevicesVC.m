@@ -32,6 +32,7 @@
 #import "GraphsManager.h"
 
 #define kDebugSettingsNrBeforeCloudServer 6
+#define kRequestDiagTimeoutInterval 5
 
 #define kAlertView_DeleteDevice 1
 
@@ -54,6 +55,7 @@
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
 @property (strong, nonatomic) CloudAccountsVC *cloudAccountsVC;
 @property (strong, nonatomic) Sprinkler *selectedSprinkler;
+@property (assign, nonatomic) BOOL selectingSprinklerInProgress;
 
 @property (nonatomic, weak) IBOutlet UITextField *debugTextField;
 @property (strong, nonatomic) NSMutableArray *cloudServers;
@@ -361,7 +363,7 @@
         [self shouldStopBroadcast];
         
         if (forceUIRefresh) {
-            [self hideHud];
+            if (!self.selectingSprinklerInProgress) [self hideHud];
             // Process the list of discovered devices before starting a new discovery process
             // We do the processing until here, because otherwise, when no sprinklers in the network, the 'SprinklersDiscovered' callback is not called at all
             [self SprinklersDiscovered];
@@ -878,7 +880,14 @@
 
 - (void)sprinklerSelected:(Sprinkler*)sprinkler
 {
+    [self.versionServerProxy cancelAllOperations];
+    [self.diagServerProxy cancelAllOperations];
+    
+    self.versionServerProxy = nil;
+    self.diagServerProxy = nil;
+    
     self.selectedSprinkler = sprinkler;
+    self.selectingSprinklerInProgress = YES;
     
     [self startHud:nil];
     self.versionServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:YES];
@@ -939,17 +948,21 @@
 #pragma mark - Communication callbacks
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-
-    [self hideHud];
-
     if (serverProxy == self.cloudServerProxy) {
+        if (!self.selectingSprinklerInProgress) [self hideHud];
         [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
     }
     else if (serverProxy == self.diagServerProxy) {
+        self.selectingSprinklerInProgress = NO;
+        [self hideHud];
+        
         [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
         self.diagServerProxy = nil;
     }
     else if (serverProxy == self.versionServerProxy) {
+        self.selectingSprinklerInProgress = NO;
+        [self hideHud];
+        
         [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
         self.versionServerProxy = nil;
     }
@@ -957,7 +970,7 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.cloudServerProxy) {
-        [self hideHud];
+        if (!self.selectingSprinklerInProgress) [self hideHud];
     //    NSError *e = nil;
     //    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"dragos@oriunde.com\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"2180:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
     //    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];
@@ -1015,13 +1028,18 @@
         if (versionComponents.count) versionComponentMajor = [[versionComponents firstObject] integerValue];
         
         if (versionComponentMajor == 3) {
+            self.selectingSprinklerInProgress = NO;
+            [self hideHud];
             [self continueSprinklerSelectionAction:self.selectedSprinkler diag:nil];
         } else {
             self.diagServerProxy = [[ServerProxy alloc] initWithSprinkler:self.selectedSprinkler delegate:self jsonRequest:NO];
-            [self.diagServerProxy requestDiag];
+            [self.diagServerProxy requestDiagWithTimeoutInterval:kRequestDiagTimeoutInterval];
         }
     }
     else if (serverProxy == self.diagServerProxy) {
+        self.selectingSprinklerInProgress = NO;
+        [self hideHud];
+        
         self.diagServerProxy = nil;
         [self continueSprinklerSelectionAction:self.selectedSprinkler diag:(NSDictionary*)data];
     }
