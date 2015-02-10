@@ -474,7 +474,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestWateringRestrictions
 {
-    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/restrictions/global"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/wateringRestrictions"];
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/restrictions/global"] : [self urlByAppendingAccessTokenToUrl:@"api/4/wateringRestrictions"];
     [self.manager GET:relUrl parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
@@ -510,7 +510,7 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)requestHourlyRestrictions {
-    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/restrictions/hourly"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/hourlyRestrictions"];
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/restrictions/hourly"] : [self urlByAppendingAccessTokenToUrl:@"api/4/hourlyRestrictions"];
     [self.manager GET:relUrl parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
@@ -559,7 +559,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestCurrentWiFi
 {
-    [self.manager GET:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi"] parameters:nil
+    [self.manager GET:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/provision/wifi"] : [self urlByAppendingAccessTokenToUrl:@"api/4/provision/wifi"] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
@@ -572,7 +572,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestAvailableWiFis
 {
-    [self.manager GET:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi/scan"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/getScanResults"] parameters:nil
+    [self.manager GET:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/provision/wifi/scan"] : [self urlByAppendingAccessTokenToUrl:@"api/4/provision/getScanResults"] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       NSArray *WiFis = [ServerProxy fromJSONArray:[responseObject objectForKey:@"scanResults"] toClass:NSStringFromClass([WiFi class])];
@@ -586,7 +586,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestDiag
 {
-    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"/api/4/diag"] parameters:nil
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"api/4/diag"] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
@@ -600,7 +600,7 @@ static int serverAPIMinorSubVersion = -1;
 - (void)requestDiagWithTimeoutInterval:(NSTimeInterval)timeoutInterval
 {
     NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:@"GET"
-                                                                           URLString:[[NSURL URLWithString:[self urlByAppendingAccessTokenToUrl:@"/api/4/diag"] relativeToURL:self.manager.baseURL] absoluteString]
+                                                                           URLString:[[NSURL URLWithString:[self urlByAppendingAccessTokenToUrl:@"api/4/diag"] relativeToURL:self.manager.baseURL] absoluteString]
                                                                           parameters:nil];
     request.timeoutInterval = timeoutInterval;
     
@@ -623,7 +623,7 @@ static int serverAPIMinorSubVersion = -1;
                              @"encryption" : encryption,
                              @"key" : password};
     
-    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/wifi/settings"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/setSSID"] parameters:params
+    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/provision/wifi/settings"] : [self urlByAppendingAccessTokenToUrl:@"api/4/provision/setSSID"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
@@ -638,7 +638,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     NSDictionary *params = @{@"netName" : name};
     
-    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/name"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/provision/setNetName"] parameters:params
+    [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/provision/name"] : [self urlByAppendingAccessTokenToUrl:@"api/4/provision/setNetName"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
@@ -651,7 +651,7 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)requestProvision
 {
-    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:nil
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       Provision *provision = [Provision createFromJson:responseObject];
@@ -679,7 +679,7 @@ static int serverAPIMinorSubVersion = -1;
                    };
     }
     
-    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:params
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
@@ -694,7 +694,7 @@ static int serverAPIMinorSubVersion = -1;
 {
     NSDictionary *params = @{@"location" : @{@"timezone" : timezone}};
     
-    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:params
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];
@@ -710,7 +710,7 @@ static int serverAPIMinorSubVersion = -1;
     NSDictionary *params = @{@"location" : @{@"rainSensitivity" : [NSString stringWithFormat:@"%lf", provision.location.rainSensitivity],
                                              @"wsDays" : [NSString stringWithFormat:@"%d", provision.location.wsDays]}};
     
-    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"/api/4/provision"] parameters:params
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
@@ -722,7 +722,7 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)requestMixerDataFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
-    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"/api/4/mixer/%@/%d",dateString,(int)daysCount]] parameters:nil
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"api/4/mixer/%@/%d",dateString,(int)daysCount]] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       NSArray *mixerDictsByDate = [responseObject objectForKey:@"mixerDataByDate"];
@@ -739,7 +739,7 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)requestWateringLogDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
-    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"/api/4/watering/log/details/%@/%d",dateString,(int)daysCount]] parameters:nil
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"api/4/watering/log/details/%@/%d",dateString,(int)daysCount]] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       NSDictionary *waterLog = [responseObject objectForKey:@"waterLog"];
@@ -759,7 +759,7 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)requestWateringLogSimulatedDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
-    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"/api/4/watering/log/simulated/details/%@/%d",dateString,(int)daysCount]] parameters:nil
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"api/4/watering/log/simulated/details/%@/%d",dateString,(int)daysCount]] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                       NSDictionary *waterLog = [responseObject objectForKey:@"waterLog"];
@@ -1642,7 +1642,7 @@ static int serverAPIMinorSubVersion = -1;
 }
 
 - (void)reboot {
-    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"/api/4/machine/reboot"] : [self urlByAppendingAccessTokenToUrl:@"/api/4/reboot"];
+    NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/machine/reboot"] : [self urlByAppendingAccessTokenToUrl:@"api/4/reboot"];
     [self.manager POST:relUrl parameters:@{}
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
