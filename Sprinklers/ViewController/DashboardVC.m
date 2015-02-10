@@ -141,9 +141,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [GraphsManager sharedGraphsManager].presentationViewController = self;
-    [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
-    [self startHud:nil];
+    if ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
+        [GraphsManager sharedGraphsManager].presentationViewController = self;
+        [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
+        [self startHud:nil];
+    } else {
+        [self startHud:nil];
+    }
     
     [self.rainDelayPoller scheduleNextPoll:0];
     [self refreshStatus];

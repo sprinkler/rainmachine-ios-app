@@ -37,6 +37,7 @@ NSString *kProgramRuntimeGraphIdentifier            = @"kProgramRuntimeGraphIden
 NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 
 NSInteger kShowAllGraphsMinAPI3Subversion           = 63;
+NSInteger kMaxRequestAPIVersionRetries              = 10;
 
 #pragma mark -
 
@@ -57,6 +58,7 @@ NSInteger kShowAllGraphsMinAPI3Subversion           = 63;
 @property (nonatomic, strong) ServerProxy *requestProgramsServerProxy;
 @property (nonatomic, strong) ServerProxy *requestZonesServerProxy;
 @property (nonatomic, strong) ServerProxy *requestAPIVersionServerProxy;
+@property (nonatomic, assign) NSInteger requestAPIVersionRetries;
 
 - (void)requestMixerData;
 - (void)requestWateringLogDetailsData;
@@ -136,7 +138,7 @@ static GraphsManager *sharedGraphsManager = nil;
     if ([ServerProxy usesAPI4]) return YES;
     
     NSArray *versionComponents = [Utils parseApiVersion:self.APIVersion];
-    if ([versionComponents[1] integerValue] >= kShowAllGraphsMinAPI3Subversion) return YES;
+    if (versionComponents && [versionComponents[1] integerValue] >= kShowAllGraphsMinAPI3Subversion) return YES;
     return NO;
 }
 
@@ -222,6 +224,7 @@ static GraphsManager *sharedGraphsManager = nil;
     self.firstGraphsReloadFinished = NO;
     
     if ([ServerProxy usesAPI3]) {
+        self.requestAPIVersionRetries = 0;
         self.requestAPIVersionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
         [self.requestAPIVersionServerProxy requestAPIVersion];
     } else {
@@ -435,7 +438,19 @@ static GraphsManager *sharedGraphsManager = nil;
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) self.requestWateringLogDetailsServerProxy = nil;
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) self.requestWateringLogSimulatedDetailsServerProxy = nil;
     else if (serverProxy == self.requestWeatherDataServerProxy) self.requestWeatherDataServerProxy = nil;
-    else if (serverProxy == self.requestAPIVersionServerProxy) self.requestAPIVersionServerProxy = nil;
+    else if (serverProxy == self.requestAPIVersionServerProxy) {
+        if (self.requestAPIVersionRetries < kMaxRequestAPIVersionRetries) {
+            self.requestAPIVersionRetries++;
+            self.requestAPIVersionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+            [self.requestAPIVersionServerProxy performSelector:@selector(requestAPIVersion) withObject:nil afterDelay:1.0];
+            return;
+        } else {
+            self.requestAPIVersionServerProxy = nil;
+            [self registerAvailableGraphs];
+            [self initializeAllSelectedGraphs];
+            [self reloadAllSelectedGraphs];
+        }
+    }
     
     if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy && !self.requestAPIVersionServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
