@@ -101,7 +101,7 @@ static StorageManager *current = nil;
         increase &= (([Utils isCloudDevice:sprinkler]) || ([Utils isLocallyDiscoveredDevice:sprinkler]));
         
         if (increase) {
-            NSInteger newValue = MIN([[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] integerValue], sprinkler.nrOfFailedConsecutiveDiscoveries.integerValue+1);
+            NSInteger newValue = MIN([Utils deviceGreyOutRetryCount], sprinkler.nrOfFailedConsecutiveDiscoveries.integerValue+1);
             sprinkler.nrOfFailedConsecutiveDiscoveries = [NSNumber numberWithInteger:newValue];
         }
     }

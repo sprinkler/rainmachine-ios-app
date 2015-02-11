@@ -62,6 +62,8 @@
 @property (strong, nonatomic) NSMutableArray *cloudServerNames;
 @property (assign, nonatomic) NSUInteger selectedCloudServerIndex;
 
+@property (assign, nonatomic) BOOL forceUserRefreshActivityIndicator;
+
 @end
 
 @implementation DevicesVC
@@ -352,7 +354,6 @@
     self.tableView.tableFooterView = label;
 }
 
-
 - (void)pollLocal
 {
     [self shouldStartBroadcastForceUIRefresh:YES];
@@ -360,7 +361,7 @@
 
 - (void)shouldStartBroadcastForceUIRefresh:(BOOL)forceUIRefresh {
     if (!self.tableView.isEditing) {
-        [self shouldStopBroadcast];
+//        [self shouldStopBroadcast];
         
         if (forceUIRefresh) {
             if (!self.selectingSprinklerInProgress) [self hideHud];
@@ -368,21 +369,21 @@
             // We do the processing until here, because otherwise, when no sprinklers in the network, the 'SprinklersDiscovered' callback is not called at all
             [self SprinklersDiscovered];
         }
-        
-        [[ServiceManager current] startBroadcastForSprinklers:NO];
+
+        [self startBroadcastSilent:YES];
     }
 }
 
 -(void)SprinklersDiscovered
 {
-    NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:nil];
- 
-    // Mark all non-discovered sprinklers as not-alive
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
+    NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:nil];
+    
+    // Mark all non-discovered sprinklers as not-alive
     NSArray *localSprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Local aliveDevices:@YES];
     for (Sprinkler *sprinkler in localSprinklers) {
         sprinkler.isDiscovered = @NO;
-        sprinkler.apFlag = nil;
+//        sprinkler.apFlag = nil;
     }
     
     // Convert the DiscoveredSprinkler objects into Sprinkler objects
@@ -411,6 +412,15 @@
     [self refreshSprinklerList];
     
     [_tableView reloadData];
+    
+    self.forceUserRefreshActivityIndicator = NO;
+    
+    [self hideHud];
+}
+
+- (void)startBroadcastSilent:(BOOL)silent
+{
+    [[ServiceManager current] startBroadcastForSprinklers:silent];
 }
 
 - (void)shouldStopBroadcast {
@@ -419,7 +429,7 @@
 }
 
 - (void)appDidBecomeActive {
-    [self shouldStartBroadcastForceUIRefresh:NO];
+//    [self shouldStartBroadcastForceUIRefresh:NO];
 }
 
 - (void)appDidResignActive {
@@ -432,13 +442,10 @@
 }
 
 - (void)hideHud {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (!self.forceUserRefreshActivityIndicator) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
  }
-
-- (void)shouldStartSilentBroadcast {
-    [[ServiceManager current] startBroadcastForSprinklers:YES];
-    [self performSelector:@selector(refreshList) withObject:nil afterDelay:2.0];
-}
 
 - (void)updateVisibleCellsForEditMode {
     for (UITableViewCell *cell in self.tableView.visibleCells) {
@@ -489,12 +496,12 @@
 
 - (void)onRefresh:(id)notification {
     
-    [NSTimer scheduledTimerWithTimeInterval:kLocalDevicesDiscoveryInterval_UserStarted
-                                                                target:self
-                                                              selector:@selector(pollLocal)
-                                                              userInfo:nil
-                                                               repeats:NO];
-
+    if (self.forceUserRefreshActivityIndicator) {
+        return;
+    }
+    
+    self.forceUserRefreshActivityIndicator = YES;
+    
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
     NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
@@ -504,12 +511,14 @@
     
     [[StorageManager current] saveData];
 
-    [self shouldStartBroadcastForceUIRefresh:NO];
+//    [self shouldStartBroadcastForceUIRefresh:NO];
     self.cloudResponse = nil;
     self.cloudEmails = nil;
     self.locallyDiscoveredSprinklers = nil;
     self.manuallyEnteredSprinklers = nil;
     self.cloudSprinklers = nil;
+    
+    [self pollCloud];
     
     [self startHud:nil];
     [self.tableView reloadData];

@@ -33,6 +33,8 @@ static ServiceManager *current = nil;
 
 - (BOOL)startBroadcastForSprinklers:(BOOL)silent {
     
+    self.discoveredSprinklers = [NSMutableArray array];
+
     localIpAddress = [NetworkUtilities ipAddressForWifi];
     localNetmask = [NetworkUtilities netmaskForWifi];
     
@@ -73,8 +75,6 @@ static ServiceManager *current = nil;
     }
     
     if ([self sendBroadcast:silent]) {
-        self.discoveredSprinklers = [NSMutableArray array];
-
         return YES;
     }
     

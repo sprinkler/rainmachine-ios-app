@@ -103,13 +103,15 @@ const float kWifiSignalMax = -50;
 
 - (void)shouldStartBroadcastForceUIRefresh:(BOOL)forceUIRefresh
 {
-    [self shouldStopBroadcast];
-    [[ServiceManager current] startBroadcastForSprinklers:NO];
+//    [self shouldStopBroadcast];
+    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:@NO];
+    
+    [[ServiceManager current] startBroadcastForSprinklers:YES];
 }
 
 - (void)appDidBecomeActive
 {
-    [self shouldStartBroadcastForceUIRefresh:NO];
+//    [self shouldStartBroadcastForceUIRefresh:NO];
 
     if (self.availableWiFis.count == 0) {
         [self showHud];
@@ -125,6 +127,8 @@ const float kWifiSignalMax = -50;
 - (void)restartPolling
 {
     [self.devicesPollTimer invalidate];
+    
+    [self pollDevices];
     
     self.devicesPollTimer = [NSTimer scheduledTimerWithTimeInterval:kPollInterval
                                                              target:self
@@ -221,8 +225,6 @@ const float kWifiSignalMax = -50;
         }
     }
     
-    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:@NO];
-
     DiscoveredSprinklers *newSprinkler = nil;
     if (self.inputSprinklerMAC) {
         for (DiscoveredSprinklers *ds in self.discoveredSprinklers) {
@@ -237,13 +239,9 @@ const float kWifiSignalMax = -50;
     }
     
     DiscoveredSprinklers *currentSprinkler = self.sprinkler;
-    BOOL setSprinkler = YES;
-    if ((currentSprinkler != nil) || (newSprinkler != nil)) {
-        BOOL areUrlsEqual = [[newSprinkler url] isEqualToString:[currentSprinkler url]];
-        setSprinkler = !areUrlsEqual;
-    }
     
-    if (setSprinkler) {
+    // Once we detect a sprinkler go with it and don't change it anymore
+    if ((newSprinkler) && (!self.sprinkler)) {
         self.sprinkler = newSprinkler;
         self.availableWiFis = nil;
 
@@ -290,9 +288,9 @@ const float kWifiSignalMax = -50;
 
 - (void)pollDevices
 {
-    [self refreshUI];
-
     [self shouldStartBroadcastForceUIRefresh:NO];
+
+    [self refreshUI];
 }
 
 - (void)didReceiveMemoryWarning {

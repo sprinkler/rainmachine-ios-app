@@ -45,6 +45,7 @@
 + (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate;
 + (void)showNotSupportedDeviceAlertView:(id /*<UIAlertViewDelegate>*/)delegate;
 + (NSArray*)parseApiVersion:(id)data;
++ (int)deviceGreyOutRetryCount;
 
 + (DevicesCellType1*)configureSprinklerCellForTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath sprinkler:(Sprinkler*)sprinkler canEditRow:(BOOL)canEditRow forceHiddenDisclosure:(BOOL)forceHiddenDisclosure;
 

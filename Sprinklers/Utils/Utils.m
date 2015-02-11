@@ -46,7 +46,7 @@
 
 + (BOOL)isDeviceInactive:(Sprinkler*)sprinkler
 {
-    return ([sprinkler.nrOfFailedConsecutiveDiscoveries intValue] >= [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]);
+    return ([sprinkler.nrOfFailedConsecutiveDiscoveries intValue] >= [Utils deviceGreyOutRetryCount]);
 }
 
 + (BOOL)isManuallyAddedDevice:(Sprinkler*)sprinkler
@@ -143,14 +143,19 @@
     return address;
 }
 
++ (int)deviceGreyOutRetryCount
+{
+    return 1 + [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue];
+}
+
 + (NSString*)activeDevicesPredicate
 {
-    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries < %d", [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]];
+    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries < %d", [Utils deviceGreyOutRetryCount]];
 }
 
 + (NSString*)inactiveDevicesPredicate
 {
-    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries >= %d", [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugDeviceGreyOutRetryCount] intValue]];
+    return [NSString stringWithFormat:@"nrOfFailedConsecutiveDiscoveries >= %d", [Utils deviceGreyOutRetryCount]];
 }
 
 + (NSString*)sprinklerURL:(Sprinkler*)sprinkler
