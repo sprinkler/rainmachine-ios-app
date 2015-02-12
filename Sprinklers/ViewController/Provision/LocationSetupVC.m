@@ -175,15 +175,21 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)enableMyLocation
 {
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
+        [self displayLocationServicesDisabledAlert];
+    }
+    
     if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
-        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-        
         if (status == kCLAuthorizationStatusNotDetermined) {
             [self.locationManager requestWhenInUseAuthorization];
-        }
-        else if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
-            [self displayLocationServicesDisabledAlert];
         } else {
+            // iOS 8 - this asks user for location permission
+            [self.locationManager startUpdatingLocation];
+        }
+    } else {
+        if (status != kCLAuthorizationStatusDenied) {
+            // iOS 7 - this asks user for location permission
             [self.locationManager startUpdatingLocation];
         }
     }
