@@ -408,9 +408,6 @@ const float kWifiSignalMax = -50;
     else if (serverProxy == self.requestDiagProxy) {
         self.requestDiagProxy = nil;
         
-        NSDictionary *diag = (NSDictionary*)data;
-        NSNumber *standaloneMode = diag[@"standaloneMode"];
-        
         BOOL hasSprinklerWiFiSetUp = !((self.sprinklerCurrentWiFi[@"ssid"] == nil) || ([self.sprinklerCurrentWiFi[@"ssid"] isKindOfClass:[NSNull class]]));
         if (self.duringWiFiRestart) {
             // We expected for the sprinkler to reconnect to home WiFi, but reconnected back to the sprinkler's AP WiFi

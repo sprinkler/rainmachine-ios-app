@@ -236,7 +236,7 @@
         [self refreshSprinklerList];
         [self shouldStartBroadcastForceUIRefresh:NO];
         
-        [self pollCloud];
+//        [self pollCloud];
     }
     
     [self.tableView reloadData];
@@ -276,11 +276,7 @@
 }
 
 - (NSString*)cloudProxyFinderURL {
-#if DEBUG
     return [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
-#else
-    return kCloudProxyFinderURL;
-#endif
 }
 
 - (void)requestCloudSprinklers:(NSDictionary*)cloudAccounts
