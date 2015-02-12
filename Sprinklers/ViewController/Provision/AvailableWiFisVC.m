@@ -85,7 +85,7 @@ const float kWifiSignalMax = -50;
     self.headerView.textAlignment = NSTextAlignmentCenter;
 
     // Do any additional setup after loading the view from its nib.
-    [self refreshUI];
+//    [self refreshUI];
 
     self.title = @"Setup";
 
@@ -104,8 +104,6 @@ const float kWifiSignalMax = -50;
 - (void)shouldStartBroadcastForceUIRefresh:(BOOL)forceUIRefresh
 {
 //    [self shouldStopBroadcast];
-    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:@NO];
-    
     [[ServiceManager current] startBroadcastForSprinklers:YES];
 }
 
@@ -128,8 +126,6 @@ const float kWifiSignalMax = -50;
 {
     [self.devicesPollTimer invalidate];
     
-    [self pollDevices];
-    
     self.devicesPollTimer = [NSTimer scheduledTimerWithTimeInterval:kPollInterval
                                                              target:self
                                                            selector:@selector(pollDevices)
@@ -143,6 +139,15 @@ const float kWifiSignalMax = -50;
     
     if (self.availableWiFis.count == 0) {
         [self showHud];
+        
+        // First poll should be quicker
+        [self shouldStartBroadcastForceUIRefresh:NO];
+        [NSTimer scheduledTimerWithTimeInterval:1.5
+                                         target:self
+                                       selector:@selector(refreshUI)
+                                       userInfo:nil
+                                        repeats:NO];
+
         [self restartPolling];
     }
 
@@ -185,6 +190,8 @@ const float kWifiSignalMax = -50;
 - (void)refreshUI
 {
     DLog(@"connected to network: %@", [self fetchSSIDInfo]);
+    
+    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:@NO];
     
     [self hideHud];
     
@@ -288,9 +295,8 @@ const float kWifiSignalMax = -50;
 
 - (void)pollDevices
 {
-    [self shouldStartBroadcastForceUIRefresh:NO];
-
     [self refreshUI];
+    [self shouldStartBroadcastForceUIRefresh:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -396,6 +402,7 @@ const float kWifiSignalMax = -50;
     }
     
     [self hideHud];
+    [self refreshUI];
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
