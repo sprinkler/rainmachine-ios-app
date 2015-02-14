@@ -21,6 +21,7 @@
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import "AppDelegate.h"
 #import "UpdateManager.h"
+#import "DevicesVC.h"
 
 #define kPollInterval 6
 
@@ -89,6 +90,8 @@ const float kWifiSignalMax = -50;
 
     self.title = @"Setup";
 
+    [self setWizardNavBarForVC:self];
+    
     self.firstStart = NO;
 }
 
@@ -402,10 +405,15 @@ const float kWifiSignalMax = -50;
     }
     
     [self hideHud];
-    [self refreshUI];
+    
+    if (serverProxy != self.joinWifiServerProxy) {
+        [self refreshUI];
+    }
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
+{
+    BOOL isJoinWifiServerProxy = (serverProxy == self.joinWifiServerProxy);
     if (serverProxy == self.requestCurrentWiFiProxy) {
         self.sprinklerCurrentWiFi = data;
         self.requestCurrentWiFiProxy = nil;
@@ -443,12 +451,14 @@ const float kWifiSignalMax = -50;
             // Continue with the RainMachine name setup wizard or with location setup
             //            if (![standaloneMode boolValue]) {
             [self hideWifiRebootHud];
-            UINavigationController *navigationController = self.navigationController;
-            [self.navigationController popToRootViewControllerAnimated:NO];
+            
+            [self cancelAllOperations];
+
             ProvisionNameSetupVC *provisionNameSetupVC = [ProvisionNameSetupVC new];
             provisionNameSetupVC.sprinkler = self.sprinkler;
-            [self cancelAllOperations];
-            [navigationController pushViewController:provisionNameSetupVC animated:YES];
+            [self.navigationController pushViewController:provisionNameSetupVC animated:YES];
+//            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:provisionNameSetupVC];
+//            [self.navigationController presentViewController:navVC animated:NO completion:nil];
             //            } else {
             //                // Continue with the location setup
             //                LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
@@ -471,7 +481,10 @@ const float kWifiSignalMax = -50;
     }
     
     [self hideHud];
-    [self refreshUI];
+
+    if (!isJoinWifiServerProxy) {
+        [self refreshUI];
+    }
 }
 
 - (void)requestAvailableWiFis
@@ -505,9 +518,12 @@ const float kWifiSignalMax = -50;
     [self hideHud];
     [self.loginServerProxy cancelAllOperations];
     //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    self.alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start setup wizard" message:@"Press a button on your sprinkler." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    self.alertView.tag = kAlertView_SetupWizard_CannotStart;
-    [self.alertView show];
+    
+    if (self.alertView.tag != kAlertView_SetupWizard_CancelWizard) {
+        self.alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start setup wizard" message:@"Press a button on your sprinkler." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.alertView.tag = kAlertView_SetupWizard_CannotStart;
+        [self.alertView show];
+    }
     
     [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
     self.sprinkler = nil;
@@ -515,7 +531,10 @@ const float kWifiSignalMax = -50;
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    
     self.alertView = nil;
+    
     if (theAlertView.tag == kAlertView_SetupWizard_CannotStart) {
         self.sprinkler = nil;
         
@@ -523,7 +542,7 @@ const float kWifiSignalMax = -50;
     }
     else if (theAlertView.tag == kAlertView_SetupWizard_WifiJoinTimedOut) {
         // Prevent the user to be able to open the device from the device list because the login token is valid but the device is not usable
-        [self.navigationController popToRootViewControllerAnimated:NO];
+        [self onCancel:nil];
     }
 }
 
@@ -575,6 +594,7 @@ const float kWifiSignalMax = -50;
     self.startDateWifiJoin = [NSDate date];
     
     self.duringWiFiRestart = YES;
+    
 //    self.networkSSIDChoosenForSprinkler = SSID;
 //    self.apNetworkNameOfSprinkler = [self currentWifiName];
     
@@ -586,6 +606,8 @@ const float kWifiSignalMax = -50;
     // Don't test for sprinkler's current wifi to be the same as the iPhone's wifi, because it would be redundant (the device is discovered
     // only when it's on the same network, and since it was previously connected to the rainmachine's network the wifi change means rainmachine wifi > home wifi)
     
+    self.sprinkler = nil;
+
     [self showWifiRebootHud];
     
     [self restartPolling];

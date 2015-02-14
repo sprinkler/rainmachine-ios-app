@@ -72,12 +72,12 @@
 
 - (void)refreshRootViews:(NSString*)unit
 {
-    DevicesVC *devicesVC = [[DevicesVC alloc] init];
-    UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:devicesVC];
+    self.devicesVC = [[DevicesVC alloc] init];
+    UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.devicesVC];
     
     if ([[StorageManager current] currentSprinkler]) {
         UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
-        devicesVC.tabBarItem = tabBarItemDevices;
+        self.devicesVC.tabBarItem = tabBarItemDevices;
         
         self.dashboardVC = [[DashboardVC alloc] init];
         UINavigationController *navDashboard = [[UINavigationController alloc] initWithRootViewController:self.dashboardVC];

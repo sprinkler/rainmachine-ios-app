@@ -10,12 +10,14 @@
 
 @class DashboardVC;
 @class UpdateManager;
+@class DevicesVC;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) UITabBarController *tabBarController;
 @property (nonatomic, strong) DashboardVC *dashboardVC;
+@property (nonatomic, strong) DevicesVC *devicesVC;
 @property (strong, nonatomic) UpdateManager *updateManager;
 
 - (void)refreshRootViews:(NSString*)unit;

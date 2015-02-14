@@ -27,7 +27,7 @@
 
 const double LocationSetup_MapView_InitializeTimeout                = 3.0;
 const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
-const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
+const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
 
 #pragma mark -
 
@@ -38,6 +38,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 @property (nonatomic, strong) NSString *autocompleteSearchString;
 @property (nonatomic, strong) NSArray *autocompletePredictions;
 @property (nonatomic, strong) GoogleRequestAutocomplete *autocompleteRequest;
+@property (nonatomic, assign) BOOL skipped;
 
 - (BOOL)initializeLocationServices;
 - (void)displayLocationServicesDisabledAlert;
@@ -69,6 +70,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     if (!self) return nil;
     
     self.title = @"Select your location";
+    self.skipped = NO;
     
     return self;
 }
@@ -96,6 +98,8 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     [self showHud];
     [self performSelector:@selector(hideHud) withObject:nil afterDelay:LocationSetup_MapView_InitializeTimeout];
 
+    [self setWizardNavBarForVC:self];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
@@ -243,7 +247,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:okTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             if (skip) {
-                self.selectedLocationAddress = nil;
+                self.skipped = YES;
                 [self continueSetup];
             } else {
                 [self.locationSearchBar becomeFirstResponder];
@@ -267,12 +271,17 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    
     // This is the no location alert view
     if (buttonIndex != theAlertView.cancelButtonIndex) {
         if (theAlertView.tag == kAlertView_SetupWizard_SkipLocationSetup) {
             [self continueSetup];
         } else {
-            [self.locationSearchBar becomeFirstResponder];
+            if ((theAlertView.tag == kAlertView_SetupWizard_NoLocationWithContinueMessage) ||
+                (theAlertView.tag == kAlertView_SetupWizard_NoLocationWithoutContinueMessage)) {
+                [self.locationSearchBar becomeFirstResponder];
+            }
         }
     } else {
         if (theAlertView.tag == kAlertView_SetupWizard_NoLocationWithContinueMessage) {
@@ -433,13 +442,14 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (void)continueSetup
 {
-    if (self.selectedLocationAddress.location) {
+    if (!self.skipped) {
+        CLLocation *location = [self detectedLocation];
         // self.selectedLocationAddress contains the selected location
         // self.selectedLocationElevation.elevation contains the elevation of the selected location
         // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
         self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-        [self.provisionServerProxy setLocation:self.selectedLocationAddress.location.coordinate.latitude
-                                     longitude:self.selectedLocationAddress.location.coordinate.longitude
+        [self.provisionServerProxy setLocation:location.coordinate.latitude
+                                     longitude:location.coordinate.longitude
                                       timezone:[[NSTimeZone localTimeZone] name]];
         
         [self showHud];
@@ -450,7 +460,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 - (IBAction)onNext:(id)sender
 {
-    if (self.selectedLocationAddress.location) {
+    if ([self detectedLocation]) {
         [self continueSetup];
     } else {
         [self displayNoLocationAlertWithContinueMessage:YES skip:NO];
@@ -458,7 +468,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 }
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [self.delegate handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
     if (serverProxy == self.provisionServerProxy) {
     }
@@ -509,9 +519,22 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 {
     ProvisionDateAndTimeManualVC *dateTimeVC = [[ProvisionDateAndTimeManualVC alloc] init];
     dateTimeVC.sprinkler = self.sprinkler;
-    dateTimeVC.delegate = self.delegate;
+//    dateTimeVC.delegate = self.delegate;
     dateTimeVC.locationSetupVC = self;
+    
+//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:dateTimeVC];
+//    [self.navigationController presentViewController:navVC animated:NO completion:nil];
+    
     [self.navigationController pushViewController:dateTimeVC animated:YES];
+}
+
+- (CLLocation*)detectedLocation
+{
+    if (self.selectedLocationAddress) {
+        return self.selectedLocationAddress.location;
+    }
+    
+    return self.mapView.myLocation;
 }
 
 @end

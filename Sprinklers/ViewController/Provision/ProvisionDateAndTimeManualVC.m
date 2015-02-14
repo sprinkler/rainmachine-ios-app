@@ -78,9 +78,13 @@ static NSString *kTimeZoneCell = @"timeZoneCell";     // the remaining cells at 
     
     self.pickerCellRowHeight = CGRectGetHeight(pickerViewCellToCheck.frame);
     
+    self.errorHandlingHelper = [BaseModalProvisionVC new];
+    [self.errorHandlingHelper setWizardNavBarForVC:self];
+    self.errorHandlingHelper.delegate = self;
+    
     // if the local changes while in the background, we need to be notified so we can update the date
     // format in the table view cells
-    //
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(localeChanged:)
                                                  name:NSCurrentLocaleDidChangeNotification
@@ -526,7 +530,7 @@ NSUInteger DeviceSystemMajorVersion()
 }
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [self.delegate handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    [self.errorHandlingHelper handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
     if (serverProxy == self.provisionTimezoneServerProxy) {
     }

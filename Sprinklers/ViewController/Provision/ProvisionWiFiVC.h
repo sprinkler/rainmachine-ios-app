@@ -10,9 +10,9 @@
 #import "AvailableWiFisVC.h"
 #import "Protocols.h"
 #import "DiscoveredSprinklers.h"
-#import "BaseLevel2ViewController.h"
+#import "BaseNetworkHandlingVC.h"
 
-@interface ProvisionWiFiVC : BaseLevel2ViewController<UITextFieldDelegate, SprinklerResponseProtocol, UITableViewDataSource, UITableViewDelegate>
+@interface ProvisionWiFiVC : BaseNetworkHandlingVC<UITextFieldDelegate, SprinklerResponseProtocol, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSString *securityOption;
 @property (nonatomic, weak) AvailableWiFisVC *delegate;

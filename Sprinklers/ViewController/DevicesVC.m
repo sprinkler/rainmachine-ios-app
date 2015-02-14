@@ -56,6 +56,7 @@
 @property (strong, nonatomic) CloudAccountsVC *cloudAccountsVC;
 @property (strong, nonatomic) Sprinkler *selectedSprinkler;
 @property (assign, nonatomic) BOOL selectingSprinklerInProgress;
+@property (strong, nonatomic) AvailableWiFisVC *wizardVC;
 
 @property (nonatomic, weak) IBOutlet UITextField *debugTextField;
 @property (strong, nonatomic) NSMutableArray *cloudServers;
@@ -198,6 +199,12 @@
     [self.cloudServerProxy cancelAllOperations];
     [self.cloudDevicesTimer invalidate];
     self.cloudDevicesTimer = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    self.wizardVC = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -862,8 +869,7 @@
                 
                 [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
             } else if (indexPath.section == [self tvNewRainMachineSetup]) {
-                AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
-                [self.navigationController pushViewController:detailVC animated:YES];
+                [self presentWizardWithSprinkler:nil];
             }
             else {
                 // Should not happen
@@ -899,14 +905,22 @@
     [self.versionServerProxy requestAPIVersion];
 }
 
+- (void)presentWizardWithSprinkler:(Sprinkler*)sprinkler
+{
+    self.wizardVC = [[AvailableWiFisVC alloc] init];
+    self.wizardVC.inputSprinklerMAC = sprinkler.sprinklerId;
+
+    [self.navigationController pushViewController:self.wizardVC animated:YES];
+//    UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.wizardVC];
+//    [self.navigationController presentViewController:navDevices animated:YES completion:nil];
+}
+
 - (void)continueSprinklerSelectionAction:(Sprinkler*)sprinkler diag:(NSDictionary*)diag
 {
     BOOL wizardHasRun = [diag[@"wizardHasRun"] boolValue];
 
     if (diag && !wizardHasRun) {
-        AvailableWiFisVC *detailVC = [[AvailableWiFisVC alloc] init];
-        detailVC.inputSprinklerMAC = sprinkler.sprinklerId;
-        [self.navigationController pushViewController:detailVC animated:YES];
+        [self presentWizardWithSprinkler:sprinkler];
     } else {
         BOOL isAutomaticLogin = NO;
         int detectedSprinklerMainVersion = 0;

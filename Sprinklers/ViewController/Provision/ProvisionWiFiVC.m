@@ -12,6 +12,7 @@
 #import "+UIDevice.h"
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
+#import "Constants.h"
 
 #define kProvisionWiFi_SSID 1
 #define kProvisionWiFi_Password 2
@@ -52,12 +53,14 @@
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(join)];
+
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
         self.navigationController.navigationBar.translucent = NO;
+        self.tabBarController.tabBar.translucent = NO;
     }
     else {
-        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     }
 
     [self refreshUI];

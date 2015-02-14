@@ -11,13 +11,15 @@
 #import "DiscoveredSprinklers.h"
 #import "LocationSetupVC.h"
 #import "ProvisionNameSetupVC.h"
+#import "BaseModalProvisionVC.h"
 
 @interface ProvisionDateAndTimeManualVC : UITableViewController<SprinklerResponseProtocol>
 
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
 @property (nonatomic, weak) LocationSetupVC *locationSetupVC;
-@property (nonatomic, weak) BaseNetworkHandlingVC *delegate;
+//@property (nonatomic, weak) BaseNetworkHandlingVC *delegate;
 @property (strong, nonatomic) NSString *timeZoneName;
+@property (strong, nonatomic) BaseModalProvisionVC *errorHandlingHelper;
 
 - (void)timeZoneSelected:(NSString*)timezone;
 

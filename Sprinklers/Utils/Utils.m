@@ -491,15 +491,15 @@
     else
         cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
     
+    BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
+    
     // TODO: decide upon local/remote type on runtime
     if ([Utils isSprinklerInAPMode:sprinkler]) {
 //        cell.labelInfo.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
-        cell.labelInfo.text = @"setup";
+        cell.labelInfo.text = isDeviceInactive ? nil : @"setup";
     } else {
         cell.labelInfo.text = nil;
     }
-    
-    BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
     
     cell.disclosureImageView.hidden = tableView.isEditing || (isDeviceInactive) || (forceHiddenDisclosure);
     cell.labelMainTitle.textColor = isDeviceInactive ? [UIColor lightGrayColor] : [UIColor blackColor];

@@ -13,6 +13,8 @@
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
 #import "+UIDevice.h"
+#import "AppDelegate.h"
+#import "DevicesVC.h"
 
 @interface ProvisionNameSetupVC ()
 
@@ -56,6 +58,10 @@
 
     [self.deviceNameLabel becomeFirstResponder];
 
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancel:)];
+
+    [self setWizardNavBarForVC:self];
+    
     [self refreshUI];
 }
 
@@ -111,7 +117,11 @@
         [self hideHud];
         LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
         locationSetupVC.sprinkler = self.sprinkler;
-        locationSetupVC.delegate = self;
+//        locationSetupVC.delegate = self;
+
+//        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:locationSetupVC];
+//        [self.navigationController presentViewController:navVC animated:NO completion:nil];
+
         [self.navigationController pushViewController:locationSetupVC animated:YES];
     }
 }
