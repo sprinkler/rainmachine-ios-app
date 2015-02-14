@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "LocationSetupVC.h"
+#import "ProvisionLocationSetupVC.h"
 #import "ColoredBackgroundButton.h"
 #import "Constants.h"
 #import "Additions.h"
@@ -31,7 +31,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
 
 #pragma mark -
 
-@interface LocationSetupVC ()
+@interface ProvisionLocationSetupVC ()
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSDate *autocompleteReloadResultsDate;
@@ -61,7 +61,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
 
 #pragma mark -
 
-@implementation LocationSetupVC
+@implementation ProvisionLocationSetupVC
 
 #pragma mark - Init
 

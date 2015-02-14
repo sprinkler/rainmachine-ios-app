@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AvailableWiFisVC.h"
+#import "ProvisionAvailableWiFisVC.h"
 #import "Protocols.h"
 #import "DiscoveredSprinklers.h"
 #import "BaseNetworkHandlingVC.h"
@@ -15,7 +15,7 @@
 @interface ProvisionWiFiVC : BaseNetworkHandlingVC<UITextFieldDelegate, SprinklerResponseProtocol, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSString *securityOption;
-@property (nonatomic, weak) AvailableWiFisVC *delegate;
+@property (nonatomic, weak) ProvisionAvailableWiFisVC *delegate;
 @property (nonatomic, assign) BOOL showSSID;
 @property (nonatomic, strong) NSString *SSID;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;

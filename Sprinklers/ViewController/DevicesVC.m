@@ -26,9 +26,9 @@
 #import "AppDelegate.h"
 #import "TimePickerVC.h"
 #import "ServerProxy.h"
-#import "LocationSetupVC.h"
+#import "ProvisionLocationSetupVC.h"
 #import "CloudAccountsVC.h"
-#import "AvailableWiFisVC.h"
+#import "ProvisionAvailableWiFisVC.h"
 #import "GraphsManager.h"
 
 #define kDebugSettingsNrBeforeCloudServer 6
@@ -56,7 +56,7 @@
 @property (strong, nonatomic) CloudAccountsVC *cloudAccountsVC;
 @property (strong, nonatomic) Sprinkler *selectedSprinkler;
 @property (assign, nonatomic) BOOL selectingSprinklerInProgress;
-@property (strong, nonatomic) AvailableWiFisVC *wizardVC;
+@property (strong, nonatomic) ProvisionAvailableWiFisVC *wizardVC;
 
 @property (nonatomic, weak) IBOutlet UITextField *debugTextField;
 @property (strong, nonatomic) NSMutableArray *cloudServers;
@@ -799,7 +799,7 @@
             // Do nothing
         }
         else if (indexPath.row == 1) {
-            LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
+            ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
             [self.navigationController pushViewController:locationSetupVC animated:YES];
         }
         else if (indexPath.row == 2) {
@@ -907,7 +907,7 @@
 
 - (void)presentWizardWithSprinkler:(Sprinkler*)sprinkler
 {
-    self.wizardVC = [[AvailableWiFisVC alloc] init];
+    self.wizardVC = [[ProvisionAvailableWiFisVC alloc] init];
     self.wizardVC.inputSprinklerMAC = sprinkler.sprinklerId;
 
     [self.navigationController pushViewController:self.wizardVC animated:YES];

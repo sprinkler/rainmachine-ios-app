@@ -8,7 +8,7 @@
 
 #import "ProvisionWiFiVC.h"
 #import "LabelAndTextFieldCell.h"
-#import "SelectWiFiSecurityOptionVC.h"
+#import "ProvisionSelectWiFiSecurityOptionVC.h"
 #import "+UIDevice.h"
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
@@ -213,8 +213,8 @@
     
     if (indexPath.section == [self sectionForSecurity]) {
         if (indexPath.row == [self rowForSecurity]) {
-            SelectWiFiSecurityOptionVC *selectSecurityOptionVC = [[SelectWiFiSecurityOptionVC alloc] initWithDelegate:self];
-            selectSecurityOptionVC.selectedIndex = [NSIndexPath indexPathForRow:[SelectWiFiSecurityOptionVC indexForSecurityOption:self.securityOption] inSection:0];
+            ProvisionSelectWiFiSecurityOptionVC *selectSecurityOptionVC = [[ProvisionSelectWiFiSecurityOptionVC alloc] initWithDelegate:self];
+            selectSecurityOptionVC.selectedIndex = [NSIndexPath indexPathForRow:[ProvisionSelectWiFiSecurityOptionVC indexForSecurityOption:self.securityOption] inSection:0];
 
             [self.navigationController pushViewController:selectSecurityOptionVC animated:YES];
         }

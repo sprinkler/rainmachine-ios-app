@@ -9,7 +9,7 @@
 #import "ProvisionNameSetupVC.h"
 #import "ColoredBackgroundButton.h"
 #import "Constants.h"
-#import "LocationSetupVC.h"
+#import "ProvisionLocationSetupVC.h"
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
 #import "+UIDevice.h"
@@ -115,7 +115,7 @@
     }
     else if (serverProxy == self.provisionPasswordServerProxy) {
         [self hideHud];
-        LocationSetupVC *locationSetupVC = [[LocationSetupVC alloc] init];
+        ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
         locationSetupVC.sprinkler = self.sprinkler;
 //        locationSetupVC.delegate = self;
 

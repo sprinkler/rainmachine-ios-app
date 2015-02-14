@@ -191,10 +191,10 @@
 		AF02F88718BFACA600579CAF /* SettingsUnits.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88618BFACA600579CAF /* SettingsUnits.m */; };
 		AF04995F18C601C300D73860 /* VegetationTypeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF04995E18C601C300D73860 /* VegetationTypeVC.xib */; };
 		AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF04996118C601DA00D73860 /* VegetationTypeVC.m */; };
-		AF085C9C1A2EBFB700519BF6 /* LocationSetupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF085C9A1A2EBFB700519BF6 /* LocationSetupVC.m */; };
-		AF085C9D1A2EBFB700519BF6 /* LocationSetupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF085C9B1A2EBFB700519BF6 /* LocationSetupVC.xib */; };
-		AF085CAD1A2EC36A00519BF6 /* AvailableWiFisVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF085CAB1A2EC36A00519BF6 /* AvailableWiFisVC.m */; };
-		AF085CAE1A2EC36A00519BF6 /* AvailableWiFisVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF085CAC1A2EC36A00519BF6 /* AvailableWiFisVC.xib */; };
+		AF085C9C1A2EBFB700519BF6 /* ProvisionLocationSetupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF085C9A1A2EBFB700519BF6 /* ProvisionLocationSetupVC.m */; };
+		AF085C9D1A2EBFB700519BF6 /* ProvisionLocationSetupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF085C9B1A2EBFB700519BF6 /* ProvisionLocationSetupVC.xib */; };
+		AF085CAD1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF085CAB1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m */; };
+		AF085CAE1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF085CAC1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.xib */; };
 		AF0B1F5119AF3B1200FDC406 /* TimeResponse4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0B1F5019AF3B1200FDC406 /* TimeResponse4.m */; };
 		AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */; };
 		AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF0EFF571861AE7F007BF852 /* HomeDataSourceCell.xib */; };
@@ -388,8 +388,8 @@
 		AFF935061A2C7462008063D2 /* ProvisionWiFiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF935041A2C7462008063D2 /* ProvisionWiFiVC.m */; };
 		AFF9350B1A2C759F008063D2 /* LabelAndTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */; };
 		AFF9350C1A2C759F008063D2 /* LabelAndTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */; };
-		AFF935151A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF935131A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m */; };
-		AFF935161A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF935141A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib */; };
+		AFF935151A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF935131A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.m */; };
+		AFF935161A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF935141A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.xib */; };
 		AFFDCF34199B97A800EAC3D5 /* Login4Response.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFDCF33199B97A800EAC3D5 /* Login4Response.m */; };
 		AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFDCF36199BA82900EAC3D5 /* WeatherData4.m */; };
 		B111987016A7EED00094EF9F /* StorageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B111986F16A7EED00094EF9F /* StorageManager.m */; };
@@ -743,12 +743,12 @@
 		AF04995E18C601C300D73860 /* VegetationTypeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VegetationTypeVC.xib; path = ViewController/VegetationTypeVC.xib; sourceTree = "<group>"; };
 		AF04996018C601DA00D73860 /* VegetationTypeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VegetationTypeVC.h; path = ViewController/VegetationTypeVC.h; sourceTree = "<group>"; };
 		AF04996118C601DA00D73860 /* VegetationTypeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VegetationTypeVC.m; path = ViewController/VegetationTypeVC.m; sourceTree = "<group>"; };
-		AF085C991A2EBFB700519BF6 /* LocationSetupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationSetupVC.h; path = ViewController/Provision/LocationSetupVC.h; sourceTree = "<group>"; };
-		AF085C9A1A2EBFB700519BF6 /* LocationSetupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationSetupVC.m; path = ViewController/Provision/LocationSetupVC.m; sourceTree = "<group>"; };
-		AF085C9B1A2EBFB700519BF6 /* LocationSetupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LocationSetupVC.xib; path = ViewController/Provision/LocationSetupVC.xib; sourceTree = "<group>"; };
-		AF085CAA1A2EC36A00519BF6 /* AvailableWiFisVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AvailableWiFisVC.h; path = ViewController/Provision/AvailableWiFisVC.h; sourceTree = "<group>"; };
-		AF085CAB1A2EC36A00519BF6 /* AvailableWiFisVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AvailableWiFisVC.m; path = ViewController/Provision/AvailableWiFisVC.m; sourceTree = "<group>"; };
-		AF085CAC1A2EC36A00519BF6 /* AvailableWiFisVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AvailableWiFisVC.xib; path = ViewController/Provision/AvailableWiFisVC.xib; sourceTree = "<group>"; };
+		AF085C991A2EBFB700519BF6 /* ProvisionLocationSetupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionLocationSetupVC.h; path = ViewController/Provision/ProvisionLocationSetupVC.h; sourceTree = "<group>"; };
+		AF085C9A1A2EBFB700519BF6 /* ProvisionLocationSetupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionLocationSetupVC.m; path = ViewController/Provision/ProvisionLocationSetupVC.m; sourceTree = "<group>"; };
+		AF085C9B1A2EBFB700519BF6 /* ProvisionLocationSetupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionLocationSetupVC.xib; path = ViewController/Provision/ProvisionLocationSetupVC.xib; sourceTree = "<group>"; };
+		AF085CAA1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionAvailableWiFisVC.h; path = ViewController/Provision/ProvisionAvailableWiFisVC.h; sourceTree = "<group>"; };
+		AF085CAB1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionAvailableWiFisVC.m; path = ViewController/Provision/ProvisionAvailableWiFisVC.m; sourceTree = "<group>"; };
+		AF085CAC1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionAvailableWiFisVC.xib; path = ViewController/Provision/ProvisionAvailableWiFisVC.xib; sourceTree = "<group>"; };
 		AF0B1F4F19AF3B1200FDC406 /* TimeResponse4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeResponse4.h; path = "Communication/Response objects/TimeResponse4.h"; sourceTree = "<group>"; };
 		AF0B1F5019AF3B1200FDC406 /* TimeResponse4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeResponse4.m; path = "Communication/Response objects/TimeResponse4.m"; sourceTree = "<group>"; };
 		AF0EFF551861AB52007BF852 /* WaterZoneListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterZoneListCell.xib; path = Cells/WaterZoneListCell.xib; sourceTree = "<group>"; };
@@ -1028,9 +1028,9 @@
 		AFF935081A2C759F008063D2 /* LabelAndTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LabelAndTextFieldCell.h; path = ViewController/Provision/LabelAndTextFieldCell.h; sourceTree = "<group>"; };
 		AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LabelAndTextFieldCell.m; path = ViewController/Provision/LabelAndTextFieldCell.m; sourceTree = "<group>"; };
 		AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LabelAndTextFieldCell.xib; path = ViewController/Provision/LabelAndTextFieldCell.xib; sourceTree = "<group>"; };
-		AFF935121A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectWiFiSecurityOptionVC.h; path = ViewController/Provision/SelectWiFiSecurityOptionVC.h; sourceTree = "<group>"; };
-		AFF935131A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectWiFiSecurityOptionVC.m; path = ViewController/Provision/SelectWiFiSecurityOptionVC.m; sourceTree = "<group>"; };
-		AFF935141A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SelectWiFiSecurityOptionVC.xib; path = ViewController/Provision/SelectWiFiSecurityOptionVC.xib; sourceTree = "<group>"; };
+		AFF935121A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionSelectWiFiSecurityOptionVC.h; path = ViewController/Provision/ProvisionSelectWiFiSecurityOptionVC.h; sourceTree = "<group>"; };
+		AFF935131A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionSelectWiFiSecurityOptionVC.m; path = ViewController/Provision/ProvisionSelectWiFiSecurityOptionVC.m; sourceTree = "<group>"; };
+		AFF935141A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionSelectWiFiSecurityOptionVC.xib; path = ViewController/Provision/ProvisionSelectWiFiSecurityOptionVC.xib; sourceTree = "<group>"; };
 		AFFDCF32199B97A800EAC3D5 /* Login4Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Login4Response.h; path = "Communication/Response objects/Login4Response.h"; sourceTree = "<group>"; };
 		AFFDCF33199B97A800EAC3D5 /* Login4Response.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Login4Response.m; path = "Communication/Response objects/Login4Response.m"; sourceTree = "<group>"; };
 		AFFDCF35199BA82900EAC3D5 /* WeatherData4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherData4.h; path = "Communication/Response objects/WeatherData4.h"; sourceTree = "<group>"; };
@@ -1453,21 +1453,18 @@
 				AFF935031A2C7462008063D2 /* ProvisionWiFiVC.h */,
 				AFF935041A2C7462008063D2 /* ProvisionWiFiVC.m */,
 				AF65075B1A326AC300AACFE6 /* ProvisionWiFiVC.xib */,
+				AFF935121A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.h */,
+				AFF935131A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.m */,
+				AFF935141A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.xib */,
+				AF085C991A2EBFB700519BF6 /* ProvisionLocationSetupVC.h */,
+				AF085C9A1A2EBFB700519BF6 /* ProvisionLocationSetupVC.m */,
+				AF085C9B1A2EBFB700519BF6 /* ProvisionLocationSetupVC.xib */,
+				AF085CAA1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.h */,
+				AF085CAB1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m */,
+				AF085CAC1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.xib */,
 				AFF935081A2C759F008063D2 /* LabelAndTextFieldCell.h */,
 				AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */,
 				AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */,
-				AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */,
-				AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */,
-				AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */,
-				AFF935121A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.h */,
-				AFF935131A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m */,
-				AFF935141A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib */,
-				AF085C991A2EBFB700519BF6 /* LocationSetupVC.h */,
-				AF085C9A1A2EBFB700519BF6 /* LocationSetupVC.m */,
-				AF085C9B1A2EBFB700519BF6 /* LocationSetupVC.xib */,
-				AF085CAA1A2EC36A00519BF6 /* AvailableWiFisVC.h */,
-				AF085CAB1A2EC36A00519BF6 /* AvailableWiFisVC.m */,
-				AF085CAC1A2EC36A00519BF6 /* AvailableWiFisVC.xib */,
 				AF26D5CD1A2EDD7F0010AB28 /* WiFiCell.h */,
 				AF26D5CE1A2EDD7F0010AB28 /* WiFiCell.m */,
 				AF26D5CF1A2EDD7F0010AB28 /* WiFiCell.xib */,
@@ -2080,6 +2077,9 @@
 				AF3E02E41A1D457E00E76C53 /* CloudAccountsVC.h */,
 				AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */,
 				AF3E02E61A1D457E00E76C53 /* CloudAccountsVC.xib */,
+				AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */,
+				AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */,
+				AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */,
 				AF51E4161A190DA500A7A6A5 /* TRPickerInputView.h */,
 				AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */,
 				AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */,
@@ -2288,7 +2288,7 @@
 				96CB93F61A38AFAD00F3691F /* nskc_small_white.png in Resources */,
 				96CB93E01A38AFAD00F3691F /* hi_tsra-2_small_white.png in Resources */,
 				AF4826881990DC9500D80B87 /* nskc.png in Resources */,
-				AFF935161A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.xib in Resources */,
+				AFF935161A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.xib in Resources */,
 				96F0F3361A36F18C0056D167 /* DashboardVC.xib in Resources */,
 				96CB93F41A38AFAD00F3691F /* nscttsra_small_white.png in Resources */,
 				B1213EB3186087B3009D97F4 /* DevicesCellType1.xib in Resources */,
@@ -2424,7 +2424,7 @@
 				AF48266F1990DC9500D80B87 /* fzrara.png in Resources */,
 				B1254CB3187D77EB004E2F0E /* ZonesVC.xib in Resources */,
 				96CB94001A38AFAD00F3691F /* sct_small_white.png in Resources */,
-				AF085C9D1A2EBFB700519BF6 /* LocationSetupVC.xib in Resources */,
+				AF085C9D1A2EBFB700519BF6 /* ProvisionLocationSetupVC.xib in Resources */,
 				B1EF21231860499E00D9CE26 /* WaterNowVC.xib in Resources */,
 				AF48266A1990DC9500D80B87 /* du.png in Resources */,
 				AFF6A6B0188834AC00825A37 /* checkbox-selected@2x.png in Resources */,
@@ -2437,7 +2437,7 @@
 				AFF6A6B6188834E400825A37 /* icon_disclosure_triangle@2x.png in Resources */,
 				AF48267B1990DC9500D80B87 /* ndu.png in Resources */,
 				96CB93E41A38AFAD00F3691F /* mist_small_white.png in Resources */,
-				AF085CAE1A2EC36A00519BF6 /* AvailableWiFisVC.xib in Resources */,
+				AF085CAE1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.xib in Resources */,
 				AF5CF44E1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.xib in Resources */,
 				AFE894CF1A356538007FC7EB /* icon_wi-fi-1-bar.png in Resources */,
 				AF4826781990DC9500D80B87 /* na.png in Resources */,
@@ -2578,7 +2578,7 @@
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,
 				AF26D5D01A2EDD7F0010AB28 /* WiFiCell.m in Sources */,
-				AF085C9C1A2EBFB700519BF6 /* LocationSetupVC.m in Sources */,
+				AF085C9C1A2EBFB700519BF6 /* ProvisionLocationSetupVC.m in Sources */,
 				964ADD0D1A1E5AA5008281A8 /* GoogleRequest.m in Sources */,
 				965F565D1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m in Sources */,
 				964ADD2B1A1E7B82008281A8 /* RainSensitivityCell.m in Sources */,
@@ -2669,14 +2669,14 @@
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
-				AF085CAD1A2EC36A00519BF6 /* AvailableWiFisVC.m in Sources */,
+				AF085CAD1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */,
 				964ADD291A1E7B82008281A8 /* FieldCapacityCell.m in Sources */,
 				96DAB8FB1A278A7E005974CC /* RainSensitivitySimulationGraphVC.m in Sources */,
 				96CD40E91A86059900CD7E90 /* GraphDataFormatterCell1.m in Sources */,
 				AF04996218C601DA00D73860 /* VegetationTypeVC.m in Sources */,
-				AFF935151A2C7D64008063D2 /* SelectWiFiSecurityOptionVC.m in Sources */,
+				AFF935151A2C7D64008063D2 /* ProvisionSelectWiFiSecurityOptionVC.m in Sources */,
 				AF73880918E08ADE00F184A9 /* BaseNetworkHandlingVC.m in Sources */,
 				AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */,
 				B1EF20F0186046D300D9CE26 /* +NSDictionary.m in Sources */,

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "AvailableWiFisVC.h"
+#import "ProvisionAvailableWiFisVC.h"
 #import "ServiceManager.h"
 #import "Sprinkler.h"
 #import "ServerProxy.h"
@@ -17,7 +17,7 @@
 #import "NetworkUtilities.h"
 #import "WiFiCell.h"
 #import "ProvisionNameSetupVC.h"
-#import "LocationSetupVC.h"
+#import "ProvisionLocationSetupVC.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import "AppDelegate.h"
 #import "UpdateManager.h"
@@ -28,7 +28,7 @@
 const float kWifiSignalMin = -100;
 const float kWifiSignalMax = -50;
 
-@interface AvailableWiFisVC ()
+@interface ProvisionAvailableWiFisVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -55,7 +55,7 @@ const float kWifiSignalMax = -50;
 
 @end
 
-@implementation AvailableWiFisVC
+@implementation ProvisionAvailableWiFisVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,7 +86,7 @@ const float kWifiSignalMax = -50;
     self.headerView.textAlignment = NSTextAlignmentCenter;
 
     // Do any additional setup after loading the view from its nib.
-//    [self refreshUI];
+//    [self refreshState];
 
     self.title = @"Setup";
 
@@ -147,14 +147,14 @@ const float kWifiSignalMax = -50;
         [self shouldStartBroadcastForceUIRefresh:NO];
         [NSTimer scheduledTimerWithTimeInterval:1.5
                                          target:self
-                                       selector:@selector(refreshUI)
+                                       selector:@selector(refreshState)
                                        userInfo:nil
                                         repeats:NO];
 
         [self restartPolling];
     }
 
-//    [self refreshUI];
+//    [self refreshState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -190,7 +190,7 @@ const float kWifiSignalMax = -50;
     return info;
 }
 
-- (void)refreshUI
+- (void)refreshState
 {
     DLog(@"connected to network: %@", [self fetchSSIDInfo]);
     
@@ -298,7 +298,7 @@ const float kWifiSignalMax = -50;
 
 - (void)pollDevices
 {
-    [self refreshUI];
+    [self refreshState];
     [self shouldStartBroadcastForceUIRefresh:NO];
 }
 
@@ -394,7 +394,9 @@ const float kWifiSignalMax = -50;
 
 #pragma mark - ProxyService delegate
 
-- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
+{
+    BOOL isJoinWifiServerProxy = (serverProxy == self.joinWifiServerProxy);
     // Fail silently when connection is lost: this error appears for ex. when /4/login is requested for a devices connected to a network but still unprovisioned
     if (error.code != NSURLErrorNetworkConnectionLost) {
         [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
@@ -406,14 +408,16 @@ const float kWifiSignalMax = -50;
     
     [self hideHud];
     
-    if (serverProxy != self.joinWifiServerProxy) {
-        [self refreshUI];
+    if (!isJoinWifiServerProxy) {
+        // Don't refresh state immediately after the wifi join request. Give some time for the sprinkler to restart
+        [self refreshState];
     }
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     BOOL isJoinWifiServerProxy = (serverProxy == self.joinWifiServerProxy);
+    
     if (serverProxy == self.requestCurrentWiFiProxy) {
         self.sprinklerCurrentWiFi = data;
         self.requestCurrentWiFiProxy = nil;
@@ -483,7 +487,8 @@ const float kWifiSignalMax = -50;
     [self hideHud];
 
     if (!isJoinWifiServerProxy) {
-        [self refreshUI];
+        // Don't refresh state immediately after the wifi join request. Give some time for the sprinkler to restart
+        [self refreshState];
     }
 }
 
@@ -610,6 +615,7 @@ const float kWifiSignalMax = -50;
 
     [self showWifiRebootHud];
     
+    // Give the sprinkler 6 seconds to restart and prevent self.sprinkler to get reassigned to a sprinkler which has the current state without wifi set up
     [self restartPolling];
 }
 

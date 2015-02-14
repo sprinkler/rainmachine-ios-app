@@ -11,7 +11,7 @@
 #import "BaseModalProvisionVC.h"
 #import "Sprinkler.h"
 
-@interface AvailableWiFisVC : BaseModalProvisionVC<SprinklerResponseProtocol>
+@interface ProvisionAvailableWiFisVC : BaseModalProvisionVC<SprinklerResponseProtocol>
 
 //@property (strong, nonatomic) NSString *networkSSIDChoosenForSprinkler;
 //@property (strong, nonatomic) NSString *apNetworkNameOfSprinkler;

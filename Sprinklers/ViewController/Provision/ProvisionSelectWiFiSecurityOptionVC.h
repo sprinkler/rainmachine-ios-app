@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ProvisionWiFiVC.h"
 
-@interface SelectWiFiSecurityOptionVC : UITableViewController
+@interface ProvisionSelectWiFiSecurityOptionVC : UITableViewController
 
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
 

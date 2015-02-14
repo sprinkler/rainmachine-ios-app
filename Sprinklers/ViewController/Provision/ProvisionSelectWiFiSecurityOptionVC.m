@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "SelectWiFiSecurityOptionVC.h"
+#import "ProvisionSelectWiFiSecurityOptionVC.h"
 #import "+UIDevice.h"
 #import "Constants.h"
 
-@interface SelectWiFiSecurityOptionVC ()
+@interface ProvisionSelectWiFiSecurityOptionVC ()
 
 @property (nonatomic, weak) ProvisionWiFiVC *delegate;
 
 @end
 
-@implementation SelectWiFiSecurityOptionVC
+@implementation ProvisionSelectWiFiSecurityOptionVC
 
 - (id)initWithDelegate:(ProvisionWiFiVC*)del {
     self = [super init];
@@ -45,7 +45,7 @@ static NSString *staticSecurityOptions[] = {@"None", @"PSK", @"PSK2"};
 
 + (int)indexForSecurityOption:(NSString*)securityOption
 {
-    for (int i = 0; i < [SelectWiFiSecurityOptionVC nrOfSecurityOptions]; i++) {
+    for (int i = 0; i < [ProvisionSelectWiFiSecurityOptionVC nrOfSecurityOptions]; i++) {
         if ([staticSecurityOptions[i] isEqualToString:securityOption]) {
             return i;
         }
@@ -74,7 +74,7 @@ static NSString *staticSecurityOptions[] = {@"None", @"PSK", @"PSK2"};
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [SelectWiFiSecurityOptionVC nrOfSecurityOptions];
+    return [ProvisionSelectWiFiSecurityOptionVC nrOfSecurityOptions];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
