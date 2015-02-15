@@ -14,6 +14,7 @@
 
 @class VegetationTypeVC;
 @class ZonesVC;
+@class ZoneProperties4;
 
 @interface ZoneVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, CCTBackButtonActionHelperProtocol, CellButtonDelegate, SetDelayVCDelegate>
 
@@ -24,6 +25,8 @@
 
 @property (copy, nonatomic) Zone *zoneCopyBeforeSave;
 @property (assign) BOOL showInitialUnsavedAlert;
+@property (assign) ZoneProperties4 *zoneProperties;
+@property (assign) ZoneProperties4 *unsavedZoneProperties;
 
 - (void)vegetationTypeVCWillDissapear:(VegetationTypeVC*)vegetationTypeVC;
 

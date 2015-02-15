@@ -52,6 +52,9 @@
 + (NSString*)sprinklerTemperatureUnits;
 + (void)setSprinklerTemperatureUnits:(NSString*)units;
 
++ (NSString*)sprinklerLengthUnits;
++ (void)setSprinklerLengthUnits:(NSString*)units;
+
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 
 + (UIImage*)waterWavesImage:(float)height;

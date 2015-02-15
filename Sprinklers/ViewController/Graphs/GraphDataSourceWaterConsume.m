@@ -193,7 +193,7 @@
         NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
         if (!day.length) continue;
         
-        values[day] = weatherDataValue.maxt;
+        if (weatherDataValue.maxt) values[day] = weatherDataValue.maxt;
     }
     
     return values;

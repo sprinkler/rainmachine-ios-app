@@ -56,6 +56,9 @@
 		9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9672C3A419D806BB00236DFB /* RestrictionsCheckCell.xib */; };
 		967C004519D983870071B4CB /* ProgramCellType6.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C004319D983870071B4CB /* ProgramCellType6.m */; };
 		967C004619D983870071B4CB /* ProgramCellType6.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967C004419D983870071B4CB /* ProgramCellType6.xib */; };
+		968023DF1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 968023DE1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m */; };
+		968023E31A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968023E11A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m */; };
+		968023E41A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 968023E21A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib */; };
 		968E25EF1A1F8DD1008006D3 /* Provision.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EA1A1F8DD1008006D3 /* Provision.m */; };
 		968E25F01A1F8DD1008006D3 /* ProvisionLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EC1A1F8DD1008006D3 /* ProvisionLocation.m */; };
 		968E25F11A1F8DD1008006D3 /* ProvisionSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 968E25EE1A1F8DD1008006D3 /* ProvisionSystem.m */; };
@@ -556,6 +559,11 @@
 		967C004219D983870071B4CB /* ProgramCellType6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramCellType6.h; path = Cells/ProgramCellType6.h; sourceTree = "<group>"; };
 		967C004319D983870071B4CB /* ProgramCellType6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramCellType6.m; path = Cells/ProgramCellType6.m; sourceTree = "<group>"; };
 		967C004419D983870071B4CB /* ProgramCellType6.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramCellType6.xib; path = Cells/ProgramCellType6.xib; sourceTree = "<group>"; };
+		968023DD1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneAdvancedTableVC.h; path = ViewController/ZoneAdvancedTableVC.h; sourceTree = "<group>"; };
+		968023DE1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneAdvancedTableVC.m; path = ViewController/ZoneAdvancedTableVC.m; sourceTree = "<group>"; };
+		968023E01A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneAdvancedMonthKCCell.h; path = Cells/ZoneAdvancedMonthKCCell.h; sourceTree = "<group>"; };
+		968023E11A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneAdvancedMonthKCCell.m; path = Cells/ZoneAdvancedMonthKCCell.m; sourceTree = "<group>"; };
+		968023E21A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZoneAdvancedMonthKCCell.xib; path = Cells/ZoneAdvancedMonthKCCell.xib; sourceTree = "<group>"; };
 		968E25E91A1F8DD1008006D3 /* Provision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Provision.h; path = "Communication/Response objects/Provision.h"; sourceTree = "<group>"; };
 		968E25EA1A1F8DD1008006D3 /* Provision.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Provision.m; path = "Communication/Response objects/Provision.m"; sourceTree = "<group>"; };
 		968E25EB1A1F8DD1008006D3 /* ProvisionLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionLocation.h; path = "Communication/Response objects/ProvisionLocation.h"; sourceTree = "<group>"; };
@@ -1767,6 +1775,9 @@
 				96E70AF71A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.h */,
 				96E70AF81A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m */,
 				96E70AF91A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.xib */,
+				968023E01A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.h */,
+				968023E11A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m */,
+				968023E21A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -2205,6 +2216,8 @@
 				96E70AF21A7BC34200A07D94 /* ZoneAdvancedVC.h */,
 				96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */,
 				96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */,
+				968023DD1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.h */,
+				968023DE1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m */,
 				964ADD2D1A1E7BA1008281A8 /* RainSensitivityVC.h */,
 				964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */,
 				964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */,
@@ -2310,6 +2323,7 @@
 				AF4826841990DC9500D80B87 /* nrasn.png in Resources */,
 				AF48267E1990DC9500D80B87 /* nfu.png in Resources */,
 				B1DF326016A6A68700A1BF38 /* Default.png in Resources */,
+				968023E41A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib in Resources */,
 				96CB93F31A38AFAD00F3691F /* nsct_small_white.png in Resources */,
 				AF48266C1990DC9500D80B87 /* fg.png in Resources */,
 				AF4826721990DC9500D80B87 /* hi_shwrs.png in Resources */,
@@ -2574,6 +2588,7 @@
 				AF5CF44D1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.m in Sources */,
 				AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
+				968023DF1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m in Sources */,
 				AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,
@@ -2640,6 +2655,7 @@
 				AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */,
 				969051C91A6ACDBD0029304D /* WaterLogZone.m in Sources */,
 				96CD40E51A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m in Sources */,
+				968023E31A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */,
 				96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */,

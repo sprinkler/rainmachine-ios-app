@@ -20,6 +20,7 @@
 #import "DevicesCellType1.h"
 #import "SetDelayVC.h"
 #import "Constants.h"
+#import "ZoneProperties4.h"
 
 #define kZoneProperties_Name 0
 #define kZoneProperties_Active 1
@@ -200,6 +201,21 @@ typedef enum {
 - (void)viewDidAppear:(BOOL)animated
 {
     [CCTBackButtonActionHelper sharedInstance].delegate = self;
+    
+    if (self.unsavedZoneProperties) {
+        ZoneAdvancedVC *zoneAdvancedVC = [[ZoneAdvancedVC alloc] init];
+        zoneAdvancedVC.parent = self;
+        zoneAdvancedVC.zone = self.zone;
+        zoneAdvancedVC.showInitialUnsavedAlert = YES;
+        zoneAdvancedVC.zoneProperties = self.zoneProperties;
+        zoneAdvancedVC.unsavedZoneProperties = self.unsavedZoneProperties;
+        
+        self.zoneProperties = nil;
+        self.unsavedZoneProperties = nil;
+        
+        [self willPushChildView];
+        [self.navigationController pushViewController:zoneAdvancedVC animated:YES];
+    }
 }
 
 - (void)vegetationTypeVCWillDissapear:(VegetationTypeVC*)vegetationTypeVC
