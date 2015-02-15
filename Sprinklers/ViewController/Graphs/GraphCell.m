@@ -304,7 +304,6 @@
             UILabel *dateValueLabel = self.dateValueLabels[index];
             NSString *dateValue = timeIntervalPart.dateValues[index];
             if (index == 0) dateValue = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartStartValue, dateValue];
-            else if ([dateValue isEqualToString:@"01"] || [dateValue isEqualToString:[abbrevMonthsOfYear[0] lowercaseString]]) dateValue = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartEndValue, dateValue];
             dateValueLabel.text = dateValue;
         }
         [self setupCurrentDateWithDescriptor:descriptor timeIntervalPart:timeIntervalPart];

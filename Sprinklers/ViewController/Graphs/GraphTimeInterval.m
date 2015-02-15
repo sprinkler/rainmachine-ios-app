@@ -95,7 +95,6 @@ static NSMutableArray *registeredTimeIntervals = nil;
 - (void)createWeeklyGraphTimeIntervalParts {
     NSMutableArray *graphTimeIntervalParts = [NSMutableArray new];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    calendar.firstWeekday = 2;
     
     NSInteger totalDays = 0;
     NSDate *startDate = [GraphsManager sharedGraphsManager].startDate;
@@ -103,7 +102,7 @@ static NSMutableArray *registeredTimeIntervals = nil;
     NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear fromDate:startDate];
     NSInteger startWeekDay = startDateComponents.weekday;
     
-    startDateComponents.weekday = 2;
+    startDateComponents.weekday = 1;
     startDate = [calendar dateFromComponents:startDateComponents];
     
     while (totalDays < [GraphsManager sharedGraphsManager].totalDays + startWeekDay - 1) {
