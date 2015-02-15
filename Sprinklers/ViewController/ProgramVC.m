@@ -372,6 +372,18 @@
     } else {
         Program4 *program4 = (Program4*)self.program;
         if (program4.status == API4_ProgramStatus_Stopped) {
+            NSString *cannotStartProgramStateMessage = [self checkProgramCanStart];
+            
+            if (cannotStartProgramStateMessage) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start program"
+                                                                    message:cannotStartProgramStateMessage
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                [alertView show];
+                return;
+            }
+            
             [self.runNowServerProxy startProgram4:program4];
         } else {
             [self.runNowServerProxy stopProgram4:program4];
@@ -1200,6 +1212,25 @@
     
     if (!isThereANonZeroWateringZoneTime) {
         return @"At least one zone must have a non-zero watering time";
+    }
+    
+    return nil;
+}
+
+- (NSString *)checkProgramCanStart
+{
+    if ([ServerProxy usesAPI3]) return nil;
+    
+    BOOL isThereANonZeroActiveWateringZoneTime = NO;
+    for (ProgramWateringTimes4 *programWateringTime in self.programCopyBeforeSave.wateringTimes) {
+        if (programWateringTime.duration != 0 && programWateringTime.active) {
+            isThereANonZeroActiveWateringZoneTime = YES;
+            break;
+        }
+    }
+    
+    if (!isThereANonZeroActiveWateringZoneTime) {
+        return @"At least one zone with a non-zero watering time must be active";
     }
     
     return nil;
