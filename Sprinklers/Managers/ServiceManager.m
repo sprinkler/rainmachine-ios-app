@@ -31,6 +31,11 @@ static ServiceManager *current = nil;
 
 #pragma mark - Methods
 
+- (void)clearDiscoveredSprinklers
+{
+    self.discoveredSprinklers = [NSMutableArray array];
+}
+
 - (BOOL)startBroadcastForSprinklers:(BOOL)silent {
     
     self.discoveredSprinklers = [NSMutableArray array];

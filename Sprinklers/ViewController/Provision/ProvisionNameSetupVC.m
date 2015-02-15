@@ -15,6 +15,8 @@
 #import "+UIDevice.h"
 #import "AppDelegate.h"
 #import "DevicesVC.h"
+#import "NetworkUtilities.h"
+#import "Utils.h"
 
 @interface ProvisionNameSetupVC ()
 
@@ -22,8 +24,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *deviceNameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *passwordLabel;
 @property (weak, nonatomic) IBOutlet UITextField *verifyPasswordLabel;
+@property (weak, nonatomic) IBOutlet UITextField *oldPasswordLabel;
 @property (strong, nonatomic) ServerProxy *provisionNameServerProxy;
 @property (strong, nonatomic) ServerProxy *provisionPasswordServerProxy;
+@property (strong, nonatomic) ServerProxy *loginServerProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
@@ -47,11 +51,15 @@
     self.deviceNameLabel.delegate = self;
     self.passwordLabel.delegate = self;
     self.verifyPasswordLabel.delegate = self;
+    self.oldPasswordLabel.delegate = self;
+    
+    self.oldPasswordLabel.hidden = !(self.presentOldPasswordField);
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.deviceNameLabel.tintColor = self.deviceNameLabel.textColor;
         self.passwordLabel.tintColor = self.passwordLabel.textColor;
         self.verifyPasswordLabel.tintColor = self.verifyPasswordLabel.textColor;
+        self.oldPasswordLabel.tintColor = self.oldPasswordLabel.textColor;
     }
 
     self.title = @"Setup";//self.sprinkler.sprinklerName;
@@ -93,6 +101,16 @@
     }
     
     [self showHud];
+    
+    if (self.presentOldPasswordField) {
+        [self loginWithPassword:self.oldPasswordLabel.text];
+    } else {
+        [self startSetProvisionRequests];
+    }
+}
+
+- (void)startSetProvisionRequests
+{
     [self.provisionNameServerProxy setProvisionName:self.deviceNameLabel.text];
 }
 
@@ -108,10 +126,19 @@
     [self hideHud];
 }
 
+- (void)loginWithPassword:(NSString*)pwd
+{
+    [self.loginServerProxy cancelAllOperations];
+    self.loginServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:[ServerProxy usesAPI4]];
+    
+    // Try to log in automatically
+    [self.loginServerProxy loginWithUserName:@"admin" password:pwd rememberMe:YES];
+}
+
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     
     if (serverProxy == self.provisionNameServerProxy) {
-        [self.provisionPasswordServerProxy setNewPassword:self.passwordLabel.text confirmPassword:self.verifyPasswordLabel.text oldPassword:@""];
+        [self.provisionPasswordServerProxy setNewPassword:self.passwordLabel.text confirmPassword:self.verifyPasswordLabel.text oldPassword:self.oldPasswordLabel.text];
     }
     else if (serverProxy == self.provisionPasswordServerProxy) {
         [self hideHud];
@@ -126,13 +153,23 @@
     }
 }
 
-- (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
+- (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit
+{
+    NSString *address = self.sprinkler.url;
+    NSString *port = [Utils getPort:address];
+    address = [Utils getBaseUrl:address];
+    
+    [NetworkUtilities saveAccessTokenForBaseURL:address port:port loginResponse:(Login4Response*)loginResponse];
+    
+    self.loginServerProxy = nil;
+    
+    [self startSetProvisionRequests];
 }
 
 - (void)loggedOut {
     
     [self hideHud];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"Authentication failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login error" message:@"It seems that the old password you eneterd is not correct." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
 }
 

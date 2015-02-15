@@ -12,6 +12,8 @@
 #import "MBProgressHUD.h"
 #import "ServerProxy.h"
 #import "SettingsDate.h"
+#import "AppDelegate.h"
+#import "DevicesVC.h"
 
 #define kPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define kDatePickerTag              99     // view tag identifiying the date picker view
@@ -526,6 +528,9 @@ NSUInteger DeviceSystemMajorVersion()
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.devicesVC startHud:nil];
+
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 

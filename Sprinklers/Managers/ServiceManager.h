@@ -36,6 +36,7 @@
 - (BOOL)stopBroadcast;
 
 - (NSMutableArray *)getDiscoveredSprinklersWithAPFlag:(NSNumber*)apFlag;
+- (void)clearDiscoveredSprinklers;
 
 + (id)current;
 

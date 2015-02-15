@@ -55,29 +55,38 @@
 
 - (void)onCancel:(id)notif
 {
-    self.alertView = [[UIAlertView alloc] initWithTitle:@"Cancel Setup?" message:@"Are you sure you want to cancel Rainmachine Setup?"
-                                                       delegate:self
-                                              cancelButtonTitle:@"No"
-                                              otherButtonTitles:@"Cancel Setup",nil];
-    self.alertView.tag = kAlertView_SetupWizard_CancelWizard;
-    [self.alertView show];
+    if (self.forceQuit) {
+        [self popToRoot];
+    } else {
+        self.alertView = [[UIAlertView alloc] initWithTitle:@"Cancel Setup?" message:@"Are you sure you want to cancel Rainmachine Setup?"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"No"
+                                                  otherButtonTitles:@"Cancel Setup",nil];
+        self.alertView.tag = kAlertView_SetupWizard_CancelWizard;
+        [self.alertView show];
+    }
 }
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (theAlertView.tag == kAlertView_SetupWizard_CancelWizard) {
         if (buttonIndex != theAlertView.cancelButtonIndex) {
-            if (self.delegate) {
-                [self.delegate.navigationController popToRootViewControllerAnimated:NO];
-            } else {
-                [self.navigationController popToRootViewControllerAnimated:NO];
-            }
+            [self popToRoot];
 //            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //            [appDelegate.devicesVC.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
     }
 
     [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+}
+
+- (void)popToRoot
+{
+    if (self.delegate) {
+        [self.delegate.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 @end
