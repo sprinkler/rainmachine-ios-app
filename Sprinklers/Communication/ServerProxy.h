@@ -125,6 +125,7 @@ typedef enum {
 - (void)saveZone:(Zone *)zone;
 
 - (void)requestAPIVersion;
+- (void)requestAPIVersionWithTimeoutInterval:(NSTimeInterval)timeoutInterval;
 - (void)requestUpdateCheckForVersion:(int)version;
 - (void)requestUpdateStartForVersion:(int)version;
 - (void)reboot;

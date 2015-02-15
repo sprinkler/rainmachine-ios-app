@@ -15,4 +15,6 @@
 
 - (void)done:(NSString*)unit;
 
+- (void)deviceSetupFinished;
+
 @end

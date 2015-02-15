@@ -16,5 +16,6 @@
 
 //@property (nonatomic, weak) AvailableWiFisVC *delegate;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
+@property (assign, nonatomic) BOOL presentOldPasswordField;
 
 @end
