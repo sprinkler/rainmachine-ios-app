@@ -189,6 +189,7 @@
     }
     
     [self refreshToolBarButtonTitles];
+    [self refreshStatus];
 }
 
 - (BOOL)didEdit
