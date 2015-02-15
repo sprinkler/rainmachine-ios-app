@@ -529,7 +529,7 @@ NSUInteger DeviceSystemMajorVersion()
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.devicesVC startHud:nil];
+    [appDelegate.devicesVC deviceSetupFinished];
 
     [self.navigationController popToRootViewControllerAnimated:NO];
 }

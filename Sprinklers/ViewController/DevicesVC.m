@@ -64,6 +64,7 @@
 @property (assign, nonatomic) NSUInteger selectedCloudServerIndex;
 
 @property (assign, nonatomic) BOOL forceUserRefreshActivityIndicator;
+@property (assign, nonatomic) int hideHudTimeoutCountDown;
 
 @end
 
@@ -85,6 +86,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.hideHudTimeoutCountDown = 0;
     
     [self setDefaultTuningValues];
     
@@ -367,7 +370,7 @@
 //        [self shouldStopBroadcast];
         
         if (forceUIRefresh) {
-            if (!self.selectingSprinklerInProgress) [self hideHud];
+//            if (!self.selectingSprinklerInProgress) [self hideHud];
             // Process the list of discovered devices before starting a new discovery process
             // We do the processing until here, because otherwise, when no sprinklers in the network, the 'SprinklersDiscovered' callback is not called at all
             [self SprinklersDiscovered];
@@ -445,8 +448,15 @@
 }
 
 - (void)hideHud {
-    if (!self.forceUserRefreshActivityIndicator) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (self.hideHudTimeoutCountDown > 0) {
+        self.hideHudTimeoutCountDown--;
+        return;
+    }
+    
+    if (!self.selectingSprinklerInProgress) {
+        if (!self.forceUserRefreshActivityIndicator) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }
     }
  }
 
@@ -525,6 +535,13 @@
     
     [self startHud:nil];
     [self.tableView reloadData];
+}
+
+- (void)deviceSetupFinished
+{
+    self.hideHudTimeoutCountDown = 2;
+//    [self shouldStartBroadcastForceUIRefresh:YES];
+    [self startHud:nil];
 }
 
 #pragma mark - UITableView delegate
@@ -901,8 +918,8 @@
     self.selectingSprinklerInProgress = YES;
     
     [self startHud:nil];
-    self.versionServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:YES];
-    [self.versionServerProxy requestAPIVersion];
+    self.versionServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:NO];
+    [self.versionServerProxy requestAPIVersionWithTimeoutInterval:kRequestDiagTimeoutInterval];
 }
 
 - (void)presentWizardWithSprinkler:(Sprinkler*)sprinkler
@@ -968,28 +985,42 @@
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     if (serverProxy == self.cloudServerProxy) {
-        if (!self.selectingSprinklerInProgress) [self hideHud];
+        [self hideHud];
         [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
     }
     else if (serverProxy == self.diagServerProxy) {
         self.selectingSprinklerInProgress = NO;
         [self hideHud];
         
-        [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+        BOOL timeout = ([error.domain isEqualToString:NSURLErrorDomain] && error.code == kCFURLErrorTimedOut);
+        if (timeout) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:@"The sprinkler doesn't respond." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        } else {
+            [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+        }
+        
         self.diagServerProxy = nil;
     }
     else if (serverProxy == self.versionServerProxy) {
         self.selectingSprinklerInProgress = NO;
         [self hideHud];
+
+        BOOL timeout = ([error.domain isEqualToString:NSURLErrorDomain] && error.code == kCFURLErrorTimedOut);
+        if (timeout) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:@"The sprinkler doesn't respond." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        } else {
+            [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+        }
         
-        [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
         self.versionServerProxy = nil;
     }
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.cloudServerProxy) {
-        if (!self.selectingSprinklerInProgress) [self hideHud];
+        [self hideHud];
     //    NSError *e = nil;
     //    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"dragos@oriunde.com\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"2180:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
     //    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];

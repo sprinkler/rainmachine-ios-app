@@ -56,6 +56,8 @@ const float kWifiSignalMax = -50;
 @property (strong, nonatomic) ServerProxy *joinWifiServerProxy;
 @property (strong, nonatomic) ServerProxy *requestDiagProxy;
 
+@property (assign, nonatomic) BOOL isHidden;
+
 @end
 
 @implementation ProvisionAvailableWiFisVC
@@ -145,6 +147,12 @@ const float kWifiSignalMax = -50;
 //    [self refreshState];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.isHidden = NO;
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -155,6 +163,8 @@ const float kWifiSignalMax = -50;
     [self shouldStopBroadcast];
     [self.devicesPollTimer invalidate];
     self.devicesPollTimer = nil;
+    
+    self.isHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -290,7 +300,7 @@ const float kWifiSignalMax = -50;
         if ([data isKindOfClass:[NSArray class]]) {
             self.availableWiFis = data;
         }
-        self.requestAllAvailableWiFiNetworksTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestAllAvailableWiFiNetworks) userInfo:nil repeats:NO];
+        [self hideHud];
     }
     else if (serverProxy == self.joinWifiServerProxy) {
         // The sprinkler retarts, and if the connection to the home wifi succeeds it will get a new url
@@ -341,7 +351,11 @@ const float kWifiSignalMax = -50;
     if (loggedIn) {
         if (apMode) {
             // Sprinkler hasn't connected yet to any WiFi. Continue with the WiFi setup wizard
-            [self requestAllAvailableWiFiNetworks];
+            [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
+            
+            [self.requestAllAvailableWiFiNetworksTimer invalidate];
+            self.requestAllAvailableWiFiNetworksTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestAllAvailableWiFiNetworks) userInfo:nil repeats:YES];
+            [self.requestAllAvailableWiFiNetworksTimer fire];
         } else {
             [self continueWithPasswordAndNameSetupPresentOldPasswordField:NO];
         }
@@ -392,7 +406,6 @@ const float kWifiSignalMax = -50;
     ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
     locationSetupVC.sprinkler = self.sprinkler;
     locationSetupVC.delegate = self;
-    [self cancelAllOperations];
     [self.navigationController pushViewController:locationSetupVC animated:YES];
 }
 
@@ -563,11 +576,15 @@ const float kWifiSignalMax = -50;
 
 - (void)requestAllAvailableWiFiNetworks
 {
-    [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
-    self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-    [self.requestAvailableWiFisProvisionServerProxy requestAvailableWiFis];
-    
-    [self showHud];
+    if (!self.isHidden) {
+        [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
+        self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+        [self.requestAvailableWiFisProvisionServerProxy requestAvailableWiFis];
+        
+        if (self.availableWiFis.count == 0) {
+            [self showHud];
+        }
+    }
 }
 
 //- (void)requestCurrentWiFi
@@ -613,6 +630,10 @@ const float kWifiSignalMax = -50;
     [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     
     self.alertView = nil;
+    
+    if (theAlertView.tag == kAlertView_SetupWizard_ReconnectedToSprinkler) {
+        [self showHud];
+    }
     
     if (theAlertView.tag == kAlertView_SetupWizard_CannotStart) {
         self.sprinkler = nil;

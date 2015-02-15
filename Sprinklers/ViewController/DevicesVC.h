@@ -14,6 +14,7 @@
 @interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, TRPickerInputViewDataSource, TRPickerInputViewDelegate>
 
 - (void)done:(NSString*)unit;
-- (void)startHud:(NSString*)text;
+
+- (void)deviceSetupFinished;
 
 @end

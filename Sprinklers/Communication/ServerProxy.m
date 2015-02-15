@@ -1641,6 +1641,35 @@ static int serverAPIMinorSubVersion = -1;
     }];
 }
 
+
+- (void)requestAPIVersionWithTimeoutInterval:(NSTimeInterval)timeoutInterval
+{
+    NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:@"GET"
+                                                                           URLString:[[NSURL URLWithString:[self urlByAppendingAccessTokenToUrl:@"api/apiVer"] relativeToURL:self.manager.baseURL] absoluteString]
+                                                                          parameters:nil];
+    request.timeoutInterval = timeoutInterval;
+    
+    AFHTTPRequestOperation *operation =
+    [self.manager HTTPRequestOperationWithRequest:request
+                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                              
+                                              if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                                                  NSArray *parsedArray = responseObject ? [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([APIVersion class])] : nil;
+                                                  APIVersion *version = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                                                  if (!version.apiVer) {
+                                                      // Most likely the response is from API4
+                                                      NSArray *parsedArray = responseObject ? [ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([APIVersion4 class])] : nil;
+                                                      version = ([parsedArray count] > 0) ? [parsedArray firstObject] : nil;
+                                                  }
+                                                  [self.delegate serverResponseReceived:version serverProxy:self userInfo:@"apiVer"];
+                                              }
+                                              
+                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                              [self handleError:error fromOperation:operation userInfo:@"apiVer"];
+                                          }];
+    [self.manager.operationQueue addOperation:operation];
+}
+
 - (void)reboot {
     NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/machine/reboot"] : [self urlByAppendingAccessTokenToUrl:@"api/4/reboot"];
     [self.manager POST:relUrl parameters:@{}

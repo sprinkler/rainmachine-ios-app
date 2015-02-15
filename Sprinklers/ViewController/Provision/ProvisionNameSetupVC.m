@@ -94,6 +94,11 @@
         [alertView show];
         return;
     }
+    if (self.passwordLabel.text.length < 3) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Password Too Short" message:@"Please enter a longer password" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        return;
+    }
     if (![self.passwordLabel.text isEqualToString:self.verifyPasswordLabel.text]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Password Confirmation" message:@"Passwords do not match" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
