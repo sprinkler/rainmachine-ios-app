@@ -83,7 +83,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
     // Hide the status table view initially
     self.statusTableViewHeightConstraint.constant = 0;
     self.title = @"Program";
