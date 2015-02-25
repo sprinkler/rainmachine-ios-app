@@ -8,7 +8,7 @@
 
 #import "BaseNetworkHandlingVC.h"
 
-@interface BaseModalProvisionVC : BaseNetworkHandlingVC
+@interface BaseWizardVC : BaseNetworkHandlingVC
 
 @property (strong, nonatomic) UIViewController *delegate;
 @property (strong, nonatomic) UIAlertView *alertView;

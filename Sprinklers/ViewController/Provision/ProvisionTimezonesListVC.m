@@ -20,7 +20,7 @@
 //@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *coloredView;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-@property (strong, nonatomic) BaseModalProvisionVC *errorHandlingHelper;
+@property (strong, nonatomic) BaseWizardVC *errorHandlingHelper;
 
 @end
 
@@ -32,7 +32,7 @@
     self.title = @"Timezone";
 //    [[self view] setTranslatesAutoresizingMaskIntoConstraints:NO];
 
-    self.errorHandlingHelper = [BaseModalProvisionVC new];
+    self.errorHandlingHelper = [BaseWizardVC new];
     [self.errorHandlingHelper setWizardNavBarForVC:self];
     self.errorHandlingHelper.delegate = self;
 

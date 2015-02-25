@@ -11,13 +11,13 @@
 #import "DiscoveredSprinklers.h"
 #import "Protocols.h"
 #import "ProvisionNameSetupVC.h"
-#import "BaseModalProvisionVC.h"
+#import "BaseWizardVC.h"
 #import "Sprinkler.h"
 #import "GoogleAddress.h"
 
 @class ColoredBackgroundButton;
 
-@interface ProvisionLocationSetupVC : BaseModalProvisionVC <GMSMapViewDelegate, SprinklerResponseProtocol, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
+@interface ProvisionLocationSetupVC : BaseWizardVC <GMSMapViewDelegate, SprinklerResponseProtocol, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 
 @property (nonatomic, weak) IBOutlet UISearchBar *locationSearchBar;
 @property (nonatomic, weak) IBOutlet UIView *mapContentView;

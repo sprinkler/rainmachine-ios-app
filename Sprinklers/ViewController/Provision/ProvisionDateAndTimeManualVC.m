@@ -81,7 +81,7 @@ static NSString *kTimeZoneCell = @"timeZoneCell";     // the remaining cells at 
     
     self.pickerCellRowHeight = CGRectGetHeight(pickerViewCellToCheck.frame);
     
-    self.errorHandlingHelper = [BaseModalProvisionVC new];
+    self.errorHandlingHelper = [BaseWizardVC new];
     [self.errorHandlingHelper setWizardNavBarForVC:self];
     self.errorHandlingHelper.delegate = self;
     

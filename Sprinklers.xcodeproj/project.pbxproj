@@ -211,7 +211,7 @@
 		AF26D5D01A2EDD7F0010AB28 /* WiFiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26D5CE1A2EDD7F0010AB28 /* WiFiCell.m */; };
 		AF26D5D11A2EDD7F0010AB28 /* WiFiCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF26D5CF1A2EDD7F0010AB28 /* WiFiCell.xib */; };
 		AF34021D1A9E61CA000EB519 /* GlobalsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF34021C1A9E61CA000EB519 /* GlobalsManager.m */; };
-		AF35BDA91A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF35BDA81A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m */; };
+		AF35BDA91A8F3BCF00A5C1F4 /* BaseWizardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF35BDA81A8F3BCF00A5C1F4 /* BaseWizardVC.m */; };
 		AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3823881951D94C007CADB5 /* RMSwitch.m */; };
 		AF3DE1FD1A1A50A600C4B1FC /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3DE1FC1A1A50A600C4B1FC /* Sprinkler.m */; };
 		AF3E02E71A1D457E00E76C53 /* CloudAccountsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */; };
@@ -779,8 +779,8 @@
 		AF26D5CF1A2EDD7F0010AB28 /* WiFiCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WiFiCell.xib; path = ViewController/Provision/WiFiCell.xib; sourceTree = "<group>"; };
 		AF34021B1A9E61CA000EB519 /* GlobalsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalsManager.h; path = Managers/GlobalsManager.h; sourceTree = "<group>"; };
 		AF34021C1A9E61CA000EB519 /* GlobalsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GlobalsManager.m; path = Managers/GlobalsManager.m; sourceTree = "<group>"; };
-		AF35BDA71A8F3BCF00A5C1F4 /* BaseModalProvisionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseModalProvisionVC.h; path = ViewController/BaseModalProvisionVC.h; sourceTree = "<group>"; };
-		AF35BDA81A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseModalProvisionVC.m; path = ViewController/BaseModalProvisionVC.m; sourceTree = "<group>"; };
+		AF35BDA71A8F3BCF00A5C1F4 /* BaseWizardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseWizardVC.h; path = ViewController/BaseWizardVC.h; sourceTree = "<group>"; };
+		AF35BDA81A8F3BCF00A5C1F4 /* BaseWizardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseWizardVC.m; path = ViewController/BaseWizardVC.m; sourceTree = "<group>"; };
 		AF3823871951D94C007CADB5 /* RMSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMSwitch.h; path = Sprinklers/Controls/RMSwitch.h; sourceTree = "<group>"; };
 		AF3823881951D94C007CADB5 /* RMSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMSwitch.m; path = Sprinklers/Controls/RMSwitch.m; sourceTree = "<group>"; };
 		AF3DE1FB1A1A50A600C4B1FC /* Sprinkler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprinkler.h; path = Model/Sprinkler.h; sourceTree = "<group>"; };
@@ -1665,8 +1665,8 @@
 				B1213EAD1860804E009D97F4 /* BaseLevel2ViewController.m */,
 				AF73880718E08ADE00F184A9 /* BaseNetworkHandlingVC.h */,
 				AF73880818E08ADE00F184A9 /* BaseNetworkHandlingVC.m */,
-				AF35BDA71A8F3BCF00A5C1F4 /* BaseModalProvisionVC.h */,
-				AF35BDA81A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m */,
+				AF35BDA71A8F3BCF00A5C1F4 /* BaseWizardVC.h */,
+				AF35BDA81A8F3BCF00A5C1F4 /* BaseWizardVC.m */,
 				AF02F87E18BF4DA800579CAF /* RMNavigationController.m */,
 				AF02F87D18BF4DA800579CAF /* RMNavigationController.h */,
 				B1EF21121860495300D9CE26 /* WaterNow */,
@@ -2674,7 +2674,7 @@
 				96F0F35B1A3768A90056D167 /* GraphValuesBarDescriptor.m in Sources */,
 				AF167D66189AD72E003E659D /* UpdaterVC.m in Sources */,
 				964ADD0E1A1E5AA5008281A8 /* GoogleRequestAutocomplete.m in Sources */,
-				AF35BDA91A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m in Sources */,
+				AF35BDA91A8F3BCF00A5C1F4 /* BaseWizardVC.m in Sources */,
 				968E25F01A1F8DD1008006D3 /* ProvisionLocation.m in Sources */,
 				AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,

@@ -10,9 +10,9 @@
 //#import "AvailableWiFisVC.h"
 #import "DiscoveredSprinklers.h"
 #import "Protocols.h"
-#import "BaseModalProvisionVC.h"
+#import "BaseWizardVC.h"
 
-@interface ProvisionNameSetupVC : BaseModalProvisionVC<SprinklerResponseProtocol, UITextFieldDelegate>
+@interface ProvisionNameSetupVC : BaseWizardVC<SprinklerResponseProtocol, UITextFieldDelegate>
 
 //@property (nonatomic, weak) AvailableWiFisVC *delegate;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;

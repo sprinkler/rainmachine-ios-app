@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Tremend. All rights reserved.
 //
 
-#import "BaseModalProvisionVC.h"
+#import "BaseWizardVC.h"
 #import "+UIDevice.h"
 #import "AppDelegate.h"
 #import "DevicesVC.h"
 
-@interface BaseModalProvisionVC ()
+@interface BaseWizardVC ()
 
 @end
 
-@implementation BaseModalProvisionVC
+@implementation BaseWizardVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

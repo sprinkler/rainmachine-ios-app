@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Protocols.h"
-#import "BaseModalProvisionVC.h"
+#import "BaseWizardVC.h"
 #import "Sprinkler.h"
 
-@interface ProvisionAvailableWiFisVC : BaseModalProvisionVC<SprinklerResponseProtocol>
+@interface ProvisionAvailableWiFisVC : BaseWizardVC<SprinklerResponseProtocol>
 
 //@property (strong, nonatomic) NSString *networkSSIDChoosenForSprinkler;
 //@property (strong, nonatomic) NSString *apNetworkNameOfSprinkler;
