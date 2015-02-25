@@ -32,6 +32,13 @@ NSString *kSettingsDate               = @"Date";
 NSString *kSettingsTime               = @"Time";
 NSString *kSettingsSecurity           = @"Security";
 NSString *kSettingsAbout              = @"About";
+NSString *kSettingsTimeZone           = @"Timezone";
+NSString *kSettingsResetToDefaults    = @"Reset to Defaults";
+NSString *kSettingsDataSources        = @"Data Sources";
+NSString *kSettingsNetworkSettings    = @"Network Settings";
+NSString *kSettingsDeviceName         = @"Device Name";
+NSString *kSettingsRemoteAccess       = @"Remote Access";
+NSString *kSettingsLocationSettings   = @"Location Settings";
 
 @interface SettingsVC ()
 {
@@ -61,11 +68,22 @@ NSString *kSettingsAbout              = @"About";
     
     NSMutableArray *settings = [NSMutableArray new];
     
+    // Section 1
     [settings addObject:@[kSettingsPrograms, kSettingsZones]];
-    if ([ServerProxy usesAPI4]) [settings addObject:@[kSettingsRainDelay, kSettingsRestrictions]];
-    else [settings addObject:@[kSettingsRainDelay]];
-    if ([ServerProxy usesAPI4]) [settings addObject:@[kSettingsRainSensitivity, kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsSecurity, kSettingsAbout]];
-    else [settings addObject:@[kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsSecurity, kSettingsAbout]];
+    
+    // Section 2
+    if ([ServerProxy usesAPI4]) {
+        [settings addObject:@[kSettingsRainDelay, kSettingsRestrictions]];
+    } else {
+        [settings addObject:@[kSettingsRainDelay]];
+    }
+
+    // Section 3
+    if ([ServerProxy usesAPI4]) {
+        [settings addObject:@[kSettingsNetworkSettings, kSettingsDataSources, kSettingsRainSensitivity, kSettingsLocationSettings, kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsTimeZone, kSettingsDeviceName, kSettingsRemoteAccess, kSettingsSecurity, kSettingsResetToDefaults, kSettingsAbout]];
+    } else {
+        [settings addObject:@[kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsSecurity, kSettingsAbout]];
+    }
     
     self.settings = settings;
     self.settingsSectionNames = @[@"", @"", @"Device Settings"];
