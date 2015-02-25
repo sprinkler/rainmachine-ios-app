@@ -43,7 +43,8 @@
 + (NSString*)monthsStringFromMonthsFrequency:(NSString *)months;
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat;
 + (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format;
-+ (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format forceOnlyTimePart:(BOOL)forceOnlyTimePart forceOnlyDatePart:(BOOL)forceOnlyDatePart;
++ (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format seconds:(BOOL)seconds;
++ (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format seconds:(BOOL)seconds forceOnlyTimePart:(BOOL)forceOnlyTimePart forceOnlyDatePart:(BOOL)forceOnlyDatePart;
 + (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate;
 + (void)showNotSupportedDeviceAlertView:(id /*<UIAlertViewDelegate>*/)delegate;
 + (NSArray*)parseApiVersion:(id)data;

@@ -563,8 +563,6 @@ NSUInteger DeviceSystemMajorVersion()
         self.provisionDateTimeServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
         [self.provisionDateTimeServerProxy setSettingsDate:settingsDate];
     }
-    
-    [self hideHud];
 }
 
 - (void)loggedOut {
@@ -592,7 +590,7 @@ NSUInteger DeviceSystemMajorVersion()
 
 - (NSString*)stringFromDate:(NSDate*)date
 {
-    return [[Utils sprinklerDateFormatterForTimeFormat:@24] stringFromDate:date];
+    return [[Utils sprinklerDateFormatterForTimeFormat:@24 seconds:NO] stringFromDate:date];
 }
 
 - (NSDate*)constructDateFromPicker

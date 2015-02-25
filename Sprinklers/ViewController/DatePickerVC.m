@@ -76,9 +76,9 @@
     return [[Utils sprinklerDateFormatterForTimeFormat:timeFormat] dateFromString:stringDate];
 }
 
-- (NSString*)stringFromDate:(NSDate*)date
+- (NSString*)stringFromDate:(NSDate*)date seconds:(BOOL)seconds
 {
-    return [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] stringFromDate:date];
+    return [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format seconds:seconds] stringFromDate:date];
 }
 
 - (NSDate*)constructDateFromPicker
@@ -114,7 +114,8 @@
 {
     if ((self.settingsDate) && (!self.postServerProxy) && (!self.pullServerProxy)) {
         
-        NSString *newDate = [self stringFromDate:[self constructDateFromPicker]];
+        NSString *newDate = [self stringFromDate:[self constructDateFromPicker] seconds:NO];
+        NSString *newDateToStore = [self stringFromDate:[self constructDateFromPicker] seconds:YES];
         
         // If we save the same unit again the server returns error: "Units not saved"
         if (![self.settingsDate.appDate isEqualToString:newDate]) {
@@ -124,6 +125,9 @@
             self.settingsDate.appDate = newDate;
             
             [self.postServerProxy setSettingsDate:self.settingsDate];
+
+            // Sprinkler sends times with seconds. Store it the same way.
+            self.settingsDate.appDate = newDateToStore;
         }
     }
 }
@@ -174,7 +178,6 @@
         self.pullServerProxy = nil;
     }
     else if (serverProxy == self.postServerProxy) {
-        self.postServerProxy = nil;
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
