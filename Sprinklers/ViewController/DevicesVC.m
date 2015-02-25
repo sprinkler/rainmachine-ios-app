@@ -20,7 +20,6 @@
 #import "MBProgressHUD.h"
 #import "Utils.h"
 #import "CloudUtils.h"
-#import "LoginVC.h"
 #import "SetDelayVC.h"
 #import "AddNewDeviceVC.h"
 #import "AppDelegate.h"

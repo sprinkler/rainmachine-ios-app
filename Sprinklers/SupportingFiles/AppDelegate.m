@@ -16,6 +16,7 @@
 #import "WaterNowVC.h"
 #import "Additions.h"
 #import "UpdateManager.h"
+#import "GlobalsManager.h"
 #import "RMNavigationController.h"
 #import "UpdateManager.h"
 #import "NetworkUtilities.h"
@@ -78,6 +79,8 @@
     UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.devicesVC];
     
     if ([[StorageManager current] currentSprinkler]) {
+        [[GlobalsManager current] refresh];
+        
         UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
         self.devicesVC.tabBarItem = tabBarItemDevices;
         

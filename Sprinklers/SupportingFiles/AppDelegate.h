@@ -10,6 +10,7 @@
 
 @class DashboardVC;
 @class UpdateManager;
+@class GlobalsManager;
 @class DevicesVC;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) DashboardVC *dashboardVC;
 @property (nonatomic, strong) DevicesVC *devicesVC;
 @property (strong, nonatomic) UpdateManager *updateManager;
+@property (strong, nonatomic) GlobalsManager *globalsManager;
 
 - (void)refreshRootViews:(NSString*)unit;
 

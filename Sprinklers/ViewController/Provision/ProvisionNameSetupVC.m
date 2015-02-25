@@ -17,6 +17,7 @@
 #import "DevicesVC.h"
 #import "NetworkUtilities.h"
 #import "Utils.h"
+#import "API4StatusResponse.h"
 
 @interface ProvisionNameSetupVC ()
 
@@ -143,6 +144,11 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     
     if (serverProxy == self.provisionNameServerProxy) {
+        API4StatusResponse *response = (API4StatusResponse*)data;
+        if ([response.statusCode intValue] != API4StatusCode_Success) {
+            [self handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        }
+        
         [self.provisionPasswordServerProxy setNewPassword:self.passwordLabel.text confirmPassword:self.verifyPasswordLabel.text oldPassword:self.oldPasswordLabel.text];
     }
     else if (serverProxy == self.provisionPasswordServerProxy) {

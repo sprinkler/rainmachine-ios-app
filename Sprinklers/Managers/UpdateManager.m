@@ -36,8 +36,6 @@
 
 @end
 
-static UpdateManager *current = nil;
-
 @implementation UpdateManager
 
 @synthesize serverAPIMainVersion, serverAPISubVersion, serverAPIMinorSubVersion;

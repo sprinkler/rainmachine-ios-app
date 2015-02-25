@@ -28,6 +28,7 @@
 #import "ProvisionLocation.h"
 #import "SettingsDate.h"
 #import "SettingsUnits.h"
+#import "GlobalsManager.h"
 
 NSString *kSettingsPrograms           = @"Programs";
 NSString *kSettingsZones              = @"Zones";
@@ -58,7 +59,6 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 @property (strong, nonatomic) NSArray *settingsSectionNames;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) Provision *provision;
 @property (strong, nonatomic) SettingsDate *settingsDate;
 @property (strong, nonatomic) SettingsUnits *settingsUnits;
 
@@ -181,9 +181,9 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         } else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
             cell.detailTextLabel.text = @"Restore initial settings";
         } else if ([cell.textLabel.text isEqualToString:kSettingsTimeZone]) {
-            cell.detailTextLabel.text = self.provision.location.timezone;
+            cell.detailTextLabel.text = [GlobalsManager current].provision.location.timezone;
         } else if ([cell.textLabel.text isEqualToString:kSettingsLocationSettings]) {
-            cell.detailTextLabel.text = self.provision.location.name;
+            cell.detailTextLabel.text = [GlobalsManager current].provision.location.name;
         } else if ([cell.textLabel.text isEqualToString:kSettingsDate]) {
             NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
             cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format forceOnlyTimePart:NO forceOnlyDatePart:YES] stringFromDate:date];
@@ -331,7 +331,7 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
             [self handleSprinklerGeneralError:errMessage showErrorMessage:YES];
         }
     } else if ([data isKindOfClass:[Provision class]]) {
-        self.provision = (Provision*)data;
+        [GlobalsManager current].provision = (Provision*)data;
         ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         [dateTimeServerProxy requestSettingsDate];
     } else if ([data isKindOfClass:[SettingsDate class]]) {
@@ -359,7 +359,7 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 
 - (NSString*)timeZoneName
 {
-    return self.provision.location.timezone;
+    return [GlobalsManager current].provision.location.timezone;
 }
 
 - (void)timeZoneSelected:(NSString*)timeZoneName

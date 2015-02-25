@@ -641,7 +641,7 @@ static int serverAPIMinorSubVersion = -1;
     [self.manager POST:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/provision/name"] : [self urlByAppendingAccessTokenToUrl:@"api/4/provision/setNetName"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSON:responseObject toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
                    }
                }
                failure:^(AFHTTPRequestOperation *operation, NSError *error) {

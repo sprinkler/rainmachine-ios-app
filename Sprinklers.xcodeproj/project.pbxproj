@@ -210,6 +210,7 @@
 		AF167D68189AD74D003E659D /* UpdaterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF167D67189AD74D003E659D /* UpdaterVC.xib */; };
 		AF26D5D01A2EDD7F0010AB28 /* WiFiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF26D5CE1A2EDD7F0010AB28 /* WiFiCell.m */; };
 		AF26D5D11A2EDD7F0010AB28 /* WiFiCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF26D5CF1A2EDD7F0010AB28 /* WiFiCell.xib */; };
+		AF34021D1A9E61CA000EB519 /* GlobalsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF34021C1A9E61CA000EB519 /* GlobalsManager.m */; };
 		AF35BDA91A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF35BDA81A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m */; };
 		AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3823881951D94C007CADB5 /* RMSwitch.m */; };
 		AF3DE1FD1A1A50A600C4B1FC /* Sprinkler.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3DE1FC1A1A50A600C4B1FC /* Sprinkler.m */; };
@@ -776,6 +777,8 @@
 		AF26D5CD1A2EDD7F0010AB28 /* WiFiCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WiFiCell.h; path = ViewController/Provision/WiFiCell.h; sourceTree = "<group>"; };
 		AF26D5CE1A2EDD7F0010AB28 /* WiFiCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WiFiCell.m; path = ViewController/Provision/WiFiCell.m; sourceTree = "<group>"; };
 		AF26D5CF1A2EDD7F0010AB28 /* WiFiCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WiFiCell.xib; path = ViewController/Provision/WiFiCell.xib; sourceTree = "<group>"; };
+		AF34021B1A9E61CA000EB519 /* GlobalsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalsManager.h; path = Managers/GlobalsManager.h; sourceTree = "<group>"; };
+		AF34021C1A9E61CA000EB519 /* GlobalsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GlobalsManager.m; path = Managers/GlobalsManager.m; sourceTree = "<group>"; };
 		AF35BDA71A8F3BCF00A5C1F4 /* BaseModalProvisionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseModalProvisionVC.h; path = ViewController/BaseModalProvisionVC.h; sourceTree = "<group>"; };
 		AF35BDA81A8F3BCF00A5C1F4 /* BaseModalProvisionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseModalProvisionVC.m; path = ViewController/BaseModalProvisionVC.m; sourceTree = "<group>"; };
 		AF3823871951D94C007CADB5 /* RMSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMSwitch.h; path = Sprinklers/Controls/RMSwitch.h; sourceTree = "<group>"; };
@@ -1682,6 +1685,8 @@
 				B111986F16A7EED00094EF9F /* StorageManager.m */,
 				AF167D53189AB222003E659D /* UpdateManager.h */,
 				AF167D54189AB222003E659D /* UpdateManager.m */,
+				AF34021B1A9E61CA000EB519 /* GlobalsManager.h */,
+				AF34021C1A9E61CA000EB519 /* GlobalsManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -2745,6 +2750,7 @@
 				AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */,
 				AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */,
 				968E25EF1A1F8DD1008006D3 /* Provision.m in Sources */,
+				AF34021D1A9E61CA000EB519 /* GlobalsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

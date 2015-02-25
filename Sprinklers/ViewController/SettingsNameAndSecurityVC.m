@@ -155,10 +155,15 @@
             }
         }
     } else if (serverProxy == self.provisionNameServerProxy) {
-        [StorageManager current].currentSprinkler.name = self.textFieldNewPassword.text;
-        [[StorageManager current] saveData];
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Rainmachine name has been succesfully set!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-        [alertView show];
+        API4StatusResponse *response = (API4StatusResponse*)data;
+        if ([response.statusCode intValue] != API4StatusCode_Success) {
+            [self handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        } else {
+            [StorageManager current].currentSprinkler.name = self.textFieldNewPassword.text;
+            [[StorageManager current] saveData];
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Rainmachine name has been succesfully set!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [alertView show];
+        }
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];

@@ -22,6 +22,7 @@
 #import "APIVersion4.h"
 #import "AppDelegate.h"
 #import "Login4Response.h"
+#import "GlobalsManager.h"
 
 @interface LoginVC () {
 }
