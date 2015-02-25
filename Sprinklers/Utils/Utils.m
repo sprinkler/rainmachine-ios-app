@@ -379,6 +379,29 @@
     return nil;
 }
 
++ (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format
+{
+    return [self sprinklerDateFormatterForTimeFormat:time_format forceOnlyTimePart:NO forceOnlyDatePart:NO];
+}
+
++ (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format forceOnlyTimePart:(BOOL)forceOnlyTimePart forceOnlyDatePart:(BOOL)forceOnlyDatePart
+{
+    NSDateFormatter *df = [NSDate getDateFormaterFixedFormatParsing];
+    BOOL normalFormat = (!forceOnlyTimePart) && (!forceOnlyDatePart);
+    
+    // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
+    if ([time_format intValue] == 24) {
+        if ([ServerProxy usesAPI4]) df.dateFormat = normalFormat ? @"yyyy-M-d H:m:s" : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"HH:mm");
+        else df.dateFormat = normalFormat ? @"yyyy/M/d H:m" : (forceOnlyDatePart ? @"yyyy/M/d" : @"H:m"); // H means hours between [0-23]
+    }
+    else if ([time_format intValue] == 12) {
+        if ([ServerProxy usesAPI4]) df.dateFormat = normalFormat ? @"yyyy-M-d K:m:s a" : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"K:m a");
+        else df.dateFormat = normalFormat ? @"yyyy/M/d K:m a" : (forceOnlyDatePart ? @"yyyy/M/d" : @"K:m a"); // K means hours between [0-11]
+    }
+    
+    return df;
+}
+
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat
 {
     NSDateFormatter *formatter = [NSDate getDateFormaterFixedFormatParsing];

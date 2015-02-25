@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UIViewController *delegate;
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (assign, nonatomic) BOOL forceQuit;
+@property (assign, nonatomic) BOOL isPartOfWizard;
 
 - (void)setWizardNavBarForVC:(UIViewController*)viewController;
 - (void)onCancel:(id)notif;

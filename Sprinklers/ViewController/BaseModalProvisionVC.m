@@ -39,17 +39,19 @@
 
 - (void)setWizardNavBarForVC:(UIViewController*)viewController
 {
-    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                                    target:self
-                                                                                                    action:@selector(onCancel:)];
-    
-    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-        viewController.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
-        viewController.navigationController.navigationBar.translucent = NO;
-        viewController.tabBarController.tabBar.translucent = NO;
-    }
-    else {
-        viewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    if (self.isPartOfWizard) {
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                                        target:self
+                                                                                                        action:@selector(onCancel:)];
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            viewController.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
+            viewController.navigationController.navigationBar.translucent = NO;
+            viewController.tabBarController.tabBar.translucent = NO;
+        }
+        else {
+            viewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+        }
     }
 }
 

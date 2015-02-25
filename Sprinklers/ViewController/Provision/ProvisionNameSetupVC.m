@@ -149,6 +149,7 @@
         [self hideHud];
         ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
         locationSetupVC.sprinkler = self.sprinkler;
+        locationSetupVC.isPartOfWizard = YES;
 //        locationSetupVC.delegate = self;
 
 //        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:locationSetupVC];

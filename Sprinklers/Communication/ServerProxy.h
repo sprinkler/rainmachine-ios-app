@@ -157,5 +157,6 @@ typedef enum {
 - (void)requestWateringLogSimulatedDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
 
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
+- (void)provisionReset;
 
 @end

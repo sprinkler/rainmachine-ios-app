@@ -14,6 +14,7 @@
 #import "SettingsDate.h"
 #import "AppDelegate.h"
 #import "DevicesVC.h"
+#import "Utils.h"
 
 #define kPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define kDatePickerTag              99     // view tag identifiying the date picker view
@@ -448,6 +449,7 @@ NSUInteger DeviceSystemMajorVersion()
         if (cell.reuseIdentifier == kTimeZoneCell) {
             ProvisionTimezonesListVC *timezonesListVC = [[ProvisionTimezonesListVC alloc] init];
             timezonesListVC.delegate = self;
+            timezonesListVC.isPartOfWizard = YES;
             UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:timezonesListVC];
             [self.navigationController presentViewController:navDevices animated:YES completion:nil];
 //            [self.navigationController pushViewController:timezonesListVC animated:YES];
@@ -590,7 +592,7 @@ NSUInteger DeviceSystemMajorVersion()
 
 - (NSString*)stringFromDate:(NSDate*)date
 {
-    return [[self dateFormatterWithTimeFormat:24] stringFromDate:date];
+    return [[Utils sprinklerDateFormatterForTimeFormat:@24] stringFromDate:date];
 }
 
 - (NSDate*)constructDateFromPicker
@@ -615,23 +617,6 @@ NSUInteger DeviceSystemMajorVersion()
     dateComp.minute = timeComp.minute;
     
     return [dateCal dateFromComponents:dateComp];
-}
-
-- (NSDateFormatter*)dateFormatterWithTimeFormat:(int)timeFormat
-{
-    NSDateFormatter *df = [NSDate getDateFormaterFixedFormatParsing];
-    
-    // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
-    if (timeFormat == 24) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = [ServerProxy usesAPI3] ? @"yyyy-M-d H:m:s" : @"yyyy-M-d H:m";
-        else df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
-    }
-    else if (timeFormat == 12) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = [ServerProxy usesAPI3] ? @"yyyy-M-d K:m:s a" : @"yyyy-M-d K:m a";
-        else df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
-    }
-    
-    return df;
 }
 
 @end

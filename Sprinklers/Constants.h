@@ -104,6 +104,7 @@ extern NSString *abbrevMonthsOfYear[12];
 #define kAlertView_SetupWizard_NoLocationWithoutContinueMessage 17
 #define kAlertView_SetupWizard_SkipLocationSetup 18
 #define kAlertView_SetupWizard_CancelWizard 19
+#define kAlertView_SetupWizard_NewLocationSuccesfullySet 20
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 

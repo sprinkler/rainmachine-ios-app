@@ -12,6 +12,7 @@
 #import "Protocols.h"
 #import "ProvisionNameSetupVC.h"
 #import "BaseModalProvisionVC.h"
+#import "Sprinkler.h"
 #import "GoogleAddress.h"
 
 @class ColoredBackgroundButton;
@@ -22,6 +23,8 @@
 @property (nonatomic, weak) IBOutlet UIView *mapContentView;
 @property (nonatomic, weak) IBOutlet GMSMapView *mapView;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
+@property (strong, nonatomic) Sprinkler *dbSprinkler;
+
 //@property (nonatomic, weak) BaseNetworkHandlingVC *delegate;
 @property (nonatomic, strong) GoogleAddress *selectedLocationAddress;
 

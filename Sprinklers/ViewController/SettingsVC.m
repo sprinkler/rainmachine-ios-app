@@ -18,7 +18,16 @@
 #import "DatePickerVC.h"
 #import "SettingsTimePickerVC.h"
 #import "SettingsPasswordVC.h"
+#import "ProvisionLocationSetupVC.h"
+#import "ProvisionTimezonesListVC.h"
 #import "ServerProxy.h"
+#import "MBProgressHUD.h"
+#import "API4StatusResponse.h"
+#import "Utils.h"
+#import "Provision.h"
+#import "ProvisionLocation.h"
+#import "SettingsDate.h"
+#import "SettingsUnits.h"
 
 NSString *kSettingsPrograms           = @"Programs";
 NSString *kSettingsZones              = @"Zones";
@@ -48,6 +57,10 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 @property (strong, nonatomic) NSArray *settings;
 @property (strong, nonatomic) NSArray *settingsSectionNames;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic) Provision *provision;
+@property (strong, nonatomic) SettingsDate *settingsDate;
+@property (strong, nonatomic) SettingsUnits *settingsUnits;
 
 @end
 
@@ -90,6 +103,18 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    if ([ServerProxy usesAPI4]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        ServerProxy *getProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        [getProvisionServerProxy requestProvision];
     }
 }
 
@@ -148,9 +173,33 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     NSArray *settingsSection = self.settings[indexPath.section];
     cell.textLabel.text = settingsSection[indexPath.row];
     
-    if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
-        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+    if ([ServerProxy usesAPI4]) {
+        if ([cell.textLabel.text isEqualToString:kSettingsNetworkSettings]) {
+            cell.detailTextLabel.text = @"WiFi";
+        } else if ([cell.textLabel.text isEqualToString:kSettingsDeviceName]) {
+            cell.detailTextLabel.text = [Utils currentSprinkler].name;
+        } else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
+            cell.detailTextLabel.text = @"Restore initial settings";
+        } else if ([cell.textLabel.text isEqualToString:kSettingsTimeZone]) {
+            cell.detailTextLabel.text = self.provision.location.timezone;
+        } else if ([cell.textLabel.text isEqualToString:kSettingsLocationSettings]) {
+            cell.detailTextLabel.text = self.provision.location.name;
+        } else if ([cell.textLabel.text isEqualToString:kSettingsDate]) {
+            NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
+            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format forceOnlyTimePart:NO forceOnlyDatePart:YES] stringFromDate:date];
+        } else if ([cell.textLabel.text isEqualToString:kSettingsTime]) {
+            NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
+            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format forceOnlyTimePart:YES forceOnlyDatePart:NO] stringFromDate:date];
+        } else if ([cell.textLabel.text isEqualToString:kSettingsUnits]) {
+            cell.detailTextLabel.text = [Utils sprinklerTemperatureUnits];
+        } else {
+            cell.detailTextLabel.text = nil;
+        }
     }
+    
+//    if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
+//        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+//    }
     
     return cell;
 }
@@ -217,11 +266,96 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         SettingsAboutVC *settingsAboutVC = [[SettingsAboutVC alloc] init];
         [self.navigationController pushViewController:settingsAboutVC animated:YES];
     }
+    else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."
+                                                           delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset to Defaults", nil];
+        [alertView show];
+    }
+    else if ([settingsRow isEqualToString:kSettingsLocationSettings]) {
+        ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
+        locationSetupVC.dbSprinkler = [Utils currentSprinkler];
+        [self.navigationController pushViewController:locationSetupVC animated:YES];
+    } else if ([settingsRow isEqualToString:kSettingsTimeZone]) {
+        ProvisionTimezonesListVC *timezonesListVC = [[ProvisionTimezonesListVC alloc] init];
+        timezonesListVC.delegate = self;
+        timezonesListVC.isPartOfWizard = NO;
+        UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:timezonesListVC];
+        [self.navigationController presentViewController:navDevices animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Actions
 
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != theAlertView.cancelButtonIndex) {
+        ServerProxy *resetServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+        [resetServerProxy provisionReset];
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        [NSTimer scheduledTimerWithTimeInterval:20
+                                         target:self
+                                       selector:@selector(waitForResetTimer:)
+                                       userInfo:nil
+                                        repeats:NO];
+    }
+}
+
 - (void)timePickerVCWillDissapear:(id)timePicker
+{
+}
+
+#pragma mark - ProxyService delegate
+
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    if ([data isKindOfClass:[API4StatusResponse class]]) {
+        API4StatusResponse *response = (API4StatusResponse*)data;
+        BOOL err = ([response.statusCode intValue] != API4StatusCode_Success);
+        NSString *errMessage = response.message;
+        
+        if (err) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self handleSprinklerGeneralError:errMessage showErrorMessage:YES];
+        }
+    } else if ([data isKindOfClass:[Provision class]]) {
+        self.provision = (Provision*)data;
+        ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        [dateTimeServerProxy requestSettingsDate];
+    } else if ([data isKindOfClass:[SettingsDate class]]) {
+        self.settingsDate = data;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.tableView reloadData];
+    }
+}
+
+- (void)loggedOut
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self handleLoggedOutSprinklerError];
+}
+
+#pragma mark - Logic
+
+
+- (void)waitForResetTimer:(id)notif
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+#pragma mark - TimeZoneSelectorDelegate
+
+- (NSString*)timeZoneName
+{
+    return self.provision.location.timezone;
+}
+
+- (void)timeZoneSelected:(NSString*)timeZoneName
 {
 }
 

@@ -405,7 +405,9 @@ const float kWifiSignalMax = -50;
 
     ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
     locationSetupVC.sprinkler = self.sprinkler;
-    locationSetupVC.delegate = self;
+//    locationSetupVC.delegate = self;
+    locationSetupVC.isPartOfWizard = YES;
+    
     [self.navigationController pushViewController:locationSetupVC animated:YES];
 }
 

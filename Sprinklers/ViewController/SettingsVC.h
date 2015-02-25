@@ -10,6 +10,6 @@
 #import "BaseViewController.h"
 #import "Protocols.h"
 
-@interface SettingsVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, TimePickerDelegate>
+@interface SettingsVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, TimePickerDelegate, SprinklerResponseProtocol, TimeZoneSelectorDelegate>
 
 @end

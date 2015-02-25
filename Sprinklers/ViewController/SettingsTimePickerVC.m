@@ -58,31 +58,14 @@
     [super refreshTimeFormatConstraint];
 }
 
-- (NSDateFormatter*)dateFormatter
-{
-    NSDateFormatter *df = [NSDate getDateFormaterFixedFormatParsing];
-    
-    // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
-    if ([self.settingsDate.time_format intValue] == 24) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d H:m:s";
-        else df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
-    }
-    else if ([self.settingsDate.time_format intValue] == 12) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d K:m:s a";
-        else df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
-    }
-    
-    return df;
-}
-
 - (NSDate*)dateFromString:(NSString*)stringDate
 {
-    return [[self dateFormatter] dateFromString:stringDate];
+    return [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:stringDate];
 }
 
 - (NSString*)stringFromDate:(NSDate*)date
 {
-    return [[self dateFormatter] stringFromDate:date];
+    return [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] stringFromDate:date];
 }
 
 - (NSDate*)constructDateFromPicker

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "ProvisionDateAndTimeManualVC.h"
+#import "Protocols.h"
 
-@interface ProvisionTimezonesListVC : UITableViewController<UISearchBarDelegate>
+@interface ProvisionTimezonesListVC : UITableViewController<UISearchBarDelegate, SprinklerResponseProtocol>
 
-@property (nonatomic, weak) ProvisionDateAndTimeManualVC *delegate;
+@property (nonatomic, weak) id<TimeZoneSelectorDelegate> delegate;
+@property (assign, nonatomic) BOOL isPartOfWizard;
 
 @end

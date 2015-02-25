@@ -71,38 +71,21 @@
     self.title = @"Date";
 }
 
-- (NSDateFormatter*)dateFormatterWithTimeFormat:(int)timeFormat
+- (NSDate*)dateFromString:(NSString*)stringDate timeFormat:(NSNumber*)timeFormat
 {
-    NSDateFormatter *df = [NSDate getDateFormaterFixedFormatParsing];
-    
-    // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
-    if (timeFormat == 24) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d H:m:s";
-        else df.dateFormat = @"yyyy/M/d H:m"; // H means hours between [0-23]
-    }
-    else if (timeFormat == 12) {
-        if ([ServerProxy usesAPI4]) df.dateFormat = @"yyyy-M-d K:m:s a";
-        else df.dateFormat = @"yyyy/M/d K:m a"; // K means hours between [0-11]
-    }
-    
-    return df;
-}
-
-- (NSDate*)dateFromString:(NSString*)stringDate timeFormat:(int)timeFormat
-{
-    return [[self dateFormatterWithTimeFormat:timeFormat] dateFromString:stringDate];
+    return [[Utils sprinklerDateFormatterForTimeFormat:timeFormat] dateFromString:stringDate];
 }
 
 - (NSString*)stringFromDate:(NSDate*)date
 {
-    return [[self dateFormatterWithTimeFormat:[self.settingsDate.time_format intValue]] stringFromDate:date];
+    return [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] stringFromDate:date];
 }
 
 - (NSDate*)constructDateFromPicker
 {
     NSDate *date;
     if ([self.settingsDate.appDate length] > 0) {
-        date = [self dateFromString:self.settingsDate.appDate timeFormat:[self.settingsDate.time_format intValue]];
+        date = [self dateFromString:self.settingsDate.appDate timeFormat:self.settingsDate.time_format];
     } else {
         date = [NSDate date];
     }
@@ -148,7 +131,7 @@
 - (void)refreshUI
 {
     if (self.settingsDate) {
-        int timeFormat = [self.settingsDate.time_format intValue];
+        NSNumber *timeFormat = self.settingsDate.time_format;
         NSDate *date;
         if ([self.settingsDate.appDate length] > 0) {
             date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
@@ -159,8 +142,8 @@
         if (!date) {
             // Starting form Sprinkler v3.59 the comes in am/pm format regardless of time_format
             // This is a workaround for that case
-            timeFormat = (timeFormat == 24) ? 12 : 24;
-            date = [self dateFromString:self.settingsDate.appDate timeFormat:timeFormat];
+            int fixedTimeFormat = ([timeFormat intValue] == 24) ? 12 : 24;
+            date = [self dateFromString:self.settingsDate.appDate timeFormat:[NSNumber numberWithInt:fixedTimeFormat]];
         }
         
         if (date) {

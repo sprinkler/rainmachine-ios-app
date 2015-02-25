@@ -95,3 +95,11 @@
 - (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version;
 
 @end
+
+@protocol TimeZoneSelectorDelegate <NSObject>
+
+- (NSString*)timeZoneName;
+- (void)timeZoneSelected:(NSString*)timeZoneName;
+
+
+@end

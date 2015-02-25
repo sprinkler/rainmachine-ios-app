@@ -78,11 +78,16 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.skipButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
-    
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(onNext:)];
+    if (self.isPartOfWizard) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(onNext:)];
+        [self.skipButton setCustomBackgroundColorFromComponents:kWateringRedButtonColor];
+        [self.skipButton setTitle:@"Skip" forState:UIControlStateNormal];
+    } else {
+        [self.skipButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
+        [self.skipButton setTitle:@"Set Location" forState:UIControlStateNormal];
+    }
     
     self.mapView.superview.backgroundColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
     
@@ -288,6 +293,10 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
             [self continueSetup];
         }
     }
+    
+    if (theAlertView.tag == kAlertView_SetupWizard_NewLocationSuccesfullySet) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)moveCameraToLocation:(CLLocation*)location animated:(BOOL)animate {
@@ -447,7 +456,12 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
         // self.selectedLocationAddress contains the selected location
         // self.selectedLocationElevation.elevation contains the elevation of the selected location
         // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
-        self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+        if (self.sprinkler) {
+            self.provisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+        } else {
+            self.provisionServerProxy = [[ServerProxy alloc] initWithSprinkler:self.dbSprinkler delegate:self jsonRequest:YES];
+        }
+        
         [self.provisionServerProxy setLocation:location.coordinate.latitude
                                      longitude:location.coordinate.longitude
                                       timezone:[[NSTimeZone localTimeZone] name]];
@@ -481,7 +495,18 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
     if (serverProxy == self.provisionServerProxy) {
         //    TODO: handle error code
         [self hideHud];
-        [self continueWithDateTime];
+        
+        if (self.isPartOfWizard) {
+            [self continueWithDateTime];
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!"
+                                                                message:@"Your new location has been succesfully set."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            alertView.tag = kAlertView_SetupWizard_NewLocationSuccesfullySet;
+            [alertView show];
+        }
     }
     
     [self hideHud];
@@ -512,7 +537,15 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
 }
 
 - (IBAction)onSkipLocation:(id)sender {
-    [self displayNoLocationAlertWithContinueMessage:YES skip:YES];
+    if (self.isPartOfWizard) {
+        [self displayNoLocationAlertWithContinueMessage:YES skip:YES];
+    } else {
+        if ([self detectedLocation]) {
+            [self continueSetup];
+        } else {
+            [self displayNoLocationAlertWithContinueMessage:NO skip:NO];
+        }
+    }
 }
 
 - (void)continueWithDateTime
