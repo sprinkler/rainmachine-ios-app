@@ -167,12 +167,13 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     
     if (nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     NSArray *settingsSection = self.settings[indexPath.section];
     cell.textLabel.text = settingsSection[indexPath.row];
     
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
     if ([ServerProxy usesAPI4]) {
         if ([cell.textLabel.text isEqualToString:kSettingsNetworkSettings]) {
             cell.detailTextLabel.text = @"WiFi";
@@ -180,8 +181,10 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
             cell.detailTextLabel.text = [Utils currentSprinkler].name;
         } else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
             cell.detailTextLabel.text = @"Restore initial settings";
+            cell.accessoryType = UITableViewCellAccessoryNone;
         } else if ([cell.textLabel.text isEqualToString:kSettingsTimeZone]) {
             cell.detailTextLabel.text = [GlobalsManager current].provision.location.timezone;
+            cell.accessoryType = UITableViewCellAccessoryNone;
         } else if ([cell.textLabel.text isEqualToString:kSettingsLocationSettings]) {
             cell.detailTextLabel.text = [GlobalsManager current].provision.location.name;
         } else if ([cell.textLabel.text isEqualToString:kSettingsDate]) {
