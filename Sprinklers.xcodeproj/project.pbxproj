@@ -325,8 +325,8 @@
 		AF961ED119C36D2300A2A13C /* WaterNowZone4.m in Sources */ = {isa = PBXBuildFile; fileRef = AF961ED019C36D2300A2A13C /* WaterNowZone4.m */; };
 		AF9D2E941A1E4484009F4654 /* CloudEmailDevicesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */; };
 		AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */; };
-		AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */; };
-		AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */; };
+		AFA1BEFD18C4D703005FBE9B /* SettingsNameAndSecurityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA1BEFC18C4D703005FBE9B /* SettingsNameAndSecurityVC.m */; };
+		AFA1BEFF18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA1BEFE18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib */; };
 		AFA5FE291880740300C948F8 /* rainmachine.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFA5FE281880740300C948F8 /* rainmachine.ttf */; };
 		AFA9080F19AB702D008769A0 /* APIVersion4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA9080E19AB702D008769A0 /* APIVersion4.m */; };
 		AFA9081219AB7D4F008769A0 /* UpdateInfo4.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA9081119AB7D4F008769A0 /* UpdateInfo4.m */; };
@@ -939,9 +939,9 @@
 		AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudEmailDevicesVC.h; path = ViewController/CloudEmailDevicesVC.h; sourceTree = "<group>"; };
 		AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudEmailDevicesVC.m; path = ViewController/CloudEmailDevicesVC.m; sourceTree = "<group>"; };
 		AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudEmailDevicesVC.xib; path = ViewController/CloudEmailDevicesVC.xib; sourceTree = "<group>"; };
-		AFA1BEFB18C4D703005FBE9B /* SettingsPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsPasswordVC.h; path = ViewController/SettingsPasswordVC.h; sourceTree = "<group>"; };
-		AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPasswordVC.m; path = ViewController/SettingsPasswordVC.m; sourceTree = "<group>"; };
-		AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsPasswordVC.xib; path = ViewController/SettingsPasswordVC.xib; sourceTree = "<group>"; };
+		AFA1BEFB18C4D703005FBE9B /* SettingsNameAndSecurityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsNameAndSecurityVC.h; path = ViewController/SettingsNameAndSecurityVC.h; sourceTree = "<group>"; };
+		AFA1BEFC18C4D703005FBE9B /* SettingsNameAndSecurityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsNameAndSecurityVC.m; path = ViewController/SettingsNameAndSecurityVC.m; sourceTree = "<group>"; };
+		AFA1BEFE18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsNameAndSecurityVC.xib; path = ViewController/SettingsNameAndSecurityVC.xib; sourceTree = "<group>"; };
 		AFA5FE281880740300C948F8 /* rainmachine.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = rainmachine.ttf; path = Resources/rainmachine.ttf; sourceTree = "<group>"; };
 		AFA9080D19AB702D008769A0 /* APIVersion4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIVersion4.h; path = "Communication/Response objects/APIVersion4.h"; sourceTree = "<group>"; };
 		AFA9080E19AB702D008769A0 /* APIVersion4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIVersion4.m; path = "Communication/Response objects/APIVersion4.m"; sourceTree = "<group>"; };
@@ -2183,9 +2183,9 @@
 				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
 				3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */,
 				3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */,
-				AFA1BEFB18C4D703005FBE9B /* SettingsPasswordVC.h */,
-				AFA1BEFC18C4D703005FBE9B /* SettingsPasswordVC.m */,
-				AFA1BEFE18C4D716005FBE9B /* SettingsPasswordVC.xib */,
+				AFA1BEFB18C4D703005FBE9B /* SettingsNameAndSecurityVC.h */,
+				AFA1BEFC18C4D703005FBE9B /* SettingsNameAndSecurityVC.m */,
+				AFA1BEFE18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib */,
 				AF7A72BC18C4C3D300596148 /* SettingsTimePickerVC.h */,
 				AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */,
 				AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */,
@@ -2521,7 +2521,7 @@
 				AF48268F1990DC9500D80B87 /* ra1.png in Resources */,
 				96CB93DF1A38AFAD00F3691F /* hi_shwrs_small_white.png in Resources */,
 				96CB93EE1A38AFAD00F3691F /* novc_small_white.png in Resources */,
-				AFA1BEFF18C4D716005FBE9B /* SettingsPasswordVC.xib in Resources */,
+				AFA1BEFF18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib in Resources */,
 				AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */,
 				96CB94091A38AFAD00F3691F /* tsra_small_white.png in Resources */,
 				96CB94061A38AFAD00F3691F /* skc_small_white.png in Resources */,
@@ -2652,7 +2652,7 @@
 				AF7AC9D8184E3DEB0047BD9E /* AFURLResponseSerialization.m in Sources */,
 				AF81E6DF18BA3216007E9A03 /* ButtonCell.m in Sources */,
 				B1EF212C186049C900D9CE26 /* StatsTestLevel1VC.m in Sources */,
-				AFA1BEFD18C4D703005FBE9B /* SettingsPasswordVC.m in Sources */,
+				AFA1BEFD18C4D703005FBE9B /* SettingsNameAndSecurityVC.m in Sources */,
 				969051C91A6ACDBD0029304D /* WaterLogZone.m in Sources */,
 				96CD40E51A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m in Sources */,
 				968023E31A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m in Sources */,

@@ -12,8 +12,9 @@
 
 @class SettingsVC;
 
-@interface SettingsPasswordVC : BaseLevel2ViewController<SprinklerResponseProtocol>
+@interface SettingsNameAndSecurityVC : BaseLevel2ViewController<SprinklerResponseProtocol>
 
 @property (weak, nonatomic) SettingsVC *parent;
+@property (assign, nonatomic) BOOL isSecurityScreen;
 
 @end

@@ -17,7 +17,7 @@
 #import "UnitsVC.h"
 #import "DatePickerVC.h"
 #import "SettingsTimePickerVC.h"
-#import "SettingsPasswordVC.h"
+#import "SettingsNameAndSecurityVC.h"
 #import "ProvisionLocationSetupVC.h"
 #import "ProvisionTimezonesListVC.h"
 #import "ServerProxy.h"
@@ -258,8 +258,15 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         [self.navigationController pushViewController:timePickerVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsSecurity]) {
-        SettingsPasswordVC *passwordVC = [[SettingsPasswordVC alloc] init];
+        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
         passwordVC.parent = self;
+        passwordVC.isSecurityScreen = YES;
+        [self.navigationController pushViewController:passwordVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsDeviceName]) {
+        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
+        passwordVC.parent = self;
+        passwordVC.isSecurityScreen = NO;
         [self.navigationController pushViewController:passwordVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsAbout]) {

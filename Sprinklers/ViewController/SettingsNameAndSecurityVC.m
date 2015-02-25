@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "SettingsPasswordVC.h"
+#import "SettingsNameAndSecurityVC.h"
 #import "MBProgressHUD.h"
 #import "ServerProxy.h"
 #import "ServerResponse.h"
@@ -19,17 +19,18 @@
 #import "SetPassword4Response.h"
 #import "API4StatusResponse.h"
 
-@interface SettingsPasswordVC ()
+@interface SettingsNameAndSecurityVC ()
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldOldPassword;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldNewPassword;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldConfirmPassword;
 
-@property (strong, nonatomic) ServerProxy *postServerProxy;
+@property (strong, nonatomic) ServerProxy *passwordServerProxy;
+@property (strong, nonatomic) ServerProxy *provisionNameServerProxy;
 
 @end
 
-@implementation SettingsPasswordVC
+@implementation SettingsNameAndSecurityVC
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,27 +52,56 @@
         self.textFieldConfirmPassword.tintColor = [UIColor blackColor];
     }
 
+    if (!self.isSecurityScreen) {
+        // Use self.textFieldNewPassword as the field for the new name
+        self.textFieldOldPassword.hidden = YES;
+        self.textFieldConfirmPassword.hidden = YES;
+        self.textFieldNewPassword.placeholder = @"New Rainmachine Name";
+    }
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
-    self.title = @"Password";
+    self.title = self.isSecurityScreen ? @"Password" : @"Rainmachine Name";
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.isSecurityScreen) {
+        [self.textFieldOldPassword becomeFirstResponder];
+    } else {
+        [self.textFieldNewPassword becomeFirstResponder];
+    }
 }
 
 - (void)save
 {
-    if (!self.postServerProxy) {
-        if ([self allFieldsFilled]) {
-            // If we save the same unit again the server returns error: "Units not saved"
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-            
-            [self.postServerProxy setNewPassword:self.textFieldNewPassword.text confirmPassword:self.textFieldConfirmPassword.text oldPassword:self.textFieldOldPassword.text];
-        } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                                message:@"Please fill in all fields"
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
+    if (self.isSecurityScreen) {
+        [self.textFieldOldPassword resignFirstResponder];
+    } else {
+        [self.textFieldNewPassword resignFirstResponder];
+    }
+
+    if (self.isSecurityScreen) {
+        if (!self.passwordServerProxy) {
+            if ([self allFieldsFilled]) {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                self.passwordServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+                
+                [self.passwordServerProxy setNewPassword:self.textFieldNewPassword.text confirmPassword:self.textFieldConfirmPassword.text oldPassword:self.textFieldOldPassword.text];
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                                    message:@"Please fill in all fields"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                [alertView show];
+            }
         }
+    } else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.provisionNameServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+        [self.provisionNameServerProxy setProvisionName:self.textFieldNewPassword.text];
     }
 }
 
@@ -91,8 +121,8 @@
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
-    if (serverProxy == self.postServerProxy) {
-        self.postServerProxy = nil;
+    if (serverProxy == self.passwordServerProxy) {
+        self.passwordServerProxy = nil;
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -100,9 +130,9 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInf{
     
-    if (serverProxy == self.postServerProxy) {
+    if (serverProxy == self.passwordServerProxy) {
         
-        self.postServerProxy = nil;
+        self.passwordServerProxy = nil;
         if ([ServerProxy usesAPI3]) {
             ServerResponse *response = (ServerResponse*)data;
             if ([response.status isEqualToString:@"err"]) {
@@ -124,6 +154,11 @@
                 [alertView show];
             }
         }
+    } else if (serverProxy == self.provisionNameServerProxy) {
+        [StorageManager current].currentSprinkler.name = self.textFieldNewPassword.text;
+        [[StorageManager current] saveData];
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Rainmachine name has been succesfully set!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alertView show];
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -131,11 +166,15 @@
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate refreshRootViews:nil];
+    if (self.isSecurityScreen) {
+        if (buttonIndex == 0) {
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate refreshRootViews:nil];
+        } else {
+            [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+        }
     } else {
-        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 
