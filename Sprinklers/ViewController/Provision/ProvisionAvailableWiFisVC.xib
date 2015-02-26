@@ -7,7 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProvisionAvailableWiFisVC">
             <connections>
+                <outlet property="imageViewRainmachineMini" destination="Goc-0x-mAr" id="boZ-AJ-5Ev"/>
                 <outlet property="messageLabel" destination="58p-fI-N88" id="XeA-zy-DIC"/>
+                <outlet property="messageLabelPressAButton" destination="ze7-jd-L1f" id="wAY-oM-i4d"/>
                 <outlet property="tableView" destination="usv-U9-uLo" id="7x9-sV-GX3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -17,10 +19,16 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go to Settings &gt; Wi-Fi and connect to your new Rain Machine's WiFi network" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58p-fI-N88">
-                    <rect key="frame" x="0.0" y="290" width="600" height="20.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go to Settings &gt; Wi-Fi and connect to your new Rain Machine's WiFi network" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58p-fI-N88">
+                    <rect key="frame" x="10" y="280" width="580" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To continue with the setup process, tap on any of the touch backlit buttons from the RainMachine device." lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ze7-jd-L1f">
+                    <rect key="frame" x="10" y="199.5" width="580" height="41"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="usv-U9-uLo">
@@ -31,25 +39,52 @@
                         <outlet property="delegate" destination="-1" id="WxH-Ag-hEn"/>
                     </connections>
                 </tableView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_rainmachine_mini_buttons.png" translatesAutoresizingMaskIntoConstraints="NO" id="Goc-0x-mAr">
+                    <rect key="frame" x="0.0" y="240.5" width="600" height="146"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="276" id="BCw-eu-pib"/>
+                        <constraint firstAttribute="width" constant="829" id="eYf-Sd-WSy"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="BCw-eu-pib"/>
+                            <exclude reference="eYf-Sd-WSy"/>
+                        </mask>
+                    </variation>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="centerX" secondItem="ze7-jd-L1f" secondAttribute="centerX" id="5Wk-U8-SMW"/>
                 <constraint firstItem="usv-U9-uLo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7Dt-wP-fnO"/>
+                <constraint firstAttribute="trailing" secondItem="Goc-0x-mAr" secondAttribute="trailing" id="EuH-bx-sjb"/>
                 <constraint firstAttribute="bottom" secondItem="usv-U9-uLo" secondAttribute="bottom" id="Fla-0q-dzZ"/>
+                <constraint firstAttribute="centerY" secondItem="ze7-jd-L1f" secondAttribute="centerY" constant="80" id="J2p-ho-vUq"/>
                 <constraint firstAttribute="centerY" secondItem="58p-fI-N88" secondAttribute="centerY" id="JeN-VH-6Du"/>
                 <constraint firstItem="usv-U9-uLo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="MQ8-iy-lkZ"/>
-                <constraint firstAttribute="trailing" secondItem="58p-fI-N88" secondAttribute="trailing" id="SfI-1E-9OL"/>
-                <constraint firstItem="58p-fI-N88" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Xoc-8O-msN"/>
+                <constraint firstAttribute="trailing" secondItem="58p-fI-N88" secondAttribute="trailing" constant="10" id="SfI-1E-9OL"/>
+                <constraint firstItem="Goc-0x-mAr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="UPb-wk-sWv"/>
+                <constraint firstItem="58p-fI-N88" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Xoc-8O-msN"/>
+                <constraint firstAttribute="centerX" secondItem="Goc-0x-mAr" secondAttribute="centerX" id="ZIs-V3-3Y0"/>
+                <constraint firstItem="ze7-jd-L1f" firstAttribute="top" secondItem="Goc-0x-mAr" secondAttribute="bottom" constant="46" id="Zgy-28-Ncj"/>
+                <constraint firstItem="ze7-jd-L1f" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="aCC-wx-CW3"/>
                 <constraint firstAttribute="trailing" secondItem="usv-U9-uLo" secondAttribute="trailing" id="eCW-e3-54d"/>
                 <constraint firstItem="usv-U9-uLo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="erl-I8-aBZ"/>
                 <constraint firstAttribute="centerX" secondItem="58p-fI-N88" secondAttribute="centerX" id="toW-Bz-yy9"/>
+                <constraint firstAttribute="trailing" secondItem="ze7-jd-L1f" secondAttribute="trailing" constant="10" id="u0l-pd-Xq9"/>
+                <constraint firstItem="Goc-0x-mAr" firstAttribute="top" secondItem="ze7-jd-L1f" secondAttribute="bottom" id="yOG-Da-14d"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="erl-I8-aBZ"/>
+                    <exclude reference="ZIs-V3-3Y0"/>
+                    <exclude reference="Zgy-28-Ncj"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="219" y="263.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="image_rainmachine_mini_buttons.png" width="400" height="146"/>
+    </resources>
 </document>

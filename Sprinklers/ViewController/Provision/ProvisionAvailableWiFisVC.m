@@ -33,6 +33,9 @@ const float kTimeout = 6;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabelPressAButton;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewRainmachineMini;
+
 @property (strong, nonatomic) NSArray *discoveredSprinklers;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -293,6 +296,8 @@ const float kTimeout = 6;
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
     self.timedOut = NO;
+    self.messageLabel.hidden = YES;
+    [self showPressAButtonUI:NO];
     
     BOOL isJoinWifiServerProxy = (serverProxy == self.joinWifiServerProxy);
     
@@ -372,11 +377,12 @@ const float kTimeout = 6;
         }
     } else {
         if (apMode) {
-            if (self.alertView.tag != kAlertView_SetupWizard_CancelWizard) {
-                self.alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start setup wizard" message:@"Press a button on your sprinkler." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                self.alertView.tag = kAlertView_SetupWizard_CannotStart;
-                [self.alertView show];
-            }
+//            if (self.alertView.tag != kAlertView_SetupWizard_CancelWizard) {
+//                self.alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start setup wizard" message:@"Press a button on your sprinkler." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//                self.alertView.tag = kAlertView_SetupWizard_CannotStart;
+//                [self.alertView show];
+//            }
+            [self showPressAButtonUI:NO];
         } else {
             NSString *address = self.sprinkler.url;
             NSString *port = [Utils getPort:address];
@@ -546,13 +552,14 @@ const float kTimeout = 6;
         }
     }
     
-    self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart) || (self.hud != nil) || (self.wifiRebootHud != nil);
-    
-    if (self.timedOut) {
-        self.messageLabel.hidden = NO;
-    }
-    
-    if (!self.isPartOfWizard) {
+    if (self.isPartOfWizard) {
+        self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart) || (self.hud != nil) || (self.wifiRebootHud != nil);
+        
+        if (self.timedOut) {
+            self.messageLabel.hidden = NO;
+            [self showPressAButtonUI:NO];
+        }
+    } else {
         self.messageLabel.hidden = YES;
     }
     
@@ -699,6 +706,16 @@ const float kTimeout = 6;
         self.hud = nil;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.view.userInteractionEnabled = YES;
+    }
+}
+
+- (void)showPressAButtonUI:(BOOL)show
+{
+    if (self.isPartOfWizard) {
+        self.messageLabel.hidden = YES;
+        
+        self.messageLabelPressAButton.hidden = show;
+        self.imageViewRainmachineMini.hidden = show;
     }
 }
 

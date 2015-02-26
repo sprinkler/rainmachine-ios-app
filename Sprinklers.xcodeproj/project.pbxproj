@@ -382,6 +382,7 @@
 		AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFEAECC518BA6BB100370F22 /* ProgramCellType5.xib */; };
 		AFF3A06318BDE4C10060D0F6 /* TimePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */; };
 		AFF3A06518BDE4D00060D0F6 /* TimePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */; };
+		AFF512A71A9F6017001DC538 /* image_rainmachine_mini_buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF512A61A9F6017001DC538 /* image_rainmachine_mini_buttons.png */; };
 		AFF6A6AF188834AC00825A37 /* checkbox-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6AB188834AC00825A37 /* checkbox-selected.png */; };
 		AFF6A6B0188834AC00825A37 /* checkbox-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6AC188834AC00825A37 /* checkbox-selected@2x.png */; };
 		AFF6A6B1188834AC00825A37 /* checkbox-unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AFF6A6AD188834AC00825A37 /* checkbox-unselected.png */; };
@@ -1029,6 +1030,7 @@
 		AFF3A06118BDE4C10060D0F6 /* TimePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimePickerVC.h; path = ViewController/TimePickerVC.h; sourceTree = "<group>"; };
 		AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimePickerVC.m; path = ViewController/TimePickerVC.m; sourceTree = "<group>"; };
 		AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TimePickerVC.xib; path = ViewController/TimePickerVC.xib; sourceTree = "<group>"; };
+		AFF512A61A9F6017001DC538 /* image_rainmachine_mini_buttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image_rainmachine_mini_buttons.png; path = Resources/image_rainmachine_mini_buttons.png; sourceTree = "<group>"; };
 		AFF6A6AB188834AC00825A37 /* checkbox-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "checkbox-selected.png"; path = "Resources/checkbox-selected.png"; sourceTree = "<group>"; };
 		AFF6A6AC188834AC00825A37 /* checkbox-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "checkbox-selected@2x.png"; path = "Resources/checkbox-selected@2x.png"; sourceTree = "<group>"; };
 		AFF6A6AD188834AC00825A37 /* checkbox-unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "checkbox-unselected.png"; path = "Resources/checkbox-unselected.png"; sourceTree = "<group>"; };
@@ -1894,6 +1896,7 @@
 		B111984316A7E2330094EF9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AFF512A61A9F6017001DC538 /* image_rainmachine_mini_buttons.png */,
 				AF4826301990DC9500D80B87 /* icons_weather */,
 				96CB939C1A38AFAD00F3691F /* icons_weather_small_white */,
 				AFF6A6AB188834AC00825A37 /* checkbox-selected.png */,
@@ -2384,6 +2387,7 @@
 				96CB94031A38AFAD00F3691F /* shra1_small_white.png in Resources */,
 				AF4826961990DC9500D80B87 /* shra1.png in Resources */,
 				96CB93F71A38AFAD00F3691F /* nsn_small_white.png in Resources */,
+				AFF512A71A9F6017001DC538 /* image_rainmachine_mini_buttons.png in Resources */,
 				AF48266D1990DC9500D80B87 /* frza.png in Resources */,
 				96CB93E71A38AFAD00F3691F /* nbkn_small_white.png in Resources */,
 				AFC0760318BC9C99007200BF /* SetDelayVC.xib in Resources */,
