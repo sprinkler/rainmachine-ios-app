@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSNumber *statusCode;
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) NSDictionary *program; // Returned by Create Program
+@property (nonatomic, strong) NSDictionary *restriction; // Returned by Create Hourly Restriction
 
 @end

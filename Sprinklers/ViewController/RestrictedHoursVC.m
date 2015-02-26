@@ -158,8 +158,8 @@
         RestrictionsCell *cell = [tableView dequeueReusableCellWithIdentifier:RestrictionsCellIdentifier];
         HourlyRestriction *restriction = self.hourlyRestrictions[indexPath.row];
         
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.restrictionNameLabel.text = [self.parent daysDescriptionForHourlyRestriction:restriction];
         cell.restrictionDescriptionLabel.text = [self.parent timeDescriptionForHourlyRestriction:restriction];
         cell.restrictionNameLabel.hidden = NO;
@@ -189,7 +189,13 @@
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.section == 0) {
+        NewRestrictionVC *newRestrictionVC = [[NewRestrictionVC alloc] init];
+        newRestrictionVC.parent = self;
+        newRestrictionVC.restriction = self.hourlyRestrictions[indexPath.row];
+        [self.navigationController pushViewController:newRestrictionVC animated:YES];
+    }
+    else if (indexPath.section == 1 && indexPath.row == 0) {
         NewRestrictionVC *newRestrictionVC = [[NewRestrictionVC alloc] init];
         newRestrictionVC.parent = self;
         [self.navigationController pushViewController:newRestrictionVC animated:YES];

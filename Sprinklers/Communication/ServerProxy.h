@@ -136,7 +136,7 @@ typedef enum {
 - (void)requestWateringRestrictions;
 - (void)postWateringRestrictions:(WateringRestrictions*)restrictions;
 - (void)requestHourlyRestrictions;
-- (void)createHourlyRestriction:(HourlyRestriction*)restriction;
+- (void)createHourlyRestriction:(HourlyRestriction*)restriction includeUID:(BOOL)includeUID;
 - (void)deleteHourlyRestriction:(HourlyRestriction*)restriction;
 
 - (void)requestDiag;

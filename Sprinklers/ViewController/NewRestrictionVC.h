@@ -11,10 +11,12 @@
 #import "Protocols.h"
 
 @class RestrictedHoursVC;
+@class HourlyRestriction;
 
 @interface NewRestrictionVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource, CellButtonDelegate, WeekdaysVCDelegate, TimePickerDelegate, SprinklerResponseProtocol>
 
 @property (weak, nonatomic) RestrictedHoursVC *parent;
+@property (nonatomic, strong) HourlyRestriction *restriction;
 
 - (IBAction)onDiscard:(id)sender;
 - (IBAction)onSave:(id)sender;

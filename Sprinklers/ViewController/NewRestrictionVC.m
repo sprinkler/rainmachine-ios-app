@@ -1,4 +1,4 @@
-//
+
 //  NewRestrictionVC.m
 //  Sprinklers
 //
@@ -20,8 +20,6 @@
 
 @interface NewRestrictionVC ()
 
-@property (nonatomic, assign) NSInteger fromHour, fromMinutes;
-@property (nonatomic, assign) NSInteger toHour, toMinutes;
 @property (nonatomic, readonly) NSString *fromTimeString;
 @property (nonatomic, readonly) NSString *toTimeString;
 @property (nonatomic, readonly) NSDate *fromTime;
@@ -29,13 +27,16 @@
 
 @property (nonatomic, assign) NSInteger selectedTimeCellIndex;
 @property (nonatomic, assign) NSInteger selectedFrequencyIndex;
-@property (nonatomic, strong) NSMutableArray *selectedWeekdays;
+@property (nonatomic, assign) BOOL isNewRestriction;
+@property (nonatomic, assign) BOOL didSave;
 
 @property (nonatomic, strong) ServerProxy *createHourlyRestrictionServerProxy;
 
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *discardBarButtonItem;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *saveBarButtonItem;
 @property (nonatomic, weak) IBOutlet UITableView* tableView;
+@property (weak, nonatomic) IBOutlet UIToolbar *topToolBar;
+@property (nonatomic, strong) HourlyRestriction *restrictionCopyBeforeSave;
 
 - (NSString*)dateStringFromHour:(NSInteger)hour minutes:(NSInteger)minutes;
 - (NSDate*)dateFromHour:(NSInteger)hour minutes:(NSInteger)minutes;
@@ -62,17 +63,23 @@
 {
     [super viewDidLoad];
     
+    self.isNewRestriction = (self.restriction == nil);
+
     self.selectedTimeCellIndex = -1;
-    self.selectedFrequencyIndex = 0;
-    self.fromHour = 0;
-    self.fromMinutes = 1;
-    self.toHour = 1;
-    self.toMinutes = 1;
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.discardBarButtonItem.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
         self.saveBarButtonItem.tintColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
     }
+    
+    if (!self.restriction) {
+        self.restriction = [HourlyRestriction restriction];
+    }
+    
+    self.restrictionCopyBeforeSave = [self.restriction copy];
+    self.selectedFrequencyIndex = ([self.restriction.weekDays isEqualToString:@"1111111"] ? 0 : 1);
+
+    [self refreshToolbar];
     
     [_tableView registerNib:[UINib nibWithNibName:@"RestrictionsCell" bundle:nil] forCellReuseIdentifier:@"RestrictionsCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"RestrictionsCheckCell" bundle:nil] forCellReuseIdentifier:@"RestrictionsCheckCell"];
@@ -87,17 +94,14 @@
 }
 
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC {
-    self.selectedWeekdays = weekdaysVC.selectedWeekdays;
-    [self.tableView reloadData];
+    self.restriction.weekDays = [weekdaysVC.selectedWeekdays componentsJoinedByString:@""];
+    [self refreshUI];
 }
 
 - (void)timePickerVCWillDissapear:(TimePickerVC*)timePicker {
     if (self.selectedTimeCellIndex == 0) {
         if (timePicker.hour24Format != self.fromHour || timePicker.minutes != self.fromMinutes) {
-            self.fromHour = timePicker.hour24Format;
-            self.fromMinutes = timePicker.minutes;
-            self.toHour = -1;
-            self.toMinutes = -1;
+            self.restriction.interval = [NSString stringWithFormat:@"%d:%d - %d:%d", timePicker.hour24Format, timePicker.minutes, -1, -1];
         }
     }
     else if (self.selectedTimeCellIndex == 1) {
@@ -108,14 +112,65 @@
             return;
         }
         
-        self.toHour = timePicker.hour24Format;
-        self.toMinutes = timePicker.minutes;
+        self.restriction.interval = [NSString stringWithFormat:@"%d:%d - %d:%d", [self fromHour], [self fromMinutes], timePicker.hour24Format, timePicker.minutes];
     }
     
-    [self.tableView reloadData];
+    [self refreshUI];
 }
 
 #pragma mark - Methods
+
+- (BOOL)isNewAndUnsaved
+{
+    return (self.isNewRestriction) && (!self.didSave);
+}
+
+- (int)fromHour
+{
+    return [self extractIntervalPartWithIndex:0];
+}
+
+- (int)fromMinutes
+{
+    return [self extractIntervalPartWithIndex:1];
+}
+
+- (int)toHour
+{
+    return [self extractIntervalPartWithIndex:2];
+}
+
+- (int)toMinutes
+{
+    return [self extractIntervalPartWithIndex:3];
+}
+
+- (int)extractIntervalPartWithIndex:(int)intervalPart
+{
+    int intervalParts[4];
+
+    sscanf([self.restriction.interval UTF8String], "%d:%d - %d:%d", intervalParts+0, intervalParts+1, intervalParts+2, intervalParts+3);
+    
+    return intervalParts[intervalPart];
+}
+
+- (NSArray*)weekdayArray
+{
+    if (self.selectedFrequencyIndex == 0) {
+        return nil;
+    }
+    
+    NSMutableArray *w = [NSMutableArray new];
+    
+    [self.restriction.weekDays enumerateSubstringsInRange:NSMakeRange(0, self.restriction.weekDays.length)
+                                                  options:NSStringEnumerationByComposedCharacterSequences
+                                               usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+                                                   // 3. Add them to a mutable set
+                                                   [w addObject:substring];
+                                               }];
+
+    return w;
+}
 
 - (NSString*)fromTimeString {
     return [self dateStringFromHour:self.fromHour minutes:self.fromMinutes];
@@ -170,25 +225,70 @@
     hud.labelText = text;
 }
 
+- (BOOL)didEdit
+{
+    if ([self isNewAndUnsaved]) {
+        return YES;
+    }
+    return ![self.restrictionCopyBeforeSave isEqualToRestriction:self.restriction];
+}
+
+- (BOOL)hasUnsavedChanged
+{
+    if (self.restrictionCopyBeforeSave) {
+        return ![self.restrictionCopyBeforeSave isEqualToRestriction:self.restriction];
+    }
+    
+    return YES;
+}
+
+- (void)refreshUI
+{
+    [self refreshToolbar];
+    [self.tableView reloadData];
+}
+
+- (void)refreshToolbar
+{
+    BOOL didEdit = [self didEdit];
+   
+    UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
+    UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: didEdit ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered target:self action:@selector(onSave:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        buttonDiscard.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        
+        if (didEdit) {
+            buttonSave.tintColor = [UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1];
+        }
+        else
+        {
+            buttonSave.tintColor = [UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1];
+        }
+    }
+    
+    //set the toolbar buttons
+    self.topToolBar.items = [NSArray arrayWithObjects:flexibleSpace, buttonDiscard, flexibleSpace, buttonSave, flexibleSpace, nil];
+}
+
 #pragma mark - Actions
 
 - (void)onCell:(UITableViewCell*)cell checkmarkState:(BOOL)sel {
     RestrictionsCheckCell *restrictionsCheckCell = (RestrictionsCheckCell*)cell;
     restrictionsCheckCell.checkmarkButton.selected = YES;
     self.selectedFrequencyIndex = restrictionsCheckCell.uid;
-    [self.tableView reloadData];
+    if (restrictionsCheckCell.uid == 0) self.restriction.weekDays = @"1111111";
+    [self refreshUI];
 }
 
 - (IBAction)onDiscard:(id)sender {
     self.selectedTimeCellIndex = -1;
-    self.selectedFrequencyIndex = 0;
-    self.selectedWeekdays = [NSMutableArray new];
-    self.fromHour = 0;
-    self.fromMinutes = 1;
-    self.toHour = 1;
-    self.toMinutes = 1;
     
-    [self.tableView reloadData];
+    self.restriction = self.restrictionCopyBeforeSave;
+    self.selectedFrequencyIndex = ([self.restriction.weekDays isEqualToString:@"1111111"] ? 0 : 1);
+    
+    [self refreshUI];
 }
 
 - (IBAction)onSave:(id)sender {
@@ -197,13 +297,11 @@
         return;
     }
     
-    HourlyRestriction *restriction = [[HourlyRestriction alloc] init];
-    restriction.dayStartMinute = [NSNumber numberWithInteger:self.fromHour * 60 + self.fromMinutes];
-    restriction.minuteDuration = [NSNumber numberWithInteger:(self.toHour - self.fromHour) * 60 + self.toMinutes - self.fromMinutes];
-    restriction.weekDays = (self.selectedFrequencyIndex == 0 ? @"1111111" : [self.selectedWeekdays componentsJoinedByString:@""]);
-    
+    self.restriction.dayStartMinute = [NSNumber numberWithInteger:self.fromHour * 60 + self.fromMinutes];
+    self.restriction.minuteDuration = [NSNumber numberWithInteger:(self.toHour - self.fromHour) * 60 + self.toMinutes - self.fromMinutes];
+
     self.createHourlyRestrictionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    [self.createHourlyRestrictionServerProxy createHourlyRestriction:restriction];
+    [self.createHourlyRestrictionServerProxy createHourlyRestriction:self.restriction includeUID:![self isNewAndUnsaved]];
     [self startHud:nil];
 }
 
@@ -216,7 +314,11 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         hud = nil;
         
-        [self.navigationController popViewControllerAnimated:YES];
+        self.restrictionCopyBeforeSave = [self.restriction copy];
+        
+        self.didSave = YES;
+        
+        [self refreshToolbar];
     }
 }
 
@@ -282,7 +384,8 @@
         cell.accessoryType = (indexPath.row == 0 ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator);
         cell.restrictionNameLabel.text = (indexPath.row == 0 ? @"Every day" : @"Selected days");
         cell.restrictionCenteredNameLabel.text = (indexPath.row == 0 ? @"Every day" : @"Selected days");
-        cell.restrictionDescriptionLabel.text = (indexPath.row == 0 ? nil : [Utils daysStringFromWeekdaysFrequency:[self.selectedWeekdays componentsJoinedByString:@","]]);
+        NSArray *weekdayComponents = [self weekdayArray];
+        cell.restrictionDescriptionLabel.text = (indexPath.row == 0 ? nil : [Utils daysStringFromWeekdaysFrequency:[weekdayComponents componentsJoinedByString:@","]]);
         cell.restrictionNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length ? NO : YES);
         cell.restrictionCenteredNameLabel.hidden = (cell.restrictionDescriptionLabel.text.length ? YES : NO);
         cell.checkmarkButton.selected = (indexPath.row == self.selectedFrequencyIndex);
@@ -298,7 +401,7 @@
     
     if (indexPath.section == 0) {
         TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
-        timePickerVC.timeFormat = 1;
+        timePickerVC.timeFormat = [Utils timeIs24HourFormat] ? 0 : 1;
         timePickerVC.parent = self;
         timePickerVC.time = (indexPath.row == 0 ? self.fromTime : self.toTime);
         [timePickerVC refreshTimeFormatConstraint];
@@ -307,17 +410,19 @@
         
         timePickerVC.title = (indexPath.row == 0 ? @"From time" : @"To time");
         self.selectedTimeCellIndex = indexPath.row;
-    }
-    else if (indexPath.section == 1) {
+    } else if (indexPath.section == 1) {
         RestrictionsCheckCell *cell = (RestrictionsCheckCell*)[tableView cellForRowAtIndexPath:indexPath];
-        [cell onCheck:cell.checkmarkButton];
         
         if (indexPath.row == 1) {
             WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
-            weekdaysVC.selectedWeekdays = self.selectedWeekdays;
+            weekdaysVC.selectedWeekdays = [[self weekdayArray] mutableCopy];
             weekdaysVC.parent = self;
             
+            [cell onCheck:cell.checkmarkButton];
+            
             [self.navigationController pushViewController:weekdaysVC animated:YES];
+        } else {
+            [cell onCheck:cell.checkmarkButton];
         }
     }
 }

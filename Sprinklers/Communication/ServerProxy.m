@@ -522,17 +522,21 @@ static int serverAPIMinorSubVersion = -1;
               }];
 }
 
-- (void)createHourlyRestriction:(HourlyRestriction*)restriction
+- (void)createHourlyRestriction:(HourlyRestriction*)restriction includeUID:(BOOL)includeUID
 {
-    NSDictionary *params = @{@"start"    : restriction.dayStartMinute,
+    NSMutableDictionary *params = [@{@"start"    : restriction.dayStartMinute,
                              @"duration" : restriction.minuteDuration,
-                             @"weekDays" : restriction.weekDays};
+                             @"weekDays" : restriction.weekDays} mutableCopy];
+    if (includeUID) {
+        params[@"uid"] = restriction.uid;
+        params[@"interval"] = restriction.interval;
+    }
     
     NSString *relUrl = [[[NSUserDefaults standardUserDefaults] objectForKey:kDebugNewAPIVersion] boolValue] ? [self urlByAppendingAccessTokenToUrl:@"api/4/restrictions/hourly"] : [self urlByAppendingAccessTokenToUrl:@"api/4/hourlyRestrictions/create"];
     [self.manager POST:relUrl parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
-                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSON:responseObject toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
                    }
                }
                failure:^(AFHTTPRequestOperation *operation, NSError *error) {

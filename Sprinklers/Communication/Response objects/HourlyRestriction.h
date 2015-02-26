@@ -16,4 +16,7 @@
 @property (nonatomic, strong) NSNumber *minuteDuration;
 @property (nonatomic, strong) NSString *weekDays;
 
+- (BOOL)isEqualToRestriction:(HourlyRestriction*)restriction;
++ (HourlyRestriction*)restriction;
+
 @end
