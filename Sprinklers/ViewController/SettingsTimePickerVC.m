@@ -55,6 +55,7 @@
     
     self.title = @"Time";
     
+    self.timeFormat = [Utils timeIs24HourFormat] ? 0 : 1;
     [super refreshTimeFormatConstraint];
 }
 
@@ -161,7 +162,7 @@
     if (serverProxy == self.pullServerProxy) {
 
         self.settingsDate = data;
-        self.timeFormat = [self.settingsDate.time_format integerValue] == 12 ? 1 : 0;
+//        self.timeFormat = [self.settingsDate.time_format integerValue] == 12 ? 1 : 0;
 
         [super refreshTimeFormatConstraint];
         

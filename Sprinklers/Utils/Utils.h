@@ -80,6 +80,8 @@
 + (NSString*)vegetationTypeToString:(int)vegetation;
 + (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword;
 
++ (BOOL)timeIs24HourFormat;
+
 @end
 
 float evenValue(float value);
