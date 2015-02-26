@@ -27,6 +27,7 @@
 
 const float kWifiSignalMin = -100;
 const float kWifiSignalMax = -50;
+const float kTimeout = 6;
 
 @interface ProvisionAvailableWiFisVC ()
 
@@ -55,8 +56,10 @@ const float kWifiSignalMax = -50;
 //@property (strong, nonatomic) ServerProxy *requestCurrentWiFiProxy;
 @property (strong, nonatomic) ServerProxy *joinWifiServerProxy;
 @property (strong, nonatomic) ServerProxy *requestDiagProxy;
+@property (strong, nonatomic) NSDate *startDate;
 
 @property (assign, nonatomic) BOOL isHidden;
+@property (assign, nonatomic) BOOL timedOut;
 
 @end
 
@@ -102,6 +105,8 @@ const float kWifiSignalMax = -50;
     if (!self.isPartOfWizard) {
         self.messageLabel.hidden = YES;
     }
+    
+    self.startDate = [NSDate date];
     
     self.firstStart = NO;
 }
@@ -265,6 +270,8 @@ const float kWifiSignalMax = -50;
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
 {
+    self.timedOut = NO;
+
     BOOL isJoinWifiServerProxy = (serverProxy == self.joinWifiServerProxy);
     // Fail silently when connection is lost: this error appears for ex. when /4/login is requested for a devices connected to a network but still unprovisioned
     if (error.code != NSURLErrorNetworkConnectionLost) {
@@ -285,6 +292,8 @@ const float kWifiSignalMax = -50;
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
+    self.timedOut = NO;
+    
     BOOL isJoinWifiServerProxy = (serverProxy == self.joinWifiServerProxy);
     
 //    if (serverProxy == self.requestCurrentWiFiProxy) {
@@ -450,6 +459,15 @@ const float kWifiSignalMax = -50;
 {
     DLog(@"connected to network: %@", [self fetchSSIDInfo]);
     
+    if (!self.timedOut) {
+        NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDate];
+        if (t > kTimeout) {
+            self.timedOut = YES;
+            
+            [self hideHud];
+        }
+    }
+
     self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:self.isPartOfWizard ? @NO : @YES];
     
 //    [self hideHud];
@@ -529,6 +547,11 @@ const float kWifiSignalMax = -50;
     }
     
     self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart) || (self.hud != nil) || (self.wifiRebootHud != nil);
+    
+    if (self.timedOut) {
+        self.messageLabel.hidden = NO;
+    }
+    
     if (!self.isPartOfWizard) {
         self.messageLabel.hidden = YES;
     }
