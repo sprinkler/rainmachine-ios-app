@@ -31,6 +31,9 @@
 #import "SettingsUnits.h"
 #import "GlobalsManager.h"
 #import "ProvisionAvailableWiFisVC.h"
+#import "StorageManager.H"
+#import "AppDelegate.h"
+#import "DevicesVC.h"
 
 NSString *kSettingsPrograms           = @"Programs";
 NSString *kSettingsZones              = @"Zones";
@@ -292,6 +295,7 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."
                                                            delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset to Defaults", nil];
+        alertView.tag = kAlertView_DoYouWantToReset;
         [alertView show];
     }
     else if ([settingsRow isEqualToString:kSettingsLocationSettings]) {
@@ -309,18 +313,29 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 
 #pragma mark - Actions
 
-- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != theAlertView.cancelButtonIndex) {
-        ServerProxy *resetServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-        [resetServerProxy provisionReset];
-        
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+- (void)resetToDefaults
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    Sprinkler *sprinkler = [Utils currentSprinkler];
+    
+    [Utils invalidateLoginForCurrentSprinkler];
+    
+    [appDelegate refreshRootViews:nil];
+    [appDelegate.devicesVC setResetToDefaultsModeWithSprinkler:sprinkler];
+}
 
-        [NSTimer scheduledTimerWithTimeInterval:20
-                                         target:self
-                                       selector:@selector(waitForResetTimer:)
-                                       userInfo:nil
-                                        repeats:NO];
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (theAlertView.tag == kAlertView_ResetToDefaultsSuccesfull) {
+        [self resetToDefaults];
+    }
+    else if (theAlertView.tag == kAlertView_DoYouWantToReset) {
+        if (buttonIndex != theAlertView.cancelButtonIndex) {
+            ServerProxy *resetServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+            [resetServerProxy provisionReset];
+            
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        }
     }
 }
 
@@ -338,13 +353,24 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if ([data isKindOfClass:[API4StatusResponse class]]) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         API4StatusResponse *response = (API4StatusResponse*)data;
         BOOL err = ([response.statusCode intValue] != API4StatusCode_Success);
-        NSString *errMessage = response.message;
         
         if (err) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self handleSprinklerGeneralError:errMessage showErrorMessage:YES];
+            [self handleSprinklerGeneralError:response.message showErrorMessage:YES];
+        } else {
+//            [self resetToDefaults];
+            [Utils invalidateLoginForCurrentSprinkler];
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate refreshRootViews:nil];
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Succesfuly restored initial settings" message:@"Rainmachine is now rebooting. In order to set up your Rainmachine, switch to iOS Settings, connect to RainMachine's WiFi network, switch back to Rainmachine app, then select \"New Rainmachine setup\""
+                                                               delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            alertView.tag = kAlertView_ResetToDefaultsSuccesfull;
+            
+            [alertView show];
         }
     } else if ([data isKindOfClass:[Provision class]]) {
         [GlobalsManager current].provision = (Provision*)data;
@@ -361,14 +387,6 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self handleLoggedOutSprinklerError];
-}
-
-#pragma mark - Logic
-
-
-- (void)waitForResetTimer:(id)notif
-{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 #pragma mark - TimeZoneSelectorDelegate

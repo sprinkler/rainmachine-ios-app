@@ -37,7 +37,6 @@
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *getAPIVersionServerProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (strong, nonatomic) NSDictionary *automaticLoginInfo;
 
 @end
 
@@ -218,6 +217,12 @@
         [self updateInputUIHidden:NO];
         
         [_textPassword becomeFirstResponder];
+        
+        if (self.automaticLoginInfo) {
+            self.textPassword.text = self.automaticLoginInfo[@"password"];
+            self.textUsername.text = self.automaticLoginInfo[@"username"];
+            [self login:nil];
+        }
     }
 }
 

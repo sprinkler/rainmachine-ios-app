@@ -16,5 +16,6 @@
 - (void)done:(NSString*)unit;
 
 - (void)deviceSetupFinished;
+- (void)setResetToDefaultsModeWithSprinkler:(Sprinkler*)sprinkler;
 
 @end

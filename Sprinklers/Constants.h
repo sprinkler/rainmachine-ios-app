@@ -105,6 +105,8 @@ extern NSString *abbrevMonthsOfYear[12];
 #define kAlertView_SetupWizard_SkipLocationSetup 18
 #define kAlertView_SetupWizard_CancelWizard 19
 #define kAlertView_SetupWizard_NewLocationSuccesfullySet 20
+#define kAlertView_ResetToDefaultsSuccesfull 21
+#define kAlertView_DoYouWantToReset 22
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 
@@ -112,6 +114,8 @@ extern NSString *abbrevMonthsOfYear[12];
 #define kWaterNowRefreshTimeInterval 10 // Value is specified in seconds
 #define kWaterNowRefreshTimeInterval_AfterUserAction 3 // Value is specified in seconds
 #define kWaterNowMaxRefreshInterval (kWaterNowRefreshTimeInterval * 4)
+
+#define kTimeout_ResetToDefaults 20
 
 // ---- Custom font glyphs ----
 

@@ -65,6 +65,9 @@
 @property (assign, nonatomic) BOOL forceUserRefreshActivityIndicator;
 @property (assign, nonatomic) int hideHudTimeoutCountDown;
 
+@property (strong, nonatomic) NSDate *startDateResetToDefaults;
+@property (strong, nonatomic) Sprinkler *sprinklerResetToDefaults;
+
 @end
 
 @implementation DevicesVC
@@ -447,6 +450,10 @@
 }
 
 - (void)hideHud {
+    if ([self isDuringResetToDefaults]) {
+        return;
+    }
+    
     if (self.hideHudTimeoutCountDown > 0) {
         self.hideHudTimeoutCountDown--;
         return;
@@ -475,6 +482,45 @@
             deviceCell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
     }
+}
+
+- (BOOL)isDuringResetToDefaults
+{
+    if (!self.startDateResetToDefaults) {
+        return NO;
+    }
+    
+    NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDateResetToDefaults];
+    return (t <= kTimeout_ResetToDefaults);
+}
+
+- (void)setResetToDefaultsModeWithSprinkler:(Sprinkler*)sprinkler
+{
+//    self.startDateResetToDefaults = [NSDate date];
+//    self.sprinklerResetToDefaults = sprinkler;
+//    [self startHud:[NSString stringWithFormat:@"Resetting \"%@\"", sprinkler.name]];
+//
+//    [NSTimer scheduledTimerWithTimeInterval:kTimeout_ResetToDefaults
+//                                                                target:self
+//                                   selector:@selector(resetToDefaults:)
+//                                                              userInfo:nil
+//                                                               repeats:NO];
+}
+
+- (void)resetToDefaults:(id)notif
+{
+    [self hideHud];
+
+    if ((self.sprinklerResetToDefaults)) {// && (![Utils isDeviceInactive:self.sprinklerResetToDefaults])) {
+        LoginVC *login = [[LoginVC alloc] init];
+        login.sprinkler = self.sprinklerResetToDefaults;
+        login.automaticLoginInfo = @{@"password" : @"", @"username" : @"admin"};
+        login.parent = self;
+        [self.navigationController pushViewController:login animated:NO];
+    }
+    
+    self.sprinklerResetToDefaults = nil;
+    self.startDateResetToDefaults = nil;
 }
 
 #pragma mark - Actions
@@ -514,6 +560,10 @@
     
     self.forceUserRefreshActivityIndicator = YES;
     
+    if ([self isDuringResetToDefaults]) {
+        return;
+    }
+    
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
     NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
@@ -531,7 +581,7 @@
     self.cloudSprinklers = nil;
     
     [self pollCloud];
-    
+
     [self startHud:nil];
     [self.tableView reloadData];
 }

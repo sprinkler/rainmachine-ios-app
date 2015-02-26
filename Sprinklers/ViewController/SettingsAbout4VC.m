@@ -87,7 +87,7 @@
     [super viewWillAppear:animated];
     [self reload];
     
-    self.iOSAppVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
+    self.iOSAppVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"];
     
     self.checkingForUpdate = YES;
     self.updateManager = [[UpdateManager alloc] initWithDelegate:self];
