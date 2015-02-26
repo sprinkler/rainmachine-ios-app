@@ -165,6 +165,8 @@
 		96DAB9041A279467005974CC /* RainSensitivityGraphMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DAB9031A279467005974CC /* RainSensitivityGraphMonthCell.xib */; };
 		96DAB90A1A27A020005974CC /* MixerDailyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9091A27A020005974CC /* MixerDailyValue.m */; };
 		96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */; };
+		96DB95DD1A9F43F400789D05 /* SettingsAbout4VC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DB95DB1A9F43F400789D05 /* SettingsAbout4VC.m */; };
+		96DB95DE1A9F43F400789D05 /* SettingsAbout4VC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DB95DC1A9F43F400789D05 /* SettingsAbout4VC.xib */; };
 		96E70AF51A7BC34200A07D94 /* ZoneAdvancedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */; };
 		96E70AF61A7BC34200A07D94 /* ZoneAdvancedVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */; };
 		96E70AFA1A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E70AF81A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.m */; };
@@ -701,6 +703,9 @@
 		96DAB9091A27A020005974CC /* MixerDailyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MixerDailyValue.m; path = "Communication/Response objects/MixerDailyValue.m"; sourceTree = "<group>"; };
 		96DAB9141A27BBA5005974CC /* RainSensitivityGraphMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainSensitivityGraphMonthView.h; sourceTree = "<group>"; };
 		96DAB9151A27BBA5005974CC /* RainSensitivityGraphMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainSensitivityGraphMonthView.m; sourceTree = "<group>"; };
+		96DB95DA1A9F43F400789D05 /* SettingsAbout4VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsAbout4VC.h; path = ViewController/SettingsAbout4VC.h; sourceTree = "<group>"; };
+		96DB95DB1A9F43F400789D05 /* SettingsAbout4VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsAbout4VC.m; path = ViewController/SettingsAbout4VC.m; sourceTree = "<group>"; };
+		96DB95DC1A9F43F400789D05 /* SettingsAbout4VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsAbout4VC.xib; path = ViewController/SettingsAbout4VC.xib; sourceTree = "<group>"; };
 		96E70AF21A7BC34200A07D94 /* ZoneAdvancedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoneAdvancedVC.h; path = ViewController/ZoneAdvancedVC.h; sourceTree = "<group>"; };
 		96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoneAdvancedVC.m; path = ViewController/ZoneAdvancedVC.m; sourceTree = "<group>"; };
 		96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ZoneAdvancedVC.xib; path = ViewController/ZoneAdvancedVC.xib; sourceTree = "<group>"; };
@@ -2188,6 +2193,9 @@
 				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
 				3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */,
 				3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */,
+				96DB95DA1A9F43F400789D05 /* SettingsAbout4VC.h */,
+				96DB95DB1A9F43F400789D05 /* SettingsAbout4VC.m */,
+				96DB95DC1A9F43F400789D05 /* SettingsAbout4VC.xib */,
 				AFA1BEFB18C4D703005FBE9B /* SettingsNameAndSecurityVC.h */,
 				AFA1BEFC18C4D703005FBE9B /* SettingsNameAndSecurityVC.m */,
 				AFA1BEFE18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib */,
@@ -2525,6 +2533,7 @@
 				96DAB8FD1A278AF2005974CC /* RainSensitivitySimulationGraphVC.xib in Resources */,
 				AF48268F1990DC9500D80B87 /* ra1.png in Resources */,
 				96CB93DF1A38AFAD00F3691F /* hi_shwrs_small_white.png in Resources */,
+				96DB95DE1A9F43F400789D05 /* SettingsAbout4VC.xib in Resources */,
 				96CB93EE1A38AFAD00F3691F /* novc_small_white.png in Resources */,
 				AFA1BEFF18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib in Resources */,
 				AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */,
@@ -2630,6 +2639,7 @@
 				96F0F34E1A3705F00056D167 /* GraphCell.m in Sources */,
 				969051D51A6AFB9E0029304D /* GraphTimeIntervalPart.m in Sources */,
 				AF3DE1FD1A1A50A600C4B1FC /* Sprinkler.m in Sources */,
+				96DB95DD1A9F43F400789D05 /* SettingsAbout4VC.m in Sources */,
 				AF7AC9D7184E3DEB0047BD9E /* AFURLRequestSerialization.m in Sources */,
 				B1254CC1187DBD61004E2F0E /* RainDelayVC.m in Sources */,
 				B1EF211D1860499200D9CE26 /* StatsVC.m in Sources */,

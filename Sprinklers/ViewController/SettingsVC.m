@@ -7,6 +7,7 @@
 //
 
 #import "SettingsAboutVC.h"
+#import "SettingsAbout4VC.h"
 #import "SettingsVC.h"
 #import "Additions.h"
 #import "ProgramsVC.h"
@@ -273,8 +274,14 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         [self.navigationController pushViewController:passwordVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsAbout]) {
-        SettingsAboutVC *settingsAboutVC = [[SettingsAboutVC alloc] init];
-        [self.navigationController pushViewController:settingsAboutVC animated:YES];
+        if ([ServerProxy usesAPI3]) {
+            SettingsAboutVC *settingsAboutVC = [[SettingsAboutVC alloc] init];
+            [self.navigationController pushViewController:settingsAboutVC animated:YES];
+        } else {
+            SettingsAbout4VC *settingsAboutVC = [[SettingsAbout4VC alloc] init];
+            settingsAboutVC.parent = self;
+            [self.navigationController pushViewController:settingsAboutVC animated:YES];
+        }
     }
     else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."
