@@ -925,6 +925,7 @@
 {
     self.wizardVC = [[ProvisionAvailableWiFisVC alloc] init];
     self.wizardVC.inputSprinklerMAC = sprinkler.sprinklerId;
+    self.wizardVC.isPartOfWizard = YES;
 
     [self.navigationController pushViewController:self.wizardVC animated:YES];
 //    UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.wizardVC];

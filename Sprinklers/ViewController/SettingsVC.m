@@ -30,6 +30,7 @@
 #import "SettingsDate.h"
 #import "SettingsUnits.h"
 #import "GlobalsManager.h"
+#import "ProvisionAvailableWiFisVC.h"
 
 NSString *kSettingsPrograms           = @"Programs";
 NSString *kSettingsZones              = @"Zones";
@@ -282,6 +283,11 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
             settingsAboutVC.parent = self;
             [self.navigationController pushViewController:settingsAboutVC animated:YES];
         }
+    }
+    else if ([settingsRow isEqualToString:kSettingsNetworkSettings]) {
+        ProvisionAvailableWiFisVC *availableWiFiVC = [[ProvisionAvailableWiFisVC alloc] init];
+        availableWiFiVC.inputSprinklerMAC = [Utils currentSprinkler].sprinklerId;
+        [self.navigationController pushViewController:availableWiFiVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."

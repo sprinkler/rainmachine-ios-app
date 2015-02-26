@@ -95,9 +95,13 @@ const float kWifiSignalMax = -50;
     // Do any additional setup after loading the view from its nib.
 //    [self refreshState];
 
-    self.title = @"Setup";
+    self.title = self.isPartOfWizard ? @"Setup" : @"WiFi";
 
     [self setWizardNavBarForVC:self];
+
+    if (!self.isPartOfWizard) {
+        self.messageLabel.hidden = YES;
+    }
     
     self.firstStart = NO;
 }
@@ -353,9 +357,7 @@ const float kWifiSignalMax = -50;
             // Sprinkler hasn't connected yet to any WiFi. Continue with the WiFi setup wizard
             [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
             
-            [self.requestAllAvailableWiFiNetworksTimer invalidate];
-            self.requestAllAvailableWiFiNetworksTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestAllAvailableWiFiNetworks) userInfo:nil repeats:YES];
-            [self.requestAllAvailableWiFiNetworksTimer fire];
+            [self startWiFiPoll];
         } else {
             [self continueWithPasswordAndNameSetupPresentOldPasswordField:NO];
         }
@@ -448,7 +450,7 @@ const float kWifiSignalMax = -50;
 {
     DLog(@"connected to network: %@", [self fetchSSIDInfo]);
     
-    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:@NO];
+    self.discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:self.isPartOfWizard ? @NO : @YES];
     
 //    [self hideHud];
     
@@ -518,11 +520,18 @@ const float kWifiSignalMax = -50;
                 [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
             }
             
-            [self requestDiag];
+            if (self.isPartOfWizard) {
+                [self requestDiag];
+            } else {
+                [self startWiFiPoll];
+            }
         }
     }
     
     self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart) || (self.hud != nil) || (self.wifiRebootHud != nil);
+    if (!self.isPartOfWizard) {
+        self.messageLabel.hidden = YES;
+    }
     
     if (self.sprinkler) {
         self.tableView.hidden = NO;
@@ -575,6 +584,13 @@ const float kWifiSignalMax = -50;
 }
 
 #pragma mark - Requests
+
+- (void)startWiFiPoll
+{
+    [self.requestAllAvailableWiFiNetworksTimer invalidate];
+    self.requestAllAvailableWiFiNetworksTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestAllAvailableWiFiNetworks) userInfo:nil repeats:YES];
+    [self.requestAllAvailableWiFiNetworksTimer fire];
+}
 
 - (void)requestAllAvailableWiFiNetworks
 {
