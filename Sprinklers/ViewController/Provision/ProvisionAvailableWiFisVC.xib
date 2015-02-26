@@ -25,7 +25,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To continue with the setup process, tap on any of the touch backlit buttons from the RainMachine device." lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ze7-jd-L1f">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To continue with the setup process, tap on any of the backlit touch buttons from the RainMachine device." lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ze7-jd-L1f">
                     <rect key="frame" x="10" y="199.5" width="580" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -77,8 +77,8 @@
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="erl-I8-aBZ"/>
-                    <exclude reference="ZIs-V3-3Y0"/>
                     <exclude reference="Zgy-28-Ncj"/>
+                    <exclude reference="ZIs-V3-3Y0"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="219" y="263.5"/>

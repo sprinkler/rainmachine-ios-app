@@ -382,7 +382,8 @@ const float kTimeout = 6;
 //                self.alertView.tag = kAlertView_SetupWizard_CannotStart;
 //                [self.alertView show];
 //            }
-            [self showPressAButtonUI:NO];
+            self.messageLabel.hidden = YES;
+            [self showPressAButtonUI:YES];
         } else {
             NSString *address = self.sprinkler.url;
             NSString *port = [Utils getPort:address];
@@ -465,12 +466,14 @@ const float kTimeout = 6;
 {
     DLog(@"connected to network: %@", [self fetchSSIDInfo]);
     
-    if (!self.timedOut) {
-        NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDate];
-        if (t > kTimeout) {
-            self.timedOut = YES;
-            
-            [self hideHud];
+    if (self.isPartOfWizard) {
+        if (!self.timedOut) {
+            NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDate];
+            if (t > kTimeout) {
+                self.timedOut = YES;
+                
+                [self hideHud];
+            }
         }
     }
 
@@ -625,12 +628,14 @@ const float kTimeout = 6;
 - (void)requestAllAvailableWiFiNetworks
 {
     if (!self.isHidden) {
-        [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
-        self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
-        [self.requestAvailableWiFisProvisionServerProxy requestAvailableWiFis];
-        
-        if (self.availableWiFis.count == 0) {
-            [self showHud];
+        if (self.sprinkler) {
+            [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
+            self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+            [self.requestAvailableWiFisProvisionServerProxy requestAvailableWiFis];
+            
+            if (self.availableWiFis.count == 0) {
+                [self showHud];
+            }
         }
     }
 }
@@ -712,10 +717,8 @@ const float kTimeout = 6;
 - (void)showPressAButtonUI:(BOOL)show
 {
     if (self.isPartOfWizard) {
-        self.messageLabel.hidden = YES;
-        
-        self.messageLabelPressAButton.hidden = show;
-        self.imageViewRainmachineMini.hidden = show;
+        self.messageLabelPressAButton.hidden = !show;
+        self.imageViewRainmachineMini.hidden = !show;
     }
 }
 
