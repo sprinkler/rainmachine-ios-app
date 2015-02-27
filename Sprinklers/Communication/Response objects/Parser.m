@@ -14,6 +14,7 @@
 @interface ParserParameter ()
 
 + (ParserParameterType)parserParameterTypeForValue:(id)value;
+- (BOOL)isEqualToParserParameter:(ParserParameter*)parserParameter;
 
 @end
 
@@ -31,6 +32,23 @@
         return ParserParameterTypeNumber;
     }
     return ParserParameterTypeUnknown;
+}
+
+- (id)copyWithZone:(NSZone*)copyZone {
+    ParserParameter *parserParameter = [(ParserParameter*)[[self class] allocWithZone:copyZone] init];
+    
+    parserParameter.name = self.name;
+    parserParameter.value = self.value;
+    parserParameter.parameterType = self.parameterType;
+    
+    return parserParameter;
+}
+
+- (BOOL)isEqualToParserParameter:(ParserParameter*)parserParameter {
+    if (self.parameterType != parserParameter.parameterType) return NO;
+    if (![self.name isEqual:parserParameter.name]) return NO;
+    if (![self.value isEqual:parserParameter.value]) return NO;
+    return YES;
 }
 
 @end
@@ -60,12 +78,59 @@
                 
                 [params addObject:parameter];
             }
+            
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+            [params sortUsingDescriptors:@[sortDescriptor]];
+            
             parser.params = params;
         }
         
         return parser;
     }
     return nil;
+}
+
+- (id)copyWithZone:(NSZone*)copyZone {
+    Parser *parser = [(Parser*)[[self class] allocWithZone:copyZone] init];
+    
+    parser.uid = self.uid;
+    parser.lastRun = self.lastRun;
+    parser.name = self.name;
+    parser.enabled = self.enabled;
+    
+    NSMutableArray *paramsCopy = [NSMutableArray new];
+    for (ParserParameter *parserParameter in self.params) {
+        [paramsCopy addObject:[parserParameter copy]];
+    }
+    parser.params = paramsCopy;
+    
+    return parser;
+}
+
+- (BOOL)isEqualToParser:(Parser*)parser {
+    if (parser.uid != self.uid) return NO;
+    if (![parser.lastRun isEqual:self.lastRun]) return NO;
+    if (![parser.name isEqual:self.name]) return NO;
+    if (parser.enabled != self.enabled) return NO;
+    if (parser.params.count != self.params.count) return NO;
+    
+    for (int index = 0; index < parser.params.count; index++) {
+        ParserParameter *parserParameter = parser.params[index];
+        ParserParameter *parameter = self.params[index];
+        if (![parserParameter isEqualToParserParameter:parameter]) return NO;
+    }
+    
+    return YES;
+}
+
+- (NSDictionary*)paramsDictionary {
+    NSMutableDictionary *paramsDictionary = [NSMutableDictionary new];
+    
+    for (ParserParameter *parameter in self.params) {
+        [paramsDictionary setValue:parameter.value forKey:parameter.name];
+    }
+    
+    return paramsDictionary;
 }
 
 @end

@@ -835,6 +835,18 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
+- (void)saveParserParams:(Parser*)parser {
+    [self.manager POST: [self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"api/4/parser/%d/params", parser.uid]] parameters:parser.paramsDictionary
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:parser serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
 #pragma mark - Various
 
 - (void)requestWeatherData

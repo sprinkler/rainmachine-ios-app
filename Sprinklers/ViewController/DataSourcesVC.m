@@ -152,7 +152,7 @@
     if (parser.params) {
         DataSourcesParserVC *dataSourcesParserVC = [[DataSourcesParserVC alloc] init];
         dataSourcesParserVC.parser = parser;
-        dataSourcesParserVC.parent = self.parent;
+        dataSourcesParserVC.parent = self;
         
         [self.navigationController pushViewController:dataSourcesParserVC animated:YES];
     }

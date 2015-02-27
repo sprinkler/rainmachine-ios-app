@@ -7,13 +7,14 @@
 //
 
 #import "BaseLevel2ViewController.h"
+#import "Protocols.h"
 
 @class Parser;
-@class SettingsVC;
+@class DataSourcesVC;
 
-@interface DataSourcesParserVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DataSourcesParserVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
 
+@property (nonatomic, strong) DataSourcesVC *parent;
 @property (nonatomic, strong) Parser *parser;
-@property (nonatomic, strong) SettingsVC *parent;
 
 @end

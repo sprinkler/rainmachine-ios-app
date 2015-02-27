@@ -293,7 +293,7 @@
     [self.tableView endEditing:YES];
 }
 
-#pragma mark - UITableView delegate
+#pragma mark - UITextField delegate
 
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
     if (!string.length) return YES;

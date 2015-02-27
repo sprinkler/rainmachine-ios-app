@@ -33,5 +33,8 @@ typedef enum {
 @property (nonatomic, assign) BOOL enabled;
 
 + (Parser*)createFromJson:(NSDictionary*)jsonObj;
+- (BOOL)isEqualToParser:(Parser*)parser;
+
+@property (nonatomic, readonly) NSDictionary *paramsDictionary;
 
 @end

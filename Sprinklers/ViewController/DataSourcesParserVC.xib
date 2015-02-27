@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DataSourcesParserVC">
             <connections>
                 <outlet property="tableView" destination="UVt-fc-bAa" id="Hy8-mx-3QY"/>
+                <outlet property="toolbar" destination="xh5-Bt-h0Q" id="VnE-7Q-2Co"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,8 +17,26 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xh5-Bt-h0Q">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="8nh-iH-gTp"/>
+                        <constraint firstAttribute="height" constant="44" id="ytf-DJ-5WO"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="ErO-XG-jE0"/>
+                        <barButtonItem title="Discard" id="8ID-1N-RRY">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="by0-T3-U0l"/>
+                        <barButtonItem title="Save" id="J9E-Cr-wOi">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="ab5-Kz-lJL"/>
+                    </items>
+                </toolbar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="UVt-fc-bAa">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Ard-Ys-5mc"/>
@@ -27,10 +46,13 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="UVt-fc-bAa" secondAttribute="trailing" id="QlW-1K-p2x"/>
-                <constraint firstItem="UVt-fc-bAa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="QzD-Yj-yAN"/>
-                <constraint firstItem="UVt-fc-bAa" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="alD-aG-EqN"/>
-                <constraint firstAttribute="bottom" secondItem="UVt-fc-bAa" secondAttribute="bottom" id="rak-1p-I2w"/>
+                <constraint firstItem="xh5-Bt-h0Q" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="7Vm-11-pkg"/>
+                <constraint firstAttribute="trailing" secondItem="xh5-Bt-h0Q" secondAttribute="trailing" id="8g3-EU-TjQ"/>
+                <constraint firstItem="UVt-fc-bAa" firstAttribute="top" secondItem="xh5-Bt-h0Q" secondAttribute="bottom" id="Hxd-6d-jOP"/>
+                <constraint firstItem="xh5-Bt-h0Q" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IeU-xc-4e3"/>
+                <constraint firstAttribute="bottom" secondItem="UVt-fc-bAa" secondAttribute="bottom" id="TcE-O0-KMg"/>
+                <constraint firstItem="UVt-fc-bAa" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sqZ-Be-meq"/>
+                <constraint firstAttribute="trailing" secondItem="UVt-fc-bAa" secondAttribute="trailing" id="wJm-CU-pd8"/>
             </constraints>
         </view>
     </objects>
