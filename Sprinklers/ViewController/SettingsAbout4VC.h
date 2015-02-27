@@ -12,7 +12,7 @@
 
 @class SettingsVC;
 
-@interface SettingsAbout4VC : BaseLevel2ViewController <SprinklerResponseProtocol, UpdateManagerDelegate> {
+@interface SettingsAbout4VC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, UpdateManagerDelegate> {
 
 }
 

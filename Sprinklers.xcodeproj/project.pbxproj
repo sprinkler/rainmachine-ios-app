@@ -189,6 +189,13 @@
 		96F0F35B1A3768A90056D167 /* GraphValuesBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F35A1A3768A90056D167 /* GraphValuesBarDescriptor.m */; };
 		96F0F35E1A377D990056D167 /* GraphDisplayAreaDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */; };
 		96F0F3611A3781570056D167 /* GraphDateBarDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */; };
+		96F48FE71AA050C100DFA578 /* DataSourcesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F48FE51AA050C100DFA578 /* DataSourcesVC.m */; };
+		96F48FE81AA050C100DFA578 /* DataSourcesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F48FE61AA050C100DFA578 /* DataSourcesVC.xib */; };
+		96F48FEB1AA053B400DFA578 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F48FEA1AA053B400DFA578 /* Parser.m */; };
+		96F48FEF1AA05A5700DFA578 /* ParserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F48FED1AA05A5700DFA578 /* ParserCell.m */; };
+		96F48FF01AA05A5700DFA578 /* ParserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F48FEE1AA05A5700DFA578 /* ParserCell.xib */; };
+		96F48FF91AA05C3200DFA578 /* DataSourcesParserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F48FF71AA05C3200DFA578 /* DataSourcesParserVC.m */; };
+		96F48FFA1AA05C3200DFA578 /* DataSourcesParserVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F48FF81AA05C3200DFA578 /* DataSourcesParserVC.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -746,6 +753,17 @@
 		96F0F35D1A377D990056D167 /* GraphDisplayAreaDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDisplayAreaDescriptor.m; path = ViewController/Graphs/GraphDisplayAreaDescriptor.m; sourceTree = "<group>"; };
 		96F0F35F1A3781570056D167 /* GraphDateBarDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDateBarDescriptor.h; path = ViewController/Graphs/GraphDateBarDescriptor.h; sourceTree = "<group>"; };
 		96F0F3601A3781570056D167 /* GraphDateBarDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDateBarDescriptor.m; path = ViewController/Graphs/GraphDateBarDescriptor.m; sourceTree = "<group>"; };
+		96F48FE41AA050C100DFA578 /* DataSourcesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataSourcesVC.h; path = ViewController/DataSourcesVC.h; sourceTree = "<group>"; };
+		96F48FE51AA050C100DFA578 /* DataSourcesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataSourcesVC.m; path = ViewController/DataSourcesVC.m; sourceTree = "<group>"; };
+		96F48FE61AA050C100DFA578 /* DataSourcesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DataSourcesVC.xib; path = ViewController/DataSourcesVC.xib; sourceTree = "<group>"; };
+		96F48FE91AA053B400DFA578 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = "Communication/Response objects/Parser.h"; sourceTree = "<group>"; };
+		96F48FEA1AA053B400DFA578 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Parser.m; path = "Communication/Response objects/Parser.m"; sourceTree = "<group>"; };
+		96F48FEC1AA05A5700DFA578 /* ParserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParserCell.h; path = Cells/ParserCell.h; sourceTree = "<group>"; };
+		96F48FED1AA05A5700DFA578 /* ParserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParserCell.m; path = Cells/ParserCell.m; sourceTree = "<group>"; };
+		96F48FEE1AA05A5700DFA578 /* ParserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ParserCell.xib; path = Cells/ParserCell.xib; sourceTree = "<group>"; };
+		96F48FF61AA05C3200DFA578 /* DataSourcesParserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataSourcesParserVC.h; path = ViewController/DataSourcesParserVC.h; sourceTree = "<group>"; };
+		96F48FF71AA05C3200DFA578 /* DataSourcesParserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataSourcesParserVC.m; path = ViewController/DataSourcesParserVC.m; sourceTree = "<group>"; };
+		96F48FF81AA05C3200DFA578 /* DataSourcesParserVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DataSourcesParserVC.xib; path = ViewController/DataSourcesParserVC.xib; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -1790,6 +1808,9 @@
 				968023E01A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.h */,
 				968023E11A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m */,
 				968023E21A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib */,
+				96F48FEC1AA05A5700DFA578 /* ParserCell.h */,
+				96F48FED1AA05A5700DFA578 /* ParserCell.m */,
+				96F48FEE1AA05A5700DFA578 /* ParserCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1889,6 +1910,8 @@
 				969051CB1A6ACDCF0029304D /* WaterLogProgram.m */,
 				969051CD1A6ACDF60029304D /* WaterLogDay.h */,
 				969051CE1A6ACDF60029304D /* WaterLogDay.m */,
+				96F48FE91AA053B400DFA578 /* Parser.h */,
+				96F48FEA1AA053B400DFA578 /* Parser.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2237,6 +2260,12 @@
 				964ADD2D1A1E7BA1008281A8 /* RainSensitivityVC.h */,
 				964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */,
 				964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */,
+				96F48FE41AA050C100DFA578 /* DataSourcesVC.h */,
+				96F48FE51AA050C100DFA578 /* DataSourcesVC.m */,
+				96F48FE61AA050C100DFA578 /* DataSourcesVC.xib */,
+				96F48FF61AA05C3200DFA578 /* DataSourcesParserVC.h */,
+				96F48FF71AA05C3200DFA578 /* DataSourcesParserVC.m */,
+				96F48FF81AA05C3200DFA578 /* DataSourcesParserVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2461,6 +2490,7 @@
 				AFF6A6B0188834AC00825A37 /* checkbox-selected@2x.png in Resources */,
 				96CB94021A38AFAD00F3691F /* scttsra_small_white.png in Resources */,
 				3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */,
+				96F48FF01AA05A5700DFA578 /* ParserCell.xib in Resources */,
 				3AC64A05192B39F10009061D /* PickerVC.xib in Resources */,
 				AF4826911990DC9500D80B87 /* rasn.png in Resources */,
 				AF48267A1990DC9500D80B87 /* nbknfg.png in Resources */,
@@ -2513,6 +2543,7 @@
 				96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */,
 				96C223AB19D7729900683AC6 /* NewRestrictionVC.xib in Resources */,
 				3A3BF31A18F40ABA008333C5 /* programs-checkbox-selected@2x.png in Resources */,
+				96F48FE81AA050C100DFA578 /* DataSourcesVC.xib in Resources */,
 				96CB93FA1A38AFAD00F3691F /* nwind_small_white.png in Resources */,
 				962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */,
 				AF4826711990DC9500D80B87 /* hi_ntsra.png in Resources */,
@@ -2541,6 +2572,7 @@
 				96CB93EE1A38AFAD00F3691F /* novc_small_white.png in Resources */,
 				AFA1BEFF18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib in Resources */,
 				AF9D2E951A1E4484009F4654 /* CloudEmailDevicesVC.xib in Resources */,
+				96F48FFA1AA05C3200DFA578 /* DataSourcesParserVC.xib in Resources */,
 				96CB94091A38AFAD00F3691F /* tsra_small_white.png in Resources */,
 				96CB94061A38AFAD00F3691F /* skc_small_white.png in Resources */,
 			);
@@ -2584,6 +2616,7 @@
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
+				96F48FE71AA050C100DFA578 /* DataSourcesVC.m in Sources */,
 				AF91C7F71858D757005888AA /* ServerResponse.m in Sources */,
 				969051CC1A6ACDCF0029304D /* WaterLogProgram.m in Sources */,
 				96F0F3401A36FEE90056D167 /* StatsShowGraphsCell.m in Sources */,
@@ -2642,6 +2675,7 @@
 				B1EF20EF186046D300D9CE26 /* +NSDate.m in Sources */,
 				96F0F34E1A3705F00056D167 /* GraphCell.m in Sources */,
 				969051D51A6AFB9E0029304D /* GraphTimeIntervalPart.m in Sources */,
+				96F48FEB1AA053B400DFA578 /* Parser.m in Sources */,
 				AF3DE1FD1A1A50A600C4B1FC /* Sprinkler.m in Sources */,
 				96DB95DD1A9F43F400789D05 /* SettingsAbout4VC.m in Sources */,
 				AF7AC9D7184E3DEB0047BD9E /* AFURLRequestSerialization.m in Sources */,
@@ -2658,6 +2692,8 @@
 				96F0F3391A36FAC70056D167 /* GraphDescriptor.m in Sources */,
 				AFEAECBE18BA3F9B00370F22 /* ProgramCellType4.m in Sources */,
 				969051C61A6ACDAA0029304D /* WaterLogZoneCycle.m in Sources */,
+				96F48FEF1AA05A5700DFA578 /* ParserCell.m in Sources */,
+				96F48FF91AA05C3200DFA578 /* DataSourcesParserVC.m in Sources */,
 				AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */,
 				AFB7E05F192F388E003A3461 /* NSDictionary+Keychain.m in Sources */,
 				AFC075FC18BBDDCE007200BF /* WeekdaysVC.m in Sources */,

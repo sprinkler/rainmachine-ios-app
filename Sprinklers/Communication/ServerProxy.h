@@ -72,6 +72,7 @@ typedef enum {
 @class WateringRestrictions;
 @class HourlyRestriction;
 @class Provision;
+@class Parser;
 
 @interface ServerProxy : NSObject
 
@@ -158,5 +159,8 @@ typedef enum {
 
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
 - (void)provisionReset;
+
+- (void)requestParsers;
+- (void)activateParser:(Parser*)parser activate:(BOOL)activate;
 
 @end

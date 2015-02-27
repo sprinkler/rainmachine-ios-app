@@ -48,6 +48,7 @@
 #import "MixerDailyValue.h"
 #import "WaterLogDay.h"
 #import "WiFi.h"
+#import "Parser.h"
 
 static int savedServerAPIMainVersion = 0;
 static int savedServerAPISubVersion = 0;
@@ -740,6 +741,8 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
+#pragma mark - Mixer data
+
 - (void)requestMixerDataFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {
     [self.manager GET:[self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"api/4/mixer/%@/%d",dateString,(int)daysCount]] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -795,6 +798,41 @@ static int serverAPIMinorSubVersion = -1;
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   [self handleError:error fromOperation:operation userInfo:nil];
               }];
+}
+
+#pragma mark - Parsers
+
+- (void)requestParsers {
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"api/4/parser"] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      NSArray *parsersDicts = [responseObject objectForKey:@"parsers"];
+                      NSMutableArray *parsers = [NSMutableArray new];
+                      for (NSDictionary *parserDict in parsersDicts) {
+                          [parsers addObject:[Parser createFromJson:parserDict]];
+                      }
+                      
+                      [self.delegate serverResponseReceived:parsers serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)activateParser:(Parser*)parser activate:(BOOL)activate {
+    NSDictionary *params = @{@"activate" : @(activate)};
+    
+    [self.manager POST: [self urlByAppendingAccessTokenToUrl:[NSString stringWithFormat:@"api/4/parser/%d/activate", parser.uid]] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       parser.enabled = activate;
+                       [self.delegate serverResponseReceived:parser serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
 }
 
 #pragma mark - Various

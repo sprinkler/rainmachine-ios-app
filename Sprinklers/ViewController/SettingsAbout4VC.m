@@ -34,7 +34,8 @@
 
 @interface SettingsAbout4VC ()
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+
 @property (nonatomic, strong) UpdateManager *updateManager;
 @property (nonatomic, strong) ServerProxy *requestDiagServerProxy;
 @property (nonatomic, strong) ServerProxy *requestWiFiServerProxy;
@@ -97,6 +98,13 @@
     [self refreshProgressHUD];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self cancel];
+    [self refreshProgressHUD];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -154,7 +162,7 @@
     }
 }
 
-#pragma mark - UITableView delegate
+#pragma mark - UITableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

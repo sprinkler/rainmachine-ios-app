@@ -34,6 +34,7 @@
 #import "StorageManager.H"
 #import "AppDelegate.h"
 #import "DevicesVC.h"
+#import "DataSourcesVC.h"
 
 NSString *kSettingsPrograms           = @"Programs";
 NSString *kSettingsZones              = @"Zones";
@@ -308,6 +309,11 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         timezonesListVC.isPartOfWizard = NO;
         UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:timezonesListVC];
         [self.navigationController presentViewController:navDevices animated:YES completion:nil];
+    }
+    else if ([settingsRow isEqualToString:kSettingsDataSources]) {
+        DataSourcesVC *dataSourcesVC = [[DataSourcesVC alloc] init];
+        dataSourcesVC.parent = self;
+        [self.navigationController pushViewController:dataSourcesVC animated:YES];
     }
 }
 
