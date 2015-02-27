@@ -16,5 +16,7 @@
 @interface DataSourcesVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, ParserCellDelegate, SprinklerResponseProtocol>
 
 @property (nonatomic, strong) SettingsVC *parent;
+@property (nonatomic, strong) Parser *parser;
+@property (nonatomic, strong) Parser *unsavedParser;
 
 @end

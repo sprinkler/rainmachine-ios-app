@@ -45,6 +45,10 @@
 - (IBAction)onDiscard:(id)sender;
 - (IBAction)onSave:(id)sender;
 
+@property (nonatomic, assign) BOOL shouldLeaveWithoutSavingChanges;
+
+- (void)showUnsavedChangesPopup;
+
 @end
 
 #pragma mark -
@@ -59,6 +63,14 @@
     self.title = self.parser.name;
     self.parserCopy = [self.parser copy];
     
+    if (self.showInitialUnsavedAlert) {
+        [self showUnsavedChangesPopup];
+        self.showInitialUnsavedAlert = NO;
+        self.parserCopy = [self.unsavedParser copy];
+    } else {
+        self.parserCopy = [self.parser copy];
+    }
+    
     [self initializeToolbar];
 }
 
@@ -70,6 +82,24 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
     [self initializeToolbar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [CCTBackButtonActionHelper sharedInstance].delegate = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (!self.shouldLeaveWithoutSavingChanges && ![self.parser isEqualToParser:self.parserCopy]) {
+        self.parent.parser = self.parser;
+        self.parent.unsavedParser = self.parserCopy;
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
 }
 
 #pragma mark - Helper methods
@@ -224,6 +254,42 @@
 - (void)loggedOut {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self handleLoggedOutSprinklerError];
+}
+
+#pragma mark - CCTBackButtonActionHelper delegate
+
+- (BOOL)cct_navigationBar:(UINavigationBar*)navigationBar willPopItem:(UINavigationItem*)item {
+    if (![self.parser isEqualToParser:self.parserCopy]) {
+        [self showUnsavedChangesPopup];
+        return NO;
+    }
+    
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+    return YES;
+}
+
+#pragma mark - Unsaved changes alert
+
+- (void)showUnsavedChangesPopup {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Leave screen?"
+                                                        message:@"There are unsaved changes"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Leave screen"
+                                              otherButtonTitles:@"Stay", nil];
+    alertView.tag = kAlertView_UnsavedChanges;
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (theAlertView.tag == kAlertView_UnsavedChanges) {
+        if (theAlertView.cancelButtonIndex == buttonIndex) {
+            self.shouldLeaveWithoutSavingChanges = YES;
+            [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    }
 }
 
 @end

@@ -65,6 +65,23 @@
     [self refreshProgressHUD];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (self.unsavedParser) {
+        DataSourcesParserVC *dataSourcesParserVC = [[DataSourcesParserVC alloc] init];
+        dataSourcesParserVC.parser = self.parser;
+        dataSourcesParserVC.unsavedParser = self.unsavedParser;
+        dataSourcesParserVC.parent = self;
+        dataSourcesParserVC.showInitialUnsavedAlert = YES;
+        
+        self.parser = nil;
+        self.unsavedParser = nil;
+        
+        [self.navigationController pushViewController:dataSourcesParserVC animated:YES];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
