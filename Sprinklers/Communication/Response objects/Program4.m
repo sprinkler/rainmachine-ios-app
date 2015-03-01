@@ -104,8 +104,6 @@
 - (NSString*)weekdays
 {
     switch (self.frequency.type) {
-        case API4_ProgramFrequencyType_Daily:
-            return @"D";
         case API4_ProgramFrequencyType_OddOrEvenDays:
             // @"0" == API4_ProgramFrequencyParam_Even
             return [self.frequency.param isEqualToString:@"0"] ? @"EVD" : @"ODD";
@@ -123,6 +121,9 @@
             }
             return api3Weekdays;
         }
+        case API4_ProgramFrequencyType_Daily:
+        default:
+            return @"D";
     }
     
     return @"D";

@@ -10,9 +10,10 @@
 
 typedef enum {
     API4_ProgramFrequencyType_Daily = 0,
+    API4_ProgramFrequencyType_Nth = 1,
     API4_ProgramFrequencyType_Weekdays = 2,
-    API4_ProgramFrequencyType_OddOrEvenDays = 4,
-    API4_ProgramFrequencyType_Nth = 5
+    API4_ProgramFrequencyType_StartOnDate = 3,
+    API4_ProgramFrequencyType_OddOrEvenDays = 4
 } API4_ProgramFrequencyType;
 
 @interface Frequency4 : NSObject<NSCopying>
