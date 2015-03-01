@@ -11,11 +11,14 @@
 #import "Protocols.h"
 
 @class RestrictionsVC;
+@class HourlyRestriction;
 
 @interface RestrictedHoursVC : BaseLevel2ViewController <UITableViewDelegate, UITableViewDataSource, SprinklerResponseProtocol>
 
 @property (weak, nonatomic) RestrictionsVC *parent;
 
 @property (strong, nonatomic) NSArray *hourlyRestrictions;
+
+- (void)setUnsavedRestriction:(HourlyRestriction*)restriction withIndex:(int)i;
 
 @end

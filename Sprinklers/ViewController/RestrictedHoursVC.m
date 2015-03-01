@@ -23,6 +23,8 @@
 @property (nonatomic, strong) ServerProxy *deleteHourlyRestrictionServerProxy;
 @property (nonatomic, strong) ServerProxy *requestHourlyRestrictionsServerProxy;
 @property (nonatomic, weak) IBOutlet UITableView* tableView;
+@property (strong, nonatomic) HourlyRestriction *unsavedRestriction;
+@property (assign, nonatomic) int unsavedRestrictionIndex;
 
 - (IBAction)edit:(id)sender;
 
@@ -59,12 +61,25 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self requestHourlyRestrictions];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.tableView setEditing:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.unsavedRestriction) {
+        [self pushVCForRestriction:self.unsavedRestriction withIndex:self.unsavedRestrictionIndex showInitialUnsavedAlert:YES];
+        self.unsavedRestriction = nil;
+    } else {
+        [self requestHourlyRestrictions];
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Methods
@@ -190,16 +205,35 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        NewRestrictionVC *newRestrictionVC = [[NewRestrictionVC alloc] init];
-        newRestrictionVC.parent = self;
-        newRestrictionVC.restriction = self.hourlyRestrictions[indexPath.row];
-        [self.navigationController pushViewController:newRestrictionVC animated:YES];
+        [self pushVCForRestriction:self.hourlyRestrictions[indexPath.row] withIndex:(int)indexPath.row showInitialUnsavedAlert:NO];
     }
     else if (indexPath.section == 1 && indexPath.row == 0) {
         NewRestrictionVC *newRestrictionVC = [[NewRestrictionVC alloc] init];
         newRestrictionVC.parent = self;
         [self.navigationController pushViewController:newRestrictionVC animated:YES];
     }
+}
+
+- (void)pushVCForRestriction:(HourlyRestriction*)r withIndex:(int)i showInitialUnsavedAlert:(BOOL)showInitialUnsavedAlert
+{
+    NewRestrictionVC *newRestrictionVC = [[NewRestrictionVC alloc] init];
+    newRestrictionVC.restriction = r;
+    if (showInitialUnsavedAlert) {
+        if (i != -1) {
+            newRestrictionVC.restrictionCopyBeforeSave = self.hourlyRestrictions[i];
+        }
+    }
+    newRestrictionVC.parent = self;
+    newRestrictionVC.parent = self;
+    newRestrictionVC.restrictionIndex = i;
+    newRestrictionVC.showInitialUnsavedAlert = showInitialUnsavedAlert;
+    [self.navigationController pushViewController:newRestrictionVC animated:!showInitialUnsavedAlert];
+}
+
+- (void)setUnsavedRestriction:(HourlyRestriction*)restriction withIndex:(int)i
+{
+    self.unsavedRestriction = restriction;
+    self.unsavedRestrictionIndex = i;
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {

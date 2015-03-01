@@ -17,6 +17,7 @@
 #import "ServerProxy.h"
 #import "HourlyRestriction.h"
 #import "MBProgressHUD.h"
+#import "API4StatusResponse.h"
 
 @interface NewRestrictionVC ()
 
@@ -31,12 +32,12 @@
 @property (nonatomic, assign) BOOL didSave;
 
 @property (nonatomic, strong) ServerProxy *createHourlyRestrictionServerProxy;
+@property (nonatomic, strong) ServerProxy *deleteHourlyRestrictionServerProxy;
 
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *discardBarButtonItem;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *saveBarButtonItem;
 @property (nonatomic, weak) IBOutlet UITableView* tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *topToolBar;
-@property (nonatomic, strong) HourlyRestriction *restrictionCopyBeforeSave;
 
 - (NSString*)dateStringFromHour:(NSInteger)hour minutes:(NSInteger)minutes;
 - (NSDate*)dateFromHour:(NSInteger)hour minutes:(NSInteger)minutes;
@@ -76,8 +77,16 @@
         self.restriction = [HourlyRestriction restriction];
     }
     
-    self.restrictionCopyBeforeSave = [self.restriction copy];
+    if (!self.showInitialUnsavedAlert) {
+        // In the case when 'showInitialUnsavedAlert' is YES, restrictionCopyBeforeSave is set beforehand
+        self.restrictionCopyBeforeSave = self.restriction;
+    }
     self.selectedFrequencyIndex = ([self.restriction.weekDays isEqualToString:@"1111111"] ? 0 : 1);
+
+    if (self.showInitialUnsavedAlert) {
+        [self showUnsavedChangesPopup:nil];
+        self.showInitialUnsavedAlert = NO;
+    }
 
     [self refreshToolbar];
     
@@ -89,8 +98,29 @@
     [super viewWillAppear:animated];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [CCTBackButtonActionHelper sharedInstance].delegate = self;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+
+    if ([CCTBackButtonActionHelper sharedInstance].delegate) {
+        // The back was done using back-swipe gesture
+        if ([self hasUnsavedChanged]) {
+            [self.parent setUnsavedRestriction:self.restriction withIndex:self.restrictionIndex];
+        }
+    }
 }
 
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC {
@@ -301,7 +331,7 @@
     self.restriction.minuteDuration = [NSNumber numberWithInteger:(self.toHour - self.fromHour) * 60 + self.toMinutes - self.fromMinutes];
 
     self.createHourlyRestrictionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-    [self.createHourlyRestrictionServerProxy createHourlyRestriction:self.restriction includeUID:![self isNewAndUnsaved]];
+    [self.createHourlyRestrictionServerProxy createHourlyRestriction:self.restriction includeUID:NO];
     [self startHud:nil];
 }
 
@@ -314,11 +344,25 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         hud = nil;
         
-        self.restrictionCopyBeforeSave = [self.restriction copy];
+        // Delete the old restriction
+        // Because of the sprinkler limitation, the editing is done using a create / delete sequence
+        if (![self isNewAndUnsaved]) {
+            [self deleteHourlyRestriction:self.restriction];
+        }
+
+        API4StatusResponse *theData = (API4StatusResponse*)data;
+        HourlyRestriction *newRestriction = [ServerProxy fromJSON:theData.restriction toClass:NSStringFromClass([HourlyRestriction class])];
+
+        self.restriction = newRestriction;
+        self.restrictionCopyBeforeSave = newRestriction;
         
         self.didSave = YES;
         
         [self refreshToolbar];
+    }
+    else if (serverProxy == self.deleteHourlyRestrictionServerProxy) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        hud = nil;
     }
 }
 
@@ -331,6 +375,12 @@
 - (void)loggedOut {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self.parent handleLoggedOutSprinklerError];
+}
+
+- (void)deleteHourlyRestriction:(HourlyRestriction*)restriction {
+    self.deleteHourlyRestrictionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    [self.deleteHourlyRestrictionServerProxy deleteHourlyRestriction:restriction];
+    [self startHud:nil];
 }
 
 #pragma mark - UITableView delegate
@@ -406,6 +456,7 @@
         timePickerVC.time = (indexPath.row == 0 ? self.fromTime : self.toTime);
         [timePickerVC refreshTimeFormatConstraint];
         
+        [self willPushChildView];
         [self.navigationController pushViewController:timePickerVC animated:YES];
         
         timePickerVC.title = (indexPath.row == 0 ? @"From time" : @"To time");
@@ -420,9 +471,55 @@
             
             [cell onCheck:cell.checkmarkButton];
             
+            [self willPushChildView];
             [self.navigationController pushViewController:weekdaysVC animated:YES];
         } else {
             [cell onCheck:cell.checkmarkButton];
+        }
+    }
+}
+
+#pragma mark - CCTBackButtonActionHelper delegate
+
+- (BOOL)cct_navigationBar:(UINavigationBar *)navigationBar willPopItem:(UINavigationItem *)item {
+    if ([self hasUnsavedChanged]) {
+        
+        [self showUnsavedChangesPopup:nil];
+        
+        return NO;
+    }
+    
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+    return YES;
+}
+
+- (void)willPushChildView
+{
+    // This prevents the test from viewWillDisappear to pass
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+}
+
+- (void)popWithoutQuestion
+{
+    [CCTBackButtonActionHelper sharedInstance].delegate = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)showUnsavedChangesPopup:(id)notif
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Leave screen?"
+                                                        message:@"There are unsaved changes"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Leave screen"
+                                              otherButtonTitles:@"Stay", nil];
+    alertView.tag = kAlertView_UnsavedChanges;
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (theAlertView.tag == kAlertView_UnsavedChanges) {
+        if (theAlertView.cancelButtonIndex == buttonIndex) {
+            [self popWithoutQuestion];
         }
     }
 }

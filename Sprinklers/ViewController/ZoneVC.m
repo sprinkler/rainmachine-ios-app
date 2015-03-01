@@ -195,11 +195,15 @@ typedef enum {
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     [CCTBackButtonActionHelper sharedInstance].delegate = self;
     
     if (self.unsavedZoneProperties) {

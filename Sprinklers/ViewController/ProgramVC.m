@@ -294,6 +294,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     [self.parent setUnsavedProgram:nil withIndex:0];
     [CCTBackButtonActionHelper sharedInstance].delegate = self;
     
@@ -304,6 +306,8 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     [CCTBackButtonActionHelper sharedInstance].delegate = nil;
 
     [self.rainDelayPoller stopPollRequests];

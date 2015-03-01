@@ -91,6 +91,7 @@ typedef enum {
 + (int)usesAPI3;
 + (int)usesAPI4;
 + (NSArray*)fromJSONArray:(NSArray*)jsonArray toClass:(NSString*)className;
++ (id)fromJSON:(NSDictionary*)jsonDic toClass:(NSString*)className;
 
 - (void)requestWeatherData;
 

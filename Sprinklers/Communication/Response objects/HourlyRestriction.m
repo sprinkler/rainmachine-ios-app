@@ -14,7 +14,6 @@
 {
     HourlyRestriction *restriction = [HourlyRestriction new];
 
-    restriction.uid = @1;
     restriction.interval = @"0:1 - 1:1";
     restriction.dayStartMinute = @1;
     restriction.minuteDuration = @60;
