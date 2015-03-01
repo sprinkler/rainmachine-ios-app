@@ -51,6 +51,7 @@
     int nameSectionIndex;
     int activeSectionIndex;
     int ignoreWeatherDataSectionIndex;
+    int useWaterSenseSectionIndex;
     int frequencySectionIndex;
     int startTimeSectionIndex;
     int cycleSoakAndStationDelaySectionIndex;
@@ -77,6 +78,8 @@
 
 @property (assign, nonatomic) BOOL shouldRefreshContent;
 
+@property (readonly, nonatomic) BOOL waterSenseEnabled;
+
 @end
 
 @implementation ProgramVC
@@ -102,28 +105,54 @@
     
     if (self.program) {
 
-        runNowSectionIndex = -1;
-        nameSectionIndex = 0;
-        activeSectionIndex = 1;
-        ignoreWeatherDataSectionIndex = 2;
-        frequencySectionIndex = 3;
-        startTimeSectionIndex = 4;
-        cycleSoakAndStationDelaySectionIndex = 5;
-        wateringTimesSectionIndex = 6;
+        if ([ServerProxy usesAPI3]) {
+            runNowSectionIndex = -1;
+            nameSectionIndex = 0;
+            activeSectionIndex = 1;
+            ignoreWeatherDataSectionIndex = 2;
+            useWaterSenseSectionIndex = -1;
+            frequencySectionIndex = 3;
+            startTimeSectionIndex = 4;
+            cycleSoakAndStationDelaySectionIndex = 5;
+            wateringTimesSectionIndex = 6;
+        } else {
+            runNowSectionIndex = -1;
+            nameSectionIndex = 0;
+            activeSectionIndex = 1;
+            ignoreWeatherDataSectionIndex = 2;
+            useWaterSenseSectionIndex = 3;
+            frequencySectionIndex = 4;
+            startTimeSectionIndex = 5;
+            cycleSoakAndStationDelaySectionIndex = 6;
+            wateringTimesSectionIndex = 7;
+        }
         
         if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
             // 3.55 and 3.56 can only Stop programs
             [self createTwoButtonToolbar];
         }
     } else {
-        runNowSectionIndex = -1;
-        nameSectionIndex = 0;
-        activeSectionIndex = 1;
-        ignoreWeatherDataSectionIndex = 2;
-        frequencySectionIndex = 3;
-        startTimeSectionIndex = 4;
-        cycleSoakAndStationDelaySectionIndex = 5;
-        wateringTimesSectionIndex = 6;
+        if ([ServerProxy usesAPI3]) {
+            runNowSectionIndex = -1;
+            nameSectionIndex = 0;
+            activeSectionIndex = 1;
+            ignoreWeatherDataSectionIndex = 2;
+            useWaterSenseSectionIndex = -1;
+            frequencySectionIndex = 3;
+            startTimeSectionIndex = 4;
+            cycleSoakAndStationDelaySectionIndex = 5;
+            wateringTimesSectionIndex = 6;
+        } else {
+            runNowSectionIndex = -1;
+            nameSectionIndex = 0;
+            activeSectionIndex = 1;
+            ignoreWeatherDataSectionIndex = 2;
+            useWaterSenseSectionIndex = 3;
+            frequencySectionIndex = 4;
+            startTimeSectionIndex = 5;
+            cycleSoakAndStationDelaySectionIndex = 6;
+            wateringTimesSectionIndex = 7;
+        }
     
         [self createTwoButtonToolbar];
     }
@@ -330,7 +359,8 @@
 #pragma mark - Actions
 
 - (IBAction)onSave:(id)sender {
-    NSString *invalidProgramStateMessage = [self checkProgramValidity];
+    NSString *invalidProgramStateMessage = nil;
+    if (!self.waterSenseEnabled) invalidProgramStateMessage = [self checkProgramValidity];
     
     if (invalidProgramStateMessage) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot save program"
@@ -377,7 +407,6 @@
         Program4 *program4 = (Program4*)self.program;
         if (program4.status == API4_ProgramStatus_Stopped) {
             NSString *cannotStartProgramStateMessage = [self checkProgramCanStart];
-            
             if (cannotStartProgramStateMessage) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot start program"
                                                                     message:cannotStartProgramStateMessage
@@ -427,7 +456,12 @@
         ProgramCellType2 *cell = (ProgramCellType2*)object;
         if (cell.ignoreWeatherDataCellType) {
             self.program.ignoreWeatherData = !cell.theSwitch.on;
-        } else {
+        }
+        else if (cell.useWaterSenseCellType) {
+            ((Program4*)self.program).useWaterSense = cell.theSwitch.on;
+            [self.tableView reloadData];
+        }
+        else {
             self.program.active = cell.theSwitch.on;
         }
     }
@@ -437,6 +471,7 @@
         if (cell.programWateringTime.active && cell.programWateringTime.minutes == 0) {
             [self tableView:self.tableView didSelectRowAtIndexPath:[self.tableView indexPathForCell:cell]];
         }
+        [self.tableView reloadData];
     }
     
     [self refreshToolbarEdited];
@@ -593,6 +628,9 @@
     else if (section == ignoreWeatherDataSectionIndex) {
         return 1;
     }
+    else if (section == useWaterSenseSectionIndex) {
+        return 1;
+    }
     else if (section == frequencySectionIndex) {
         return 5;
     }
@@ -624,6 +662,9 @@
         return 54;
     }
     else if (indexPath.section == ignoreWeatherDataSectionIndex) {
+        return 54;
+    }
+    else if (indexPath.section == useWaterSenseSectionIndex) {
         return 54;
     }
     else if (indexPath.section == frequencySectionIndex) {
@@ -691,16 +732,37 @@
             cell.theDetailLabel.text = nil;
             cell.delegate = self;
             cell.ignoreWeatherDataCellType = NO;
+            cell.useWaterSenseCellType = NO;
             return cell;
         }
         else if (indexPath.section == ignoreWeatherDataSectionIndex) {
             static NSString *CellIdentifier = @"ProgramCellType2";
             ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            cell.theSwitch.on = !self.program.ignoreWeatherData;
+            if (self.waterSenseEnabled) {
+                cell.theSwitch.on = YES;
+                cell.theSwitch.enabled = NO;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.theSwitch.on = !self.program.ignoreWeatherData;
+                cell.theSwitch.enabled = YES;
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            }
             cell.theTextLabel.text = @"Weather data";
             cell.theDetailLabel.text = nil;
             cell.delegate = self;
             cell.ignoreWeatherDataCellType = YES;
+            cell.useWaterSenseCellType = NO;
+            return cell;
+        }
+        else if (indexPath.section == useWaterSenseSectionIndex) {
+            static NSString *CellIdentifier = @"ProgramCellType2";
+            ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            cell.theSwitch.on = ((Program4*)self.program).useWaterSense;
+            cell.theTextLabel.text = @"WaterSense";
+            cell.theDetailLabel.text = nil;
+            cell.delegate = self;
+            cell.ignoreWeatherDataCellType = NO;
+            cell.useWaterSenseCellType = YES;
             return cell;
         }
         else if (indexPath.section == frequencySectionIndex) {
@@ -714,22 +776,26 @@
             
             BOOL check = NO;
             if (indexPath.row == 0) {
-                check = [self.program.weekdays isEqualToString:@"D"];
+                if (self.waterSenseEnabled) check = YES;
+                else check = [self.program.weekdays isEqualToString:@"D"];
                 cell.theCenteredTextLabel.text = @"Daily";
                 cell.index = 0;
             }
             else if (indexPath.row == 1) {
-                check = [self.program.weekdays isEqualToString:@"ODD"];
+                if (self.waterSenseEnabled) check = NO;
+                else check = [self.program.weekdays isEqualToString:@"ODD"];
                 cell.theCenteredTextLabel.text = @"Odd days";
                 cell.index = 1;
             }
             else if (indexPath.row == 2) {
-                check = [self.program.weekdays isEqualToString:@"EVD"];
+                if (self.waterSenseEnabled) check = NO;
+                else check = [self.program.weekdays isEqualToString:@"EVD"];
                 cell.theCenteredTextLabel.text = @"Even days";
                 cell.index = 2;
             }
             else if (indexPath.row == 3) {
-                check = [self.program.weekdays containsString:@"INT"];
+                if (self.waterSenseEnabled) check = NO;
+                else check = [self.program.weekdays containsString:@"INT"];
                 int nrDays;
                 sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
                 cell.theCenteredTextLabel.text = [NSString stringWithFormat:@"Every %d days", nrDays];
@@ -737,7 +803,8 @@
                 cell.index = 3;
             }
             else if (indexPath.row == 4) {
-                check = [self.program.weekdays containsString:@","];
+                if (self.waterSenseEnabled) check = NO;
+                else check = [self.program.weekdays containsString:@","];
                 cell.theTextLabel.text = @"Selected days";
                 cell.theCenteredTextLabel.text = @"Selected days";
                 cell.theDetailTextLabel.text = [Utils daysStringFromWeekdaysFrequency:self.frequencyWeekdays];
@@ -751,6 +818,19 @@
             }
 
             cell.checkmark.selected = check;
+            
+            if (self.waterSenseEnabled) {
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.theTextLabel.textColor = [UIColor lightGrayColor];
+                cell.theCenteredTextLabel.textColor = [UIColor lightGrayColor];
+                cell.theDetailTextLabel.textColor = [UIColor lightGrayColor];
+            }
+            else {
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                cell.theTextLabel.textColor = [UIColor blackColor];
+                cell.theCenteredTextLabel.textColor = [UIColor blackColor];
+                cell.theDetailTextLabel.textColor = [UIColor blackColor];
+            }
             
             return cell;
         }
@@ -772,15 +852,42 @@
             ProgramCellType5 *cell = (ProgramCellType5*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
             cell.delegate = self;
             if (indexPath.row == 0) {
-                cell.theSwitch.on = self.program.csOn;
                 cell.theTextLabel.text = @"Cycle & Soak";
-                cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soak];
+                if (self.waterSenseEnabled) {
+                    cell.theSwitch.on = YES;
+                    cell.theSwitch.enabled = NO;
+                    cell.theDetailTextLabel.text = @"Auto";
+                    cell.theTextLabel.textColor = [UIColor lightGrayColor];
+                    cell.theDetailTextLabel.textColor = [UIColor lightGrayColor];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                } else {
+                    cell.theSwitch.on = self.program.csOn;
+                    cell.theSwitch.enabled = YES;
+                    cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soak];
+                    cell.theTextLabel.textColor = [UIColor blackColor];
+                    cell.theDetailTextLabel.textColor = [UIColor blackColor];
+                    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                }
                 cell.cycleAndSoak = YES;
             }
             else if (indexPath.row == 1) {
-                cell.theSwitch.on = self.program.delayOn;
                 cell.theTextLabel.text = @"Delay between zones";
-                cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
+                
+                if (self.waterSenseEnabled) {
+                    cell.theSwitch.on = YES;
+                    cell.theSwitch.enabled = NO;
+                    cell.theDetailTextLabel.text = @"Auto";
+                    cell.theTextLabel.textColor = [UIColor lightGrayColor];
+                    cell.theDetailTextLabel.textColor = [UIColor lightGrayColor];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                } else {
+                    cell.theSwitch.on = self.program.delayOn;
+                    cell.theSwitch.enabled = YES;
+                    cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
+                    cell.theTextLabel.textColor = [UIColor blackColor];
+                    cell.theDetailTextLabel.textColor = [UIColor blackColor];
+                    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                }
                 cell.cycleAndSoak = NO;
             }
             if (!cell.theActivityIndicator.hidden) {
@@ -798,8 +905,18 @@
                 ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
                 cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
                 cell.theTextLabel.text = [Utils fixedZoneName:programWateringTime.name withId:[NSNumber numberWithInt:programWateringTime.wtId]];
-                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
-                cell.timeLabel.textColor = [UIColor blackColor];
+                if (self.waterSenseEnabled) {
+                    if (programWateringTime.active) cell.timeLabel.text = @"Auto";
+                    else cell.timeLabel.text = @"";
+                    cell.theTextLabel.textColor = [UIColor lightGrayColor];
+                    cell.timeLabel.textColor = [UIColor lightGrayColor];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                } else {
+                    cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
+                    cell.theTextLabel.textColor = [UIColor blackColor];
+                    cell.timeLabel.textColor = [UIColor blackColor];
+                    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                }
                 cell.theSwitch.on = programWateringTime.active;
                 cell.delegate = self;
                 cell.programWateringTime = programWateringTime;
@@ -894,41 +1011,50 @@
             [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
         }
         else if (indexPath.section == ignoreWeatherDataSectionIndex) {
+            if (!self.waterSenseEnabled) {
+                ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
+                cell.theSwitch.on = !cell.theSwitch.on;
+                self.program.ignoreWeatherData = !cell.theSwitch.on;
+                [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
+            }
+        }
+        else if (indexPath.section == useWaterSenseSectionIndex) {
             ProgramCellType2 *cell = (ProgramCellType2*)[self.tableView cellForRowAtIndexPath:indexPath];
             cell.theSwitch.on = !cell.theSwitch.on;
-            self.program.ignoreWeatherData = !cell.theSwitch.on;
+            ((Program4*)self.program).useWaterSense = cell.theSwitch.on;
             [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.25];
         }
         else if (indexPath.section == frequencySectionIndex) {
-            // [self checkFrequencyWithIndex:(int)indexPath.row];
-            ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView cellForRowAtIndexPath:indexPath];
-            [cell onCheckMark: self];
-            
-            if (indexPath.row == 3) {
-                int nrDays;
-                sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
+            if (!self.waterSenseEnabled) {
+                // [self checkFrequencyWithIndex:(int)indexPath.row];
+                ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView cellForRowAtIndexPath:indexPath];
+                [cell onCheckMark: self];
+                
+                if (indexPath.row == 3) {
+                    int nrDays;
+                    sscanf([self.frequencyEveryXDays UTF8String], "INT %d", &nrDays);
 
-                SetDelayVC *setIntervalFrequencyVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
-                setIntervalFrequencyVC.parent = self;
-                setIntervalFrequencyVC.userInfo = @"interval_frequency";
-                setIntervalFrequencyVC.titlePicker1 = @"days";
-                setIntervalFrequencyVC.minValuePicker1 = 2;
-                setIntervalFrequencyVC.maxValuePicker1 = 14;
-                setIntervalFrequencyVC.valuePicker1 = MAX(2, nrDays);
-                setIntervalFrequencyVC.title = @"Set days frequency";
+                    SetDelayVC *setIntervalFrequencyVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
+                    setIntervalFrequencyVC.parent = self;
+                    setIntervalFrequencyVC.userInfo = @"interval_frequency";
+                    setIntervalFrequencyVC.titlePicker1 = @"days";
+                    setIntervalFrequencyVC.minValuePicker1 = 2;
+                    setIntervalFrequencyVC.maxValuePicker1 = 14;
+                    setIntervalFrequencyVC.valuePicker1 = MAX(2, nrDays);
+                    setIntervalFrequencyVC.title = @"Set days frequency";
 
-                [self willPushChildView];
-                [self.navigationController pushViewController:setIntervalFrequencyVC animated:YES];
+                    [self willPushChildView];
+                    [self.navigationController pushViewController:setIntervalFrequencyVC animated:YES];
+                }
+                else if (indexPath.row == 4) {
+                    WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
+                    weekdaysVC.selectedWeekdays = [[_program.weekdays componentsSeparatedByString:@","] mutableCopy];
+                    weekdaysVC.parent = self;
+
+                    [self willPushChildView];
+                    [self.navigationController pushViewController:weekdaysVC animated:YES];
+                }
             }
-            else if (indexPath.row == 4) {
-                WeekdaysVC *weekdaysVC = [[WeekdaysVC alloc] init];
-                weekdaysVC.selectedWeekdays = [[_program.weekdays componentsSeparatedByString:@","] mutableCopy];
-                weekdaysVC.parent = self;
-
-                [self willPushChildView];
-                [self.navigationController pushViewController:weekdaysVC animated:YES];
-            }
-
         }
         else if (indexPath.section == startTimeSectionIndex) {
             if (indexPath.row == 0) {
@@ -944,34 +1070,38 @@
             }
         }
         else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
-            [self showSection4Screen:(int)indexPath.row];
+            if (!self.waterSenseEnabled) {
+                [self showSection4Screen:(int)indexPath.row];
+            }
         }
         else if (indexPath.section == wateringTimesSectionIndex) {
-            SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
-            
-            if ([ServerProxy usesAPI4]) {
-                ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
-                setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
-                                        @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
-                                        @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
-                                        @"active"   : [NSNumber numberWithBool:programWateringTime.active]
-                                        };
-                setDelayVC.valuePicker1 = programWateringTime.minutes;
-            } else {
-                ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
-                setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
-                                        @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
-                                        @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
-                                        };
-                setDelayVC.valuePicker1 = programWateringTime.minutes;
+            if (!self.waterSenseEnabled) {
+                SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
+                
+                if ([ServerProxy usesAPI4]) {
+                    ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
+                    setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
+                                            @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
+                                            @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
+                                            @"active"   : [NSNumber numberWithBool:programWateringTime.active]
+                                            };
+                    setDelayVC.valuePicker1 = programWateringTime.minutes;
+                } else {
+                    ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
+                    setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
+                                            @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
+                                            @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
+                                            };
+                    setDelayVC.valuePicker1 = programWateringTime.minutes;
+                }
+                
+                setDelayVC.titlePicker1 = @"minutes";
+                setDelayVC.title = @"Zone watering duration";
+                setDelayVC.parent = self;
+                
+                [self willPushChildView];
+                [self.navigationController pushViewController:setDelayVC animated:YES];
             }
-            
-            setDelayVC.titlePicker1 = @"minutes";
-            setDelayVC.title = @"Zone watering duration";
-            setDelayVC.parent = self;
-            
-            [self willPushChildView];
-            [self.navigationController pushViewController:setDelayVC animated:YES];
         }
     }
     
@@ -1227,9 +1357,16 @@
     
     BOOL isThereANonZeroActiveWateringZoneTime = NO;
     for (ProgramWateringTimes4 *programWateringTime in self.programCopyBeforeSave.wateringTimes) {
-        if (programWateringTime.duration != 0 && programWateringTime.active) {
-            isThereANonZeroActiveWateringZoneTime = YES;
-            break;
+        if (self.waterSenseEnabled) {
+            if (programWateringTime.active) {
+                isThereANonZeroActiveWateringZoneTime = YES;
+                break;
+            }
+        } else {
+            if (programWateringTime.duration != 0 && programWateringTime.active) {
+                isThereANonZeroActiveWateringZoneTime = YES;
+                break;
+            }
         }
     }
     
@@ -1308,6 +1445,13 @@
 - (void)setProgram4WateringTime:(int)t on:(ProgramWateringTimes4*)programWateringTime
 {
     programWateringTime.minutes = t;
+}
+
+#pragma mark - WaterSense flag
+
+- (BOOL)waterSenseEnabled {
+    if ([ServerProxy usesAPI3]) return NO;
+    return ((Program4*)self.program).useWaterSense;
 }
 
 #pragma mark - CCTBackButtonActionHelper delegate

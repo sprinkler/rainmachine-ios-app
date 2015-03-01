@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) id<CellButtonDelegate> delegate;
 @property (assign) BOOL ignoreWeatherDataCellType;
+@property (assign) BOOL useWaterSenseCellType;
 
 - (IBAction)onSwitch:(id)sender;
 

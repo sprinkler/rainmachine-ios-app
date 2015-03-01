@@ -268,6 +268,7 @@
     isEqual &= (program.delayOn == self.delayOn);
     isEqual &= ([program.frequency isEqualToFrequency:self.frequency]);
     isEqual &= (program.ignoreWeatherData == self.ignoreWeatherData);
+    isEqual &= (program.useWaterSense == self.useWaterSense);
     isEqual &= ([program.name isEqualToString:self.name]);
     isEqual &= (program.programId == self.programId);
     isEqual &= (program.soak == self.soak);
