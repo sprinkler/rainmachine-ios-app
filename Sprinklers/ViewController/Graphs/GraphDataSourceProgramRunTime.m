@@ -15,6 +15,7 @@
 #import "WaterLogZone.h"
 #import "Program.h"
 #import "Program4.h"
+#import "Additions.h"
 
 #pragma mark -
 
@@ -106,11 +107,8 @@
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
-        NSString *day = [dateFormatter stringFromDate:mixerDailyValue.day];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
         
         values[day] = @(mixerDailyValue.maxTemp);
@@ -122,11 +120,8 @@
 - (NSDictionary*)conditionValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
-        NSString *day = [dateFormatter stringFromDate:mixerDailyValue.day];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
         
         values[day] = @(mixerDailyValue.condition);
@@ -137,10 +132,7 @@
 
 - (NSDictionary*)percentageValuesFromWateringLogValues:(NSArray*)wateringLogValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
-    
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
+        
     for (WaterLogDay *waterLogDay in wateringLogValues) {
         WaterLogProgram *waterLogProgram = [waterLogDay waterLogProgramForProgramId:self.program.programId];
         

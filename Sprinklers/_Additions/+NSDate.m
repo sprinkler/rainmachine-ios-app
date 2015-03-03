@@ -363,6 +363,24 @@ static NSDateFormatter* formatter;
     return formatter;
 }
 
++ (NSDateFormatter*)sharedDateFormatterAPI4 {
+    NSDateFormatter *sharedDateFormatterAPI4 = nil;
+    if (!sharedDateFormatterAPI4) {
+        sharedDateFormatterAPI4 = [NSDateFormatter new];
+        sharedDateFormatterAPI4.dateFormat = @"yyyy-MM-dd";
+    }
+    return sharedDateFormatterAPI4;
+}
+
++ (NSDateFormatter*)sharedDateTimeFormatterAPI4 {
+    NSDateFormatter *sharedDateTimeFormatterAPI4 = nil;
+    if (!sharedDateTimeFormatterAPI4) {
+        sharedDateTimeFormatterAPI4 = [NSDateFormatter new];
+        sharedDateTimeFormatterAPI4.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    }
+    return sharedDateTimeFormatterAPI4;
+}
+
 -(NSDate*)startOfDay:(NSDate*)date {
   NSCalendar* cal = [NSCalendar currentCalendar];
   NSDateComponents* dateComp = [cal components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:date];

@@ -100,14 +100,11 @@
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     NSString *units = [Utils sprinklerTemperatureUnits];
     BOOL isFahrenheit = [units isEqualToString:@"F"];
     
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
-        NSString *day = [dateFormatter stringFromDate:mixerDailyValue.day];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
         
         double maxTemp = mixerDailyValue.maxTemp;
@@ -121,12 +118,9 @@
 
 - (NSDictionary*)maxTempValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
-    
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
+        
     for (WeatherData *weatherDataValue in weatherDataValues) {
-        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
         if (!day.length) continue;
         
         if (weatherDataValue.maxt) values[day] = weatherDataValue.maxt;

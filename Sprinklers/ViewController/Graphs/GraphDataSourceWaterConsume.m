@@ -115,11 +115,8 @@
         }
     }
     else if ([ServerProxy usesAPI3]) {
-        NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        dateFormatter.dateFormat = @"yyyy-MM-dd";
-        
         for (WeatherData *weatherDataValue in [GraphsManager sharedGraphsManager].weatherData) {
-            [values addObject:@{@"date" : [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]],
+            [values addObject:@{@"date" : [[NSDate sharedDateFormatterAPI4] stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]],
                                 @"percentage" : weatherDataValue.percentage}];
         }
     }
@@ -133,14 +130,11 @@
 - (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     NSString *units = [Utils sprinklerTemperatureUnits];
     BOOL isFahrenheit = [units isEqualToString:@"F"];
     
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
-        NSString *day = [dateFormatter stringFromDate:mixerDailyValue.day];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
         
         double maxTemp = mixerDailyValue.maxTemp;
@@ -155,11 +149,8 @@
 - (NSDictionary*)conditionValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
-        NSString *day = [dateFormatter stringFromDate:mixerDailyValue.day];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
         
         values[day] = @(mixerDailyValue.condition);
@@ -170,9 +161,6 @@
 
 - (NSDictionary*)percentageValuesFromWateringLogSimulatedValues:(NSArray*)wateringLogSimulatedValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
-    
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
     
     for (WaterLogDay *waterLogDay in wateringLogSimulatedValues) {
         NSString *date = waterLogDay.date;
@@ -186,11 +174,8 @@
 - (NSDictionary*)maxTempValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     for (WeatherData *weatherDataValue in weatherDataValues) {
-        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
         if (!day.length) continue;
         
         if (weatherDataValue.maxt) values[day] = weatherDataValue.maxt;
@@ -202,11 +187,8 @@
 - (NSDictionary*)iconValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     for (WeatherData *weatherDataValue in weatherDataValues) {
-        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
         if (!day.length) continue;
         
         values[day] = @([Utils codeFromWeatherImageName:weatherDataValue.icon]);
@@ -218,11 +200,8 @@
 - (NSDictionary*)percentageValuesFromWeatherData3Values:(NSArray*)weatherDataValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     for (WeatherData *weatherDataValue in weatherDataValues) {
-        NSString *day = [dateFormatter stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
+        NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:[[NSDate date] dateByAddingDays:weatherDataValue.id.intValue]];
         if (!day.length) continue;
         
         values[day] = @(weatherDataValue.percentage.doubleValue * 100.0);

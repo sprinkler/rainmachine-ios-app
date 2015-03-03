@@ -11,19 +11,11 @@
 
 @implementation MixerDailyValue
 
-+ (NSDateFormatter*)dateFormatter {
-    static NSDateFormatter *dateFormatter = nil;
-    if (!dateFormatter) {
-        dateFormatter = [NSDateFormatter new];
-        dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    }
-    return dateFormatter;
-}
 + (MixerDailyValue*)createFromJson:(NSDictionary*)jsonObj {
     if (jsonObj) {
         MixerDailyValue *mixerDailyValue = [MixerDailyValue new];
         
-        mixerDailyValue.day = [[self dateFormatter] dateFromString:[jsonObj nullProofedStringValueForKey:@"day"]];
+        mixerDailyValue.day = [[NSDate sharedDateTimeFormatterAPI4] dateFromString:[jsonObj nullProofedStringValueForKey:@"day"]];
         mixerDailyValue.temperature = [jsonObj nullProofedDoubleValueForKey:@"temperature"];
         mixerDailyValue.rh = [jsonObj nullProofedDoubleValueForKey:@"rh"];
         mixerDailyValue.wind = [jsonObj nullProofedDoubleValueForKey:@"wind"];
