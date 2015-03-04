@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) BOOL active;
 @property (nonatomic, strong) NSDate *startTime;
+@property (nonatomic, strong) NSDate *nextRun;
 @property (nonatomic) int cycles;
 @property (nonatomic) int soak;
 @property (nonatomic) BOOL csOn; // cycle/soak flag

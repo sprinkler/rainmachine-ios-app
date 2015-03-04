@@ -12,6 +12,7 @@
 #import "GraphDataFormatterCell2.h"
 #import "GraphDataFormatterCell3.h"
 #import "Utils.h"
+#import "Additions.h"
 
 NSString *GraphDataFormatterDescriptorFieldType             = @"GraphDataFormatterDescriptorFieldType";
 NSString *GraphDataFormatterDescriptorFieldKey              = @"GraphDataFormatterDescriptorFieldKey";
@@ -35,27 +36,11 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
 - (NSString*)formattedTemperatureStringFromNumber:(NSNumber*)number;
 - (NSString*)formattedPercentageStringFromNumber:(NSNumber*)number;
 
-@property (nonatomic, strong) NSDateFormatter *reverseDateFormatter;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
-
 @end
 
 #pragma mark -
 
 @implementation GraphDataFormatter
-
-- (id)init {
-    self = [super init];
-    if (!self) return nil;
-    
-    self.reverseDateFormatter = [NSDateFormatter new];
-    self.reverseDateFormatter.dateFormat = @"yyyy-MM-dd";
-    
-    self.dateFormatter = [NSDateFormatter new];
-    self.dateFormatter.dateFormat = @"MMM dd, yyyy";
-    
-    return self;
-}
 
 - (void)registerFormatterCellsInTableView:(UITableView*)tableView {
     [tableView registerNib:[UINib nibWithNibName:@"GraphDataFormatterCell1" bundle:nil] forCellReuseIdentifier:@"GraphDataFormatterCell1"];
@@ -169,11 +154,11 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
 }
 
 - (NSString*)formattedDateStringFromString:(NSString*)string {
-    return [self.dateFormatter stringFromDate:[self.reverseDateFormatter dateFromString:string]];
+    return [[NSDate sharedDateFormatterAPI4] stringFromDate:[[NSDate sharedReverseDateFormatterAPI4] dateFromString:string]];
 }
 
 - (NSString*)formattedDateStringFromDate:(NSDate*)date {
-    return [self.dateFormatter stringFromDate:date];
+    return [[NSDate sharedReverseDateFormatterAPI4] stringFromDate:date];
 }
 
 - (NSString*)formattedNumberFromValue:(id)value {

@@ -26,6 +26,7 @@
         // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
         df.dateFormat = @"H:m"; // H means hours between [0-23]
         program.startTime = [df dateFromString:[jsonObj nullProofedStringValueForKey:@"startTime"]];
+        program.nextRun = [[NSDate sharedDateFormatterAPI4] dateFromString:[jsonObj nullProofedStringValueForKey:@"nextRun"]];
         
         program.cycles = [jsonObj nullProofedIntValueForKey:@"cycles"];
         program.soak = [jsonObj nullProofedIntValueForKey:@"soak"];
@@ -178,6 +179,8 @@
     [dic setObject:[NSNumber numberWithFloat:_freq_modified] forKey:@"freq_modified"];
     [dic setObject:[NSNumber numberWithFloat:_useWaterSense] forKey:@"useWaterSense"];
 
+    [dic setObject:[[NSDate sharedDateFormatterAPI4] stringFromDate:_nextRun] forKey:@"nextRun"];
+    
     // Force "programStartTime" to be encoded with H:m format
     [dic setObject:[Utils formattedTime:_startTime forTimeFormat:0] forKey:@"startTime"];
     // Send the nr. of seconds from epoch time (1970) in "startTime"
@@ -224,6 +227,7 @@
     dateComp.minute = 0;
     
     program.startTime = [cal dateFromComponents:dateComp];
+    program.nextRun = [NSDate date];
     
     return program;
 }
@@ -237,6 +241,7 @@
     program.name = [self.name copy];
     program.active = self.active;
     program.startTime = [self.startTime copy];
+    program.nextRun = [self.nextRun copy];
     program.cycles = self.cycles;
     program.soak = self.soak;
     program.csOn = self.csOn;
@@ -274,6 +279,7 @@
     isEqual &= (program.soak == self.soak);
     isEqual &= (program.status == self.status);
     isEqual &= ([program.startTime isEqualToDate:self.startTime]);
+    isEqual &= ([program.nextRun isEqualToDate:self.nextRun]);
     isEqual &= ([program.weekdays isEqualToString:self.weekdays]);
     
     if (self.wateringTimes.count != program.wateringTimes.count) {

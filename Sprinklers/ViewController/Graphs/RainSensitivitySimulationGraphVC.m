@@ -141,13 +141,10 @@
         return;
     }
     
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    
     NSMutableDictionary *mixerValuesByDate = [NSMutableDictionary new];
     
     for (MixerDailyValue *mixerDailyValue in self.mixerDataByDate) {
-        NSString *dayString = [dateFormatter stringFromDate:mixerDailyValue.day];
+        NSString *dayString = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!dayString.length) continue;
         [mixerValuesByDate setValue:mixerDailyValue forKey:dayString];
     }

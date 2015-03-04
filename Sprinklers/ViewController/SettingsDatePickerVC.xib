@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DatePickerVC">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsDatePickerVC">
             <connections>
                 <outlet property="datePicker" destination="MJK-SC-ndV" id="pDG-E3-0eS"/>
                 <outlet property="verticalConstraint" destination="wbV-d9-e5f" id="dQT-Iv-F66"/>

@@ -1,5 +1,5 @@
 //
-//  DatePickerVC.h
+//  SettingsDatePickerVC.h
 //  Sprinklers
 //
 //  Created by Fabian Matyas on 03/03/14.
@@ -12,9 +12,8 @@
 
 @class SettingsVC;
 
-@interface DatePickerVC : BaseLevel2ViewController
+@interface SettingsDatePickerVC : BaseLevel2ViewController<SprinklerResponseProtocol>
 
-@property (weak, nonatomic) BaseNetworkHandlingVC<DatePickerDelegate> *parent;
-@property (strong, nonatomic) NSDate *date;
+@property (weak, nonatomic) SettingsVC *parent;
 
 @end

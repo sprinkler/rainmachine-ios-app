@@ -16,7 +16,7 @@
 #import "RestrictionsVC.h"
 #import "RainSensitivityVC.h"
 #import "UnitsVC.h"
-#import "DatePickerVC.h"
+#import "SettingsDatePickerVC.h"
 #import "SettingsTimePickerVC.h"
 #import "SettingsNameAndSecurityVC.h"
 #import "ProvisionLocationSetupVC.h"
@@ -257,7 +257,7 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         [self.navigationController pushViewController:unitsVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsDate]) {
-        DatePickerVC *datePickerVC = [[DatePickerVC alloc] init];
+        SettingsDatePickerVC *datePickerVC = [[SettingsDatePickerVC alloc] init];
         datePickerVC.parent = self;
         [self.navigationController pushViewController:datePickerVC animated:YES];
     }

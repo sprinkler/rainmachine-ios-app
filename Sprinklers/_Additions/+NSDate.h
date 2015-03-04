@@ -70,6 +70,7 @@
 + (NSDateFormatter*)getDateFormaterFixedFormatParsing;
 + (NSDateFormatter*)sharedDateFormatterAPI4;
 + (NSDateFormatter*)sharedDateTimeFormatterAPI4;
++ (NSDateFormatter*)sharedReverseDateFormatterAPI4;
 
 // Decomposing dates
 @property (readonly) NSInteger nearestHour;

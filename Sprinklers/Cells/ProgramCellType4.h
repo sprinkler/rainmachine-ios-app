@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ProgramCellType4 : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *theTextLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLabelTrailingLayoutConstraint;
 
 @end

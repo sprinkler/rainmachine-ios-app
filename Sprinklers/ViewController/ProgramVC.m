@@ -21,6 +21,7 @@
 #import "ProgramCellType6.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
+#import "Additions.h"
 #import "+NSString.h"
 #import "ServerResponse.h"
 #import "ProgramsVC.h"
@@ -29,6 +30,7 @@
 #import "WeekdaysVC.h"
 #import "SetDelayVC.h"
 #import "TimePickerVC.h"
+#import "DatePickerVC.h"
 #import "+UIDevice.h"
 #import "StartStopProgramResponse.h"
 #import "Constants.h"
@@ -79,6 +81,13 @@
 @property (assign, nonatomic) BOOL shouldRefreshContent;
 
 @property (readonly, nonatomic) BOOL waterSenseEnabled;
+
+@property (readonly, nonatomic) NSDate *nextRunDateForDailyFrequency;
+@property (readonly, nonatomic) NSDate *nextRunDateForOddDaysFrequency;
+@property (readonly, nonatomic) NSDate *nextRunDateForEvenDaysFrequency;
+@property (readonly, nonatomic) NSDate *nextRunDateForSelectedDaysFrequency;
+
+- (void)refreshNextRun;
 
 @end
 
@@ -543,6 +552,8 @@
     self.frequencyWeekdays = [weekdaysVC.selectedWeekdays componentsJoinedByString:@","];
     self.program.weekdays = self.frequencyWeekdays;
     
+    if ([ServerProxy usesAPI4]) [self refreshNextRun];
+    
     [self.tableView reloadData];
 }
 
@@ -560,6 +571,16 @@
     dateComp.minute = [timePickerVCC minutes];
     
     self.program.startTime = [cal dateFromComponents:dateComp];
+    if ([ServerProxy usesAPI4]) [self refreshNextRun];
+    
+    [self.tableView reloadData];
+}
+
+- (void)datePickerVCWillDissapear:(DatePickerVC*)datePickerVC
+{
+    if ([ServerProxy usesAPI4]) {
+        ((Program4*)self.program).nextRun = datePickerVC.date;
+    }
     [self.tableView reloadData];
 }
 
@@ -635,7 +656,7 @@
         return 5;
     }
     else if (section == startTimeSectionIndex) {
-        return 1;
+        return ([ServerProxy usesAPI3] ? 1 : 2);
     }
     else if (section == cycleSoakAndStationDelaySectionIndex) {
         return 2;
@@ -836,17 +857,41 @@
         }
         
         else if (indexPath.section == startTimeSectionIndex) {
+            int nextRunRow = ([ServerProxy usesAPI3] ? -1 : 0);
+            int startTimeRow = ([ServerProxy usesAPI3] ? 0 : 1);
+            
             static NSString *CellIdentifier = @"ProgramCellType4";
             ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
             
-            NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
+            if (indexPath.row == nextRunRow) {
+                cell.theTextLabel.text = @"NEXT RUN";
+                cell.timeLabel.text = [[NSDate sharedReverseDateFormatterAPI4] stringFromDate:((Program4*)self.program).nextRun];
+                
+                if ([self.program.weekdays containsString:@"INT"]) {
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                    cell.timeLabelTrailingLayoutConstraint.constant = 4.0;
+                } else {
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    cell.timeLabelTrailingLayoutConstraint.constant = 37.0;
+                }
+            }
+            else if (indexPath.row == startTimeRow) {
+                NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
+                cell.theTextLabel.text = @"START TIME";
+                cell.timeLabel.text = startHourAndMinute;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                cell.timeLabelTrailingLayoutConstraint.constant = 4.0;
+            }
+            
             cell.theTextLabel.font = [UIFont systemFontOfSize: 22.0f];
-            cell.theTextLabel.text = @"START TIME";
-            cell.timeLabel.text = startHourAndMinute;
             cell.timeLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
+            
             return cell;
         }
-
+        
         else if (indexPath.section == cycleSoakAndStationDelaySectionIndex) {
             static NSString *CellIdentifier = @"ProgramCellType5";
             ProgramCellType5 *cell = (ProgramCellType5*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -1026,7 +1071,8 @@
         }
         else if (indexPath.section == frequencySectionIndex) {
             if (!self.waterSenseEnabled) {
-                // [self checkFrequencyWithIndex:(int)indexPath.row];
+                NSString *oldWeekdays = self.program.weekdays;
+                
                 ProgramCellType3 *cell = (ProgramCellType3*)[self.tableView cellForRowAtIndexPath:indexPath];
                 [cell onCheckMark: self];
                 
@@ -1054,10 +1100,33 @@
                     [self willPushChildView];
                     [self.navigationController pushViewController:weekdaysVC animated:YES];
                 }
+                
+                if ([ServerProxy usesAPI4] && ![self.program.weekdays isEqualToString:oldWeekdays]) {
+                    if ([self.program.weekdays containsString:@"INT"]) {
+                        ((Program4*)self.program).nextRun = [[NSDate date] dateByAddingDays:1];
+                    } else {
+                        [self refreshNextRun];
+                    }
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:startTimeSectionIndex] withRowAnimation:UITableViewRowAnimationNone];
+                }
             }
         }
         else if (indexPath.section == startTimeSectionIndex) {
-            if (indexPath.row == 0) {
+            
+            int nextRunRow = ([ServerProxy usesAPI3] ? -1 : 0);
+            int startTimeRow = ([ServerProxy usesAPI3] ? 0 : 1);
+            
+            if (indexPath.row == nextRunRow) {
+                if ([self.program.weekdays containsString:@"INT"]) {
+                    DatePickerVC *datePickerVC = [[DatePickerVC alloc] init];
+                    datePickerVC.parent = self;
+                    datePickerVC.date = ((Program4*)self.program).nextRun;
+                    
+                    [self willPushChildView];
+                    [self.navigationController pushViewController:datePickerVC animated:YES];
+                }
+            }
+            else if (indexPath.row == startTimeRow) {
 
                 TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
                 timePickerVC.timeFormat = self.program.timeFormat;
@@ -1452,6 +1521,51 @@
 - (BOOL)waterSenseEnabled {
     if ([ServerProxy usesAPI3]) return NO;
     return ((Program4*)self.program).useWaterSense;
+}
+
+#pragma mark - Next run
+
+- (NSDate*)nextRunDateForDailyFrequency {
+    return [[NSDate date] dateByAddingDays:1];
+}
+
+- (NSDate*)nextRunDateForOddDaysFrequency {
+    NSDate *tomorrow = [[NSDate date] dateByAddingDays:1];
+    return (tomorrow.day % 2 ? tomorrow : [tomorrow dateByAddingDays:1]);
+}
+
+- (NSDate*)nextRunDateForEvenDaysFrequency {
+    NSDate *tomorrow = [[NSDate date] dateByAddingDays:1];
+    return (!(tomorrow.day % 2) ? tomorrow : [tomorrow dateByAddingDays:1]);
+}
+
+- (NSDate*)nextRunDateForSelectedDaysFrequency {
+    NSDate *nextRunDate = nil;
+    NSArray *frequencyWeekdays = [self.frequencyWeekdays componentsSeparatedByString:@","];
+    BOOL nextRunDateSet = NO;
+    
+    for (NSInteger addDay = 1; addDay < 8; addDay++) {
+        nextRunDate = [[NSDate date] dateByAddingDays:addDay];
+        
+        NSInteger weekday = nextRunDate.weekday;
+        weekday -= 2;
+        if (weekday < 0) weekday += 7;
+        
+        if (weekday < frequencyWeekdays.count && [frequencyWeekdays[weekday] isEqualToString:@"1"]) {
+            nextRunDateSet = YES;
+            break;
+        }
+    }
+    
+    if (nextRunDateSet) return nextRunDate;
+    return [[NSDate date] dateByAddingDays:8];
+}
+
+- (void)refreshNextRun {
+    if ([self.program.weekdays isEqualToString:@"D"]) ((Program4*)self.program).nextRun = self.nextRunDateForDailyFrequency;
+    else if ([self.program.weekdays isEqualToString:@"ODD"]) ((Program4*)self.program).nextRun = self.nextRunDateForOddDaysFrequency;
+    else if ([self.program.weekdays isEqualToString:@"EVD"]) ((Program4*)self.program).nextRun = self.nextRunDateForEvenDaysFrequency;
+    else if ([self.program.weekdays containsString:@","]) ((Program4*)self.program).nextRun = self.nextRunDateForSelectedDaysFrequency;
 }
 
 #pragma mark - CCTBackButtonActionHelper delegate

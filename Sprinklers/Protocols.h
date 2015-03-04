@@ -38,6 +38,12 @@
 
 @end
 
+@protocol DatePickerDelegate <NSObject>
+
+- (void)datePickerVCWillDissapear:(id)datePicker;
+
+@end
+
 @class PickerVC;
 
 @protocol PickerVCDelegate <NSObject>

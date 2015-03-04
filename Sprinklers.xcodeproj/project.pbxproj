@@ -68,6 +68,8 @@
 		969051CF1A6ACDF60029304D /* WaterLogDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051CE1A6ACDF60029304D /* WaterLogDay.m */; };
 		969051D21A6AECE30029304D /* GraphDataSourceProgramRunTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */; };
 		969051D51A6AFB9E0029304D /* GraphTimeIntervalPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 969051D41A6AFB9E0029304D /* GraphTimeIntervalPart.m */; };
+		969E63511AA75D2C004970CF /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969E634F1AA75D2C004970CF /* DatePickerVC.m */; };
+		969E63521AA75D2C004970CF /* DatePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969E63501AA75D2C004970CF /* DatePickerVC.xib */; };
 		969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969EB3B819DAD11A00D10887 /* CloudServerVC.m */; };
 		969EB3BB19DAD11A00D10887 /* CloudServerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969EB3B919DAD11A00D10887 /* CloudServerVC.xib */; };
 		96AD34E71A1CB20D0019453C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD34E51A1CB20D0019453C /* CoreLocation.framework */; };
@@ -305,8 +307,8 @@
 		AF789763185C955F00449381 /* WaterZoneListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AF789762185C955F00449381 /* WaterZoneListCell.m */; };
 		AF7A72B118C491F500596148 /* SettingsDate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B018C491F500596148 /* SettingsDate.m */; };
 		AF7A72B418C492E800596148 /* SettingsPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B318C492E800596148 /* SettingsPassword.m */; };
-		AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B618C4AA8500596148 /* DatePickerVC.m */; };
-		AF7A72B918C4AAA300596148 /* DatePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF7A72B818C4AAA300596148 /* DatePickerVC.xib */; };
+		AF7A72B718C4AA8500596148 /* SettingsDatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72B618C4AA8500596148 /* SettingsDatePickerVC.m */; };
+		AF7A72B918C4AAA300596148 /* SettingsDatePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF7A72B818C4AAA300596148 /* SettingsDatePickerVC.xib */; };
 		AF7A72BB18C4C3B800596148 /* SettingsTimePickerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */; };
 		AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */; };
 		AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7AC9BD184E3D200047BD9E /* ServerProxy.m */; };
@@ -595,6 +597,9 @@
 		969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceProgramRunTime.m; path = ViewController/Graphs/GraphDataSourceProgramRunTime.m; sourceTree = "<group>"; };
 		969051D31A6AFB9E0029304D /* GraphTimeIntervalPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphTimeIntervalPart.h; path = ViewController/Graphs/GraphTimeIntervalPart.h; sourceTree = "<group>"; };
 		969051D41A6AFB9E0029304D /* GraphTimeIntervalPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphTimeIntervalPart.m; path = ViewController/Graphs/GraphTimeIntervalPart.m; sourceTree = "<group>"; };
+		969E634E1AA75D2C004970CF /* DatePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePickerVC.h; path = ViewController/DatePickerVC.h; sourceTree = "<group>"; };
+		969E634F1AA75D2C004970CF /* DatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerVC.m; path = ViewController/DatePickerVC.m; sourceTree = "<group>"; };
+		969E63501AA75D2C004970CF /* DatePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatePickerVC.xib; path = ViewController/DatePickerVC.xib; sourceTree = "<group>"; };
 		969EB3B719DAD11A00D10887 /* CloudServerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudServerVC.h; path = ViewController/CloudServerVC.h; sourceTree = "<group>"; };
 		969EB3B819DAD11A00D10887 /* CloudServerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudServerVC.m; path = ViewController/CloudServerVC.m; sourceTree = "<group>"; };
 		969EB3B919DAD11A00D10887 /* CloudServerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CloudServerVC.xib; path = ViewController/CloudServerVC.xib; sourceTree = "<group>"; };
@@ -913,9 +918,9 @@
 		AF7A72B018C491F500596148 /* SettingsDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsDate.m; path = "Communication/Response objects/SettingsDate.m"; sourceTree = "<group>"; };
 		AF7A72B218C492E800596148 /* SettingsPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsPassword.h; path = "Communication/Response objects/SettingsPassword.h"; sourceTree = "<group>"; };
 		AF7A72B318C492E800596148 /* SettingsPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsPassword.m; path = "Communication/Response objects/SettingsPassword.m"; sourceTree = "<group>"; };
-		AF7A72B518C4AA8500596148 /* DatePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePickerVC.h; path = ViewController/DatePickerVC.h; sourceTree = "<group>"; };
-		AF7A72B618C4AA8500596148 /* DatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerVC.m; path = ViewController/DatePickerVC.m; sourceTree = "<group>"; };
-		AF7A72B818C4AAA300596148 /* DatePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatePickerVC.xib; path = ViewController/DatePickerVC.xib; sourceTree = "<group>"; };
+		AF7A72B518C4AA8500596148 /* SettingsDatePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsDatePickerVC.h; path = ViewController/SettingsDatePickerVC.h; sourceTree = "<group>"; };
+		AF7A72B618C4AA8500596148 /* SettingsDatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsDatePickerVC.m; path = ViewController/SettingsDatePickerVC.m; sourceTree = "<group>"; };
+		AF7A72B818C4AAA300596148 /* SettingsDatePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsDatePickerVC.xib; path = ViewController/SettingsDatePickerVC.xib; sourceTree = "<group>"; };
 		AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsTimePickerVC.xib; path = ViewController/SettingsTimePickerVC.xib; sourceTree = "<group>"; };
 		AF7A72BC18C4C3D300596148 /* SettingsTimePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsTimePickerVC.h; path = ViewController/SettingsTimePickerVC.h; sourceTree = "<group>"; };
 		AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsTimePickerVC.m; path = ViewController/SettingsTimePickerVC.m; sourceTree = "<group>"; };
@@ -2194,9 +2199,6 @@
 			children = (
 				96DAB8F51A27899D005974CC /* Graphs */,
 				3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */,
-				AF7A72B518C4AA8500596148 /* DatePickerVC.h */,
-				AF7A72B618C4AA8500596148 /* DatePickerVC.m */,
-				AF7A72B818C4AAA300596148 /* DatePickerVC.xib */,
 				3A4437ED188A7F1A004F9E11 /* PickerVC.h */,
 				3A4437EE188A7F1A004F9E11 /* PickerVC.m */,
 				3AC64A04192B39F10009061D /* PickerVC.xib */,
@@ -2233,12 +2235,18 @@
 				AF7A72BC18C4C3D300596148 /* SettingsTimePickerVC.h */,
 				AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */,
 				AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */,
+				AF7A72B518C4AA8500596148 /* SettingsDatePickerVC.h */,
+				AF7A72B618C4AA8500596148 /* SettingsDatePickerVC.m */,
+				AF7A72B818C4AAA300596148 /* SettingsDatePickerVC.xib */,
 				B1EF21141860497B00D9CE26 /* SettingsVC.h */,
 				B1EF21151860497B00D9CE26 /* SettingsVC.m */,
 				B1EF21161860497B00D9CE26 /* SettingsVC.xib */,
 				AFF3A06118BDE4C10060D0F6 /* TimePickerVC.h */,
 				AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */,
 				AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */,
+				969E634E1AA75D2C004970CF /* DatePickerVC.h */,
+				969E634F1AA75D2C004970CF /* DatePickerVC.m */,
+				969E63501AA75D2C004970CF /* DatePickerVC.xib */,
 				AF02F88018BFA99700579CAF /* UnitsVC.h */,
 				AF02F88118BFA99700579CAF /* UnitsVC.m */,
 				AF02F88318BFA9A500579CAF /* UnitsVC.xib */,
@@ -2397,7 +2405,7 @@
 				AF04995F18C601C300D73860 /* VegetationTypeVC.xib in Resources */,
 				B1213EB918608FF6009D97F4 /* DevicesCellType2.xib in Resources */,
 				B1EF212D186049C900D9CE26 /* StatsTestLevel1VC.xib in Resources */,
-				AF7A72B918C4AAA300596148 /* DatePickerVC.xib in Resources */,
+				AF7A72B918C4AAA300596148 /* SettingsDatePickerVC.xib in Resources */,
 				96CB94081A38AFAD00F3691F /* sn_small_white.png in Resources */,
 				AF0EFF581861AE7F007BF852 /* HomeDataSourceCell.xib in Resources */,
 				AFE894D51A356538007FC7EB /* icon_wi-fi-locked.png in Resources */,
@@ -2439,6 +2447,7 @@
 				AF4826731990DC9500D80B87 /* hi_tsra.png in Resources */,
 				AFC5CEE518893A5B005191DE /* icon_waternow@2x.png in Resources */,
 				B1EF21101860493C00D9CE26 /* LoginVC.xib in Resources */,
+				969E63521AA75D2C004970CF /* DatePickerVC.xib in Resources */,
 				AF4826681990DC9500D80B87 /* blizzard.png in Resources */,
 				96E70AF61A7BC34200A07D94 /* ZoneAdvancedVC.xib in Resources */,
 				B1213EA81860796A009D97F4 /* nav_menu_icon@2x.png in Resources */,
@@ -2596,7 +2605,7 @@
 			files = (
 				964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */,
 				96F0F3581A3729CB0056D167 /* GraphIconsBarDescriptor.m in Sources */,
-				AF7A72B718C4AA8500596148 /* DatePickerVC.m in Sources */,
+				AF7A72B718C4AA8500596148 /* SettingsDatePickerVC.m in Sources */,
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
 				96CD40F81A8616E600CD7E90 /* GraphDataFormatterCell4.m in Sources */,
 				AF51E4181A190DA500A7A6A5 /* TRPickerInputView.m in Sources */,
@@ -2650,6 +2659,7 @@
 				AFFDCF37199BA82900EAC3D5 /* WeatherData4.m in Sources */,
 				B1DF327716A6AA5100A1BF38 /* AsyncSocket.m in Sources */,
 				968023DF1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m in Sources */,
+				969E63511AA75D2C004970CF /* DatePickerVC.m in Sources */,
 				AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */,
 				B1DF327816A6AA5100A1BF38 /* AsyncUdpSocket.m in Sources */,
 				AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */,

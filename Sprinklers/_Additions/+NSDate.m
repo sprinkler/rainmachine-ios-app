@@ -381,6 +381,15 @@ static NSDateFormatter* formatter;
     return sharedDateTimeFormatterAPI4;
 }
 
++ (NSDateFormatter*)sharedReverseDateFormatterAPI4 {
+    NSDateFormatter *sharedReverseDateFormatterAPI4 = nil;
+    if (!sharedReverseDateFormatterAPI4) {
+        sharedReverseDateFormatterAPI4 = [NSDateFormatter new];
+        sharedReverseDateFormatterAPI4.dateFormat = @"MMM dd, yyyy";
+    }
+    return sharedReverseDateFormatterAPI4;
+}
+
 -(NSDate*)startOfDay:(NSDate*)date {
   NSCalendar* cal = [NSCalendar currentCalendar];
   NSDateComponents* dateComp = [cal components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:date];
