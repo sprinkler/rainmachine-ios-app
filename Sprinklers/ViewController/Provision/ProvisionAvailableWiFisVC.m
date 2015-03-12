@@ -105,9 +105,7 @@ const float kTimeout = 6;
 
     [self setWizardNavBarForVC:self];
 
-    if (!self.isPartOfWizard) {
-        self.messageLabel.hidden = YES;
-    }
+    self.messageLabel.hidden = YES;
     
     self.startDate = [NSDate date];
     
@@ -384,6 +382,7 @@ const float kTimeout = 6;
 //            }
             self.messageLabel.hidden = YES;
             [self showPressAButtonUI:YES];
+            self.sprinkler = nil;
         } else {
             NSString *address = self.sprinkler.url;
             NSString *port = [Utils getPort:address];
@@ -556,11 +555,15 @@ const float kTimeout = 6;
     }
     
     if (self.isPartOfWizard) {
-        self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart) || (self.hud != nil) || (self.wifiRebootHud != nil);
-        
-        if (self.timedOut) {
-            self.messageLabel.hidden = NO;
+        if (!self.sprinkler) {
             [self showPressAButtonUI:NO];
+            self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart) || (self.hud != nil) || (self.wifiRebootHud != nil);
+            
+            if (self.timedOut) {
+                self.messageLabel.hidden = NO;
+            }
+        } else {
+            self.messageLabel.hidden = YES;
         }
     } else {
         self.messageLabel.hidden = YES;
@@ -758,6 +761,7 @@ const float kTimeout = 6;
 - (void)shouldStartBroadcastForceUIRefresh:(BOOL)forceUIRefresh
 {
     //    [self shouldStopBroadcast];
+    self.startDate = [NSDate date];
     [[ServiceManager current] startBroadcastForSprinklers:YES];
 }
 
