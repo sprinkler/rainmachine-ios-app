@@ -19,8 +19,8 @@ NSString *const kDebugCloudDevicesDiscoveryInterval = @"DebugCloudDevicesDiscove
 NSString *const kDebugDeviceGreyOutRetryCount = @"DebugDeviceGreyOutRetryCount";
 
 NSString *const kCloudProxyFinderURLKey = @"CloudProxyFinderURLKey";
-NSString *const kCloudProxyFinderStagingURL = @"https://54.186.224.58:9000";
-NSString *const kCloudProxyFinderURL = @"https://54.72.36.178:9000";
+NSString *const kCloudProxyFinderStagingURL = @"https://proxy-finder.rainmachine.com:9000";
+NSString *const kCloudProxyFinderURL = @"https://dev.proxy-finder.rainmachine.com:9000";
 NSString *const kCloudProxyFinderStagingName = @"Staging";
 NSString *const kCloudProxyFinderName = @"Dev";
 
