@@ -104,8 +104,8 @@ static ServiceManager *current = nil;
     if (![receiveUdpSocket bindToPort:listenPort error:&udpError]) {
         bool socketBound = NO;
         for(int i = 0; i < burstBroadcasts; i++) {
+            [NSThread sleepForTimeInterval:1];
             if ([receiveUdpSocket bindToPort:listenPort error:&udpError]) {
-                [NSThread sleepForTimeInterval:1];
                 socketBound = YES;
                 break;
             }
