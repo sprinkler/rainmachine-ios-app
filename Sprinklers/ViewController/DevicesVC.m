@@ -60,6 +60,7 @@
 @property (nonatomic, weak) IBOutlet UITextField *debugTextField;
 @property (strong, nonatomic) NSMutableArray *cloudServers;
 @property (strong, nonatomic) NSMutableArray *cloudServerNames;
+@property (strong, nonatomic) NSMutableArray *cloudEmailValidatorServers;
 @property (assign, nonatomic) NSUInteger selectedCloudServerIndex;
 
 @property (assign, nonatomic) BOOL forceUserRefreshActivityIndicator;
@@ -75,7 +76,8 @@
 #pragma mark - Init
 
 + (void)initialize {
-    NSDictionary *defaults = @{kCloudProxyFinderURLKey : kCloudProxyFinderStagingURL};
+    NSDictionary *defaults = @{kCloudProxyFinderURLKey : kCloudProxyFinderStagingURL,
+                               kCloudEmailValidatorURLKey : kCloudEmailValidatorStagingURL};
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
@@ -139,7 +141,10 @@
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kDeviceGreyOutRetryCount] forKey:kDebugDeviceGreyOutRetryCount];
     }
     if (![[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey]) {
-        [[NSUserDefaults standardUserDefaults] setObject:kCloudProxyFinderURL forKey:kCloudProxyFinderURLKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kCloudProxyFinderStagingURL forKey:kCloudProxyFinderURLKey];
+    }
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:kCloudEmailValidatorURLKey]) {
+        [[NSUserDefaults standardUserDefaults] setObject:kCloudEmailValidatorStagingURL forKey:kCloudEmailValidatorURLKey];
     }
 
     self.cloudServers = [NSMutableArray new];
@@ -149,6 +154,10 @@
     self.cloudServerNames = [NSMutableArray new];
     [self.cloudServerNames addObject:kCloudProxyFinderStagingName];
     [self.cloudServerNames addObject:kCloudProxyFinderName];
+    
+    self.cloudEmailValidatorServers = [NSMutableArray new];
+    [self.cloudEmailValidatorServers addObject:kCloudEmailValidatorStagingURL];
+    [self.cloudEmailValidatorServers addObject:kCloudEmailValidatorURL];
 
     NSString *selectedServer = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
     selectedServer = [self fixSelectedServer:selectedServer];
@@ -887,6 +896,7 @@
                 selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
                 
                 [[NSUserDefaults standardUserDefaults] setObject:self.cloudServers[self.selectedCloudServerIndex] forKey:kCloudProxyFinderURLKey];
+                [[NSUserDefaults standardUserDefaults] setObject:self.cloudEmailValidatorServers[self.selectedCloudServerIndex] forKey:kCloudEmailValidatorURLKey];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 if (oldIndexPath != newIndexPath) {

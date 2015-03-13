@@ -24,6 +24,10 @@ NSString *const kCloudProxyFinderURL = @"https://dev.proxy-finder.rainmachine.co
 NSString *const kCloudProxyFinderStagingName = @"Staging";
 NSString *const kCloudProxyFinderName = @"Dev";
 
+NSString *const kCloudEmailValidatorURLKey = @"CloudEmailValidatorURLKey";
+NSString *const kCloudEmailValidatorStagingURL = @"https://validator.rainmachine.com:8997";
+NSString *const kCloudEmailValidatorURL = @"https://dev.validator.rainmachine.com:8010";
+
 NSString* const kSprinklerKeychain_CookieDictionaryStorageKey = @"SprinklerKeychain_CookieDictionaryStorageKey";
 NSString* const kSprinklerKeychain_CookiesKey = @"SprinklerKeychain_CookiesKey";
 NSString* const kSprinklerKeychain_isSessionOnly = @"SprinklerKeychain_isSessionOnly";

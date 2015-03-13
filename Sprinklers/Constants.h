@@ -35,6 +35,10 @@ extern NSString *const kCloudProxyFinderURL;
 extern NSString *const kCloudProxyFinderStagingName;
 extern NSString *const kCloudProxyFinderName;
 
+extern NSString *const kCloudEmailValidatorURLKey;
+extern NSString *const kCloudEmailValidatorStagingURL;
+extern NSString *const kCloudEmailValidatorURL;
+
 extern NSString* const kSprinklerKeychain_CookieDictionaryStorageKey;
 extern NSString* const kSprinklerKeychain_CookiesKey;
 extern NSString* const kSprinklerKeychain_isSessionOnly;

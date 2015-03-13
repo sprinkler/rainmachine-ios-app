@@ -9,6 +9,7 @@
 #import "RemoteAccessVC.h"
 #import "GlobalsManager.h"
 #import "ServerProxy.h"
+#import "Sprinkler.h"
 #import "CloudSettings.h"
 #import "Additions.h"
 #import "Utils.h"
@@ -24,13 +25,18 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) MBProgressHUD *hud;
 
+@property (nonatomic, strong) NSString *currentPendingEmail;
+@property (nonatomic, assign) BOOL currentRemoteAccessEnabled;
+
 @property (nonatomic, strong) ServerProxy *enableRemoteAccessServerProxy;
 @property (nonatomic, strong) ServerProxy *saveCloudEmailServerProxy;
 @property (nonatomic, strong) ServerProxy *refreshCloudSettingsServerProxy;
+@property (nonatomic, strong) ServerProxy *emailValidatorServerProxy;
 
 - (void)refreshProgressHUD;
 - (void)enableRemoteAccess:(BOOL)enable;
 - (void)saveCloudEmail:(NSString*)email;
+- (void)validateEmail:(NSString*)email showProgress:(BOOL)showProgress;
 - (void)refreshCloudSettings;
 
 - (IBAction)onEnableCloudEmail:(UISwitch*)enableCloudEmailSwitch;
@@ -56,7 +62,7 @@
 #pragma mark - Helper methods
 
 - (void)refreshProgressHUD {
-    BOOL shouldDisplayProgressHUD = (self.enableRemoteAccessServerProxy || self.saveCloudEmailServerProxy || self.refreshCloudSettingsServerProxy);
+    BOOL shouldDisplayProgressHUD = (self.enableRemoteAccessServerProxy || self.saveCloudEmailServerProxy || self.refreshCloudSettingsServerProxy || self.emailValidatorServerProxy);
     if (shouldDisplayProgressHUD && !self.hud) self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     else if (!shouldDisplayProgressHUD && self.hud) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -65,15 +71,33 @@
 }
 
 - (void)enableRemoteAccess:(BOOL)enable {
+    self.currentRemoteAccessEnabled = enable;
     self.enableRemoteAccessServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     [self.enableRemoteAccessServerProxy enableRemoteAccess:enable];
     [self refreshProgressHUD];
 }
 
 - (void)saveCloudEmail:(NSString*)email {
+    self.currentPendingEmail = email;
     self.saveCloudEmailServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     [self.saveCloudEmailServerProxy saveCloudEmail:email];
     [self refreshProgressHUD];
+}
+
+- (void)validateEmail:(NSString*)email showProgress:(BOOL)showProgress; {
+    Sprinkler *currentSprinkler = [Utils currentSprinkler];
+    
+    NSString *emailValidatorURL = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudEmailValidatorURLKey];
+    ServerProxy *emailValidatorServerProxy = [[ServerProxy alloc] initWithServerURL:emailValidatorURL delegate:self jsonRequest:YES];
+    
+    [emailValidatorServerProxy validateEmail:email
+                                  deviceName:currentSprinkler.name
+                                         mac:currentSprinkler.mac];
+    
+    if (showProgress) {
+        self.emailValidatorServerProxy = emailValidatorServerProxy;
+        [self refreshProgressHUD];
+    }
 }
 
 - (void)refreshCloudSettings {
@@ -144,7 +168,7 @@
         [self onEnableCloudEmail:enableCloudEmailSwitch];
     }
     else if (indexPath.section == 1) {
-        // TODO: Resend confirmation email
+        [self validateEmail:[GlobalsManager current].cloudSettings.pendingEmail showProgress:YES];
     }
 }
 
@@ -201,20 +225,38 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.enableRemoteAccessServerProxy) {
+        [GlobalsManager current].cloudSettings.enabled = self.currentRemoteAccessEnabled;
+        
         self.enableRemoteAccessServerProxy = nil;
         [self refreshCloudSettings];
     }
     else if (serverProxy == self.saveCloudEmailServerProxy) {
+        [GlobalsManager current].cloudSettings.pendingEmail = self.currentPendingEmail;
+        
+        Sprinkler *currentSprinkler = [Utils currentSprinkler];
+        currentSprinkler.pendingEmail = self.currentPendingEmail;
+        
         self.saveCloudEmailServerProxy = nil;
+        
         [self enableRemoteAccess:YES];
+        [self validateEmail:self.currentPendingEmail showProgress:YES];
     }
     else if (serverProxy == self.refreshCloudSettingsServerProxy) {
         [GlobalsManager current].cloudSettings = (CloudSettings*)data;
         self.refreshCloudSettingsServerProxy = nil;
-        [self.tableView reloadData];
+    }
+    else if (serverProxy == self.emailValidatorServerProxy) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Successfully sent confirmation email"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        self.emailValidatorServerProxy = nil;
     }
     
     [self refreshProgressHUD];
+    if (!self.hud) [self.tableView reloadData];
 }
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
@@ -223,9 +265,18 @@
     if (serverProxy == self.enableRemoteAccessServerProxy) self.enableRemoteAccessServerProxy = nil;
     else if (serverProxy == self.saveCloudEmailServerProxy) self.saveCloudEmailServerProxy = nil;
     else if (serverProxy == self.refreshCloudSettingsServerProxy) self.refreshCloudSettingsServerProxy = nil;
+    else if (serverProxy == self.emailValidatorServerProxy) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Failure sending confirmation email"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        self.emailValidatorServerProxy = nil;
+    }
     
-    [self.tableView reloadData];
     [self refreshProgressHUD];
+    if (!self.hud) [self.tableView reloadData];
 }
 
 - (void)loggedOut {
