@@ -246,7 +246,7 @@
     }
     else if (indexPath.row == kRow_CPUUsage) {
         cell.textLabel.text = @"CPU usage";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"cpuUsage"] metric:nil];
+        cell.detailTextLabel.text = [self detailTextFromValue:@([[self.diagResponseDictionary valueForKey:@"cpuUsage"] intValue]) metric:@"%"];
     }
     else if (indexPath.row == kRow_Uptime) {
         cell.textLabel.text = @"Uptime";
