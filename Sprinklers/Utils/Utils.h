@@ -14,6 +14,7 @@
 @class Sprinkler;
 @class SettingsDate;
 @class WiFi;
+@class CloudSettings;
 
 @interface Utils : NSObject
 
@@ -81,6 +82,8 @@
 + (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword;
 
 + (BOOL)timeIs24HourFormat;
+
++ (NSString*)cloudEmailStatusForCloudSettings:(CloudSettings*)cloudSettings;
 
 @end
 

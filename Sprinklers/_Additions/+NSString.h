@@ -45,7 +45,7 @@
 
 + (NSString *)base64String:(NSString *)str;
 
-- (BOOL)isValidEmail:(NSString *)checkString;
+- (BOOL)isValidEmail;
 
 + (NSString*)formattedTime:(int)timeInSeconds usingOnlyDigits:(BOOL)usingOnlyDigits;
 

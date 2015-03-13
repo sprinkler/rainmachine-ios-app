@@ -31,6 +31,9 @@
 		96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */; };
 		96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */; };
 		96116DD71A6C34020017FB3F /* GraphScrollableCellEmpty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */; };
+		962C5E021AB30BEE00CFED4F /* RemoteAccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E001AB30BEE00CFED4F /* RemoteAccessVC.m */; };
+		962C5E031AB30BEE00CFED4F /* RemoteAccessVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962C5E011AB30BEE00CFED4F /* RemoteAccessVC.xib */; };
+		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
 		9637286C1A69A6C700BE7202 /* GraphScrollableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */; };
@@ -523,6 +526,7 @@
 		3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SetDelayVC-iPad.xib"; path = "ViewController/SetDelayVC-iPad.xib"; sourceTree = "<group>"; };
 		3AC64A04192B39F10009061D /* PickerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerVC.xib; path = ViewController/PickerVC.xib; sourceTree = "<group>"; };
 		3AC64A06192B56130009061D /* MappingModev1tov6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = MappingModev1tov6.xcmappingmodel; path = Model/MappingModev1tov6.xcmappingmodel; sourceTree = "<group>"; };
+		960049891AAE0DF2007D7193 /* Sprinklers 11 (pendingEmail).xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sprinklers 11 (pendingEmail).xcdatamodel"; sourceTree = "<group>"; };
 		960374F519D5FB3C009CB68A /* RestrictionsSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsSwitchCell.h; path = Cells/RestrictionsSwitchCell.h; sourceTree = "<group>"; };
 		960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsSwitchCell.m; path = Cells/RestrictionsSwitchCell.m; sourceTree = "<group>"; };
 		960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsSwitchCell.xib; path = Cells/RestrictionsSwitchCell.xib; sourceTree = "<group>"; };
@@ -530,6 +534,11 @@
 		96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellWeek.xib; path = ViewController/Graphs/GraphScrollableCellWeek.xib; sourceTree = "<group>"; };
 		96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellYear.xib; path = ViewController/Graphs/GraphScrollableCellYear.xib; sourceTree = "<group>"; };
 		96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellEmpty.xib; path = ViewController/Graphs/GraphScrollableCellEmpty.xib; sourceTree = "<group>"; };
+		962C5DFF1AB30BEE00CFED4F /* RemoteAccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteAccessVC.h; path = ViewController/RemoteAccessVC.h; sourceTree = "<group>"; };
+		962C5E001AB30BEE00CFED4F /* RemoteAccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteAccessVC.m; path = ViewController/RemoteAccessVC.m; sourceTree = "<group>"; };
+		962C5E011AB30BEE00CFED4F /* RemoteAccessVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteAccessVC.xib; path = ViewController/RemoteAccessVC.xib; sourceTree = "<group>"; };
+		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
+		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
 		962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashboardGraphDetailsVC.m; path = ViewController/DashboardGraphDetailsVC.m; sourceTree = "<group>"; };
 		962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DashboardGraphDetailsVC.xib; path = ViewController/DashboardGraphDetailsVC.xib; sourceTree = "<group>"; };
@@ -1922,6 +1931,8 @@
 				969051CE1A6ACDF60029304D /* WaterLogDay.m */,
 				96F48FE91AA053B400DFA578 /* Parser.h */,
 				96F48FEA1AA053B400DFA578 /* Parser.m */,
+				962C5E041AB3150200CFED4F /* CloudSettings.h */,
+				962C5E051AB3150200CFED4F /* CloudSettings.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2282,6 +2293,9 @@
 				96F48FFB1AA0819600DFA578 /* DataSourcesParserParameterVC.h */,
 				96F48FFC1AA0819600DFA578 /* DataSourcesParserParameterVC.m */,
 				96F48FFD1AA0819600DFA578 /* DataSourcesParserParameterVC.xib */,
+				962C5DFF1AB30BEE00CFED4F /* RemoteAccessVC.h */,
+				962C5E001AB30BEE00CFED4F /* RemoteAccessVC.m */,
+				962C5E011AB30BEE00CFED4F /* RemoteAccessVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2412,6 +2426,7 @@
 				96CD40EF1A8605D400CD7E90 /* GraphDataFormatterCell2.xib in Resources */,
 				AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */,
 				AFE894D01A356538007FC7EB /* icon_wi-fi-1-bar@2x.png in Resources */,
+				962C5E031AB30BEE00CFED4F /* RemoteAccessVC.xib in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
 				96CB94071A38AFAD00F3691F /* smoke_small_white.png in Resources */,
 				964ADD2A1A1E7B82008281A8 /* FieldCapacityCell.xib in Resources */,
@@ -2625,6 +2640,7 @@
 				AFB6942F1901A5A20067CD7F /* DBZone.m in Sources */,
 				AFA9080F19AB702D008769A0 /* APIVersion4.m in Sources */,
 				967C004519D983870071B4CB /* ProgramCellType6.m in Sources */,
+				962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */,
 				AF61117819C57CDC008AA62B /* Frequency4.m in Sources */,
 				96DAB9161A27BBA5005974CC /* RainSensitivityGraphMonthView.m in Sources */,
 				AFB6943B190289670067CD7F /* WateringRestrictions.m in Sources */,
@@ -2760,6 +2776,7 @@
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
+				962C5E021AB30BEE00CFED4F /* RemoteAccessVC.m in Sources */,
 				AF085CAD1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */,
@@ -2969,6 +2986,7 @@
 		AFB94C7B1A6CE25200AF5D86 /* Sprinklers.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				960049891AAE0DF2007D7193 /* Sprinklers 11 (pendingEmail).xcdatamodel */,
 				AFB94C7C1A6CE25200AF5D86 /* Sprinklers 10 (APFlag).xcdatamodel */,
 				AFB94C7D1A6CE25200AF5D86 /* Sprinklers 2.xcdatamodel */,
 				AFB94C7E1A6CE25200AF5D86 /* Sprinklers 3.xcdatamodel */,
@@ -2980,7 +2998,7 @@
 				AFB94C841A6CE25200AF5D86 /* Sprinklers 9 (MAC).xcdatamodel */,
 				AFB94C851A6CE25200AF5D86 /* Sprinklers.xcdatamodel */,
 			);
-			currentVersion = AFB94C7C1A6CE25200AF5D86 /* Sprinklers 10 (APFlag).xcdatamodel */;
+			currentVersion = 960049891AAE0DF2007D7193 /* Sprinklers 11 (pendingEmail).xcdatamodel */;
 			name = Sprinklers.xcdatamodeld;
 			path = Model/Sprinklers.xcdatamodeld;
 			sourceTree = "<group>";

@@ -73,6 +73,7 @@ typedef enum {
 @class HourlyRestriction;
 @class Provision;
 @class Parser;
+@class CloudSettings;
 
 @interface ServerProxy : NSObject
 
@@ -158,7 +159,13 @@ typedef enum {
 - (void)requestWateringLogDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
 - (void)requestWateringLogSimulatedDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
 
+- (void)validateEmail:(NSString*)email deviceName:(NSString*)deviceName mac:(NSString*)mac;
 - (void)requestCloudSprinklers:(NSDictionary*)accounts;
+- (void)requestCloudSettings;
+- (void)saveCloudSettings:(CloudSettings*)cloudSettings;
+- (void)enableRemoteAccess:(BOOL)enable;
+- (void)saveCloudEmail:(NSString*)email;
+
 - (void)provisionReset;
 
 - (void)requestParsers;

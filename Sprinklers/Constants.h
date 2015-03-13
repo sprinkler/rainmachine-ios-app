@@ -20,6 +20,8 @@
 extern NSString *const kGoogleMapsAPIKey;
 extern NSString *const kGooglePlacesAPIServerKey;
 
+extern NSString *const kSprinklerAPIKey;
+
 extern NSString *const kDebugNewAPIVersion;
 extern NSString *const kDebugLocalDevicesDiscoveryInterval;
 extern NSString *const kDebugCloudDevicesDiscoveryInterval;

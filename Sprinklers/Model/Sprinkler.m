@@ -14,6 +14,7 @@
 
 @dynamic address;
 @dynamic email;
+@dynamic pendingEmail;
 @dynamic isDiscovered;
 @dynamic isLocalDevice;
 @dynamic lastError;

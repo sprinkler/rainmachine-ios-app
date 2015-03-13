@@ -49,6 +49,7 @@
 #import "WaterLogDay.h"
 #import "WiFi.h"
 #import "Parser.h"
+#import "CloudSettings.h"
 
 static int savedServerAPIMainVersion = 0;
 static int savedServerAPISubVersion = 0;
@@ -1842,6 +1843,25 @@ static int serverAPIMinorSubVersion = -1;
 
 #pragma mark - Cloud
 
+- (void)validateEmail:(NSString*)email deviceName:(NSString*)deviceName mac:(NSString*)mac
+{
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    if (email) params[@"email"] = email;
+    if (deviceName) params[@"deviceName"] = deviceName;
+    if (mac) params[@"mac"] = mac;
+    params[@"apiKey"] = kSprinklerAPIKey;
+    
+    [self.manager POST:@"validate-email" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:@"validate-email-cloud"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
 - (void)requestCloudSprinklers:(NSDictionary*)accounts
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:[NSMutableArray array] forKey:@"credentials"];
@@ -1853,6 +1873,55 @@ static int serverAPIMinorSubVersion = -1;
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:@"get-sprinklers-cloud"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)requestCloudSettings {
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"api/4/provision/cloud"] parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                      CloudSettings *cloudSettings = [CloudSettings createFromJson:responseObject];
+                      [self.delegate serverResponseReceived:cloudSettings serverProxy:self userInfo:nil];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self handleError:error fromOperation:operation userInfo:nil];
+              }];
+}
+
+- (void)saveCloudSettings:(CloudSettings*)cloudSettings {
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision/cloud"] parameters:cloudSettings.toDictionary
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSON:responseObject toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)enableRemoteAccess:(BOOL)enable {
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision/cloud/enable"] parameters:@{@"enable" : @(enable)}
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSON:responseObject toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
+- (void)saveCloudEmail:(NSString*)email {
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision/cloud/email"] parameters:@{@"email" : email}
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSON:responseObject toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
                    }
                }
                failure:^(AFHTTPRequestOperation *operation, NSError *error) {

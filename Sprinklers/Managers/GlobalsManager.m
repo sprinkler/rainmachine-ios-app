@@ -32,6 +32,9 @@ static GlobalsManager *current = nil;
 {
     ServerProxy *getProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     [getProvisionServerProxy requestProvision];
+    
+    ServerProxy *requestCloudSettingsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    [requestCloudSettingsServerProxy requestCloudSettings];
 }
 
 #pragma mark - ProxyService delegate
@@ -45,6 +48,9 @@ static GlobalsManager *current = nil;
 {
     if ([data isKindOfClass:[Provision class]]) {
         self.provision = (Provision*)data;
+    }
+    else if ([data isKindOfClass:[CloudSettings class]]) {
+        self.cloudSettings = (CloudSettings*)data;
     }
 }
 

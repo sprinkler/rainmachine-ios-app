@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSString * address;
 @property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSString * pendingEmail;
 @property (nonatomic, retain) NSNumber * isDiscovered;
 @property (nonatomic, retain) NSNumber * isLocalDevice;
 @property (nonatomic, retain) NSString * lastError;

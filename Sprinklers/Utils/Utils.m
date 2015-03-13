@@ -22,6 +22,7 @@
 #import "APIVersion4.h"
 #import "ServerProxy.h"
 #import "WiFi.h"
+#import "CloudSettings.h"
 
 @implementation Utils
 
@@ -802,6 +803,12 @@
     NSRange pmRange = [dateString rangeOfString:[formatter PMSymbol]];
     BOOL is24Hour = amRange.location == NSNotFound && pmRange.location == NSNotFound;
     return is24Hour;
+}
+
++ (NSString*)cloudEmailStatusForCloudSettings:(CloudSettings*)cloudSettings {
+    if (cloudSettings.pendingEmail.length) return [NSString stringWithFormat:@"%@ (Pending)",cloudSettings.pendingEmail];
+    if (cloudSettings.email.length) return cloudSettings.email;
+    return @"Not set";
 }
 
 #pragma mark - General

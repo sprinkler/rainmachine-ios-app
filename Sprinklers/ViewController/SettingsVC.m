@@ -35,6 +35,8 @@
 #import "AppDelegate.h"
 #import "DevicesVC.h"
 #import "DataSourcesVC.h"
+#import "RemoteAccessVC.h"
+#import "CloudSettings.h"
 
 NSString *kSettingsPrograms           = @"Programs";
 NSString *kSettingsZones              = @"Zones";
@@ -201,6 +203,8 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
             cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format seconds:YES forceOnlyTimePart:YES forceOnlyDatePart:NO] stringFromDate:date];
         } else if ([cell.textLabel.text isEqualToString:kSettingsUnits]) {
             cell.detailTextLabel.text = [Utils sprinklerTemperatureUnits];
+        } else if ([cell.textLabel.text isEqualToString:kSettingsRemoteAccess]) {
+            cell.detailTextLabel.text = [Utils cloudEmailStatusForCloudSettings:[GlobalsManager current].cloudSettings];
         } else {
             cell.detailTextLabel.text = nil;
         }
@@ -246,10 +250,25 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 
     // Section 3: Device Settings
     
+    else if ([settingsRow isEqualToString:kSettingsNetworkSettings]) {
+        ProvisionAvailableWiFisVC *availableWiFiVC = [[ProvisionAvailableWiFisVC alloc] init];
+        availableWiFiVC.inputSprinklerMAC = [Utils currentSprinkler].sprinklerId;
+        [self.navigationController pushViewController:availableWiFiVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsDataSources]) {
+        DataSourcesVC *dataSourcesVC = [[DataSourcesVC alloc] init];
+        dataSourcesVC.parent = self;
+        [self.navigationController pushViewController:dataSourcesVC animated:YES];
+    }
     else if ([settingsRow isEqualToString:kSettingsRainSensitivity]) {
         RainSensitivityVC *rainSensitivityVC = [[RainSensitivityVC alloc] init];
         rainSensitivityVC.parent = self;
         [self.navigationController pushViewController:rainSensitivityVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsLocationSettings]) {
+        ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
+        locationSetupVC.dbSprinkler = [Utils currentSprinkler];
+        [self.navigationController pushViewController:locationSetupVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsUnits]) {
         UnitsVC *unitsVC = [[UnitsVC alloc] init];
@@ -266,17 +285,35 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         timePickerVC.parent = self;
         [self.navigationController pushViewController:timePickerVC animated:YES];
     }
-    else if ([settingsRow isEqualToString:kSettingsSecurity]) {
-        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
-        passwordVC.parent = self;
-        passwordVC.isSecurityScreen = YES;
-        [self.navigationController pushViewController:passwordVC animated:YES];
+    else if ([settingsRow isEqualToString:kSettingsTimeZone]) {
+        ProvisionTimezonesListVC *timezonesListVC = [[ProvisionTimezonesListVC alloc] init];
+        timezonesListVC.delegate = self;
+        timezonesListVC.isPartOfWizard = NO;
+        UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:timezonesListVC];
+        [self.navigationController presentViewController:navDevices animated:YES completion:nil];
     }
     else if ([settingsRow isEqualToString:kSettingsDeviceName]) {
         SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
         passwordVC.parent = self;
         passwordVC.isSecurityScreen = NO;
         [self.navigationController pushViewController:passwordVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsRemoteAccess]) {
+        RemoteAccessVC *remoteAccessVC = [[RemoteAccessVC alloc] init];
+        remoteAccessVC.parent = self;
+        [self.navigationController pushViewController:remoteAccessVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsSecurity]) {
+        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
+        passwordVC.parent = self;
+        passwordVC.isSecurityScreen = YES;
+        [self.navigationController pushViewController:passwordVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."
+                                                           delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset to Defaults", nil];
+        alertView.tag = kAlertView_DoYouWantToReset;
+        [alertView show];
     }
     else if ([settingsRow isEqualToString:kSettingsAbout]) {
         if ([ServerProxy usesAPI3]) {
@@ -287,33 +324,6 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
             settingsAboutVC.parent = self;
             [self.navigationController pushViewController:settingsAboutVC animated:YES];
         }
-    }
-    else if ([settingsRow isEqualToString:kSettingsNetworkSettings]) {
-        ProvisionAvailableWiFisVC *availableWiFiVC = [[ProvisionAvailableWiFisVC alloc] init];
-        availableWiFiVC.inputSprinklerMAC = [Utils currentSprinkler].sprinklerId;
-        [self.navigationController pushViewController:availableWiFiVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."
-                                                           delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset to Defaults", nil];
-        alertView.tag = kAlertView_DoYouWantToReset;
-        [alertView show];
-    }
-    else if ([settingsRow isEqualToString:kSettingsLocationSettings]) {
-        ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
-        locationSetupVC.dbSprinkler = [Utils currentSprinkler];
-        [self.navigationController pushViewController:locationSetupVC animated:YES];
-    } else if ([settingsRow isEqualToString:kSettingsTimeZone]) {
-        ProvisionTimezonesListVC *timezonesListVC = [[ProvisionTimezonesListVC alloc] init];
-        timezonesListVC.delegate = self;
-        timezonesListVC.isPartOfWizard = NO;
-        UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:timezonesListVC];
-        [self.navigationController presentViewController:navDevices animated:YES completion:nil];
-    }
-    else if ([settingsRow isEqualToString:kSettingsDataSources]) {
-        DataSourcesVC *dataSourcesVC = [[DataSourcesVC alloc] init];
-        dataSourcesVC.parent = self;
-        [self.navigationController pushViewController:dataSourcesVC animated:YES];
     }
 }
 
@@ -378,11 +388,18 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
             
             [alertView show];
         }
-    } else if ([data isKindOfClass:[Provision class]]) {
+    }
+    else if ([data isKindOfClass:[Provision class]]) {
         [GlobalsManager current].provision = (Provision*)data;
+        ServerProxy *requestCloudSettingsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        [requestCloudSettingsServerProxy requestCloudSettings];
+    }
+    else if ([data isKindOfClass:[CloudSettings class]]) {
+        [GlobalsManager current].cloudSettings = (CloudSettings*)data;
         ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         [dateTimeServerProxy requestSettingsDate];
-    } else if ([data isKindOfClass:[SettingsDate class]]) {
+    }
+    else if ([data isKindOfClass:[SettingsDate class]]) {
         self.settingsDate = data;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.tableView reloadData];
