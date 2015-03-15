@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UIPickerView *picker1;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker2;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topSpacePicker2;
 
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
@@ -94,14 +95,32 @@
     [self.parent setDelayVCOver:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     if ([[UIDevice currentDevice] isIpad])
         return;
     
-    float yCompressionValue = ((self.view.frame.size.height / 2.0) / 216) * 1.02;
-    _picker1.transform = CGAffineTransformMakeScale(1, yCompressionValue);
-    _picker2.transform = CGAffineTransformMakeScale(1, yCompressionValue);
+    float dyCompressionValue = (((self.view.frame.size.height - self.tabBarController.tabBar.frame.size.height) / 2.0) / 216);
+    
+    if (dyCompressionValue > 1) {
+        dyCompressionValue = 1;
+    }
+
+    float yCompressionValue = dyCompressionValue;// * 0.95;
+    
+    if (yCompressionValue != 1) {
+        _picker1.transform = CGAffineTransformMakeScale(1, yCompressionValue);
+        _picker2.transform = CGAffineTransformMakeScale(1, yCompressionValue);
+    }
+
+    self.topSpacePicker2.constant = _picker1.frame.size.height + 24;
 }
 
 #pragma mark - Picker delegate
