@@ -55,7 +55,7 @@
     
     self.title = @"Time";
     
-    self.timeFormat = [Utils timeIs24HourFormat] ? 0 : 1;
+    self.timeFormat = [Utils isTime24HourFormat] ? 0 : 1;
     [super refreshTimeFormatConstraint];
 }
 

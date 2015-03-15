@@ -316,6 +316,8 @@
     self.shouldRefreshContent = YES;
     
     getProgramCount++;
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -338,8 +340,6 @@
     [CCTBackButtonActionHelper sharedInstance].delegate = self;
     
     [self.rainDelayPoller scheduleNextPoll:0];
-    
-    [self refreshToolbarEdited];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -878,7 +878,7 @@
                 }
             }
             else if (indexPath.row == startTimeRow) {
-                NSNumber *time_format = ([Utils timeIs24HourFormat]) ? @24 : @12;
+                NSNumber *time_format = ([Utils isTime24HourFormat]) ? @24 : @12;
                 NSDateFormatter *formatter = [Utils sprinklerDateFormatterForTimeFormat:time_format seconds:NO forceOnlyTimePart:YES forceOnlyDatePart:NO];
                 NSString *startHourAndMinute = [formatter stringFromDate:_program.startTime];
                 cell.theTextLabel.text = @"START TIME";

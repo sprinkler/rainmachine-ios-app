@@ -103,6 +103,11 @@
     [self startHud:nil];
 }
 
+- (BOOL)isRefreshInProgress
+{
+    return (self.requestWateringRestrictionsServerProxy || self.requestHourlyRestrictionsServerProxy);
+}
+
 - (void)startHud:(NSString *)text {
     if (hud) return;
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -145,7 +150,7 @@
     NSString *endMinutes = (endTimeComponents.count > 1 ? endTimeComponents[1] : nil);
     if (endMinutes.length == 1) endMinutes = [@"0" stringByAppendingString:endMinutes];
 
-    if ([Utils timeIs24HourFormat]) {
+    if ([Utils isTime24HourFormat]) {
         return [NSString stringWithFormat:@"%@:%@ - %@:%@",startHour,startMinutes,endHour,endMinutes];
     }
     
@@ -247,10 +252,6 @@
         hud = nil;
     }
     
-    if (!self.requestWateringRestrictionsServerProxy && !self.requestHourlyRestrictionsServerProxy) {
-        self.firstRefreshInProgress = NO;
-    }
-    
     [_tableView reloadData];
 }
 
@@ -272,7 +273,7 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.firstRefreshInProgress) return 0;
+    if ([self isRefreshInProgress]) return 0;
     else return 5;
 }
 

@@ -46,7 +46,6 @@ typedef enum {
     int statisticalSectionIndex;
     int advancedSectionIndex;
     
-    int didEdit;
     int getZonesCount;
 }
 
@@ -101,16 +100,20 @@ typedef enum {
         self.showInitialUnsavedAlert = NO;
     }
     
-    didEdit = 0;
-    
     [self refreshToolbarEdited];
 
     self.serverProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
     getZonesCount = 0;
 }
 
+- (BOOL)didEdit
+{
+    return ![self.zoneCopyBeforeSave isEqualToZone:self.zone];
+}
+
 - (void)createTwoButtonToolbar
 {
+    BOOL didEdit = [self didEdit];
     UIBarButtonItem* buttonDiscard = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleBordered target:self action:@selector(onDiscard:)];
     UIBarButtonItem* buttonSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:
                                    UIBarButtonItemStyleDone target:self action:@selector(onSave:)];
@@ -134,17 +137,6 @@ typedef enum {
 - (void) refreshToolbarEdited
 {
     [self createTwoButtonToolbar];
-}
-
-- (void) onDidEdit
-{
-    didEdit ++;
-    
-    // don't recreate toolbar multiple times
-    if (didEdit > 1)
-        return;
-
-    [self refreshToolbarEdited];
 }
 
 - (void)willPushChildView
@@ -177,6 +169,8 @@ typedef enum {
     self.shouldRefreshContent = YES;
 
     getZonesCount++;
+    
+    [self refreshToolbarEdited];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -233,7 +227,7 @@ typedef enum {
 {
     self.zone.name = text;
     
-    [self onDidEdit];
+    [self refreshToolbarEdited];
 }
 
 - (void)showUnsavedChangesPopup:(id)notif
@@ -311,6 +305,8 @@ typedef enum {
 - (IBAction)onDiscard:(id)sender {
     self.zone = self.zoneCopyBeforeSave;
     [self.tableView reloadData];
+    
+    [self refreshToolbarEdited];
 }
 
 //- (IBAction)runNow:(id)sender {
@@ -332,7 +328,7 @@ typedef enum {
         _zone.historicalAverage = !_zone.historicalAverage;
     }
     
-    [self onDidEdit];
+    [self refreshToolbarEdited];
 }
 
 - (void)startHud:(NSString *)text {
@@ -365,8 +361,6 @@ typedef enum {
             }
             self.zoneCopyBeforeSave = self.zone;
             
-            // reset toolbar state
-            didEdit = 0;
             [self refreshToolbarEdited];
         }
     }
@@ -637,8 +631,6 @@ typedef enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    [self onDidEdit];
     
     if (_zone.masterValve == 0) {
         if (indexPath.section == masterValveSectionIndex) {

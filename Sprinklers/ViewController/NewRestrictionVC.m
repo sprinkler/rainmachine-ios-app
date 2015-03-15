@@ -225,7 +225,7 @@
     NSString *minutesString = [NSString stringWithFormat:@"%ld",(long)minutes];
     if (minutesString.length == 1) minutesString = [@"0" stringByAppendingString:minutesString];
     
-    if ([Utils timeIs24HourFormat]) {
+    if ([Utils isTime24HourFormat]) {
         return [NSString stringWithFormat:@"%@:%@",hourString,minutesString];
     }
     
@@ -459,7 +459,7 @@
     
     if (indexPath.section == 0) {
         TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
-        timePickerVC.timeFormat = [Utils timeIs24HourFormat] ? 0 : 1;
+        timePickerVC.timeFormat = [Utils isTime24HourFormat] ? 0 : 1;
         timePickerVC.parent = self;
         timePickerVC.time = (indexPath.row == 0 ? self.fromTime : self.toTime);
         [timePickerVC refreshTimeFormatConstraint];

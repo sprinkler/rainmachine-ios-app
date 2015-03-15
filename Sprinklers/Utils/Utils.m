@@ -799,7 +799,7 @@
     return @"Other";
 }
 
-+ (BOOL)timeIs24HourFormat
++ (BOOL)isTime24HourFormat
 {
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateStyle:NSDateFormatterNoStyle];

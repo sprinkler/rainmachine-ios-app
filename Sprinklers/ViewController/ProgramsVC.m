@@ -246,7 +246,7 @@
         cell.theTextLabel.text = program.name;
         cell.activeStateLabel.text = program.active ? @"" : @"Inactive";
 
-        NSNumber *time_format = ([Utils timeIs24HourFormat]) ? @24 : @12;
+        NSNumber *time_format = ([Utils isTime24HourFormat]) ? @24 : @12;
         NSDateFormatter *formatter = [Utils sprinklerDateFormatterForTimeFormat:time_format seconds:NO forceOnlyTimePart:YES forceOnlyDatePart:NO];
         
         NSString *startHourAndMinute =  [formatter stringFromDate:program.startTime];

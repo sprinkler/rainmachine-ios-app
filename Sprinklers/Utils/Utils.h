@@ -81,7 +81,7 @@
 + (NSString*)vegetationTypeToString:(int)vegetation;
 + (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword;
 
-+ (BOOL)timeIs24HourFormat;
++ (BOOL)isTime24HourFormat;
 
 + (NSString*)cloudEmailStatusForCloudSettings:(CloudSettings*)cloudSettings;
 
