@@ -182,9 +182,16 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
+    cell.userInteractionEnabled = YES;
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.detailTextLabel.textColor = [UIColor blackColor];
+
     if ([ServerProxy usesAPI4]) {
         if ([cell.textLabel.text isEqualToString:kSettingsNetworkSettings]) {
             cell.detailTextLabel.text = @"WiFi";
+            cell.userInteractionEnabled = NO;
+            cell.textLabel.textColor = [UIColor grayColor];
+            cell.detailTextLabel.textColor = [UIColor grayColor];
         } else if ([cell.textLabel.text isEqualToString:kSettingsDeviceName]) {
             cell.detailTextLabel.text = [Utils currentSprinkler].name;
         } else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
