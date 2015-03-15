@@ -245,7 +245,11 @@
         Program *program = self.programs[indexPath.row];
         cell.theTextLabel.text = program.name;
         cell.activeStateLabel.text = program.active ? @"" : @"Inactive";
-        NSString *startHourAndMinute =  [Utils formattedTime:program.startTime forTimeFormat:program.timeFormat];
+
+        NSNumber *time_format = ([Utils timeIs24HourFormat]) ? @24 : @12;
+        NSDateFormatter *formatter = [Utils sprinklerDateFormatterForTimeFormat:time_format seconds:NO forceOnlyTimePart:YES forceOnlyDatePart:NO];
+        
+        NSString *startHourAndMinute =  [formatter stringFromDate:program.startTime];
         if (!startHourAndMinute) {
             startHourAndMinute = @"";
         } else {

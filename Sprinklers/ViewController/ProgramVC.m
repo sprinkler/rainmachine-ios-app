@@ -878,7 +878,9 @@
                 }
             }
             else if (indexPath.row == startTimeRow) {
-                NSString *startHourAndMinute = [Utils formattedTime:_program.startTime forTimeFormat:_program.timeFormat];
+                NSNumber *time_format = ([Utils timeIs24HourFormat]) ? @24 : @12;
+                NSDateFormatter *formatter = [Utils sprinklerDateFormatterForTimeFormat:time_format seconds:NO forceOnlyTimePart:YES forceOnlyDatePart:NO];
+                NSString *startHourAndMinute = [formatter stringFromDate:_program.startTime];
                 cell.theTextLabel.text = @"START TIME";
                 cell.timeLabel.text = startHourAndMinute;
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

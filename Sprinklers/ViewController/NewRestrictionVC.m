@@ -224,7 +224,15 @@
     if (hourString.length == 1) hourString = [@"0" stringByAppendingString:hourString];
     NSString *minutesString = [NSString stringWithFormat:@"%ld",(long)minutes];
     if (minutesString.length == 1) minutesString = [@"0" stringByAppendingString:minutesString];
-    return [NSString stringWithFormat:@"%@:%@",hourString,minutesString];
+    
+    if ([Utils timeIs24HourFormat]) {
+        return [NSString stringWithFormat:@"%@:%@",hourString,minutesString];
+    }
+    
+    return [NSString stringWithFormat:@"%d:%@ %@",
+            [hourString intValue] % 12,
+            minutesString,
+            ([hourString intValue] / 12) == 0 ? @"AM" : @"PM"];
 }
 
 - (NSDate*)dateFromHour:(NSInteger)hour minutes:(NSInteger)minutes {

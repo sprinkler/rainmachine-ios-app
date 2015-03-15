@@ -144,8 +144,19 @@
     NSString *endHour = (endTimeComponents.count > 0 ? endTimeComponents[0] : nil);
     NSString *endMinutes = (endTimeComponents.count > 1 ? endTimeComponents[1] : nil);
     if (endMinutes.length == 1) endMinutes = [@"0" stringByAppendingString:endMinutes];
+
+    if ([Utils timeIs24HourFormat]) {
+        return [NSString stringWithFormat:@"%@:%@ - %@:%@",startHour,startMinutes,endHour,endMinutes];
+    }
     
-    return [NSString stringWithFormat:@"%@:%@ - %@:%@",startHour,startMinutes,endHour,endMinutes];
+    return [NSString stringWithFormat:@"%d:%@ %@ - %d:%@ %@",
+            [startHour intValue] % 12,
+            startMinutes,
+            ([startHour intValue] / 12) == 0 ? @"AM" : @"PM",
+            [endHour intValue] % 12,
+            endMinutes,
+            ([endHour intValue] / 12) == 0 ? @"AM" : @"PM"
+            ];
 }
 
 - (NSString*)descriptionForHourlyRestriction:(HourlyRestriction*)restriction {

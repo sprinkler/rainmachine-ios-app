@@ -196,11 +196,13 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         } else if ([cell.textLabel.text isEqualToString:kSettingsLocationSettings]) {
             cell.detailTextLabel.text = [GlobalsManager current].provision.location.name;
         } else if ([cell.textLabel.text isEqualToString:kSettingsDate]) {
+            NSNumber *time_format = [Utils timeIs24HourFormat] ? @24 : @12;
             NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
-            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format seconds:YES forceOnlyTimePart:NO forceOnlyDatePart:YES] stringFromDate:date];
+            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:time_format seconds:YES forceOnlyTimePart:NO forceOnlyDatePart:YES] stringFromDate:date];
         } else if ([cell.textLabel.text isEqualToString:kSettingsTime]) {
+            NSNumber *time_format = [Utils timeIs24HourFormat] ? @24 : @12;
             NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
-            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format seconds:YES forceOnlyTimePart:YES forceOnlyDatePart:NO] stringFromDate:date];
+            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:time_format seconds:YES forceOnlyTimePart:YES forceOnlyDatePart:NO] stringFromDate:date];
         } else if ([cell.textLabel.text isEqualToString:kSettingsUnits]) {
             cell.detailTextLabel.text = [Utils sprinklerTemperatureUnits];
         } else if ([cell.textLabel.text isEqualToString:kSettingsRemoteAccess]) {
