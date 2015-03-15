@@ -62,7 +62,6 @@ const float kTimeout = 6;
 @property (strong, nonatomic) NSDate *startDate;
 
 @property (assign, nonatomic) BOOL isHidden;
-@property (assign, nonatomic) BOOL timedOut;
 
 @end
 
@@ -124,6 +123,7 @@ const float kTimeout = 6;
 - (void)appDidBecomeActive
 {
 //    [self shouldStartBroadcastForceUIRefresh:NO];
+    self.sprinkler = nil;
 
     if (self.availableWiFis.count == 0) {
         [self showHud];
@@ -271,8 +271,6 @@ const float kTimeout = 6;
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
 {
-    self.timedOut = NO;
-
     BOOL isJoinWifiServerProxy = (serverProxy == self.joinWifiServerProxy);
     // Fail silently when connection is lost: this error appears for ex. when /4/login is requested for a devices connected to a network but still unprovisioned
     if (error.code != NSURLErrorNetworkConnectionLost) {
@@ -293,7 +291,6 @@ const float kTimeout = 6;
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
 {
-    self.timedOut = NO;
     self.messageLabel.hidden = YES;
     [self showPressAButtonUI:NO];
     
@@ -463,16 +460,16 @@ const float kTimeout = 6;
 
 - (void)refreshState
 {
+    BOOL timedOut = NO;
     DLog(@"connected to network: %@", [self fetchSSIDInfo]);
     
     if (self.isPartOfWizard) {
-        if (!self.timedOut) {
-            NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDate];
-            if (t > kTimeout) {
-                self.timedOut = YES;
-                
-                [self hideHud];
-            }
+        NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDate];
+        if (t > kTimeout) {
+            timedOut = YES;
+            self.startDate = [NSDate date];
+            
+            [self hideHud];
         }
     }
 
@@ -559,7 +556,7 @@ const float kTimeout = 6;
             [self showPressAButtonUI:NO];
             self.messageLabel.hidden = (self.firstStart) || (self.duringWiFiRestart) || (self.hud != nil) || (self.wifiRebootHud != nil);
             
-            if (self.timedOut) {
+            if (timedOut) {
                 self.messageLabel.hidden = NO;
             }
         } else {
