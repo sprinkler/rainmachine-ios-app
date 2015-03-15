@@ -189,9 +189,11 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     if ([ServerProxy usesAPI4]) {
         if ([cell.textLabel.text isEqualToString:kSettingsNetworkSettings]) {
             cell.detailTextLabel.text = @"WiFi";
-            cell.userInteractionEnabled = NO;
-            cell.textLabel.textColor = [UIColor grayColor];
-            cell.detailTextLabel.textColor = [UIColor grayColor];
+            if ([Utils isCloudDevice:[Utils currentSprinkler]]) {
+                cell.userInteractionEnabled = NO;
+                cell.textLabel.textColor = [UIColor grayColor];
+                cell.detailTextLabel.textColor = [UIColor grayColor];
+            }
         } else if ([cell.textLabel.text isEqualToString:kSettingsDeviceName]) {
             cell.detailTextLabel.text = [Utils currentSprinkler].name;
         } else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
