@@ -1699,6 +1699,7 @@
 		B111981B16A7E19E0094EF9F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B1EF21121860495300D9CE26 /* WaterNow */,
 				AF167D63189AD711003E659D /* Update */,
 				B1EF21061860491800D9CE26 /* Devices */,
 				B1EF21131860495E00D9CE26 /* Settings */,
@@ -1713,7 +1714,6 @@
 				AF35BDA81A8F3BCF00A5C1F4 /* BaseWizardVC.m */,
 				AF02F87E18BF4DA800579CAF /* RMNavigationController.m */,
 				AF02F87D18BF4DA800579CAF /* RMNavigationController.h */,
-				B1EF21121860495300D9CE26 /* WaterNow */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";

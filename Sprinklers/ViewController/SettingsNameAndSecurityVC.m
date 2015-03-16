@@ -52,11 +52,16 @@
         self.textFieldConfirmPassword.tintColor = [UIColor blackColor];
     }
 
+    self.textFieldNewPassword.delegate = self;
+
     if (!self.isSecurityScreen) {
         // Use self.textFieldNewPassword as the field for the new name
         self.textFieldOldPassword.hidden = YES;
         self.textFieldConfirmPassword.hidden = YES;
         self.textFieldNewPassword.placeholder = @"New Rainmachine Name";
+    } else {
+        self.textFieldOldPassword.delegate = self;
+        self.textFieldConfirmPassword.delegate = self;
     }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
@@ -186,6 +191,21 @@
 - (void)loggedOut {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self handleLoggedOutSprinklerError];
+}
+
+#pragma mark - UITextFieldDelegate
+
+-(BOOL)textFieldShouldReturn:(UITextField*)textField
+{
+    if (textField == self.textFieldOldPassword) {
+        [self.textFieldNewPassword becomeFirstResponder];
+    }
+    else if (textField == self.textFieldNewPassword) {
+        if (!self.textFieldConfirmPassword.hidden) {
+            [self.textFieldConfirmPassword becomeFirstResponder];
+        }
+    }
+    return NO;
 }
 
 @end

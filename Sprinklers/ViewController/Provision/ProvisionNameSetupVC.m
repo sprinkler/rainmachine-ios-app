@@ -196,13 +196,27 @@
     self.view.userInteractionEnabled = YES;
 }
 
-#pragma mark - 
+#pragma mark - UITextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     [self performSelector:@selector(refreshUI) withObject:nil afterDelay:0 inModes:@[NSRunLoopCommonModes]];
     
     return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField*)textField
+{
+    if (textField == self.deviceNameLabel) {
+        [self.passwordLabel becomeFirstResponder];
+    }
+    else if (textField == self.passwordLabel) {
+        [self.verifyPasswordLabel becomeFirstResponder];
+    }
+    else if (textField == self.verifyPasswordLabel) {
+        [self.oldPasswordLabel becomeFirstResponder];
+    }
+    return NO;
 }
 
 @end

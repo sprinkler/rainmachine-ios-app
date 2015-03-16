@@ -12,7 +12,7 @@
 
 @class SettingsVC;
 
-@interface SettingsNameAndSecurityVC : BaseLevel2ViewController<SprinklerResponseProtocol>
+@interface SettingsNameAndSecurityVC : BaseLevel2ViewController<SprinklerResponseProtocol, UITextFieldDelegate>
 
 @property (weak, nonatomic) SettingsVC *parent;
 @property (assign, nonatomic) BOOL isSecurityScreen;
