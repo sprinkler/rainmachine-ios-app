@@ -16,6 +16,7 @@
 #import "+UIDevice.h"
 #import "AppDelegate.h"
 #import "DashboardVC.h"
+#import "StatsVC.h"
 #import "ServerProxy.h"
 
 @interface UnitsVC ()
@@ -187,7 +188,11 @@
             [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
         } else {
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate.dashboardVC setUnitsText:self.settingsUnits.units];
+            if ([ServerProxy usesAPI4]) {
+                [appDelegate.dashboardVC setUnitsText:self.settingsUnits.units];
+            } else {
+                [appDelegate.statsVC setUnitsText:self.settingsUnits.units];
+            }
         }
     }
     

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class DashboardVC;
+@class StatsVC;
 @class UpdateManager;
 @class GlobalsManager;
 @class DevicesVC;
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) UITabBarController *tabBarController;
 @property (nonatomic, strong) DashboardVC *dashboardVC;
+@property (nonatomic, strong) StatsVC *statsVC;
 @property (nonatomic, strong) DevicesVC *devicesVC;
 @property (strong, nonatomic) UpdateManager *updateManager;
 @property (strong, nonatomic) GlobalsManager *globalsManager;

@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "DevicesVC.h"
 #import "DashboardVC.h"
+#import "StatsVC.h"
 #import "SettingsVC.h"
 #import "WaterNowVC.h"
 #import "Additions.h"
@@ -20,6 +21,7 @@
 #import "RMNavigationController.h"
 #import "UpdateManager.h"
 #import "NetworkUtilities.h"
+#import "ServerProxy.h"
 #import <GoogleMaps/GoogleMaps.h>
 
 @interface AppDelegate()
@@ -83,11 +85,20 @@
         UITabBarItem *tabBarItemDevices = [[UITabBarItem alloc] initWithTitle:@"Devices" image:[UIImage imageNamed:@"icon_devices.png"] tag:2];
         self.devicesVC.tabBarItem = tabBarItemDevices;
         
-        self.dashboardVC = [[DashboardVC alloc] init];
-        UINavigationController *navDashboard = [[UINavigationController alloc] initWithRootViewController:self.dashboardVC];
-        UITabBarItem *tabBarItemDashboard = [[UITabBarItem alloc] initWithTitle:@"Dashboard" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
-        self.dashboardVC.tabBarItem = tabBarItemDashboard;
-                
+        UINavigationController *navDashboard = nil;
+        
+        if ([ServerProxy usesAPI4]) {
+            self.dashboardVC = [[DashboardVC alloc] init];
+            navDashboard = [[UINavigationController alloc] initWithRootViewController:self.dashboardVC];
+            UITabBarItem *tabBarItemDashboard = [[UITabBarItem alloc] initWithTitle:@"Dashboard" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
+            self.dashboardVC.tabBarItem = tabBarItemDashboard;
+        } else {
+            self.statsVC = [[StatsVC alloc] initWithUnits:unit];
+            navDashboard = [[UINavigationController alloc] initWithRootViewController:self.statsVC];
+            UITabBarItem *tabBarItemStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:[UIImage imageNamed:@"icon_stats.png"] tag:2];
+            self.statsVC.tabBarItem = tabBarItemStats;
+        }
+        
         WaterNowVC *waterVC = [[WaterNowVC alloc] init];
         UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
         UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Zones" image:[UIImage imageNamed:@"icon_waternow"] tag:2];
@@ -106,6 +117,7 @@
     } else {
         self.window.rootViewController = navDevices;
         self.dashboardVC = nil;
+        self.statsVC = nil;
     }
 }
 
