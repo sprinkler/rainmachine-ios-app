@@ -8,6 +8,7 @@
 
 #import "ProvisionDateAndTimeManualVC.h"
 #import "ProvisionTimezonesListVC.h"
+#import "ProvisionRemoteAccessVC.h"
 #import "+NSDate.h"
 #import "MBProgressHUD.h"
 #import "ServerProxy.h"
@@ -528,14 +529,6 @@ NSUInteger DeviceSystemMajorVersion()
     [self showHud];
 }
 
-- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.devicesVC deviceSetupFinished];
-
-    [self.navigationController popToRootViewControllerAnimated:NO];
-}
-
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     [self.errorHandlingHelper handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
@@ -549,9 +542,7 @@ NSUInteger DeviceSystemMajorVersion()
     
     if (serverProxy == self.provisionDateTimeServerProxy) {
         [self hideHud];
-
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your Rain Machine is set up!" message:@"Now you can go ahead and create your first program." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
+        [self continueWithRemoteAccess];
     }
 
     if (serverProxy == self.provisionTimezoneServerProxy) {
@@ -564,6 +555,16 @@ NSUInteger DeviceSystemMajorVersion()
         [self.provisionDateTimeServerProxy setSettingsDate:settingsDate];
     }
 }
+
+- (void)continueWithRemoteAccess
+{
+    ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] init];
+    remoteAccessVC.isPartOfWizard = YES;
+    remoteAccessVC.sprinkler = self.sprinkler;
+    
+    [self.navigationController pushViewController:remoteAccessVC animated:YES];
+}
+
 
 - (void)loggedOut {
     

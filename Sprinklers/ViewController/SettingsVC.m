@@ -35,7 +35,7 @@
 #import "AppDelegate.h"
 #import "DevicesVC.h"
 #import "DataSourcesVC.h"
-#import "RemoteAccessVC.h"
+#import "ProvisionRemoteAccessVC.h"
 #import "CloudSettings.h"
 
 NSString *kSettingsPrograms           = @"Programs";
@@ -310,8 +310,9 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         [self.navigationController pushViewController:passwordVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsRemoteAccess]) {
-        RemoteAccessVC *remoteAccessVC = [[RemoteAccessVC alloc] init];
-        remoteAccessVC.parent = self;
+        ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] init];
+        remoteAccessVC.isPartOfWizard = NO;
+        remoteAccessVC.dbSprinkler = [Utils currentSprinkler];
         [self.navigationController pushViewController:remoteAccessVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsSecurity]) {

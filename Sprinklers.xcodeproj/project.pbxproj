@@ -31,8 +31,6 @@
 		96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */; };
 		96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */; };
 		96116DD71A6C34020017FB3F /* GraphScrollableCellEmpty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */; };
-		962C5E021AB30BEE00CFED4F /* RemoteAccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E001AB30BEE00CFED4F /* RemoteAccessVC.m */; };
-		962C5E031AB30BEE00CFED4F /* RemoteAccessVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962C5E011AB30BEE00CFED4F /* RemoteAccessVC.xib */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -203,6 +201,8 @@
 		96F48FFA1AA05C3200DFA578 /* DataSourcesParserVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F48FF81AA05C3200DFA578 /* DataSourcesParserVC.xib */; };
 		96F48FFE1AA0819600DFA578 /* DataSourcesParserParameterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F48FFC1AA0819600DFA578 /* DataSourcesParserParameterVC.m */; };
 		96F48FFF1AA0819600DFA578 /* DataSourcesParserParameterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F48FFD1AA0819600DFA578 /* DataSourcesParserParameterVC.xib */; };
+		96F686B91AB8763A00A41505 /* ProvisionRemoteAccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F686B71AB8763A00A41505 /* ProvisionRemoteAccessVC.m */; };
+		96F686BA1AB8763A00A41505 /* ProvisionRemoteAccessVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F686B81AB8763A00A41505 /* ProvisionRemoteAccessVC.xib */; };
 		AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */; };
 		AF02F87F18BF4DA800579CAF /* RMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F87E18BF4DA800579CAF /* RMNavigationController.m */; };
 		AF02F88218BFA99700579CAF /* UnitsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AF02F88118BFA99700579CAF /* UnitsVC.m */; };
@@ -534,9 +534,6 @@
 		96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellWeek.xib; path = ViewController/Graphs/GraphScrollableCellWeek.xib; sourceTree = "<group>"; };
 		96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellYear.xib; path = ViewController/Graphs/GraphScrollableCellYear.xib; sourceTree = "<group>"; };
 		96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellEmpty.xib; path = ViewController/Graphs/GraphScrollableCellEmpty.xib; sourceTree = "<group>"; };
-		962C5DFF1AB30BEE00CFED4F /* RemoteAccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteAccessVC.h; path = ViewController/RemoteAccessVC.h; sourceTree = "<group>"; };
-		962C5E001AB30BEE00CFED4F /* RemoteAccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteAccessVC.m; path = ViewController/RemoteAccessVC.m; sourceTree = "<group>"; };
-		962C5E011AB30BEE00CFED4F /* RemoteAccessVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteAccessVC.xib; path = ViewController/RemoteAccessVC.xib; sourceTree = "<group>"; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -783,6 +780,9 @@
 		96F48FFB1AA0819600DFA578 /* DataSourcesParserParameterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataSourcesParserParameterVC.h; path = ViewController/DataSourcesParserParameterVC.h; sourceTree = "<group>"; };
 		96F48FFC1AA0819600DFA578 /* DataSourcesParserParameterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataSourcesParserParameterVC.m; path = ViewController/DataSourcesParserParameterVC.m; sourceTree = "<group>"; };
 		96F48FFD1AA0819600DFA578 /* DataSourcesParserParameterVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DataSourcesParserParameterVC.xib; path = ViewController/DataSourcesParserParameterVC.xib; sourceTree = "<group>"; };
+		96F686B61AB8763A00A41505 /* ProvisionRemoteAccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionRemoteAccessVC.h; path = ViewController/Provision/ProvisionRemoteAccessVC.h; sourceTree = "<group>"; };
+		96F686B71AB8763A00A41505 /* ProvisionRemoteAccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionRemoteAccessVC.m; path = ViewController/Provision/ProvisionRemoteAccessVC.m; sourceTree = "<group>"; };
+		96F686B81AB8763A00A41505 /* ProvisionRemoteAccessVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionRemoteAccessVC.xib; path = ViewController/Provision/ProvisionRemoteAccessVC.xib; sourceTree = "<group>"; };
 		AF02F87A18BF4D5700579CAF /* CCTBackButtonActionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTBackButtonActionHelper.h; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.h; sourceTree = SOURCE_ROOT; };
 		AF02F87B18BF4D5700579CAF /* CCTBackButtonActionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCTBackButtonActionHelper.m; path = Sprinklers/3rdParty/CCTBackButtonActionHelper.m; sourceTree = SOURCE_ROOT; };
 		AF02F87D18BF4DA800579CAF /* RMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMNavigationController.h; path = ViewController/RMNavigationController.h; sourceTree = "<group>"; };
@@ -1526,6 +1526,9 @@
 				AF5CF46D1A74B4F400D2BB9C /* ProvisionTimezonesListVC.xib */,
 				AF5CF44F1A72231F00D2BB9C /* ProvisionTimezonesListVC.h */,
 				AF5CF4501A72231F00D2BB9C /* ProvisionTimezonesListVC.m */,
+				96F686B61AB8763A00A41505 /* ProvisionRemoteAccessVC.h */,
+				96F686B71AB8763A00A41505 /* ProvisionRemoteAccessVC.m */,
+				96F686B81AB8763A00A41505 /* ProvisionRemoteAccessVC.xib */,
 				AFF935081A2C759F008063D2 /* LabelAndTextFieldCell.h */,
 				AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */,
 				AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */,
@@ -2293,9 +2296,6 @@
 				96F48FFB1AA0819600DFA578 /* DataSourcesParserParameterVC.h */,
 				96F48FFC1AA0819600DFA578 /* DataSourcesParserParameterVC.m */,
 				96F48FFD1AA0819600DFA578 /* DataSourcesParserParameterVC.xib */,
-				962C5DFF1AB30BEE00CFED4F /* RemoteAccessVC.h */,
-				962C5E001AB30BEE00CFED4F /* RemoteAccessVC.m */,
-				962C5E011AB30BEE00CFED4F /* RemoteAccessVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2400,6 +2400,7 @@
 				B1DF326016A6A68700A1BF38 /* Default.png in Resources */,
 				968023E41A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib in Resources */,
 				96CB93F31A38AFAD00F3691F /* nsct_small_white.png in Resources */,
+				96F686BA1AB8763A00A41505 /* ProvisionRemoteAccessVC.xib in Resources */,
 				AF48266C1990DC9500D80B87 /* fg.png in Resources */,
 				AF4826721990DC9500D80B87 /* hi_shwrs.png in Resources */,
 				AF81E6EB18BA34ED007E9A03 /* ProgramCellType2.xib in Resources */,
@@ -2426,7 +2427,6 @@
 				96CD40EF1A8605D400CD7E90 /* GraphDataFormatterCell2.xib in Resources */,
 				AF51E41A1A190FDD00A7A6A5 /* PickerInputView.xib in Resources */,
 				AFE894D01A356538007FC7EB /* icon_wi-fi-1-bar@2x.png in Resources */,
-				962C5E031AB30BEE00CFED4F /* RemoteAccessVC.xib in Resources */,
 				AF0EFF561861AB52007BF852 /* WaterZoneListCell.xib in Resources */,
 				96CB94071A38AFAD00F3691F /* smoke_small_white.png in Resources */,
 				964ADD2A1A1E7B82008281A8 /* FieldCapacityCell.xib in Resources */,
@@ -2776,7 +2776,6 @@
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
-				962C5E021AB30BEE00CFED4F /* RemoteAccessVC.m in Sources */,
 				AF085CAD1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
 				96C223A919D7727F00683AC6 /* NewRestrictionVC.m in Sources */,
@@ -2803,6 +2802,7 @@
 				AFB94C861A6CE25200AF5D86 /* Sprinklers.xcdatamodeld in Sources */,
 				B1583E5916A7F7170051B480 /* UIStrokeLabel.m in Sources */,
 				AF3F781218571A6100D9DEB3 /* HomeScreenTableViewCell.m in Sources */,
+				96F686B91AB8763A00A41505 /* ProvisionRemoteAccessVC.m in Sources */,
 				AF5CF4521A72231F00D2BB9C /* ProvisionTimezonesListVC.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
 				AF726E331A2C670D0024604B /* WiFi.m in Sources */,

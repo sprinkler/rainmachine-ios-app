@@ -1,26 +1,32 @@
 //
-//  RemoteAccessVC.m
+//  ProvisionRemoteAccessVC.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 13/03/15.
 //  Copyright (c) 2015 Tremend. All rights reserved.
 //
 
-#import "RemoteAccessVC.h"
+#import "ProvisionRemoteAccessVC.h"
+#import "DevicesVC.h"
 #import "GlobalsManager.h"
 #import "ServerProxy.h"
 #import "Sprinkler.h"
 #import "CloudSettings.h"
 #import "Additions.h"
+#import "DiscoveredSprinklers.h"
+#import "Sprinkler.h"
 #import "Utils.h"
+#import "Constants.h"
 #import "MBProgressHUD.h"
+#import "AppDelegate.h"
 
-#define kRemoteAccess_SetCloudEmail_AlertView_Tag       1000
-#define kRemoteAccess_InvalidEmail_AlertView_Tag        1001
+#define kRemoteAccess_SetCloudEmail_AlertView_Tag                   1000
+#define kRemoteAccess_InvalidEmail_AlertView_Tag                    1001
+#define kRemoteAccess_FinishRainmachineSetup_AlertView_Tag          1002
 
 #pragma mark -
 
-@interface RemoteAccessVC ()
+@interface ProvisionRemoteAccessVC ()
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -33,6 +39,8 @@
 @property (nonatomic, strong) ServerProxy *refreshCloudSettingsServerProxy;
 @property (nonatomic, strong) ServerProxy *emailValidatorServerProxy;
 
+@property (nonatomic, strong) CloudSettings *wizardCloudSettings;
+
 - (void)refreshProgressHUD;
 - (void)enableRemoteAccess:(BOOL)enable;
 - (void)saveCloudEmail:(NSString*)email;
@@ -40,12 +48,13 @@
 - (void)refreshCloudSettings;
 
 - (IBAction)onEnableCloudEmail:(UISwitch*)enableCloudEmailSwitch;
+- (IBAction)onNext:(id)sender;
 
 @end
 
 #pragma mark -
 
-@implementation RemoteAccessVC
+@implementation ProvisionRemoteAccessVC
 
 #pragma mark - Init
 
@@ -53,6 +62,14 @@
     [super viewDidLoad];
     
     self.title = @"Set remote access";
+    
+    if (self.isPartOfWizard) {
+        self.wizardCloudSettings = [CloudSettings new];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next"
+                                                                                  style:UIBarButtonItemStyleDone
+                                                                                 target:self
+                                                                                 action:@selector(onNext:)];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,27 +89,31 @@
 
 - (void)enableRemoteAccess:(BOOL)enable {
     self.currentRemoteAccessEnabled = enable;
-    self.enableRemoteAccessServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    
+    if (self.sprinkler) self.enableRemoteAccessServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+    else self.enableRemoteAccessServerProxy = [[ServerProxy alloc] initWithSprinkler:self.dbSprinkler delegate:self jsonRequest:YES];
+    
     [self.enableRemoteAccessServerProxy enableRemoteAccess:enable];
     [self refreshProgressHUD];
 }
 
 - (void)saveCloudEmail:(NSString*)email {
     self.currentPendingEmail = email;
-    self.saveCloudEmailServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    
+    if (self.sprinkler) self.saveCloudEmailServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
+    else self.saveCloudEmailServerProxy = [[ServerProxy alloc] initWithSprinkler:self.dbSprinkler delegate:self jsonRequest:YES];
+    
     [self.saveCloudEmailServerProxy saveCloudEmail:email];
     [self refreshProgressHUD];
 }
 
 - (void)validateEmail:(NSString*)email showProgress:(BOOL)showProgress; {
-    Sprinkler *currentSprinkler = [Utils currentSprinkler];
-    
     NSString *emailValidatorURL = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudEmailValidatorURLKey];
     ServerProxy *emailValidatorServerProxy = [[ServerProxy alloc] initWithServerURL:emailValidatorURL delegate:self jsonRequest:YES];
-    
+
     [emailValidatorServerProxy validateEmail:email
-                                  deviceName:currentSprinkler.name
-                                         mac:currentSprinkler.mac];
+                                  deviceName:(self.sprinkler ? self.sprinkler.sprinklerName : self.dbSprinkler.name)
+                                         mac:(self.sprinkler ? self.sprinkler.sprinklerId : self.dbSprinkler.mac)];
     
     if (showProgress) {
         self.emailValidatorServerProxy = emailValidatorServerProxy;
@@ -101,7 +122,9 @@
 }
 
 - (void)refreshCloudSettings {
-    self.refreshCloudSettingsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    if (self.sprinkler) self.refreshCloudSettingsServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:NO];
+    else self.refreshCloudSettingsServerProxy = [[ServerProxy alloc] initWithSprinkler:self.dbSprinkler delegate:self jsonRequest:NO];
+    
     [self.refreshCloudSettingsServerProxy requestCloudSettings];
     [self refreshProgressHUD];
 }
@@ -109,6 +132,8 @@
 #pragma mark - UITableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (self.isPartOfWizard) return 1;
+    
     CloudSettings *cloudSettings = [GlobalsManager current].cloudSettings;
     if (!cloudSettings.enabled) return 1;
     if (cloudSettings.pendingEmail.length) return 2;
@@ -127,7 +152,7 @@
     static NSString *CloudEmailCellIdentifier = @"CloudEmailCell";
     static NSString *ResendConfirmationEmailCellIdentifier = @"ResendConfirmationEmailCell";
     
-    CloudSettings *cloudSettings = [GlobalsManager current].cloudSettings;
+    CloudSettings *cloudSettings = (self.isPartOfWizard ? self.wizardCloudSettings : [GlobalsManager current].cloudSettings);
     UITableViewCell *cell = nil;
     
     if (indexPath.section == 0) {
@@ -185,7 +210,7 @@
         setCloudEmailAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
         [setCloudEmailAlertView show];
         
-        CloudSettings *cloudSettings = [GlobalsManager current].cloudSettings;
+        CloudSettings *cloudSettings = (self.isPartOfWizard ? self.wizardCloudSettings : [GlobalsManager current].cloudSettings);
         NSString *email = cloudSettings.pendingEmail;
         if (!email.length) email = cloudSettings.email;
         
@@ -194,6 +219,17 @@
     else {
         [self enableRemoteAccess:NO];
     }
+}
+
+- (IBAction)onNext:(id)sender {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your Rain Machine is set up!"
+                                                        message:@"Now you can go ahead and create your first program."
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    alertView.tag = kRemoteAccess_FinishRainmachineSetup_AlertView_Tag;
+    [alertView show];
+
 }
 
 #pragma mark - UIAlertView delegate
@@ -219,48 +255,69 @@
             }
         }
     }
+    else if (alertView.tag == kRemoteAccess_FinishRainmachineSetup_AlertView_Tag) {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.devicesVC deviceSetupFinished];
+        
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    }
 }
 
 #pragma mark - ProxyService delegate
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    if (serverProxy == self.enableRemoteAccessServerProxy) {
-        [GlobalsManager current].cloudSettings.enabled = self.currentRemoteAccessEnabled;
-        
-        self.enableRemoteAccessServerProxy = nil;
-        [self refreshCloudSettings];
-    }
-    else if (serverProxy == self.saveCloudEmailServerProxy) {
-        [GlobalsManager current].cloudSettings.pendingEmail = self.currentPendingEmail;
-        
-        Sprinkler *currentSprinkler = [Utils currentSprinkler];
-        currentSprinkler.pendingEmail = self.currentPendingEmail;
+    if (serverProxy == self.saveCloudEmailServerProxy) {
+        if (self.isPartOfWizard) {
+            self.wizardCloudSettings.pendingEmail = self.currentPendingEmail;
+        } else {
+            [GlobalsManager current].cloudSettings.pendingEmail = self.currentPendingEmail;
+            self.dbSprinkler.pendingEmail = self.currentPendingEmail;
+        }
         
         self.saveCloudEmailServerProxy = nil;
         
         [self enableRemoteAccess:YES];
-        [self validateEmail:self.currentPendingEmail showProgress:YES];
+    }
+    else if (serverProxy == self.enableRemoteAccessServerProxy) {
+        if (self.isPartOfWizard) {
+            self.wizardCloudSettings.enabled = self.currentRemoteAccessEnabled;
+        } else {
+            [GlobalsManager current].cloudSettings.enabled = self.currentRemoteAccessEnabled;
+        }
+        
+        self.enableRemoteAccessServerProxy = nil;
+        
+        if (self.currentRemoteAccessEnabled) {
+            [self validateEmail:self.currentPendingEmail showProgress:YES];
+        }
+    }
+    else if (serverProxy == self.emailValidatorServerProxy) {
+        if (self.isPartOfWizard) {
+            [self onNext:nil];
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Successfully sent confirmation email"
+                                                                message:nil
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+            [self refreshCloudSettings];
+        }
+        
+        self.emailValidatorServerProxy = nil;
     }
     else if (serverProxy == self.refreshCloudSettingsServerProxy) {
         [GlobalsManager current].cloudSettings = (CloudSettings*)data;
         self.refreshCloudSettingsServerProxy = nil;
     }
-    else if (serverProxy == self.emailValidatorServerProxy) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Successfully sent confirmation email"
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        self.emailValidatorServerProxy = nil;
-    }
+    
     
     [self refreshProgressHUD];
     if (!self.hud) [self.tableView reloadData];
 }
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
     
     if (serverProxy == self.enableRemoteAccessServerProxy) self.enableRemoteAccessServerProxy = nil;
     else if (serverProxy == self.saveCloudEmailServerProxy) self.saveCloudEmailServerProxy = nil;
