@@ -13,8 +13,11 @@
 #import "Constants.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
+#import "Additions.h"
 #import "CloudUtils.h"
+#import "ServerProxy.h"
 #import "+UIDevice.h"
+#import "MBProgressHUD.h"
 
 @interface AddNewDeviceVC ()
 
@@ -28,6 +31,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *tokenTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *urlOrIPTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameTitleLabel;
+
+@property (strong, nonatomic) ServerProxy *cloudServerProxy;
+
+- (void)requestCloudSprinklersForEmail:(NSString*)email password:(NSString*)password;
 
 @end
 
@@ -47,9 +54,10 @@
     [super viewDidLoad];
     
     if (self.cloudUI) {
-        self.title = @"Add Cloud Account";
+        self.title = @"Add Device";
         self.nameTitleLabel.text = @"E-mail address";
         self.urlOrIPTitleLabel.text = @"RainMachine password";
+        self.urlOrIPTextField.secureTextEntry = YES;
         
 //#if DEBUG
 //        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Server" style:UIBarButtonItemStylePlain target:self action:@selector(onSwitchServer:)];
@@ -96,16 +104,32 @@
     [self.view addConstraint:constraint];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.cloudServerProxy cancelAllOperations];
+}
+
+#pragma mark - Helper methods
+
+- (void)requestCloudSprinklersForEmail:(NSString*)email password:(NSString*)password {
+    NSString *cloudProxyFinderURL = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
+    self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:cloudProxyFinderURL delegate:self jsonRequest:YES];
+    [self.cloudServerProxy requestCloudSprinklers:@{email: password}];
+}
+
 #pragma mark - Actions
 
 - (IBAction)onSave:(id)sender {
     if (self.cloudUI) {
-        if ([CloudUtils addCloudAccountWithEmail:self.nameTextField.text password:self.urlOrIPTextField.text]) {
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"A cloud account with the same e-mail already exists." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        if (!self.nameTextField.text.isValidEmail) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid e-mail address" message:@"It looks like you entered an invalid e-mail address for the sprinkler. Please check your syntax and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
-            return;
+        } else if ([CloudUtils existsCloudAccountWithEmail:self.nameTextField.text]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"A device with the same e-mail already exists." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        } else {
+            [self requestCloudSprinklersForEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         }
     } else {
         NSString *name = self.nameTextField.text;
@@ -174,6 +198,56 @@
     }
     
     return NO;
+}
+
+#pragma mark - ProxyService delegate
+
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    if (serverProxy == self.cloudServerProxy) {
+        NSArray *sprinklersByEmail = [data objectForKey:@"sprinklersByEmail"];
+        NSDictionary *sprinklerDict = sprinklersByEmail.firstObject;
+        
+        NSInteger activeCount = [sprinklerDict[@"activeCount"] integerValue];
+        NSInteger knownCount = [sprinklerDict[@"knownCount"] integerValue];
+        NSArray *cloudSprinklers = sprinklerDict[@"sprinklers"];
+        
+        if (cloudSprinklers.count > 0) {
+            [CloudUtils addCloudAccountWithEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
+            self.cloudResponse = data;
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            if (activeCount > 0) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You entered a wrong password. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            }
+            else {
+                if (knownCount > 0) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"We could not find any of your rain machines online." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [alert show];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You entered a wrong email. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [alert show];
+                }
+            }
+        }
+        
+        self.cloudServerProxy = nil;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
+}
+
+- (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    
+    if (serverProxy == self.cloudServerProxy) {
+        self.cloudServerProxy = nil;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
+}
+
+- (void)loggedOut {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self handleLoggedOutSprinklerError];
 }
 
 #pragma mark - Dealloc

@@ -26,7 +26,6 @@
 #import "TimePickerVC.h"
 #import "ServerProxy.h"
 #import "ProvisionLocationSetupVC.h"
-#import "CloudAccountsVC.h"
 #import "ProvisionAvailableWiFisVC.h"
 #import "GraphsManager.h"
 
@@ -34,6 +33,7 @@
 #define kRequestDiagTimeoutInterval 5
 
 #define kAlertView_DeleteDevice 1
+#define kAlertView_DeleteCloudDevice 2
 
 @interface DevicesVC () {
 }
@@ -52,7 +52,7 @@
 @property (strong, nonatomic) ServerProxy *versionServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
-@property (strong, nonatomic) CloudAccountsVC *cloudAccountsVC;
+@property (strong, nonatomic) AddNewDeviceVC *addCloudDeviceVC;
 @property (strong, nonatomic) Sprinkler *selectedSprinkler;
 @property (assign, nonatomic) BOOL selectingSprinklerInProgress;
 @property (strong, nonatomic) ProvisionAvailableWiFisVC *wizardVC;
@@ -68,6 +68,9 @@
 
 @property (strong, nonatomic) NSDate *startDateResetToDefaults;
 @property (strong, nonatomic) Sprinkler *sprinklerResetToDefaults;
+
+@property (strong, nonatomic) Sprinkler *selectedCloudSprinklerToDelete;
+@property (strong, nonatomic) NSIndexPath *selectedCloudSprinklerToDeleteIndexPath;
 
 @end
 
@@ -90,7 +93,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.hideHudTimeoutCountDown = 0;
     
     [self setDefaultTuningValues];
@@ -182,12 +185,6 @@
     return selectedServer;
 }
 
-// Overwrites BaseViewController's updateTitle
-- (void)updateTitle
-{
-    self.title = @"Devices";
-}
-
 - (void)updateNavigationbarButtons
 {
     self.navigationItem.rightBarButtonItem = nil;
@@ -223,34 +220,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [ServerProxy popSprinklerVersion];
     
-    if (self.cloudAccountsVC) {
-        NSMutableSet *deletedSprinklers = [NSMutableSet setWithArray:self.cloudEmails];
-        NSMutableSet *secondSet = [NSMutableSet setWithArray:self.cloudAccountsVC.cloudEmails];
-        [deletedSprinklers minusSet:secondSet];
-
-        NSMutableDictionary *cloudSprinklersMut = [self.cloudSprinklers mutableCopy];
-        NSArray *remoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:nil];
-        
-        for (NSString *email in deletedSprinklers) {
-            // Delete from DB
-            for (Sprinkler *sprinkler in remoteDevices) {
-                if ([email isEqualToString:sprinkler.email]) {
-                    [[StorageManager current] deleteSprinkler:sprinkler];
-                }
-            }
-
-            // Delete from Cloud
-            [CloudUtils deleteCloudAccountWithEmail:email];
-            
-            [cloudSprinklersMut removeObjectForKey:email];
+    if (self.addCloudDeviceVC) {
+        if (self.addCloudDeviceVC.cloudResponse) {
+            [self updateCloudSprinklersFromCloudResponse:self.addCloudDeviceVC.cloudResponse];
         }
-        
-        self.cloudSprinklers = cloudSprinklersMut;
-        self.cloudEmails = self.cloudAccountsVC.cloudEmails;
-        self.cloudAccountsVC = nil;
+        self.addCloudDeviceVC = nil;
     }
     
     if (!self.tableView.isEditing) {
@@ -286,25 +263,6 @@
     
     [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(pollLocal) userInfo:nil repeats:NO];
     [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(pollCloud) userInfo:nil repeats:NO];
-}
-
-- (void)pollCloud
-{
-    NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
-    self.cloudEmails = [cloudAccounts allKeys];
-    
-    [self requestCloudSprinklers:cloudAccounts];
-}
-
-- (NSString*)cloudProxyFinderURL {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
-}
-
-- (void)requestCloudSprinklers:(NSDictionary*)cloudAccounts
-{
-    if (cloudAccounts.count > 0) {
-        [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
-    }
 }
 
 - (void)refreshSprinklerList
@@ -358,17 +316,6 @@
     self.manuallyEnteredSprinklers = manuallyEnteredSprinklers;
     self.locallyDiscoveredSprinklers = locallyDiscoveredSprinklers;
     self.cloudSprinklers = cloudSprinklersDic;
-}
-
-- (void)createFooter {
-    NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    label.text = [NSString stringWithFormat:@"Version: %@", version];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:13];
-    label.textColor = [UIColor grayColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    self.tableView.tableFooterView = label;
 }
 
 - (void)pollLocal
@@ -453,6 +400,25 @@
     [self shouldStopBroadcast];
 }
 
+#pragma mark - UI
+
+// Overwrites BaseViewController's updateTitle
+- (void)updateTitle
+{
+    self.title = @"Devices";
+}
+
+- (void)createFooter {
+    NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    label.text = [NSString stringWithFormat:@"Version: %@", version];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:13];
+    label.textColor = [UIColor grayColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    self.tableView.tableFooterView = label;
+}
+
 - (void)startHud:(NSString *)text {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.labelText = text;
@@ -493,6 +459,8 @@
     }
 }
 
+#pragma mark - Reset to Defaults
+
 - (BOOL)isDuringResetToDefaults
 {
     if (!self.startDateResetToDefaults) {
@@ -530,6 +498,97 @@
     
     self.sprinklerResetToDefaults = nil;
     self.startDateResetToDefaults = nil;
+}
+
+#pragma mark - Cloud Sprinklers
+
+- (void)pollCloud
+{
+    NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
+    self.cloudEmails = [cloudAccounts allKeys];
+    
+    [self requestCloudSprinklers:cloudAccounts];
+}
+
+- (NSString*)cloudProxyFinderURL {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
+}
+
+- (void)requestCloudSprinklers:(NSDictionary*)cloudAccounts
+{
+    if (cloudAccounts.count > 0) {
+        [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
+    }
+}
+
+- (void)updateCloudSprinklersFromCloudResponse:(NSDictionary*)cloudResponse {
+    [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
+    // Mark all cloud devices is a cloud device as not alive
+    NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
+    for (Sprinkler *sprinkler in aliveRemoteDevices) {
+        if ([Utils isCloudDevice:sprinkler]) {
+            sprinkler.isDiscovered = @NO;
+        }
+    }
+    
+    self.cloudResponse = cloudResponse;
+    NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
+    for (NSDictionary *cloudInfo in cloudInfos) {
+        NSString *email = cloudInfo[@"email"];
+        for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
+            NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
+            NSString *port = [Utils getPort:fullAddress];
+            NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:fullAddress]];
+            port = port ? port : @"443";
+            
+            // Add or update the remote sprinkler
+            
+            Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address local:@NO email:email];
+            if (!sprinkler) {
+                sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
+            }
+            if (address) sprinkler.address = address;
+            sprinkler.name = sprinklerInfo[@"name"];
+            sprinkler.port = port;
+            sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
+            sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
+            sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
+        }
+    }
+    
+    [[StorageManager current] saveData];
+    
+    [self refreshSprinklerList];
+    
+    [self.tableView reloadData];
+}
+
+- (void)deleteCloudSprinkler:(Sprinkler*)cloudSprinkler {
+    NSString *cloudEmail = [cloudSprinkler.email copy];
+    if (!cloudEmail.length) return;
+    
+    [CloudUtils deleteCloudAccountWithEmail:cloudEmail];
+    
+    NSMutableArray *cloudEmails = [self.cloudEmails mutableCopy];
+    [cloudEmails removeObject:cloudEmail];
+    self.cloudEmails = cloudEmails;
+    
+    NSArray *remoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:nil];
+    for (Sprinkler *sprinkler in remoteDevices) {
+        if ([cloudEmail isEqualToString:sprinkler.email]) {
+            [[StorageManager current] deleteSprinkler:sprinkler];
+        }
+    }
+    
+    NSMutableDictionary *cloudSprinklers = [self.cloudSprinklers mutableCopy];
+    [cloudSprinklers removeObjectForKey:cloudEmail];
+    self.cloudSprinklers = cloudSprinklers;
+    
+    [self refreshSprinklerList];
+    [self shouldStartBroadcastForceUIRefresh:NO];
+    
+    [self.tableView reloadData];
+    [self refreshDeviceDiscoveryTimers];
 }
 
 #pragma mark - Actions
@@ -718,7 +777,7 @@
     Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
 
     if (sprinkler) {
-        BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler]);
+        BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler] || [Utils isCloudDevice:sprinkler]);
         return isDeviceEditable;
     }
     
@@ -730,19 +789,43 @@
 
         Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
         
-        BOOL currentSprinklerDeleted = sprinkler == [StorageManager current].currentSprinkler;
-        [Utils invalidateLoginForCurrentSprinkler];
-
-        BOOL deleted = [[StorageManager current] deleteSprinkler:sprinkler];
-        
-        if (currentSprinklerDeleted) {
-            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate refreshRootViews:nil];
+        if ([Utils isCloudDevice:sprinkler]) {
+            self.selectedCloudSprinklerToDelete = sprinkler;
+            self.selectedCloudSprinklerToDeleteIndexPath = indexPath;
+            
+            NSInteger cloudDevicesCount = 0;
+            for (Sprinkler *cloudSprinkler in self.cloudSprinklersList) {
+                if ([cloudSprinkler.email isEqualToString:sprinkler.email]) {
+                    cloudDevicesCount++;
+                }
+            }
+            
+            NSString *errorMessage = nil;
+            if (cloudDevicesCount == 1) errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete the device associated to the email %@", sprinkler.email];
+            else errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete all %d devices associated to the email %@", (int)cloudDevicesCount, sprinkler.email];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                                message:errorMessage
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Cancel"
+                                                      otherButtonTitles:@"OK", nil];
+            alertView.tag = kAlertView_DeleteCloudDevice;
+            [alertView show];
         } else {
-            [self refreshSprinklerList];
-            if (deleted) {
-                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+            BOOL currentSprinklerDeleted = sprinkler == [StorageManager current].currentSprinkler;
+            [Utils invalidateLoginForCurrentSprinkler];
+
+            BOOL deleted = [[StorageManager current] deleteSprinkler:sprinkler];
+            
+            if (currentSprinklerDeleted) {
+                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate refreshRootViews:nil];
+            } else {
+                [self refreshSprinklerList];
+                if (deleted) {
+                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                }
             }
         }
     }
@@ -815,17 +898,14 @@
             return cell;
         } else {
             if (indexPath.section == [self tvSectionCloud]) {
-                // Add Cloud Account
-                UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
-                if (!cell) {
-                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
-                }
-
+                AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
                 cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
+                [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
                 
-                cell.textLabel.text = @"Cloud";
-                cell.detailTextLabel.text = @"";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
+                [cell.titleLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
+                
+                cell.titleLabel.text = @"Add device";
                 
                 return cell;
             } else if (indexPath.section == [self tvNewRainMachineSetup]) {
@@ -938,12 +1018,10 @@
             [self.navigationController pushViewController:addNewDeviceVC animated:YES];
         } else {
             if (indexPath.section == [self tvSectionCloud]) {
-                self.cloudAccountsVC = [[CloudAccountsVC alloc] init];
-                self.cloudAccountsVC.cloudResponse = self.cloudResponse;
-                self.cloudAccountsVC.cloudSprinklers = self.cloudSprinklers;
-                self.cloudAccountsVC.cloudEmails = [self.cloudEmails mutableCopy];
+                self.addCloudDeviceVC = [[AddNewDeviceVC alloc] init];
+                self.addCloudDeviceVC.cloudUI = YES;
                 
-                [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
+                [self.navigationController pushViewController:self.addCloudDeviceVC animated:YES];
             } else if (indexPath.section == [self tvNewRainMachineSetup]) {
                 [self presentWizardWithSprinkler:nil];
             }
@@ -1087,45 +1165,7 @@
         
         // The cloud is continuosly pulled, so if the table finished editing the cloud state will refresh at the next timer poll
         if (!self.tableView.isEditing) {
-            [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:YES];
-            // Mark all cloud devices is a cloud device as not alive
-            NSArray *aliveRemoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:@YES];
-            for (Sprinkler *sprinkler in aliveRemoteDevices) {
-                if ([Utils isCloudDevice:sprinkler]) {
-                    sprinkler.isDiscovered = @NO;
-                }
-            }
-            
-            self.cloudResponse = data;
-            NSArray *cloudInfos = self.cloudResponse[@"sprinklersByEmail"];
-            for (NSDictionary *cloudInfo in cloudInfos) {
-                NSString *email = cloudInfo[@"email"];
-                for (NSDictionary *sprinklerInfo in cloudInfo[@"sprinklers"]) {
-                    NSString *fullAddress = [Utils fixedSprinklerAddress:sprinklerInfo[@"sprinklerUrl"] ];
-                    NSString *port = [Utils getPort:fullAddress];
-                    NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:fullAddress]];
-                    port = port ? port : @"443";
-                    
-                    // Add or update the remote sprinkler
-                    
-                    Sprinkler *sprinkler = [[StorageManager current] getSprinkler:sprinklerInfo[@"mac"] name:sprinklerInfo[@"name"] address:address local:@NO email:email];
-                    if (!sprinkler) {
-                        sprinkler = [[StorageManager current] addSprinkler:sprinklerInfo[@"name"] ipAddress:address port:port isLocal:@NO email:email mac:sprinklerInfo[@"mac"] save:NO];
-                    }
-                    if (address) sprinkler.address = address;
-                    sprinkler.name = sprinklerInfo[@"name"];
-                    sprinkler.port = port;
-                    sprinkler.sprinklerId = sprinklerInfo[@"sprinklerId"];
-                    sprinkler.mac = sprinklerInfo[@"mac"]; // Update the mac for existing sprinklers too
-                    sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
-                }
-            }
-            
-            [[StorageManager current] saveData];
-            
-            [self refreshSprinklerList];
-            
-            [self.tableView reloadData];
+            [self updateCloudSprinklersFromCloudResponse:data];
         }
     }
     else if (serverProxy == self.versionServerProxy) {
@@ -1157,6 +1197,20 @@
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
+}
+
+#pragma mark - UIAlertView delegate
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == kAlertView_DeleteCloudDevice) {
+        if (buttonIndex == alertView.firstOtherButtonIndex) {
+            [self.tableView reloadRowsAtIndexPaths:@[self.selectedCloudSprinklerToDeleteIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [self deleteCloudSprinkler:self.selectedCloudSprinklerToDelete];
+        }
+        
+        self.selectedCloudSprinklerToDelete = nil;
+        self.selectedCloudSprinklerToDeleteIndexPath = nil;
+    }
 }
 
 #pragma mark - Picker input view data source

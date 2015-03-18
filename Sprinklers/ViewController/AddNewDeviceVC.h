@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseNetworkHandlingVC.h"
+#import "Protocols.h"
 
 @class Sprinkler;
 
-@interface AddNewDeviceVC : UIViewController
+@interface AddNewDeviceVC :  BaseNetworkHandlingVC <SprinklerResponseProtocol>
 
 @property (strong, nonatomic) Sprinkler *sprinkler;
+@property (strong, nonatomic) NSDictionary *cloudResponse;
 @property (assign, nonatomic) BOOL cloudUI;
 
 @end

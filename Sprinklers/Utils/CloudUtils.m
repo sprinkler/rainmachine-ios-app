@@ -14,6 +14,11 @@
 
 #pragma mark - Cloud Keychain
 
++ (void)resetKeychain
+{
+    [@{} storeToKeychainWithKey:kSprinklerKeychain_CloudAccount];
+}
+
 + (NSDictionary*)cloudAccounts
 {
     NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount];
@@ -35,6 +40,12 @@
     }
     
     return NO;
+}
+
++ (BOOL)existsCloudAccountWithEmail:(NSString*)email {
+    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount] mutableCopy];
+    if (!keychainDictionary) keychainDictionary = [NSMutableDictionary dictionary];
+    return (keychainDictionary[email] != nil);
 }
 
 + (void)deleteCloudAccountWithEmail:(NSString*)email
