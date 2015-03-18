@@ -364,8 +364,6 @@ const float kTimeout = 6;
     if (loggedIn) {
         if (apMode) {
             // Sprinkler hasn't connected yet to any WiFi. Continue with the WiFi setup wizard
-            [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
-            
             [self startWiFiPoll];
         } else {
             [self continueWithPasswordAndNameSetupPresentOldPasswordField:NO];
@@ -620,6 +618,8 @@ const float kTimeout = 6;
 
 - (void)startWiFiPoll
 {
+    [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
+
     [self.requestAllAvailableWiFiNetworksTimer invalidate];
     self.requestAllAvailableWiFiNetworksTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestAllAvailableWiFiNetworks) userInfo:nil repeats:YES];
     [self.requestAllAvailableWiFiNetworksTimer fire];

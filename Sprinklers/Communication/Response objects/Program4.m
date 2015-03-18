@@ -179,7 +179,9 @@
     [dic setObject:[NSNumber numberWithFloat:_freq_modified] forKey:@"freq_modified"];
     [dic setObject:[NSNumber numberWithFloat:_useWaterSense] forKey:@"useWaterSense"];
 
-    [dic setObject:[[NSDate sharedDateFormatterAPI4] stringFromDate:_nextRun] forKey:@"nextRun"];
+    if (self.frequency.type == API4_ProgramFrequencyType_Nth) {
+        [dic setObject:[[NSDate sharedDateFormatterAPI4] stringFromDate:_nextRun] forKey:@"nextRun"];
+    }
     
     // Force "programStartTime" to be encoded with H:m format
     [dic setObject:[Utils formattedTime:_startTime forTimeFormat:0] forKey:@"startTime"];
