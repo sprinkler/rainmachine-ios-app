@@ -1203,8 +1203,9 @@
 
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == kAlertView_DeleteCloudDevice) {
+        [self.tableView reloadRowsAtIndexPaths:@[self.selectedCloudSprinklerToDeleteIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
         if (buttonIndex == alertView.firstOtherButtonIndex) {
-            [self.tableView reloadRowsAtIndexPaths:@[self.selectedCloudSprinklerToDeleteIndexPath] withRowAnimation:UITableViewRowAnimationNone];
             [self deleteCloudSprinkler:self.selectedCloudSprinklerToDelete];
         }
         
