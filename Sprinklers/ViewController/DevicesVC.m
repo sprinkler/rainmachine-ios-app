@@ -296,7 +296,7 @@
     for (NSMutableArray *emailBasedCloudSprinklers in [cloudSprinklersDic allValues]) {
         for (Sprinkler *cloudSprinkler in emailBasedCloudSprinklers) {
             for (Sprinkler *localSprinkler in locallyDiscoveredSprinklers) {
-                if ([localSprinkler.mac isEqualToString:cloudSprinkler.mac]) {
+                if ([localSprinkler.mac.lowercaseString isEqualToString:cloudSprinkler.mac.lowercaseString]) {
                     [duplicateCloudSprinklers addObject:cloudSprinkler];
                     break;
                 }
@@ -305,7 +305,10 @@
     }
     
     for (Sprinkler *cloudSprinkler in duplicateCloudSprinklers) {
-        [cloudSprinklersDic removeObjectForKey:cloudSprinkler.email];
+        NSMutableArray *cloudSprinklers = [cloudSprinklersDic[cloudSprinkler.email] mutableCopy];
+        [cloudSprinklers removeObject:cloudSprinkler];
+        if (cloudSprinklers.count) cloudSprinklersDic[cloudSprinkler.email] = cloudSprinklers;
+        else [cloudSprinklersDic removeObjectForKey:cloudSprinkler.email];
     }
     
     self.cloudSprinklersList = [NSMutableArray array];
