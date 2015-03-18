@@ -249,6 +249,9 @@
     [self.networkDevicesTimer invalidate];
     [self.cloudDevicesTimer invalidate];
     
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(pollLocal) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(pollCloud) object:nil];
+    
     self.networkDevicesTimer = [NSTimer scheduledTimerWithTimeInterval:[[[NSUserDefaults standardUserDefaults] objectForKey:kDebugLocalDevicesDiscoveryInterval] intValue]
                                                                 target:self
                                                               selector:@selector(pollLocal)
@@ -261,8 +264,8 @@
                                                             userInfo:nil
                                                              repeats:YES];
     
-    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(pollLocal) userInfo:nil repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(pollCloud) userInfo:nil repeats:NO];
+    [self performSelector:@selector(pollLocal) withObject:nil afterDelay:2.0];
+    [self performSelector:@selector(pollCloud) withObject:nil afterDelay:2.0];
 }
 
 - (void)refreshSprinklerList
