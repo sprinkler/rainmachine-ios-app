@@ -91,8 +91,6 @@ static ServiceManager *current = nil;
     [self stopBroadcast];
     
     receiveUdpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
-    NSError *udpError;
 
     if (receiveUdpSocket == nil) {
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sprinklers autodiscovery cannot initialize discovery socket!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -101,21 +99,20 @@ static ServiceManager *current = nil;
         return NO;
     }
     
+    return [self trySendBroadcastBindToPort:@(silent)];
+}
+
+- (BOOL)trySendBroadcastBindToPort:(NSNumber*)silent {
+    NSError *udpError = nil;
+    
     if (![receiveUdpSocket bindToPort:listenPort error:&udpError]) {
-        bool socketBound = NO;
-        for(int i = 0; i < burstBroadcasts; i++) {
-            [NSThread sleepForTimeInterval:1];
-            if ([receiveUdpSocket bindToPort:listenPort error:&udpError]) {
-                socketBound = YES;
-                break;
-            }
-        }
-        if (!socketBound) {
-            //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sprinklers autodiscovery cannot bind to discovery port!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            //[alert show];
-            NSLog(@"Sprinklers autodiscovery cannot bind to discovery port!");
-            return NO;
-        }
+        NSLog(@"Sprinklers autodiscovery cannot bind to discovery port!");
+        
+        [self performSelector:@selector(trySendBroadcastBindToPort:)
+                   withObject:silent
+                   afterDelay:1.0];
+        
+        return NO;
     }
     
     if (![receiveUdpSocket beginReceiving:&udpError]) {
@@ -130,7 +127,7 @@ static ServiceManager *current = nil;
         [broadcastUdpSocket sendData:broadcastMessage toHost:broadcastAddress port:broadcastPort withTimeout:-1 tag:0];
     }
     
-    if (!silent) {
+    if (!silent.boolValue) {
         reSendTimer = [NSTimer scheduledTimerWithTimeInterval:resendTimeout target:self selector:@selector(resendBroadcast) userInfo:nil repeats:NO];
         keepAliveTimer = [NSTimer scheduledTimerWithTimeInterval:resendTimeout target:self selector:@selector(keepAlive) userInfo:nil repeats:NO];
     }
@@ -139,11 +136,14 @@ static ServiceManager *current = nil;
 }
 
 - (BOOL)stopBroadcast {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
     [receiveUdpSocket close];
     [autoRefreshTimer invalidate];
     [reSendTimer invalidate];
     [keepAliveTimer invalidate];
     [sockTimeOutTimer invalidate];
+    
     return YES;
 }
 
