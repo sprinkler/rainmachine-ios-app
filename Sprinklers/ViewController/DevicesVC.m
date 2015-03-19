@@ -594,6 +594,9 @@
     [self shouldStartBroadcastForceUIRefresh:NO];
     
     [self.tableView reloadData];
+    
+    [self.cloudServerProxy cancelAllOperations];
+    [self refreshCloudPollingProxy];
     [self refreshDeviceDiscoveryTimers];
 }
 
