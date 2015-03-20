@@ -59,6 +59,7 @@
         self.textFieldOldPassword.hidden = YES;
         self.textFieldConfirmPassword.hidden = YES;
         self.textFieldNewPassword.placeholder = @"New Rainmachine Name";
+        self.textFieldNewPassword.secureTextEntry = NO;
     } else {
         self.textFieldOldPassword.delegate = self;
         self.textFieldConfirmPassword.delegate = self;
