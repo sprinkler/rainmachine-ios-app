@@ -187,6 +187,18 @@ const float kTimeout = 6;
     return (self.availableWiFis == nil) ? -1 : (int)(self.availableWiFis.count);
 }
 
+#pragma mark - Setters
+
+- (void)setAvailableWiFis:(NSArray*)availableWiFis {
+    NSMutableArray *availableWiFisMut = [[NSMutableArray alloc] initWithArray:availableWiFis];
+    NSSortDescriptor *signalSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"signal" ascending:NO];
+    [availableWiFisMut sortUsingDescriptors:@[signalSortDescriptor]];
+    
+    _availableWiFis = availableWiFisMut;
+}
+
+#pragma mark - Table view datasource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
