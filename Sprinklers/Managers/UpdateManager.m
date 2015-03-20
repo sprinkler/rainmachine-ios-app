@@ -204,7 +204,7 @@
             newVersion = updateInfo.the_new_version;
         } else {
             for (UpdateInfo4PackageDetails *packageDetails in updateInfo4.packageDetails) {
-                if ([packageDetails.packageName isEqualToString:@"rainmachine"]) {
+                if ([packageDetails.packageName isEqualToString:@"rainmachine-app"]) {
                     newVersion = packageDetails.theNewVersion;
                     break;
                 }
