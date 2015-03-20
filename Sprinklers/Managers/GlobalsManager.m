@@ -35,8 +35,10 @@ static GlobalsManager *current = nil;
 
 - (void)refresh
 {
-    [self requestProvision];
-    [self requestCloudSettings];
+    if ([ServerProxy usesAPI4]) {
+        [self requestProvision];
+        [self requestCloudSettings];
+    }
 }
 
 #pragma mark - Requests
