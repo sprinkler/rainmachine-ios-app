@@ -24,6 +24,7 @@
 #import "DevicesVC.h"
 
 #define kPollInterval 6
+#define kWiFisPollInterval 5
 
 const float kWifiSignalMin = -100;
 const float kWifiSignalMax = -50;
@@ -62,6 +63,7 @@ const float kTimeout = 6;
 @property (strong, nonatomic) NSDate *startDate;
 
 @property (assign, nonatomic) BOOL isHidden;
+@property (assign, nonatomic) BOOL refreshingAvailableWiFis;
 
 @end
 
@@ -109,6 +111,11 @@ const float kTimeout = 6;
     self.startDate = [NSDate date];
     
     self.firstStart = NO;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                           target:self
+                                                                                           action:@selector(refreshAvailableWiFis:)];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 - (void)updateTVHeaderToHidden:(BOOL)hidden
@@ -191,10 +198,26 @@ const float kTimeout = 6;
 
 - (void)setAvailableWiFis:(NSArray*)availableWiFis {
     NSMutableArray *availableWiFisMut = [[NSMutableArray alloc] initWithArray:availableWiFis];
+    
     NSSortDescriptor *signalSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"signal" ascending:NO];
-    [availableWiFisMut sortUsingDescriptors:@[signalSortDescriptor]];
+    NSSortDescriptor *SSIDSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"SSID" ascending:YES];
+    
+    [availableWiFisMut sortUsingDescriptors:@[signalSortDescriptor,SSIDSortDescriptor]];
     
     _availableWiFis = availableWiFisMut;
+}
+
+#pragma mark - Refresh
+
+- (IBAction)refreshAvailableWiFis:(id)sender {
+    if (!self.refreshingAvailableWiFis) {
+        self.refreshingAvailableWiFis = YES;
+        [self startWiFiPoll];
+    }
+}
+
+- (void)enableRefreshAvailableWiFisButton:(BOOL)enable {
+    self.navigationItem.rightBarButtonItem.enabled = enable;
 }
 
 #pragma mark - Table view datasource
@@ -295,6 +318,11 @@ const float kTimeout = 6;
     
     [self hideHud];
     
+    if (serverProxy == self.requestAvailableWiFisProvisionServerProxy) {
+        [self enableRefreshAvailableWiFisButton:YES];
+        self.refreshingAvailableWiFis = NO;
+    }
+    
     if (!isJoinWifiServerProxy) {
         // Don't refresh state immediately after the wifi join request. Give some time for the sprinkler to restart
         [self refreshState];
@@ -326,6 +354,9 @@ const float kTimeout = 6;
             self.availableWiFis = data;
         }
         [self hideHud];
+        [self enableRefreshAvailableWiFisButton:YES];
+        self.refreshingAvailableWiFis = NO;
+        
     }
     else if (serverProxy == self.joinWifiServerProxy) {
         // The sprinkler retarts, and if the connection to the home wifi succeeds it will get a new url
@@ -633,7 +664,7 @@ const float kTimeout = 6;
     [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
 
     [self.requestAllAvailableWiFiNetworksTimer invalidate];
-    self.requestAllAvailableWiFiNetworksTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestAllAvailableWiFiNetworks) userInfo:nil repeats:YES];
+    self.requestAllAvailableWiFiNetworksTimer = [NSTimer scheduledTimerWithTimeInterval:kWiFisPollInterval target:self selector:@selector(requestAllAvailableWiFiNetworks) userInfo:nil repeats:YES];
     [self.requestAllAvailableWiFiNetworksTimer fire];
 }
 
@@ -645,7 +676,7 @@ const float kTimeout = 6;
             self.requestAvailableWiFisProvisionServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
             [self.requestAvailableWiFisProvisionServerProxy requestAvailableWiFis];
             
-            if (self.availableWiFis.count == 0) {
+            if (self.availableWiFis.count == 0 || self.refreshingAvailableWiFis) {
                 [self showHud];
             }
         }
