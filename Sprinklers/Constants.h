@@ -86,6 +86,7 @@ extern int const kWheatherValueCustomFontSize;
 extern int const kXCorrectionbetweenCustomAndNormalWheatherFont;
 
 extern int const kWizard_TimeoutWifiJoin;
+extern int const kCloudSettings_PollTimeInterval;
 
 extern NSString *daysOfTheWeek[7];
 extern NSString *monthsOfYear[12];

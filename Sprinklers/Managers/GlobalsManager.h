@@ -19,5 +19,7 @@
 + (GlobalsManager*)current;
 
 - (void)refresh;
+- (void)startPollingCloudSettings;
+- (void)stopPollingCloudSettings;
 
 @end

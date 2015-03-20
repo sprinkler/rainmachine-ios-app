@@ -58,6 +58,18 @@
 
 #pragma mark - Init
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [[GlobalsManager current] addObserver:self forKeyPath:@"cloudSettings" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[GlobalsManager current] removeObserver:self forKeyPath:@"cloudSettings"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -69,6 +81,32 @@
                                                                                   style:UIBarButtonItemStyleDone
                                                                                  target:self
                                                                                  action:@selector(onNext:)];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if ([ServerProxy usesAPI4]) {
+        if (!self.isPartOfWizard && [GlobalsManager current].cloudSettings.pendingEmail.length) {
+            [[GlobalsManager current] startPollingCloudSettings];
+        }
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (!self.isPartOfWizard) {
+        [[GlobalsManager current] stopPollingCloudSettings];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    if (object == [GlobalsManager current] && [keyPath isEqualToString:@"cloudSettings"]) {
+        [self.tableView reloadData];
+        if (![GlobalsManager current].cloudSettings.pendingEmail.length) {
+            [[GlobalsManager current] stopPollingCloudSettings];
+        }
     }
 }
 
@@ -305,6 +343,8 @@
         }
         
         self.emailValidatorServerProxy = nil;
+        
+        [[GlobalsManager current] startPollingCloudSettings];
     }
     else if (serverProxy == self.refreshCloudSettingsServerProxy) {
         [GlobalsManager current].cloudSettings = (CloudSettings*)data;

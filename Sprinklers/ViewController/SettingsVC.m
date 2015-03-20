@@ -80,8 +80,14 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSettingsZonesNotif) name:kShowSettingsZones object:nil];
+        [[GlobalsManager current] addObserver:self forKeyPath:@"cloudSettings" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[GlobalsManager current] removeObserver:self forKeyPath:@"cloudSettings"];
 }
 
 - (void)viewDidLoad {
@@ -123,6 +129,10 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         
         ServerProxy *getProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         [getProvisionServerProxy requestProvision];
+        
+        if ([GlobalsManager current].cloudSettings.pendingEmail.length) {
+            [[GlobalsManager current] startPollingCloudSettings];
+        }
     }
 }
 
@@ -132,6 +142,20 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     if (showZonesOnAppear) {
         showZonesOnAppear = NO;
         [self showZonesAnimated:NO];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[GlobalsManager current] stopPollingCloudSettings];
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    if (object == [GlobalsManager current] && [keyPath isEqualToString:@"cloudSettings"]) {
+        [self.tableView reloadData];
+        if (![GlobalsManager current].cloudSettings.pendingEmail.length) {
+            [[GlobalsManager current] stopPollingCloudSettings];
+        }
     }
 }
 
