@@ -91,6 +91,7 @@ extern int const kCloudSettings_PollTimeInterval;
 extern NSString *daysOfTheWeek[7];
 extern NSString *monthsOfYear[12];
 extern NSString *abbrevMonthsOfYear[12];
+extern NSString *abbrevWeekdays[7];
 
 #define kAlertView_LoggedOut 1
 #define kAlertView_Error 2

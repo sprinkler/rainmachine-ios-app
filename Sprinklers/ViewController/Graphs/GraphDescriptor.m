@@ -69,7 +69,7 @@
         iconsBarDescriptor.iconsBarHeight +
         valuesBarDescriptor.valuesBarHeight +
         self.displayAreaDescriptor.displayAreaHeight +
-        self.dateBarDescriptor.dateBarHeight + 6.0;
+        [self.dateBarDescriptor totalBarHeightForGraphTimeInterval:self.graphTimeInterval] + 6.0;
 }
 
 - (void)setIsDisabled:(BOOL)isDisabled {

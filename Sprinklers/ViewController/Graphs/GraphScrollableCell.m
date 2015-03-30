@@ -132,14 +132,16 @@
     self.maxValueLabel.hidden = !hasValues;
     
     if (hasValues) {
-        self.minValueLabelBottomSpaceLayoutConstraint.constant = descriptor.displayAreaDescriptor.graphBarsBottomPadding + descriptor.dateBarDescriptor.dateBarHeight;
+        CGFloat totalDateBarHeight = [self.graphDescriptor.dateBarDescriptor totalBarHeightForGraphTimeInterval:self.graphDescriptor.graphTimeInterval];
+        
+        self.minValueLabelBottomSpaceLayoutConstraint.constant = descriptor.displayAreaDescriptor.graphBarsBottomPadding + totalDateBarHeight;
         self.minValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.minValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
         self.minValueLabel.shadowColor = (self.graphDescriptor.isDisabled ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);
         self.minValueLabel.shadowOffset = CGSizeMake(1.0, 1.0);
         self.minValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.minValue];
         
-        self.maxValueLabelBottomSpaceLayoutConstraint.constant = descriptor.dateBarDescriptor.dateBarHeight + descriptor.displayAreaDescriptor.displayAreaHeight - descriptor.displayAreaDescriptor.valuesDisplayHeight - descriptor.displayAreaDescriptor.graphBarsTopPadding;
+        self.maxValueLabelBottomSpaceLayoutConstraint.constant = totalDateBarHeight + descriptor.displayAreaDescriptor.displayAreaHeight - descriptor.displayAreaDescriptor.valuesDisplayHeight - descriptor.displayAreaDescriptor.graphBarsTopPadding;
         self.maxValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.maxValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
         self.maxValueLabel.shadowColor = (self.graphDescriptor.isDisabled ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);

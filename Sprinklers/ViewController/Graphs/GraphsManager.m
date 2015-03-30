@@ -13,6 +13,7 @@
 #import "GraphIconsBarDescriptor.h"
 #import "GraphValuesBarDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
+#import "GraphDateBarDescriptor.h"
 #import "GraphStyle.h"
 #import "GraphStyleBars.h"
 #import "GraphStyleLines.h"
@@ -113,6 +114,8 @@ static GraphsManager *sharedGraphsManager = nil;
     dailyWaterNeedGraph.displayAreaDescriptor.minValue = 0.0;
     dailyWaterNeedGraph.displayAreaDescriptor.midValue = 50.0;
     dailyWaterNeedGraph.displayAreaDescriptor.maxValue = 100.0;
+    dailyWaterNeedGraph.displayAreaDescriptor.displayAreaHeight = 106.0;
+    dailyWaterNeedGraph.dateBarDescriptor.hasWeekdaysBar = @[@(GraphTimeIntervalType_Weekly)];
     dailyWaterNeedGraph.dataSource = [GraphDataSourceWaterConsume defaultDataSource];
     dailyWaterNeedGraph.canDisable = NO;
     [availableGraphs addObject:dailyWaterNeedGraph];

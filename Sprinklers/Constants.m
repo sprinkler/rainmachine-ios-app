@@ -101,6 +101,7 @@ int const kCloudSettings_PollTimeInterval = 5;
 NSString *daysOfTheWeek[7] = {@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"};
 NSString *monthsOfYear[12] = {@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"};
 NSString *abbrevMonthsOfYear[12] = {@"Jan", @"Feb", @"Mar", @"Apr", @"May", @"June", @"July", @"Aug", @"Sept", @"Oct", @"Nov", @"Dec"};
+NSString *abbrevWeekdays[7] = {@"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat", @"Sun"};
 
 // ---- Custom font glyphs ----
 

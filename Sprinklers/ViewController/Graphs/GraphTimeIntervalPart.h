@@ -11,6 +11,7 @@
 @class GraphDataSource;
 
 typedef enum {
+    GraphTimeIntervalPartType_DisplayWeekdays,
     GraphTimeIntervalPartType_DisplayDays,
     GraphTimeIntervalPartType_DisplayMonths
 } GraphTimeIntervalPartType;
@@ -24,6 +25,7 @@ typedef enum {
 
 @property (nonatomic, strong) NSArray *dateValues;
 @property (nonatomic, strong) NSArray *dateStrings;
+@property (nonatomic, strong) NSArray *weekdays;
 @property (nonatomic, strong) NSString *prevDateString;
 @property (nonatomic, strong) NSString *nextDateString;
 @property (nonatomic, strong) NSString *timeIntervalPartStartValue;

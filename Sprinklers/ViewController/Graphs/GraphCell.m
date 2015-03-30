@@ -31,10 +31,12 @@
 - (void)setupValuesWithDescriptor:(GraphValuesBarDescriptor*)descriptor dataSource:(GraphDataSource*)dataSource;
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor;
 - (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalType:(GraphTimeIntervalPart*)timeIntervalPart;
+- (void)setupWeekdaysWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalType:(GraphTimeIntervalPart*)timeIntervalPart;
 - (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart;
 
 @property (nonatomic, strong) NSArray *iconImageViews;
 @property (nonatomic, strong) NSArray *valueLabels;
+@property (nonatomic, strong) NSArray *weekdayLabels;
 @property (nonatomic, strong) NSArray *dateValueLabels;
 @property (nonatomic, strong) UIView *dateSelectionView;
 
@@ -106,7 +108,14 @@
     [self setupValuesWithDescriptor:valuesBarDescriptor dataSource:self.graphDescriptor.dataSource];
     
     [self setupDisplayAreaWithDescriptor:self.graphDescriptor.displayAreaDescriptor];
-    [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalType:self.graphTimeIntervalPart];
+    
+    if (!self.graphDescriptor.dateBarDescriptor) self.dateBarContainerViewHeightLayoutConstraint.constant = 0.0;
+    else {
+        if (!self.graphTimeIntervalPart.weekdays.count) self.dateBarContainerViewHeightLayoutConstraint.constant = self.graphDescriptor.dateBarDescriptor.dateBarHeight;
+        else self.dateBarContainerViewHeightLayoutConstraint.constant = [self.graphDescriptor.dateBarDescriptor totalBarHeightForGraphTimeInterval:self.graphDescriptor.graphTimeInterval];
+        [self setupDatesWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalType:self.graphTimeIntervalPart];
+        [self setupWeekdaysWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalType:self.graphTimeIntervalPart];
+    }
     
     [self.graphView setNeedsDisplay];
 }
@@ -294,11 +303,6 @@
 }
 
 - (void)setupDatesWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalType:(GraphTimeIntervalPart*)timeIntervalPart {
-    if (!descriptor) {
-        self.dateBarContainerViewHeightLayoutConstraint.constant = 0.0;
-        return;
-    }
-    
     if (self.dateValueLabels) {
         for (NSInteger index = 0; index < timeIntervalPart.dateValues.count; index++) {
             UILabel *dateValueLabel = self.dateValueLabels[index];
@@ -310,15 +314,12 @@
         return;
     }
     
-    self.dateBarContainerViewHeightLayoutConstraint.constant = descriptor.dateBarHeight;
-    
     CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
     CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
     CGFloat dateValueLabelWidth = round(totalDatesBarWidth / timeIntervalPart.dateValues.count);
     CGFloat dateValueLabelHeight = descriptor.dateBarHeight - descriptor.dateBarBottomPadding;
     
     CGFloat dateValueLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
-    CGFloat dateValueLabelOriginY = 0.0;
     UILabel *previousDateValueLabel = nil;
     
     BOOL isFirstHorizontalConstraint = YES;
@@ -334,9 +335,9 @@
         if (isFirstDateValue) {
             dateValueString = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartStartValue, dateValueString];
             isFirstDateValue = NO;
-        } else if ([dateValueString isEqualToString:@"01"] || [dateValueString isEqualToString:[abbrevMonthsOfYear[0] lowercaseString]]) dateValueString = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartEndValue, dateValueString];
+        } else if ([dateValueString isEqualToString:@"01"] || [dateValueString isEqualToString:abbrevMonthsOfYear[0]]) dateValueString = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartEndValue, dateValueString];
         
-        UILabel *dateValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(dateValueLabelOriginX, dateValueLabelOriginY, dateValueLabelWidth, dateValueLabelHeight)];
+        UILabel *dateValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         dateValueLabel.translatesAutoresizingMaskIntoConstraints = NO;
         dateValueLabel.text = dateValueString;
         dateValueLabel.textColor = descriptor.dateValuesColor;
@@ -353,7 +354,7 @@
                 else [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[previousDateValueLabel(==dateValueLabel)]-0-[dateValueLabel(==previousDateValueLabel)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
                 isFirstHorizontalConstraint = NO;
             }
-            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%lf-[dateValueLabel(%lf)]",dateValueLabelOriginY,dateValueLabelHeight] options:0 metrics:nil views:NSDictionaryOfVariableBindings(dateValueLabel)]];
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[dateValueLabel(%lf)]-%lf-|",dateValueLabelHeight,descriptor.dateBarBottomPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(dateValueLabel)]];
         } else {
             if (previousDateValueLabel) {
                 if (isFirstHorizontalConstraint) [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[previousDateValueLabel(==dateValueLabel)]-0-[dateValueLabel(==previousDateValueLabel)]", self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
@@ -361,7 +362,7 @@
                 else [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[previousDateValueLabel(==dateValueLabel)]-0-[dateValueLabel(==previousDateValueLabel)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousDateValueLabel,dateValueLabel)]];
                 isFirstHorizontalConstraint = NO;
             }
-            [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%lf-[dateValueLabel(%lf)]",dateValueLabelOriginY,dateValueLabelHeight] options:0 metrics:nil views:NSDictionaryOfVariableBindings(dateValueLabel)]];
+            [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[dateValueLabel(%lf)]-%lf-|",dateValueLabelHeight,descriptor.dateBarBottomPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(dateValueLabel)]];
         }
         
         previousDateValueLabel = dateValueLabel;
@@ -370,6 +371,78 @@
     
     self.dateValueLabels = dateValueLabels;
     [self setupCurrentDateWithDescriptor:descriptor timeIntervalPart:timeIntervalPart];
+}
+
+- (void)setupWeekdaysWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalType:(GraphTimeIntervalPart*)timeIntervalPart {
+    if (![descriptor hasWeekdaysBarForGraphTimeInterval:self.graphDescriptor.graphTimeInterval] || !timeIntervalPart.weekdays.count) {
+        if (self.weekdayLabels) {
+            for (UILabel *weekdayLabel in self.weekdayLabels) {
+                [weekdayLabel removeFromSuperview];
+            }
+        }
+        self.weekdayLabels = nil;
+        return;
+    }
+    
+    if (self.weekdayLabels) {
+        for (NSInteger index = 0; index < timeIntervalPart.dateValues.count; index++) {
+            UILabel *weekdayLabel = self.weekdayLabels[index];
+            NSString *weekday = timeIntervalPart.weekdays[index];
+            weekdayLabel.text = weekday;
+        }
+        return;
+    }
+    
+    CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
+    CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
+    CGFloat weekdayLabelWidth = round(totalDatesBarWidth / timeIntervalPart.dateValues.count);
+    CGFloat weekdayLabelHeight = descriptor.weekdaysBarHeight;
+    
+    CGFloat weekdayLabelOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding;
+    CGFloat weekdayLabelOriginY = 0.0;
+    UILabel *previousWeekdayLabel = nil;
+    
+    BOOL isFirstHorizontalConstraint = YES;
+    BOOL isLastHorizontalConstraint = NO;
+    
+    NSMutableArray *weekdayLabels = [NSMutableArray new];
+    
+    for (NSString *weekday in timeIntervalPart.weekdays) {
+        isLastHorizontalConstraint = (weekday == timeIntervalPart.weekdays.lastObject);
+        
+        UILabel *weekdayLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        weekdayLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        weekdayLabel.text = weekday;
+        weekdayLabel.textColor = descriptor.dateValuesColor;
+        weekdayLabel.font = descriptor.dateValuesFont;
+        weekdayLabel.textAlignment = NSTextAlignmentCenter;
+        
+        [self.dateBarContainerView addSubview:weekdayLabel];
+        [weekdayLabels addObject:weekdayLabel];
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
+            if (previousWeekdayLabel) {
+                if (isFirstHorizontalConstraint) [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[previousWeekdayLabel(==weekdayLabel)]-0-[weekdayLabel(==previousWeekdayLabel)]", self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousWeekdayLabel,weekdayLabel)]];
+                else if (isLastHorizontalConstraint) [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[previousWeekdayLabel(==weekdayLabel)]-0-[weekdayLabel(==previousWeekdayLabel)]-%lf-|", self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousWeekdayLabel,weekdayLabel)]];
+                else [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[previousWeekdayLabel(==weekdayLabel)]-0-[weekdayLabel(==previousWeekdayLabel)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousWeekdayLabel,weekdayLabel)]];
+                isFirstHorizontalConstraint = NO;
+            }
+            [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%lf-[weekdayLabel(%lf)]",weekdayLabelOriginY,weekdayLabelHeight] options:0 metrics:nil views:NSDictionaryOfVariableBindings(weekdayLabel)]];
+        } else {
+            if (previousWeekdayLabel) {
+                if (isFirstHorizontalConstraint) [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%lf-[previousWeekdayLabel(==weekdayLabel)]-0-[weekdayLabel(==previousWeekdayLabel)]", self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousWeekdayLabel,weekdayLabel)]];
+                else if (isLastHorizontalConstraint) [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[previousWeekdayLabel(==weekdayLabel)]-0-[weekdayLabel(==previousWeekdayLabel)]-%lf-|", self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding] options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousWeekdayLabel,weekdayLabel)]];
+                else [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[previousWeekdayLabel(==weekdayLabel)]-0-[weekdayLabel(==previousWeekdayLabel)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(previousWeekdayLabel,weekdayLabel)]];
+                isFirstHorizontalConstraint = NO;
+            }
+            [self.dateBarContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%lf-[weekdayLabel(%lf)]",weekdayLabelOriginY,weekdayLabelHeight] options:0 metrics:nil views:NSDictionaryOfVariableBindings(weekdayLabel)]];
+        }
+        
+        previousWeekdayLabel = weekdayLabel;
+        weekdayLabelOriginX += weekdayLabelWidth;
+    }
+    
+    self.weekdayLabels = weekdayLabels;
 }
 
 - (void)setupCurrentDateWithDescriptor:(GraphDateBarDescriptor*)descriptor timeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart {
@@ -403,9 +476,11 @@
         if (dateSelectionViewBoundingSize.width < 16.0) dateSelectionViewBoundingSize.width = 16.0;
         else dateSelectionViewBoundingSize.width = dateSelectionViewBoundingSize.width + 4.0;
         
+        CGFloat totalBarHeight = [self.graphDescriptor.dateBarDescriptor totalBarHeightForGraphTimeInterval:self.graphDescriptor.graphTimeInterval];
+        
         self.dateSelectionView.hidden = NO;
-        self.dateSelectionView.frame = CGRectMake(0.0, 0.0, dateSelectionViewBoundingSize.width, descriptor.dateBarHeight - 2.0);
-        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (timeIntervalPart.currentDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round((descriptor.dateBarHeight - descriptor.dateBarBottomPadding) / 2.0));
+        self.dateSelectionView.frame = CGRectMake(0.0, 0.0, dateSelectionViewBoundingSize.width, totalBarHeight - 2.0);
+        self.dateSelectionView.center = CGPointMake(round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (timeIntervalPart.currentDateValueIndex + 0.5)) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding, round((totalBarHeight - descriptor.dateBarBottomPadding) / 2.0));
     } else {
         self.dateSelectionView.hidden = YES;
     }

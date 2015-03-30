@@ -7,21 +7,32 @@
 //
 
 #import "GraphDateBarDescriptor.h"
+#import "GraphTimeInterval.h"
 
 @implementation GraphDateBarDescriptor
 
 + (GraphDateBarDescriptor*)defaultDescriptor {
     GraphDateBarDescriptor *descriptor = [GraphDateBarDescriptor new];
     
-    descriptor.dateBarHeight = 18.0;
-    descriptor.dateBarBottomPadding = 2.0;
-    descriptor.timeIntervalFont = [UIFont boldSystemFontOfSize:12.0];
+    descriptor.dateBarHeight = 24.0;
+    descriptor.weekdaysBarHeight = 16.0;
+    descriptor.dateBarBottomPadding = 3.0;
+    descriptor.timeIntervalFont = [UIFont systemFontOfSize:12.0];
     descriptor.timeIntervalColor = [UIColor whiteColor];
-    descriptor.dateValuesFont = [UIFont boldSystemFontOfSize:12.0];
+    descriptor.dateValuesFont = [UIFont systemFontOfSize:12.0];
     descriptor.dateValuesColor = [UIColor whiteColor];
     descriptor.dateValueSelectionColor = [UIColor whiteColor];
     
     return descriptor;
+}
+
+- (CGFloat)totalBarHeightForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
+    if (![self hasWeekdaysBarForGraphTimeInterval:graphTimeInterval]) return self.dateBarHeight;
+    return self.dateBarHeight + self.weekdaysBarHeight;
+}
+
+- (BOOL)hasWeekdaysBarForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
+    return [self.hasWeekdaysBar containsObject:@(graphTimeInterval.type)];
 }
 
 @end
