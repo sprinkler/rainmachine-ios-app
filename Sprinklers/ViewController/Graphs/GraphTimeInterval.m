@@ -103,6 +103,7 @@ static NSMutableArray *registeredTimeIntervals = nil;
     NSInteger startWeekDay = startDateComponents.weekday;
     
     startDateComponents.weekday = 1;
+    startDateComponents.hour = 12;
     startDate = [calendar dateFromComponents:startDateComponents];
     
     while (totalDays < [GraphsManager sharedGraphsManager].totalDays + startWeekDay - 1) {
