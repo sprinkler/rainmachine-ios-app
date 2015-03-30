@@ -33,4 +33,8 @@
 @property (nonatomic, weak) IBOutlet UIView *dateBarContainerView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateBarContainerViewHeightLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UIView *todaySelectionView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *todaySelectionViewXLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *todaySelectionViewWidthLayoutConstraint;
+
 @end

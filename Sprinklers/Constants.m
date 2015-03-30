@@ -72,6 +72,7 @@ NSString *kVegetationType[] = {
 float kButtonInactiveOpacity = 0.51;
 
 CGFloat kSprinklerBlueColor[3] = {0x33/255.0, 0x99/255.0, 0xcc/255.0};
+CGFloat kSprinklerTodayLightBlueColor[3] = {0x59 / 255.0, 0xb3 / 255.0, 0xd9 / 255.0};
 CGFloat kWateringGreenButtonColor[3] = {0x33/255.0, 0x99/255.0, 0xcc/255.0};
 CGFloat kWateringOrangeButtonColor[3] = {0xff/255.0, 0x99/255.0, 0x00/255.0};
 CGFloat kWateringRedButtonColor[3] = {0xff/255.0, 0x44/255.0, 0x44/255.0};

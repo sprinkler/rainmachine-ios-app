@@ -10,6 +10,7 @@
 #import "GraphStyle.h"
 #import "GraphStyleBars.h"
 #import "GraphTimeInterval.h"
+#import "Constants.h"
 
 @implementation GraphDisplayAreaDescriptor
 
@@ -17,9 +18,12 @@
     GraphDisplayAreaDescriptor *descriptor = [GraphDisplayAreaDescriptor new];
     
     descriptor.displayAreaHeight = 90.0;
+    descriptor.todaySelectionWidth = 26.0;
+    
     descriptor.graphDisplayColor = [UIColor whiteColor];
     descriptor.valuesDisplayColor = [UIColor whiteColor];
     descriptor.dashedLinesColor = [UIColor colorWithRed:206.0 / 255.0 green:225.0 / 255.0 blue:235.0 / 255.0 alpha:1.0];
+    descriptor.todaySelectionColor = [UIColor colorWithRed:kSprinklerTodayLightBlueColor[0] green:kSprinklerTodayLightBlueColor[1] blue:kSprinklerTodayLightBlueColor[2] alpha:1];
     
     descriptor.graphBarsWidthDictionary = @{@(GraphTimeIntervalType_Weekly) : @(20.0),
                                             @(GraphTimeIntervalType_Monthly) : @(4.0),

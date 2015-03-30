@@ -131,15 +131,11 @@
             NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%02d",(int)dateComponents.day];
             [dateValues addObject:dateValue];
-            
-            if ([date isEqualToDateIgnoringTime:currentDate]) self.currentDateValueIndex = index;
         }
         else if (self.type == GraphTimeIntervalPartType_DisplayMonths) {
             NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%@",abbrevMonthsOfYear[dateComponents.month - 1]];
             [dateValues addObject:dateValue];
-            
-            if ([date isSameMonthAsDate:currentDate]) self.currentDateValueIndex = index;
         }
         
         dayOffset += dayIncrementer;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -17,6 +17,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoQ-gN-Nun">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yK-DE-o9P">
+                                <rect key="frame" x="147" y="0.0" width="26" height="138"/>
+                                <color key="backgroundColor" red="0.34901960784313724" green="0.70196078431372544" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="l2e-TS-iR4"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PCv-hz-hds">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="24"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -65,16 +72,25 @@
                             <constraint firstItem="PCv-hz-hds" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="3ij-7J-mWD"/>
                             <constraint firstItem="Nzb-8X-iOA" firstAttribute="top" secondItem="PCv-hz-hds" secondAttribute="bottom" id="Ahr-Pl-aQh"/>
                             <constraint firstItem="PCv-hz-hds" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" id="C0E-rE-zjT"/>
+                            <constraint firstAttribute="bottom" secondItem="2yK-DE-o9P" secondAttribute="bottom" id="LpL-ao-PnC"/>
                             <constraint firstAttribute="trailing" secondItem="Nzb-8X-iOA" secondAttribute="trailing" id="Ocn-aF-sZm"/>
                             <constraint firstAttribute="trailing" secondItem="PCv-hz-hds" secondAttribute="trailing" id="aYV-nZ-LrQ"/>
                             <constraint firstItem="Nzb-8X-iOA" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="agp-fX-P8o"/>
+                            <constraint firstItem="2yK-DE-o9P" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" constant="147" id="bdl-VN-BCw"/>
                             <constraint firstAttribute="trailing" secondItem="fFa-Ra-Xdq" secondAttribute="trailing" id="eyz-uF-GLa"/>
                             <constraint firstItem="yEs-ao-8P4" firstAttribute="top" secondItem="fFa-Ra-Xdq" secondAttribute="bottom" id="iJE-a7-0dS"/>
                             <constraint firstItem="yEs-ao-8P4" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="kyr-Qk-Pj3"/>
+                            <constraint firstItem="2yK-DE-o9P" firstAttribute="top" secondItem="PCv-hz-hds" secondAttribute="bottom" id="mo5-dm-FKH"/>
                             <constraint firstItem="fFa-Ra-Xdq" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="n26-I4-kjs"/>
                             <constraint firstAttribute="trailing" secondItem="yEs-ao-8P4" secondAttribute="trailing" id="nhj-hQ-Ovo"/>
                             <constraint firstItem="fFa-Ra-Xdq" firstAttribute="top" secondItem="Nzb-8X-iOA" secondAttribute="bottom" id="o0A-t2-PF9"/>
+                            <constraint firstItem="2yK-DE-o9P" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" id="yLg-od-NnP"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="mo5-dm-FKH"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -94,6 +110,9 @@
                 <outlet property="graphViewHeightLayoutConstraint" destination="nnz-ZC-4Pk" id="g2n-bD-efR"/>
                 <outlet property="iconsBarContainerView" destination="PCv-hz-hds" id="c7p-No-n68"/>
                 <outlet property="iconsBarContainerViewHeightLayoutConstraint" destination="QYa-Ny-VVM" id="U9w-xf-UKW"/>
+                <outlet property="todaySelectionView" destination="2yK-DE-o9P" id="0C5-Ma-V9w"/>
+                <outlet property="todaySelectionViewWidthLayoutConstraint" destination="l2e-TS-iR4" id="lJP-B0-H8y"/>
+                <outlet property="todaySelectionViewXLayoutConstraint" destination="bdl-VN-BCw" id="eT3-BI-oqO"/>
                 <outlet property="valuesBarContainerView" destination="Nzb-8X-iOA" id="T8c-J9-Xwa"/>
                 <outlet property="valuesBarContainerViewHeightLayoutConstraint" destination="YtS-Gj-gIw" id="4dh-Ik-Dgk"/>
                 <outlet property="valuesUnitsLabel" destination="WvY-GF-YX6" id="3O9-rF-gVZ"/>

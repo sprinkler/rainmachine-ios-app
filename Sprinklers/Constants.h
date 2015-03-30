@@ -63,6 +63,7 @@ NSString *kVegetationTypeAPI4[9];
 extern float kButtonInactiveOpacity;
 
 extern CGFloat kSprinklerBlueColor[3];
+extern CGFloat kSprinklerTodayLightBlueColor[3];
 extern CGFloat kWateringGreenButtonColor[3];
 extern CGFloat kWateringOrangeButtonColor[3];
 extern CGFloat kMasterValveOrangeColor[3];
