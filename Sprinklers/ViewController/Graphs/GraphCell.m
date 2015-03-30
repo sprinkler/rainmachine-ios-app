@@ -73,6 +73,11 @@
     [self setup];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self setupCurrentDateWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalPart:self.graphTimeIntervalPart];
+}
+
 #pragma mark - Helper methods
 
 - (void)setup {
