@@ -30,5 +30,6 @@
 - (NSArray*)valuesForGraphDataFormatter;
 
 @property (nonatomic, readonly) Class graphDataFormatterClass;
+@property (nonatomic, readonly) BOOL shouldRoundMidValue;
 
 @end

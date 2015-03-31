@@ -49,6 +49,10 @@
     return [GraphDataFormatterRainAmount class];
 }
 
+- (BOOL)shouldRoundMidValue {
+    return NO;
+}
+
 #pragma mark - Data
 
 - (NSDictionary*)valuesFromLoadedData {

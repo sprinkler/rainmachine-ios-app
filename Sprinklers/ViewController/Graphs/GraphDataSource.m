@@ -78,6 +78,10 @@
     return [GraphDataFormatter class];
 }
 
+- (BOOL)shouldRoundMidValue {
+    return YES;
+}
+
 #pragma mark - Override in subclasses
 
 - (NSDictionary*)valuesFromLoadedData {
@@ -143,7 +147,7 @@
     }
     
     double midValue = (minValue + maxValue) / 2.0;
-    if (midValue != round(midValue)) {
+    if (self.shouldRoundMidValue && midValue != round(midValue)) {
         minValue = minValue - 1;
         midValue = (minValue + maxValue) / 2.0;
     }
