@@ -121,7 +121,7 @@
     self.graphUnitsLabel.text = descriptor.units;
     self.graphUnitsLabel.textColor = descriptor.unitsColor;
     self.graphUnitsLabel.font = descriptor.unitsFont;
-    self.graphUnitsLabelWidthLayoutConstraint.constant = self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
+    self.graphUnitsLabelWidthLayoutConstraint.constant = self.graphDescriptor.titleAreaDescriptor.unitsWidth;
 }
 
 - (void)setupMinMaxValuesWithDescriptor:(GraphDescriptor*)descriptor {

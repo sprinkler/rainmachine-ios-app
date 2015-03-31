@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *units;
 @property (nonatomic, strong) UIFont *unitsFont;
 @property (nonatomic, strong) UIColor *unitsColor;
+@property (nonatomic, assign) CGFloat unitsWidth;
 
 @property (nonatomic, assign) CGFloat titleAreaHeight;
 @property (nonatomic, strong) UIColor *titleAreaSeparatorColor;

@@ -17,6 +17,7 @@
     descriptor.titleColor = [UIColor whiteColor];
     descriptor.unitsFont = [UIFont boldSystemFontOfSize:14.0];
     descriptor.unitsColor = [UIColor whiteColor];
+    descriptor.unitsWidth = 42.0;
     descriptor.titleAreaHeight = 23.0;
     descriptor.titleAreaSeparatorColor = [UIColor colorWithRed:156.0 / 255.0 green:205.0 / 255.0 blue:230.0 / 255.0 alpha:1.0];
     

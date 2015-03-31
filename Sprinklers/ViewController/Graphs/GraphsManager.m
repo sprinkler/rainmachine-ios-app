@@ -101,7 +101,7 @@ static GraphsManager *sharedGraphsManager = nil;
     
     GraphDescriptor *dailyWaterNeedGraph = [GraphDescriptor defaultDescriptor];
     dailyWaterNeedGraph.graphIdentifier = kDailyWaterNeedGraphIdentifier;
-    dailyWaterNeedGraph.titleAreaDescriptor.title = @"Daily Water Need";
+    dailyWaterNeedGraph.titleAreaDescriptor.title = @"Water Demand";
     dailyWaterNeedGraph.titleAreaDescriptor.units = @"%";
     iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
     dailyWaterNeedGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
