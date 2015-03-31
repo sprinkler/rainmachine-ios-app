@@ -156,7 +156,7 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
 }
 
 - (NSString*)formattedDateStringFromString:(NSString*)string {
-    return [[NSDate sharedDateFormatterAPI4] stringFromDate:[[NSDate sharedReverseDateFormatterAPI4] dateFromString:string]];
+    return [[NSDate sharedReverseDateFormatterAPI4] stringFromDate:[[NSDate sharedDateFormatterAPI4] dateFromString:string]];
 }
 
 - (NSString*)formattedDateStringFromDate:(NSDate*)date {
