@@ -177,6 +177,7 @@
         labelAndTextFieldCell.textField.delegate = self;
         labelAndTextFieldCell.textField.secureTextEntry = YES;
         labelAndTextFieldCell.textField.tag = kProvisionWiFi_SSID;
+        labelAndTextFieldCell.textField.returnKeyType = UIReturnKeyJoin;
         labelAndTextFieldCell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (self.forceShowKeyboard) {
@@ -204,6 +205,7 @@
             labelAndTextFieldCell.textField.delegate = self;
             labelAndTextFieldCell.textField.secureTextEntry = YES;
             labelAndTextFieldCell.textField.tag = kProvisionWiFi_Password;
+            labelAndTextFieldCell.textField.returnKeyType = UIReturnKeyJoin;
             labelAndTextFieldCell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             if (self.forceShowKeyboard) {
@@ -265,6 +267,23 @@
     
     [self refreshUI];
     
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField*)textField {
+    if (textField.tag == kProvisionWiFi_Password || textField.tag == kProvisionWiFi_SSID) {
+        if (!self.SSID.length) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Network Name" message:@"Please enter a valid Network Name and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        }
+        else if (!self.password.length) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid password" message:@"Please enter a valid password and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        }
+        else {
+            [self join];
+        }
+    }
     return YES;
 }
 
