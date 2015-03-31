@@ -253,6 +253,7 @@
         if (!email.length) email = cloudSettings.email;
         
         [setCloudEmailAlertView textFieldAtIndex:0].text = email;
+        [setCloudEmailAlertView textFieldAtIndex:0].keyboardType = UIKeyboardTypeEmailAddress;
     }
     else {
         [self enableRemoteAccess:NO];
