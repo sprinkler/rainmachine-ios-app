@@ -144,7 +144,7 @@ static GraphsManager *sharedGraphsManager = nil;
         rainAmountGraph.titleAreaDescriptor.unitsReloadHandler = ^(GraphTitleAreaDescriptor *descriptor) {
             descriptor.units = [Utils sprinklerLengthUnits];
         };
-        rainAmountGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
+        rainAmountGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
         rainAmountGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_Scale;
         rainAmountGraph.dataSource = [GraphDataSourceRainAmount defaultDataSource];
         [availableGraphs addObject:rainAmountGraph];
