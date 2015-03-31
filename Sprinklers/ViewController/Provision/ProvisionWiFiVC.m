@@ -42,7 +42,7 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"LabelAndTextFieldCell" bundle:nil] forCellReuseIdentifier:@"LabelAndTextFieldCell"];
     
-    self.title = @"Enter Password";
+    self.title = (self.showSSID ? @"Add Network" : @"Enter Password");
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
                                                                              style:UIBarButtonItemStylePlain
@@ -175,7 +175,7 @@
         labelAndTextFieldCell.textField.text = self.SSID;
         labelAndTextFieldCell.textField.placeholder = @"Network Name";
         labelAndTextFieldCell.textField.delegate = self;
-        labelAndTextFieldCell.textField.secureTextEntry = YES;
+        labelAndTextFieldCell.textField.secureTextEntry = NO;
         labelAndTextFieldCell.textField.tag = kProvisionWiFi_SSID;
         labelAndTextFieldCell.textField.returnKeyType = UIReturnKeyJoin;
         labelAndTextFieldCell.selectionStyle = UITableViewCellSelectionStyleNone;
