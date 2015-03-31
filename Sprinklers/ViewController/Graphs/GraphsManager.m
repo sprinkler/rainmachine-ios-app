@@ -103,7 +103,7 @@ static GraphsManager *sharedGraphsManager = nil;
     
     GraphDescriptor *dailyWaterNeedGraph = [GraphDescriptor defaultDescriptor];
     dailyWaterNeedGraph.graphIdentifier = kDailyWaterNeedGraphIdentifier;
-    dailyWaterNeedGraph.titleAreaDescriptor.title = @"Water Demand";
+    dailyWaterNeedGraph.titleAreaDescriptor.title = @"Water Need";
     dailyWaterNeedGraph.titleAreaDescriptor.units = @"%";
     iconsBarDescriptor = [GraphIconsBarDescriptor defaultDescriptor];
     dailyWaterNeedGraph.iconsBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : iconsBarDescriptor};
@@ -126,7 +126,7 @@ static GraphsManager *sharedGraphsManager = nil;
     if (self.shouldDisplayAllGraphs) {
         GraphDescriptor *temperatureGraph = [GraphDescriptor defaultDescriptor];
         temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
-        temperatureGraph.titleAreaDescriptor.title = @"Temperature";
+        temperatureGraph.titleAreaDescriptor.title = @"Maximum Temperature";
         temperatureGraph.titleAreaDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
         temperatureGraph.titleAreaDescriptor.unitsReloadHandler = ^(GraphTitleAreaDescriptor *descriptor) {
             descriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
