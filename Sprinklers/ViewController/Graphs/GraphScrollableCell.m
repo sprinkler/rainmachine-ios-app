@@ -113,6 +113,8 @@
 }
 
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor {
+    [descriptor reloadUnits];
+    
     self.titleAreaContainerViewHeightLayoutConstraint.constant = descriptor.titleAreaHeight;
     self.titleAreaSeparatorView.backgroundColor = descriptor.titleAreaSeparatorColor;
     self.graphTitleLabel.text = descriptor.title;

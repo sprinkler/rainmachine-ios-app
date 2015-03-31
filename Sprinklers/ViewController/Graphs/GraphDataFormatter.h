@@ -15,6 +15,7 @@ typedef enum {
     GraphDataFormatterFieldTypeDate,
     GraphDataFormatterFieldTypeTime,
     GraphDataFormatterFieldTypeTemperature,
+    GraphDataFormatterFieldTypeRainAmount,
     GraphDataFormatterFieldTypePercetage
 } GraphDataFormatterFieldType;
 

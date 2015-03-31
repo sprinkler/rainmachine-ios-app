@@ -18,10 +18,12 @@
 @property (nonatomic, strong) UIFont *unitsFont;
 @property (nonatomic, strong) UIColor *unitsColor;
 @property (nonatomic, assign) CGFloat unitsWidth;
+@property (nonatomic, copy) void (^unitsReloadHandler)(GraphTitleAreaDescriptor *descriptor);
 
 @property (nonatomic, assign) CGFloat titleAreaHeight;
 @property (nonatomic, strong) UIColor *titleAreaSeparatorColor;
 
 + (GraphTitleAreaDescriptor*)defaultDescriptor;
+- (void)reloadUnits;
 
 @end

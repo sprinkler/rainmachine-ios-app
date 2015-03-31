@@ -34,6 +34,7 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
 - (NSString*)formattedDateStringFromDate:(NSDate*)date;
 - (NSString*)formattedTimeStringFromNumber:(NSNumber*)number;
 - (NSString*)formattedTemperatureStringFromNumber:(NSNumber*)number;
+- (NSString*)formattedRainAmountStringFromNumber:(NSNumber*)number;
 - (NSString*)formattedPercentageStringFromNumber:(NSNumber*)number;
 
 @end
@@ -149,6 +150,7 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
     if (fieldType == GraphDataFormatterFieldTypeDate) return [self formattedDateStringFromDate:value];
     if (fieldType == GraphDataFormatterFieldTypeTime) return [self formattedTimeStringFromNumber:value];
     if (fieldType == GraphDataFormatterFieldTypeTemperature) return [self formattedTemperatureStringFromNumber:value];
+    if (fieldType == GraphDataFormatterFieldTypeRainAmount) return [self formattedRainAmountStringFromNumber:value];
     if (fieldType == GraphDataFormatterFieldTypePercetage) return [self formattedPercentageStringFromNumber:value];
     return nil;
 }
@@ -178,6 +180,10 @@ NSString *GraphDataFormatterDescriptorFieldFont             = @"GraphDataFormatt
 
 - (NSString*)formattedTemperatureStringFromNumber:(NSNumber*)number {
     return [NSString stringWithFormat:@"%d°%@",number.intValue,[Utils sprinklerTemperatureUnits]];
+}
+
+- (NSString*)formattedRainAmountStringFromNumber:(NSNumber*)number {
+    return [NSString stringWithFormat:@"%1.2lf %@",number.doubleValue,[Utils sprinklerLengthUnits]];
 }
 
 - (NSString*)formattedPercentageStringFromNumber:(NSNumber*)number {

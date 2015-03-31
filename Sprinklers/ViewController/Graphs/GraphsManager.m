@@ -20,6 +20,7 @@
 #import "GraphTimeInterval.h"
 #import "GraphDataSource.h"
 #import "GraphDataSourceTemperature.h"
+#import "GraphDataSourceRainAmount.h"
 #import "GraphDataSourceWaterConsume.h"
 #import "GraphDataSourceProgramRunTime.h"
 #import "WaterLogDay.h"
@@ -33,7 +34,8 @@
 
 NSString *kDailyWaterNeedGraphIdentifier            = @"DailyWaterNeedGraphIdentifier";
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
-NSString *kProgramRuntimeGraphIdentifier            = @"kProgramRuntimeGraphIdentifier";
+NSString *kRainAmountGraphIdentifier                = @"RainAmountGraphIdentifier";
+NSString *kProgramRuntimeGraphIdentifier            = @"ProgramRuntimeGraphIdentifier";
 
 NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 
@@ -126,11 +128,27 @@ static GraphsManager *sharedGraphsManager = nil;
         temperatureGraph.graphIdentifier = kTemperatureGraphIdentifier;
         temperatureGraph.titleAreaDescriptor.title = @"Temperature";
         temperatureGraph.titleAreaDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+        temperatureGraph.titleAreaDescriptor.unitsReloadHandler = ^(GraphTitleAreaDescriptor *descriptor) {
+            descriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+        };
         temperatureGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
         temperatureGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_Scale;
         temperatureGraph.dataSource = [GraphDataSourceTemperature defaultDataSource];
         [availableGraphs addObject:temperatureGraph];
         availableGraphsDictionary[temperatureGraph.graphIdentifier] = temperatureGraph;
+        
+        GraphDescriptor *rainAmountGraph = [GraphDescriptor defaultDescriptor];
+        rainAmountGraph.graphIdentifier = kRainAmountGraphIdentifier;
+        rainAmountGraph.titleAreaDescriptor.title = @"Rain Amount";
+        rainAmountGraph.titleAreaDescriptor.units = [Utils sprinklerLengthUnits];
+        rainAmountGraph.titleAreaDescriptor.unitsReloadHandler = ^(GraphTitleAreaDescriptor *descriptor) {
+            descriptor.units = [Utils sprinklerLengthUnits];
+        };
+        rainAmountGraph.displayAreaDescriptor.graphStyle = [GraphStyleLines new];
+        rainAmountGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_Scale;
+        rainAmountGraph.dataSource = [GraphDataSourceRainAmount defaultDataSource];
+        [availableGraphs addObject:rainAmountGraph];
+        availableGraphsDictionary[rainAmountGraph.graphIdentifier] = rainAmountGraph;
     }
     
     self.availableGraphsDictionary = availableGraphsDictionary;

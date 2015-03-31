@@ -24,4 +24,8 @@
     return descriptor;
 }
 
+- (void)reloadUnits {
+    if (self.unitsReloadHandler) self.unitsReloadHandler(self);
+}
+
 @end

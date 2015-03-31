@@ -31,6 +31,8 @@
 		96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */; };
 		96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */; };
 		96116DD71A6C34020017FB3F /* GraphScrollableCellEmpty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */; };
+		961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */; };
+		961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -534,6 +536,10 @@
 		96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellWeek.xib; path = ViewController/Graphs/GraphScrollableCellWeek.xib; sourceTree = "<group>"; };
 		96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellYear.xib; path = ViewController/Graphs/GraphScrollableCellYear.xib; sourceTree = "<group>"; };
 		96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellEmpty.xib; path = ViewController/Graphs/GraphScrollableCellEmpty.xib; sourceTree = "<group>"; };
+		961629EA1ACAA3400011BF4B /* GraphDataSourceRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceRainAmount.h; path = ViewController/Graphs/GraphDataSourceRainAmount.h; sourceTree = "<group>"; };
+		961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceRainAmount.m; path = ViewController/Graphs/GraphDataSourceRainAmount.m; sourceTree = "<group>"; };
+		961629ED1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterRainAmount.h; path = ViewController/Graphs/GraphDataFormatterRainAmount.h; sourceTree = "<group>"; };
+		961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterRainAmount.m; path = ViewController/Graphs/GraphDataFormatterRainAmount.m; sourceTree = "<group>"; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -1308,6 +1314,8 @@
 				96D8F8BE1A53645300139940 /* GraphDataSourceWaterConsume.m */,
 				965F565B1A4DE2E100DD5B23 /* GraphDataSourceTemperature.h */,
 				965F565C1A4DE2E100DD5B23 /* GraphDataSourceTemperature.m */,
+				961629EA1ACAA3400011BF4B /* GraphDataSourceRainAmount.h */,
+				961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */,
 				969051D01A6AECE30029304D /* GraphDataSourceProgramRunTime.h */,
 				969051D11A6AECE30029304D /* GraphDataSourceProgramRunTime.m */,
 			);
@@ -1465,6 +1473,8 @@
 				96D22A5B1A8774BD0051B941 /* GraphDataFormatterWaterConsume.m */,
 				96D22A571A8769AB0051B941 /* GraphDataFormatterTemperature.h */,
 				96D22A581A8769AB0051B941 /* GraphDataFormatterTemperature.m */,
+				961629ED1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.h */,
+				961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */,
 				96CD40E31A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.h */,
 				96CD40E41A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m */,
 			);
@@ -2705,6 +2715,7 @@
 				969EB3BA19DAD11A00D10887 /* CloudServerVC.m in Sources */,
 				96F0F3351A36F18C0056D167 /* DashboardVC.m in Sources */,
 				B1DF327A16A6AA5100A1BF38 /* GCDAsyncUdpSocket.m in Sources */,
+				961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */,
 				AF02F87C18BF4D5700579CAF /* CCTBackButtonActionHelper.m in Sources */,
 				B1EF20F3186046D300D9CE26 /* +UIColor.m in Sources */,
 				9672C3A319D8069D00236DFB /* RestrictionsCheckCell.m in Sources */,
@@ -2794,6 +2805,7 @@
 				B1EF20FF1860470800D9CE26 /* +UIButton.m in Sources */,
 				3A9C900018EEF76100272BA3 /* SettingsAboutVC.m in Sources */,
 				96CB939B1A38818300F3691F /* GraphStyleLines.m in Sources */,
+				961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */,
 				AFB69438190289440067CD7F /* Zone.m in Sources */,
 				9637286C1A69A6C700BE7202 /* GraphScrollableCell.m in Sources */,
 				B1EF20F7186046D300D9CE26 /* +UILabel.m in Sources */,
