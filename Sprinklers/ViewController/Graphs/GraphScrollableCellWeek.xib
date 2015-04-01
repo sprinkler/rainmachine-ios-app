@@ -80,6 +80,15 @@
                                     <constraint firstItem="RkN-H3-LjU" firstAttribute="top" secondItem="yXZ-MR-Eyf" secondAttribute="top" constant="23" id="bo0-8f-Y4a"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVZ-7L-YTR">
+                                <rect key="frame" x="278" y="33" width="22" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="AFS-5M-BiL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cqg-zL-QJC">
                                 <rect key="frame" x="0.0" y="0.0" width="308" height="23"/>
                                 <subviews>
@@ -128,6 +137,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yXZ-MR-Eyf" secondAttribute="trailing" constant="30" id="5NF-9P-D20"/>
                             <constraint firstAttribute="bottom" secondItem="4wc-4V-Z5M" secondAttribute="bottom" constant="59" id="6Z1-u1-8Af"/>
+                            <constraint firstItem="eVZ-7L-YTR" firstAttribute="top" secondItem="cqg-zL-QJC" secondAttribute="bottom" constant="10" id="9ap-HG-QLa"/>
                             <constraint firstAttribute="bottom" secondItem="HJU-Lp-6qg" secondAttribute="bottom" constant="109" id="AFy-Of-QWG"/>
                             <constraint firstItem="TuQ-QJ-iKz" firstAttribute="leading" secondItem="Idj-4f-6kl" secondAttribute="leading" constant="4" id="F7Y-eD-JUi"/>
                             <constraint firstItem="nsr-ol-twC" firstAttribute="leading" secondItem="Idj-4f-6kl" secondAttribute="leading" id="Iw8-ES-62b"/>
@@ -138,6 +148,8 @@
                             <constraint firstAttribute="bottom" secondItem="nsr-ol-twC" secondAttribute="bottom" id="PcN-3K-x4N"/>
                             <constraint firstItem="4wc-4V-Z5M" firstAttribute="leading" secondItem="Idj-4f-6kl" secondAttribute="leading" constant="4" id="W6s-jA-ZjE"/>
                             <constraint firstAttribute="trailing" secondItem="nsr-ol-twC" secondAttribute="trailing" id="a3d-ik-U4n"/>
+                            <constraint firstAttribute="trailing" secondItem="eVZ-7L-YTR" secondAttribute="trailing" constant="8" id="awu-t2-02r"/>
+                            <constraint firstItem="eVZ-7L-YTR" firstAttribute="leading" secondItem="yXZ-MR-Eyf" secondAttribute="trailing" id="e8e-ct-4KC"/>
                             <constraint firstItem="yXZ-MR-Eyf" firstAttribute="leading" secondItem="Idj-4f-6kl" secondAttribute="leading" constant="30" id="hRJ-yo-li5"/>
                             <constraint firstItem="cqg-zL-QJC" firstAttribute="leading" secondItem="Idj-4f-6kl" secondAttribute="leading" id="ipL-00-IF7"/>
                             <constraint firstItem="cqg-zL-QJC" firstAttribute="top" secondItem="Idj-4f-6kl" secondAttribute="top" id="kYJ-43-aY9"/>
@@ -177,6 +189,9 @@
                 <outlet property="titleAreaContainerView" destination="cqg-zL-QJC" id="Oae-uz-cgq"/>
                 <outlet property="titleAreaContainerViewHeightLayoutConstraint" destination="YXy-Q0-tIL" id="NbJ-5x-Nru"/>
                 <outlet property="titleAreaSeparatorView" destination="aaV-Yd-Jdr" id="acv-AO-dqs"/>
+                <outlet property="valuesMetricLabel" destination="eVZ-7L-YTR" id="GcJ-2w-9z0"/>
+                <outlet property="valuesMetricLabelHeightLayoutConstraint" destination="AFS-5M-BiL" id="5qz-DE-wRL"/>
+                <outlet property="valuesMetricLabelTopSpaceLayoutConstraint" destination="9ap-HG-QLa" id="uYd-Mi-2vM"/>
             </connections>
             <point key="canvasLocation" x="213" y="189.5"/>
         </tableViewCell>

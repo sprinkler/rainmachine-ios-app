@@ -24,7 +24,9 @@ typedef enum {
 @property (nonatomic, strong) UIColor *unitsColor;
 @property (nonatomic, strong) NSString *units;
 @property (nonatomic, assign) GraphValuesRoundingMode valuesRoundingMode;
+@property (nonatomic, copy) void (^unitsReloadHandler)(GraphValuesBarDescriptor *descriptor);
 
 + (GraphValuesBarDescriptor*)defaultDescriptor;
+- (void)reloadUnits;
 
 @end

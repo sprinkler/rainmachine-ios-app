@@ -80,6 +80,15 @@
                                     <constraint firstAttribute="bottom" secondItem="RkN-H3-LjU" secondAttribute="bottom" id="vaR-MO-ojq"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ygh-6A-82o">
+                                <rect key="frame" x="278" y="33" width="22" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="jcN-ez-pFW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cqg-zL-QJC">
                                 <rect key="frame" x="0.0" y="0.0" width="308" height="23"/>
                                 <subviews>
@@ -133,7 +142,10 @@
                             <constraint firstAttribute="bottom" secondItem="TuQ-QJ-iKz" secondAttribute="bottom" constant="8" id="KFD-bg-Eue"/>
                             <constraint firstAttribute="trailing" secondItem="cqg-zL-QJC" secondAttribute="trailing" id="NgO-Ei-piL"/>
                             <constraint firstAttribute="trailing" secondItem="ece-ST-uTG" secondAttribute="trailing" id="P3N-Ws-EU0"/>
+                            <constraint firstItem="Ygh-6A-82o" firstAttribute="leading" secondItem="tZl-HH-UEq" secondAttribute="trailing" id="TMH-zv-U4k"/>
                             <constraint firstItem="4wc-4V-Z5M" firstAttribute="leading" secondItem="Idj-4f-6kl" secondAttribute="leading" constant="4" id="W6s-jA-ZjE"/>
+                            <constraint firstItem="Ygh-6A-82o" firstAttribute="top" secondItem="cqg-zL-QJC" secondAttribute="bottom" constant="10" id="XFX-8A-0Om"/>
+                            <constraint firstAttribute="trailing" secondItem="Ygh-6A-82o" secondAttribute="trailing" constant="8" id="f3A-KR-Giz"/>
                             <constraint firstAttribute="bottom" secondItem="tZl-HH-UEq" secondAttribute="bottom" id="h5K-iq-8VY"/>
                             <constraint firstItem="cqg-zL-QJC" firstAttribute="leading" secondItem="Idj-4f-6kl" secondAttribute="leading" id="ipL-00-IF7"/>
                             <constraint firstItem="ece-ST-uTG" firstAttribute="top" secondItem="cqg-zL-QJC" secondAttribute="bottom" id="iuR-TG-fcH"/>
@@ -177,6 +189,9 @@
                 <outlet property="titleAreaContainerView" destination="cqg-zL-QJC" id="Oae-uz-cgq"/>
                 <outlet property="titleAreaContainerViewHeightLayoutConstraint" destination="YXy-Q0-tIL" id="NbJ-5x-Nru"/>
                 <outlet property="titleAreaSeparatorView" destination="aaV-Yd-Jdr" id="acv-AO-dqs"/>
+                <outlet property="valuesMetricLabel" destination="Ygh-6A-82o" id="0dG-MB-ZRR"/>
+                <outlet property="valuesMetricLabelHeightLayoutConstraint" destination="jcN-ez-pFW" id="GRO-lQ-dQp"/>
+                <outlet property="valuesMetricLabelTopSpaceLayoutConstraint" destination="XFX-8A-0Om" id="1Ct-PP-L7X"/>
             </connections>
             <point key="canvasLocation" x="213" y="189.5"/>
         </tableViewCell>

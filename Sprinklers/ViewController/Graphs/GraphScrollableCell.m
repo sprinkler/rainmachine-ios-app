@@ -14,6 +14,8 @@
 #import "GraphTimeIntervalPart.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphTitleAreaDescriptor.h"
+#import "GraphValuesBarDescriptor.h"
+#import "GraphIconsBarDescriptor.h"
 #import "GraphDisplayAreaDescriptor.h"
 #import "GraphDateBarDescriptor.h"
 #import "GraphsManager.h"
@@ -28,6 +30,7 @@
 
 - (void)setup;
 - (void)setupBackgroundGraphViewWithDescriptor:(GraphDescriptor*)descriptor;
+- (void)setupValuesMetricWithDescriptor:(GraphDescriptor*)descriptor;
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
 - (void)setupMinMaxValuesWithDescriptor:(GraphDescriptor*)descriptor;
@@ -95,6 +98,7 @@
     }
     
     [self setupBackgroundGraphViewWithDescriptor:self.graphDescriptor];
+    [self setupValuesMetricWithDescriptor:self.graphDescriptor];
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
     [self setupMinMaxValuesWithDescriptor:self.graphDescriptor];
@@ -117,6 +121,26 @@
     self.backgroundGraphView.graphStyle.graphDescriptor = descriptor;
     self.backgroundGraphViewTopLayoutConstraint.constant = descriptor.totalGraphHeaderHeight;
     self.backgroundGraphViewBottomLayoutConstraint.constant = descriptor.totalGraphFooterHeight;
+}
+
+- (void)setupValuesMetricWithDescriptor:(GraphDescriptor*)descriptor {
+    GraphValuesBarDescriptor *valuesBarDescriptor = [descriptor.valuesBarDescriptorsDictionary objectForKey:@(self.graphDescriptor.graphTimeInterval.type)];
+    
+    if (valuesBarDescriptor) {
+        [valuesBarDescriptor reloadUnits];
+        
+        GraphIconsBarDescriptor *iconsBarDescriptor = [descriptor.iconsBarDescriptorsDictionary objectForKey:@(self.graphDescriptor.graphTimeInterval.type)];
+        CGFloat valuesMetricLabelTopSpaceLayoutConstraintConstant = 0.0;
+        if (iconsBarDescriptor) valuesMetricLabelTopSpaceLayoutConstraintConstant += iconsBarDescriptor.iconsBarHeight;
+        self.valuesMetricLabelTopSpaceLayoutConstraint.constant = valuesMetricLabelTopSpaceLayoutConstraintConstant;
+        self.valuesMetricLabelHeightLayoutConstraint.constant = valuesBarDescriptor.valuesBarHeight;
+        
+        self.valuesMetricLabel.text = valuesBarDescriptor.units;
+        self.valuesMetricLabel.textColor = valuesBarDescriptor.unitsColor;
+        self.valuesMetricLabel.font = valuesBarDescriptor.unitsFont;
+    }
+    
+    self.valuesMetricLabel.hidden = !valuesBarDescriptor;
 }
 
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {

@@ -38,6 +38,10 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *backgroundGraphViewTopLayoutConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *backgroundGraphViewBottomLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UILabel *valuesMetricLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *valuesMetricLabelTopSpaceLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *valuesMetricLabelHeightLayoutConstraint;
+
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate;
 - (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset;
 - (void)scrollToCurrentDateAnimated:(BOOL)animate;

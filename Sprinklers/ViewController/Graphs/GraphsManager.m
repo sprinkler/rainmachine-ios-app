@@ -110,6 +110,9 @@ static GraphsManager *sharedGraphsManager = nil;
     valuesBarDescriptor = [GraphValuesBarDescriptor defaultDescriptor];
     valuesBarDescriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
     valuesBarDescriptor.valuesRoundingMode = GraphValuesRoundingMode_Round;
+    valuesBarDescriptor.unitsReloadHandler = ^(GraphValuesBarDescriptor *descriptor) {
+        descriptor.units = [NSString stringWithFormat:@"°%@",[Utils sprinklerTemperatureUnits]];
+    };
     dailyWaterNeedGraph.valuesBarDescriptorsDictionary = @{@(GraphTimeIntervalType_Weekly) : valuesBarDescriptor};
     dailyWaterNeedGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
     dailyWaterNeedGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_PresetMinMaxValues;
