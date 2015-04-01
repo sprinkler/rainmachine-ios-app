@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class GraphDescriptor;
+@class GraphView;
 @protocol GraphScrollableCellDelegate;
 
 @interface GraphScrollableCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
@@ -32,6 +33,10 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *maxValueLabelBottomSpaceLayoutConstraint;
 
 @property (nonatomic, weak) IBOutlet UICollectionView *graphCollectionView;
+
+@property (nonatomic, weak) IBOutlet GraphView *backgroundGraphView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *backgroundGraphViewTopLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *backgroundGraphViewBottomLayoutConstraint;
 
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate;
 - (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset;

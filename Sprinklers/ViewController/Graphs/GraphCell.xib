@@ -10,7 +10,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GraphCell" rowHeight="138" id="KGk-i7-Jjw" customClass="GraphCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yK-DE-o9P">
-                                <rect key="frame" x="147" y="0.0" width="26" height="138"/>
+                                <rect key="frame" x="147" y="-23" width="26" height="161.5"/>
                                 <color key="backgroundColor" red="0.34901960784313724" green="0.70196078431372544" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="26" id="l2e-TS-iR4"/>
@@ -84,7 +84,7 @@
                             <constraint firstItem="fFa-Ra-Xdq" firstAttribute="leading" secondItem="ZoQ-gN-Nun" secondAttribute="leading" id="n26-I4-kjs"/>
                             <constraint firstAttribute="trailing" secondItem="yEs-ao-8P4" secondAttribute="trailing" id="nhj-hQ-Ovo"/>
                             <constraint firstItem="fFa-Ra-Xdq" firstAttribute="top" secondItem="Nzb-8X-iOA" secondAttribute="bottom" id="o0A-t2-PF9"/>
-                            <constraint firstItem="2yK-DE-o9P" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" id="yLg-od-NnP"/>
+                            <constraint firstItem="2yK-DE-o9P" firstAttribute="top" secondItem="ZoQ-gN-Nun" secondAttribute="top" constant="-23" id="yLg-od-NnP"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -113,6 +113,7 @@
                 <outlet property="todaySelectionView" destination="2yK-DE-o9P" id="0C5-Ma-V9w"/>
                 <outlet property="todaySelectionViewWidthLayoutConstraint" destination="l2e-TS-iR4" id="lJP-B0-H8y"/>
                 <outlet property="todaySelectionViewXLayoutConstraint" destination="bdl-VN-BCw" id="eT3-BI-oqO"/>
+                <outlet property="todaySelectionViewYLayoutConstraint" destination="yLg-od-NnP" id="GYQ-WP-FIB"/>
                 <outlet property="valuesBarContainerView" destination="Nzb-8X-iOA" id="T8c-J9-Xwa"/>
                 <outlet property="valuesBarContainerViewHeightLayoutConstraint" destination="YtS-Gj-gIw" id="4dh-Ik-Dgk"/>
                 <outlet property="valuesUnitsLabel" destination="WvY-GF-YX6" id="3O9-rF-gVZ"/>

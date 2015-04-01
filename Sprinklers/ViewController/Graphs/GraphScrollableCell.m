@@ -17,6 +17,8 @@
 #import "GraphDisplayAreaDescriptor.h"
 #import "GraphDateBarDescriptor.h"
 #import "GraphsManager.h"
+#import "GraphView.h"
+#import "GraphStyle.h"
 
 #pragma mark -
 
@@ -25,6 +27,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 - (void)setup;
+- (void)setupBackgroundGraphViewWithDescriptor:(GraphDescriptor*)descriptor;
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
 - (void)setupMinMaxValuesWithDescriptor:(GraphDescriptor*)descriptor;
@@ -79,6 +82,9 @@
     
     [self.graphCollectionView registerNib:[UINib nibWithNibName:@"GraphCell" bundle:nil] forCellWithReuseIdentifier:@"GraphCell"];
     [self.graphCollectionView reloadData];
+    
+    self.backgroundGraphView.graphStyle = [GraphStyle new];
+    self.backgroundGraphView.graphStyle.shouldDrawRaster = YES;
 }
 
 - (void)setup {
@@ -88,6 +94,7 @@
         self.graphDescriptor.displayAreaDescriptor.midValue = self.graphDescriptor.dataSource.midValue;
     }
     
+    [self setupBackgroundGraphViewWithDescriptor:self.graphDescriptor];
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
     [self setupMinMaxValuesWithDescriptor:self.graphDescriptor];
@@ -105,6 +112,12 @@
 }
 
 #pragma mark - Visual appearance
+
+- (void)setupBackgroundGraphViewWithDescriptor:(GraphDescriptor*)descriptor {
+    self.backgroundGraphView.graphStyle.graphDescriptor = descriptor;
+    self.backgroundGraphViewTopLayoutConstraint.constant = descriptor.totalGraphHeaderHeight;
+    self.backgroundGraphViewBottomLayoutConstraint.constant = descriptor.totalGraphFooterHeight;
+}
 
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {
     self.graphContainerView.backgroundColor = descriptor.backgroundColor;

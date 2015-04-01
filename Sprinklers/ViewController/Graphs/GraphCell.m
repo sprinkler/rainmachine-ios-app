@@ -9,6 +9,7 @@
 #import "GraphCell.h"
 #import "GraphView.h"
 #import "GraphDescriptor.h"
+#import "GraphTitleAreaDescriptor.h"
 #import "GraphVisualAppearanceDescriptor.h"
 #import "GraphIconsBarDescriptor.h"
 #import "GraphValuesBarDescriptor.h"
@@ -457,6 +458,7 @@
         CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
         
         self.todaySelectionViewXLayoutConstraint.constant = round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (timeIntervalPart.currentDateValueIndex + 0.5) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding - self.graphDescriptor.displayAreaDescriptor.todaySelectionWidth / 2.0);
+        self.todaySelectionViewYLayoutConstraint.constant = - self.graphDescriptor.titleAreaDescriptor.titleAreaHeight;
     } else {
         self.todaySelectionView.hidden = YES;
     }

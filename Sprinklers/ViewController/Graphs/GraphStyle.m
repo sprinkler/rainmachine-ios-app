@@ -38,8 +38,6 @@
 }
 
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context {
-    BOOL hasValues = (self.values != nil);
-    
     CGContextSaveGState(context);
     
     CGFloat maxValueOriginY = self.graphDescriptor.displayAreaDescriptor.graphBarsTopPadding + self.graphDescriptor.displayAreaDescriptor.valuesDisplayHeight;
@@ -54,13 +52,11 @@
     CGFloat dashLengths[] = {3.0, 3.0};
     CGContextSetLineDash(context, dashPhase, dashLengths, 2);
     
-    if (hasValues) {
-        CGContextMoveToPoint(context, 0.0, maxValueOriginY);
-        CGContextAddLineToPoint(context, rect.size.width, maxValueOriginY);
-        
-        CGContextMoveToPoint(context, 0.0, midValueOriginY);
-        CGContextAddLineToPoint(context, rect.size.width, midValueOriginY);
-    }
+    CGContextMoveToPoint(context, 0.0, maxValueOriginY);
+    CGContextAddLineToPoint(context, rect.size.width, maxValueOriginY);
+    
+    CGContextMoveToPoint(context, 0.0, midValueOriginY);
+    CGContextAddLineToPoint(context, rect.size.width, midValueOriginY);
     
     CGContextMoveToPoint(context, 0.0, minValueOriginY);
     CGContextAddLineToPoint(context, rect.size.width, minValueOriginY);
@@ -75,7 +71,7 @@
 }
 
 - (void)plotInRect:(CGRect)rect context:(CGContextRef)context {
-    [self plotRasterInRect:rect context:context];
+    if (self.shouldDrawRaster) [self plotRasterInRect:rect context:context];
     if (self.values != nil) [self plotGraphInRect:rect context:context];
 }
 

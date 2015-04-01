@@ -72,6 +72,16 @@
         [self.dateBarDescriptor totalBarHeightForGraphTimeInterval:self.graphTimeInterval] + 6.0;
 }
 
+- (CGFloat)totalGraphHeaderHeight {
+    GraphIconsBarDescriptor *iconsBarDescriptor = (self.graphTimeInterval ? self.iconsBarDescriptorsDictionary[@(self.graphTimeInterval.type)] : nil);
+    GraphValuesBarDescriptor *valuesBarDescriptor = (self.graphTimeInterval ? self.valuesBarDescriptorsDictionary[@(self.graphTimeInterval.type)] : nil);
+    return iconsBarDescriptor.iconsBarHeight + valuesBarDescriptor.valuesBarHeight;
+}
+
+- (CGFloat)totalGraphFooterHeight {
+    return [self.dateBarDescriptor totalBarHeightForGraphTimeInterval:self.graphTimeInterval];
+}
+
 - (void)setIsDisabled:(BOOL)isDisabled {
     _isDisabled = isDisabled;
     if (isDisabled) {

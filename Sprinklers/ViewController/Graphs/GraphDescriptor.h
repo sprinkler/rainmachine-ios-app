@@ -32,5 +32,7 @@
 + (GraphDescriptor*)defaultDescriptor;
 
 @property (nonatomic, readonly) CGFloat totalGraphHeight;
+@property (nonatomic, readonly) CGFloat totalGraphHeaderHeight;
+@property (nonatomic, readonly) CGFloat totalGraphFooterHeight;
 
 @end
