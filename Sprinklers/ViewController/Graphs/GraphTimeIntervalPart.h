@@ -24,6 +24,9 @@ typedef enum {
 @property (nonatomic, assign) GraphTimeIntervalPartType type;
 
 @property (nonatomic, strong) NSArray *dateValues;
+@property (nonatomic, strong) NSArray *monthValues;
+@property (nonatomic, strong) NSArray *yearValues;
+
 @property (nonatomic, strong) NSArray *dateStrings;
 @property (nonatomic, strong) NSArray *weekdays;
 @property (nonatomic, strong) NSString *prevDateString;

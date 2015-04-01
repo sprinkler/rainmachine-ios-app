@@ -28,7 +28,11 @@
     CGFloat barDisplayWidth = displayWidth / self.values.count;
     CGFloat barOriginX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + (barDisplayWidth - barSizeWidth) / 2.0;
     
+    NSMutableArray *coordinatesX = [NSMutableArray new];
+    
     for (id value in self.values) {
+        [coordinatesX addObject:@(barOriginX)];
+        
         if (value == [NSNull null]) {
             barOriginX += barDisplayWidth;
             continue;
@@ -47,6 +51,8 @@
         
         barOriginX += barDisplayWidth;
     }
+    
+    self.coordinatesX = coordinatesX;
     
     CGContextRestoreGState(context);
 }

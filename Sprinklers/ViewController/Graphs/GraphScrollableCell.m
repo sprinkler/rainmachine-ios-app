@@ -31,6 +31,7 @@
 - (void)setup;
 - (void)setupBackgroundGraphViewWithDescriptor:(GraphDescriptor*)descriptor;
 - (void)setupValuesMetricWithDescriptor:(GraphDescriptor*)descriptor;
+- (void)setupDateWithDescriptor:(GraphDescriptor*)descriptor;
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor;
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
 - (void)setupMinMaxValuesWithDescriptor:(GraphDescriptor*)descriptor;
@@ -38,6 +39,7 @@
 @property (nonatomic, assign) CGPoint layoutSubviewsContentOffset;
 
 - (NSString*)stringForMinMaxValue:(double)minMaxValue;
+- (void)updateDateLabelsForContentOffset;
 
 @end
 
@@ -99,20 +101,27 @@
     
     [self setupBackgroundGraphViewWithDescriptor:self.graphDescriptor];
     [self setupValuesMetricWithDescriptor:self.graphDescriptor];
+    [self setupDateWithDescriptor:self.graphDescriptor];
     [self setupVisualAppearanceWithDescriptor:self.graphDescriptor.visualAppearanceDescriptor];
     [self setupTitleAreaWithDescriptor:self.graphDescriptor.titleAreaDescriptor];
     [self setupMinMaxValuesWithDescriptor:self.graphDescriptor];
     
     [self.graphCollectionView.collectionViewLayout invalidateLayout];
     [self.graphCollectionView reloadData];
+    
+    [self updateDateLabelsForContentOffset];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
     if (!CGPointEqualToPoint(self.layoutSubviewsContentOffset, CGPointZero) && self.graphCollectionView.contentSize.width > 0) {
         [self scrollToContentOffset:self.layoutSubviewsContentOffset animated:NO];
         self.layoutSubviewsContentOffset = CGPointZero;
     }
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateDateLabelsForContentOffset) object:nil];
+    [self performSelector:@selector(updateDateLabelsForContentOffset) withObject:nil afterDelay:0.25 inModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - Visual appearance
@@ -141,6 +150,26 @@
     }
     
     self.valuesMetricLabel.hidden = !valuesBarDescriptor;
+}
+
+- (void)setupDateWithDescriptor:(GraphDescriptor*)descriptor {
+    GraphDateBarDescriptor *dateBarDescriptor = descriptor.dateBarDescriptor;
+    
+    CGFloat dateBarTotalHeight = 0.0;
+    if (descriptor.graphTimeInterval.type != GraphTimeIntervalType_Weekly) dateBarTotalHeight = dateBarDescriptor.dateBarHeight;
+    else dateBarTotalHeight = [dateBarDescriptor totalBarHeightForGraphTimeInterval:descriptor.graphTimeInterval];
+    
+    self.dateLabelTopHeightLayoutConstraint.constant = dateBarDescriptor.weekdaysBarHeight;
+    self.dateLabelTopBottomSpaceLayoutConstraint.constant = dateBarTotalHeight - dateBarDescriptor.weekdaysBarHeight;
+    self.dateLabelTop.textColor = dateBarDescriptor.dateValuesColor;
+    self.dateLabelTop.font = dateBarDescriptor.dateValuesFont;
+    
+    self.dateLabelBottomHeightLayoutConstraint.constant = dateBarDescriptor.dateBarHeight - dateBarDescriptor.dateBarBottomPadding;
+    self.dateLabelBottomBottomSpaceLayoutConstraint.constant = dateBarDescriptor.dateBarBottomPadding;
+    self.dateLabelBottom.textColor = dateBarDescriptor.dateValuesColor;
+    self.dateLabelBottom.font = dateBarDescriptor.dateValuesFont;
+    
+    self.dateLabelTop.hidden = (!dateBarDescriptor.hasWeekdaysBar || descriptor.graphTimeInterval.type != GraphTimeIntervalType_Weekly);
 }
 
 - (void)setupVisualAppearanceWithDescriptor:(GraphVisualAppearanceDescriptor*)descriptor {
@@ -203,6 +232,8 @@
     self.graphCollectionView.delegate = nil;
     [self.graphCollectionView setContentOffset:contentOffset animated:animate];
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
+    
+    [self updateDateLabelsForContentOffset];
 }
 
 - (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset {
@@ -223,6 +254,8 @@
                                              animated:animate];
     
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
+    
+    [self updateDateLabelsForContentOffset];
 }
 
 - (void)stopScrolling {
@@ -287,6 +320,46 @@
 - (void)scrollViewDidScroll:(UIScrollView*)scrollView {
     if (self.graphScrollableCellDelegate && [self.graphScrollableCellDelegate respondsToSelector:@selector(graphScrollableCell:didScrollToContentOffset:)]) {
         [self.graphScrollableCellDelegate graphScrollableCell:self didScrollToContentOffset:self.graphCollectionView.contentOffset];
+    }
+    [self updateDateLabelsForContentOffset];
+}
+
+- (void)updateDateLabelsForContentOffset {
+    GraphCell *firstVisibleCell = nil;
+    for (GraphCell *visibleCell in self.graphCollectionView.visibleCells) {
+        if (!firstVisibleCell) firstVisibleCell = visibleCell;
+        else if (visibleCell.frame.origin.x < firstVisibleCell.frame.origin.x) {
+            firstVisibleCell = visibleCell;
+        }
+    }
+    
+    if (firstVisibleCell) {
+        NSArray *coordinatesX = firstVisibleCell.graphView.graphStyle.coordinatesX;
+        NSInteger index = 0;
+        for (NSNumber *coordinateX in coordinatesX) {
+            if (self.graphCollectionView.contentOffset.x < firstVisibleCell.frame.origin.x + coordinateX.doubleValue) break;
+            index++;
+        }
+        
+        if (index >= coordinatesX.count && coordinatesX.count) index = coordinatesX.count - 1;
+        
+        GraphTimeIntervalPart *timeIntervalPart = firstVisibleCell.graphTimeIntervalPart;
+        NSString *monthValue = (timeIntervalPart.monthValues.count > index ? timeIntervalPart.monthValues[index] : nil);
+        NSString *yearValue = (timeIntervalPart.yearValues.count > index ? timeIntervalPart.yearValues[index] : nil);
+        
+        if (monthValue && yearValue) {
+            if (!self.dateLabelTop.hidden) {
+                self.dateLabelTop.text = monthValue;
+                self.dateLabelBottom.text = yearValue;
+            } else {
+                self.dateLabelTop.text = nil;
+                self.dateLabelBottom.text = [NSString stringWithFormat:@"%@'%@",monthValue,[yearValue substringFromIndex:2]];
+            }
+        } else {
+            self.dateLabelTop.text = nil;
+            if (monthValue) self.dateLabelBottom.text = monthValue;
+            else if (yearValue) self.dateLabelBottom.text = yearValue;
+        }
     }
 }
 

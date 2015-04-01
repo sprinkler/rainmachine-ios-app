@@ -46,8 +46,19 @@
     }
     if (self.nextValue) [values addObject:self.nextValue];
     
+    NSMutableArray *coordinatesX = [NSMutableArray new];
+    
     BOOL firstPoint = YES;
+    NSInteger valueIndex = 0;
+    
     for (id value in values) {
+        BOOL shouldAddCoordinate = YES;
+        if (self.prevValue && valueIndex == 0) shouldAddCoordinate = NO;
+        if (self.nextValue && valueIndex + 1 == values.count) shouldAddCoordinate = NO;
+        if (shouldAddCoordinate) [coordinatesX addObject:@(barCenterX)];
+        
+        valueIndex++;
+        
         if (value == [NSNull null]) {
             CGContextStrokePath(context);
             barCenterX += barDisplayWidth;
@@ -70,6 +81,8 @@
         firstPoint = NO;
         barCenterX += barDisplayWidth;
     }
+    
+    self.coordinatesX = coordinatesX;
     
     CGContextStrokePath(context);
     

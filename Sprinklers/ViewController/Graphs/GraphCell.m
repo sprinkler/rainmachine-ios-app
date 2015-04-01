@@ -314,7 +314,6 @@
         for (NSInteger index = 0; index < timeIntervalPart.dateValues.count; index++) {
             UILabel *dateValueLabel = self.dateValueLabels[index];
             NSString *dateValue = timeIntervalPart.dateValues[index];
-            if (index == 0) dateValue = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartStartValue, dateValue];
             dateValueLabel.text = dateValue;
         }
         return;
@@ -333,19 +332,12 @@
     
     NSMutableArray *dateValueLabels = [NSMutableArray new];
     
-    BOOL isFirstDateValue = YES;
     for (NSString *dateValue in timeIntervalPart.dateValues) {
         isLastHorizontalConstraint = (dateValue == timeIntervalPart.dateValues.lastObject);
         
-        NSString *dateValueString = dateValue;
-        if (isFirstDateValue) {
-            dateValueString = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartStartValue, dateValueString];
-            isFirstDateValue = NO;
-        } else if ([dateValueString isEqualToString:@"01"] || [dateValueString isEqualToString:abbrevMonthsOfYear[0]]) dateValueString = [NSString stringWithFormat:@"%@ %@",timeIntervalPart.timeIntervalPartEndValue, dateValueString];
-        
         UILabel *dateValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         dateValueLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        dateValueLabel.text = dateValueString;
+        dateValueLabel.text = dateValue;
         dateValueLabel.textColor = descriptor.dateValuesColor;
         dateValueLabel.font = descriptor.dateValuesFont;
         dateValueLabel.textAlignment = NSTextAlignmentCenter;

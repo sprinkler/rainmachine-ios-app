@@ -42,6 +42,13 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *valuesMetricLabelTopSpaceLayoutConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *valuesMetricLabelHeightLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UILabel *dateLabelTop;
+@property (nonatomic, weak) IBOutlet UILabel *dateLabelBottom;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateLabelTopHeightLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateLabelBottomHeightLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateLabelTopBottomSpaceLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateLabelBottomBottomSpaceLayoutConstraint;
+
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate;
 - (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset;
 - (void)scrollToCurrentDateAnimated:(BOOL)animate;

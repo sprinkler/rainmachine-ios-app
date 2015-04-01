@@ -17,7 +17,6 @@
 
 - (void)createDateValues;
 - (void)createDateStrings;
-- (void)createTimeIntervalPartValue;
 
 @end
 
@@ -37,7 +36,6 @@
 - (void)initialize {
     [self createDateValues];
     [self createDateStrings];
-    [self createTimeIntervalPartValue];
 }
 
 #pragma mark - Values and data sources
@@ -105,6 +103,8 @@
     NSDate *currentDate = [NSDate date];
     
     NSMutableArray *dateValues = [NSMutableArray new];
+    NSMutableArray *monthValues = [NSMutableArray new];
+    NSMutableArray *yearValues = [NSMutableArray new];
     NSMutableArray *weekdays = (self.type ==  GraphTimeIntervalPartType_DisplayWeekdays ? [NSMutableArray new] : nil);
     
     NSInteger count = 7;
@@ -117,9 +117,11 @@
         NSDate *date = [self.startDate dateByAddingDays:(NSInteger)round(dayOffset)];
         
         if (self.type == GraphTimeIntervalPartType_DisplayWeekdays) {
-            NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitWeekday fromDate:date];
+            NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%02d",(int)dateComponents.day];
             [dateValues addObject:dateValue];
+            [monthValues addObject:abbrevMonthsOfYear[dateComponents.month - 1]];
+            [yearValues addObject:[NSString stringWithFormat:@"%d",(int)dateComponents.year]];
             
             NSInteger weekday = dateComponents.weekday - calendar.firstWeekday;
             if (weekday < 0) weekday += 7;
@@ -128,20 +130,24 @@
             if ([date isEqualToDateIgnoringTime:currentDate]) self.currentDateValueIndex = index;
         }
         else if (self.type == GraphTimeIntervalPartType_DisplayDays) {
-            NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay fromDate:date];
+            NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%02d",(int)dateComponents.day];
             [dateValues addObject:dateValue];
+            [monthValues addObject:abbrevMonthsOfYear[dateComponents.month - 1]];
         }
         else if (self.type == GraphTimeIntervalPartType_DisplayMonths) {
-            NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:date];
-            NSString *dateValue = [NSString stringWithFormat:@"%@",abbrevMonthsOfYear[dateComponents.month - 1]];
+            NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
+            NSString *dateValue = abbrevMonthsOfYear[dateComponents.month - 1];
             [dateValues addObject:dateValue];
+            [yearValues addObject:[NSString stringWithFormat:@"%d",(int)dateComponents.year]];
         }
         
         dayOffset += dayIncrementer;
     }
     
     self.dateValues = dateValues;
+    self.monthValues =  monthValues;
+    self.yearValues = yearValues;
     self.weekdays = weekdays;
 }
 
@@ -168,36 +174,6 @@
     self.prevDateString = prevDateString;
     self.nextDateString = nextDateString;
     self.dateStrings = dateStrings;
-}
-
-- (void)createTimeIntervalPartValue {
-    if (self.type == GraphTimeIntervalPartType_DisplayWeekdays) {
-        static NSDateFormatter *dateFormatter = nil;
-        if (!dateFormatter) {
-            dateFormatter = [NSDateFormatter new];
-            dateFormatter.dateFormat = @"MMM";
-        }
-        self.timeIntervalPartStartValue = [dateFormatter stringFromDate:self.startDate];
-        self.timeIntervalPartEndValue = [dateFormatter stringFromDate:self.endDate];
-    }
-    else if (self.type == GraphTimeIntervalPartType_DisplayDays) {
-        static NSDateFormatter *dateFormatter = nil;
-        if (!dateFormatter) {
-            dateFormatter = [NSDateFormatter new];
-            dateFormatter.dateFormat = @"MMM";
-        }
-        self.timeIntervalPartStartValue = [dateFormatter stringFromDate:self.startDate];
-        self.timeIntervalPartEndValue = [dateFormatter stringFromDate:self.endDate];
-    }
-    else if (self.type == GraphTimeIntervalPartType_DisplayMonths) {
-        static NSDateFormatter *dateFormatter = nil;
-        if (!dateFormatter) {
-            dateFormatter = [NSDateFormatter new];
-            dateFormatter.dateFormat = @"yy";
-        }
-        self.timeIntervalPartStartValue = [NSString stringWithFormat:@"'%@",[dateFormatter stringFromDate:self.startDate]];
-        self.timeIntervalPartEndValue = [NSString stringWithFormat:@"'%@",[dateFormatter stringFromDate:self.endDate]];
-    }
 }
 
 @end

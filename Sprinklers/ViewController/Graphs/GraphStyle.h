@@ -17,6 +17,7 @@
 @property (nonatomic, strong) id prevValue;
 @property (nonatomic, strong) id nextValue;
 @property (nonatomic, assign) BOOL shouldDrawRaster;
+@property (nonatomic, strong) NSArray *coordinatesX;
 
 - (void)plotRasterInRect:(CGRect)rect context:(CGContextRef)context;
 - (void)plotGraphInRect:(CGRect)rect context:(CGContextRef)context;
