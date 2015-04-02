@@ -93,9 +93,7 @@
         }
         
         [values addObject:@{@"date" : waterLogDay.date,
-                            @"userDuration" : @(waterLogProgram.userDurationSum),
-                            @"realDuration" : @(waterLogProgram.realDurationSum),
-                            @"zones" : waterLogProgram.zones}];
+                            @"percentage" : @(waterLogProgram.durationPercentage)}];
     }
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];

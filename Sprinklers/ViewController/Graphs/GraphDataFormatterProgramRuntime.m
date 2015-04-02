@@ -20,55 +20,20 @@
     formatter1.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeDateString),
                                  GraphDataFormatterDescriptorFieldKey : @"date",
                                  GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentCenter),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
-                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
-                                 GraphDataFormatterDescriptorFieldValue : @"",
-                                 GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
-                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
-                                 GraphDataFormatterDescriptorFieldValue : @"Programed",
-                                 GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
-                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
-                                 GraphDataFormatterDescriptorFieldValue : @"Watered",
-                                 GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
                                  GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]}];
     
     GraphDataFormatter *formatter2 = [GraphDataFormatter new];
     formatter2.subFormatterIndex = 1;
     formatter2.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
-                                 GraphDataFormatterDescriptorFieldValue : @"TOTAL",
+                                 GraphDataFormatterDescriptorFieldValue : @"Program Runtime",
                                  GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1]},
-                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeTime),
-                                 GraphDataFormatterDescriptorFieldKey : @"userDuration",
+                                 GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
+                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypePercetage),
+                                 GraphDataFormatterDescriptorFieldKey : @"percentage",
                                  GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1]},
-                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeTime),
-                                 GraphDataFormatterDescriptorFieldKey : @"realDuration",
-                                 GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1]}];
+                                 GraphDataFormatterDescriptorFieldColor : [UIColor darkGrayColor]}];
     
-    GraphDataFormatter *formatter3 = [GraphDataFormatter new];
-    formatter3.formatterKey = @"zones";
-    formatter3.subFormatterIndex = 2;
-    formatter3.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
-                                 GraphDataFormatterDescriptorFieldKey : @"zoneName",
-                                 GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor blackColor],
-                                 GraphDataFormatterDescriptorFieldFont : [UIFont systemFontOfSize:15.0]},
-                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeTime),
-                                 GraphDataFormatterDescriptorFieldKey : @"userDurationSum",
-                                 GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor darkGrayColor],
-                                 GraphDataFormatterDescriptorFieldFont : [UIFont systemFontOfSize:15.0]},
-                               @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeTime),
-                                 GraphDataFormatterDescriptorFieldKey : @"realDurationSum",
-                                 GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentRight),
-                                 GraphDataFormatterDescriptorFieldColor : [UIColor darkGrayColor],
-                                 GraphDataFormatterDescriptorFieldFont : [UIFont systemFontOfSize:15.0]}];
-    
-    self.subFormatters = @[formatter1, formatter2, formatter3];
+    self.subFormatters = @[formatter1, formatter2];
     
     return self;
 }

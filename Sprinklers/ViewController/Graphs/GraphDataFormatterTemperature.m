@@ -24,7 +24,7 @@
     GraphDataFormatter *formatter2 = [GraphDataFormatter new];
     formatter2.subFormatterIndex = 1;
     formatter2.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
-                                 GraphDataFormatterDescriptorFieldValue : @"High",
+                                 GraphDataFormatterDescriptorFieldValue : @"Max",
                                  GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
                                  GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
                                @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeTemperature),
@@ -35,7 +35,7 @@
     GraphDataFormatter *formatter3 = [GraphDataFormatter new];
     formatter3.subFormatterIndex = 2;
     formatter3.descriptors = @[@{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeString),
-                                 GraphDataFormatterDescriptorFieldValue : @"Low",
+                                 GraphDataFormatterDescriptorFieldValue : @"Min",
                                  GraphDataFormatterDescriptorFieldAlignment : @(NSTextAlignmentLeft),
                                  GraphDataFormatterDescriptorFieldColor : [UIColor blackColor]},
                                @{GraphDataFormatterDescriptorFieldType : @(GraphDataFormatterFieldTypeTemperature),
