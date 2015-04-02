@@ -29,7 +29,7 @@
         for (DailyStatsDetailZone *zone in dailyStatsDetailProgram.zones) {
             percentageAverage += zone.percentage;
         }
-        dailyStatsDetailProgram.percentageAverage = (percentageAverage / dailyStatsDetailProgram.zones.count);
+        dailyStatsDetailProgram.percentageAverage = (dailyStatsDetailProgram.zones.count ? percentageAverage / dailyStatsDetailProgram.zones.count : 0.0);
         
         return dailyStatsDetailProgram;
     }

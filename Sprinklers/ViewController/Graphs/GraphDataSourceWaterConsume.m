@@ -11,6 +11,7 @@
 #import "GraphsManager.h"
 #import "MixerDailyValue.h"
 #import "WaterLogDay.h"
+#import "DailyStatsDetail.h"
 #import "WeatherData.h"
 #import "Utils.h"
 #import "Additions.h"
@@ -19,9 +20,9 @@
 
 @interface GraphDataSourceWaterConsume ()
 
-- (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues;
-- (NSDictionary*)conditionValuesFromMixerDailyValues:(NSArray*)mixerDailyValues;
-- (NSDictionary*)percentageValuesFromWateringLogSimulatedValues:(NSArray*)wateringLogSimulatedValues;
+- (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues dailyStatsDetailsValues:(NSArray*)dailyStatsDetailsValues;
+- (NSDictionary*)conditionValuesFromMixerDailyValues:(NSArray*)mixerDailyValues dailyStatsDetailsValues:(NSArray*)dailyStatsDetailsValues;
+- (NSDictionary*)percentageValuesFromWateringLogSimulatedValues:(NSArray*)wateringLogSimulatedValues dailyStatsDetailsValues:(NSArray*)dailyStatsDetailsValues;
 - (NSDictionary*)maxTempValuesFromWeatherData3Values:(NSArray*)weatherDataValues;
 - (NSDictionary*)iconValuesFromWeatherData3Values:(NSArray*)weatherDataValues;
 - (NSDictionary*)percentageValuesFromWeatherData3Values:(NSArray*)weatherDataValues;
@@ -41,6 +42,7 @@
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"mixerData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"wateringLogSimulatedDetailsData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"weatherData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"dailyStatsDetails" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
     return self;
 }
@@ -49,6 +51,7 @@
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"mixerData"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"wateringLogSimulatedDetailsData"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"weatherData"];
+    [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"dailyStatsDetails"];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -63,9 +66,11 @@
 
 - (NSDictionary*)valuesFromLoadedData {
     if ([ServerProxy usesAPI4]) {
-        id data = [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData;
-        if (![data isKindOfClass:[NSArray class]]) return nil;
-        return [self percentageValuesFromWateringLogSimulatedValues:data];
+        id dataPast = [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData;
+        id dataFuture = [GraphsManager sharedGraphsManager].dailyStatsDetails;
+        if (![dataPast isKindOfClass:[NSArray class]]) return nil;
+        if (![dataFuture isKindOfClass:[NSArray class]]) return nil;
+        return [self percentageValuesFromWateringLogSimulatedValues:dataPast dailyStatsDetailsValues:dataFuture];
     }
     else if ([ServerProxy usesAPI3]) {
         id data = [GraphsManager sharedGraphsManager].weatherData;
@@ -77,9 +82,11 @@
 
 - (NSDictionary*)topValuesFromLoadedData {
     if ([ServerProxy usesAPI4]) {
-        id data = [GraphsManager sharedGraphsManager].mixerData;
-        if (![data isKindOfClass:[NSArray class]]) return nil;
-        return [self maxTempValuesFromMixerDailyValues:(NSArray*)data];
+        id dataPast = [GraphsManager sharedGraphsManager].mixerData;
+        id dataFuture = [GraphsManager sharedGraphsManager].dailyStatsDetails;
+        if (![dataPast isKindOfClass:[NSArray class]]) return nil;
+        if (![dataFuture isKindOfClass:[NSArray class]]) return nil;
+        return [self maxTempValuesFromMixerDailyValues:dataPast dailyStatsDetailsValues:dataFuture];
     }
     else if ([ServerProxy usesAPI3]) {
         id data = [GraphsManager sharedGraphsManager].weatherData;
@@ -91,9 +98,11 @@
 
 - (NSDictionary*)iconImageIndexesFromLoadedData {
     if ([ServerProxy usesAPI4]) {
-        id data = [GraphsManager sharedGraphsManager].mixerData;
-        if (![data isKindOfClass:[NSArray class]]) return nil;
-        return [self conditionValuesFromMixerDailyValues:(NSArray*)data];
+        id dataPast = [GraphsManager sharedGraphsManager].mixerData;
+        id dataFuture = [GraphsManager sharedGraphsManager].dailyStatsDetails;
+        if (![dataPast isKindOfClass:[NSArray class]]) return nil;
+        if (![dataFuture isKindOfClass:[NSArray class]]) return nil;
+        return [self conditionValuesFromMixerDailyValues:dataPast dailyStatsDetailsValues:dataFuture];
     }
     else if ([ServerProxy usesAPI3]) {
         id data = [GraphsManager sharedGraphsManager].weatherData;
@@ -107,10 +116,21 @@
     NSMutableArray *values = [NSMutableArray new];
     
     if ([ServerProxy usesAPI4]) {
+        NSMutableSet *futureDaysSet = [NSMutableSet set];
+        
+        for (DailyStatsDetail *dailyStatsDetail in [GraphsManager sharedGraphsManager].dailyStatsDetails) {
+            [values addObject:@{@"date" : dailyStatsDetail.day,
+                                @"percentage" : @(dailyStatsDetail.simulatedProgramsPercentageAverage / 100.0)}];
+            [futureDaysSet addObject:dailyStatsDetail.day];
+        }
+        
+        
         for (WaterLogDay *waterLogDay in [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData) {
+            if ([futureDaysSet containsObject:waterLogDay.date]) continue;
             [values addObject:@{@"date" : waterLogDay.date,
                                 @"percentage" : @(waterLogDay.durationPercentage)}];
         }
+        
     }
     else if ([ServerProxy usesAPI3]) {
         for (WeatherData *weatherDataValue in [GraphsManager sharedGraphsManager].weatherData) {
@@ -125,7 +145,7 @@
     return values;
 }
 
-- (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
+- (NSDictionary*)maxTempValuesFromMixerDailyValues:(NSArray*)mixerDailyValues dailyStatsDetailsValues:(NSArray*)dailyStatsDetailsValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
     NSString *units = [Utils sprinklerTemperatureUnits];
@@ -141,10 +161,20 @@
         values[day] = @(maxTemp);
     }
     
+    for (DailyStatsDetail *dailyStatsDetail in dailyStatsDetailsValues) {
+        NSString *day = dailyStatsDetail.day;
+        if (!day.length) continue;
+        
+        double maxTemp = dailyStatsDetail.maxt;
+        if (isFahrenheit) maxTemp = maxTemp * 1.8 + 32;
+        
+        values[day] = @(maxTemp);
+    }
+    
     return values;
 }
 
-- (NSDictionary*)conditionValuesFromMixerDailyValues:(NSArray*)mixerDailyValues {
+- (NSDictionary*)conditionValuesFromMixerDailyValues:(NSArray*)mixerDailyValues dailyStatsDetailsValues:(NSArray*)dailyStatsDetailsValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
@@ -154,16 +184,28 @@
         values[day] = @(mixerDailyValue.condition);
     }
     
+    for (DailyStatsDetail *dailyStatsDetail in dailyStatsDetailsValues) {
+        NSString *day = dailyStatsDetail.day;
+        if (!day.length) continue;
+        values[day] = @(dailyStatsDetail.icon);
+    }
+    
     return values;
 }
 
-- (NSDictionary*)percentageValuesFromWateringLogSimulatedValues:(NSArray*)wateringLogSimulatedValues {
+- (NSDictionary*)percentageValuesFromWateringLogSimulatedValues:(NSArray*)wateringLogSimulatedValues dailyStatsDetailsValues:(NSArray*)dailyStatsDetailsValues {
     NSMutableDictionary *values = [NSMutableDictionary new];
     
     for (WaterLogDay *waterLogDay in wateringLogSimulatedValues) {
         NSString *date = waterLogDay.date;
         if (!date.length) continue;
         values[date] = @(waterLogDay.durationPercentage * 100.0);
+    }
+    
+    for (DailyStatsDetail *dailyStatsDetail in dailyStatsDetailsValues) {
+        NSString *day = dailyStatsDetail.day;
+        if (!day.length) continue;
+        values[day] = @(dailyStatsDetail.simulatedProgramsPercentageAverage);
     }
     
     return values;

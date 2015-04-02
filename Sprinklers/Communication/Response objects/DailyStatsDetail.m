@@ -31,7 +31,7 @@
         
         NSMutableArray *simulatedPrograms = [NSMutableArray new];
         for (NSDictionary *programJson in [jsonObj objectForKey:@"simulatedPrograms"]) {
-            [programs addObject:[DailyStatsDetailProgram createFromJson:programJson]];
+            [simulatedPrograms addObject:[DailyStatsDetailProgram createFromJson:programJson]];
         }
         dailyStatsDetail.simulatedPrograms = simulatedPrograms;
         
@@ -39,13 +39,13 @@
         for (DailyStatsDetailProgram *program in dailyStatsDetail.programs) {
             programsPercentageAverage += program.percentageAverage;
         }
-        dailyStatsDetail.programsPercentageAverage = programsPercentageAverage / dailyStatsDetail.programs.count;
+        dailyStatsDetail.programsPercentageAverage = (dailyStatsDetail.programs.count ? programsPercentageAverage / dailyStatsDetail.programs.count : 0.0);
         
         double simulatedProgramsPercentageAverage = 0.0;
         for (DailyStatsDetailProgram *simulatedProgram in dailyStatsDetail.simulatedPrograms) {
             simulatedProgramsPercentageAverage += simulatedProgram.percentageAverage;
         }
-        dailyStatsDetail.simulatedProgramsPercentageAverage = simulatedProgramsPercentageAverage / dailyStatsDetail.simulatedPrograms.count;
+        dailyStatsDetail.simulatedProgramsPercentageAverage = (dailyStatsDetail.simulatedPrograms.count ? simulatedProgramsPercentageAverage / dailyStatsDetail.simulatedPrograms.count : 0.0);
         
         return dailyStatsDetail;
     }
