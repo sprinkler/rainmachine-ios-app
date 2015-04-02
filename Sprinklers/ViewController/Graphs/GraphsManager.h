@@ -43,6 +43,7 @@
 @property (nonatomic, strong) id wateringLogDetailsData;
 @property (nonatomic, strong) id wateringLogSimulatedDetailsData;
 @property (nonatomic, strong) id weatherData;
+@property (nonatomic, strong) id dailyStatsDetails;
 
 @end
 

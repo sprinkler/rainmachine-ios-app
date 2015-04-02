@@ -31,6 +31,9 @@
 		96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */; };
 		96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */; };
 		96116DD71A6C34020017FB3F /* GraphScrollableCellEmpty.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */; };
+		9611A0321ACD571100ADCA06 /* DailyStatsDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 9611A0311ACD571100ADCA06 /* DailyStatsDetail.m */; };
+		9611A0351ACD57F300ADCA06 /* DailyStatsDetailZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 9611A0341ACD57F300ADCA06 /* DailyStatsDetailZone.m */; };
+		9611A0381ACD580300ADCA06 /* DailyStatsDetailProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 9611A0371ACD580300ADCA06 /* DailyStatsDetailProgram.m */; };
 		961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */; };
 		961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
@@ -536,6 +539,12 @@
 		96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellWeek.xib; path = ViewController/Graphs/GraphScrollableCellWeek.xib; sourceTree = "<group>"; };
 		96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellYear.xib; path = ViewController/Graphs/GraphScrollableCellYear.xib; sourceTree = "<group>"; };
 		96116DD61A6C34020017FB3F /* GraphScrollableCellEmpty.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellEmpty.xib; path = ViewController/Graphs/GraphScrollableCellEmpty.xib; sourceTree = "<group>"; };
+		9611A0301ACD571100ADCA06 /* DailyStatsDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyStatsDetail.h; path = "Communication/Response objects/DailyStatsDetail.h"; sourceTree = "<group>"; };
+		9611A0311ACD571100ADCA06 /* DailyStatsDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyStatsDetail.m; path = "Communication/Response objects/DailyStatsDetail.m"; sourceTree = "<group>"; };
+		9611A0331ACD57F300ADCA06 /* DailyStatsDetailZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyStatsDetailZone.h; path = "Communication/Response objects/DailyStatsDetailZone.h"; sourceTree = "<group>"; };
+		9611A0341ACD57F300ADCA06 /* DailyStatsDetailZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyStatsDetailZone.m; path = "Communication/Response objects/DailyStatsDetailZone.m"; sourceTree = "<group>"; };
+		9611A0361ACD580300ADCA06 /* DailyStatsDetailProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyStatsDetailProgram.h; path = "Communication/Response objects/DailyStatsDetailProgram.h"; sourceTree = "<group>"; };
+		9611A0371ACD580300ADCA06 /* DailyStatsDetailProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyStatsDetailProgram.m; path = "Communication/Response objects/DailyStatsDetailProgram.m"; sourceTree = "<group>"; };
 		961629EA1ACAA3400011BF4B /* GraphDataSourceRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceRainAmount.h; path = ViewController/Graphs/GraphDataSourceRainAmount.h; sourceTree = "<group>"; };
 		961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceRainAmount.m; path = ViewController/Graphs/GraphDataSourceRainAmount.m; sourceTree = "<group>"; };
 		961629ED1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterRainAmount.h; path = ViewController/Graphs/GraphDataFormatterRainAmount.h; sourceTree = "<group>"; };
@@ -1948,6 +1957,12 @@
 				96F48FEA1AA053B400DFA578 /* Parser.m */,
 				962C5E041AB3150200CFED4F /* CloudSettings.h */,
 				962C5E051AB3150200CFED4F /* CloudSettings.m */,
+				9611A0331ACD57F300ADCA06 /* DailyStatsDetailZone.h */,
+				9611A0341ACD57F300ADCA06 /* DailyStatsDetailZone.m */,
+				9611A0361ACD580300ADCA06 /* DailyStatsDetailProgram.h */,
+				9611A0371ACD580300ADCA06 /* DailyStatsDetailProgram.m */,
+				9611A0301ACD571100ADCA06 /* DailyStatsDetail.h */,
+				9611A0311ACD571100ADCA06 /* DailyStatsDetail.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2630,6 +2645,7 @@
 			files = (
 				964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */,
 				96F0F3581A3729CB0056D167 /* GraphIconsBarDescriptor.m in Sources */,
+				9611A0351ACD57F300ADCA06 /* DailyStatsDetailZone.m in Sources */,
 				AF7A72B718C4AA8500596148 /* SettingsDatePickerVC.m in Sources */,
 				B1EF20F6186046D300D9CE26 /* +UIImageView.m in Sources */,
 				96CD40F81A8616E600CD7E90 /* GraphDataFormatterCell4.m in Sources */,
@@ -2657,6 +2673,7 @@
 				3A4437FF188A93FD004F9E11 /* RestrictedHoursVC.m in Sources */,
 				96E70AFE1A7BCE0000A07D94 /* ZoneAdvancedProperties.m in Sources */,
 				96CD40EE1A8605D400CD7E90 /* GraphDataFormatterCell2.m in Sources */,
+				9611A0381ACD580300ADCA06 /* DailyStatsDetailProgram.m in Sources */,
 				B1EF21171860497B00D9CE26 /* SettingsVC.m in Sources */,
 				AF61117519C579CF008AA62B /* Program4.m in Sources */,
 				AF81E6DC18BA24D2007E9A03 /* ProgramVC.m in Sources */,
@@ -2758,6 +2775,7 @@
 				969051C91A6ACDBD0029304D /* WaterLogZone.m in Sources */,
 				96CD40E51A85FC7200CD7E90 /* GraphDataFormatterProgramRuntime.m in Sources */,
 				968023E31A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.m in Sources */,
+				9611A0321ACD571100ADCA06 /* DailyStatsDetail.m in Sources */,
 				3A9AB594188559C4005B79B9 /* RestrictionsCell.m in Sources */,
 				AFC0760618BC9DEB007200BF /* SetDelayVC.m in Sources */,
 				96DAB9001A279437005974CC /* RainSensitivityGraphMonthCell.m in Sources */,

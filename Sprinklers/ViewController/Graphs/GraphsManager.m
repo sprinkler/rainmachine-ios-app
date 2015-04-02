@@ -60,6 +60,7 @@ NSInteger kMaxRequestAPIVersionRetries              = 10;
 @property (nonatomic, strong) ServerProxy *requestWeatherDataServerProxy;
 @property (nonatomic, strong) ServerProxy *requestProgramsServerProxy;
 @property (nonatomic, strong) ServerProxy *requestZonesServerProxy;
+@property (nonatomic, strong) ServerProxy *requestDailyStatsDetailsServerProxy;
 @property (nonatomic, strong) ServerProxy *requestAPIVersionServerProxy;
 @property (nonatomic, assign) NSInteger requestAPIVersionRetries;
 
@@ -69,6 +70,7 @@ NSInteger kMaxRequestAPIVersionRetries              = 10;
 - (void)requestWeatherData;
 - (void)requestPrograms;
 - (void)requestZones;
+- (void)requestDailyStatsDetails;
 
 @property (nonatomic, strong) APIVersion *APIVersion;
 
@@ -232,6 +234,7 @@ static GraphsManager *sharedGraphsManager = nil;
         [self requestMixerData];
         [self requestWateringLogDetailsData];
         [self requestWateringLogSimulatedDetailsData];
+        [self requestDailyStatsDetails];
     }
     else if ([ServerProxy usesAPI3]) {
         [self requestWeatherData];
@@ -265,6 +268,7 @@ static GraphsManager *sharedGraphsManager = nil;
     [self.requestWeatherDataServerProxy cancelAllOperations];
     [self.requestProgramsServerProxy cancelAllOperations];
     [self.requestZonesServerProxy cancelAllOperations];
+    [self.requestDailyStatsDetailsServerProxy cancelAllOperations];
     [self.requestAPIVersionServerProxy cancelAllOperations];
     
     self.requestMixerDataServerProxy = nil;
@@ -273,6 +277,7 @@ static GraphsManager *sharedGraphsManager = nil;
     self.requestWeatherDataServerProxy = nil;
     self.requestProgramsServerProxy = nil;
     self.requestZonesServerProxy = nil;
+    self.requestDailyStatsDetailsServerProxy = nil;
     self.requestAPIVersionServerProxy = nil;
     
     self.reloadingGraphs = NO;
@@ -352,6 +357,12 @@ static GraphsManager *sharedGraphsManager = nil;
     if (self.requestZonesServerProxy) return;
     self.requestZonesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
     [self.requestZonesServerProxy requestZones];
+}
+
+- (void)requestDailyStatsDetails {
+    if (self.requestDailyStatsDetailsServerProxy) return;
+    self.requestDailyStatsDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    [self.requestDailyStatsDetailsServerProxy requestDailyStatsDetails];
 }
 
 - (void)registerProgramGraphsForPrograms:(NSArray*)programs {
@@ -440,6 +451,10 @@ static GraphsManager *sharedGraphsManager = nil;
         self.weatherData = data;
         self.requestWeatherDataServerProxy = nil;
     }
+    else if (serverProxy == self.requestDailyStatsDetailsServerProxy) {
+        self.dailyStatsDetails = data;
+        self.requestDailyStatsDetailsServerProxy = nil;
+    }
     else if (serverProxy == self.requestAPIVersionServerProxy) {
         self.APIVersion = (APIVersion*)data;
         self.requestAPIVersionServerProxy = nil;
@@ -449,7 +464,7 @@ static GraphsManager *sharedGraphsManager = nil;
         [self reloadAllSelectedGraphs];
     }
     
-    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy && !self.requestAPIVersionServerProxy) {
+    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy && !self.requestDailyStatsDetailsServerProxy && !self.requestAPIVersionServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }
@@ -462,6 +477,7 @@ static GraphsManager *sharedGraphsManager = nil;
     else if (serverProxy == self.requestWateringLogDetailsServerProxy) self.requestWateringLogDetailsServerProxy = nil;
     else if (serverProxy == self.requestWateringLogSimulatedDetailsServerProxy) self.requestWateringLogSimulatedDetailsServerProxy = nil;
     else if (serverProxy == self.requestWeatherDataServerProxy) self.requestWeatherDataServerProxy = nil;
+    else if (serverProxy == self.requestDailyStatsDetailsServerProxy) self.requestDailyStatsDetailsServerProxy = nil;
     else if (serverProxy == self.requestAPIVersionServerProxy) {
         if (self.requestAPIVersionRetries < kMaxRequestAPIVersionRetries) {
             self.requestAPIVersionRetries++;
@@ -476,7 +492,7 @@ static GraphsManager *sharedGraphsManager = nil;
         }
     }
     
-    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy && !self.requestAPIVersionServerProxy) {
+    if (!self.requestZonesServerProxy && !self.requestProgramsServerProxy && !self.requestMixerDataServerProxy && !self.requestWateringLogDetailsServerProxy && !self.requestWateringLogSimulatedDetailsServerProxy && !self.requestWeatherDataServerProxy && !self.requestDailyStatsDetailsServerProxy && !self.requestAPIVersionServerProxy) {
         if (!self.firstGraphsReloadFinished) self.firstGraphsReloadFinished = YES;
         self.reloadingGraphs = NO;
     }

@@ -95,6 +95,7 @@ typedef enum {
 + (id)fromJSON:(NSDictionary*)jsonDic toClass:(NSString*)className;
 
 - (void)requestWeatherData;
+- (void)requestDailyStatsDetails;
 
 - (void)requestWaterNowZoneList;
 - (void)requestWaterActionsForZone:(NSNumber*)zoneId;

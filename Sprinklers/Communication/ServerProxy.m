@@ -50,6 +50,7 @@
 #import "WiFi.h"
 #import "Parser.h"
 #import "CloudSettings.h"
+#import "DailyStatsDetail.h"
 
 static int savedServerAPIMainVersion = 0;
 static int savedServerAPISubVersion = 0;
@@ -883,6 +884,22 @@ static int serverAPIMinorSubVersion = -1;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       [self handleError:error fromOperation:operation userInfo:nil];
+    }];
+}
+
+- (void)requestDailyStatsDetails {
+    [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"api/4/dailystats/details"] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+            NSArray *dailyStatsDetailDicts = [responseObject objectForKey:@"DailyStatsDetails"];
+            NSMutableArray *dailyStatsDetails = [NSMutableArray new];
+            for (NSDictionary *dailyStatsDetailDict in dailyStatsDetailDicts) {
+                [dailyStatsDetails addObject:[DailyStatsDetail createFromJson:dailyStatsDetailDict]];
+            }            
+            [self.delegate serverResponseReceived:dailyStatsDetails serverProxy:self userInfo:nil];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error fromOperation:operation userInfo:nil];
     }];
 }
 
