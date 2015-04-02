@@ -32,8 +32,10 @@
 
 @property (nonatomic, readonly) BOOL loading;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, readonly) NSArray *includedParsers;
 
 - (void)refreshProgressHUD;
+- (NSArray*)filteredParsersFromParsers:(NSArray*)parsers;
 
 @end
 
@@ -93,6 +95,11 @@
     [super didReceiveMemoryWarning];
 }
 
+- (NSArray*)includedParsers {
+    // return nil to include all parsers
+    return @[@"noaa parser", @"metno parser"];
+}
+
 #pragma mark - Helper methods
 
 - (BOOL)loading {
@@ -126,6 +133,18 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.hud = nil;
     }
+}
+
+- (NSArray*)filteredParsersFromParsers:(NSArray*)parsers {
+    if (!self.includedParsers) return parsers;
+    
+    NSMutableArray *filteredParsers = [NSMutableArray new];
+    for (Parser *parser in parsers) {
+        if (![self.includedParsers containsObject:parser.name.lowercaseString]) continue;
+        [filteredParsers addObject:parser];
+    }
+    
+    return filteredParsers;
 }
 
 #pragma mark - UITableView data source
@@ -186,7 +205,7 @@
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.requestParsersServerProxy) {
-        self.parsers = data;
+        self.parsers = [self filteredParsersFromParsers:data];
         self.requestParsersServerProxy = nil;
     }
     else if (serverProxy == self.activateParserServerProxy) {
