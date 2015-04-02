@@ -29,6 +29,8 @@
 
 @property (nonatomic, strong) NSString *unitsText;
 
+- (void)applicationDidEnterInForeground;
+
 - (IBAction)onChangeTimeInterval:(id)sender;
 - (IBAction)onEditGraphsTable:(id)sender;
 

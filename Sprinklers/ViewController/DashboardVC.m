@@ -48,6 +48,11 @@
 @property (nonatomic, strong) GraphScrollableCell *emptyGraphScrollableCell;
 @property (nonatomic, strong) RainDelayPoller *rainDelayPoller;
 
+@property (nonatomic, assign) BOOL isVisible;
+@property (nonatomic, assign) BOOL doNotRefreshGraphsWhenBecomesVisible;
+
+- (void)refreshGraphs;
+
 @end
 
 #pragma mark -
@@ -141,13 +146,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
-        [GraphsManager sharedGraphsManager].presentationViewController = self;
-        [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
-        [self startHud:nil];
-    } else {
-        [self startHud:nil];
-    }
+    self.isVisible = YES;
+    
+    if (!self.doNotRefreshGraphsWhenBecomesVisible) [self refreshGraphs];
+    self.doNotRefreshGraphsWhenBecomesVisible = NO;
     
     [self.rainDelayPoller scheduleNextPoll:0];
     [self refreshStatus];
@@ -155,6 +157,9 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    self.isVisible = NO;
+    
     [self.rainDelayPoller stopPollRequests];
     [[GraphsManager sharedGraphsManager] cancel];
 }
@@ -421,10 +426,28 @@
     dashboardGraphDetailsVC.graphTimeInterval = self.graphTimeInterval;
     dashboardGraphDetailsVC.parent = self;
     
+    self.doNotRefreshGraphsWhenBecomesVisible = YES;
+    
     [self.navigationController pushViewController:dashboardGraphDetailsVC animated:YES];
 }
 
 #pragma mark - Actions
+
+- (void)applicationDidEnterInForeground {
+    self.doNotRefreshGraphsWhenBecomesVisible = NO;
+    [self refreshGraphs];
+}
+
+- (void)refreshGraphs {
+    if (!self.isVisible) return;
+    if ([GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
+        [GraphsManager sharedGraphsManager].presentationViewController = self;
+        [[GraphsManager sharedGraphsManager] reloadAllSelectedGraphs];
+        [self startHud:nil];
+    } else {
+        [self startHud:nil];
+    }
+}
 
 - (IBAction)onChangeTimeInterval:(id)sender {
     [self setEditing:NO animated:YES];
