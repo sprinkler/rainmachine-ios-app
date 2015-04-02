@@ -124,7 +124,6 @@
             [futureDaysSet addObject:dailyStatsDetail.day];
         }
         
-        
         for (WaterLogDay *waterLogDay in [GraphsManager sharedGraphsManager].wateringLogSimulatedDetailsData) {
             if ([futureDaysSet containsObject:waterLogDay.date]) continue;
             [values addObject:@{@"date" : waterLogDay.date,
