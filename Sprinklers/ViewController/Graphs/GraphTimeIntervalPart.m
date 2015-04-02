@@ -103,8 +103,6 @@
     NSDate *currentDate = [NSDate date];
     
     NSMutableArray *dateValues = [NSMutableArray new];
-    NSMutableArray *monthValues = [NSMutableArray new];
-    NSMutableArray *yearValues = [NSMutableArray new];
     NSMutableArray *weekdays = (self.type ==  GraphTimeIntervalPartType_DisplayWeekdays ? [NSMutableArray new] : nil);
     
     NSInteger count = 7;
@@ -120,8 +118,6 @@
             NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%02d",(int)dateComponents.day];
             [dateValues addObject:dateValue];
-            [monthValues addObject:abbrevMonthsOfYear[dateComponents.month - 1]];
-            [yearValues addObject:[NSString stringWithFormat:@"%d",(int)dateComponents.year]];
             
             NSInteger weekday = dateComponents.weekday - calendar.firstWeekday;
             if (weekday < 0) weekday += 7;
@@ -133,21 +129,17 @@
             NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
             NSString *dateValue = [NSString stringWithFormat:@"%02d",(int)dateComponents.day];
             [dateValues addObject:dateValue];
-            [monthValues addObject:abbrevMonthsOfYear[dateComponents.month - 1]];
         }
         else if (self.type == GraphTimeIntervalPartType_DisplayMonths) {
             NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
             NSString *dateValue = abbrevMonthsOfYear[dateComponents.month - 1];
             [dateValues addObject:dateValue];
-            [yearValues addObject:[NSString stringWithFormat:@"%d",(int)dateComponents.year]];
         }
         
         dayOffset += dayIncrementer;
     }
     
     self.dateValues = dateValues;
-    self.monthValues =  monthValues;
-    self.yearValues = yearValues;
     self.weekdays = weekdays;
 }
 
@@ -155,13 +147,30 @@
     NSMutableArray *dateStrings = [NSMutableArray new];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
+    NSMutableArray *monthValues = [NSMutableArray new];
+    NSMutableArray *yearValues = [NSMutableArray new];
+    
     for (NSInteger index = 0; index < self.length; index++) {
         NSDate *date = [self.startDate dateByAddingDays:index];
         NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
         NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, (int)dateComponents.day];
         
         [dateStrings addObject:dateString];
+        
+        if (self.type == GraphTimeIntervalPartType_DisplayWeekdays) {
+            [monthValues addObject:abbrevMonthsOfYear[dateComponents.month - 1]];
+            [yearValues addObject:[NSString stringWithFormat:@"%d",(int)dateComponents.year]];
+        }
+        else if (self.type == GraphTimeIntervalPartType_DisplayDays) {
+            [monthValues addObject:abbrevMonthsOfYear[dateComponents.month - 1]];
+        }
+        else if (self.type == GraphTimeIntervalPartType_DisplayMonths) {
+            [yearValues addObject:[NSString stringWithFormat:@"%d",(int)dateComponents.year]];
+        }
     }
+    
+    self.monthValues = monthValues;
+    self.yearValues = yearValues;
     
     NSDate *prevDate = [self.startDate dateBySubtractingDays:1];
     NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:prevDate];

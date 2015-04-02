@@ -40,6 +40,7 @@
 
 - (NSString*)stringForMinMaxValue:(double)minMaxValue;
 - (void)updateDateLabelsForContentOffset;
+- (void)updateDateLabelsForTimeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart andIndex:(NSInteger)index;
 
 @end
 
@@ -121,7 +122,7 @@
     }
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateDateLabelsForContentOffset) object:nil];
-    [self performSelector:@selector(updateDateLabelsForContentOffset) withObject:nil afterDelay:0.25 inModes:@[NSRunLoopCommonModes]];
+    [self performSelector:@selector(updateDateLabelsForContentOffset) withObject:nil afterDelay:0.1 inModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - Visual appearance
@@ -255,7 +256,10 @@
     
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
     
-    [self updateDateLabelsForContentOffset];
+    if (timeIntervalIndex < self.graphDescriptor.graphTimeInterval.graphTimeIntervalParts.count) {
+        GraphTimeIntervalPart *graphTimeIntervalPart = self.graphDescriptor.graphTimeInterval.graphTimeIntervalParts[timeIntervalIndex];
+        [self updateDateLabelsForTimeIntervalPart:graphTimeIntervalPart andIndex:0];
+    }
 }
 
 - (void)stopScrolling {
@@ -343,23 +347,26 @@
         
         if (index >= coordinatesX.count && coordinatesX.count) index = coordinatesX.count - 1;
         
-        GraphTimeIntervalPart *timeIntervalPart = firstVisibleCell.graphTimeIntervalPart;
-        NSString *monthValue = (timeIntervalPart.monthValues.count > index ? timeIntervalPart.monthValues[index] : nil);
-        NSString *yearValue = (timeIntervalPart.yearValues.count > index ? timeIntervalPart.yearValues[index] : nil);
-        
-        if (monthValue && yearValue) {
-            if (!self.dateLabelTop.hidden) {
-                self.dateLabelTop.text = monthValue;
-                self.dateLabelBottom.text = yearValue;
-            } else {
-                self.dateLabelTop.text = nil;
-                self.dateLabelBottom.text = [NSString stringWithFormat:@"%@'%@",monthValue,[yearValue substringFromIndex:2]];
-            }
+        [self updateDateLabelsForTimeIntervalPart:firstVisibleCell.graphTimeIntervalPart andIndex:index];
+    }
+}
+
+- (void)updateDateLabelsForTimeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart andIndex:(NSInteger)index {
+    NSString *monthValue = (timeIntervalPart.monthValues.count > index ? timeIntervalPart.monthValues[index] : nil);
+    NSString *yearValue = (timeIntervalPart.yearValues.count > index ? timeIntervalPart.yearValues[index] : nil);
+    
+    if (monthValue && yearValue) {
+        if (!self.dateLabelTop.hidden) {
+            self.dateLabelTop.text = monthValue;
+            self.dateLabelBottom.text = yearValue;
         } else {
             self.dateLabelTop.text = nil;
-            if (monthValue) self.dateLabelBottom.text = monthValue;
-            else if (yearValue) self.dateLabelBottom.text = yearValue;
+            self.dateLabelBottom.text = [NSString stringWithFormat:@"%@'%@",monthValue,[yearValue substringFromIndex:2]];
         }
+    } else {
+        self.dateLabelTop.text = nil;
+        if (monthValue) self.dateLabelBottom.text = monthValue;
+        else if (yearValue) self.dateLabelBottom.text = yearValue;
     }
 }
 

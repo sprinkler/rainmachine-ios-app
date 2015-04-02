@@ -134,6 +134,7 @@ static NSMutableArray *registeredTimeIntervals = nil;
     NSInteger startDay = startDateComponents.day;
     
     startDateComponents.day = 1;
+    startDateComponents.hour = 12;
     startDate = [calendar dateFromComponents:startDateComponents];
     
     while (totalDays < [GraphsManager sharedGraphsManager].totalDays + startDay - 1) {
@@ -141,7 +142,7 @@ static NSMutableArray *registeredTimeIntervals = nil;
         
         GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
         graphTimeIntervalPart.startDate = startDate;
-        graphTimeIntervalPart.endDate = [startDate dateByAddingDays:monthRange.length];
+        graphTimeIntervalPart.endDate = [startDate dateByAddingDays:monthRange.length - 1];
         graphTimeIntervalPart.length = monthRange.length;
         graphTimeIntervalPart.type = GraphTimeIntervalPartType_DisplayDays;
         

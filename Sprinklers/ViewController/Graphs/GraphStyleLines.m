@@ -39,6 +39,8 @@
     CGFloat barCenterX = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + barDisplayWidth / 2.0;
     CGFloat oldBarCenterX = barCenterX;
     
+    CGFloat barSizeWidth2 = (self.graphDescriptor.graphTimeInterval ? [self.graphDescriptor.displayAreaDescriptor.graphBarsWidthDictionary[@(self.graphDescriptor.graphTimeInterval.type)] doubleValue] : 0.0) / 2.0;
+    
     NSMutableArray *values = [NSMutableArray arrayWithArray:self.values];
     if (self.prevValue) {
         [values insertObject:self.prevValue atIndex:0];
@@ -55,7 +57,7 @@
         BOOL shouldAddCoordinate = YES;
         if (self.prevValue && valueIndex == 0) shouldAddCoordinate = NO;
         if (self.nextValue && valueIndex + 1 == values.count) shouldAddCoordinate = NO;
-        if (shouldAddCoordinate) [coordinatesX addObject:@(barCenterX)];
+        if (shouldAddCoordinate) [coordinatesX addObject:@(barCenterX + barSizeWidth2 / 2.0)];
         
         valueIndex++;
         

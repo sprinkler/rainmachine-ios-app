@@ -31,7 +31,7 @@
     NSMutableArray *coordinatesX = [NSMutableArray new];
     
     for (id value in self.values) {
-        [coordinatesX addObject:@(barOriginX)];
+        [coordinatesX addObject:@(barOriginX + barSizeWidth)];
         
         if (value == [NSNull null]) {
             barOriginX += barDisplayWidth;
