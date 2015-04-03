@@ -173,4 +173,6 @@ typedef enum {
 - (void)activateParser:(Parser*)parser activate:(BOOL)activate;
 - (void)saveParserParams:(Parser*)parser;
 
+- (void)sendDiagnostics;
+
 @end

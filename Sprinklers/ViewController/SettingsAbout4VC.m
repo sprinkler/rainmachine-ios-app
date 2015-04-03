@@ -40,6 +40,7 @@
 @property (nonatomic, strong) ServerProxy *requestDiagServerProxy;
 @property (nonatomic, strong) ServerProxy *requestWiFiServerProxy;
 @property (nonatomic, strong) ServerProxy *requestVersionServerProxy;
+@property (nonatomic, strong) ServerProxy *sendDiagnosticsServerProxy;
 @property (nonatomic, strong) NSDictionary *diagResponseDictionary;
 @property (nonatomic, strong) NSDictionary *wifiResponseDictionary;
 @property (nonatomic, strong) APIVersion *apiVersion;
@@ -49,6 +50,7 @@
 - (void)requestDiag;
 - (void)requestWifi;
 - (void)requestVersion;
+- (void)sendDiagnostics;
 
 @property (nonatomic, readonly) BOOL reloading;
 @property (nonatomic, assign) BOOL firstReloadFinished;
@@ -126,6 +128,7 @@
     [self.requestDiagServerProxy cancelAllOperations], self.requestDiagServerProxy = nil;
     [self.requestWiFiServerProxy cancelAllOperations], self.requestWiFiServerProxy = nil;
     [self.requestVersionServerProxy cancelAllOperations], self.requestVersionServerProxy = nil;
+    [self.sendDiagnosticsServerProxy cancelAllOperations], self.sendDiagnosticsServerProxy = nil;
     [self refreshProgressHUD];
 }
 
@@ -144,6 +147,12 @@
     [self.requestVersionServerProxy requestAPIVersion];
 }
 
+- (void)sendDiagnostics {
+    self.sendDiagnosticsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+    [self.sendDiagnosticsServerProxy sendDiagnostics];
+    [self refreshProgressHUD];
+}
+
 - (NSString*)detailTextFromValue:(id)value metric:(NSString*)metric {
     if (!value) return @"none";
     if ([value isKindOfClass:[NSNull class]]) return @"none";
@@ -154,7 +163,7 @@
 }
 
 - (void)refreshProgressHUD {
-    BOOL shouldShowProgressHUD = (self.reloading || self.checkingForUpdate);
+    BOOL shouldShowProgressHUD = (self.reloading || self.checkingForUpdate || self.sendDiagnosticsServerProxy != nil);
     if (shouldShowProgressHUD && !self.hud) self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     else if (!shouldShowProgressHUD && self.hud) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -165,12 +174,14 @@
 #pragma mark - UITableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    if (!self.firstReloadFinished) return 0;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    if (!self.firstReloadFinished) return 0;
-    return 12;
+    if (section == 0) return 12;
+    if (section == 1) return 1;
+    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -183,77 +194,102 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     static NSString *CellIdentifier = @"SettingsAboutCellIdentifier";
+    static NSString *CellIdentifierAction = @"SettingsAboutCellIdentifierAction";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    
-    cell.accessoryView = nil;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    if (indexPath.row == kRow_RainMachineFirmware) {
-        cell.textLabel.text = @"RainMachine firmware";
-        cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.swVer metric:nil];
+    if (indexPath.section == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
-        if (self.updateAvailable) {
-            ColoredBackgroundButton *updateNowButton = [ColoredBackgroundButton buttonWithType:UIButtonTypeSystem];
+        cell.accessoryView = nil;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (indexPath.row == kRow_RainMachineFirmware) {
+            cell.textLabel.text = @"RainMachine firmware";
+            cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.swVer metric:nil];
             
-            updateNowButton.customBackgroundColorFromComponents = kSprinklerBlueColor;
-            updateNowButton.tintColor = [UIColor blackColor];
-            updateNowButton.frame = CGRectMake(0.0, 0.0, 104.0, 34.0);
-            
-            [updateNowButton setTitle:@"Update Now" forState:UIControlStateNormal];
-            [updateNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [updateNowButton addTarget:self action:@selector(startUpdate:) forControlEvents:UIControlEventTouchUpInside];
-            
-            cell.accessoryView = updateNowButton;
+            if (self.updateAvailable) {
+                ColoredBackgroundButton *updateNowButton = [ColoredBackgroundButton buttonWithType:UIButtonTypeSystem];
+                
+                updateNowButton.customBackgroundColorFromComponents = kSprinklerBlueColor;
+                updateNowButton.tintColor = [UIColor blackColor];
+                updateNowButton.frame = CGRectMake(0.0, 0.0, 104.0, 34.0);
+                
+                [updateNowButton setTitle:@"Update Now" forState:UIControlStateNormal];
+                [updateNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [updateNowButton addTarget:self action:@selector(startUpdate:) forControlEvents:UIControlEventTouchUpInside];
+                
+                cell.accessoryView = updateNowButton;
+            }
         }
+        else if (indexPath.row == kRow_iOSAppVersion) {
+            cell.textLabel.text = @"iOS app version";
+            cell.detailTextLabel.text = [self detailTextFromValue:self.iOSAppVersion metric:nil];
+        }
+        else if (indexPath.row == kRow_HardwareVersion) {
+            cell.textLabel.text = @"Hardware version";
+            cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.hwVer metric:nil];
+        }
+        else if (indexPath.row == kRow_APIVersion) {
+            cell.textLabel.text = @"API version";
+            cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.apiVer metric:nil];
+        }
+        else if (indexPath.row == kRow_StaticIPAddress) {
+            cell.textLabel.text = @"Static IP address";
+            cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"ipAddress"] metric:nil];
+        }
+        else if (indexPath.row == kRow_Netmask) {
+            cell.textLabel.text = @"Netmask";
+            cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"netmaskAddress"] metric:nil];
+        }
+        else if (indexPath.row == kRow_Gateway) {
+            cell.textLabel.text = @"Gateway";
+            cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"gatewayAddress"] metric:nil];
+        }
+        else if (indexPath.row == kRow_MACAddress) {
+            cell.textLabel.text = @"MAC address";
+            cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"macAddress"] metric:nil];
+        }
+        else if (indexPath.row == kRow_WiFiSSID) {
+            cell.textLabel.text = @"WiFi SSID";
+            cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"ssid"] metric:nil];
+        }
+        else if (indexPath.row == kRow_MemoryUsage) {
+            cell.textLabel.text = @"Memory usage";
+            cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"memUsage"] metric:@" KB"];
+        }
+        else if (indexPath.row == kRow_CPUUsage) {
+            cell.textLabel.text = @"CPU usage";
+            cell.detailTextLabel.text = [self detailTextFromValue:@([[self.diagResponseDictionary valueForKey:@"cpuUsage"] intValue]) metric:@"%"];
+        }
+        else if (indexPath.row == kRow_Uptime) {
+            cell.textLabel.text = @"Uptime";
+            cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"uptime"] metric:nil];
+        }
+        
+        return cell;
     }
-    else if (indexPath.row == kRow_iOSAppVersion) {
-        cell.textLabel.text = @"iOS app version";
-        cell.detailTextLabel.text = [self detailTextFromValue:self.iOSAppVersion metric:nil];
-    }
-    else if (indexPath.row == kRow_HardwareVersion) {
-        cell.textLabel.text = @"Hardware version";
-        cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.hwVer metric:nil];
-    }
-    else if (indexPath.row == kRow_APIVersion) {
-        cell.textLabel.text = @"API version";
-        cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.apiVer metric:nil];
-    }
-    else if (indexPath.row == kRow_StaticIPAddress) {
-        cell.textLabel.text = @"Static IP address";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"ipAddress"] metric:nil];
-    }
-    else if (indexPath.row == kRow_Netmask) {
-        cell.textLabel.text = @"Netmask";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"netmaskAddress"] metric:nil];
-    }
-    else if (indexPath.row == kRow_Gateway) {
-        cell.textLabel.text = @"Gateway";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"gatewayAddress"] metric:nil];
-    }
-    else if (indexPath.row == kRow_MACAddress) {
-        cell.textLabel.text = @"MAC address";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"macAddress"] metric:nil];
-    }
-    else if (indexPath.row == kRow_WiFiSSID) {
-        cell.textLabel.text = @"WiFi SSID";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"ssid"] metric:nil];
-    }
-    else if (indexPath.row == kRow_MemoryUsage) {
-        cell.textLabel.text = @"Memory usage";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"memUsage"] metric:@" KB"];
-    }
-    else if (indexPath.row == kRow_CPUUsage) {
-        cell.textLabel.text = @"CPU usage";
-        cell.detailTextLabel.text = [self detailTextFromValue:@([[self.diagResponseDictionary valueForKey:@"cpuUsage"] intValue]) metric:@"%"];
-    }
-    else if (indexPath.row == kRow_Uptime) {
-        cell.textLabel.text = @"Uptime";
-        cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"uptime"] metric:nil];
+    else if (indexPath.section == 1) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierAction];
+        if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierAction];
+        
+        cell.textLabel.text = @"Send Diagnostics";
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0];
+        
+        return cell;
     }
     
-    return cell;
+    return nil;
+}
+
+#pragma mark UiTableView delegat
+
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        [self sendDiagnostics];
+    }
 }
 
 #pragma mark - ProxyService delegate
@@ -271,6 +307,9 @@
         self.apiVersion = data;
         self.requestVersionServerProxy = nil;
     }
+    else if (serverProxy == self.sendDiagnosticsServerProxy) {
+        self.sendDiagnosticsServerProxy = nil;
+    }
     
     if (!self.reloading) self.firstReloadFinished = YES;
     
@@ -284,6 +323,7 @@
     if (serverProxy == self.requestDiagServerProxy) self.requestDiagServerProxy = nil;
     else if (serverProxy == self.requestWiFiServerProxy) self.requestWiFiServerProxy = nil;
     else if (serverProxy == self.requestVersionServerProxy) self.requestVersionServerProxy = nil;
+    else if (serverProxy == self.sendDiagnosticsServerProxy) self.sendDiagnosticsServerProxy = nil;
     
     if (!self.reloading) self.firstReloadFinished = YES;
     
