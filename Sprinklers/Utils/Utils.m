@@ -405,9 +405,9 @@
     }
     else if ([time_format intValue] == 12) {
         if ([ServerProxy usesAPI4]) {
-            df.dateFormat = normalFormat ? (seconds ? @"yyyy-M-d K:m:s a" : @"yyyy-M-d K:m a") : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"K:mm a");
+            df.dateFormat = normalFormat ? (seconds ? @"yyyy-M-d h:m:s a" : @"yyyy-M-d h:m a") : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"h:mm a");
         } else {
-            df.dateFormat = normalFormat ? @"yyyy/M/d K:m a" : (forceOnlyDatePart ? @"yyyy/M/d" : @"K:m a"); // K means hours between [0-11]
+            df.dateFormat = normalFormat ? @"yyyy/M/d h:m a" : (forceOnlyDatePart ? @"yyyy/M/d" : @"h:m a"); // K means hours between [0-11], Istvan: use h instead of K, h means hours between [1-12]
         }
     }
     

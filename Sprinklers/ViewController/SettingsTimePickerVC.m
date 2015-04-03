@@ -152,6 +152,7 @@
         self.pullServerProxy = nil;
     }
     else if (serverProxy == self.postServerProxy) {
+        self.postServerProxy = nil;
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
