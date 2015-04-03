@@ -553,6 +553,7 @@ typedef enum {
         [sw addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = sw;
         cell.textLabel.text = @"Active";
+        cell.textLabel.textColor = [UIColor blackColor];
         return cell;
     }
     else if (indexPath.section == vegetationTypeIndex) {
@@ -569,20 +570,6 @@ typedef enum {
         
         return cell;
     }
-
-    //    if (indexPath.row == 3) {
-    //        static NSString *CellIdentifier3 = @"Cell3";
-    //        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier3];
-    //        
-    //        if (nil == cell) {
-    //            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier3];
-    //            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    //        }
-    //
-    //        cell.textLabel.text = @"Advanced";
-    //        return cell;
-    //    }
-
     else if (indexPath.section == statisticalSectionIndex) {
         if (indexPath.row == 0) {
             static NSString *CellIdentifier4 = @"Cell4";
