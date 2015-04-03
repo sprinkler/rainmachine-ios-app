@@ -19,10 +19,7 @@
 @property (nonatomic, strong) NSNumber *cycle;
 @property (nonatomic, strong) NSNumber *noOfCycles;
 @property (nonatomic, strong) NSNumber *restriction;
-
-// These fields come as a response for GET zone
-@property (nonatomic, strong) NSNumber *type; // kVegetationType
-@property (nonatomic, strong) NSNumber *master;
+@property (nonatomic, strong) NSNumber *waterSense;
 
 + (WaterNowZone4 *)createFromJson:(NSDictionary *)jsonObj;
 - (NSNumber*)id;
