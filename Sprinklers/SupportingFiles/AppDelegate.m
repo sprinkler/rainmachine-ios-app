@@ -99,10 +99,10 @@
             self.statsVC.tabBarItem = tabBarItemStats;
         }
         
-        WaterNowVC *waterVC = [[WaterNowVC alloc] init];
-        UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:waterVC];
+        self.waterNowVC = [[WaterNowVC alloc] init];
+        UINavigationController *navWater = [[UINavigationController alloc] initWithRootViewController:self.waterNowVC];
         UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Zones" image:[UIImage imageNamed:@"icon_waternow"] tag:2];
-        waterVC.tabBarItem = tabBarItemWaterNow;
+        self.waterNowVC.tabBarItem = tabBarItemWaterNow;
 
         SettingsVC *settingsVC = [[SettingsVC alloc] init];
         RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:settingsVC];

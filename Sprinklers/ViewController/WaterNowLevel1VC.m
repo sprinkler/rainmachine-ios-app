@@ -35,6 +35,7 @@
 @property (strong, nonatomic) UIColor *redColor;
 @property (strong, nonatomic) UIColor *orangeColor;
 @property (strong, nonatomic) CounterHelper *wateringCounterHelper;
+@property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *startStopActivityIndicator;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *initialTimerRequestActivityIndicator;
@@ -62,6 +63,7 @@
     
     scheduleIntervalResetCounter = 0;
     self.wateringCounterHelper = [[CounterHelper alloc] initWithDelegate:self interval:1];
+    self.rainDelayPoller = [[RainDelayPoller alloc] initWithDelegate:self];
     
     self.greenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
     self.orangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
@@ -112,6 +114,7 @@
     [super viewDidAppear:animated];
     
     [self updatePollStateWithDelay:0];
+    [self.rainDelayPoller scheduleNextPoll:0];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -119,6 +122,7 @@
     [super viewWillDisappear:animated];
     
     [self stopPollRequests];
+    [self.rainDelayPoller stopPollRequests];
 
 //    [[StorageManager current] setZoneCounter:self.wateringZone];
 }
@@ -350,11 +354,24 @@
     }
 }
 
-#pragma mark - Dealloc
+#pragma mark - RainDelayPollerDelegate
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setRainDelay {
+}
+
+- (void)hideRainDelayActivityIndicator:(BOOL)hide {
+}
+
+- (void)hideHUD {
+}
+
+- (void)rainDelayResponseReceived {
+    if (self.rainDelayPoller.rainDelayMode) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
+- (void)refreshStatus {
 }
 
 @end

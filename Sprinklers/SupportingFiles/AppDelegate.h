@@ -10,6 +10,7 @@
 
 @class DashboardVC;
 @class StatsVC;
+@class WaterNowVC;
 @class UpdateManager;
 @class GlobalsManager;
 @class DevicesVC;
@@ -21,6 +22,7 @@
 @property (nonatomic, strong) DashboardVC *dashboardVC;
 @property (nonatomic, strong) StatsVC *statsVC;
 @property (nonatomic, strong) DevicesVC *devicesVC;
+@property (nonatomic, strong) WaterNowVC *waterNowVC;
 @property (strong, nonatomic) UpdateManager *updateManager;
 @property (strong, nonatomic) GlobalsManager *globalsManager;
 

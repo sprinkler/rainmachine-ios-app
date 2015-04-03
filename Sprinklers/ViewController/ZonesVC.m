@@ -52,14 +52,12 @@
     [self startHud:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.serverProxy requestZones];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     if (self.unsavedZone) {
         [self pushVCForZone:self.unsavedZone withIndex:self.unsavedZoneIndex showInitialUnsavedAlert:YES];
         self.unsavedZone = nil;

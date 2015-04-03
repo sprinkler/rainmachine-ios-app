@@ -17,6 +17,8 @@
 #import "RainDelay.h"
 #import "SettingsVC.h"
 #import "MBProgressHUD.h"
+#import "AppDelegate.h"
+#import "WaterNowVC.h"
 
 @interface RainDelayVC ()
 
@@ -241,6 +243,11 @@
 - (void)rainDelayResponseReceived
 {
     [self refreshStatus];
+    
+    if (self.rainDelayPoller.rainDelayMode) {
+        AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate.waterNowVC.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)refreshStatus

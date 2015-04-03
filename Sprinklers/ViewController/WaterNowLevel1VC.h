@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
+#import "RainDelayPoller.h"
 
 @class WaterNowZone;
 @class ServerProxy;
 @class WaterNowVC;
 
-@interface WaterNowLevel1VC : BaseLevel2ViewController<SprinklerResponseProtocol, CounterHelperDelegate>
+@interface WaterNowLevel1VC : BaseLevel2ViewController<SprinklerResponseProtocol, CounterHelperDelegate, RainDelayPollerDelegate>
 
 @property (strong, nonatomic) WaterNowVC *parent;
 @property (strong, nonatomic) WaterNowZone *wateringZone;
