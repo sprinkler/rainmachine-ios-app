@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BVReorderTableView.h"
-#import "BaseLevel2ViewController.h"
+#import "BaseViewController.h"
 #import "GraphScrollableCell.h"
 #import "Protocols.h"
 
 @class GraphTimeInterval;
 
-@interface DashboardVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, GraphScrollableCellDelegate, ReorderTableViewDelegate, RainDelayPollerDelegate>
+@interface DashboardVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, GraphScrollableCellDelegate, ReorderTableViewDelegate, RainDelayPollerDelegate>
 
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
 
