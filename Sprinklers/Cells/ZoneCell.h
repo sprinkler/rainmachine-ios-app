@@ -11,6 +11,7 @@
 @interface ZoneCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *labelTitle;
+@property (strong, nonatomic) IBOutlet UILabel *middleLabelTitle;
 @property (strong, nonatomic) IBOutlet UILabel *labelAccessory;
 @property (strong, nonatomic) IBOutlet UILabel *labelSubtitle;
 

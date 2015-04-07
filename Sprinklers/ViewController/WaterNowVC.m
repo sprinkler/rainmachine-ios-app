@@ -664,17 +664,24 @@
     } else {
         if (self.isEditing) {
             ZoneCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZoneCell"];
-            
             Zone *zone = self.zoneProperties[indexPath.row];
-            
-            cell.labelTitle.text = [Utils fixedZoneName:zone.name withId:[NSNumber numberWithInt:zone.zoneId]];
-            cell.labelSubtitle.text = [ServerProxy usesAPI3] ? kVegetationType[zone.vegetation] : kVegetationTypeAPI4[zone.vegetation];
             
             if (zone.masterValve) {
                 cell.labelAccessory.text = @"Master Valve";
                 cell.labelAccessory.textColor = [UIColor colorWithRed:kMasterValveOrangeColor[0] green:kMasterValveOrangeColor[1] blue:kMasterValveOrangeColor[2] alpha:1];
+                
+                cell.labelTitle.hidden = YES;
+                cell.labelSubtitle.hidden = YES;
+                cell.middleLabelTitle.hidden = NO;
+                cell.middleLabelTitle.text = [Utils fixedZoneName:zone.name withId:[NSNumber numberWithInt:zone.zoneId]];
             }
             else {
+                cell.labelTitle.hidden = NO;
+                cell.labelSubtitle.hidden = NO;
+                cell.middleLabelTitle.hidden = YES;
+                cell.labelTitle.text = [Utils fixedZoneName:zone.name withId:[NSNumber numberWithInt:zone.zoneId]];
+                cell.labelSubtitle.text = [ServerProxy usesAPI3] ? kVegetationType[zone.vegetation] : kVegetationTypeAPI4[zone.vegetation];
+                
                 if (!zone.active) {
                     cell.labelAccessory.text = @"Inactive";
                 }
