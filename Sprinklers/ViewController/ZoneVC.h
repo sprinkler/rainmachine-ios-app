@@ -13,14 +13,14 @@
 #import "CCTBackButtonActionHelper.h"
 
 @class VegetationTypeVC;
-@class ZonesVC;
+@class WaterNowVC;
 @class ZoneProperties4;
 
 @interface ZoneVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol, CCTBackButtonActionHelperProtocol, CellButtonDelegate, SetDelayVCDelegate>
 
 @property (nonatomic, copy) Zone *zone;
 @property (nonatomic) BOOL showMasterValve;
-@property (nonatomic, weak) ZonesVC *parent;
+@property (nonatomic, weak) WaterNowVC *parent;
 @property (assign) int zoneIndex;
 
 @property (copy, nonatomic) Zone *zoneCopyBeforeSave;

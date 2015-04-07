@@ -16,7 +16,7 @@
 #import "Utils.h"
 #import "VegetationTypeVC.h"
 #import "ServerResponse.h"
-#import "ZonesVC.h"
+#import "WaterNowVC.h"
 #import "DevicesCellType1.h"
 #import "SetDelayVC.h"
 #import "Constants.h"

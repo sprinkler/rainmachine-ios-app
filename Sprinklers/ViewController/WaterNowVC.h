@@ -13,6 +13,7 @@
 @class MBProgressHUD;
 @class ServerProxy;
 @class WaterNowZone;
+@class Zone;
 
 @interface WaterNowVC : BaseViewController<SprinklerResponseProtocol, CounterHelperDelegate, RainDelayPollerDelegate>
 
@@ -24,5 +25,8 @@
 - (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone;
 - (void)userStartedZone:(WaterNowZone*)zone;
 - (void)userStoppedZone:(WaterNowZone*)zone;
+
+- (void)setZone:(Zone*)zone withIndex:(int)i;
+- (void)setUnsavedZone:(Zone*)zone withIndex:(int)i;
 
 @end

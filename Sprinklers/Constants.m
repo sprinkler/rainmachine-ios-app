@@ -42,7 +42,6 @@ NSString *const kSprinklerNetworkError = @"SprinklerNetworkError";
 NSString *const kLoggedOutDetectedNotification = @"kLoggedOutDetectedNotification";
 NSString *const kDeviceNotSupported = @"kDeviceNotSupported";
 
-NSString *const kShowSettingsZones = @"kShowSettingsZones";
 NSString *const kDashboardDisabledGraphIdentifiers = @"kDashboardDisabledGraphIdentifiers";
 
 NSString *kVegetationTypeAPI4[] = {

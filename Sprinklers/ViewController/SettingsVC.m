@@ -59,9 +59,6 @@ NSString *kSettingsRemoteAccess       = @"Remote Access";
 NSString *kSettingsLocationSettings   = @"Location Settings";
 
 @interface SettingsVC ()
-{
-    BOOL showZonesOnAppear;
-}
 
 @property (strong, nonatomic) NSArray *settings;
 @property (strong, nonatomic) NSArray *settingsSectionNames;
@@ -79,7 +76,6 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSettingsZonesNotif) name:kShowSettingsZones object:nil];
         [[GlobalsManager current] addObserver:self forKeyPath:@"cloudSettings" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     }
     return self;
@@ -96,7 +92,7 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     NSMutableArray *settings = [NSMutableArray new];
     
     // Section 1
-    [settings addObject:@[kSettingsPrograms, kSettingsZones]];
+    [settings addObject:@[kSettingsPrograms]];
     
     // Section 2
     if ([ServerProxy usesAPI4]) {
@@ -138,11 +134,6 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    if (showZonesOnAppear) {
-        showZonesOnAppear = NO;
-        [self showZonesAnimated:NO];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -163,13 +154,6 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 {
     ZonesVC *zones = [[ZonesVC alloc] init];
     [self.navigationController pushViewController:zones animated:animated];
-}
-
-- (void)showSettingsZonesNotif
-{
-    showZonesOnAppear = YES;
-    self.tabBarController.selectedViewController = self.navigationController;
-    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 #pragma mark - UITableView delegate

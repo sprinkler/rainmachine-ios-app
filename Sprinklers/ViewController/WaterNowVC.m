@@ -14,6 +14,7 @@
 #import "Constants.h"
 #import "MBProgressHUD.h"
 #import "WaterZoneListCell.h"
+#import "ZoneCell.h"
 #import "WaterNowLevel1VC.h"
 #import "WaterNowZone.h"
 #import "WaterNowZone4.h"
@@ -25,7 +26,8 @@
 #import "RainDelay.h"
 #import "HomeScreenDataSourceCell.h"
 #import "RMSwitch.h"
-#import "ZoneProperties4.h"
+#import "Zone.h"
+#import "ZoneVC.h"
 
 @interface WaterNowVC () {
     UIColor *switchOnOrangeColor;
@@ -52,6 +54,9 @@
 @property (strong, nonatomic) WaterNowZone *wateringZone;
 @property (strong, nonatomic) NSMutableDictionary *stateChangeObserver;
 @property (strong, nonatomic) RainDelayPoller *rainDelayPoller;
+
+@property (strong, nonatomic) Zone *unsavedZone;
+@property (assign, nonatomic) int unsavedZoneIndex;
 
 @property (weak, nonatomic) IBOutlet UITableView *statusTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -94,6 +99,7 @@
     
     [_statusTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
     [_tableView registerNib:[UINib nibWithNibName:@"WaterZoneListCell" bundle:nil] forCellReuseIdentifier:@"WaterZoneListCell"];
+    [_tableView registerNib:[UINib nibWithNibName:@"ZoneCell" bundle:nil] forCellReuseIdentifier:@"ZoneCell"];
 
     switchOnGreenColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
     switchOnOrangeColor = [UIColor colorWithRed:kWateringOrangeButtonColor[0] green:kWateringOrangeButtonColor[1] blue:kWateringOrangeButtonColor[2] alpha:1];
@@ -119,16 +125,22 @@
     }
     
     [self.rainDelayPoller scheduleNextPoll:0];
-    
-    if ([ServerProxy usesAPI4]) {
-        [self requestZonesProperties];
-    }
+    [self requestZonesProperties];
     
     [self.tableView reloadData];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
+    if (self.unsavedZone) {
+        [self pushZonePropertiesVCForZone:self.unsavedZone withIndex:self.unsavedZoneIndex showInitialUnsavedAlert:YES];
+        self.unsavedZone = nil;
+    }
+    
+    [self.tableView reloadData];
+    [super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
     [self.wateringCounterHelper stopCounterTimer];
@@ -150,6 +162,11 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
+- (void)appDidBecomeActive {
+    [self clearStateChangeObserver];
+    [self.tableView reloadData];
+}
+
 #pragma mark - UI
 
 - (void)refreshNavBarButtons {
@@ -161,7 +178,8 @@
     if ([self.rainDelayPoller rainDelayMode]) {
         self.navigationItem.rightBarButtonItem = nil;
     } else {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
+        if (self.isEditing) self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onEdit)];
+        else self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
     }
 }
 
@@ -169,7 +187,11 @@
     BOOL leftBarButtonActive = ![self areAllStopped];
     
     if ([self.rainDelayPoller rainDelayMode]) {
-        leftBarButtonActive = nil;
+        leftBarButtonActive = NO;
+    }
+    
+    if (self.isEditing) {
+        leftBarButtonActive = NO;
     }
 
     if (leftBarButtonActive) {
@@ -193,6 +215,7 @@
     self.hud = nil;
 }
 
+#pragma mark - Query zones
 
 - (int)indexOfWateringZone {
     for (int i = 0; i < [self.filteredZones count]; i++) {
@@ -203,18 +226,6 @@
     }
     
     return -1;
-}
-
-- (void)requestDetailsOfZones {
-    for (int i = 0; i < [self.filteredZones count]; i++) {
-        WaterNowZone *wateringZoneInList = self.filteredZones[i];
-        [self.zonesDetailsServerProxy requestWaterActionsForZone:wateringZoneInList.id];
-    }
-}
-
-- (void)requestZonesProperties {
-    self.zonesPropertiesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-    [self.zonesPropertiesServerProxy requestZonesProperties];
 }
 
 - (BOOL)areAllStopped {
@@ -228,10 +239,75 @@
     return YES;
 }
 
+- (NSArray*)filteredZonesFromZones:(NSArray*)zones {
+    if ([ServerProxy usesAPI3]) return zones;
+    if (!self.zoneProperties.count) return nil;
+    
+    NSMutableArray *zonesArray = [NSMutableArray arrayWithArray:zones];
+    
+    // Remove the master valve and inactive zones
+    
+    for (WaterNowZone4 *zone in zones) {
+        Zone *zoneProperties = [self zonePropertiesForWaterNowZone:zone];
+        if (zoneProperties.masterValve || !zoneProperties.active) [zonesArray removeObject:zone];
+    }
+    
+    return zonesArray;
+}
+
+- (Zone*)zonePropertiesForWaterNowZone:(WaterNowZone4*)zone {
+    for (Zone *zoneProperties in self.zoneProperties) {
+        if (zone.uid.intValue == zoneProperties.zoneId) {
+            return zoneProperties;
+        }
+    }
+    return nil;
+}
+
+- (int)indexOfZoneWithId:(NSNumber*)theId fromZonesArray:(NSArray*)zones {
+    for (int i = 0; i < zones.count; i++) {
+        WaterNowZone *zone = zones[i];
+        if ([zone.id isEqualToNumber:theId]) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+- (WaterNowZone*)zoneWithId:(NSNumber*)theId {
+    for (int i = 0; i < self.filteredZones.count; i++) {
+        WaterNowZone *zone = self.filteredZones[i];
+        if ([zone.id isEqualToNumber:theId]) {
+            return zone;
+        }
+    }
+    return nil;
+}
+
+- (void)setDensePollingInterval {
+    // Poll more often for a couple of times after a user action
+    scheduleIntervalResetCounter = 3;
+    retryInterval = kWaterNowRefreshTimeInterval_AfterUserAction;
+}
+
+#pragma mark - Unsaved zones
+
+- (void)setZone:(Zone*)zone withIndex:(int)i {
+    if (i >= 0) {
+        NSMutableArray *zoneProperties = [self.zoneProperties mutableCopy];
+        [zoneProperties replaceObjectAtIndex:i withObject:zone];
+        self.zoneProperties = zoneProperties;
+    }
+}
+
+- (void)setUnsavedZone:(Zone*)zone withIndex:(int)i {
+    self.unsavedZone = zone;
+    self.unsavedZoneIndex = i;
+}
+
 #pragma mark - Requests
 
-- (void)requestListRefreshWithShowingHud:(NSNumber*)showHud
-{
+- (void)requestListRefreshWithShowingHud:(NSNumber*)showHud {
     if (scheduleIntervalResetCounter <= 0) {
         retryInterval = kWaterNowRefreshTimeInterval;
     } else {
@@ -248,8 +324,7 @@
     }
 }
 
-- (void)scheduleNextListRefreshRequest:(NSTimeInterval)scheduleInterval
-{
+- (void)scheduleNextListRefreshRequest:(NSTimeInterval)scheduleInterval {
     if (self.isViewLoaded && self.view.window) {
         // viewController is visible
         NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.lastListRefreshDate];
@@ -261,8 +336,7 @@
     }
 }
 
-- (void)stopAll
-{
+- (void)stopAll {
     if ([ServerProxy usesAPI3]) {
         if ([Utils isDevice357Plus]) {
             [self.postServerProxy stopAllWateringZones];
@@ -296,6 +370,18 @@
     [self startHud:nil];
 }
 
+- (void)requestDetailsOfZones {
+    for (int i = 0; i < [self.filteredZones count]; i++) {
+        WaterNowZone *wateringZoneInList = self.filteredZones[i];
+        [self.zonesDetailsServerProxy requestWaterActionsForZone:wateringZoneInList.id];
+    }
+}
+
+- (void)requestZonesProperties {
+    self.zonesPropertiesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+    [self.zonesPropertiesServerProxy requestZones];
+}
+
 #pragma mark - Alert view
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -310,8 +396,7 @@
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
-{
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
     BOOL showErrorMessage = YES;
     if (serverProxy == self.pollServerProxy) {
         showErrorMessage = NO;
@@ -348,47 +433,7 @@
     }
 }
 
-- (void)cancelAllTrackings
-{
-    NSArray *visibleCells = [self.tableView visibleCells];
-    for (WaterZoneListCell *cell in visibleCells) {
-        assert(cell.onOffSwitch.selected == NO);
-        [cell.onOffSwitch cancelTrackingWithEvent:nil];
-        cell.onOffSwitch.highlighted = NO;
-    }
-}
-
-- (BOOL)isUserTrackingASwitch
-{
-    NSArray *visibleCells = [self.tableView visibleCells];
-    for (WaterZoneListCell *cell in visibleCells) {
-        if (cell.onOffSwitch.isUnderUserTracking) {
-            return YES;
-        }
-    }
-    
-    return NO;
-}
-
-- (void)updateStopAllCounterAndDecrease:(BOOL)decreaseCounter
-{
-    if (stopAllCounter > 0) {
-        if ([self areAllStopped]) {
-            stopAllCounter = 0;
-        } else {
-            if (decreaseCounter) {
-                stopAllCounter--;
-            }
-        }
-    }
-    
-    if (stopAllCounter <= 0 && !self.zonesPropertiesServerProxy) {
-        [self hideHud];
-    }
-}
-
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
-{
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (serverProxy == self.pollServerProxy) {
@@ -398,20 +443,17 @@
         if (![self isUserTrackingASwitch]) {
         
             self.zones = data;
-            if (!self.zonesPropertiesServerProxy) {
+            if (!self.zonesPropertiesServerProxy && self.zoneProperties) {
                 [self setFilteredZones:[self filteredZonesFromZones:self.zones]];
             }
             
             [self updateStopAllCounterAndDecrease:YES];
-            
-            if ([ServerProxy usesAPI3]) {
-                [self requestDetailsOfZones];
-            }
+            [self requestDetailsOfZones];
             
             if (!self.zonesPropertiesServerProxy) {
                 [self.tableView reloadData];
             }
-
+            
             if ([ServerProxy usesAPI4]) {
                 for (int i = 0; i < self.filteredZones.count; i++) {
                     if ([Utils isZoneWatering:self.filteredZones[i]]) {
@@ -469,7 +511,7 @@
         NSMutableArray *activeZoneProperties = [NSMutableArray new];
         NSMutableArray *inactiveZoneProperties = [NSMutableArray new];
         
-        for (ZoneProperties4 *zoneProperties in (NSArray*)data) {
+        for (Zone *zoneProperties in (NSArray*)data) {
             if (zoneProperties.active) [activeZoneProperties addObject:zoneProperties];
             else [inactiveZoneProperties addObject:zoneProperties];
         }
@@ -489,20 +531,24 @@
     [self refreshStopAllButton];
 }
 
-- (void)userStoppedZone:(WaterNowZone*)zone
-{
+- (void)loggedOut {
+    [self hideHud];
+    [self handleLoggedOutSprinklerError];
+}
+
+- (void)userStoppedZone:(WaterNowZone*)zone {
     int index = [self indexOfZoneWithId:zone.id fromZonesArray:self.filteredZones];
+
     WaterNowZone *zoneInList = self.filteredZones[index];
     zoneInList.state = @"Idle";
     
     [self updateCounterFromDBForZone:zoneInList];
-
     [self.tableView reloadData];
 }
 
-- (void)userStartedZone:(WaterNowZone*)zone
-{
+- (void)userStartedZone:(WaterNowZone*)zone {
     int index = [self indexOfZoneWithId:zone.id fromZonesArray:self.filteredZones];
+    
     WaterNowZone *zoneInList = self.filteredZones[index];
     zoneInList.state = @"Pending";
     zoneInList.counter = zone.counter;
@@ -510,15 +556,47 @@
     [[StorageManager current] setZoneCounter:zone];
     
     [self clearStateChangeObserver];
-    
     [self.tableView reloadData];
 }
 
-- (void)loggedOut
-{
-    [self hideHud];
+- (void)cancelAllTrackings {
+    if (self.isEditing) return;
     
-    [self handleLoggedOutSprinklerError];
+    NSArray *visibleCells = [self.tableView visibleCells];
+    for (WaterZoneListCell *cell in visibleCells) {
+        assert(cell.onOffSwitch.selected == NO);
+        [cell.onOffSwitch cancelTrackingWithEvent:nil];
+        cell.onOffSwitch.highlighted = NO;
+    }
+}
+
+- (BOOL)isUserTrackingASwitch {
+    if (self.isEditing) return NO;
+    
+    NSArray *visibleCells = [self.tableView visibleCells];
+    for (WaterZoneListCell *cell in visibleCells) {
+        if (cell.onOffSwitch.isUnderUserTracking) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (void)updateStopAllCounterAndDecrease:(BOOL)decreaseCounter {
+    if (stopAllCounter > 0) {
+        if ([self areAllStopped]) {
+            stopAllCounter = 0;
+        } else {
+            if (decreaseCounter) {
+                stopAllCounter--;
+            }
+        }
+    }
+    
+    if (stopAllCounter <= 0 && !self.zonesPropertiesServerProxy && !self.pollServerProxy && self.filteredZones) {
+        [self hideHud];
+    }
 }
 
 #pragma mark - Table view
@@ -531,19 +609,18 @@
     if (tableView == self.statusTableView) {
         return 1;
     }
-    return [self.filteredZones count];
+    if (self.isEditing) return self.zoneProperties.count;
+    else return self.filteredZones.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.statusTableView) {
         return 54;
     }
     return 60;
 }
 
-- (void)hide:(BOOL)hide multipartTimeLabels:(WaterZoneListCell *)cell color:(UIColor*)color
-{
+- (void)hide:(BOOL)hide multipartTimeLabels:(WaterZoneListCell *)cell color:(UIColor*)color {
     cell.timeLabelMultipartBottom.hidden = hide;
     cell.timeLabelMultipartTop.hidden = hide;
     
@@ -580,67 +657,93 @@
         
         theCell = cell;
     } else {
-        static NSString *CellIdentifier = @"WaterZoneListCell";
-        WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        WaterNowZone *waterNowZone = [self.filteredZones objectAtIndex:indexPath.row];
-        BOOL isPending = [Utils isZonePending:waterNowZone];
-        BOOL isWatering = [Utils isZoneWatering:waterNowZone];
-        BOOL isIdle = [Utils isZoneIdle:waterNowZone];
-        //  BOOL unkownState = (!pending) && (!watering);
-        
-        cell.onOffSwitch.cell = cell;
-        
-        cell.delegate = self;
-        cell.zone = waterNowZone;
-        
-        cell.zoneNameLabel.text = [Utils fixedZoneName:waterNowZone.name withId:waterNowZone.id];
-        if ([ServerProxy usesAPI3]) {
-            cell.descriptionLabel.text = [waterNowZone.type isEqualToString:@"Unknown"] ? @"Other" : waterNowZone.type;
-        } else {
-            WaterNowZone4 *waterNowZone4 = (WaterNowZone4 *)waterNowZone;
-            ZoneProperties4 *zoneProperties = [self zonePropertiesForWaterNowZone:waterNowZone4];
-            cell.descriptionLabel.text = [Utils vegetationTypeToString:zoneProperties.vegetation];
-        }
-        cell.onOffSwitch.on = isWatering || isPending;
-        
-        cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
-        
-        if ([self zoneFailedToStart:cell.zone]) {
-            [self hide:NO multipartTimeLabels:cell color:[UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1]];
-            cell.timeLabelMultipartTop.text = @"Failed";
-            cell.timeLabelMultipartBottom.text = @"to start";
-        }
-        else if (isIdle) {
-            [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-            [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
-            cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [Utils fixedRoundedToMinutesZoneCounter:cell.zone.counter isIdle:YES]];
-        } else {
-            if (isPending) {
-                [self hide:NO multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-                cell.timeLabelMultipartTop.text = @"Pending";
-                cell.timeLabelMultipartBottom.text = [NSString formattedTime:[[Utils fixedZoneCounter:cell.zone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];
-                if ([cell.timeLabelMultipartBottom.text isEqualToString:@"00:00"]) {
-                    cell.timeLabelMultipartBottom.text = @"";
+        if (self.isEditing) {
+            ZoneCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZoneCell"];
+            
+            Zone *zone = self.zoneProperties[indexPath.row];
+            
+            cell.labelTitle.text = [Utils fixedZoneName:zone.name withId:[NSNumber numberWithInt:zone.zoneId]];
+            cell.labelSubtitle.text = [ServerProxy usesAPI3] ? kVegetationType[zone.vegetation] : kVegetationTypeAPI4[zone.vegetation];
+            
+            if (zone.masterValve) {
+                cell.labelAccessory.text = @"Master Valve";
+                cell.labelAccessory.textColor = [UIColor colorWithRed:kMasterValveOrangeColor[0] green:kMasterValveOrangeColor[1] blue:kMasterValveOrangeColor[2] alpha:1];
+            }
+            else {
+                if (!zone.active) {
+                    cell.labelAccessory.text = @"Inactive";
                 }
+                else {
+                    cell.labelAccessory.text = @"";
+                }
+                cell.labelAccessory.textColor = [UIColor lightGrayColor];
+            }
+            
+            theCell = cell;
+        }
+        else {
+            static NSString *CellIdentifier = @"WaterZoneListCell";
+            WaterZoneListCell *cell = (WaterZoneListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+            
+            WaterNowZone *waterNowZone = [self.filteredZones objectAtIndex:indexPath.row];
+            BOOL isPending = [Utils isZonePending:waterNowZone];
+            BOOL isWatering = [Utils isZoneWatering:waterNowZone];
+            BOOL isIdle = [Utils isZoneIdle:waterNowZone];
+            //  BOOL unkownState = (!pending) && (!watering);
+            
+            cell.onOffSwitch.cell = cell;
+            
+            cell.delegate = self;
+            cell.zone = waterNowZone;
+            
+            cell.zoneNameLabel.text = [Utils fixedZoneName:waterNowZone.name withId:waterNowZone.id];
+            if ([ServerProxy usesAPI3]) {
+                cell.descriptionLabel.text = [waterNowZone.type isEqualToString:@"Unknown"] ? @"Other" : waterNowZone.type;
             } else {
-                // Watering
-                if (self.wateringZone) {
-                    [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-                    [cell.timeLabel setFont:[UIFont systemFontOfSize:26]];
-                    cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];//@"Watering";
-                    if ([cell.timeLabel.text isEqualToString:@"00:00"]) {
-                        cell.timeLabel.text = @"";
+                WaterNowZone4 *waterNowZone4 = (WaterNowZone4 *)waterNowZone;
+                Zone *zoneProperties = [self zonePropertiesForWaterNowZone:waterNowZone4];
+                cell.descriptionLabel.text = [Utils vegetationTypeToString:zoneProperties.vegetation];
+            }
+            cell.onOffSwitch.on = isWatering || isPending;
+            
+            cell.onOffSwitch.onTintColor = isPending ? switchOnOrangeColor : (isWatering ? switchOnGreenColor : [UIColor grayColor]);
+            
+            if ([self zoneFailedToStart:cell.zone]) {
+                [self hide:NO multipartTimeLabels:cell color:[UIColor colorWithRed:kWateringRedButtonColor[0] green:kWateringRedButtonColor[1] blue:kWateringRedButtonColor[2] alpha:1]];
+                cell.timeLabelMultipartTop.text = @"Failed";
+                cell.timeLabelMultipartBottom.text = @"to start";
+            }
+            else if (isIdle) {
+                [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+                [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
+                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [Utils fixedRoundedToMinutesZoneCounter:cell.zone.counter isIdle:YES]];
+            } else {
+                if (isPending) {
+                    [self hide:NO multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+                    cell.timeLabelMultipartTop.text = @"Pending";
+                    cell.timeLabelMultipartBottom.text = [NSString formattedTime:[[Utils fixedZoneCounter:cell.zone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];
+                    if ([cell.timeLabelMultipartBottom.text isEqualToString:@"00:00"]) {
+                        cell.timeLabelMultipartBottom.text = @"";
                     }
                 } else {
-                    // Details (i.e.: counter field) did not yet arrive from the server
-                    [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
-                    cell.timeLabel.text = @"";
+                    // Watering
+                    if (self.wateringZone) {
+                        [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+                        [cell.timeLabel setFont:[UIFont systemFontOfSize:26]];
+                        cell.timeLabel.text = [NSString formattedTime:[[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue] usingOnlyDigits:YES];//@"Watering";
+                        if ([cell.timeLabel.text isEqualToString:@"00:00"]) {
+                            cell.timeLabel.text = @"";
+                        }
+                    } else {
+                        // Details (i.e.: counter field) did not yet arrive from the server
+                        [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
+                        cell.timeLabel.text = @"";
+                    }
                 }
             }
+            
+            theCell = cell;
         }
-        
-        theCell = cell;
     }
     
     return theCell;
@@ -653,73 +756,56 @@
     if (tableView == self.statusTableView) {
         HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:indexPath];
         if (cell.selectionStyle != UITableViewCellSelectionStyleNone) {
-            
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"Resume sprinkler operation?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Resume", nil];
             alertView.tag = kAlertView_ResumeRainDelay;
             [alertView show];
         }
     } else {
-        WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
-        WaterNowZone *waterZone = [self.filteredZones objectAtIndex:indexPath.row];
-        if ([Utils isZoneWatering:waterZone]) {
-            if ((self.wateringZone) && (self.wateringZone.counter)) {
-                waterZone = self.wateringZone;
-            }
-        }
-        waterNowZoneVC.wateringZone = waterZone;
-        waterNowZoneVC.parent = self;
-        [self.navigationController pushViewController:waterNowZoneVC animated:YES];
+        if (self.isEditing) [self pushZonePropertiesVCForZone:self.zoneProperties[indexPath.row] withIndex:(int)indexPath.row showInitialUnsavedAlert:NO];
+        else [self pushWaterNowZoneVCForZone:self.filteredZones[indexPath.row]];
     }
 }
 
-#pragma mark - Backend
+- (void)pushZonePropertiesVCForZone:(Zone*)z withIndex:(int)i showInitialUnsavedAlert:(BOOL)showInitialUnsavedAlert {
+    ZoneVC *zoneVC = [[ZoneVC alloc] init];
+    zoneVC.showMasterValve = (i == 0);
+    zoneVC.zoneIndex = i;
+    zoneVC.zone = z;
+    zoneVC.parent = self;
 
-- (NSArray*)filteredZonesFromZones:(NSArray*)zones {
-    if ([ServerProxy usesAPI3]) return zones;
-    if (!self.zoneProperties.count) return nil;
-
-    NSMutableArray *zonesArray = [NSMutableArray arrayWithArray:zones];
-    
-    // Remove the master valve and inactive zones
-    
-    for (WaterNowZone4 *zone in zones) {
-        ZoneProperties4 *zoneProperties = [self zonePropertiesForWaterNowZone:zone];
-        if (zoneProperties.masterValve || !zoneProperties.active) [zonesArray removeObject:zone];
-    }
-    
-    return zonesArray;
-}
-
-- (ZoneProperties4*)zonePropertiesForWaterNowZone:(WaterNowZone4*)zone {
-    for (ZoneProperties4 *zoneProperties in self.zoneProperties) {
-        if (zone.uid.intValue == zoneProperties.zoneId) {
-            return zoneProperties;
+    if (showInitialUnsavedAlert) {
+        if (i != -1) {
+            zoneVC.zoneCopyBeforeSave = self.zoneProperties[i];
         }
     }
-    return nil;
+    
+    zoneVC.showInitialUnsavedAlert = showInitialUnsavedAlert;
+    [self.navigationController pushViewController:zoneVC animated:!showInitialUnsavedAlert];
 }
 
-- (void)setDensePollingInterval
-{
-    // Poll more often for a couple of times after a user action
-    scheduleIntervalResetCounter = 3;
-    retryInterval = kWaterNowRefreshTimeInterval_AfterUserAction;
+- (void)pushWaterNowZoneVCForZone:(WaterNowZone*)waterZone {
+    WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
+    if ([Utils isZoneWatering:waterZone]) {
+        if ((self.wateringZone) && (self.wateringZone.counter)) {
+            waterZone = self.wateringZone;
+        }
+    }
+    waterNowZoneVC.wateringZone = waterZone;
+    waterNowZoneVC.parent = self;
+    [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }
 
 #pragma mark - Table View Cell callback
 
-- (void)setWateringOnZone:(WaterNowZone*)zone toState:(int)state withCounter:(NSNumber*)counter
-{
+- (void)setWateringOnZone:(WaterNowZone*)zone toState:(int)state withCounter:(NSNumber*)counter {
     [self internalSetWateringOnZone:zone toState:state toggle:NO withCounter:counter];
 }
 
-- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter
-{
+- (void)toggleWateringOnZone:(WaterNowZone*)zone withCounter:(NSNumber*)counter {
     [self internalSetWateringOnZone:zone toState:1 toggle:YES withCounter:counter];
 }
 
-- (void)internalSetWateringOnZone:(WaterNowZone*)zone toState:(int)state toggle:(BOOL)toggle withCounter:(NSNumber*)counter
-{
+- (void)internalSetWateringOnZone:(WaterNowZone*)zone toState:(int)state toggle:(BOOL)toggle withCounter:(NSNumber*)counter {
     [self.pollServerProxy cancelAllOperations];
     [self.zonesDetailsServerProxy cancelAllOperations];
     
@@ -769,8 +855,7 @@
 
 #pragma mark - Actions
 
-- (void)deviceNotSupported:(id)object
-{
+- (void)deviceNotSupported:(id)object {
     [self cancel];
 }
 
@@ -780,9 +865,13 @@
     [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }
 
-- (void)onEdit
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowSettingsZones object:nil];
+- (void)onEdit {
+    self.editing = !self.isEditing;
+    
+    [self refreshEditButton];
+    [self refreshStopAllButton];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Methods
@@ -828,8 +917,7 @@
     }
 }
 
-- (void)updateZonesCounters:(NSArray*)previousZonesCopy
-{
+- (void)updateZonesCounters:(NSArray*)previousZonesCopy {
     if ([ServerProxy usesAPI3]) {
         // Restore counters because unpacking the server response destroyed them
         for (int i = 0; i < self.filteredZones.count; i++) {
@@ -869,8 +957,7 @@
     }
 }
 
-- (void)clearStateChangeObserver
-{
+- (void)clearStateChangeObserver {
     // Keep the "Failed to Start" message until:
     // a. another pending zone becomes active
     // b. user starts another zone or an automatic program starts a zone.
@@ -879,19 +966,16 @@
     [self.stateChangeObserver removeAllObjects];
 }
 
-- (void)addZoneToStateChangeObserver:(WaterNowZone*)zone
-{
+- (void)addZoneToStateChangeObserver:(WaterNowZone*)zone {
     int stateObserverCountdown = 1;
     [self.stateChangeObserver setObject:[NSNumber numberWithInt:stateObserverCountdown] forKey:zone.id];
 }
 
-- (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone
-{
+- (void)removeZoneFromStateChangeObserver:(WaterNowZone*)zone {
     [self.stateChangeObserver removeObjectForKey:zone.id];
 }
 
-- (BOOL)zoneFailedToStart:(WaterNowZone*)zone
-{
+- (BOOL)zoneFailedToStart:(WaterNowZone*)zone {
     NSNumber *counter = [self.stateChangeObserver objectForKey:zone.id];
     if ((counter) && ([counter intValue] == 0)) {
         return [Utils isZoneIdle:zone];
@@ -900,8 +984,7 @@
     return NO;
 }
 
-- (void)updateZonesStartObservers
-{
+- (void)updateZonesStartObservers {
     NSMutableArray *zoneWhichStarted = [NSMutableArray array];
     
     for (NSNumber *zoneId in self.stateChangeObserver) {
@@ -924,8 +1007,7 @@
     }
 }
 
-- (void)updateZoneAtIndex:(int)index withCounterFromZone:(WaterNowZone *)sourceZone setState:(BOOL)setState
-{
+- (void)updateZoneAtIndex:(int)index withCounterFromZone:(WaterNowZone *)sourceZone setState:(BOOL)setState {
     if (index != -1) {
         if ([ServerProxy usesAPI3]) {
             WaterNowZone *destZone = self.filteredZones[index];
@@ -945,36 +1027,12 @@
     }
 }
 
-- (void)updateCounterFromDBForZone:(WaterNowZone*)zone
-{
+- (void)updateCounterFromDBForZone:(WaterNowZone*)zone {
     DBZone *dbZone = [[StorageManager current] zoneWithId:zone.id];
     zone.counter = dbZone.counter;
 }
 
-- (int)indexOfZoneWithId:(NSNumber*)theId fromZonesArray:(NSArray*)zones
-{
-    for (int i = 0; i < zones.count; i++) {
-        WaterNowZone *zone = zones[i];
-        if ([zone.id isEqualToNumber:theId]) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-- (WaterNowZone*)zoneWithId:(NSNumber*)theId
-{
-    for (int i = 0; i < self.filteredZones.count; i++) {
-        WaterNowZone *zone = self.filteredZones[i];
-        if ([zone.id isEqualToNumber:theId]) {
-            return zone;
-        }
-    }
-    return nil;
-}
-
-- (void)refreshWithCurrentDevice
-{
+- (void)refreshWithCurrentDevice {
     self.filteredZones = nil;
     self.zones = nil;
     
@@ -982,8 +1040,7 @@
     [self resetServerProxies];
 }
 
-- (void)resetServerProxies
-{
+- (void)resetServerProxies {
     if ([StorageManager current].currentSprinkler) {
         self.zonesDetailsServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         self.postServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
@@ -1000,26 +1057,22 @@
 
 #pragma - WaterNowCounterHelper callbacks
 
-- (BOOL)isCounteringActive
-{
+- (BOOL)isCounteringActive {
     return [Utils isZoneWatering:self.wateringZone];
 }
 
-- (int)counterValue
-{
+- (int)counterValue {
     return [self.wateringZone.counter intValue];
 }
 
-- (void)setCounterValue:(int)value
-{
+- (void)setCounterValue:(int)value {
     if (stopAllCounter == 0) {
         self.wateringZone.counter = [NSNumber numberWithInt:value];
         [self refreshCounterLabel:value];
     }
 }
 
-- (void)refreshCounterLabel:(int)newCounter
-{
+- (void)refreshCounterLabel:(int)newCounter {
     int wzi = [self indexOfWateringZone];
     NSIndexPath *indexPathOfWateringZone = [NSIndexPath indexPathForRow:wzi inSection:0];
     if (indexPathOfWateringZone) {
@@ -1027,52 +1080,36 @@
     }
 }
 
-- (void)showCounterLabel
-{
-}
-
-- (void)appDidBecomeActive
-{
-    [self clearStateChangeObserver];
-    [self.tableView reloadData];
+- (void)showCounterLabel {
 }
 
 #pragma mark - RainDelayPollerDelegate
 
-- (void)setRainDelay
-{
+- (void)setRainDelay {
     [self hideRainDelayActivityIndicator:NO];
-    
     [self.rainDelayPoller setRainDelay];
 }
 
-- (void)hideRainDelayActivityIndicator:(BOOL)hide
-{
+- (void)hideRainDelayActivityIndicator:(BOOL)hide {
     HomeScreenDataSourceCell *cell = (HomeScreenDataSourceCell *)[self.statusTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     cell.setRainDelayActivityIndicator.hidden = hide;
 }
 
-- (void)hideHUD
-{
+- (void)hideHUD {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
-- (void)rainDelayResponseReceived
-{
+- (void)rainDelayResponseReceived {
     [self refreshStatus];
 }
 
-- (void)refreshStatus
-{
+- (void)refreshStatus {
     [self setupRainDelayMode:[self.rainDelayPoller rainDelayMode]];
-    
     [self.statusTableView reloadData];
 }
 
-- (void)setupRainDelayMode:(BOOL)rainDelayMode
-{
+- (void)setupRainDelayMode:(BOOL)rainDelayMode {
     [self refreshNavBarButtons];
-    
     self.tableView.hidden = rainDelayMode;
     self.statusTableViewHeightConstraint.constant = rainDelayMode ? 54 : 0;
     self.statusTableView.hidden = !rainDelayMode;
