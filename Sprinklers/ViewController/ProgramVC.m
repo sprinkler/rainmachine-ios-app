@@ -410,12 +410,10 @@
 - (IBAction)onDiscard:(id)sender {
     self.program = self.programCopyBeforeSave;
     
-    if (isNewProgram) {
+    if (!self.getZonesServerProxy) {
         self.getZonesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         [self.getZonesServerProxy requestZones];
         [self showHUD];
-    } else {
-        [self.tableView reloadData];
     }
 }
 
@@ -1225,7 +1223,7 @@
         self.getZonesServerProxy = nil;
         [self hideHUD];
         
-        [self updateProgramWateringTimes:data];
+        [self updateProgramWateringTimes:data onlyActiveZones:isNewProgram updateProgramCopy:!isNewProgram];
         [self.tableView reloadData];
     }
     else if (serverProxy == self.getProgramListServerProxy) {
@@ -1293,6 +1291,8 @@
             }
             didSave = YES;
         }
+        
+        [self.tableView reloadData];
     }
     else if (serverProxy == self.runNowServerProxy) {
         self.runNowServerProxy = nil;
@@ -1315,6 +1315,8 @@
 
         [self.parent setProgram:self.program withIndex:self.programIndex];
         self.programCopyBeforeSave = self.program;
+        
+        [self.tableView reloadData];
     }
 //    else if (serverProxy == self.stationDelayServerProxy) {
 //        self.stationDelayServerProxy = nil;
@@ -1340,9 +1342,7 @@
 //        }
 //    }
     
-    [self.tableView reloadData];
     [self refreshToolBarButtonTitles];
-    
     [self refreshStatus];
 }
 
@@ -1459,12 +1459,13 @@
     return nil;
 }
 
-- (void)updateProgramWateringTimes:(NSArray*)input
+- (void)updateProgramWateringTimes:(NSArray*)input onlyActiveZones:(BOOL)onlyActiveZones updateProgramCopy:(BOOL)updateProgramCopy
 {
     // Filter out the master valve and inactive zones
     NSMutableArray *zones = [NSMutableArray array];
     for (Zone *zone in input) {
-        BOOL validZone = !((zone.masterValve) || (!zone.active));
+        BOOL validZone = !zone.masterValve;
+        if (onlyActiveZones) validZone = validZone && zone.active;
         if (validZone) {
             [zones addObject:zone];
         }
@@ -1496,6 +1497,7 @@
                 wateringTime = wt;
             }
             [self.program.wateringTimes addObject:wateringTime];
+            if (updateProgramCopy) [self.programCopyBeforeSave.wateringTimes addObject:[wateringTime copy]];
         }
     }
     
@@ -1507,6 +1509,7 @@
         }
     }
     [self.program.wateringTimes removeObjectsAtIndexes:indexSetToBeRemoved];
+    if (updateProgramCopy) [self.programCopyBeforeSave.wateringTimes removeObjectsAtIndexes:indexSetToBeRemoved];
     
     if (self.program.wateringTimes.count == 0) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot create program"
@@ -1637,7 +1640,9 @@
 
 - (void)hideHUD
 {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (!self.getZonesServerProxy) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
 }
 
 - (void)refreshStatus
@@ -1650,18 +1655,19 @@
         self.startButtonItem.enabled = YES;
     }
     
-    [self.statusTableView reloadData];
+    if (!self.getZonesServerProxy) {
+        [self.statusTableView reloadData];
+    }
 }
 
 - (void)rainDelayResponseReceived
 {
-    [self refreshStatus];
-    
-    if (isNewProgram) {
+    if (!self.getZonesServerProxy) {
         self.getZonesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
         [self.getZonesServerProxy requestZones];
         [self showHUD];
     }
+    [self refreshStatus];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
