@@ -26,9 +26,10 @@
 
 @property (strong, nonatomic) ServerProxy *serverProxy;
 @property (strong, nonatomic) ServerProxy *postDeleteServerProxy;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) Program *unsavedProgram;
 @property (assign, nonatomic) int unsavedProgramIndex;
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -108,13 +109,12 @@
 }
 
 - (void)edit {
-    [_tableView setEditing:!_tableView.editing];
-    if (_tableView.editing) {
+    [self.tableView setEditing:!_tableView.editing animated:YES];
+    if (self.tableView.isEditing) {
         [editButton setTitle:@"Done"];
     } else {
         [editButton setTitle:@"Edit"];
     }
-    [self.tableView reloadData];
 }
 
 #pragma mark - ProxyService delegate

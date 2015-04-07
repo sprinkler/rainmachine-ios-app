@@ -175,6 +175,10 @@
             self.program = (Program*)[Program4 program];
         }
         self.program.timeFormat = [self.parent serverTimeFormat];
+        
+        if (!self.showInitialUnsavedAlert) {
+            self.programCopyBeforeSave = self.program;
+        }
     }
     
     [_statusTableView registerNib:[UINib nibWithNibName:@"HomeDataSourceCell" bundle:nil] forCellReuseIdentifier:@"HomeDataSourceCell"];
@@ -405,7 +409,14 @@
 
 - (IBAction)onDiscard:(id)sender {
     self.program = self.programCopyBeforeSave;
-    [self.tableView reloadData];
+    
+    if (isNewProgram) {
+        self.getZonesServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        [self.getZonesServerProxy requestZones];
+        [self showHUD];
+    } else {
+        [self.tableView reloadData];
+    }
 }
 
 - (IBAction)onStartOrStop:(id)sender {
