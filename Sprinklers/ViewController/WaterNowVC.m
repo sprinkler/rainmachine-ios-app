@@ -159,6 +159,11 @@
     
     [self.rainDelayPoller stopPollRequests];
     
+    if (self.tabBarController.selectedViewController != self.navigationController && self.navigationController.topViewController == self) {
+        self.editing = NO;
+        [self refreshEditButton];
+    }
+    
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 

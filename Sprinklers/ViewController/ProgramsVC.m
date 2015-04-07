@@ -82,6 +82,7 @@
 {
     [super viewDidDisappear:animated];
     [self.tableView setEditing:NO];
+    [editButton setTitle:@"Edit"];
 }
 
 #pragma mark - Methods

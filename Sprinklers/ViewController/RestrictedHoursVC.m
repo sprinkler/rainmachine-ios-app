@@ -66,10 +66,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.tableView setEditing:NO];
+    [self.editBarButtonItem setTitle:@"Edit"];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     if (self.unsavedRestriction) {

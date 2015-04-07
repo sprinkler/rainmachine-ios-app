@@ -162,6 +162,11 @@
     
     [self.rainDelayPoller stopPollRequests];
     [[GraphsManager sharedGraphsManager] cancel];
+    
+    if (self.tabBarController.selectedViewController != self.navigationController && self.navigationController.topViewController == self) {
+        [self setEditing:NO animated:NO];
+        [self.graphsTableView setEditing:NO animated:NO];
+    }
 }
 
 #pragma mark - Helper methods
