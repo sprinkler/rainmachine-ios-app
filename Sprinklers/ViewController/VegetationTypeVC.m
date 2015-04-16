@@ -67,13 +67,17 @@
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         cell.tintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
     }
-    cell.accessoryType = (indexPath.row == (_vegetationType - 2)) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    if ([ServerProxy usesAPI3]) {
+        cell.accessoryType = (indexPath.row == (_vegetationType - 2)) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    } else {
+        cell.accessoryType = (indexPath.row == (_vegetationType - 1)) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:_vegetationType - 2 inSection:indexPath.section];
+    NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:_vegetationType - ([ServerProxy usesAPI3] ? 2 : 1) inSection:indexPath.section];
     UITableViewCell *oldCell = [self.tableView cellForRowAtIndexPath:oldIndexPath];
     oldCell.accessoryType = UITableViewCellAccessoryNone;
     
