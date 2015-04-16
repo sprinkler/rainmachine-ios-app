@@ -150,7 +150,7 @@
     program.active = YES;
     program.ignoreWeatherData = NO;
     program.cycles = 2;
-    program.soak = 30;
+    program.soakMinutes = 30;
     program.delay = 0;
     
     // Start time
@@ -230,6 +230,22 @@
     }
     
     return isEqual;
+}
+
+- (void)setSoakMinutes:(int)soakMinutes {
+    _soak = soakMinutes;
+}
+
+- (int)soakMinutes {
+    return _soak;
+}
+
+- (void)setDelayMinutes:(int)delayMinutes {
+    _delay = delayMinutes;
+}
+
+- (int)delayMinutes {
+    return _delay;
 }
 
 @end

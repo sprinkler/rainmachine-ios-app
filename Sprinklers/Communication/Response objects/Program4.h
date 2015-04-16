@@ -18,8 +18,10 @@
 @property (nonatomic, strong) NSDate *nextRun;
 @property (nonatomic) int cycles;
 @property (nonatomic) int soak;
+@property (nonatomic) int soakMinutes;
 @property (nonatomic) BOOL csOn; // cycle/soak flag
 @property (nonatomic) int delay;
+@property (nonatomic) int delayMinutes;
 @property (nonatomic) BOOL delayOn;
 @property (nonatomic) int status;
 @property (nonatomic) Frequency4 *frequency;

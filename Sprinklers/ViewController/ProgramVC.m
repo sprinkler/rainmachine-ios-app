@@ -457,7 +457,7 @@
     if ([object isKindOfClass:[ProgramCellType5 class]]) {
         ProgramCellType5 *cell = (ProgramCellType5*)object;
         if (cell.cycleAndSoak) {
-            if ((cell.theSwitch.on) && ((self.program.cycles == 0) && (self.program.soak == 0)) ) {
+            if ((cell.theSwitch.on) && ((self.program.cycles == 0) && (self.program.soakMinutes == 0)) ) {
                 [self showSection4Screen:0];
             } else {
                 self.program.csOn = cell.theSwitch.on;
@@ -522,8 +522,8 @@
     if ([setDelayVC.userInfo isKindOfClass:[NSString class]]) {
         if ([setDelayVC.userInfo isEqualToString:@"cycle_and_soak"]) {
             self.program.cycles = setDelayVC.valuePicker1;
-            self.program.soak = setDelayVC.valuePicker2;
-            self.program.csOn = !((_program.cycles == 0) && (_program.soak == 0));
+            self.program.soakMinutes = setDelayVC.valuePicker2;
+            self.program.csOn = !((_program.cycles == 0) && (_program.soakMinutes == 0));
 //            if (self.program.csOn) {
 //                [self requestCycleAndSoakServerProxyWithProgramId:_program.programId cycles:_program.cycles soak:_program.soak cs_on:_program.csOn];
 //            }
@@ -919,7 +919,7 @@
                 } else {
                     cell.theSwitch.on = self.program.csOn;
                     cell.theSwitch.enabled = YES;
-                    cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soak];
+                    cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d cycles / %d min soak", self.program.cycles, self.program.soakMinutes];
                     cell.theTextLabel.textColor = [UIColor blackColor];
                     cell.theDetailTextLabel.textColor = [UIColor blackColor];
                     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -1007,7 +1007,7 @@
         setDelayVC.titlePicker1 = @"Number of cycles:";
         setDelayVC.titlePicker2 = @"Soak time:";
         setDelayVC.valuePicker1 = self.program.cycles;
-        setDelayVC.valuePicker2 = self.program.soak;
+        setDelayVC.valuePicker2 = self.program.soakMinutes;
         setDelayVC.title = @"Cycles and soak duration";
     }   
     else if (row == 1) {

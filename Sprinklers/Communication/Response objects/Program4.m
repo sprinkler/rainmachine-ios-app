@@ -29,7 +29,7 @@
         program.nextRun = [[NSDate sharedDateFormatterAPI4] dateFromString:[jsonObj nullProofedStringValueForKey:@"nextRun"]];
         
         program.cycles = [jsonObj nullProofedIntValueForKey:@"cycles"];
-        program.soak = [jsonObj nullProofedIntValueForKey:@"soak"] / 60;
+        program.soak = [jsonObj nullProofedIntValueForKey:@"soak"];
         program.csOn = [jsonObj nullProofedBoolValueForKey:@"cs_on"];
         program.delay = [jsonObj nullProofedIntValueForKey:@"delay"];
         program.delayOn = [jsonObj nullProofedBoolValueForKey:@"delay_on"];
@@ -167,7 +167,7 @@
     [dic setObject:[NSNumber numberWithInt:_programId] forKey:@"uid"];
     [dic setObject:[NSNumber numberWithBool:_active] forKey:@"active"];
     [dic setObject:[NSNumber numberWithInt:_cycles] forKey:@"cycles"];
-    [dic setObject:[NSNumber numberWithInt:_soak * 60] forKey:@"soak"];
+    [dic setObject:[NSNumber numberWithInt:_soak] forKey:@"soak"];
     [dic setObject:[NSNumber numberWithBool:_csOn] forKey:@"cs_on"];
     [dic setObject:[NSNumber numberWithInt:_delay] forKey:@"delay"];
     [dic setObject:[NSNumber numberWithBool:_delayOn] forKey:@"delay_on"];
@@ -207,7 +207,7 @@
     program.active = YES;
     program.ignoreWeatherData = NO;
     program.cycles = 2;
-    program.soak = 30 * 60;
+    program.soakMinutes = 30;
     program.delay = 0;
     program.status = 0;
     program.coef = 0;
@@ -295,6 +295,22 @@
     }
     
     return isEqual;
+}
+
+- (void)setSoakMinutes:(int)soakMinutes {
+    _soak = soakMinutes * 60;
+}
+
+- (int)soakMinutes {
+    return _soak / 60;
+}
+
+- (void)setDelayMinutes:(int)delayMinutes {
+    _delay = delayMinutes * 60;
+}
+
+- (int)delayMinutes {
+    return _delay / 60;
 }
 
 @end
