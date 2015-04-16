@@ -38,6 +38,7 @@
 #import "RainDelay.h"
 #import "HomeScreenDataSourceCell.h"
 #import "API4StatusResponse.h"
+#import "TimePickerMinutesVC.h"
 
 @interface ProgramVC ()
 {
@@ -556,6 +557,12 @@
     [self.tableView reloadData];
 }
 
+- (void)timePickerMinutesVCWillDissapear:(TimePickerMinutesVC*)timePicker {
+    self.program.delay = timePicker.minutes * 60 + timePicker.seconds;
+    self.program.delayOn = !((_program.delay == 0));
+    [self.tableView reloadData];
+}
+
 - (void)weekdaysVCWillDissapear:(WeekdaysVC*)weekdaysVC
 {
     self.frequencyWeekdays = [weekdaysVC.selectedWeekdays componentsJoinedByString:@","];
@@ -939,7 +946,11 @@
                 } else {
                     cell.theSwitch.on = self.program.delayOn;
                     cell.theSwitch.enabled = YES;
-                    cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
+                    if ([ServerProxy usesAPI3]) {
+                        cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%d min", self.program.delay];
+                    } else {
+                        cell.theDetailTextLabel.text = [NSString stringWithFormat:@"%@ min", [Utils formattedTimeFromSeconds:self.program.delay]];
+                    }
                     cell.theTextLabel.textColor = [UIColor blackColor];
                     cell.theDetailTextLabel.textColor = [UIColor blackColor];
                     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -995,9 +1006,10 @@
 
 - (void)showSection4Screen:(int)row
 {
-    SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" :
-                                                          @"SetDelayVC" bundle: nil];
+    SetDelayVC *setDelayVC = nil;
+    
     if (row == 0) {
+        setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
         setDelayVC.moveLabelsLeftOfPicker = YES;
         setDelayVC.minValuePicker1 = 2;
         setDelayVC.maxValuePicker1 = 5;
@@ -1010,7 +1022,8 @@
         setDelayVC.valuePicker2 = self.program.soakMinutes;
         setDelayVC.title = @"Cycles and soak duration";
     }   
-    else if (row == 1) {
+    else if (row == 1 && [ServerProxy usesAPI3]) {
+        setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
         setDelayVC.minValuePicker1 = 0;
         setDelayVC.maxValuePicker1 = 300;
         setDelayVC.userInfo = @"station_delay";
@@ -1019,10 +1032,23 @@
         setDelayVC.title = @"Delay between zones";
     }
     
-    setDelayVC.parent = self;
-    
-    [self willPushChildView];
-    [self.navigationController pushViewController:setDelayVC animated:YES];
+    if (setDelayVC) {
+        setDelayVC.parent = self;
+        
+        [self willPushChildView];
+        [self.navigationController pushViewController:setDelayVC animated:YES];
+    }
+    else if (row == 1 && [ServerProxy usesAPI4]) {
+        TimePickerMinutesVC *timePickerVC = [[TimePickerMinutesVC alloc] initWithNibName:@"TimePickerMinutesVC" bundle:nil];
+        timePickerVC.minutes = self.program.delay / 60;
+        timePickerVC.seconds = self.program.delay % 60;
+        timePickerVC.title = @"Delay between zones";
+        
+        timePickerVC.parent = self;
+        
+        [self willPushChildView];
+        [self.navigationController pushViewController:timePickerVC animated:YES];
+    }
 }
 
 - (void)checkFrequencyWithIndex:(int)index

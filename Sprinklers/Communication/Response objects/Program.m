@@ -240,12 +240,4 @@
     return _soak;
 }
 
-- (void)setDelayMinutes:(int)delayMinutes {
-    _delay = delayMinutes;
-}
-
-- (int)delayMinutes {
-    return _delay;
-}
-
 @end

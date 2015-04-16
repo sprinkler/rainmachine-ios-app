@@ -21,7 +21,6 @@
 @property (nonatomic) int soakMinutes;
 @property (nonatomic) BOOL csOn; // cycle/soak flag
 @property (nonatomic) int delay;
-@property (nonatomic) int delayMinutes;
 @property (nonatomic) BOOL delayOn;
 @property (nonatomic) int status;
 @property (nonatomic) Frequency4 *frequency;

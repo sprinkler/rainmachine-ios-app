@@ -43,6 +43,7 @@
 + (NSString*)daysStringFromWeekdaysFrequency:(NSString *)weekdays;
 + (NSString*)monthsStringFromMonthsFrequency:(NSString *)months;
 + (NSString*)formattedTime:(NSDate*)date forTimeFormat:(int)timeFormat;
++ (NSString*)formattedTimeFromSeconds:(int)seconds;
 + (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format;
 + (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format seconds:(BOOL)seconds;
 + (NSDateFormatter*)sprinklerDateFormatterForTimeFormat:(NSNumber*)time_format seconds:(BOOL)seconds forceOnlyTimePart:(BOOL)forceOnlyTimePart forceOnlyDatePart:(BOOL)forceOnlyDatePart;

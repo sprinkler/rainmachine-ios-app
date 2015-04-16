@@ -305,12 +305,4 @@
     return _soak / 60;
 }
 
-- (void)setDelayMinutes:(int)delayMinutes {
-    _delay = delayMinutes * 60;
-}
-
-- (int)delayMinutes {
-    return _delay / 60;
-}
-
 @end

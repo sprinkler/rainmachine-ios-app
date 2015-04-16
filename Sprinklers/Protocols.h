@@ -38,6 +38,12 @@
 
 @end
 
+@protocol TimePickerMinutesDelegate <NSObject>
+
+- (void)timePickerMinutesVCWillDissapear:(id)timePicker;
+
+@end
+
 @protocol DatePickerDelegate <NSObject>
 
 - (void)datePickerVCWillDissapear:(id)datePicker;

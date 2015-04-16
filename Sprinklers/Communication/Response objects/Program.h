@@ -32,7 +32,6 @@ typedef enum {
 @property (nonatomic) int csOn; // cycle/soak flag
 @property (nonatomic) int cycles;
 @property (nonatomic) int delay;
-@property (nonatomic) int delayMinutes;
 @property (nonatomic) int delayOn;
 @property (nonatomic) int frequency;
 @property (nonatomic) int ignoreWeatherData;

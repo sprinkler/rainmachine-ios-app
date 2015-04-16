@@ -428,6 +428,16 @@
     return hourAndMinute;
 }
 
++ (NSString*)formattedTimeFromSeconds:(int)seconds {
+    int mins = seconds / 60;
+    int secs = seconds % 60;
+    NSString *minsString = [NSString stringWithFormat:@"%d",(int)mins];
+    if (minsString.length < 2) minsString = [@"0" stringByAppendingString:minsString];
+    NSString *secsString = [NSString stringWithFormat:@"%d",(int)secs];
+    if (secsString.length < 2) secsString = [@"0" stringByAppendingString:secsString];
+    return [NSString stringWithFormat:@"%@:%@",minsString,secsString];
+}
+
 + (SettingsDate*)fixedSettingsDate:(SettingsDate*)settingsDate
 {
     // The sprinkler returns inconsistently the fields am_pm and time_format.

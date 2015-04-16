@@ -89,6 +89,8 @@
 		96AD36371A1CDBC00019453C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD36361A1CDBC00019453C /* libc++.dylib */; };
 		96AD36391A1CDBCC0019453C /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD36381A1CDBCC0019453C /* libicucore.dylib */; };
 		96AD363B1A1CDBD40019453C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD363A1A1CDBD40019453C /* libz.dylib */; };
+		96BED90F1ADFE4D0003F0453 /* TimePickerMinutesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */; };
+		96BED9101ADFE4D0003F0453 /* TimePickerMinutesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */; };
 		96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239C19D7080900683AC6 /* HourlyRestriction.m */; };
 		96C223A119D7223700683AC6 /* MonthsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239F19D7223700683AC6 /* MonthsVC.m */; };
 		96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C223A519D7255900683AC6 /* MonthsVC.xib */; };
@@ -1627,6 +1629,9 @@
 		96AD36361A1CDBC00019453C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		96AD36381A1CDBCC0019453C /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		96AD363A1A1CDBD40019453C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		96BED90C1ADFE4D0003F0453 /* TimePickerMinutesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimePickerMinutesVC.h; path = ViewController/TimePickerMinutesVC.h; sourceTree = "<group>"; };
+		96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimePickerMinutesVC.m; path = ViewController/TimePickerMinutesVC.m; sourceTree = "<group>"; };
+		96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TimePickerMinutesVC.xib; path = ViewController/TimePickerMinutesVC.xib; sourceTree = "<group>"; };
 		96C2239B19D7080900683AC6 /* HourlyRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HourlyRestriction.h; path = "Communication/Response objects/HourlyRestriction.h"; sourceTree = "<group>"; };
 		96C2239C19D7080900683AC6 /* HourlyRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HourlyRestriction.m; path = "Communication/Response objects/HourlyRestriction.m"; sourceTree = "<group>"; };
 		96C2239E19D7223700683AC6 /* MonthsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonthsVC.h; path = ViewController/MonthsVC.h; sourceTree = "<group>"; };
@@ -3335,6 +3340,9 @@
 				AFF3A06118BDE4C10060D0F6 /* TimePickerVC.h */,
 				AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */,
 				AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */,
+				96BED90C1ADFE4D0003F0453 /* TimePickerMinutesVC.h */,
+				96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */,
+				96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */,
 				969E634E1AA75D2C004970CF /* DatePickerVC.h */,
 				969E634F1AA75D2C004970CF /* DatePickerVC.m */,
 				969E63501AA75D2C004970CF /* DatePickerVC.xib */,
@@ -3667,6 +3675,7 @@
 				96CB93FB1A38AFAD00F3691F /* ovc_small_white.png in Resources */,
 				AFF9350C1A2C759F008063D2 /* LabelAndTextFieldCell.xib in Resources */,
 				96116DD31A6BE9680017FB3F /* GraphScrollableCellMonth.xib in Resources */,
+				96BED9101ADFE4D0003F0453 /* TimePickerMinutesVC.xib in Resources */,
 				B173B50116B2C459000EB72D /* Sprinkler_Icon_144.png in Resources */,
 				AF4826821990DC9500D80B87 /* nra1.png in Resources */,
 				96CB93E11A38AFAD00F3691F /* hi_tsra_small_white.png in Resources */,
@@ -4400,6 +4409,7 @@
 				AF94FBC018B7CC9D006FE76D /* SetRainDelay.m in Sources */,
 				B1254CA4187ADCB3004E2F0E /* Program.m in Sources */,
 				AFC58172184E58FD00C8D06A /* WeatherData.m in Sources */,
+				96BED90F1ADFE4D0003F0453 /* TimePickerMinutesVC.m in Sources */,
 				AF167D5C189ACBA7003E659D /* UpdateStartInfo.m in Sources */,
 				B1EF21221860499E00D9CE26 /* WaterNowVC.m in Sources */,
 				964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */,
