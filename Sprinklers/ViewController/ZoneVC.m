@@ -282,10 +282,18 @@ typedef enum {
 {
     if ([setDelayVC.userInfo isKindOfClass:[NSString class]]) {
         if ([setDelayVC.userInfo isEqualToString:@"before"]) {
-            self.zone.before = setDelayVC.valuePicker1;
+            if ([ServerProxy usesAPI3]) {
+                self.zone.before = setDelayVC.valuePicker1;
+            } else {
+                self.zone.before = setDelayVC.valuePicker1 * 60;
+            }
         }
         else if ([setDelayVC.userInfo isEqualToString:@"after"]) {
+            if ([ServerProxy usesAPI3]) {
                 self.zone.after = setDelayVC.valuePicker1;
+            } else {
+                self.zone.after = setDelayVC.valuePicker1 * 60;
+            }
         }
     }
     
@@ -484,7 +492,11 @@ typedef enum {
 
             cell.labelMainTitle.text = @"Before program starts";
             cell.labelMainSubtitle.hidden = YES;
-            cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.before];
+            if ([ServerProxy usesAPI3]) {
+                cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.before];
+            } else {
+                cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.before / 60];
+            }
             
             return cell;
         }
@@ -496,7 +508,11 @@ typedef enum {
             
             cell.labelMainTitle.text = @"After program starts";
             cell.labelMainSubtitle.hidden = YES;
-            cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.after];
+            if ([ServerProxy usesAPI3]) {
+                cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.after];
+            } else {
+                cell.labelInfo.text = [NSString stringWithFormat:@"%d mins", _zone.after / 60];
+            }
             
             return cell;
         }
@@ -677,11 +693,19 @@ typedef enum {
             if (indexPath.row == 0) {
                 setDelayVC.userInfo = @"before";
                 setDelayVC.title = @"Before";
-                setDelayVC.valuePicker1 = self.zone.before;
+                if ([ServerProxy usesAPI3]) {
+                    setDelayVC.valuePicker1 = self.zone.before;
+                } else {
+                    setDelayVC.valuePicker1 = self.zone.before / 60;
+                }
             } else {
                 setDelayVC.userInfo = @"after";
                 setDelayVC.title = @"After";
-                setDelayVC.valuePicker1 = self.zone.after;
+                if ([ServerProxy usesAPI3]) {
+                    setDelayVC.valuePicker1 = self.zone.after;
+                } else {
+                    setDelayVC.valuePicker1 = self.zone.after / 60;
+                }
             }
         }
     }
