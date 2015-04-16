@@ -487,7 +487,7 @@
     else if ([object isKindOfClass:[ProgramCellType6 class]]) {
         ProgramCellType6 *cell = (ProgramCellType6*)object;
         cell.programWateringTime.active = cell.theSwitch.on;
-        if (cell.programWateringTime.active && cell.programWateringTime.minutes == 0) {
+        if (cell.programWateringTime.active && cell.programWateringTime.duration == 0) {
             [self tableView:self.tableView didSelectRowAtIndexPath:[self.tableView indexPathForCell:cell]];
         }
         [self.tableView reloadData];
@@ -545,7 +545,7 @@
              if ([ServerProxy usesAPI4]) {
                  ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
                  [self setProgram4WateringTime:setDelayVC.valuePicker1 on:programWateringTime];
-                 programWateringTime.active = (programWateringTime.minutes != 0);
+                 programWateringTime.active = (programWateringTime.duration != 0);
                  [self.tableView reloadData];
              } else {
                  ProgramWateringTimes *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
@@ -558,8 +558,23 @@
 }
 
 - (void)timePickerMinutesVCWillDissapear:(TimePickerMinutesVC*)timePicker {
-    self.program.delay = timePicker.minutes * 60 + timePicker.seconds;
-    self.program.delayOn = !((_program.delay == 0));
+    if ([timePicker.userInfo isKindOfClass:[NSString class]]) {
+        if ([timePicker.userInfo isEqualToString:@"station_delay"]) {
+            self.program.delay = timePicker.minutes * 60 + timePicker.seconds;
+            self.program.delayOn = !((_program.delay == 0));
+        }
+    }
+    else if ([timePicker.userInfo isKindOfClass:[NSDictionary class]]) {
+        NSString *name = [timePicker.userInfo objectForKey:@"name"];
+        if ([name isEqualToString:@"zoneDelay"]) {
+            NSNumber *zoneId = [timePicker.userInfo objectForKey:@"zoneId"];
+
+            ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[[zoneId intValue]];
+            programWateringTime.duration = timePicker.minutes * 60 + timePicker.seconds;
+            programWateringTime.active = (programWateringTime.duration != 0);
+        }
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -979,7 +994,7 @@
                     cell.timeLabel.textColor = [UIColor lightGrayColor];
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 } else {
-                    cell.timeLabel.text = [NSString stringWithFormat:@"%d min", programWateringTime.minutes];
+                    cell.timeLabel.text = [NSString stringWithFormat:@"%@", [Utils formattedTimeFromSeconds:programWateringTime.duration]];
                     cell.theTextLabel.textColor = [UIColor blackColor];
                     cell.timeLabel.textColor = [UIColor blackColor];
                     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -1042,6 +1057,7 @@
         TimePickerMinutesVC *timePickerVC = [[TimePickerMinutesVC alloc] initWithNibName:@"TimePickerMinutesVC" bundle:nil];
         timePickerVC.minutes = self.program.delay / 60;
         timePickerVC.seconds = self.program.delay % 60;
+        timePickerVC.userInfo = @"station_delay";
         timePickerVC.title = @"Delay between zones";
         
         timePickerVC.parent = self;
@@ -1182,31 +1198,38 @@
         }
         else if (indexPath.section == wateringTimesSectionIndex) {
             if (!self.waterSenseEnabled) {
-                SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
-                
                 if ([ServerProxy usesAPI4]) {
+                    TimePickerMinutesVC *timePickerVC = [[TimePickerMinutesVC alloc] initWithNibName:@"TimePickerMinutesVC" bundle:nil];
                     ProgramWateringTimes4 *programWateringTime = self.program.wateringTimes[indexPath.row];
-                    setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
-                                            @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
-                                            @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
-                                            @"active"   : [NSNumber numberWithBool:programWateringTime.active]
-                                            };
-                    setDelayVC.valuePicker1 = programWateringTime.minutes;
+                    timePickerVC.userInfo = @{@"name"     : @"zoneDelay",
+                                              @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
+                                              @"duration" : [NSNumber numberWithInt:programWateringTime.duration],
+                                              @"active"   : [NSNumber numberWithBool:programWateringTime.active]
+                                              };
+                    timePickerVC.minutes = programWateringTime.duration / 60;
+                    timePickerVC.seconds = programWateringTime.duration % 60;
+                    
+                    timePickerVC.title = @"Zone watering duration";
+                    timePickerVC.parent = self;
+                    
+                    [self willPushChildView];
+                    [self.navigationController pushViewController:timePickerVC animated:YES];
                 } else {
+                    SetDelayVC *setDelayVC = [[SetDelayVC alloc] initWithNibName: [[UIDevice currentDevice] isIpad] ? @"SetDelayVC-iPad" : @"SetDelayVC" bundle: nil];
                     ProgramWateringTimes *programWateringTime = self.program.wateringTimes[indexPath.row];
                     setDelayVC.userInfo = @{@"name"     : @"zoneDelay",
                                             @"zoneId"   : [NSNumber numberWithInteger:indexPath.row],
                                             @"mins"     : [NSNumber numberWithInt:programWateringTime.minutes],
                                             };
                     setDelayVC.valuePicker1 = programWateringTime.minutes;
+                    
+                    setDelayVC.titlePicker1 = @"minutes";
+                    setDelayVC.title = @"Zone watering duration";
+                    setDelayVC.parent = self;
+                    
+                    [self willPushChildView];
+                    [self.navigationController pushViewController:setDelayVC animated:YES];
                 }
-                
-                setDelayVC.titlePicker1 = @"minutes";
-                setDelayVC.title = @"Zone watering duration";
-                setDelayVC.parent = self;
-                
-                [self willPushChildView];
-                [self.navigationController pushViewController:setDelayVC animated:YES];
             }
         }
     }
@@ -1446,7 +1469,7 @@
     
     BOOL isThereANonZeroWateringZoneTime = NO;
     for (ProgramWateringTimes *programWateringTime in self.program.wateringTimes) {
-        if (programWateringTime.minutes != 0) {
+        if (programWateringTime.duration != 0) {
             isThereANonZeroWateringZoneTime = YES;
             break;
         }
@@ -1517,7 +1540,7 @@
             } else {
                 ProgramWateringTimes4 *wt = [[ProgramWateringTimes4 alloc] init];
                 wt.wtId = zone.zoneId;
-                wt.minutes = 0;
+                wt.duration = 0;
                 wt.name = zone.name;
                 wt.active = NO;
                 wateringTime = wt;

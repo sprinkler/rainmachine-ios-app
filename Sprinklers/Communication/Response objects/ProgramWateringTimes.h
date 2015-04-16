@@ -17,4 +17,6 @@
 - (NSDictionary*)toDictionary;
 - (BOOL)isEqualToProgramWateringTime:(ProgramWateringTimes*)wt;
 
+- (int)duration;
+
 @end

@@ -59,4 +59,8 @@
     return isEqual;
 }
 
+- (int)duration {
+    return _minutes * 60;
+}
+
 @end
