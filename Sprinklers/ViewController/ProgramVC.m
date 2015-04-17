@@ -1182,7 +1182,7 @@
             else if (indexPath.row == startTimeRow) {
 
                 TimePickerVC *timePickerVC = [[TimePickerVC alloc] initWithNibName:@"TimePickerVC" bundle:nil];
-                timePickerVC.timeFormat = self.program.timeFormat;
+                timePickerVC.timeFormat = [Utils isTime24HourFormat] ? 0 : 1;
                 timePickerVC.parent = self;
                 timePickerVC.time = self.program.startTime;
                 [timePickerVC refreshTimeFormatConstraint];
