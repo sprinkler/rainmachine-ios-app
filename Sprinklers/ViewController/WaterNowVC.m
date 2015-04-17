@@ -1108,6 +1108,7 @@
 }
 
 - (void)hideHUD {
+    if (self.pollServerProxy || self.zonesPropertiesServerProxy) return;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
