@@ -398,16 +398,16 @@
     // Date formatting standard. If you follow the links to the "Data Formatting Guide", you will see this information for iOS 6: http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns
     if ([time_format intValue] == 24) {
         if ([ServerProxy usesAPI4]) {
-            df.dateFormat = normalFormat ? (seconds ? @"yyyy-M-d H:m:s" : @"yyyy-M-d H:m") : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"HH:mm");
+            df.dateFormat = normalFormat ? (seconds ? @"yyyy-M-d H:mm:ss" : @"yyyy-M-d H:mm") : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"HH:mm");
         } else {
-            df.dateFormat = normalFormat ? @"yyyy/M/d H:m" : (forceOnlyDatePart ? @"yyyy/M/d" : @"H:m"); // H means hours between [0-23]
+            df.dateFormat = normalFormat ? @"yyyy/M/d H:mm" : (forceOnlyDatePart ? @"yyyy/M/d" : @"H:mm"); // H means hours between [0-23]
         }
     }
     else if ([time_format intValue] == 12) {
         if ([ServerProxy usesAPI4]) {
-            df.dateFormat = normalFormat ? (seconds ? @"yyyy-M-d h:m:s a" : @"yyyy-M-d h:m a") : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"h:mm a");
+            df.dateFormat = normalFormat ? (seconds ? @"yyyy-M-d h:mm:ss a" : @"yyyy-M-d h:mm a") : (forceOnlyDatePart ? @"yyyy/MM/dd" : @"h:mm a");
         } else {
-            df.dateFormat = normalFormat ? @"yyyy/M/d h:m a" : (forceOnlyDatePart ? @"yyyy/M/d" : @"h:m a"); // K means hours between [0-11], Istvan: use h instead of K, h means hours between [1-12]
+            df.dateFormat = normalFormat ? @"yyyy/M/d h:mm a" : (forceOnlyDatePart ? @"yyyy/M/d" : @"h:mm a"); // K means hours between [0-11], Istvan: use h instead of K, h means hours between [1-12]
         }
     }
     
