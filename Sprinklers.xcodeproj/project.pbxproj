@@ -1497,6 +1497,10 @@
 		BD0BB9861ACE9525005E2426 /* DataSourcesParserVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F48FF81AA05C3200DFA578 /* DataSourcesParserVC.xib */; };
 		BD0BB9871ACE9525005E2426 /* tsra_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93D21A38AFAD00F3691F /* tsra_small_white.png */; };
 		BD0BB9881ACE9525005E2426 /* skc_small_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CB93CF1A38AFAD00F3691F /* skc_small_white.png */; };
+		BD41CD121AE008240098754F /* TimePickerMinutesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */; };
+		BD41CD131AE008250098754F /* TimePickerMinutesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */; };
+		BD41CD141AE008300098754F /* TimePickerMinutesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */; };
+		BD41CD151AE008310098754F /* TimePickerMinutesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2157,7 +2161,7 @@
 		B1B60617187958990046FDDC /* ProgramsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgramsVC.h; path = ViewController/ProgramsVC.h; sourceTree = "<group>"; };
 		B1B60618187958990046FDDC /* ProgramsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgramsVC.m; path = ViewController/ProgramsVC.m; sourceTree = "<group>"; };
 		B1B60619187958990046FDDC /* ProgramsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProgramsVC.xib; path = ViewController/ProgramsVC.xib; sourceTree = "<group>"; };
-		B1DF324716A6A68700A1BF38 /* RainMachine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainMachine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1DF324716A6A68700A1BF38 /* RainMachine.dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainMachine.dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1DF324B16A6A68700A1BF38 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B1DF324D16A6A68700A1BF38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B1DF324F16A6A68700A1BF38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -2235,9 +2239,9 @@
 		B1EF212E186049D800D9CE26 /* WaterNowLevel1VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowLevel1VC.h; path = ViewController/WaterNowLevel1VC.h; sourceTree = "<group>"; };
 		B1EF212F186049D800D9CE26 /* WaterNowLevel1VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowLevel1VC.m; path = ViewController/WaterNowLevel1VC.m; sourceTree = "<group>"; };
 		B1EF2130186049D800D9CE26 /* WaterNowLevel1VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterNowLevel1VC.xib; path = ViewController/WaterNowLevel1VC.xib; sourceTree = "<group>"; };
-		BD0BB7931ACE93AA005E2426 /* Sprinklers copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sprinklers copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD0BB7931ACE93AA005E2426 /* RainMachine.qa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainMachine.qa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD0BB7941ACE93AB005E2426 /* Sprinklers copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sprinklers copy-Info.plist"; path = "/Users/tremend/Desktop/api4/Sprinklers copy-Info.plist"; sourceTree = "<absolute>"; };
-		BD0BB98C1ACE9525005E2426 /* Sprinklers Tremend copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sprinklers Tremend copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD0BB98C1ACE9525005E2426 /* RainMachine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainMachine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD0BB98D1ACE9525005E2426 /* Sprinklers Tremend copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sprinklers Tremend copy-Info.plist"; path = "/Users/tremend/Desktop/api4/Sprinklers Tremend copy-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -3103,9 +3107,9 @@
 		B1DF324816A6A68700A1BF38 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B1DF324716A6A68700A1BF38 /* RainMachine.app */,
-				BD0BB7931ACE93AA005E2426 /* Sprinklers copy.app */,
-				BD0BB98C1ACE9525005E2426 /* Sprinklers Tremend copy.app */,
+				B1DF324716A6A68700A1BF38 /* RainMachine.dev.app */,
+				BD0BB7931ACE93AA005E2426 /* RainMachine.qa.app */,
+				BD0BB98C1ACE9525005E2426 /* RainMachine.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3402,7 +3406,7 @@
 			);
 			name = Sprinklers;
 			productName = Sprinklers;
-			productReference = B1DF324716A6A68700A1BF38 /* RainMachine.app */;
+			productReference = B1DF324716A6A68700A1BF38 /* RainMachine.dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BD0BB59C1ACE93AA005E2426 /* Sprinklers Tremend */ = {
@@ -3419,7 +3423,7 @@
 			);
 			name = "Sprinklers Tremend";
 			productName = Sprinklers;
-			productReference = BD0BB7931ACE93AA005E2426 /* Sprinklers copy.app */;
+			productReference = BD0BB7931ACE93AA005E2426 /* RainMachine.qa.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BD0BB7951ACE9525005E2426 /* Sprinklers Green */ = {
@@ -3436,7 +3440,7 @@
 			);
 			name = "Sprinklers Green";
 			productName = Sprinklers;
-			productReference = BD0BB98C1ACE9525005E2426 /* Sprinklers Tremend copy.app */;
+			productReference = BD0BB98C1ACE9525005E2426 /* RainMachine.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -3935,6 +3939,7 @@
 				BD0BB7571ACE93AA005E2426 /* ovc_small_white.png in Resources */,
 				BD0BB7581ACE93AA005E2426 /* LabelAndTextFieldCell.xib in Resources */,
 				BD0BB7591ACE93AA005E2426 /* GraphScrollableCellMonth.xib in Resources */,
+				BD41CD141AE008300098754F /* TimePickerMinutesVC.xib in Resources */,
 				BD0BB75A1ACE93AA005E2426 /* Sprinkler_Icon_144.png in Resources */,
 				BD0BB75B1ACE93AA005E2426 /* nra1.png in Resources */,
 				BD0BB75C1ACE93AA005E2426 /* hi_tsra_small_white.png in Resources */,
@@ -4194,6 +4199,7 @@
 				BD0BB9501ACE9525005E2426 /* ovc_small_white.png in Resources */,
 				BD0BB9511ACE9525005E2426 /* LabelAndTextFieldCell.xib in Resources */,
 				BD0BB9521ACE9525005E2426 /* GraphScrollableCellMonth.xib in Resources */,
+				BD41CD151AE008310098754F /* TimePickerMinutesVC.xib in Resources */,
 				BD0BB9531ACE9525005E2426 /* Sprinkler_Icon_144.png in Resources */,
 				BD0BB9541ACE9525005E2426 /* nra1.png in Resources */,
 				BD0BB9551ACE9525005E2426 /* hi_tsra_small_white.png in Resources */,
@@ -4642,6 +4648,7 @@
 				BD0BB6321ACE93AA005E2426 /* SetRainDelay.m in Sources */,
 				BD0BB6331ACE93AA005E2426 /* Program.m in Sources */,
 				BD0BB6341ACE93AA005E2426 /* WeatherData.m in Sources */,
+				BD41CD121AE008240098754F /* TimePickerMinutesVC.m in Sources */,
 				BD0BB6351ACE93AA005E2426 /* UpdateStartInfo.m in Sources */,
 				BD0BB6361ACE93AA005E2426 /* WaterNowVC.m in Sources */,
 				BD0BB6371ACE93AA005E2426 /* GoogleAutocompletePrediction.m in Sources */,
@@ -4874,6 +4881,7 @@
 				BD0BB82B1ACE9525005E2426 /* SetRainDelay.m in Sources */,
 				BD0BB82C1ACE9525005E2426 /* Program.m in Sources */,
 				BD0BB82D1ACE9525005E2426 /* WeatherData.m in Sources */,
+				BD41CD131AE008250098754F /* TimePickerMinutesVC.m in Sources */,
 				BD0BB82E1ACE9525005E2426 /* UpdateStartInfo.m in Sources */,
 				BD0BB82F1ACE9525005E2426 /* WaterNowVC.m in Sources */,
 				BD0BB8301ACE9525005E2426 /* GoogleAutocompletePrediction.m in Sources */,
@@ -4990,6 +4998,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = RainMachine;
 				PROVISIONING_PROFILE = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5014,6 +5023,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = RainMachine;
 				PROVISIONING_PROFILE = "c8550e8f-33fb-4042-bbd8-e5137227ec0a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5036,7 +5046,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RainMachine;
+				PRODUCT_NAME = RainMachine.dev;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5060,7 +5070,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sprinklers/SupportingFiles/Sprinklers-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RainMachine;
+				PRODUCT_NAME = RainMachine.dev;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5084,7 +5094,7 @@
 				INFOPLIST_FILE = "Sprinklers copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "Sprinklers copy";
+				PRODUCT_NAME = RainMachine.qa;
 				PROVISIONING_PROFILE = "2fbffddd-910b-4e62-9b4a-715f7bb0f71d";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2fbffddd-910b-4e62-9b4a-715f7bb0f71d";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5108,7 +5118,7 @@
 				INFOPLIST_FILE = "Sprinklers copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "Sprinklers copy";
+				PRODUCT_NAME = RainMachine.qa;
 				PROVISIONING_PROFILE = "2fbffddd-910b-4e62-9b4a-715f7bb0f71d";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2fbffddd-910b-4e62-9b4a-715f7bb0f71d";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5132,7 +5142,7 @@
 				INFOPLIST_FILE = "Sprinklers Tremend copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "Sprinklers Tremend copy";
+				PRODUCT_NAME = RainMachine;
 				PROVISIONING_PROFILE = "7fa6f718-87a8-4fc7-b7e8-686cbd2d297a";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7fa6f718-87a8-4fc7-b7e8-686cbd2d297a";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5156,7 +5166,7 @@
 				INFOPLIST_FILE = "Sprinklers Tremend copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "Sprinklers Tremend copy";
+				PRODUCT_NAME = RainMachine;
 				PROVISIONING_PROFILE = "7fa6f718-87a8-4fc7-b7e8-686cbd2d297a";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7fa6f718-87a8-4fc7-b7e8-686cbd2d297a";
 				TARGETED_DEVICE_FAMILY = "1,2";
