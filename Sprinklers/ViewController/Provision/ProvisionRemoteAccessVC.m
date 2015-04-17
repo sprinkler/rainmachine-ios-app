@@ -23,6 +23,7 @@
 #define kRemoteAccess_SetCloudEmail_AlertView_Tag                   1000
 #define kRemoteAccess_InvalidEmail_AlertView_Tag                    1001
 #define kRemoteAccess_FinishRainmachineSetup_AlertView_Tag          1002
+#define kRemoteAccess_CloudEmailWarning_AlertView_Tag               1003
 
 #pragma mark -
 
@@ -40,12 +41,16 @@
 @property (nonatomic, strong) ServerProxy *emailValidatorServerProxy;
 
 @property (nonatomic, strong) CloudSettings *wizardCloudSettings;
+@property (nonatomic, assign) BOOL cloudEmailWarningWasShown;
 
 - (void)refreshProgressHUD;
 - (void)enableRemoteAccess:(BOOL)enable;
 - (void)saveCloudEmail:(NSString*)email;
 - (void)validateEmail:(NSString*)email showProgress:(BOOL)showProgress;
 - (void)refreshCloudSettings;
+
+- (void)showCloudEmailWarning;
+- (void)showRainMachineSetUpSuccessfulAlert;
 
 - (IBAction)onEnableCloudEmail:(UISwitch*)enableCloudEmailSwitch;
 - (IBAction)onNext:(id)sender;
@@ -261,6 +266,25 @@
 }
 
 - (IBAction)onNext:(id)sender {
+    if (!self.wizardCloudSettings.enabled && !self.cloudEmailWarningWasShown) {
+        [self showCloudEmailWarning];
+        self.cloudEmailWarningWasShown = YES;
+    } else {
+        [self showRainMachineSetUpSuccessfulAlert];
+    }
+}
+
+- (void)showCloudEmailWarning {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                        message:@"Your RainMachine cannot be remotely accessed if you do not provide an email address. Would you like to enter your email?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes",nil];
+    alertView.tag = kRemoteAccess_CloudEmailWarning_AlertView_Tag;
+    [alertView show];
+}
+
+- (void)showRainMachineSetUpSuccessfulAlert {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your Rain Machine is set up!"
                                                         message:@"Now you can go ahead and create your first program."
                                                        delegate:self
@@ -268,7 +292,6 @@
                                               otherButtonTitles:nil];
     alertView.tag = kRemoteAccess_FinishRainmachineSetup_AlertView_Tag;
     [alertView show];
-
 }
 
 #pragma mark - UIAlertView delegate
@@ -299,6 +322,14 @@
         [appDelegate.devicesVC deviceSetupFinished];
         
         [self.navigationController popToRootViewControllerAnimated:NO];
+    }
+    else if (alertView.tag == kRemoteAccess_CloudEmailWarning_AlertView_Tag) {
+        if (buttonIndex == alertView.cancelButtonIndex) {
+            [self showRainMachineSetUpSuccessfulAlert];
+        }
+        else if (buttonIndex == alertView.firstOtherButtonIndex) {
+            [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        }
     }
 }
 
