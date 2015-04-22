@@ -85,6 +85,7 @@
 + (BOOL)isTime24HourFormat;
 
 + (NSString*)cloudEmailStatusForCloudSettings:(CloudSettings*)cloudSettings;
++ (NSString*)formattedUptimeForUptimeString:(NSString*)uptimeString;
 
 @end
 

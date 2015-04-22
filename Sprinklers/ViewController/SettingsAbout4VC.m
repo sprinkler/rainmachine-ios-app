@@ -265,7 +265,7 @@
         }
         else if (indexPath.row == kRow_Uptime) {
             cell.textLabel.text = @"Uptime";
-            cell.detailTextLabel.text = [self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"uptime"] metric:nil];
+            cell.detailTextLabel.text = [Utils formattedUptimeForUptimeString:[self detailTextFromValue:[self.diagResponseDictionary valueForKey:@"uptime"] metric:nil]];
         }
         
         return cell;

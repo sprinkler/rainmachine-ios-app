@@ -827,6 +827,20 @@
     return @"Not set";
 }
 
++ (NSString*)formattedUptimeForUptimeString:(NSString*)uptimeString {
+    NSArray *uptimeComponents = [uptimeString componentsSeparatedByString:@":"];
+    if (uptimeComponents.count == 4) {
+        return [NSString stringWithFormat:@"%@ Days, %@h:%@m:%@s",uptimeComponents[0],uptimeComponents[1],uptimeComponents[2],uptimeComponents[3]];
+    }
+    else if (uptimeComponents.count == 3) {
+        NSInteger hours = [uptimeComponents[0] integerValue];
+        NSInteger days = hours / 24;
+        hours = hours % 24;
+        return [NSString stringWithFormat:@"%d Days, %dh:%@m:%@s",(int)days,(int)hours,uptimeComponents[1],uptimeComponents[2]];
+    }
+    return uptimeString;
+}
+
 #pragma mark - General
 
 + (int)checkOSVersion {
