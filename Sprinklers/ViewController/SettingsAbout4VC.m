@@ -224,19 +224,19 @@
             }
         }
         else if (indexPath.row == kRow_iOSAppVersion) {
-            cell.textLabel.text = @"iOS app version";
+            cell.textLabel.text = @"iOS app";
             cell.detailTextLabel.text = [self detailTextFromValue:self.iOSAppVersion metric:nil];
         }
         else if (indexPath.row == kRow_HardwareVersion) {
-            cell.textLabel.text = @"Hardware version";
+            cell.textLabel.text = @"Hardware";
             cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.hwVer metric:nil];
         }
         else if (indexPath.row == kRow_APIVersion) {
-            cell.textLabel.text = @"API version";
+            cell.textLabel.text = @"API";
             cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.apiVer metric:nil];
         }
         else if (indexPath.row == kRow_StaticIPAddress) {
-            cell.textLabel.text = @"Static IP address";
+            cell.textLabel.text = @"IP address";
             cell.detailTextLabel.text = [self detailTextFromValue:[self.wifiResponseDictionary valueForKey:@"ipAddress"] metric:nil];
         }
         else if (indexPath.row == kRow_Netmask) {
