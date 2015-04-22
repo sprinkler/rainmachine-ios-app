@@ -52,8 +52,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self updateTitle];
+    if (!self.title) [self updateTitle];
 }
 
 #pragma mark - Firmware Update

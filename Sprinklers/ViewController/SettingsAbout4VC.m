@@ -189,7 +189,7 @@
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    return 44.0;
+    return 48.0;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -202,6 +202,8 @@
         
         cell.accessoryView = nil;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         
         if (indexPath.row == kRow_RainMachineFirmware) {
             cell.textLabel.text = @"RainMachine firmware";

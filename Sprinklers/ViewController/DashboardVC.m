@@ -65,8 +65,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (!self) return nil;
     
-    self.title = @"Dashboard";
-    
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"availableGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"selectedGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"reloadingGraphs" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];

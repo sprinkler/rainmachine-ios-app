@@ -38,34 +38,46 @@
 #import "ProvisionRemoteAccessVC.h"
 #import "CloudSettings.h"
 
-NSString *kSettingsPrograms           = @"Programs";
-NSString *kSettingsZones              = @"Zones";
+NSString *kSettingsPrograms             = @"Programs";
+NSString *kSettingsWateringHistory      = @"Watering History";
+NSString *kSettingsSnooze               = @"Snooze";
+NSString *kSettingsRainDelay            = @"Rain Delay";
+NSString *kSettingsRestrictions         = @"Restrictions";
+NSString *kSettingsWeather              = @"Weather";
+NSString *kSettingsSystemSettings       = @"System Settings";
+NSString *kSettingsAbout                = @"About";
+NSString *kSettingsSoftwareUpdate       = @"Software Update";
 
-NSString *kSettingsRainDelay          = @"Rain Delay";
-NSString *kSettingsRestrictions       = @"Restrictions";
+// Weather
+NSString *kSettingsDataSources          = @"Data Sources";
+NSString *kSettingsRainSensitivity      = @"Rain Sensitivity";
+NSString *kSettingsWindSensitivity      = @"Wind Sensitivity";
 
-NSString *kSettingsRainSensitivity    = @"Rain Sensitivity";
-NSString *kSettingsUnits              = @"Units";
-NSString *kSettingsDate               = @"Date";
-NSString *kSettingsTime               = @"Time";
-NSString *kSettingsSecurity           = @"Security";
-NSString *kSettingsAbout              = @"About";
-NSString *kSettingsTimeZone           = @"Timezone";
-NSString *kSettingsResetToDefaults    = @"Reset to Defaults";
-NSString *kSettingsDataSources        = @"Data Sources";
-NSString *kSettingsNetworkSettings    = @"Network Settings";
-NSString *kSettingsDeviceName         = @"Device Name";
-NSString *kSettingsRemoteAccess       = @"Remote Access";
-NSString *kSettingsLocationSettings   = @"Location Settings";
+// System Settings
+
+NSString *kSettingsNetworkSettings      = @"Network Settings";
+NSString *kSettingsRemoteAccess         = @"Remote Access";
+NSString *kSettingsRainSensor           = @"Rain Sensor";
+NSString *kSettingsDeviceName           = @"Device Name";
+NSString *kSettingsLocation             = @"Location";
+NSString *kSettingsDate                 = @"Date";
+NSString *kSettingsTime                 = @"Time";
+NSString *kSettingsUse24HoursFormat     = @"Use 24 hours format";
+NSString *kSettingsTimeZone             = @"Timezone";
+NSString *kSettingsUnits                = @"Units";
+NSString *kSettingsPassword             = @"Password";
+NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 
 @interface SettingsVC ()
 
 @property (strong, nonatomic) NSArray *settings;
-@property (strong, nonatomic) NSArray *settingsSectionNames;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) SettingsDate *settingsDate;
 @property (strong, nonatomic) SettingsUnits *settingsUnits;
+
+@property (nonatomic, readonly) NSArray *weatherSettings;
+@property (nonatomic, readonly) NSArray *systemSetting;
 
 @end
 
@@ -81,6 +93,15 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     return self;
 }
 
+- (id)initWithSettings:(NSArray*)settings {
+    self = [self init];
+    if (!self) return nil;
+    
+    _settings = settings;
+    
+    return self;
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[GlobalsManager current] removeObserver:self forKeyPath:@"cloudSettings"];
@@ -88,36 +109,12 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSMutableArray *settings = [NSMutableArray new];
-    
-    // Section 1
-    [settings addObject:@[kSettingsPrograms]];
-    
-    // Section 2
-    if ([ServerProxy usesAPI4]) {
-        [settings addObject:@[kSettingsRainDelay, kSettingsRestrictions]];
-    } else {
-        [settings addObject:@[kSettingsRainDelay]];
-    }
-
-    // Section 3
-    if ([ServerProxy usesAPI4]) {
-        [settings addObject:@[kSettingsNetworkSettings, kSettingsDataSources, kSettingsRainSensitivity, kSettingsLocationSettings, kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsTimeZone, kSettingsDeviceName, kSettingsRemoteAccess, kSettingsSecurity, kSettingsResetToDefaults, kSettingsAbout]];
-    } else {
-        [settings addObject:@[kSettingsUnits, kSettingsDate, kSettingsTime, kSettingsSecurity, kSettingsAbout]];
-    }
-    
-    self.settings = settings;
-    self.settingsSectionNames = @[@"", @"", @"Device Settings"];
-    
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     if ([ServerProxy usesAPI4]) {
@@ -129,6 +126,9 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         if ([GlobalsManager current].cloudSettings.pendingEmail.length) {
             [[GlobalsManager current] startPollingCloudSettings];
         }
+    } else {
+        ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        [dateTimeServerProxy requestSettingsDate];
     }
 }
 
@@ -150,34 +150,25 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     }
 }
 
-- (void)showZonesAnimated:(BOOL)animated
-{
-    ZonesVC *zones = [[ZonesVC alloc] init];
-    [self.navigationController pushViewController:zones animated:animated];
-}
-
 #pragma mark - UITableView delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.settings.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *settingsSection = self.settings[section];
-    return settingsSection.count;
+    return self.settings.count;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return self.settingsSectionNames[section];
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
+    return 48.0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -185,77 +176,99 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    NSArray *settingsSection = self.settings[indexPath.section];
-    cell.textLabel.text = settingsSection[indexPath.row];
+    if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+        cell.tintColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+    }
     
+    cell.textLabel.text = self.settings[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if ([cell.textLabel.text isEqualToString:kSettingsUse24HoursFormat]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
 
     cell.userInteractionEnabled = YES;
     cell.textLabel.textColor = [UIColor blackColor];
-    cell.detailTextLabel.textColor = [UIColor blackColor];
-
-    if ([ServerProxy usesAPI4]) {
-        if ([cell.textLabel.text isEqualToString:kSettingsNetworkSettings]) {
-            cell.detailTextLabel.text = @"WiFi";
-            if ([Utils isCloudDevice:[Utils currentSprinkler]]) {
-                cell.userInteractionEnabled = NO;
-                cell.textLabel.textColor = [UIColor grayColor];
-                cell.detailTextLabel.textColor = [UIColor grayColor];
-            }
-        } else if ([cell.textLabel.text isEqualToString:kSettingsDeviceName]) {
-            cell.detailTextLabel.text = [Utils currentSprinkler].name;
-        } else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
-            cell.detailTextLabel.text = @"Restore initial settings";
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        } else if ([cell.textLabel.text isEqualToString:kSettingsTimeZone]) {
-            cell.detailTextLabel.text = [GlobalsManager current].provision.location.timezone;
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        } else if ([cell.textLabel.text isEqualToString:kSettingsLocationSettings]) {
-            cell.detailTextLabel.text = [GlobalsManager current].provision.location.name;
-        } else if ([cell.textLabel.text isEqualToString:kSettingsDate]) {
-            NSNumber *time_format = [Utils isTime24HourFormat] ? @24 : @12;
-            NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
-            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:time_format seconds:YES forceOnlyTimePart:NO forceOnlyDatePart:YES] stringFromDate:date];
-        } else if ([cell.textLabel.text isEqualToString:kSettingsTime]) {
-            NSNumber *time_format = [Utils isTime24HourFormat] ? @24 : @12;
-            NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
-            cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:time_format seconds:YES forceOnlyTimePart:YES forceOnlyDatePart:NO] stringFromDate:date];
-        } else if ([cell.textLabel.text isEqualToString:kSettingsUnits]) {
-            cell.detailTextLabel.text = [Utils sprinklerTemperatureUnits];
-        } else if ([cell.textLabel.text isEqualToString:kSettingsRemoteAccess]) {
-            cell.detailTextLabel.text = [Utils cloudEmailStatusForCloudSettings:[GlobalsManager current].cloudSettings];
+    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+    cell.detailTextLabel.text = nil;
+    
+    if ([cell.textLabel.text isEqualToString:kSettingsSystemSettings]) {
+        if ([ServerProxy usesAPI4]) {
+            cell.detailTextLabel.text = @"Network, Location, Time...";
         } else {
-            cell.detailTextLabel.text = nil;
+            cell.detailTextLabel.text = @"Units, Date, Time";
         }
     }
-    
-//    if ([[UIDevice currentDevice] iOSGreaterThan: 7]) {
-//        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
-//    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsAbout]) {
+        if ([ServerProxy usesAPI4]) {
+            cell.detailTextLabel.text = @"Version info, System stats...";
+        } else {
+            cell.detailTextLabel.text = @"Version info";
+        }
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsNetworkSettings]) {
+        cell.detailTextLabel.text = @"WiFi";
+        if ([Utils isCloudDevice:[Utils currentSprinkler]]) {
+            cell.userInteractionEnabled = NO;
+            cell.textLabel.textColor = [UIColor grayColor];
+            cell.detailTextLabel.textColor = [UIColor grayColor];
+        }
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsRemoteAccess]) {
+        cell.detailTextLabel.text = [Utils cloudEmailStatusForCloudSettings:[GlobalsManager current].cloudSettings];
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsDeviceName]) {
+        cell.detailTextLabel.text = [Utils currentSprinkler].name;
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsLocation]) {
+        cell.detailTextLabel.text = [GlobalsManager current].provision.location.name;
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsDate]) {
+        NSNumber *time_format = [Utils isTime24HourFormat] ? @24 : @12;
+        NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
+        cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:time_format seconds:YES forceOnlyTimePart:NO forceOnlyDatePart:YES] stringFromDate:date];
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsTime]) {
+        NSNumber *time_format = [Utils isTime24HourFormat] ? @24 : @12;
+        NSDate *date = [[Utils sprinklerDateFormatterForTimeFormat:self.settingsDate.time_format] dateFromString:self.settingsDate.appDate];
+        cell.detailTextLabel.text = [[Utils sprinklerDateFormatterForTimeFormat:time_format seconds:YES forceOnlyTimePart:YES forceOnlyDatePart:NO] stringFromDate:date];
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsTimeZone]) {
+        cell.detailTextLabel.text = [GlobalsManager current].provision.location.timezone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsUnits]) {
+        cell.detailTextLabel.text = [Utils sprinklerTemperatureUnits];
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
+        cell.detailTextLabel.text = @"Restore initial settings";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSArray *settingsSection = self.settings[indexPath.section];
-    NSString *settingsRow = settingsSection[indexPath.row];
+    NSString *settingsRow = self.settings[indexPath.row];
     
-    // Section 1.
+    // Main settings
     
     if ([settingsRow isEqualToString:kSettingsPrograms]) {
         ProgramsVC *programs = [[ProgramsVC alloc] init];
         programs.parent = self;
         [self.navigationController pushViewController:programs animated:YES];
     }
-    else if ([settingsRow isEqualToString:kSettingsZones]) {
-        [self showZonesAnimated:YES];
+    else if ([settingsRow isEqualToString:kSettingsWateringHistory]) {
+        
     }
-    
-    // Section 2.
-    
+    else if ([settingsRow isEqualToString:kSettingsSnooze]) {
+        RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
+        rainDelay.title = @"Snooze";
+        rainDelay.parent = self;
+        [self.navigationController pushViewController:rainDelay animated:YES];
+    }
     else if ([settingsRow isEqualToString:kSettingsRainDelay]) {
         RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
         rainDelay.parent = self;
@@ -266,74 +279,15 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
         restrictions.parent = self;
         [self.navigationController pushViewController:restrictions animated:YES];
     }
-
-    // Section 3: Device Settings
-    
-    else if ([settingsRow isEqualToString:kSettingsNetworkSettings]) {
-        ProvisionAvailableWiFisVC *availableWiFiVC = [[ProvisionAvailableWiFisVC alloc] init];
-        availableWiFiVC.inputSprinklerMAC = [Utils currentSprinkler].sprinklerId;
-        [self.navigationController pushViewController:availableWiFiVC animated:YES];
+    else if ([settingsRow isEqualToString:kSettingsWeather]) {
+        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:self.weatherSettings];
+        settingsVC.title = kSettingsWeather;
+        [self.navigationController pushViewController:settingsVC animated:YES];
     }
-    else if ([settingsRow isEqualToString:kSettingsDataSources]) {
-        DataSourcesVC *dataSourcesVC = [[DataSourcesVC alloc] init];
-        dataSourcesVC.parent = self;
-        [self.navigationController pushViewController:dataSourcesVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsRainSensitivity]) {
-        RainSensitivityVC *rainSensitivityVC = [[RainSensitivityVC alloc] init];
-        rainSensitivityVC.parent = self;
-        [self.navigationController pushViewController:rainSensitivityVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsLocationSettings]) {
-        ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
-        locationSetupVC.dbSprinkler = [Utils currentSprinkler];
-        [self.navigationController pushViewController:locationSetupVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsUnits]) {
-        UnitsVC *unitsVC = [[UnitsVC alloc] init];
-        unitsVC.parent = self;
-        [self.navigationController pushViewController:unitsVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsDate]) {
-        SettingsDatePickerVC *datePickerVC = [[SettingsDatePickerVC alloc] init];
-        datePickerVC.parent = self;
-        [self.navigationController pushViewController:datePickerVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsTime]) {
-        SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] initWithNibName:@"SettingsTimePickerVC" bundle:nil];
-        timePickerVC.parent = self;
-        [self.navigationController pushViewController:timePickerVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsTimeZone]) {
-        ProvisionTimezonesListVC *timezonesListVC = [[ProvisionTimezonesListVC alloc] init];
-        timezonesListVC.delegate = self;
-        timezonesListVC.isPartOfWizard = NO;
-        UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:timezonesListVC];
-        [self.navigationController presentViewController:navDevices animated:YES completion:nil];
-    }
-    else if ([settingsRow isEqualToString:kSettingsDeviceName]) {
-        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
-        passwordVC.parent = self;
-        passwordVC.isSecurityScreen = NO;
-        [self.navigationController pushViewController:passwordVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsRemoteAccess]) {
-        ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] init];
-        remoteAccessVC.isPartOfWizard = NO;
-        remoteAccessVC.dbSprinkler = [Utils currentSprinkler];
-        [self.navigationController pushViewController:remoteAccessVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsSecurity]) {
-        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
-        passwordVC.parent = self;
-        passwordVC.isSecurityScreen = YES;
-        [self.navigationController pushViewController:passwordVC animated:YES];
-    }
-    else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."
-                                                           delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset to Defaults", nil];
-        alertView.tag = kAlertView_DoYouWantToReset;
-        [alertView show];
+    else if ([settingsRow isEqualToString:kSettingsSystemSettings]) {
+        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:self.systemSetting];
+        settingsVC.title = kSettingsSystemSettings;
+        [self.navigationController pushViewController:settingsVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsAbout]) {
         if ([ServerProxy usesAPI3]) {
@@ -345,12 +299,126 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
             [self.navigationController pushViewController:settingsAboutVC animated:YES];
         }
     }
+    else if ([settingsRow isEqualToString:kSettingsSoftwareUpdate]) {
+        
+    }
+
+    // Weather Settings
+    
+    else if ([settingsRow isEqualToString:kSettingsDataSources]) {
+        DataSourcesVC *dataSourcesVC = [[DataSourcesVC alloc] init];
+        dataSourcesVC.parent = self;
+        [self.navigationController pushViewController:dataSourcesVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsRainSensitivity]) {
+        RainSensitivityVC *rainSensitivityVC = [[RainSensitivityVC alloc] init];
+        rainSensitivityVC.parent = self;
+        [self.navigationController pushViewController:rainSensitivityVC animated:YES];
+    }
+    
+    // System Settings
+    
+    else if ([settingsRow isEqualToString:kSettingsNetworkSettings]) {
+        ProvisionAvailableWiFisVC *availableWiFiVC = [[ProvisionAvailableWiFisVC alloc] init];
+        availableWiFiVC.inputSprinklerMAC = [Utils currentSprinkler].sprinklerId;
+        [self.navigationController pushViewController:availableWiFiVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsRemoteAccess]) {
+        ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] init];
+        remoteAccessVC.isPartOfWizard = NO;
+        remoteAccessVC.dbSprinkler = [Utils currentSprinkler];
+        [self.navigationController pushViewController:remoteAccessVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsRainSensor]) {
+        
+    }
+    else if ([settingsRow isEqualToString:kSettingsDeviceName]) {
+        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
+        passwordVC.parent = self;
+        passwordVC.isSecurityScreen = NO;
+        [self.navigationController pushViewController:passwordVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsLocation]) {
+        ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
+        locationSetupVC.dbSprinkler = [Utils currentSprinkler];
+        [self.navigationController pushViewController:locationSetupVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsDate]) {
+        SettingsDatePickerVC *datePickerVC = [[SettingsDatePickerVC alloc] init];
+        datePickerVC.parent = self;
+        [self.navigationController pushViewController:datePickerVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsTime]) {
+        SettingsTimePickerVC *timePickerVC = [[SettingsTimePickerVC alloc] initWithNibName:@"SettingsTimePickerVC" bundle:nil];
+        timePickerVC.parent = self;
+        [self.navigationController pushViewController:timePickerVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsUse24HoursFormat]) {
+        
+    }
+    else if ([settingsRow isEqualToString:kSettingsTimeZone]) {
+        ProvisionTimezonesListVC *timezonesListVC = [[ProvisionTimezonesListVC alloc] init];
+        timezonesListVC.delegate = self;
+        timezonesListVC.isPartOfWizard = NO;
+        UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:timezonesListVC];
+        [self.navigationController presentViewController:navDevices animated:YES completion:nil];
+    }
+    else if ([settingsRow isEqualToString:kSettingsUnits]) {
+        UnitsVC *unitsVC = [[UnitsVC alloc] init];
+        unitsVC.parent = self;
+        [self.navigationController pushViewController:unitsVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsPassword]) {
+        SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
+        passwordVC.parent = self;
+        passwordVC.isSecurityScreen = YES;
+        [self.navigationController pushViewController:passwordVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsResetToDefaults]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:@"All your programs, zone properties and Wi-Fi settings will be removed."
+                                                           delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reset to Defaults", nil];
+        alertView.tag = kAlertView_DoYouWantToReset;
+        [alertView show];
+    }
+}
+
+#pragma mark - Settings options
+
+- (NSArray*)weatherSettings {
+    if ([ServerProxy usesAPI4]) {
+        return @[kSettingsDataSources,
+                 kSettingsRainSensitivity,
+                 kSettingsWindSensitivity];
+    } else {
+        return @[];
+    }
+}
+
+- (NSArray*)systemSetting {
+    if ([ServerProxy usesAPI4]) {
+        return @[kSettingsNetworkSettings,
+                 kSettingsRemoteAccess,
+                 kSettingsRainSensor,
+                 kSettingsDeviceName,
+                 kSettingsLocation,
+                 kSettingsDate,
+                 kSettingsTime,
+                 kSettingsUse24HoursFormat,
+                 kSettingsTimeZone,
+                 kSettingsUnits,
+                 kSettingsPassword,
+                 kSettingsResetToDefaults];
+    } else {
+        return @[kSettingsDate,
+                 kSettingsTime,
+                 kSettingsUnits,
+                 kSettingsPassword];
+    }
 }
 
 #pragma mark - Actions
 
-- (void)resetToDefaults
-{
+- (void)resetToDefaults {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     Sprinkler *sprinkler = [Utils currentSprinkler];
     
@@ -361,7 +429,6 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 }
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    
     if (theAlertView.tag == kAlertView_ResetToDefaultsSuccesfull) {
         [self resetToDefaults];
     }
@@ -375,8 +442,7 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
     }
 }
 
-- (void)timePickerVCWillDissapear:(id)timePicker
-{
+- (void)timePickerVCWillDissapear:(id)timePicker {
 }
 
 #pragma mark - ProxyService delegate
@@ -434,13 +500,11 @@ NSString *kSettingsLocationSettings   = @"Location Settings";
 
 #pragma mark - TimeZoneSelectorDelegate
 
-- (NSString*)timeZoneName
-{
+- (NSString*)timeZoneName {
     return [GlobalsManager current].provision.location.timezone;
 }
 
-- (void)timeZoneSelected:(NSString*)timeZoneName
-{
+- (void)timeZoneSelected:(NSString*)timeZoneName {
 }
 
 @end

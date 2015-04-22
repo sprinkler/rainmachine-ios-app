@@ -104,7 +104,25 @@
         UITabBarItem *tabBarItemWaterNow = [[UITabBarItem alloc] initWithTitle:@"Zones" image:[UIImage imageNamed:@"icon_waternow"] tag:2];
         self.waterNowVC.tabBarItem = tabBarItemWaterNow;
 
-        SettingsVC *settingsVC = [[SettingsVC alloc] init];
+        NSArray *settings = nil;
+        if ([ServerProxy usesAPI4]) {
+            settings = @[kSettingsPrograms,
+                         kSettingsWateringHistory,
+                         kSettingsSnooze,
+                         kSettingsRestrictions,
+                         kSettingsWeather,
+                         kSettingsSystemSettings,
+                         kSettingsAbout,
+                         kSettingsSoftwareUpdate];
+        } else {
+            settings = @[kSettingsPrograms,
+                         kSettingsRainDelay,
+                         kSettingsSystemSettings,
+                         kSettingsAbout,
+                         kSettingsSoftwareUpdate];
+        }
+        
+        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:settings];
         RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:settingsVC];
         UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
         settingsVC.tabBarItem = tabBarItemSettings;
