@@ -22,10 +22,12 @@
 #import "PickerVC.h"
 #import "MBProgressHUD.h"
 
-const int RainSensitivityMaxWSDays = 5;
-const int RainSensitivityDefaultWSDays = 2;
-const double RainSensitivityDefaultRainSensitivity = 0.8;
-const double RainSensitivitySimulationGraphHeight = 240.0;
+#define RAIN_SENSITIVITY_GRAPHS_ENABLED             NO
+
+const int RainSensitivityMaxWSDays                  = 5;
+const int RainSensitivityDefaultWSDays              = 2;
+const double RainSensitivityDefaultRainSensitivity  = 0.8;
+const double RainSensitivitySimulationGraphHeight   = 240.0;
 
 @interface RainSensitivityVC ()
 
@@ -77,10 +79,14 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
     [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.saveButton setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     
-    [self initializeRainSensitivitySimulationGraph];
+    if (RAIN_SENSITIVITY_GRAPHS_ENABLED) {
+        [self initializeRainSensitivitySimulationGraph];
+        [self requestMixerData];
+    } else {
+        self.rainSensitivitySimulationGraphHeightLayoutConstraint.constant = 0.0;
+    }
     
     [self requestProvision];
-    [self requestMixerData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -147,7 +153,9 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.requestProvisionServerProxy) {
         self.provision = (Provision*)data;
-        self.rainSensitivitySimulationGraphVC.provision = self.provision;
+        if (RAIN_SENSITIVITY_GRAPHS_ENABLED) {
+            self.rainSensitivitySimulationGraphVC.provision = self.provision;
+        }
         self.requestProvisionServerProxy = nil;
     }
     
@@ -165,20 +173,36 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
         hud = nil;
     }
     
-    if (!self.requestProvisionServerProxy && !self.requestMixerDataServerProxy && self.provision && self.rainSensitivitySimulationGraphVC.mixerDataByDate) {
+    if (!self.requestProvisionServerProxy && !self.requestMixerDataServerProxy && self.provision && (!RAIN_SENSITIVITY_GRAPHS_ENABLED || self.rainSensitivitySimulationGraphVC.mixerDataByDate)) {
+        if (!RAIN_SENSITIVITY_GRAPHS_ENABLED) {
+            CGRect frame = self.rainSensitivityHeaderView.frame;
+            frame.size.height = 64.0;
+            self.rainSensitivityHeaderView.frame = frame;
+        }
+        
         self.tableView.tableHeaderView = self.rainSensitivityHeaderView;
         
-        [self.rainSensitivitySimulationGraphVC initializeGraph];
-        [self.rainSensitivitySimulationGraphVC centerCurrentMonthAnimated:NO];
+        if (RAIN_SENSITIVITY_GRAPHS_ENABLED) {
+            [self.rainSensitivitySimulationGraphVC initializeGraph];
+            [self.rainSensitivitySimulationGraphVC centerCurrentMonthAnimated:NO];
+        }
         
         [self.tableView reloadData];
     }
 }
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    if (serverProxy == self.requestProvisionServerProxy) self.requestProvisionServerProxy = nil;
+    else if (serverProxy == self.requestMixerDataServerProxy) self.requestMixerDataServerProxy = nil;
+    else if (serverProxy == self.saveRainSensitivityServerProxy) self.saveRainSensitivityServerProxy = nil;
+    
+    if (!self.requestProvisionServerProxy && !self.requestMixerDataServerProxy && !self.saveRainSensitivityServerProxy) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        hud = nil;
+    }
     
     [self.parent handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
+    [self.tableView reloadData];
 }
 
 - (void)loggedOut {
@@ -189,7 +213,7 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
 #pragma mark - UITableView datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return (self.provision ? (ENABLE_DEBUG_SETTINGS ? 3 : 2) : 0);
+    return (self.provision ? (ENABLE_DEBUG_SETTINGS && RAIN_SENSITIVITY_GRAPHS_ENABLED ? 3 : 2) : 0);
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
@@ -294,7 +318,9 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
 - (void)onCellSliderValueChanged:(UISlider*)slider {
     self.provision.location.rainSensitivity = slider.value;
     
-    [self.rainSensitivitySimulationGraphVC delayedUpdateGraph:0.05];
+    if (RAIN_SENSITIVITY_GRAPHS_ENABLED) {
+        [self.rainSensitivitySimulationGraphVC delayedUpdateGraph:0.05];
+    }
 }
 
 - (void)pickerVCWillDissapear:(PickerVC*)pickerVC {
@@ -302,7 +328,10 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
     self.provision.location.wsDays = pickerVC.selectedItem.intValue;
     
     [self.tableView reloadData];
-    [self.rainSensitivitySimulationGraphVC updateGraph];
+    
+    if (RAIN_SENSITIVITY_GRAPHS_ENABLED) {
+        [self.rainSensitivitySimulationGraphVC updateGraph];
+    }
 }
 
 - (IBAction)onDefaults:(id)sender {
@@ -310,7 +339,10 @@ const double RainSensitivitySimulationGraphHeight = 240.0;
     self.provision.location.wsDays = RainSensitivityDefaultWSDays;
     
     [self.tableView reloadData];
-    [self.rainSensitivitySimulationGraphVC updateGraph];
+    
+    if (RAIN_SENSITIVITY_GRAPHS_ENABLED) {
+        [self.rainSensitivitySimulationGraphVC updateGraph];
+    }
 }
 
 - (IBAction)onSave:(id)sender {

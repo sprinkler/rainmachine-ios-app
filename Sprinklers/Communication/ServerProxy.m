@@ -729,8 +729,8 @@ static int serverAPIMinorSubVersion = -1;
 
 - (void)saveRainSensitivityFromProvision:(Provision*)provision
 {
-    NSDictionary *params = @{@"location" : @{@"rainSensitivity" : [NSString stringWithFormat:@"%lf", provision.location.rainSensitivity],
-                                             @"wsDays" : [NSString stringWithFormat:@"%d", provision.location.wsDays]}};
+    NSDictionary *params = @{@"location" : @{@"rainSensitivity" : @(provision.location.rainSensitivity),
+                                             @"wsDays" : @(provision.location.wsDays)}};
     
     [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RainSensitivityVC">
@@ -10,6 +10,7 @@
                 <outlet property="defaultsButton" destination="3nu-Ki-doO" id="cva-cR-ALB"/>
                 <outlet property="rainSensitivityHeaderView" destination="LRr-bJ-7De" id="7Nj-5L-h6D"/>
                 <outlet property="rainSensitivitySimulationGraphContainerView" destination="cED-a3-h0n" id="Y1p-fB-CoQ"/>
+                <outlet property="rainSensitivitySimulationGraphHeightLayoutConstraint" destination="4qG-VR-iXP" id="su6-AZ-MKo"/>
                 <outlet property="saveButton" destination="wRH-Bz-nqk" id="dXj-JQ-zv6"/>
                 <outlet property="tableView" destination="aui-2u-Xvh" id="mKg-ee-8DQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
