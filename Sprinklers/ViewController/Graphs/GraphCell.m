@@ -296,7 +296,7 @@
 }
 
 - (void)setupDisplayAreaWithDescriptor:(GraphDisplayAreaDescriptor*)descriptor {
-    self.todaySelectionView.backgroundColor = descriptor.todaySelectionColor;
+    self.todaySelectionView.backgroundColor = (self.graphDescriptor.isDisabled && !self.graphDescriptor.dontShowDisabledState ? descriptor.disabledTodaySelectionColor : descriptor.todaySelectionColor);
     self.todaySelectionViewWidthLayoutConstraint.constant = descriptor.todaySelectionWidth;
     
     self.graphViewHeightLayoutConstraint.constant = descriptor.displayAreaHeight;

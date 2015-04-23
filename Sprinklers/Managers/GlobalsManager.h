@@ -22,4 +22,8 @@
 - (void)startPollingCloudSettings;
 - (void)stopPollingCloudSettings;
 
+- (id)persistentGlobalForKey:(NSString*)key;
+- (void)setPersistentGlobal:(id)value forKey:(NSString*)key;
+- (void)resetPersistentGlobals;
+
 @end

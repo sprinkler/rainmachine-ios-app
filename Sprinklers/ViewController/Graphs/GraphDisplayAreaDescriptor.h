@@ -24,6 +24,7 @@ typedef enum {
 @property (nonatomic, strong) UIColor *valuesDisplayColor;
 @property (nonatomic, strong) UIColor *dashedLinesColor;
 @property (nonatomic, strong) UIColor *todaySelectionColor;
+@property (nonatomic, strong) UIColor *disabledTodaySelectionColor;
 
 @property (nonatomic, strong) NSDictionary *graphBarsWidthDictionary;
 @property (nonatomic, strong) NSDictionary *graphCirclesRadiusDictionary;

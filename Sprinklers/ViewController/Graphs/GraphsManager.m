@@ -31,6 +31,7 @@
 #import "Additions.h"
 #import "Constants.h"
 #import "APIVersion.h"
+#import "GlobalsManager.h"
 
 NSString *kDailyWaterNeedGraphIdentifier            = @"DailyWaterNeedGraphIdentifier";
 NSString *kTemperatureGraphIdentifier               = @"TemperatureGraphIdentifier";
@@ -41,6 +42,9 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 
 NSInteger kShowAllGraphsMinAPI3Subversion           = 63;
 NSInteger kMaxRequestAPIVersionRetries              = 10;
+
+NSString *kPersistentGraphsOrderKey                 = @"kPersistentGraphsOrderKey";
+NSString *kDisabledGraphsIdentifiers                = @"kDisabledGraphsIdentifiers";
 
 #pragma mark -
 
@@ -75,6 +79,8 @@ NSInteger kMaxRequestAPIVersionRetries              = 10;
 @property (nonatomic, strong) APIVersion *APIVersion;
 
 - (void)registerProgramGraphsForPrograms:(NSArray*)programs;
+
+- (NSArray*)sortedGraphsByPersistentOrderFromGraphs:(NSArray*)graphs;
 
 @end
 
@@ -157,7 +163,7 @@ static GraphsManager *sharedGraphsManager = nil;
     }
     
     self.availableGraphsDictionary = availableGraphsDictionary;
-    self.availableGraphs = availableGraphs;
+    self.availableGraphs = [self sortedGraphsByPersistentOrderFromGraphs:availableGraphs];
 }
 
 - (BOOL)shouldDisplayAllGraphs {
@@ -174,11 +180,11 @@ static GraphsManager *sharedGraphsManager = nil;
     
     graph.isDisabled = NO;
     
-    self.selectedGraphs = [self.selectedGraphs arrayByAddingObject:graph];
+    self.selectedGraphs = [[self sortedGraphsByPersistentOrderFromGraphs:[self.selectedGraphs arrayByAddingObject:graph]] mutableCopy];
     
     [self.disabledGraphIdentifiers removeObject:graph.graphIdentifier];
-    [[NSUserDefaults standardUserDefaults] setObject:self.disabledGraphIdentifiers forKey:kDashboardDisabledGraphIdentifiers];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[GlobalsManager current] setPersistentGlobal:self.disabledGraphIdentifiers forKey:kDisabledGraphsIdentifiers];
+
 }
 
 - (void)deselectGraph:(GraphDescriptor*)graph {
@@ -189,12 +195,10 @@ static GraphsManager *sharedGraphsManager = nil;
     
     NSMutableArray *selectedGraphs = [NSMutableArray arrayWithArray:self.selectedGraphs];
     [selectedGraphs removeObject:graph];
-    self.selectedGraphs = selectedGraphs;
+    self.selectedGraphs = [[self sortedGraphsByPersistentOrderFromGraphs:selectedGraphs] mutableCopy];
     
     [self.disabledGraphIdentifiers addObject:graph.graphIdentifier];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:self.disabledGraphIdentifiers forKey:kDashboardDisabledGraphIdentifiers];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[GlobalsManager current] setPersistentGlobal:self.disabledGraphIdentifiers forKey:kDisabledGraphsIdentifiers];
 }
 
 - (BOOL)isGraphSelected:(GraphDescriptor*)graph {
@@ -202,11 +206,8 @@ static GraphsManager *sharedGraphsManager = nil;
 }
 
 - (void)initializeAllSelectedGraphs {
-    self.disabledGraphIdentifiers = [[[NSUserDefaults standardUserDefaults] objectForKey:kDashboardDisabledGraphIdentifiers] mutableCopy];
-    if (!self.disabledGraphIdentifiers) {
-        self.disabledGraphIdentifiers = [NSMutableArray new];
-        [[NSUserDefaults standardUserDefaults] setObject:self.disabledGraphIdentifiers forKey:kDashboardDisabledGraphIdentifiers];
-    }
+    self.disabledGraphIdentifiers = [[[GlobalsManager current] persistentGlobalForKey:kDisabledGraphsIdentifiers] mutableCopy];
+    if (!self.disabledGraphIdentifiers) self.disabledGraphIdentifiers = [NSMutableArray new];
     
     NSMutableArray *selectedGraphs = [NSMutableArray new];
     
@@ -219,7 +220,7 @@ static GraphsManager *sharedGraphsManager = nil;
         [selectedGraphs addObject:graph];
     }
     
-    self.selectedGraphs = selectedGraphs;
+    self.selectedGraphs = [[self sortedGraphsByPersistentOrderFromGraphs:selectedGraphs] mutableCopy];
 }
 
 - (void)reloadAllSelectedGraphs {
@@ -418,9 +419,48 @@ static GraphsManager *sharedGraphsManager = nil;
     NSMutableArray *availableGraphs = [self.availableGraphs mutableCopy];
     [availableGraphs addObjectsFromArray:newGraphs];
     [availableGraphs removeObjectsInArray:programRuntimeGraphsToRemove];
-    self.availableGraphs = availableGraphs;
+    self.availableGraphs = [self sortedGraphsByPersistentOrderFromGraphs:availableGraphs];
     
     [self initializeAllSelectedGraphs];
+    [self updatePersistentGraphsOrder];
+}
+
+#pragma mark - Persistent order
+
+- (void)updatePersistentGraphsOrder {
+    NSMutableArray *persistentGraphsOrder = [NSMutableArray new];
+    for (GraphDescriptor *graph in self.availableGraphs) {
+        [persistentGraphsOrder addObject:graph.graphIdentifier];
+    }
+    
+    [[GlobalsManager current] setPersistentGlobal:persistentGraphsOrder forKey:kPersistentGraphsOrderKey];
+    
+    self.selectedGraphs = [self sortedGraphsByPersistentOrderFromGraphs:self.selectedGraphs];
+}
+
+- (NSArray*)sortedGraphsByPersistentOrderFromGraphs:(NSArray*)graphs {
+    NSArray *persistentOrder = [[GlobalsManager current] persistentGlobalForKey:kPersistentGraphsOrderKey];
+    if (!persistentOrder) return graphs;
+    
+    NSMutableDictionary *graphsDictionary = [NSMutableDictionary new];
+    for (GraphDescriptor *graph in graphs) {
+        if (!graph.graphIdentifier.length) continue;
+        [graphsDictionary setObject:graph forKey:graph.graphIdentifier];
+    }
+    
+    NSMutableArray *sortedGraphs = [NSMutableArray new];
+    NSMutableArray *remainedGraphs = [graphs mutableCopy];
+    
+    for (NSString *graphIdentifier in persistentOrder) {
+        GraphDescriptor *graph = [graphsDictionary objectForKey:graphIdentifier];
+        if (![graphs containsObject:graph]) continue;
+        if (graph) [sortedGraphs addObject:graph];
+        [remainedGraphs removeObject:graph];
+    }
+    
+    [sortedGraphs addObjectsFromArray:remainedGraphs];
+    
+    return sortedGraphs;
 }
 
 #pragma mark - ProxyService delegate

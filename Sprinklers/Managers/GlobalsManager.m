@@ -10,6 +10,11 @@
 #import "ServerProxy.h"
 #import "Utils.h"
 #import "Constants.h"
+#import "Sprinkler.h"
+
+NSString *PersistentGlobalsKey      = @"PersistentGlobalsKey";
+
+#pragma mark -
 
 @interface GlobalsManager ()
 
@@ -19,7 +24,12 @@
 - (void)requestProvision;
 - (void)requestCloudSettings;
 
+- (NSDictionary*)persistentGlobalsForSprinkler:(Sprinkler*)sprinkler;
+- (void)setPersistentGlobals:(NSDictionary*)globals forSprinkler:(Sprinkler*)sprinkler;
+
 @end
+
+#pragma mark - 
 
 static GlobalsManager *current = nil;
 
@@ -73,6 +83,45 @@ static GlobalsManager *current = nil;
 
 - (void)pollCloudSettings:(NSTimer*)timer {
     [self requestCloudSettings];
+}
+
+#pragma mark - Persistency
+
+- (id)persistentGlobalForKey:(NSString*)key {
+    NSDictionary *persistentGlobals = [self persistentGlobalsForSprinkler:[Utils currentSprinkler]];
+    return [persistentGlobals objectForKey:key];
+}
+
+- (void)setPersistentGlobal:(id)value forKey:(NSString*)key {
+    NSMutableDictionary *persistentGlobals = [[self persistentGlobalsForSprinkler:[Utils currentSprinkler]] mutableCopy];
+    if (!persistentGlobals) persistentGlobals = [NSMutableDictionary new];
+    
+    [persistentGlobals setObject:value forKey:key];
+    [self setPersistentGlobals:persistentGlobals forSprinkler:[Utils currentSprinkler]];
+}
+
+- (void)resetPersistentGlobals {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:PersistentGlobalsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSDictionary*)persistentGlobalsForSprinkler:(Sprinkler*)sprinkler {
+    if (!sprinkler.sprinklerId.length) return nil;
+    
+    NSDictionary *persistentGlobalsDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:PersistentGlobalsKey];
+    return [persistentGlobalsDictionary objectForKey:sprinkler.sprinklerId];
+}
+
+- (void)setPersistentGlobals:(NSDictionary*)globals forSprinkler:(Sprinkler*)sprinkler {
+    if (!sprinkler.sprinklerId.length) return;
+    
+    NSMutableDictionary *persistentGlobalsDictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:PersistentGlobalsKey] mutableCopy];
+    if (!persistentGlobalsDictionary) persistentGlobalsDictionary = [NSMutableDictionary new];
+    
+    [persistentGlobalsDictionary setObject:globals forKey:sprinkler.sprinklerId];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:persistentGlobalsDictionary forKey:PersistentGlobalsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - ProxyService delegate

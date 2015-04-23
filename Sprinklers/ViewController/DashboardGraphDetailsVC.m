@@ -39,6 +39,8 @@
     [super viewDidLoad];
     
     self.title = self.graphDescriptor.titleAreaDescriptor.title;
+    self.graphDescriptor.dontShowDisabledState = YES;
+    [self.graphDescriptor updateDisabledState];
     
     [self initializeTimeIntervalsSegmentedControl];
     [self initializeGraphScrollableHeaderCellAnimated:NO];
@@ -48,6 +50,12 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.graphDescriptor.dontShowDisabledState = NO;
+    [self.graphDescriptor updateDisabledState];
 }
 
 #pragma mark - Helper methods
@@ -102,7 +110,10 @@
         self.tableView.tableHeaderView = self.headerContainerView;
     }
     
-    [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(scrollToCurrentDateAfterDelay)
+               withObject:nil
+               afterDelay:0.01
+                  inModes:@[NSRunLoopCommonModes]];
 }
 
 - (void)scrollToCurrentDateAfterDelay {
@@ -135,7 +146,7 @@
         graphOptionCell.accessoryType = UITableViewCellAccessoryNone;
         graphOptionCell.selectionStyle = (self.graphDescriptor.canDisable ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone);
         
-        ((UISwitch*)graphOptionCell.accessoryView).on = !self.isGraphDisabledOnDashboard;
+        ((UISwitch*)graphOptionCell.accessoryView).on = !self.graphDescriptor.isDisabled;
         [(UISwitch*)graphOptionCell.accessoryView addTarget:self action:@selector(onShowOnDashboard:) forControlEvents:UIControlEventValueChanged];
         
         graphOptionCell.textLabel.textColor = (self.graphDescriptor.canDisable ? [UIColor blackColor] : [UIColor lightGrayColor]);

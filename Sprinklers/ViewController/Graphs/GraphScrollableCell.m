@@ -190,21 +190,21 @@
         self.minValueLabelBottomSpaceLayoutConstraint.constant = descriptor.displayAreaDescriptor.graphBarsBottomPadding + totalDateBarHeight;
         self.minValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.minValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
-        self.minValueLabel.shadowColor = (self.graphDescriptor.isDisabled ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);
+        self.minValueLabel.shadowColor = (self.graphDescriptor.isDisabled && !self.graphDescriptor.dontShowDisabledState ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);
         self.minValueLabel.shadowOffset = CGSizeMake(1.0, 1.0);
         self.minValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.minValue];
         
         self.maxValueLabelBottomSpaceLayoutConstraint.constant = totalDateBarHeight + descriptor.displayAreaDescriptor.displayAreaHeight - descriptor.displayAreaDescriptor.valuesDisplayHeight - descriptor.displayAreaDescriptor.graphBarsTopPadding;
         self.maxValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.maxValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
-        self.maxValueLabel.shadowColor = (self.graphDescriptor.isDisabled ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);
+        self.maxValueLabel.shadowColor = (self.graphDescriptor.isDisabled && !self.graphDescriptor.dontShowDisabledState  ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);
         self.maxValueLabel.shadowOffset = CGSizeMake(1.0, 1.0);
         self.maxValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.maxValue];
         
         self.midValueLabelBottomSpaceLayoutConstraint.constant = round((self.minValueLabelBottomSpaceLayoutConstraint.constant + self.maxValueLabelBottomSpaceLayoutConstraint.constant) / 2.0);
         self.midValueLabel.font = descriptor.displayAreaDescriptor.valuesFont;
         self.midValueLabel.textColor = descriptor.displayAreaDescriptor.valuesDisplayColor;
-        self.midValueLabel.shadowColor = (self.graphDescriptor.isDisabled ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);
+        self.midValueLabel.shadowColor = (self.graphDescriptor.isDisabled && !self.graphDescriptor.dontShowDisabledState  ? nil : [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1.0]);
         self.midValueLabel.shadowOffset = CGSizeMake(1.0, 1.0);
         self.midValueLabel.text = [self stringForMinMaxValue:descriptor.displayAreaDescriptor.midValue];
     }
@@ -218,7 +218,10 @@
     [self.graphCollectionView setContentOffset:contentOffset animated:animate];
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
     
-    [self updateDateLabelsForContentOffset];
+    [self performSelector:@selector(updateDateLabelsForContentOffset)
+               withObject:nil
+               afterDelay:0.0
+                  inModes:@[NSRunLoopCommonModes]];
 }
 
 - (void)scrollToCurrentDateAnimated:(BOOL)animate {

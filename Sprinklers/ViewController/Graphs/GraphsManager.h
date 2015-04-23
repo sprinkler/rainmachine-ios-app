@@ -45,6 +45,8 @@
 @property (nonatomic, strong) id weatherData;
 @property (nonatomic, strong) id dailyStatsDetails;
 
+- (void)updatePersistentGraphsOrder;
+
 @end
 
 #pragma mark

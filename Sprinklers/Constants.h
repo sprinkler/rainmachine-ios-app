@@ -53,8 +53,6 @@ extern NSString *const kSprinklerNetworkError;
 extern NSString *const kLoggedOutDetectedNotification;
 extern NSString *const kDeviceNotSupported;
 
-extern NSString *const kDashboardDisabledGraphIdentifiers;
-
 NSString *kVegetationType[9];
 NSString *kVegetationTypeAPI4[9];
 

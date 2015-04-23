@@ -230,12 +230,7 @@
                              }
                              
                              [self endUpdates];
-                             
-                             // reload the rows that were affected just to be safe
-                             NSMutableArray *visibleRows = [[self indexPathsForVisibleRows] mutableCopy];
-                             [visibleRows removeObject:indexPath];
-                             [self reloadRowsAtIndexPaths:visibleRows withRowAnimation:UITableViewRowAnimationNone];
-                            
+                                                         
                              self.currentLocationIndexPath = nil;
                              self.draggingView = nil;
                              

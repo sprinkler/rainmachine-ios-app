@@ -15,7 +15,6 @@
 @interface DashboardGraphDetailsVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
-@property (nonatomic, assign) BOOL isGraphDisabledOnDashboard;
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
 @property (nonatomic, weak) DashboardVC *parent;
 

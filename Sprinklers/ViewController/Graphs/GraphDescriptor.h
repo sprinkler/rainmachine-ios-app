@@ -28,8 +28,10 @@
 @property (nonatomic, strong) GraphDateBarDescriptor *dateBarDescriptor;
 @property (nonatomic, assign) BOOL canDisable;
 @property (nonatomic, assign) BOOL isDisabled;
+@property (nonatomic, assign) BOOL dontShowDisabledState;
 
 + (GraphDescriptor*)defaultDescriptor;
+- (void)updateDisabledState;
 
 @property (nonatomic, readonly) CGFloat totalGraphHeight;
 @property (nonatomic, readonly) CGFloat totalGraphHeaderHeight;

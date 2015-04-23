@@ -88,7 +88,10 @@
             [self.statusTableView reloadData];
         }
         if ([keyPath isEqualToString:@"firstGraphsReloadFinished"] && [GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
-            [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.0 inModes:@[NSRunLoopCommonModes]];
+            [self performSelector:@selector(scrollToCurrentDateAfterDelay)
+                       withObject:nil
+                       afterDelay:0.0
+                          inModes:@[NSRunLoopCommonModes]];
         }
     }
     [self.graphsTableView reloadData];
@@ -409,6 +412,7 @@
 }
 
 - (void)finishedReordering {
+    [[GraphsManager sharedGraphsManager] updatePersistentGraphsOrder];
     self.reorderingInProgress = NO;
     [self.graphsTableView reloadData];
 }
@@ -433,8 +437,6 @@
     
     DashboardGraphDetailsVC *dashboardGraphDetailsVC = [[DashboardGraphDetailsVC alloc] init];
     dashboardGraphDetailsVC.graphDescriptor = [graphDescriptor copy];
-    dashboardGraphDetailsVC.graphDescriptor.isDisabled = NO;
-    dashboardGraphDetailsVC.isGraphDisabledOnDashboard = graphDescriptor.isDisabled;
     dashboardGraphDetailsVC.graphTimeInterval = self.graphTimeInterval;
     dashboardGraphDetailsVC.parent = self;
     
@@ -473,7 +475,7 @@
     }
     
     self.graphTimeInterval = [GraphTimeInterval graphTimeIntervals][self.timeIntervalsSegmentedControl.selectedSegmentIndex];
-    for (GraphDescriptor *graphDescriptor in [GraphsManager sharedGraphsManager].selectedGraphs) {
+    for (GraphDescriptor *graphDescriptor in [GraphsManager sharedGraphsManager].availableGraphs) {
         graphDescriptor.graphTimeInterval = self.graphTimeInterval;
     }
     
@@ -499,11 +501,6 @@
     } else {
         [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    
-    [self performSelector:@selector(scrollToGlobalContentOffsetAfterDelay)
-               withObject:nil
-               afterDelay:0.0
-                  inModes:@[NSRunLoopCommonModes]];
 }
 
 @end
