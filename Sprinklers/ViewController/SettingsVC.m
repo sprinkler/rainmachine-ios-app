@@ -71,6 +71,7 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 @interface SettingsVC ()
 
 @property (strong, nonatomic) NSArray *settings;
+@property (strong, nonatomic) NSString *parentSetting;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) SettingsDate *settingsDate;
@@ -93,11 +94,12 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
     return self;
 }
 
-- (id)initWithSettings:(NSArray*)settings {
+- (id)initWithSettings:(NSArray*)settings parentSetting:(NSString*)parentSetting {
     self = [self init];
     if (!self) return nil;
     
     _settings = settings;
+    _parentSetting = parentSetting;
     
     return self;
 }
@@ -117,18 +119,20 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if ([ServerProxy usesAPI4]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        ServerProxy *getProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-        [getProvisionServerProxy requestProvision];
-        
-        if ([GlobalsManager current].cloudSettings.pendingEmail.length) {
-            [[GlobalsManager current] startPollingCloudSettings];
+    if ([self.parentSetting isEqualToString:kSettingsSystemSettings]) {
+        if ([ServerProxy usesAPI4]) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
+            ServerProxy *getProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+            [getProvisionServerProxy requestProvision];
+            
+            if ([GlobalsManager current].cloudSettings.pendingEmail.length) {
+                [[GlobalsManager current] startPollingCloudSettings];
+            }
+        } else {
+            ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+            [dateTimeServerProxy requestSettingsDate];
         }
-    } else {
-        ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-        [dateTimeServerProxy requestSettingsDate];
     }
 }
 
@@ -280,12 +284,12 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         [self.navigationController pushViewController:restrictions animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsWeather]) {
-        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:self.weatherSettings];
+        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:self.weatherSettings parentSetting:kSettingsWeather];
         settingsVC.title = kSettingsWeather;
         [self.navigationController pushViewController:settingsVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsSystemSettings]) {
-        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:self.systemSetting];
+        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:self.systemSetting parentSetting:kSettingsSystemSettings];
         settingsVC.title = kSettingsSystemSettings;
         [self.navigationController pushViewController:settingsVC animated:YES];
     }

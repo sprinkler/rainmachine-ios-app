@@ -22,6 +22,6 @@ extern NSString *kSettingsSoftwareUpdate;
 
 @interface SettingsVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, TimePickerDelegate, SprinklerResponseProtocol, TimeZoneSelectorDelegate>
 
-- (id)initWithSettings:(NSArray*)settings;
+- (id)initWithSettings:(NSArray*)settings parentSetting:(NSString*)parentSetting;
 
 @end

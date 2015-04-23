@@ -122,7 +122,7 @@
                          kSettingsSoftwareUpdate];
         }
         
-        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:settings];
+        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:settings parentSetting:nil];
         RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:settingsVC];
         UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
         settingsVC.tabBarItem = tabBarItemSettings;
