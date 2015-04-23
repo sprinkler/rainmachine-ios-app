@@ -103,6 +103,10 @@
     [self scrollToGlobalContentOffsetAnimated:NO];
 }
 
+- (void)scrollToGlobalContentOffsetAfterDelay:(GraphScrollableCell*)cell {
+    [cell scrollToContentOffset:self.globalContentOffset animated:NO];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -352,7 +356,12 @@
     graphScrollableCell.graphDescriptor = graphDescriptor;
     graphScrollableCell.graphScrollableCellDelegate = self;
     
-    if (self.globalContentOffsetSet) [graphScrollableCell scrollToContentOffsetInLayoutSubviews:self.globalContentOffset];
+    if (self.globalContentOffsetSet) {
+        [self performSelector:@selector(scrollToGlobalContentOffsetAfterDelay:)
+                   withObject:graphScrollableCell
+                   afterDelay:0.0
+                      inModes:@[NSRunLoopCommonModes]];
+    }
     
     return graphScrollableCell;
 }
@@ -471,7 +480,10 @@
     if (!sender) [self.graphsTableView reloadData];
     else [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     
-    [self performSelector:@selector(scrollToCurrentDateAfterDelay) withObject:nil afterDelay:0.1 inModes:@[NSRunLoopCommonModes]];
+    [self performSelector:@selector(scrollToCurrentDateAfterDelay)
+               withObject:nil
+               afterDelay:0.0
+                  inModes:@[NSRunLoopCommonModes]];
 }
 
 - (IBAction)onEditGraphsTable:(id)sender {
@@ -488,7 +500,10 @@
         [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     
-    [self performSelector:@selector(scrollToGlobalContentOffsetAfterDelay) withObject:nil afterDelay:0.1 inModes:@[NSRunLoopCommonModes]];
+    [self performSelector:@selector(scrollToGlobalContentOffsetAfterDelay)
+               withObject:nil
+               afterDelay:0.0
+                  inModes:@[NSRunLoopCommonModes]];
 }
 
 @end

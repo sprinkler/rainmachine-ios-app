@@ -50,7 +50,6 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateLabelBottomBottomSpaceLayoutConstraint;
 
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate;
-- (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset;
 - (void)scrollToCurrentDateAnimated:(BOOL)animate;
 - (void)stopScrolling;
 

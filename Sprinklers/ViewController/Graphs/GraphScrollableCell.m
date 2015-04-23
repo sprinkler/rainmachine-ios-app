@@ -36,8 +36,6 @@
 - (void)setupTitleAreaWithDescriptor:(GraphTitleAreaDescriptor*)descriptor;
 - (void)setupMinMaxValuesWithDescriptor:(GraphDescriptor*)descriptor;
 
-@property (nonatomic, assign) CGPoint layoutSubviewsContentOffset;
-
 - (NSString*)stringForMinMaxValue:(double)minMaxValue;
 - (void)updateDateLabelsForContentOffset;
 - (void)updateDateLabelsForTimeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart andIndex:(NSInteger)index;
@@ -54,7 +52,6 @@
     self = [super initWithCoder:aDecoder];
     if (!self) return nil;
     
-    _layoutSubviewsContentOffset = CGPointZero;
     [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.isDisabled" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
@@ -65,7 +62,6 @@
     self = [super initWithFrame:frame];
     if (!self) return nil;
     
-    _layoutSubviewsContentOffset = CGPointZero;
     [self addObserver:self forKeyPath:@"graphDescriptor" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self addObserver:self forKeyPath:@"graphDescriptor.isDisabled" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
@@ -111,18 +107,6 @@
     [self.graphCollectionView reloadData];
     
     [self updateDateLabelsForContentOffset];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    if (!CGPointEqualToPoint(self.layoutSubviewsContentOffset, CGPointZero) && self.graphCollectionView.contentSize.width > 0) {
-        [self scrollToContentOffset:self.layoutSubviewsContentOffset animated:NO];
-        self.layoutSubviewsContentOffset = CGPointZero;
-    }
-    
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateDateLabelsForContentOffset) object:nil];
-    [self performSelector:@selector(updateDateLabelsForContentOffset) withObject:nil afterDelay:0.1 inModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - Visual appearance
@@ -235,11 +219,6 @@
     self.graphCollectionView.delegate = graphCollectionViewDelegate;
     
     [self updateDateLabelsForContentOffset];
-}
-
-- (void)scrollToContentOffsetInLayoutSubviews:(CGPoint)contentOffset {
-    self.layoutSubviewsContentOffset = contentOffset;
-    [self setNeedsLayout];
 }
 
 - (void)scrollToCurrentDateAnimated:(BOOL)animate {
