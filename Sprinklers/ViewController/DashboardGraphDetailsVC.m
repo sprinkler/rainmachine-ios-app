@@ -40,6 +40,7 @@
     
     self.title = self.graphDescriptor.titleAreaDescriptor.title;
     self.graphDescriptor.dontShowDisabledState = YES;
+    self.originalGraphDescriptor.dontShowDisabledState = YES;
     [self.graphDescriptor updateDisabledState];
     
     [self initializeTimeIntervalsSegmentedControl];
@@ -54,8 +55,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.graphDescriptor.dontShowDisabledState = NO;
-    [self.graphDescriptor updateDisabledState];
+    self.originalGraphDescriptor.dontShowDisabledState = NO;
+    [self.originalGraphDescriptor updateDisabledState];
 }
 
 #pragma mark - Helper methods

@@ -437,6 +437,7 @@
     
     DashboardGraphDetailsVC *dashboardGraphDetailsVC = [[DashboardGraphDetailsVC alloc] init];
     dashboardGraphDetailsVC.graphDescriptor = [graphDescriptor copy];
+    dashboardGraphDetailsVC.originalGraphDescriptor = graphDescriptor;
     dashboardGraphDetailsVC.graphTimeInterval = self.graphTimeInterval;
     dashboardGraphDetailsVC.parent = self;
     

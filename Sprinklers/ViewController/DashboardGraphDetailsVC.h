@@ -15,6 +15,7 @@
 @interface DashboardGraphDetailsVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) GraphDescriptor *graphDescriptor;
+@property (nonatomic, strong) GraphDescriptor *originalGraphDescriptor;
 @property (nonatomic, strong) GraphTimeInterval *graphTimeInterval;
 @property (nonatomic, weak) DashboardVC *parent;
 
