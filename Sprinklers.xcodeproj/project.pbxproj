@@ -2379,6 +2379,120 @@
 			name = Weather;
 			sourceTree = "<group>";
 		};
+		963983F41AE8F54800D537A2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				3A4437ED188A7F1A004F9E11 /* PickerVC.h */,
+				3A4437EE188A7F1A004F9E11 /* PickerVC.m */,
+				3AC64A04192B39F10009061D /* PickerVC.xib */,
+				AFF3A06118BDE4C10060D0F6 /* TimePickerVC.h */,
+				AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */,
+				AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */,
+				96BED90C1ADFE4D0003F0453 /* TimePickerMinutesVC.h */,
+				96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */,
+				96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */,
+				969E634E1AA75D2C004970CF /* DatePickerVC.h */,
+				969E634F1AA75D2C004970CF /* DatePickerVC.m */,
+				969E63501AA75D2C004970CF /* DatePickerVC.xib */,
+				AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */,
+				AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */,
+				AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */,
+				96C2239E19D7223700683AC6 /* MonthsVC.h */,
+				96C2239F19D7223700683AC6 /* MonthsVC.m */,
+				96C223A519D7255900683AC6 /* MonthsVC.xib */,
+				3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */,
+				AFC0760418BC9DEB007200BF /* SetDelayVC.h */,
+				AFC0760518BC9DEB007200BF /* SetDelayVC.m */,
+				AFC0760218BC9C99007200BF /* SetDelayVC.xib */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		963983F51AE8F58600D537A2 /* Programs & Zones */ = {
+			isa = PBXGroup;
+			children = (
+				B1B60617187958990046FDDC /* ProgramsVC.h */,
+				B1B60618187958990046FDDC /* ProgramsVC.m */,
+				B1B60619187958990046FDDC /* ProgramsVC.xib */,
+				AF81E6DA18BA24D2007E9A03 /* ProgramVC.h */,
+				AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */,
+				AFEAECB418BA36D700370F22 /* ProgramVC.xib */,
+				B1254CAF187D77EB004E2F0E /* ZonesVC.h */,
+				B1254CB0187D77EB004E2F0E /* ZonesVC.m */,
+				B1254CB1187D77EB004E2F0E /* ZonesVC.xib */,
+				B1254CC3187ECE48004E2F0E /* ZoneVC.h */,
+				B1254CC4187ECE48004E2F0E /* ZoneVC.m */,
+				B1254CC5187ECE48004E2F0E /* ZoneVC.xib */,
+				96E70AF21A7BC34200A07D94 /* ZoneAdvancedVC.h */,
+				96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */,
+				96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */,
+				968023DD1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.h */,
+				968023DE1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m */,
+				AF04996018C601DA00D73860 /* VegetationTypeVC.h */,
+				AF04996118C601DA00D73860 /* VegetationTypeVC.m */,
+				AF04995E18C601C300D73860 /* VegetationTypeVC.xib */,
+			);
+			name = "Programs & Zones";
+			sourceTree = "<group>";
+		};
+		963983F61AE8F5B800D537A2 /* Restrictions */ = {
+			isa = PBXGroup;
+			children = (
+				3A9AB58318854521005B79B9 /* RestrictionsVC.h */,
+				3A9AB58418854521005B79B9 /* RestrictionsVC.m */,
+				3A9AB58518854521005B79B9 /* RestrictionsVC.xib */,
+				3A4437FC188A93FD004F9E11 /* RestrictedHoursVC.h */,
+				3A4437FD188A93FD004F9E11 /* RestrictedHoursVC.m */,
+				3A4437FE188A93FD004F9E11 /* RestrictedHoursVC.xib */,
+				96C223A719D7727F00683AC6 /* NewRestrictionVC.h */,
+				96C223A819D7727F00683AC6 /* NewRestrictionVC.m */,
+				96C223AA19D7729900683AC6 /* NewRestrictionVC.xib */,
+			);
+			name = Restrictions;
+			sourceTree = "<group>";
+		};
+		963983F71AE8F60200D537A2 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
+				3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */,
+				3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */,
+				96DB95DA1A9F43F400789D05 /* SettingsAbout4VC.h */,
+				96DB95DB1A9F43F400789D05 /* SettingsAbout4VC.m */,
+				96DB95DC1A9F43F400789D05 /* SettingsAbout4VC.xib */,
+			);
+			name = About;
+			sourceTree = "<group>";
+		};
+		963983F81AE8F61C00D537A2 /* System Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AFA1BEFB18C4D703005FBE9B /* SettingsNameAndSecurityVC.h */,
+				AFA1BEFC18C4D703005FBE9B /* SettingsNameAndSecurityVC.m */,
+				AFA1BEFE18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib */,
+				AF7A72BC18C4C3D300596148 /* SettingsTimePickerVC.h */,
+				AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */,
+				AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */,
+				AF7A72B518C4AA8500596148 /* SettingsDatePickerVC.h */,
+				AF7A72B618C4AA8500596148 /* SettingsDatePickerVC.m */,
+				AF7A72B818C4AAA300596148 /* SettingsDatePickerVC.xib */,
+				AF02F88018BFA99700579CAF /* UnitsVC.h */,
+				AF02F88118BFA99700579CAF /* UnitsVC.m */,
+				AF02F88318BFA9A500579CAF /* UnitsVC.xib */,
+			);
+			name = "System Settings";
+			sourceTree = "<group>";
+		};
+		963983F91AE8F64200D537A2 /* Rain Delay */ = {
+			isa = PBXGroup;
+			children = (
+				B1254CBE187DBD61004E2F0E /* RainDelayVC.h */,
+				B1254CBF187DBD61004E2F0E /* RainDelayVC.m */,
+				B1254CC0187DBD61004E2F0E /* RainDelayVC.xib */,
+			);
+			name = "Rain Delay";
+			sourceTree = "<group>";
+		};
 		969051D61A6B14400029304D /* Time Intervals */ = {
 			isa = PBXGroup;
 			children = (
@@ -3340,83 +3454,17 @@
 		B1EF21131860495E00D9CE26 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				963983F41AE8F54800D537A2 /* Common */,
 				96DAB8F51A27899D005974CC /* Graphs */,
+				963983F51AE8F58600D537A2 /* Programs & Zones */,
+				963983F91AE8F64200D537A2 /* Rain Delay */,
+				963983F61AE8F5B800D537A2 /* Restrictions */,
 				963983E11AE8E53600D537A2 /* Weather */,
-				3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */,
-				3A4437ED188A7F1A004F9E11 /* PickerVC.h */,
-				3A4437EE188A7F1A004F9E11 /* PickerVC.m */,
-				3AC64A04192B39F10009061D /* PickerVC.xib */,
-				B1B60617187958990046FDDC /* ProgramsVC.h */,
-				B1B60618187958990046FDDC /* ProgramsVC.m */,
-				B1B60619187958990046FDDC /* ProgramsVC.xib */,
-				AF81E6DA18BA24D2007E9A03 /* ProgramVC.h */,
-				AF81E6DB18BA24D2007E9A03 /* ProgramVC.m */,
-				AFEAECB418BA36D700370F22 /* ProgramVC.xib */,
-				B1254CBE187DBD61004E2F0E /* RainDelayVC.h */,
-				B1254CBF187DBD61004E2F0E /* RainDelayVC.m */,
-				B1254CC0187DBD61004E2F0E /* RainDelayVC.xib */,
-				3A9AB58318854521005B79B9 /* RestrictionsVC.h */,
-				3A9AB58418854521005B79B9 /* RestrictionsVC.m */,
-				3A9AB58518854521005B79B9 /* RestrictionsVC.xib */,
-				3A4437FC188A93FD004F9E11 /* RestrictedHoursVC.h */,
-				3A4437FD188A93FD004F9E11 /* RestrictedHoursVC.m */,
-				3A4437FE188A93FD004F9E11 /* RestrictedHoursVC.xib */,
-				96C223A719D7727F00683AC6 /* NewRestrictionVC.h */,
-				96C223A819D7727F00683AC6 /* NewRestrictionVC.m */,
-				96C223AA19D7729900683AC6 /* NewRestrictionVC.xib */,
-				AFC0760418BC9DEB007200BF /* SetDelayVC.h */,
-				AFC0760518BC9DEB007200BF /* SetDelayVC.m */,
-				AFC0760218BC9C99007200BF /* SetDelayVC.xib */,
-				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
-				3A9C8FFE18EEF76100272BA3 /* SettingsAboutVC.m */,
-				3A9C8FFF18EEF76100272BA3 /* SettingsAboutVC.xib */,
-				96DB95DA1A9F43F400789D05 /* SettingsAbout4VC.h */,
-				96DB95DB1A9F43F400789D05 /* SettingsAbout4VC.m */,
-				96DB95DC1A9F43F400789D05 /* SettingsAbout4VC.xib */,
-				AFA1BEFB18C4D703005FBE9B /* SettingsNameAndSecurityVC.h */,
-				AFA1BEFC18C4D703005FBE9B /* SettingsNameAndSecurityVC.m */,
-				AFA1BEFE18C4D716005FBE9B /* SettingsNameAndSecurityVC.xib */,
-				AF7A72BC18C4C3D300596148 /* SettingsTimePickerVC.h */,
-				AF7A72BD18C4C3D300596148 /* SettingsTimePickerVC.m */,
-				AF7A72BA18C4C3B800596148 /* SettingsTimePickerVC.xib */,
-				AF7A72B518C4AA8500596148 /* SettingsDatePickerVC.h */,
-				AF7A72B618C4AA8500596148 /* SettingsDatePickerVC.m */,
-				AF7A72B818C4AAA300596148 /* SettingsDatePickerVC.xib */,
+				963983F81AE8F61C00D537A2 /* System Settings */,
+				963983F71AE8F60200D537A2 /* About */,
 				B1EF21141860497B00D9CE26 /* SettingsVC.h */,
 				B1EF21151860497B00D9CE26 /* SettingsVC.m */,
 				B1EF21161860497B00D9CE26 /* SettingsVC.xib */,
-				AFF3A06118BDE4C10060D0F6 /* TimePickerVC.h */,
-				AFF3A06218BDE4C10060D0F6 /* TimePickerVC.m */,
-				AFF3A06418BDE4D00060D0F6 /* TimePickerVC.xib */,
-				96BED90C1ADFE4D0003F0453 /* TimePickerMinutesVC.h */,
-				96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */,
-				96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */,
-				969E634E1AA75D2C004970CF /* DatePickerVC.h */,
-				969E634F1AA75D2C004970CF /* DatePickerVC.m */,
-				969E63501AA75D2C004970CF /* DatePickerVC.xib */,
-				AF02F88018BFA99700579CAF /* UnitsVC.h */,
-				AF02F88118BFA99700579CAF /* UnitsVC.m */,
-				AF02F88318BFA9A500579CAF /* UnitsVC.xib */,
-				AF04996018C601DA00D73860 /* VegetationTypeVC.h */,
-				AF04996118C601DA00D73860 /* VegetationTypeVC.m */,
-				AF04995E18C601C300D73860 /* VegetationTypeVC.xib */,
-				AFC075FA18BBDDCE007200BF /* WeekdaysVC.h */,
-				AFC075FB18BBDDCE007200BF /* WeekdaysVC.m */,
-				AFC075F818BBDDAD007200BF /* WeekdaysVC.xib */,
-				96C2239E19D7223700683AC6 /* MonthsVC.h */,
-				96C2239F19D7223700683AC6 /* MonthsVC.m */,
-				96C223A519D7255900683AC6 /* MonthsVC.xib */,
-				B1254CAF187D77EB004E2F0E /* ZonesVC.h */,
-				B1254CB0187D77EB004E2F0E /* ZonesVC.m */,
-				B1254CB1187D77EB004E2F0E /* ZonesVC.xib */,
-				B1254CC3187ECE48004E2F0E /* ZoneVC.h */,
-				B1254CC4187ECE48004E2F0E /* ZoneVC.m */,
-				B1254CC5187ECE48004E2F0E /* ZoneVC.xib */,
-				96E70AF21A7BC34200A07D94 /* ZoneAdvancedVC.h */,
-				96E70AF31A7BC34200A07D94 /* ZoneAdvancedVC.m */,
-				96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */,
-				968023DD1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.h */,
-				968023DE1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
