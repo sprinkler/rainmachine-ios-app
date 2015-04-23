@@ -758,6 +758,20 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
+- (void)setUseRainSensor:(BOOL)useRainSensor {
+    NSDictionary *params = @{@"system" : @{@"useRainSensor" : @(useRainSensor)}};
+    
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSONArray:[NSArray arrayWithObject:responseObject] toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
 #pragma mark - Mixer data
 
 - (void)requestMixerDataFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount {

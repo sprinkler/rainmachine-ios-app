@@ -29,6 +29,7 @@
 @property (nonatomic, assign) int localValveCount;
 @property (nonatomic, strong) NSArray *zoneDuration;
 @property (nonatomic, assign) BOOL keepDataHistory;
+@property (nonatomic, assign) BOOL useRainSensor;
 
 + (ProvisionSystem*)createFromJson:(NSDictionary*)jsonObj;
 

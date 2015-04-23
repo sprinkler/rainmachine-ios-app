@@ -35,6 +35,7 @@
         system.localValveCount = [jsonObj nullProofedIntValueForKey:@"localValveCount"];
         system.zoneDuration = [jsonObj objectForKey:@"zoneDuration"];
         system.keepDataHistory = [jsonObj nullProofedBoolValueForKey:@"keepDataHistory"];
+        system.useRainSensor = [jsonObj nullProofedBoolValueForKey:@"useRainSensor"];
         
         return system;
     }

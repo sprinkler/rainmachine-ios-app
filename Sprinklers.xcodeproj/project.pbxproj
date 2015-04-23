@@ -52,6 +52,21 @@
 		963983F11AE8E7A000D537A2 /* WindSensitivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983E31AE8E57600D537A2 /* WindSensitivityVC.m */; };
 		963983F21AE8E7A500D537A2 /* WindSensitivityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E41AE8E57600D537A2 /* WindSensitivityVC.xib */; };
 		963983F31AE8E7A500D537A2 /* WindSensitivityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E41AE8E57600D537A2 /* WindSensitivityVC.xib */; };
+		963983FD1AE8F79900D537A2 /* RainSensorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983FB1AE8F79900D537A2 /* RainSensorVC.m */; };
+		963983FE1AE8F79900D537A2 /* RainSensorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983FB1AE8F79900D537A2 /* RainSensorVC.m */; };
+		963983FF1AE8F79900D537A2 /* RainSensorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983FB1AE8F79900D537A2 /* RainSensorVC.m */; };
+		963984001AE8F79900D537A2 /* RainSensorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983FC1AE8F79900D537A2 /* RainSensorVC.xib */; };
+		963984011AE8F79900D537A2 /* RainSensorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983FC1AE8F79900D537A2 /* RainSensorVC.xib */; };
+		963984021AE8F79900D537A2 /* RainSensorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983FC1AE8F79900D537A2 /* RainSensorVC.xib */; };
+		963984061AE8F89100D537A2 /* SPK2-rain-sensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984031AE8F89100D537A2 /* SPK2-rain-sensor.png */; };
+		963984071AE8F89100D537A2 /* SPK2-rain-sensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984031AE8F89100D537A2 /* SPK2-rain-sensor.png */; };
+		963984081AE8F89100D537A2 /* SPK2-rain-sensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984031AE8F89100D537A2 /* SPK2-rain-sensor.png */; };
+		963984091AE8F89100D537A2 /* SPK2-rain-sensor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984041AE8F89100D537A2 /* SPK2-rain-sensor@2x.png */; };
+		9639840A1AE8F89100D537A2 /* SPK2-rain-sensor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984041AE8F89100D537A2 /* SPK2-rain-sensor@2x.png */; };
+		9639840B1AE8F89100D537A2 /* SPK2-rain-sensor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984041AE8F89100D537A2 /* SPK2-rain-sensor@2x.png */; };
+		9639840C1AE8F89100D537A2 /* SPK2-rain-sensor@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984051AE8F89100D537A2 /* SPK2-rain-sensor@3x.png */; };
+		9639840D1AE8F89100D537A2 /* SPK2-rain-sensor@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984051AE8F89100D537A2 /* SPK2-rain-sensor@3x.png */; };
+		9639840E1AE8F89100D537A2 /* SPK2-rain-sensor@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 963984051AE8F89100D537A2 /* SPK2-rain-sensor@3x.png */; };
 		964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */; };
 		964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */; };
 		964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCFB1A1E5AA5008281A8 /* GoogleElevation.m */; };
@@ -1572,6 +1587,12 @@
 		963983E71AE8E76900D537A2 /* WindSensitivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindSensitivityCell.h; path = Cells/WindSensitivityCell.h; sourceTree = "<group>"; };
 		963983E81AE8E76900D537A2 /* WindSensitivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindSensitivityCell.m; path = Cells/WindSensitivityCell.m; sourceTree = "<group>"; };
 		963983E91AE8E76900D537A2 /* WindSensitivityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WindSensitivityCell.xib; path = Cells/WindSensitivityCell.xib; sourceTree = "<group>"; };
+		963983FA1AE8F79900D537A2 /* RainSensorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RainSensorVC.h; path = ViewController/RainSensorVC.h; sourceTree = "<group>"; };
+		963983FB1AE8F79900D537A2 /* RainSensorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RainSensorVC.m; path = ViewController/RainSensorVC.m; sourceTree = "<group>"; };
+		963983FC1AE8F79900D537A2 /* RainSensorVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RainSensorVC.xib; path = ViewController/RainSensorVC.xib; sourceTree = "<group>"; };
+		963984031AE8F89100D537A2 /* SPK2-rain-sensor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SPK2-rain-sensor.png"; path = "Resources/SPK2-rain-sensor.png"; sourceTree = "<group>"; };
+		963984041AE8F89100D537A2 /* SPK2-rain-sensor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SPK2-rain-sensor@2x.png"; path = "Resources/SPK2-rain-sensor@2x.png"; sourceTree = "<group>"; };
+		963984051AE8F89100D537A2 /* SPK2-rain-sensor@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SPK2-rain-sensor@3x.png"; path = "Resources/SPK2-rain-sensor@3x.png"; sourceTree = "<group>"; };
 		964ADCF61A1E5AA5008281A8 /* GoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAddress.h; sourceTree = "<group>"; };
 		964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAddress.m; sourceTree = "<group>"; };
 		964ADCF81A1E5AA5008281A8 /* GoogleAutocompletePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAutocompletePrediction.h; sourceTree = "<group>"; };
@@ -2479,6 +2500,9 @@
 				AF02F88018BFA99700579CAF /* UnitsVC.h */,
 				AF02F88118BFA99700579CAF /* UnitsVC.m */,
 				AF02F88318BFA9A500579CAF /* UnitsVC.xib */,
+				963983FA1AE8F79900D537A2 /* RainSensorVC.h */,
+				963983FB1AE8F79900D537A2 /* RainSensorVC.m */,
+				963983FC1AE8F79900D537A2 /* RainSensorVC.xib */,
 			);
 			name = "System Settings";
 			sourceTree = "<group>";
@@ -3231,6 +3255,9 @@
 				B173B4FA16B2C459000EB72D /* Sprinkler_Icon_57.png */,
 				B173B4FB16B2C459000EB72D /* Sprinkler_Icon_72.png */,
 				B1E1EE4019227E1C004C8F5B /* Sprinkler_Icon_76.png */,
+				963984031AE8F89100D537A2 /* SPK2-rain-sensor.png */,
+				963984041AE8F89100D537A2 /* SPK2-rain-sensor@2x.png */,
+				963984051AE8F89100D537A2 /* SPK2-rain-sensor@3x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3570,6 +3597,7 @@
 				3A9AB596188559E7005B79B9 /* RestrictionsCell.xib in Resources */,
 				AFF3A06518BDE4D00060D0F6 /* TimePickerVC.xib in Resources */,
 				96CB93F91A38AFAD00F3691F /* ntsra_small_white.png in Resources */,
+				9639840C1AE8F89100D537A2 /* SPK2-rain-sensor@3x.png in Resources */,
 				96CB93F51A38AFAD00F3691F /* nshra_small_white.png in Resources */,
 				3A443800188A93FD004F9E11 /* RestrictedHoursVC.xib in Resources */,
 				AFEAECC618BA6BB100370F22 /* ProgramCellType5.xib in Resources */,
@@ -3589,8 +3617,10 @@
 				AFC5CEE418893A5B005191DE /* icon_waternow.png in Resources */,
 				AF4826691990DC9500D80B87 /* cold.png in Resources */,
 				96CB93EC1A38AFAD00F3691F /* nfu_small_white.png in Resources */,
+				963984061AE8F89100D537A2 /* SPK2-rain-sensor.png in Resources */,
 				AFEAECB518BA36D700370F22 /* ProgramVC.xib in Resources */,
 				AF5CF46E1A74B4F400D2BB9C /* ProvisionTimezonesListVC.xib in Resources */,
+				963984001AE8F79900D537A2 /* RainSensorVC.xib in Resources */,
 				AFA9B58118DADB4F00DB40E8 /* icon_devices@2x.png in Resources */,
 				AFE894CE1A356538007FC7EB /* icon_wi-fi-0-bar@2x.png in Resources */,
 				96CB93FF1A38AFAD00F3691F /* rasn_small_white.png in Resources */,
@@ -3729,6 +3759,7 @@
 				96CB94021A38AFAD00F3691F /* scttsra_small_white.png in Resources */,
 				3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */,
 				96F48FF01AA05A5700DFA578 /* ParserCell.xib in Resources */,
+				963984091AE8F89100D537A2 /* SPK2-rain-sensor@2x.png in Resources */,
 				3AC64A05192B39F10009061D /* PickerVC.xib in Resources */,
 				AF4826911990DC9500D80B87 /* rasn.png in Resources */,
 				AF48267A1990DC9500D80B87 /* nbknfg.png in Resources */,
@@ -3832,6 +3863,7 @@
 				BD0BB69A1ACE93AA005E2426 /* RestrictionsCell.xib in Resources */,
 				BD0BB69B1ACE93AA005E2426 /* TimePickerVC.xib in Resources */,
 				BD0BB69C1ACE93AA005E2426 /* ntsra_small_white.png in Resources */,
+				9639840D1AE8F89100D537A2 /* SPK2-rain-sensor@3x.png in Resources */,
 				BD0BB69D1ACE93AA005E2426 /* nshra_small_white.png in Resources */,
 				BD0BB69E1ACE93AA005E2426 /* RestrictedHoursVC.xib in Resources */,
 				BD0BB69F1ACE93AA005E2426 /* ProgramCellType5.xib in Resources */,
@@ -3851,8 +3883,10 @@
 				BD0BB6AD1ACE93AA005E2426 /* icon_waternow.png in Resources */,
 				BD0BB6AE1ACE93AA005E2426 /* cold.png in Resources */,
 				BD0BB6AF1ACE93AA005E2426 /* nfu_small_white.png in Resources */,
+				963984071AE8F89100D537A2 /* SPK2-rain-sensor.png in Resources */,
 				BD0BB6B01ACE93AA005E2426 /* ProgramVC.xib in Resources */,
 				BD0BB6B11ACE93AA005E2426 /* ProvisionTimezonesListVC.xib in Resources */,
+				963984011AE8F79900D537A2 /* RainSensorVC.xib in Resources */,
 				BD0BB6B21ACE93AA005E2426 /* icon_devices@2x.png in Resources */,
 				BD0BB6B31ACE93AA005E2426 /* icon_wi-fi-0-bar@2x.png in Resources */,
 				BD0BB6B41ACE93AA005E2426 /* rasn_small_white.png in Resources */,
@@ -3991,6 +4025,7 @@
 				BD0BB7381ACE93AA005E2426 /* scttsra_small_white.png in Resources */,
 				BD0BB7391ACE93AA005E2426 /* SettingsAboutVC.xib in Resources */,
 				BD0BB73A1ACE93AA005E2426 /* ParserCell.xib in Resources */,
+				9639840A1AE8F89100D537A2 /* SPK2-rain-sensor@2x.png in Resources */,
 				BD0BB73B1ACE93AA005E2426 /* PickerVC.xib in Resources */,
 				BD0BB73C1ACE93AA005E2426 /* rasn.png in Resources */,
 				BD0BB73D1ACE93AA005E2426 /* nbknfg.png in Resources */,
@@ -4094,6 +4129,7 @@
 				BD0BB8931ACE9525005E2426 /* RestrictionsCell.xib in Resources */,
 				BD0BB8941ACE9525005E2426 /* TimePickerVC.xib in Resources */,
 				BD0BB8951ACE9525005E2426 /* ntsra_small_white.png in Resources */,
+				9639840E1AE8F89100D537A2 /* SPK2-rain-sensor@3x.png in Resources */,
 				BD0BB8961ACE9525005E2426 /* nshra_small_white.png in Resources */,
 				BD0BB8971ACE9525005E2426 /* RestrictedHoursVC.xib in Resources */,
 				BD0BB8981ACE9525005E2426 /* ProgramCellType5.xib in Resources */,
@@ -4113,8 +4149,10 @@
 				BD0BB8A61ACE9525005E2426 /* icon_waternow.png in Resources */,
 				BD0BB8A71ACE9525005E2426 /* cold.png in Resources */,
 				BD0BB8A81ACE9525005E2426 /* nfu_small_white.png in Resources */,
+				963984081AE8F89100D537A2 /* SPK2-rain-sensor.png in Resources */,
 				BD0BB8A91ACE9525005E2426 /* ProgramVC.xib in Resources */,
 				BD0BB8AA1ACE9525005E2426 /* ProvisionTimezonesListVC.xib in Resources */,
+				963984021AE8F79900D537A2 /* RainSensorVC.xib in Resources */,
 				BD0BB8AB1ACE9525005E2426 /* icon_devices@2x.png in Resources */,
 				BD0BB8AC1ACE9525005E2426 /* icon_wi-fi-0-bar@2x.png in Resources */,
 				BD0BB8AD1ACE9525005E2426 /* rasn_small_white.png in Resources */,
@@ -4253,6 +4291,7 @@
 				BD0BB9311ACE9525005E2426 /* scttsra_small_white.png in Resources */,
 				BD0BB9321ACE9525005E2426 /* SettingsAboutVC.xib in Resources */,
 				BD0BB9331ACE9525005E2426 /* ParserCell.xib in Resources */,
+				9639840B1AE8F89100D537A2 /* SPK2-rain-sensor@2x.png in Resources */,
 				BD0BB9341ACE9525005E2426 /* PickerVC.xib in Resources */,
 				BD0BB9351ACE9525005E2426 /* rasn.png in Resources */,
 				BD0BB9361ACE9525005E2426 /* nbknfg.png in Resources */,
@@ -4403,6 +4442,7 @@
 				AF61117219C5491D008AA62B /* ZoneProperties4.m in Sources */,
 				969051D21A6AECE30029304D /* GraphDataSourceProgramRunTime.m in Sources */,
 				AFCF47BB188D6BC600C34727 /* PickerVC.m in Sources */,
+				963983FD1AE8F79900D537A2 /* RainSensorVC.m in Sources */,
 				B1DF325E16A6A68700A1BF38 /* AppDelegate.m in Sources */,
 				969051CF1A6ACDF60029304D /* WaterLogDay.m in Sources */,
 				AF5CF44D1A721B8200D2BB9C /* ProvisionDateAndTimeManualVC.m in Sources */,
@@ -4638,6 +4678,7 @@
 				BD0BB5CF1ACE93AA005E2426 /* ProgramsVC.m in Sources */,
 				BD0BB5D01ACE93AA005E2426 /* ZoneProperties4.m in Sources */,
 				BD0BB5D11ACE93AA005E2426 /* GraphDataSourceProgramRunTime.m in Sources */,
+				963983FE1AE8F79900D537A2 /* RainSensorVC.m in Sources */,
 				BD0BB5D21ACE93AA005E2426 /* PickerVC.m in Sources */,
 				BD0BB5D31ACE93AA005E2426 /* AppDelegate.m in Sources */,
 				BD0BB5D41ACE93AA005E2426 /* WaterLogDay.m in Sources */,
@@ -4873,6 +4914,7 @@
 				BD0BB7C81ACE9525005E2426 /* ProgramsVC.m in Sources */,
 				BD0BB7C91ACE9525005E2426 /* ZoneProperties4.m in Sources */,
 				BD0BB7CA1ACE9525005E2426 /* GraphDataSourceProgramRunTime.m in Sources */,
+				963983FF1AE8F79900D537A2 /* RainSensorVC.m in Sources */,
 				BD0BB7CB1ACE9525005E2426 /* PickerVC.m in Sources */,
 				BD0BB7CC1ACE9525005E2426 /* AppDelegate.m in Sources */,
 				BD0BB7CD1ACE9525005E2426 /* WaterLogDay.m in Sources */,

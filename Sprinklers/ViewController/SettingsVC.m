@@ -38,6 +38,7 @@
 #import "DataSourcesVC.h"
 #import "ProvisionRemoteAccessVC.h"
 #import "CloudSettings.h"
+#import "RainSensorVC.h"
 
 NSString *kSettingsPrograms             = @"Programs";
 NSString *kSettingsWateringHistory      = @"Watering History";
@@ -340,7 +341,8 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         [self.navigationController pushViewController:remoteAccessVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsRainSensor]) {
-        
+        RainSensorVC *rainSensorVC = [[RainSensorVC alloc] init];
+        [self.navigationController pushViewController:rainSensorVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsDeviceName]) {
         SettingsNameAndSecurityVC *passwordVC = [[SettingsNameAndSecurityVC alloc] init];
