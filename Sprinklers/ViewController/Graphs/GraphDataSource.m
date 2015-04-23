@@ -38,9 +38,21 @@
     self = [super init];
     if (!self) return nil;
     
-    _minValue = -1.0;
-    _midValue = 0.0;
-    _maxValue = 1.0;
+    if (self.canHaveNegativeValues) {
+        _minValue = -1.0;
+        _midValue = 0.0;
+        _maxValue = 1.0;
+    } else {
+        if (self.shouldRoundMidValue) {
+            _minValue = 0.0;
+            _midValue = 1.0;
+            _maxValue = 2.0;
+        } else {
+            _minValue = 0.0;
+            _midValue = 0.5;
+            _maxValue = 1.0;
+        }
+    }
     
     return self;
 }
@@ -79,6 +91,10 @@
 }
 
 - (BOOL)shouldRoundMidValue {
+    return YES;
+}
+
+- (BOOL)canHaveNegativeValues {
     return YES;
 }
 
@@ -152,9 +168,21 @@
         midValue = (minValue + maxValue) / 2.0;
     }
     
-    self.minValue = minValue;
-    self.maxValue = maxValue;
-    self.midValue = midValue;
+    if (self.canHaveNegativeValues) {
+        self.minValue = minValue;
+        self.maxValue = maxValue;
+        self.midValue = midValue;
+    } else {
+        if (minValue >= 0.0) {
+            self.minValue = minValue;
+            self.maxValue = maxValue;
+            self.midValue = midValue;
+        } else {
+            self.minValue = minValue - minValue;
+            self.maxValue = maxValue - minValue;
+            self.midValue = midValue - minValue;
+        }
+    }
 }
 
 @end

@@ -53,6 +53,10 @@
     return NO;
 }
 
+- (BOOL)canHaveNegativeValues {
+    return NO;
+}
+
 #pragma mark - Data
 
 - (NSDictionary*)valuesFromLoadedData {
