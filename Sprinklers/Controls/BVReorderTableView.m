@@ -259,19 +259,26 @@
     NSInteger newHeight = [self rectForRowAtIndexPath:indexPath].size.height;
     
     if (indexPath && ![indexPath isEqual:self.currentLocationIndexPath] && [gesture locationInView:[self cellForRowAtIndexPath:indexPath]].y > newHeight - oldHeight) {
-        [self beginUpdates];
-        [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.currentLocationIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        if ([self.delegate respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
-            [self.delegate moveRowAtIndexPath:self.currentLocationIndexPath toIndexPath:indexPath];
-        }
-        else {
-            NSLog(@"moveRowAtIndexPath:toIndexPath: is not implemented");
+        BOOL canMoveRow = YES;
+        if ([self.delegate respondsToSelector:@selector(canMoveRowAtIndexPath:toIndexPath:)]) {
+            canMoveRow = [self.delegate canMoveRowAtIndexPath:self.currentLocationIndexPath toIndexPath:indexPath];
         }
         
-        self.currentLocationIndexPath = indexPath;
-        [self endUpdates];
+        if (canMoveRow) {
+            [self beginUpdates];
+            [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.currentLocationIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            if ([self.delegate respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
+                [self.delegate moveRowAtIndexPath:self.currentLocationIndexPath toIndexPath:indexPath];
+            }
+            else {
+                NSLog(@"moveRowAtIndexPath:toIndexPath: is not implemented");
+            }
+            
+            self.currentLocationIndexPath = indexPath;
+            [self endUpdates];
+        }
     }
 }
 

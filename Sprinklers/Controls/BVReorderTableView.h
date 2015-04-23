@@ -34,6 +34,7 @@
 // data source to reflect that the rows have switched places. This can be called multiple times
 // during the reordering process
 - (void)moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
+- (BOOL)canMoveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
 // This method is called when the selected row is released to its new position. The object is the same
 // object you returned in saveObjectAndInsertBlankRowAtIndexPath:. Simply update the data source so the

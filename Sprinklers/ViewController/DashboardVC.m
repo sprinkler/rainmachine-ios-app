@@ -373,6 +373,11 @@
     return NO;
 }
 
+- (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (indexPath.row == 0) return NO;
+    return YES;
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -397,6 +402,11 @@
     [[GraphsManager sharedGraphsManager] replaceGraphAtIndex:indexPath.row withGraph:emptyGraphDescriptor];
     
     return graphDescriptor;
+}
+
+- (BOOL)canMoveRowAtIndexPath:(NSIndexPath*)fromIndexPath toIndexPath:(NSIndexPath*)toIndexPath {
+    if (toIndexPath.row == 0) return NO;
+    return YES;
 }
 
 - (void)moveRowAtIndexPath:(NSIndexPath*)fromIndexPath toIndexPath:(NSIndexPath*)toIndexPath {
