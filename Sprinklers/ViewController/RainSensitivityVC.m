@@ -316,7 +316,7 @@ const double RainSensitivitySimulationGraphHeight   = 240.0;
 #pragma mark - Actions
 
 - (void)onCellSliderValueChanged:(UISlider*)slider {
-    self.provision.location.rainSensitivity = slider.value;
+    self.provision.location.rainSensitivity = (int)(slider.value * 100.0) / 100.0;
     
     if (RAIN_SENSITIVITY_GRAPHS_ENABLED) {
         [self.rainSensitivitySimulationGraphVC delayedUpdateGraph:0.05];

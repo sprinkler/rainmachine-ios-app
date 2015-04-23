@@ -15,6 +15,7 @@
 #import "RainDelayVC.h"
 #import "RestrictionsVC.h"
 #import "RainSensitivityVC.h"
+#import "WindSensitivityVC.h"
 #import "UnitsVC.h"
 #import "SettingsDatePickerVC.h"
 #import "SettingsTimePickerVC.h"
@@ -318,6 +319,11 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         RainSensitivityVC *rainSensitivityVC = [[RainSensitivityVC alloc] init];
         rainSensitivityVC.parent = self;
         [self.navigationController pushViewController:rainSensitivityVC animated:YES];
+    }
+    else if ([settingsRow isEqualToString:kSettingsWindSensitivity]) {
+        WindSensitivityVC *windSensitivityVC = [[WindSensitivityVC alloc] init];
+        windSensitivityVC.parent = self;
+        [self.navigationController pushViewController:windSensitivityVC animated:YES];
     }
     
     // System Settings

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WindSensitivityCell" rowHeight="83" id="KGk-i7-Jjw" customClass="WindSensitivityCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="83"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WIND SENSITIVITY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mki-ci-IF1">
+                        <rect key="frame" x="8" y="8" width="304" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="l84-mg-EOH"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sfR-77-PRI">
+                        <rect key="frame" x="53" y="37" width="195" height="31"/>
+                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <action selector="onWindSensitivitySliderValueChanged:" destination="KGk-i7-Jjw" eventType="valueChanged" id="ZER-T2-3yL"/>
+                        </connections>
+                    </slider>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypl-as-TGX">
+                        <rect key="frame" x="20" y="41" width="27" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="2RT-tR-oaD"/>
+                            <constraint firstAttribute="width" constant="27" id="mHh-hG-6ut"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQP-1w-EN5">
+                        <rect key="frame" x="254" y="41" width="46" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="46" id="SrN-wm-1L7"/>
+                            <constraint firstAttribute="height" constant="21" id="qJ0-jw-24e"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="ypl-as-TGX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="EpU-ji-IRX"/>
+                    <constraint firstItem="Mki-ci-IF1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="F67-jY-SoX"/>
+                    <constraint firstAttribute="trailing" secondItem="Mki-ci-IF1" secondAttribute="trailing" constant="8" id="HEu-zK-AND"/>
+                    <constraint firstAttribute="trailing" secondItem="XQP-1w-EN5" secondAttribute="trailing" constant="20" id="HRQ-Ft-EIA"/>
+                    <constraint firstItem="sfR-77-PRI" firstAttribute="leading" secondItem="ypl-as-TGX" secondAttribute="trailing" constant="8" id="KeS-YD-kxx"/>
+                    <constraint firstItem="XQP-1w-EN5" firstAttribute="top" secondItem="Mki-ci-IF1" secondAttribute="bottom" constant="12" id="QXa-lN-BlA"/>
+                    <constraint firstItem="XQP-1w-EN5" firstAttribute="leading" secondItem="sfR-77-PRI" secondAttribute="trailing" constant="8" id="eH4-jZ-276"/>
+                    <constraint firstItem="sfR-77-PRI" firstAttribute="top" secondItem="Mki-ci-IF1" secondAttribute="bottom" constant="8" id="pUo-5c-K9O"/>
+                    <constraint firstItem="Mki-ci-IF1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="qlR-JV-WP0"/>
+                    <constraint firstItem="ypl-as-TGX" firstAttribute="top" secondItem="Mki-ci-IF1" secondAttribute="bottom" constant="12" id="x2r-re-1n5"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="maximumValueLabel" destination="XQP-1w-EN5" id="KVy-bv-KA9"/>
+                <outlet property="minimumValueLabel" destination="ypl-as-TGX" id="Xre-sY-SYW"/>
+                <outlet property="windSensitivitySlider" destination="sfR-77-PRI" id="wT1-4h-Jef"/>
+            </connections>
+            <point key="canvasLocation" x="266" y="230.5"/>
+        </tableViewCell>
+    </objects>
+</document>

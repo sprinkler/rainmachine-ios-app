@@ -1,14 +1,14 @@
 //
-//  RainSensitivityCell.m
+//  WindSensitivityCell.m
 //  Sprinklers
 //
 //  Created by Istvan Sipos on 20/11/14.
 //  Copyright (c) 2014 Tremend. All rights reserved.
 //
 
-#import "RainSensitivityCell.h"
+#import "WindSensitivityCell.h"
 
-@implementation RainSensitivityCell
+@implementation WindSensitivityCell
 
 - (void)awakeFromNib {
 }
@@ -19,18 +19,18 @@
 
 #pragma mark - Accessors
 
-- (void)setRainSensitivity:(double)rainSensitivity {
-    self.rainSensitivitySlider.value = rainSensitivity;
-    [self onRainSensitivitySliderValueChanged:self.rainSensitivitySlider];
+- (void)setWindSensitivity:(double)windSensitivity {
+    self.windSensitivitySlider.value = windSensitivity;
+    [self onWindSensitivitySliderValueChanged:self.windSensitivitySlider];
 }
 
-- (double)rainSensitivity {
-    return self.rainSensitivitySlider.value;
+- (double)windSensitivity {
+    return self.windSensitivitySlider.value;
 }
 
 #pragma mark - Actions
 
-- (IBAction)onRainSensitivitySliderValueChanged:(UISlider*)slider {
+- (IBAction)onWindSensitivitySliderValueChanged:(UISlider*)slider {
     self.maximumValueLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value * 100)];
     [self.delegate onCellSliderValueChanged:slider];
 }

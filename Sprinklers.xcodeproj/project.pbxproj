@@ -40,6 +40,18 @@
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
 		9637286C1A69A6C700BE7202 /* GraphScrollableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */; };
+		963983E51AE8E57600D537A2 /* WindSensitivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983E31AE8E57600D537A2 /* WindSensitivityVC.m */; };
+		963983E61AE8E57600D537A2 /* WindSensitivityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E41AE8E57600D537A2 /* WindSensitivityVC.xib */; };
+		963983EA1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983E81AE8E76900D537A2 /* WindSensitivityCell.m */; };
+		963983EB1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983E81AE8E76900D537A2 /* WindSensitivityCell.m */; };
+		963983EC1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983E81AE8E76900D537A2 /* WindSensitivityCell.m */; };
+		963983ED1AE8E76900D537A2 /* WindSensitivityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E91AE8E76900D537A2 /* WindSensitivityCell.xib */; };
+		963983EE1AE8E76900D537A2 /* WindSensitivityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E91AE8E76900D537A2 /* WindSensitivityCell.xib */; };
+		963983EF1AE8E76900D537A2 /* WindSensitivityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E91AE8E76900D537A2 /* WindSensitivityCell.xib */; };
+		963983F01AE8E79F00D537A2 /* WindSensitivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983E31AE8E57600D537A2 /* WindSensitivityVC.m */; };
+		963983F11AE8E7A000D537A2 /* WindSensitivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 963983E31AE8E57600D537A2 /* WindSensitivityVC.m */; };
+		963983F21AE8E7A500D537A2 /* WindSensitivityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E41AE8E57600D537A2 /* WindSensitivityVC.xib */; };
+		963983F31AE8E7A500D537A2 /* WindSensitivityVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963983E41AE8E57600D537A2 /* WindSensitivityVC.xib */; };
 		964ADD0A1A1E5AA5008281A8 /* GoogleAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */; };
 		964ADD0B1A1E5AA5008281A8 /* GoogleAutocompletePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCF91A1E5AA5008281A8 /* GoogleAutocompletePrediction.m */; };
 		964ADD0C1A1E5AA5008281A8 /* GoogleElevation.m in Sources */ = {isa = PBXBuildFile; fileRef = 964ADCFB1A1E5AA5008281A8 /* GoogleElevation.m */; };
@@ -1554,6 +1566,12 @@
 		962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DashboardGraphDetailsVC.xib; path = ViewController/DashboardGraphDetailsVC.xib; sourceTree = "<group>"; };
 		963728691A69A6C700BE7202 /* GraphScrollableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphScrollableCell.h; path = ViewController/Graphs/GraphScrollableCell.h; sourceTree = "<group>"; };
 		9637286A1A69A6C700BE7202 /* GraphScrollableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphScrollableCell.m; path = ViewController/Graphs/GraphScrollableCell.m; sourceTree = "<group>"; };
+		963983E21AE8E57600D537A2 /* WindSensitivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindSensitivityVC.h; path = ViewController/WindSensitivityVC.h; sourceTree = "<group>"; };
+		963983E31AE8E57600D537A2 /* WindSensitivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindSensitivityVC.m; path = ViewController/WindSensitivityVC.m; sourceTree = "<group>"; };
+		963983E41AE8E57600D537A2 /* WindSensitivityVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WindSensitivityVC.xib; path = ViewController/WindSensitivityVC.xib; sourceTree = "<group>"; };
+		963983E71AE8E76900D537A2 /* WindSensitivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindSensitivityCell.h; path = Cells/WindSensitivityCell.h; sourceTree = "<group>"; };
+		963983E81AE8E76900D537A2 /* WindSensitivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindSensitivityCell.m; path = Cells/WindSensitivityCell.m; sourceTree = "<group>"; };
+		963983E91AE8E76900D537A2 /* WindSensitivityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WindSensitivityCell.xib; path = Cells/WindSensitivityCell.xib; sourceTree = "<group>"; };
 		964ADCF61A1E5AA5008281A8 /* GoogleAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAddress.h; sourceTree = "<group>"; };
 		964ADCF71A1E5AA5008281A8 /* GoogleAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAddress.m; sourceTree = "<group>"; };
 		964ADCF81A1E5AA5008281A8 /* GoogleAutocompletePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAutocompletePrediction.h; sourceTree = "<group>"; };
@@ -2339,6 +2357,28 @@
 			path = "Resources/programs-cell";
 			sourceTree = "<group>";
 		};
+		963983E11AE8E53600D537A2 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				96F48FE41AA050C100DFA578 /* DataSourcesVC.h */,
+				96F48FE51AA050C100DFA578 /* DataSourcesVC.m */,
+				96F48FE61AA050C100DFA578 /* DataSourcesVC.xib */,
+				96F48FF61AA05C3200DFA578 /* DataSourcesParserVC.h */,
+				96F48FF71AA05C3200DFA578 /* DataSourcesParserVC.m */,
+				96F48FF81AA05C3200DFA578 /* DataSourcesParserVC.xib */,
+				96F48FFB1AA0819600DFA578 /* DataSourcesParserParameterVC.h */,
+				96F48FFC1AA0819600DFA578 /* DataSourcesParserParameterVC.m */,
+				96F48FFD1AA0819600DFA578 /* DataSourcesParserParameterVC.xib */,
+				964ADD2D1A1E7BA1008281A8 /* RainSensitivityVC.h */,
+				964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */,
+				964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */,
+				963983E21AE8E57600D537A2 /* WindSensitivityVC.h */,
+				963983E31AE8E57600D537A2 /* WindSensitivityVC.m */,
+				963983E41AE8E57600D537A2 /* WindSensitivityVC.xib */,
+			);
+			name = Weather;
+			sourceTree = "<group>";
+		};
 		969051D61A6B14400029304D /* Time Intervals */ = {
 			isa = PBXGroup;
 			children = (
@@ -2896,6 +2936,9 @@
 				964ADD261A1E7B82008281A8 /* RainSensitivityCell.h */,
 				964ADD271A1E7B82008281A8 /* RainSensitivityCell.m */,
 				964ADD281A1E7B82008281A8 /* RainSensitivityCell.xib */,
+				963983E71AE8E76900D537A2 /* WindSensitivityCell.h */,
+				963983E81AE8E76900D537A2 /* WindSensitivityCell.m */,
+				963983E91AE8E76900D537A2 /* WindSensitivityCell.xib */,
 				964ADD231A1E7B82008281A8 /* FieldCapacityCell.h */,
 				964ADD241A1E7B82008281A8 /* FieldCapacityCell.m */,
 				964ADD251A1E7B82008281A8 /* FieldCapacityCell.xib */,
@@ -3298,6 +3341,7 @@
 			isa = PBXGroup;
 			children = (
 				96DAB8F51A27899D005974CC /* Graphs */,
+				963983E11AE8E53600D537A2 /* Weather */,
 				3AC64A02192B39C10009061D /* SetDelayVC-iPad.xib */,
 				3A4437ED188A7F1A004F9E11 /* PickerVC.h */,
 				3A4437EE188A7F1A004F9E11 /* PickerVC.m */,
@@ -3373,18 +3417,6 @@
 				96E70AF41A7BC34200A07D94 /* ZoneAdvancedVC.xib */,
 				968023DD1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.h */,
 				968023DE1A8FE1C300D34AC9 /* ZoneAdvancedTableVC.m */,
-				964ADD2D1A1E7BA1008281A8 /* RainSensitivityVC.h */,
-				964ADD2E1A1E7BA1008281A8 /* RainSensitivityVC.m */,
-				964ADD2F1A1E7BA1008281A8 /* RainSensitivityVC.xib */,
-				96F48FE41AA050C100DFA578 /* DataSourcesVC.h */,
-				96F48FE51AA050C100DFA578 /* DataSourcesVC.m */,
-				96F48FE61AA050C100DFA578 /* DataSourcesVC.xib */,
-				96F48FF61AA05C3200DFA578 /* DataSourcesParserVC.h */,
-				96F48FF71AA05C3200DFA578 /* DataSourcesParserVC.m */,
-				96F48FF81AA05C3200DFA578 /* DataSourcesParserVC.xib */,
-				96F48FFB1AA0819600DFA578 /* DataSourcesParserParameterVC.h */,
-				96F48FFC1AA0819600DFA578 /* DataSourcesParserParameterVC.m */,
-				96F48FFD1AA0819600DFA578 /* DataSourcesParserParameterVC.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -3617,6 +3649,7 @@
 				AF48266B1990DC9500D80B87 /* few.png in Resources */,
 				9672C3A519D806BB00236DFB /* RestrictionsCheckCell.xib in Resources */,
 				96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */,
+				963983ED1AE8E76900D537A2 /* WindSensitivityCell.xib in Resources */,
 				AF7A72BB18C4C3B800596148 /* SettingsTimePickerVC.xib in Resources */,
 				96CB93D71A38AFAD00F3691F /* du_small_white.png in Resources */,
 				96CB93D51A38AFAD00F3691F /* blizzard_small_white.png in Resources */,
@@ -3691,6 +3724,7 @@
 				96CB94041A38AFAD00F3691F /* shra2_small_white.png in Resources */,
 				AFC5CEE018893A5B005191DE /* icon_settings.png in Resources */,
 				96CB93E81A38AFAD00F3691F /* nbknfg_small_white.png in Resources */,
+				963983E61AE8E57600D537A2 /* WindSensitivityVC.xib in Resources */,
 				AF4826751990DC9500D80B87 /* ip.png in Resources */,
 				AF3E02E81A1D457E00E76C53 /* CloudAccountsVC.xib in Resources */,
 				960374F919D5FB3C009CB68A /* RestrictionsSwitchCell.xib in Resources */,
@@ -3862,6 +3896,7 @@
 				BD0BB70A1ACE93AA005E2426 /* EditCell.xib in Resources */,
 				BD0BB70B1ACE93AA005E2426 /* nfew_small_white.png in Resources */,
 				BD0BB70C1ACE93AA005E2426 /* icon_devices.png in Resources */,
+				963983F21AE8E7A500D537A2 /* WindSensitivityVC.xib in Resources */,
 				BD0BB70D1ACE93AA005E2426 /* ra_small_white.png in Resources */,
 				BD0BB70E1ACE93AA005E2426 /* nwind.png in Resources */,
 				BD0BB70F1ACE93AA005E2426 /* icon_wi-fi-0-bar.png in Resources */,
@@ -3962,6 +3997,7 @@
 				BD0BB76D1ACE93AA005E2426 /* GraphScrollableCellYear.xib in Resources */,
 				BD0BB76E1ACE93AA005E2426 /* NewRestrictionVC.xib in Resources */,
 				BD0BB76F1ACE93AA005E2426 /* programs-checkbox-selected@2x.png in Resources */,
+				963983EE1AE8E76900D537A2 /* WindSensitivityCell.xib in Resources */,
 				BD0BB7701ACE93AA005E2426 /* DataSourcesVC.xib in Resources */,
 				BD0BB7711ACE93AA005E2426 /* nwind_small_white.png in Resources */,
 				BD0BB7721ACE93AA005E2426 /* DashboardGraphDetailsVC.xib in Resources */,
@@ -4122,6 +4158,7 @@
 				BD0BB9031ACE9525005E2426 /* EditCell.xib in Resources */,
 				BD0BB9041ACE9525005E2426 /* nfew_small_white.png in Resources */,
 				BD0BB9051ACE9525005E2426 /* icon_devices.png in Resources */,
+				963983F31AE8E7A500D537A2 /* WindSensitivityVC.xib in Resources */,
 				BD0BB9061ACE9525005E2426 /* ra_small_white.png in Resources */,
 				BD0BB9071ACE9525005E2426 /* nwind.png in Resources */,
 				BD0BB9081ACE9525005E2426 /* icon_wi-fi-0-bar.png in Resources */,
@@ -4222,6 +4259,7 @@
 				BD0BB9661ACE9525005E2426 /* GraphScrollableCellYear.xib in Resources */,
 				BD0BB9671ACE9525005E2426 /* NewRestrictionVC.xib in Resources */,
 				BD0BB9681ACE9525005E2426 /* programs-checkbox-selected@2x.png in Resources */,
+				963983EF1AE8E76900D537A2 /* WindSensitivityCell.xib in Resources */,
 				BD0BB9691ACE9525005E2426 /* DataSourcesVC.xib in Resources */,
 				BD0BB96A1ACE9525005E2426 /* nwind_small_white.png in Resources */,
 				BD0BB96B1ACE9525005E2426 /* DashboardGraphDetailsVC.xib in Resources */,
@@ -4457,6 +4495,7 @@
 				96F686B91AB8763A00A41505 /* ProvisionRemoteAccessVC.m in Sources */,
 				AF5CF4521A72231F00D2BB9C /* ProvisionTimezonesListVC.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
+				963983EA1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */,
 				AF726E331A2C670D0024604B /* WiFi.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
 				96EF1A8B1A40BB5F002CF2E0 /* BVReorderTableView.m in Sources */,
@@ -4483,6 +4522,7 @@
 				B1EF20F1186046D300D9CE26 /* +NSString.m in Sources */,
 				AF3823891951D94C007CADB5 /* RMSwitch.m in Sources */,
 				B1213EBC186090CC009D97F4 /* AddNewCell.m in Sources */,
+				963983E51AE8E57600D537A2 /* WindSensitivityVC.m in Sources */,
 				96CB93981A385DD300F3691F /* GraphStyleBars.m in Sources */,
 				B1213EAB18607F32009D97F4 /* BaseViewController.m in Sources */,
 				B1213EB718608FEA009D97F4 /* DevicesCellType2.m in Sources */,
@@ -4501,6 +4541,7 @@
 				BD0BB59F1ACE93AA005E2426 /* GraphIconsBarDescriptor.m in Sources */,
 				BD0BB5A01ACE93AA005E2426 /* DailyStatsDetailZone.m in Sources */,
 				BD0BB5A11ACE93AA005E2426 /* SettingsDatePickerVC.m in Sources */,
+				963983F01AE8E79F00D537A2 /* WindSensitivityVC.m in Sources */,
 				BD0BB5A21ACE93AA005E2426 /* +UIImageView.m in Sources */,
 				BD0BB5A31ACE93AA005E2426 /* GraphDataFormatterCell4.m in Sources */,
 				BD0BB5A41ACE93AA005E2426 /* TRPickerInputView.m in Sources */,
@@ -4616,6 +4657,7 @@
 				BD0BB6121ACE93AA005E2426 /* NSDictionary+Keychain.m in Sources */,
 				BD0BB6131ACE93AA005E2426 /* WeekdaysVC.m in Sources */,
 				BD0BB6141ACE93AA005E2426 /* GraphVisualAppearanceDescriptor.m in Sources */,
+				963983EB1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */,
 				BD0BB6151ACE93AA005E2426 /* Utils.m in Sources */,
 				BD0BB6161ACE93AA005E2426 /* ZoneVC.m in Sources */,
 				BD0BB6171ACE93AA005E2426 /* WaterNowZone.m in Sources */,
@@ -4734,6 +4776,7 @@
 				BD0BB7981ACE9525005E2426 /* GraphIconsBarDescriptor.m in Sources */,
 				BD0BB7991ACE9525005E2426 /* DailyStatsDetailZone.m in Sources */,
 				BD0BB79A1ACE9525005E2426 /* SettingsDatePickerVC.m in Sources */,
+				963983F11AE8E7A000D537A2 /* WindSensitivityVC.m in Sources */,
 				BD0BB79B1ACE9525005E2426 /* +UIImageView.m in Sources */,
 				BD0BB79C1ACE9525005E2426 /* GraphDataFormatterCell4.m in Sources */,
 				BD0BB79D1ACE9525005E2426 /* TRPickerInputView.m in Sources */,
@@ -4849,6 +4892,7 @@
 				BD0BB80B1ACE9525005E2426 /* NSDictionary+Keychain.m in Sources */,
 				BD0BB80C1ACE9525005E2426 /* WeekdaysVC.m in Sources */,
 				BD0BB80D1ACE9525005E2426 /* GraphVisualAppearanceDescriptor.m in Sources */,
+				963983EC1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */,
 				BD0BB80E1ACE9525005E2426 /* Utils.m in Sources */,
 				BD0BB80F1ACE9525005E2426 /* ZoneVC.m in Sources */,
 				BD0BB8101ACE9525005E2426 /* WaterNowZone.m in Sources */,

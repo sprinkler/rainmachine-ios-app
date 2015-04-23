@@ -24,6 +24,7 @@
         location.elevation = [jsonObj nullProofedDoubleValueForKey:@"elevation"];
         location.timezone = [jsonObj nullProofedStringValueForKey:@"timezone"];
         location.rainSensitivity = [jsonObj nullProofedDoubleValueForKey:@"rainSensitivity"];
+        location.windSensitivity = [jsonObj nullProofedDoubleValueForKey:@"windSensitivity"];
         location.wsDays = [jsonObj nullProofedIntValueForKey:@"wsDays"];
         location.stationID = [jsonObj nullProofedStringValueForKey:@"stationID"];
         location.stationName = [jsonObj nullProofedStringValueForKey:@"stationName"];

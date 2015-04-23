@@ -19,6 +19,7 @@
 @property (nonatomic, assign) double elevation;
 @property (nonatomic, strong) NSString *timezone;
 @property (nonatomic, assign) double rainSensitivity;
+@property (nonatomic, assign) double windSensitivity;
 @property (nonatomic, assign) int wsDays;
 @property (nonatomic, strong) NSString *stationID;
 @property (nonatomic, strong) NSString *stationName;
