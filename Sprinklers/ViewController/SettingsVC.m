@@ -248,7 +248,7 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else if ([cell.textLabel.text isEqualToString:kSettingsUnits]) {
-        cell.detailTextLabel.text = [Utils sprinklerTemperatureUnits];
+        cell.detailTextLabel.text = [Utils sprinklerUnits];
     }
     else if ([cell.textLabel.text isEqualToString:kSettingsResetToDefaults]) {
         cell.detailTextLabel.text = @"Restore initial settings";

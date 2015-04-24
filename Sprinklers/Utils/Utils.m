@@ -481,6 +481,13 @@
     return versionComponents;
 }
 
++ (NSString*)sprinklerUnits
+{
+    NSString *temperatureUnits = [self sprinklerTemperatureUnits];
+    if ([temperatureUnits isEqualToString:@"C"]) return @"Metric";
+    else return @"US";
+}
+
 + (NSString*)sprinklerTemperatureUnits
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -500,19 +507,9 @@
 
 + (NSString*)sprinklerLengthUnits
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *units = [userDefaults objectForKey:@"sprinklerLengthUnits"];
-    if (!units) {
-        units = @"inch";
-    }
-    
-    return units;
-}
-
-+ (void)setSprinklerLengthUnits:(NSString*)units
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:units forKey:@"sprinklerLengthUnits"];
+    NSString *temperatureUnits = [self sprinklerTemperatureUnits];
+    if ([temperatureUnits isEqualToString:@"C"]) return @"mm";
+    else return @"inch";
 }
 
 + (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword

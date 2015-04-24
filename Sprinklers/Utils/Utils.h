@@ -54,11 +54,10 @@
 
 + (DevicesCellType1*)configureSprinklerCellForTableView:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath sprinkler:(Sprinkler*)sprinkler canEditRow:(BOOL)canEditRow forceHiddenDisclosure:(BOOL)forceHiddenDisclosure;
 
++ (NSString*)sprinklerUnits;
 + (NSString*)sprinklerTemperatureUnits;
-+ (void)setSprinklerTemperatureUnits:(NSString*)units;
-
 + (NSString*)sprinklerLengthUnits;
-+ (void)setSprinklerLengthUnits:(NSString*)units;
++ (void)setSprinklerTemperatureUnits:(NSString*)units;
 
 + (UIView*)customSprinklerTitleWithOutDeviceView:(UILabel**)lblDeviceName outDeviceAddressView:(UILabel**)lblDeviceAddress;
 

@@ -24,7 +24,6 @@
 }
 
 @property (strong, nonatomic) SettingsUnits *settingsUnits;
-@property (strong, nonatomic) NSString *settingsLengthUnits;
 @property (strong, nonatomic) ServerProxy *pullServerProxy;
 @property (strong, nonatomic) ServerProxy *postServerProxy;
 
@@ -60,7 +59,6 @@
         self.settingsUnits.units = [Utils sprinklerTemperatureUnits];
         [self serverResponseReceived:self.settingsUnits serverProxy:self.pullServerProxy userInfo:nil];
         
-        self.settingsLengthUnits = [Utils sprinklerLengthUnits];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
     }
     
@@ -69,7 +67,7 @@
 
 - (void)save
 {
-    if ((self.settingsUnits || self.settingsLengthUnits) && (!self.postServerProxy) && (!self.pullServerProxy)) {
+    if ((self.settingsUnits) && (!self.postServerProxy) && (!self.pullServerProxy)) {
             // If we save the same unit again the server returns error: "Units not saved"
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         // The server proxy still needs to be created (becaue we use its valeu in serverResponseReceived)
@@ -77,7 +75,6 @@
         if ([ServerProxy usesAPI3]) {
             [self.postServerProxy setSettingsUnits:self.settingsUnits.units];
         } else {
-            [Utils setSprinklerLengthUnits:self.settingsLengthUnits];
             [Utils setSprinklerTemperatureUnits:self.settingsUnits.units];
             [self serverResponseReceived:nil serverProxy:self.postServerProxy userInfo:nil];
         }
@@ -92,46 +89,27 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    if ([ServerProxy usesAPI4]) return 2;
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) return self.settingsUnits ? 2 : 0;
-    if (section == 1) return self.settingsLengthUnits ? 2 : 0;
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
     static NSString *CellIdentifier = @"SimpleCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"Fahrenheit";
-            cell.accessoryType = [self.settingsUnits.units isEqualToString:@"F"] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
-        else if (indexPath.row == 1) {
-            cell.textLabel.text = @"Celsius";
-            cell.accessoryType = [self.settingsUnits.units isEqualToString:@"C"] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
+    if (indexPath.row == 0) {
+        cell.textLabel.text = @"Metric";
+        cell.accessoryType = [self.settingsUnits.units isEqualToString:@"C"] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     }
-    else if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"inch";
-            cell.accessoryType = [self.settingsLengthUnits isEqualToString:@"inch"] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
-        else if (indexPath.row == 1) {
-            cell.textLabel.text = @"mm";
-            cell.accessoryType = [self.settingsLengthUnits isEqualToString:@"mm"] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
+    else if (indexPath.row == 1) {
+        cell.textLabel.text = @"US";
+        cell.accessoryType = [self.settingsUnits.units isEqualToString:@"F"] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     }
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
@@ -141,7 +119,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
 
     NSIndexPath *otherIndexPath = [NSIndexPath indexPathForRow:1 - indexPath.row inSection:indexPath.section];
     UITableViewCell *otherCell = [self.tableView cellForRowAtIndexPath:otherIndexPath];
@@ -152,8 +130,7 @@
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    if (indexPath.section == 0) self.settingsUnits.units = (indexPath.row == 0) ? @"F" : @"C";
-    else if (indexPath.section == 1) self.settingsLengthUnits = (indexPath.row == 0) ? @"inch" : @"mm";
+    self.settingsUnits.units = (indexPath.row == 0) ? @"C" : @"F";
 }
 
 #pragma mark - ProxyService delegate
