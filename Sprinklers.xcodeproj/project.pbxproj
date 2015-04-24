@@ -36,6 +36,21 @@
 		9611A0381ACD580300ADCA06 /* DailyStatsDetailProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 9611A0371ACD580300ADCA06 /* DailyStatsDetailProgram.m */; };
 		961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */; };
 		961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */; };
+		9624BDED1AEA0F5400141891 /* WateringHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */; };
+		9624BDEE1AEA0F5400141891 /* WateringHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */; };
+		9624BDF31AEA215F00141891 /* WateringHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDF11AEA215F00141891 /* WateringHistoryCell.m */; };
+		9624BDF41AEA215F00141891 /* WateringHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDF21AEA215F00141891 /* WateringHistoryCell.xib */; };
+		9624BDF71AEA3AC000141891 /* WateringHistorySection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDF61AEA3AC000141891 /* WateringHistorySection.m */; };
+		9624BDF81AEA3AC000141891 /* WateringHistorySection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDF61AEA3AC000141891 /* WateringHistorySection.m */; };
+		9624BDF91AEA3AC000141891 /* WateringHistorySection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDF61AEA3AC000141891 /* WateringHistorySection.m */; };
+		9624BDFA1AEA3AC600141891 /* WateringHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDF11AEA215F00141891 /* WateringHistoryCell.m */; };
+		9624BDFB1AEA3AC600141891 /* WateringHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDF11AEA215F00141891 /* WateringHistoryCell.m */; };
+		9624BDFC1AEA3AC900141891 /* WateringHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDF21AEA215F00141891 /* WateringHistoryCell.xib */; };
+		9624BDFD1AEA3ACA00141891 /* WateringHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDF21AEA215F00141891 /* WateringHistoryCell.xib */; };
+		9624BDFE1AEA3ACF00141891 /* WateringHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */; };
+		9624BDFF1AEA3AD000141891 /* WateringHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */; };
+		9624BE001AEA3AD300141891 /* WateringHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */; };
+		9624BE011AEA3AD400141891 /* WateringHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -1574,6 +1589,14 @@
 		961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceRainAmount.m; path = ViewController/Graphs/GraphDataSourceRainAmount.m; sourceTree = "<group>"; };
 		961629ED1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterRainAmount.h; path = ViewController/Graphs/GraphDataFormatterRainAmount.h; sourceTree = "<group>"; };
 		961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterRainAmount.m; path = ViewController/Graphs/GraphDataFormatterRainAmount.m; sourceTree = "<group>"; };
+		9624BDEA1AEA0F5400141891 /* WateringHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistoryVC.h; path = ViewController/WateringHistoryVC.h; sourceTree = "<group>"; };
+		9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistoryVC.m; path = ViewController/WateringHistoryVC.m; sourceTree = "<group>"; };
+		9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WateringHistoryVC.xib; path = ViewController/WateringHistoryVC.xib; sourceTree = "<group>"; };
+		9624BDF01AEA215F00141891 /* WateringHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistoryCell.h; path = Cells/WateringHistoryCell.h; sourceTree = "<group>"; };
+		9624BDF11AEA215F00141891 /* WateringHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistoryCell.m; path = Cells/WateringHistoryCell.m; sourceTree = "<group>"; };
+		9624BDF21AEA215F00141891 /* WateringHistoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WateringHistoryCell.xib; path = Cells/WateringHistoryCell.xib; sourceTree = "<group>"; };
+		9624BDF51AEA3AC000141891 /* WateringHistorySection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistorySection.h; path = ViewController/WateringHistorySection.h; sourceTree = "<group>"; };
+		9624BDF61AEA3AC000141891 /* WateringHistorySection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistorySection.m; path = ViewController/WateringHistorySection.m; sourceTree = "<group>"; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -2376,6 +2399,21 @@
 			);
 			name = "programs-cell";
 			path = "Resources/programs-cell";
+			sourceTree = "<group>";
+		};
+		9624BDEF1AEA0F5D00141891 /* Watering History */ = {
+			isa = PBXGroup;
+			children = (
+				9624BDF01AEA215F00141891 /* WateringHistoryCell.h */,
+				9624BDF11AEA215F00141891 /* WateringHistoryCell.m */,
+				9624BDF21AEA215F00141891 /* WateringHistoryCell.xib */,
+				9624BDF51AEA3AC000141891 /* WateringHistorySection.h */,
+				9624BDF61AEA3AC000141891 /* WateringHistorySection.m */,
+				9624BDEA1AEA0F5400141891 /* WateringHistoryVC.h */,
+				9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */,
+				9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */,
+			);
+			name = "Watering History";
 			sourceTree = "<group>";
 		};
 		963983E11AE8E53600D537A2 /* Weather */ = {
@@ -3484,6 +3522,7 @@
 				963983F41AE8F54800D537A2 /* Common */,
 				96DAB8F51A27899D005974CC /* Graphs */,
 				963983F51AE8F58600D537A2 /* Programs & Zones */,
+				9624BDEF1AEA0F5D00141891 /* Watering History */,
 				963983F91AE8F64200D537A2 /* Rain Delay */,
 				963983F61AE8F5B800D537A2 /* Restrictions */,
 				963983E11AE8E53600D537A2 /* Weather */,
@@ -3634,6 +3673,7 @@
 				AF48267E1990DC9500D80B87 /* nfu.png in Resources */,
 				B1DF326016A6A68700A1BF38 /* Default.png in Resources */,
 				968023E41A8FFD4200D34AC9 /* ZoneAdvancedMonthKCCell.xib in Resources */,
+				9624BDEE1AEA0F5400141891 /* WateringHistoryVC.xib in Resources */,
 				96CB93F31A38AFAD00F3691F /* nsct_small_white.png in Resources */,
 				96F686BA1AB8763A00A41505 /* ProvisionRemoteAccessVC.xib in Resources */,
 				AF48266C1990DC9500D80B87 /* fg.png in Resources */,
@@ -3754,6 +3794,7 @@
 				96CB94001A38AFAD00F3691F /* sct_small_white.png in Resources */,
 				AF085C9D1A2EBFB700519BF6 /* ProvisionLocationSetupVC.xib in Resources */,
 				B1EF21231860499E00D9CE26 /* WaterNowVC.xib in Resources */,
+				9624BDF41AEA215F00141891 /* WateringHistoryCell.xib in Resources */,
 				AF48266A1990DC9500D80B87 /* du.png in Resources */,
 				AFF6A6B0188834AC00825A37 /* checkbox-selected@2x.png in Resources */,
 				96CB94021A38AFAD00F3691F /* scttsra_small_white.png in Resources */,
@@ -3944,6 +3985,7 @@
 				BD0BB6E81ACE93AA005E2426 /* sct.png in Resources */,
 				BD0BB6E91ACE93AA005E2426 /* ra1_small_white.png in Resources */,
 				BD0BB6EA1ACE93AA005E2426 /* icon_settings@2x.png in Resources */,
+				9624BE001AEA3AD300141891 /* WateringHistoryVC.xib in Resources */,
 				BD0BB6EB1ACE93AA005E2426 /* wind_small_white.png in Resources */,
 				BD0BB6EC1ACE93AA005E2426 /* shra1_small_white.png in Resources */,
 				BD0BB6ED1ACE93AA005E2426 /* shra1.png in Resources */,
@@ -4077,6 +4119,7 @@
 				BD0BB76A1ACE93AA005E2426 /* DataSourcesParserParameterVC.xib in Resources */,
 				BD0BB76B1ACE93AA005E2426 /* nfew.png in Resources */,
 				BD0BB76C1ACE93AA005E2426 /* DevicesVC.xib in Resources */,
+				9624BDFC1AEA3AC900141891 /* WateringHistoryCell.xib in Resources */,
 				BD0BB76D1ACE93AA005E2426 /* GraphScrollableCellYear.xib in Resources */,
 				BD0BB76E1ACE93AA005E2426 /* NewRestrictionVC.xib in Resources */,
 				BD0BB76F1ACE93AA005E2426 /* programs-checkbox-selected@2x.png in Resources */,
@@ -4210,6 +4253,7 @@
 				BD0BB8E11ACE9525005E2426 /* sct.png in Resources */,
 				BD0BB8E21ACE9525005E2426 /* ra1_small_white.png in Resources */,
 				BD0BB8E31ACE9525005E2426 /* icon_settings@2x.png in Resources */,
+				9624BE011AEA3AD400141891 /* WateringHistoryVC.xib in Resources */,
 				BD0BB8E41ACE9525005E2426 /* wind_small_white.png in Resources */,
 				BD0BB8E51ACE9525005E2426 /* shra1_small_white.png in Resources */,
 				BD0BB8E61ACE9525005E2426 /* shra1.png in Resources */,
@@ -4343,6 +4387,7 @@
 				BD0BB9631ACE9525005E2426 /* DataSourcesParserParameterVC.xib in Resources */,
 				BD0BB9641ACE9525005E2426 /* nfew.png in Resources */,
 				BD0BB9651ACE9525005E2426 /* DevicesVC.xib in Resources */,
+				9624BDFD1AEA3ACA00141891 /* WateringHistoryCell.xib in Resources */,
 				BD0BB9661ACE9525005E2426 /* GraphScrollableCellYear.xib in Resources */,
 				BD0BB9671ACE9525005E2426 /* NewRestrictionVC.xib in Resources */,
 				BD0BB9681ACE9525005E2426 /* programs-checkbox-selected@2x.png in Resources */,
@@ -4400,12 +4445,14 @@
 				B1213EAE1860804E009D97F4 /* BaseLevel2ViewController.m in Sources */,
 				B1EF2131186049D800D9CE26 /* WaterNowLevel1VC.m in Sources */,
 				AF7A72B118C491F500596148 /* SettingsDate.m in Sources */,
+				9624BDF71AEA3AC000141891 /* WateringHistorySection.m in Sources */,
 				AF4397ED19ACD5D8000F415D /* API4StatusResponse.m in Sources */,
 				AF7AC9C8184E3DBE0047BD9E /* AFHTTPRequestOperation.m in Sources */,
 				AF3E02E71A1D457E00E76C53 /* CloudAccountsVC.m in Sources */,
 				965F565A1A4DCDCE00DD5B23 /* GraphDataSource.m in Sources */,
 				96CD40E21A85FA6900CD7E90 /* GraphDataFormatter.m in Sources */,
 				B1EF20F5186046D300D9CE26 /* +UIImage.m in Sources */,
+				9624BDF31AEA215F00141891 /* WateringHistoryCell.m in Sources */,
 				96F0F33C1A36FC1F0056D167 /* GraphTimeInterval.m in Sources */,
 				AF7A72BE18C4C3D300596148 /* SettingsTimePickerVC.m in Sources */,
 				3A68C071192B956500821D4D /* MappingModelv1tov7.xcmappingmodel in Sources */,
@@ -4429,6 +4476,7 @@
 				969051CC1A6ACDCF0029304D /* WaterLogProgram.m in Sources */,
 				96F0F3401A36FEE90056D167 /* StatsShowGraphsCell.m in Sources */,
 				B1EF21001860470800D9CE26 /* NetworkUtilities.m in Sources */,
+				9624BDED1AEA0F5400141891 /* WateringHistoryVC.m in Sources */,
 				3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */,
 				96D22A591A8769AB0051B941 /* GraphDataFormatterTemperature.m in Sources */,
 				B1254CCA187EE048004E2F0E /* EditCell.m in Sources */,
@@ -4646,6 +4694,7 @@
 				BD0BB5AF1ACE93AA005E2426 /* GraphTimeInterval.m in Sources */,
 				BD0BB5B01ACE93AA005E2426 /* SettingsTimePickerVC.m in Sources */,
 				BD0BB5B11ACE93AA005E2426 /* MappingModelv1tov7.xcmappingmodel in Sources */,
+				9624BDF81AEA3AC000141891 /* WateringHistorySection.m in Sources */,
 				BD0BB5B21ACE93AA005E2426 /* DBZone.m in Sources */,
 				BD0BB5B31ACE93AA005E2426 /* APIVersion4.m in Sources */,
 				BD0BB5B41ACE93AA005E2426 /* ProgramCellType6.m in Sources */,
@@ -4696,6 +4745,7 @@
 				BD0BB5E01ACE93AA005E2426 /* GraphDataSourceTemperature.m in Sources */,
 				BD0BB5E11ACE93AA005E2426 /* RainSensitivityCell.m in Sources */,
 				BD0BB5E21ACE93AA005E2426 /* ProvisionNameSetupVC.m in Sources */,
+				9624BDFA1AEA3AC600141891 /* WateringHistoryCell.m in Sources */,
 				BD0BB5E31ACE93AA005E2426 /* UpdateManager.m in Sources */,
 				BD0BB5E41ACE93AA005E2426 /* SetPassword4Response.m in Sources */,
 				BD0BB5E51ACE93AA005E2426 /* GraphDataFormatterWaterConsume.m in Sources */,
@@ -4825,6 +4875,7 @@
 				BD0BB65F1ACE93AA005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB6601ACE93AA005E2426 /* BVReorderTableView.m in Sources */,
 				BD0BB6611ACE93AA005E2426 /* TimeResponse4.m in Sources */,
+				9624BDFE1AEA3ACF00141891 /* WateringHistoryVC.m in Sources */,
 				BD0BB6621ACE93AA005E2426 /* AFHTTPSessionManager.m in Sources */,
 				BD0BB6631ACE93AA005E2426 /* ServerProxy.m in Sources */,
 				BD0BB6641ACE93AA005E2426 /* MBProgressHUD.m in Sources */,
@@ -4882,6 +4933,7 @@
 				BD0BB7A81ACE9525005E2426 /* GraphTimeInterval.m in Sources */,
 				BD0BB7A91ACE9525005E2426 /* SettingsTimePickerVC.m in Sources */,
 				BD0BB7AA1ACE9525005E2426 /* MappingModelv1tov7.xcmappingmodel in Sources */,
+				9624BDF91AEA3AC000141891 /* WateringHistorySection.m in Sources */,
 				BD0BB7AB1ACE9525005E2426 /* DBZone.m in Sources */,
 				BD0BB7AC1ACE9525005E2426 /* APIVersion4.m in Sources */,
 				BD0BB7AD1ACE9525005E2426 /* ProgramCellType6.m in Sources */,
@@ -4932,6 +4984,7 @@
 				BD0BB7D91ACE9525005E2426 /* GraphDataSourceTemperature.m in Sources */,
 				BD0BB7DA1ACE9525005E2426 /* RainSensitivityCell.m in Sources */,
 				BD0BB7DB1ACE9525005E2426 /* ProvisionNameSetupVC.m in Sources */,
+				9624BDFB1AEA3AC600141891 /* WateringHistoryCell.m in Sources */,
 				BD0BB7DC1ACE9525005E2426 /* UpdateManager.m in Sources */,
 				BD0BB7DD1ACE9525005E2426 /* SetPassword4Response.m in Sources */,
 				BD0BB7DE1ACE9525005E2426 /* GraphDataFormatterWaterConsume.m in Sources */,
@@ -5061,6 +5114,7 @@
 				BD0BB8581ACE9525005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB8591ACE9525005E2426 /* BVReorderTableView.m in Sources */,
 				BD0BB85A1ACE9525005E2426 /* TimeResponse4.m in Sources */,
+				9624BDFF1AEA3AD000141891 /* WateringHistoryVC.m in Sources */,
 				BD0BB85B1ACE9525005E2426 /* AFHTTPSessionManager.m in Sources */,
 				BD0BB85C1ACE9525005E2426 /* ServerProxy.m in Sources */,
 				BD0BB85D1ACE9525005E2426 /* MBProgressHUD.m in Sources */,

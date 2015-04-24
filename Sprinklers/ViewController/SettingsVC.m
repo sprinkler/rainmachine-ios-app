@@ -39,6 +39,7 @@
 #import "ProvisionRemoteAccessVC.h"
 #import "CloudSettings.h"
 #import "RainSensorVC.h"
+#import "WateringHistoryVC.h"
 
 NSString *kSettingsPrograms             = @"Programs";
 NSString *kSettingsWateringHistory      = @"Watering History";
@@ -267,7 +268,8 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         [self.navigationController pushViewController:programs animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsWateringHistory]) {
-        
+        WateringHistoryVC *wateringHistoryVC = [[WateringHistoryVC alloc] init];
+        [self.navigationController pushViewController:wateringHistoryVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsSnooze]) {
         RainDelayVC *rainDelay = [[RainDelayVC alloc] init];
