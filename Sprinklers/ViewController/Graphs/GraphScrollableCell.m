@@ -251,7 +251,15 @@
 - (NSString*)stringForMinMaxValue:(double)minMaxValue {
     double roundedMinMaxValue = round(minMaxValue);
     if (roundedMinMaxValue == minMaxValue) return [NSString stringWithFormat:@"%d",(int)minMaxValue];
-    return [NSString stringWithFormat:@"%1.1lf",minMaxValue];
+
+    NSString *fractionDecimalsString = [NSString stringWithFormat:@"%d",(int)self.graphDescriptor.displayAreaDescriptor.minMaxFractionDecimals];
+    NSString *formatString = [[@"%1." stringByAppendingString:fractionDecimalsString] stringByAppendingString:@"lf"];
+    NSString *stringValue = [NSString stringWithFormat:formatString,minMaxValue];
+    
+    while (stringValue.length && [stringValue characterAtIndex:stringValue.length - 1] == '0') stringValue = [stringValue substringToIndex:stringValue.length - 1];
+    if (stringValue.length && [stringValue characterAtIndex:stringValue.length - 1] == '.') stringValue = [stringValue substringToIndex:stringValue.length - 1];
+    
+    return stringValue;
 }
 
 #pragma mark - Graph collection view data source

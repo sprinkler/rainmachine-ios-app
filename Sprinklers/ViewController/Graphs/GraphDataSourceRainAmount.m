@@ -53,8 +53,41 @@
     return NO;
 }
 
-- (BOOL)canHaveNegativeValues {
-    return NO;
+#pragma mark - Helper methods
+
+- (void)updateMinMaxValuesFromValues:(NSArray*)values {
+    if (!values.count) return;
+    
+    double minValue = 0.0;
+    double maxValue = 0.0;
+    
+    BOOL minValueSet = NO;
+    BOOL maxValueSet = NO;
+    
+    for (id value in values) {
+        if (value == [NSNull null]) continue;
+        NSNumber *numberValue = (NSNumber*)value;
+        
+        if (!minValueSet) minValue = numberValue.doubleValue;
+        if (!maxValueSet) maxValue = numberValue.doubleValue;
+        minValueSet = maxValueSet = YES;
+        
+        if (numberValue.doubleValue < minValue) minValue = numberValue.doubleValue;
+        if (numberValue.doubleValue > maxValue) maxValue = numberValue.doubleValue;
+    }
+    
+    NSString *lengthUnits = [Utils sprinklerLengthUnits];
+    if ([lengthUnits isEqualToString:@"mm"]) {
+        if (maxValue < 2.5) maxValue = 2.5;
+    } else {
+        if (maxValue < 0.1) maxValue = 0.1;
+    }
+    
+    double midValue = (minValue + maxValue) / 2.0;
+    
+    self.minValue = minValue;
+    self.maxValue = maxValue;
+    self.midValue = midValue;
 }
 
 #pragma mark - Data

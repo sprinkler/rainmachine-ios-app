@@ -37,6 +37,7 @@ typedef enum {
 @property (nonatomic, assign) double minValue;
 @property (nonatomic, assign) double maxValue;
 @property (nonatomic, assign) double midValue;
+@property (nonatomic, assign) NSInteger minMaxFractionDecimals;
 
 @property (nonatomic, strong) GraphStyle *graphStyle;
 

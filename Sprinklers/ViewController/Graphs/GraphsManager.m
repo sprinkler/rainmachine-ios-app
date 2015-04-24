@@ -157,6 +157,7 @@ static GraphsManager *sharedGraphsManager = nil;
         };
         rainAmountGraph.displayAreaDescriptor.graphStyle = [GraphStyleBars new];
         rainAmountGraph.displayAreaDescriptor.scalingMode = GraphScalingMode_Scale;
+        rainAmountGraph.displayAreaDescriptor.minMaxFractionDecimals = 2;
         rainAmountGraph.dataSource = [GraphDataSourceRainAmount defaultDataSource];
         [availableGraphs addObject:rainAmountGraph];
         availableGraphsDictionary[rainAmountGraph.graphIdentifier] = rainAmountGraph;

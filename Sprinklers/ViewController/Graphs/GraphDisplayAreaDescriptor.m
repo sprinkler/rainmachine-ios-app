@@ -42,6 +42,7 @@
     descriptor.minValue = 0.0;
     descriptor.midValue = 50.0;
     descriptor.maxValue = 100.0;
+    descriptor.minMaxFractionDecimals = 1;
     
     descriptor.graphStyle = [GraphStyleBars new];
     
