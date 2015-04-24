@@ -28,6 +28,7 @@
 #import "Utils.h"
 #import "Provision.h"
 #import "ProvisionLocation.h"
+#import "ProvisionSystem.h"
 #import "SettingsDate.h"
 #import "SettingsUnits.h"
 #import "GlobalsManager.h"
@@ -222,6 +223,9 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
     }
     else if ([cell.textLabel.text isEqualToString:kSettingsRemoteAccess]) {
         cell.detailTextLabel.text = [Utils cloudEmailStatusForCloudSettings:[GlobalsManager current].cloudSettings];
+    }
+    else if ([cell.textLabel.text isEqualToString:kSettingsRainSensor]) {
+        cell.detailTextLabel.text = ([GlobalsManager current].provision.system.useRainSensor ? @"Activated" : @"Not activated");
     }
     else if ([cell.textLabel.text isEqualToString:kSettingsDeviceName]) {
         cell.detailTextLabel.text = [Utils currentSprinkler].name;
