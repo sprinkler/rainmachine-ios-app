@@ -59,6 +59,10 @@
     [self.originalGraphDescriptor updateDisabledState];
 }
 
+- (void)dealloc {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+}
+
 #pragma mark - Helper methods
 
 - (void)initializeTimeIntervalsSegmentedControl {

@@ -74,6 +74,9 @@
 }
 
 - (void)dealloc {
+    self.graphsTableView.delegate = nil;
+    self.graphsTableView.dataSource = nil;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"availableGraphs"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"selectedGraphs"];
     [[GraphsManager sharedGraphsManager] removeObserver:self forKeyPath:@"reloadingGraphs"];

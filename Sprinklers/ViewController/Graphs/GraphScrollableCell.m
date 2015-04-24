@@ -69,6 +69,10 @@
 }
 
 - (void)dealloc {
+    self.graphScrollableCellDelegate = nil;
+    self.graphCollectionView.delegate = nil;
+    self.graphCollectionView.dataSource = nil;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self removeGestureRecognizer:self.tapGestureRecognizer];
     [self removeObserver:self forKeyPath:@"graphDescriptor"];
     [self removeObserver:self forKeyPath:@"graphDescriptor.isDisabled"];
