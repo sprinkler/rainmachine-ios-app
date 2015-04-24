@@ -57,6 +57,9 @@
 		9624BE081AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */; };
 		9624BE091AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */; };
 		9624BE0A1AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */; };
+		9624BE0C1AEA9F4800141891 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9624BE0B1AEA9F4700141891 /* MessageUI.framework */; };
+		9624BE0D1AEA9F5F00141891 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9624BE0B1AEA9F4700141891 /* MessageUI.framework */; };
+		9624BE0E1AEA9F7000141891 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9624BE0B1AEA9F4700141891 /* MessageUI.framework */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -1606,6 +1609,7 @@
 		9624BE021AEA596A00141891 /* WateringHistoryNoDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistoryNoDataCell.h; path = Cells/WateringHistoryNoDataCell.h; sourceTree = "<group>"; };
 		9624BE031AEA596A00141891 /* WateringHistoryNoDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistoryNoDataCell.m; path = Cells/WateringHistoryNoDataCell.m; sourceTree = "<group>"; };
 		9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WateringHistoryNoDataCell.xib; path = Cells/WateringHistoryNoDataCell.xib; sourceTree = "<group>"; };
+		9624BE0B1AEA9F4700141891 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -2340,6 +2344,7 @@
 				B1DF324E16A6A68700A1BF38 /* Foundation.framework in Frameworks */,
 				B1DF325016A6A68700A1BF38 /* CoreGraphics.framework in Frameworks */,
 				B1DF325216A6A68700A1BF38 /* CoreData.framework in Frameworks */,
+				9624BE0C1AEA9F4800141891 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2366,6 +2371,7 @@
 				BD0BB6901ACE93AA005E2426 /* Foundation.framework in Frameworks */,
 				BD0BB6911ACE93AA005E2426 /* CoreGraphics.framework in Frameworks */,
 				BD0BB6921ACE93AA005E2426 /* CoreData.framework in Frameworks */,
+				9624BE0D1AEA9F5F00141891 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2392,6 +2398,7 @@
 				BD0BB8891ACE9525005E2426 /* Foundation.framework in Frameworks */,
 				BD0BB88A1ACE9525005E2426 /* CoreGraphics.framework in Frameworks */,
 				BD0BB88B1ACE9525005E2426 /* CoreData.framework in Frameworks */,
+				9624BE0E1AEA9F7000141891 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3369,6 +3376,7 @@
 				B1DF324D16A6A68700A1BF38 /* Foundation.framework */,
 				B1DF327D16A6AAEA00A1BF38 /* Security.framework */,
 				B1DF324B16A6A68700A1BF38 /* UIKit.framework */,
+				9624BE0B1AEA9F4700141891 /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

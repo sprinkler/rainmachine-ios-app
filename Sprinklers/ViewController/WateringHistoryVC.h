@@ -8,8 +8,9 @@
 
 #import "BaseLevel2ViewController.h"
 #import "Protocols.h"
+#import <MessageUI/MessageUI.h>
 
-@interface WateringHistoryVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, SprinklerResponseProtocol>
+@interface WateringHistoryVC : BaseLevel2ViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, SprinklerResponseProtocol>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 

@@ -46,6 +46,8 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
 - (NSString*)dateStringFromDate:(NSDate*)date;
 - (NSString*)shortDateStringFromDate:(NSDate*)date;
 - (NSDictionary*)waterLogDictionaryFromWaterLogData:(NSArray*)waterLogData;
+- (NSString*)programNameForWaterLogProgram:(WaterLogProgram*)waterLogProgram;
+- (NSString*)zoneNameForWaterLogZone:(WaterLogZone*)waterLogZone;
 
 @property (nonatomic, readonly) NSDate *startDate;
 @property (nonatomic, assign) BOOL finishedLoading;
@@ -64,6 +66,8 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
 @property (nonatomic, strong) NSArray *wateringHistorySections;
 
 - (void)createWateringHistorySections;
+
+@property (nonatomic, readonly) NSString *exportedWateringHistoryString;
 
 @end
 
@@ -178,6 +182,25 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
     return waterLogDictionary;
 }
 
+- (NSString*)programNameForWaterLogProgram:(WaterLogProgram*)waterLogProgram {
+    if (waterLogProgram.programId == 0) return @"Manual watering";
+    for (Program *program in self.programs) {
+        if (program.programId == waterLogProgram.programId) {
+            return program.name;
+        }
+    }
+    return nil;
+}
+
+- (NSString*)zoneNameForWaterLogZone:(WaterLogZone*)waterLogZone {
+    for (Zone *zone in self.zones) {
+        if (zone.zoneId == waterLogZone.zoneId) {
+            return zone.name;
+        }
+    }
+    return nil;
+}
+
 #pragma mark - Cells
 
 - (UITableViewCell*)dequeueSimpleCell {
@@ -271,16 +294,9 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
                      waterLogZone:(WaterLogZone*)waterLogZone {
     
     if ([cell isKindOfClass:[WateringHistoryCell class]]) {
-        NSString *zoneName = nil;
-        for (Zone *zone in self.zones) {
-            if (zone.zoneId == waterLogZone.zoneId) {
-                zoneName = zone.name;
-                break;
-            }
-        }
         WateringHistoryCell *wateringHistoryCell = (WateringHistoryCell*)cell;
 
-        wateringHistoryCell.titleLabel.text = zoneName;
+        wateringHistoryCell.titleLabel.text = [self zoneNameForWaterLogZone:waterLogZone];
         wateringHistoryCell.titleLabel.font = [UIFont systemFontOfSize:15.0];
         wateringHistoryCell.titleLabel.textAlignment = NSTextAlignmentLeft;
         wateringHistoryCell.titleLabel.textColor = [UIColor blackColor];
@@ -295,17 +311,7 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
         wateringHistoryCell.secondColumnLabel.textAlignment = NSTextAlignmentCenter;
         wateringHistoryCell.secondColumnLabel.textColor = [UIColor blackColor];
     } else {
-        NSString *programName = nil;
-        if (waterLogProgram.programId == 0) programName = @"Manual watering";
-        else {
-            for (Program *program in self.programs) {
-                if (program.programId == waterLogProgram.programId) {
-                    programName = program.name;
-                    break;
-                }
-            }
-        }
-        cell.textLabel.text = programName;
+        cell.textLabel.text = [self programNameForWaterLogProgram:waterLogProgram];
         cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
         cell.textLabel.textAlignment = NSTextAlignmentLeft;
         cell.textLabel.textColor = [UIColor blackColor];
@@ -346,6 +352,38 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
     }
     
     self.wateringHistorySections = wateringHistorySections;
+}
+
+#pragma mark - Export
+
+- (NSString*)exportedWateringHistoryString {
+    NSMutableString *exportedWateringHistory = [NSMutableString new];
+    
+    for (NSInteger index = self.dateStrings.count - 1; index >= 0; index--) {
+        NSString *dateString = self.dateStrings[index];
+        NSString *shortDateString = self.shortDateStrings[index];
+        WaterLogDay *waterLogDay = [self.waterLogDictionary objectForKey:dateString];
+        
+        [exportedWateringHistory appendFormat:@",%@,,\n",shortDateString];
+        
+        if (waterLogDay) {
+            [exportedWateringHistory appendString:@",Scheduled,Watered,\n"];
+            for (WaterLogProgram *waterLogProgram in waterLogDay.programs) {
+                [exportedWateringHistory appendFormat:@"%@,,,\n",[self programNameForWaterLogProgram:waterLogProgram]];
+                for (WaterLogZone *waterLogZone in waterLogProgram.zones) {
+                    [exportedWateringHistory appendFormat:@"%@,%@,%@,\n",
+                     [self zoneNameForWaterLogZone:waterLogZone],
+                     [Utils formattedTimeFromSeconds:waterLogZone.userDurationSum],
+                     [Utils formattedTimeFromSeconds:waterLogZone.realDurationSum]];
+                }
+            }
+            [exportedWateringHistory appendString:@"\n"];
+        } else {
+            [exportedWateringHistory appendString:@",No watering data,,\n\n"];
+        }
+    }
+    
+    return exportedWateringHistory;
 }
 
 #pragma mark - ProxyService delegate
@@ -477,10 +515,45 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark MFMailComposeViewController delegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    if (result == MFMailComposeResultFailed) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"An unexpected error occurred while sending mail"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Actions
 
 - (IBAction)onExport:(id)sender {
-    
+    if ([MFMailComposeViewController canSendMail]) {
+        NSString *exportedWateringHistoryString = self.exportedWateringHistoryString;
+        NSData *exportedWateringHistoryData = [exportedWateringHistoryString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+        controller.mailComposeDelegate = self;
+
+        [controller setSubject:@"Watering History"];
+        [controller addAttachmentData:exportedWateringHistoryData
+                             mimeType:@"text/csv"
+                             fileName:@"watering_history.csv"];
+        
+        [self presentViewController:controller animated:YES completion:nil];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"This device is not able to send mail"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 @end
