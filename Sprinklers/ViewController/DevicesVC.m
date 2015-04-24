@@ -32,8 +32,8 @@
 #define kDebugSettingsNrBeforeCloudServer 6
 #define kRequestDiagTimeoutInterval 5
 
-#define kAlertView_DeleteDevice 1
-#define kAlertView_DeleteCloudDevice 2
+#define kAlertView_DeleteDevice 1001
+#define kAlertView_DeleteCloudDevice 1002
 
 @interface DevicesVC () {
 }
