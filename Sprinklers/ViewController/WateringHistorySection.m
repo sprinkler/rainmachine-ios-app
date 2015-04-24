@@ -36,6 +36,7 @@
 - (NSInteger)numberOfRows {
     if (self.sectionType == WateringHistorySectionTypeHeader) return 1;
     if (self.sectionType == WateringHistorySectionTypeWaterLogDayHeader) return 1;
+    if (self.sectionType == WateringHistorySectionTypeWaterLogDayNoDataHeader) return 1;
     if (self.sectionType == WateringHistorySectionTypeWaterLogProgram) {
         if (!self.waterLogProgram) return 1;
         return self.waterLogProgram.zones.count + 1;

@@ -8,6 +8,7 @@
 
 #import "WateringHistoryVC.h"
 #import "WateringHistoryCell.h"
+#import "WateringHistoryNoDataCell.h"
 #import "WateringHistorySection.h"
 #import "ServerProxy.h"
 #import "WaterLogDay.h"
@@ -51,6 +52,7 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
 
 - (UITableViewCell*)dequeueSimpleCell;
 - (UITableViewCell*)dequeueWateringHistoryCell;
+- (UITableViewCell*)dequeueWateringHistoryNoDataCell;
 
 - (void)updateTitleCell:(UITableViewCell*)cell;
 - (void)updateDayTitleCell:(UITableViewCell*)cell shortDateString:(NSString*)shortDateString;
@@ -85,6 +87,7 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
     [super viewDidLoad];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"WateringHistoryCell" bundle:nil] forCellReuseIdentifier:@"WateringHistoryCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"WateringHistoryNoDataCell" bundle:nil] forCellReuseIdentifier:@"WateringHistoryNoDataCell"];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Export"
                                                                               style:UIBarButtonItemStyleDone
@@ -189,9 +192,18 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
 }
 
 - (UITableViewCell*)dequeueWateringHistoryCell {
-    static NSString *WateringLogDayCellIdentifier = @"WateringHistoryCell";
+    static NSString *WateringHistoryCellIdentifier = @"WateringHistoryCell";
     
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:WateringLogDayCellIdentifier];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:WateringHistoryCellIdentifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
+}
+
+- (UITableViewCell*)dequeueWateringHistoryNoDataCell {
+    static NSString *WateringHistoryNoDataCellIdentifier = @"WateringHistoryNoDataCell";
+    
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:WateringHistoryNoDataCellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
@@ -222,7 +234,21 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
         wateringHistoryCell.secondColumnLabel.font = [UIFont boldSystemFontOfSize:15.0];
         wateringHistoryCell.secondColumnLabel.textAlignment = NSTextAlignmentCenter;
         wateringHistoryCell.secondColumnLabel.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
-    } else {
+    }
+    else if ([cell isKindOfClass:[WateringHistoryNoDataCell class]]) {
+        WateringHistoryNoDataCell *wateringHistoryNoDataCell = (WateringHistoryNoDataCell*)cell;
+        
+        wateringHistoryNoDataCell.topLabel.text = shortDateString;
+        wateringHistoryNoDataCell.topLabel.font = [UIFont boldSystemFontOfSize:17.0];
+        wateringHistoryNoDataCell.topLabel.textAlignment = NSTextAlignmentCenter;
+        wateringHistoryNoDataCell.topLabel.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
+        
+        wateringHistoryNoDataCell.bottomLabel.text = @"No watering data";
+        wateringHistoryNoDataCell.bottomLabel.font = [UIFont systemFontOfSize:15.0];
+        wateringHistoryNoDataCell.bottomLabel.textAlignment = NSTextAlignmentCenter;
+        wateringHistoryNoDataCell.bottomLabel.textColor = [UIColor lightGrayColor];
+    }
+    else {
         cell.textLabel.text = shortDateString;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -236,7 +262,7 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
     cell.textLabel.text = @"No watering data";
     cell.textLabel.font = [UIFont systemFontOfSize:15.0];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textColor = [UIColor lightGrayColor];
     cell.backgroundColor = [UIColor whiteColor];
 }
 
@@ -302,17 +328,18 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
             waterLogDay.date = dateString;
         }
         
-        [wateringHistorySections addObject:[WateringHistorySection sectionWithType:WateringHistorySectionTypeWaterLogDayHeader
-                                                                       waterLogDay:waterLogDay
-                                                                   waterLogProgram:nil]];
         if (waterLogDay.programs.count) {
+            [wateringHistorySections addObject:[WateringHistorySection sectionWithType:WateringHistorySectionTypeWaterLogDayHeader
+                                                                           waterLogDay:waterLogDay
+                                                                       waterLogProgram:nil]];
+            
             for (WaterLogProgram *waterLogProgram in waterLogDay.programs) {
                 [wateringHistorySections addObject:[WateringHistorySection sectionWithType:WateringHistorySectionTypeWaterLogProgram
                                                                                waterLogDay:waterLogDay
                                                                            waterLogProgram:waterLogProgram]];
             }
         } else {
-            [wateringHistorySections addObject:[WateringHistorySection sectionWithType:WateringHistorySectionTypeWaterLogProgram
+            [wateringHistorySections addObject:[WateringHistorySection sectionWithType:WateringHistorySectionTypeWaterLogDayNoDataHeader
                                                                            waterLogDay:waterLogDay
                                                                        waterLogProgram:nil]];
         }
@@ -381,7 +408,8 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
     WateringHistorySection *wateringHistorySection = self.wateringHistorySections[section];
     if (wateringHistorySection.sectionType == WateringHistorySectionTypeWaterLogDayHeader) return 36.0;
-    if (wateringHistorySection.sectionType == WateringHistorySectionTypeWaterLogProgram) return 2.0;
+    if (wateringHistorySection.sectionType == WateringHistorySectionTypeWaterLogDayNoDataHeader) return 36.0;
+    if (wateringHistorySection.sectionType == WateringHistorySectionTypeWaterLogProgram) return 1.0;
     return UITableViewAutomaticDimension;
 }
 
@@ -392,6 +420,8 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
+    WateringHistorySection *wateringHistorySection = self.wateringHistorySections[indexPath.section];
+    if (wateringHistorySection.sectionType == WateringHistorySectionTypeWaterLogDayNoDataHeader) return 64.0;
     return 44.0;
 }
 
@@ -408,6 +438,14 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
 
     if (wateringHistorySection.sectionType == WateringHistorySectionTypeWaterLogDayHeader) {
         UITableViewCell *cell = (wateringHistorySection.waterLogDay.programs.count ? [self dequeueWateringHistoryCell] : [self dequeueSimpleCell]);
+        NSInteger dateStringIndex = [self.dateStrings indexOfObject:wateringHistorySection.waterLogDay.date];
+        NSString *shortDateString = (dateStringIndex != NSNotFound ? [self.shortDateStrings objectAtIndex:dateStringIndex] : nil);
+        [self updateDayTitleCell:cell shortDateString:shortDateString];
+        return cell;
+    }
+    
+    if (wateringHistorySection.sectionType == WateringHistorySectionTypeWaterLogDayNoDataHeader) {
+        UITableViewCell *cell = [self dequeueWateringHistoryNoDataCell];
         NSInteger dateStringIndex = [self.dateStrings indexOfObject:wateringHistorySection.waterLogDay.date];
         NSString *shortDateString = (dateStringIndex != NSNotFound ? [self.shortDateStrings objectAtIndex:dateStringIndex] : nil);
         [self updateDayTitleCell:cell shortDateString:shortDateString];

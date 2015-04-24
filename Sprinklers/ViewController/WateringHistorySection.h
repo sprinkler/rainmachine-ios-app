@@ -14,6 +14,7 @@
 typedef enum {
     WateringHistorySectionTypeHeader,
     WateringHistorySectionTypeWaterLogDayHeader,
+    WateringHistorySectionTypeWaterLogDayNoDataHeader,
     WateringHistorySectionTypeWaterLogProgram
 } WateringHistorySectionType;
 

@@ -51,6 +51,12 @@
 		9624BDFF1AEA3AD000141891 /* WateringHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */; };
 		9624BE001AEA3AD300141891 /* WateringHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */; };
 		9624BE011AEA3AD400141891 /* WateringHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */; };
+		9624BE051AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BE031AEA596A00141891 /* WateringHistoryNoDataCell.m */; };
+		9624BE061AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BE031AEA596A00141891 /* WateringHistoryNoDataCell.m */; };
+		9624BE071AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BE031AEA596A00141891 /* WateringHistoryNoDataCell.m */; };
+		9624BE081AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */; };
+		9624BE091AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */; };
+		9624BE0A1AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -1597,6 +1603,9 @@
 		9624BDF21AEA215F00141891 /* WateringHistoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WateringHistoryCell.xib; path = Cells/WateringHistoryCell.xib; sourceTree = "<group>"; };
 		9624BDF51AEA3AC000141891 /* WateringHistorySection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistorySection.h; path = ViewController/WateringHistorySection.h; sourceTree = "<group>"; };
 		9624BDF61AEA3AC000141891 /* WateringHistorySection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistorySection.m; path = ViewController/WateringHistorySection.m; sourceTree = "<group>"; };
+		9624BE021AEA596A00141891 /* WateringHistoryNoDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistoryNoDataCell.h; path = Cells/WateringHistoryNoDataCell.h; sourceTree = "<group>"; };
+		9624BE031AEA596A00141891 /* WateringHistoryNoDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistoryNoDataCell.m; path = Cells/WateringHistoryNoDataCell.m; sourceTree = "<group>"; };
+		9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WateringHistoryNoDataCell.xib; path = Cells/WateringHistoryNoDataCell.xib; sourceTree = "<group>"; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -2407,6 +2416,9 @@
 				9624BDF01AEA215F00141891 /* WateringHistoryCell.h */,
 				9624BDF11AEA215F00141891 /* WateringHistoryCell.m */,
 				9624BDF21AEA215F00141891 /* WateringHistoryCell.xib */,
+				9624BE021AEA596A00141891 /* WateringHistoryNoDataCell.h */,
+				9624BE031AEA596A00141891 /* WateringHistoryNoDataCell.m */,
+				9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */,
 				9624BDF51AEA3AC000141891 /* WateringHistorySection.h */,
 				9624BDF61AEA3AC000141891 /* WateringHistorySection.m */,
 				9624BDEA1AEA0F5400141891 /* WateringHistoryVC.h */,
@@ -3815,6 +3827,7 @@
 				AF4826851990DC9500D80B87 /* nsct.png in Resources */,
 				AF26D5D11A2EDD7F0010AB28 /* WiFiCell.xib in Resources */,
 				B1213EC0186090E7009D97F4 /* AddNewCell.xib in Resources */,
+				9624BE081AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */,
 				B173B4FF16B2C459000EB72D /* Sprinkler_Icon_72.png in Resources */,
 				96CB93D81A38AFAD00F3691F /* few_small_white.png in Resources */,
 				B1EF2132186049D800D9CE26 /* WaterNowLevel1VC.xib in Resources */,
@@ -4083,6 +4096,7 @@
 				BD0BB7471ACE93AA005E2426 /* WiFiCell.xib in Resources */,
 				BD0BB7481ACE93AA005E2426 /* AddNewCell.xib in Resources */,
 				BD0BB7491ACE93AA005E2426 /* Sprinkler_Icon_72.png in Resources */,
+				9624BE091AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */,
 				BD0BB74A1ACE93AA005E2426 /* few_small_white.png in Resources */,
 				BD0BB74B1ACE93AA005E2426 /* WaterNowLevel1VC.xib in Resources */,
 				BD0BB74C1ACE93AA005E2426 /* ProgramCellType4.xib in Resources */,
@@ -4351,6 +4365,7 @@
 				BD0BB9401ACE9525005E2426 /* WiFiCell.xib in Resources */,
 				BD0BB9411ACE9525005E2426 /* AddNewCell.xib in Resources */,
 				BD0BB9421ACE9525005E2426 /* Sprinkler_Icon_72.png in Resources */,
+				9624BE0A1AEA596A00141891 /* WateringHistoryNoDataCell.xib in Resources */,
 				BD0BB9431ACE9525005E2426 /* few_small_white.png in Resources */,
 				BD0BB9441ACE9525005E2426 /* WaterNowLevel1VC.xib in Resources */,
 				BD0BB9451ACE9525005E2426 /* ProgramCellType4.xib in Resources */,
@@ -4632,6 +4647,7 @@
 				AF5CF4521A72231F00D2BB9C /* ProvisionTimezonesListVC.m in Sources */,
 				B1EF2104186048F500D9CE26 /* DevicesVC.m in Sources */,
 				963983EA1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */,
+				9624BE051AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */,
 				AF726E331A2C670D0024604B /* WiFi.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
 				96EF1A8B1A40BB5F002CF2E0 /* BVReorderTableView.m in Sources */,
@@ -4871,6 +4887,7 @@
 				BD0BB65B1ACE93AA005E2426 /* ProvisionRemoteAccessVC.m in Sources */,
 				BD0BB65C1ACE93AA005E2426 /* ProvisionTimezonesListVC.m in Sources */,
 				BD0BB65D1ACE93AA005E2426 /* DevicesVC.m in Sources */,
+				9624BE061AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */,
 				BD0BB65E1ACE93AA005E2426 /* WiFi.m in Sources */,
 				BD0BB65F1ACE93AA005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB6601ACE93AA005E2426 /* BVReorderTableView.m in Sources */,
@@ -5110,6 +5127,7 @@
 				BD0BB8541ACE9525005E2426 /* ProvisionRemoteAccessVC.m in Sources */,
 				BD0BB8551ACE9525005E2426 /* ProvisionTimezonesListVC.m in Sources */,
 				BD0BB8561ACE9525005E2426 /* DevicesVC.m in Sources */,
+				9624BE071AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */,
 				BD0BB8571ACE9525005E2426 /* WiFi.m in Sources */,
 				BD0BB8581ACE9525005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB8591ACE9525005E2426 /* BVReorderTableView.m in Sources */,
