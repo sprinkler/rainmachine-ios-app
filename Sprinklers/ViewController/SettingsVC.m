@@ -190,8 +190,12 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
     
     cell.textLabel.text = self.settings[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryView = nil;
     if ([cell.textLabel.text isEqualToString:kSettingsUse24HoursFormat]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        UISwitch *cellSwitch = [UISwitch new];
+        [cellSwitch addTarget:self action:@selector(onSwitchUse24HoursFormat:) forControlEvents:UIControlEventValueChanged];
+        cellSwitch.on = [Utils isTime24HourFormat];
+        cell.accessoryView = cellSwitch;
     }
 
     cell.userInteractionEnabled = YES;
@@ -372,7 +376,10 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         [self.navigationController pushViewController:timePickerVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsUse24HoursFormat]) {
-        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        UISwitch *cellSwitch = (UISwitch*)cell.accessoryView;
+        cellSwitch.on = !cellSwitch.isOn;
+        [self onSwitchUse24HoursFormat:cellSwitch];
     }
     else if ([settingsRow isEqualToString:kSettingsTimeZone]) {
         ProvisionTimezonesListVC *timezonesListVC = [[ProvisionTimezonesListVC alloc] init];
@@ -461,6 +468,11 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 }
 
 - (void)timePickerVCWillDissapear:(id)timePicker {
+}
+
+- (IBAction)onSwitchUse24HoursFormat:(UISwitch*)sender {
+    [Utils setIsTime24HourFormat:sender.isOn];
+    [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.2];
 }
 
 #pragma mark - ProxyService delegate

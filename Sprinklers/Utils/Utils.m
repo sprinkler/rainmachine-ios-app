@@ -806,8 +806,7 @@
     return @"Other";
 }
 
-+ (BOOL)isTime24HourFormat
-{
++ (BOOL)checkIsTime24HourFormat {
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateStyle:NSDateFormatterNoStyle];
     [formatter setTimeStyle:NSDateFormatterShortStyle];
@@ -816,6 +815,19 @@
     NSRange pmRange = [dateString rangeOfString:[formatter PMSymbol]];
     BOOL is24Hour = amRange.location == NSNotFound && pmRange.location == NSNotFound;
     return is24Hour;
+}
+
++ (BOOL)isTime24HourFormat
+{
+    if ([ServerProxy usesAPI3]) return [self checkIsTime24HourFormat];
+    NSNumber *flag = [[NSUserDefaults standardUserDefaults] objectForKey:@"isTime24HourFormat"];
+    if (flag) return flag.boolValue;
+    return [self checkIsTime24HourFormat];
+}
+
++ (void)setIsTime24HourFormat:(BOOL)isTime24HourFormat {
+    [[NSUserDefaults standardUserDefaults] setObject:@(isTime24HourFormat) forKey:@"isTime24HourFormat"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (NSString*)cloudEmailStatusForCloudSettings:(CloudSettings*)cloudSettings {

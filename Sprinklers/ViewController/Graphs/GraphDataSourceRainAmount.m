@@ -34,6 +34,10 @@
     
     [[GraphsManager sharedGraphsManager] addObserver:self forKeyPath:@"mixerData" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     
+    self.minValue = 0.0;
+    self.maxValue = ([[Utils sprinklerLengthUnits] isEqualToString:@"mm"] ? 2.5 : 0.1);
+    self.midValue = (self.minValue + self.maxValue) / 2.0;
+    
     return self;
 }
 
@@ -56,7 +60,12 @@
 #pragma mark - Helper methods
 
 - (void)updateMinMaxValuesFromValues:(NSArray*)values {
-    if (!values.count) return;
+    if (!values.count) {
+        self.minValue = 0.0;
+        self.maxValue = ([[Utils sprinklerLengthUnits] isEqualToString:@"mm"] ? 2.5 : 0.1);
+        self.midValue = (self.minValue + self.maxValue) / 2.0;
+        return;
+    }
     
     double minValue = 0.0;
     double maxValue = 0.0;

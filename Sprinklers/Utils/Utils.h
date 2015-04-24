@@ -82,6 +82,7 @@
 + (NSString*)securityOptionFromSprinklerWiFi:(WiFi*)wifi needsPassword:(BOOL*)needsPassword;
 
 + (BOOL)isTime24HourFormat;
++ (void)setIsTime24HourFormat:(BOOL)isTime24HourFormat;
 
 + (NSString*)cloudEmailStatusForCloudSettings:(CloudSettings*)cloudSettings;
 + (NSString*)formattedUptimeForUptimeString:(NSString*)uptimeString;
