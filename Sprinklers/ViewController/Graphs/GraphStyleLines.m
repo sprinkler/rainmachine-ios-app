@@ -91,6 +91,8 @@
     if (graphCirclesRadius > 0.0) {
         barCenterX = oldBarCenterX;
         
+        CGFloat scale = [UIScreen mainScreen].scale;
+        
         for (id value in self.values) {
             if (value == [NSNull null]) {
                 barCenterX += barDisplayWidth;
@@ -105,7 +107,13 @@
             
             CGFloat barSizeHeight = absoluteValue / valuesIntervalLength * displayHeight;
             CGFloat barCenterY = rect.size.height - barSizeHeight - graphBottomPadding;
-            CGRect circleRect = CGRectIntegral(CGRectMake(barCenterX - graphCirclesRadius, barCenterY - graphCirclesRadius, graphCirclesRadius * 2.0, graphCirclesRadius * 2.0));
+            
+            CGRect circleRect = CGRectZero;
+            if (scale >= 2.0) {
+                circleRect = CGRectMake(barCenterX - graphCirclesRadius, barCenterY - graphCirclesRadius, graphCirclesRadius * 2.0, graphCirclesRadius * 2.0);
+            } else {
+                circleRect = CGRectMake(round(barCenterX - graphCirclesRadius), round(barCenterY - graphCirclesRadius), round(graphCirclesRadius * 2.0), round(graphCirclesRadius * 2.0));
+            }
             
             CGContextFillEllipseInRect(context, circleRect);
             CGContextStrokeEllipseInRect(context, circleRect);

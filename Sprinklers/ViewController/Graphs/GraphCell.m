@@ -449,7 +449,11 @@
         CGFloat totalPaddingWidth = self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding + self.graphDescriptor.visualAppearanceDescriptor.graphContentTrailingPadding;
         CGFloat totalDatesBarWidth = self.dateBarContainerView.bounds.size.width - totalPaddingWidth;
         
-        self.todaySelectionViewXLayoutConstraint.constant = round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (timeIntervalPart.currentDateValueIndex + 0.5) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding - self.graphDescriptor.displayAreaDescriptor.todaySelectionWidth / 2.0);
+        if ([UIScreen mainScreen].scale >= 2.0) {
+            self.todaySelectionViewXLayoutConstraint.constant = totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (timeIntervalPart.currentDateValueIndex + 0.5) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding - self.graphDescriptor.displayAreaDescriptor.todaySelectionWidth / 2.0;
+        } else {
+            self.todaySelectionViewXLayoutConstraint.constant = round(totalDatesBarWidth / self.graphTimeIntervalPart.dateValues.count * (timeIntervalPart.currentDateValueIndex + 0.5) + self.graphDescriptor.visualAppearanceDescriptor.graphContentLeadingPadding - self.graphDescriptor.displayAreaDescriptor.todaySelectionWidth / 2.0);
+        }
         self.todaySelectionViewYLayoutConstraint.constant = - self.graphDescriptor.titleAreaDescriptor.titleAreaHeight;
     } else {
         self.todaySelectionView.hidden = YES;

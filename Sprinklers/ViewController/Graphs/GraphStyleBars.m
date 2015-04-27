@@ -30,6 +30,8 @@
     
     NSMutableArray *coordinatesX = [NSMutableArray new];
     
+    CGFloat scale = [UIScreen mainScreen].scale;
+    
     for (id value in self.values) {
         [coordinatesX addObject:@(barOriginX + barSizeWidth)];
         
@@ -46,7 +48,14 @@
         if (valuesIntervalLength == 0.0) valuesIntervalLength = 1.0;
         
         CGFloat barSizeHeight = absoluteValue / valuesIntervalLength * displayHeight;
-        CGRect barRect = CGRectIntegral(CGRectMake(barOriginX, rect.size.height - barSizeHeight - graphBarsBottomPadding, barSizeWidth, barSizeHeight));
+        
+        CGRect barRect = CGRectZero;
+        if (scale >= 2.0) {
+            barRect = CGRectMake(barOriginX, rect.size.height - barSizeHeight - graphBarsBottomPadding, barSizeWidth, barSizeHeight);
+        } else {
+            barRect = CGRectMake(round(barOriginX), round(rect.size.height - barSizeHeight - graphBarsBottomPadding), round(barSizeWidth), round(barSizeHeight));
+        }
+        
         CGContextFillRect(context, barRect);
         
         barOriginX += barDisplayWidth;
