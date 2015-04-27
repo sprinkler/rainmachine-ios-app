@@ -236,7 +236,8 @@ const float kTimeout = 6;
      if (indexPath.row < self.availableWiFis.count) {
          cell = (WiFiCell*)[tableView dequeueReusableCellWithIdentifier:@"WiFiCell" forIndexPath:indexPath];
          WiFi *wifi = self.availableWiFis[indexPath.row];
-         cell.wifiTextLabel.text = wifi.SSID;
+         cell.wifiTextLabel.text = (wifi.SSID.length ? wifi.SSID : @"Hidden");
+         cell.wifiTextLabel.textColor = (wifi.SSID.length ? [UIColor blackColor] : [UIColor lightGrayColor]);
          
          NSString *imageName = nil;
          float signal = [wifi.signal floatValue];
@@ -351,7 +352,7 @@ const float kTimeout = 6;
     }
     else if (serverProxy == self.requestAvailableWiFisProvisionServerProxy) {
         if ([data isKindOfClass:[NSArray class]]) {
-            self.availableWiFis = data;
+            self.availableWiFis = [self wifisListByEliminatingDuplicatesFromList:data];
         }
         [self hideHud];
         [self enableRefreshAvailableWiFisButton:YES];
@@ -655,6 +656,29 @@ const float kTimeout = 6;
 {
     [self hideWifiRebootHud];
     self.duringWiFiRestart = NO;
+}
+
+- (NSArray*)wifisListByEliminatingDuplicatesFromList:(NSArray*)wifisList {
+    NSMutableDictionary *wifisDictionary = [NSMutableDictionary new];
+    NSMutableArray *hiddenWifis = [NSMutableArray new];
+    
+    for (WiFi *wifi in wifisList) {
+        if (!wifi.SSID.length) {
+            [hiddenWifis addObject:wifi];
+            continue;
+        }
+        
+        WiFi *detectedWifi = [wifisDictionary objectForKey:wifi.SSID];
+        if (!detectedWifi) [wifisDictionary setObject:wifi forKey:wifi.SSID];
+        else if (detectedWifi.signal.floatValue < wifi.signal.floatValue) {
+            [wifisDictionary setObject:wifi forKey:wifi.SSID];
+        }
+    }
+    
+    NSMutableArray *filteredWifisList = [wifisDictionary.allValues mutableCopy];
+    [filteredWifisList addObjectsFromArray:hiddenWifis];
+    
+    return filteredWifisList;
 }
 
 #pragma mark - Requests
