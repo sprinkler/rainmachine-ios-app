@@ -130,11 +130,19 @@
             nameSectionIndex = 0;
             activeSectionIndex = 1;
             ignoreWeatherDataSectionIndex = 2;
+#if DEBUG
             useWaterSenseSectionIndex = 3;
             frequencySectionIndex = 4;
             startTimeSectionIndex = 5;
             cycleSoakAndStationDelaySectionIndex = 6;
             wateringTimesSectionIndex = 7;
+#else
+            useWaterSenseSectionIndex = -1;
+            frequencySectionIndex = 3;
+            startTimeSectionIndex = 4;
+            cycleSoakAndStationDelaySectionIndex = 5;
+            wateringTimesSectionIndex = 6;
+#endif
         }
         
         if ((![Utils isDevice357Plus]) && ([self.program.state isEqualToString:@"stopped"])) {
@@ -157,11 +165,20 @@
             nameSectionIndex = 0;
             activeSectionIndex = 1;
             ignoreWeatherDataSectionIndex = 2;
+#if DEBUG
+            
             useWaterSenseSectionIndex = 3;
             frequencySectionIndex = 4;
             startTimeSectionIndex = 5;
             cycleSoakAndStationDelaySectionIndex = 6;
             wateringTimesSectionIndex = 7;
+#else
+            useWaterSenseSectionIndex = -1;
+            frequencySectionIndex = 3;
+            startTimeSectionIndex = 4;
+            cycleSoakAndStationDelaySectionIndex = 5;
+            wateringTimesSectionIndex = 6;
+#endif
         }
     
         [self createTwoButtonToolbar];

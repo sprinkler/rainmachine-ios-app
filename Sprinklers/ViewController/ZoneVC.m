@@ -415,7 +415,11 @@ typedef enum {
         return 2;
     }
     
+#if DEBUG
     return ([ServerProxy usesAPI4] ? advancedSectionIndex + 1 : statisticalSectionIndex + 1);
+#else
+    return statisticalSectionIndex + 1;
+#endif
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
