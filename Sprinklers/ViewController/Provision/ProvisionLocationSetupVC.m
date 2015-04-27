@@ -27,7 +27,7 @@
 
 const double LocationSetup_MapView_InitializeTimeout                = 3.0;
 const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
-const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
+const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
 #pragma mark -
 
@@ -55,7 +55,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
 
 @property (strong, nonatomic) ServerProxy *provisionServerProxy;
 @property (strong, nonatomic) MBProgressHUD *hud;
-@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *skipButton;
+@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *saveButton;
 
 @end
 
@@ -81,13 +81,14 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) self.edgesForExtendedLayout = UIRectEdgeNone;
     
     if (self.isPartOfWizard) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(onNext:)];
-        [self.skipButton setCustomBackgroundColorFromComponents:kWateringRedButtonColor];
-        [self.skipButton setTitle:@"Skip" forState:UIControlStateNormal];
-    } else {
-        [self.skipButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
-        [self.skipButton setTitle:@"Set Location" forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next"
+                                                                                  style:UIBarButtonItemStyleDone
+                                                                                 target:self
+                                                                                 action:@selector(onSkipLocation:)];
     }
+    
+    [self.saveButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
+    [self.saveButton setTitle:@"Save" forState:UIControlStateNormal];
     
     self.mapView.superview.backgroundColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
     
@@ -125,7 +126,9 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.mapView addObserver:self forKeyPath:@"myLocation" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    if (!self.startLocationFound) {
+        [self.mapView addObserver:self forKeyPath:@"myLocation" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -148,7 +151,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
                 [self hideHud];
                 return;
             }
-            
+
             self.selectedLocationAddress = result;
             [self updateLocationSearchBar];
             [self markSelectedLocationAnimated:YES];
@@ -295,7 +298,11 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
     }
     
     if (theAlertView.tag == kAlertView_SetupWizard_NewLocationSuccesfullySet) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        if (self.isPartOfWizard) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        } else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 
@@ -373,20 +380,24 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
     return NO;
 }
 
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController*)controller {
+    if ([controller respondsToSelector:@selector(searchBar:textDidChange:)]) {
+        [(id<UISearchBarDelegate>)controller searchBar:controller.searchBar textDidChange:controller.searchBar.text];
+    }
+}
+
 #pragma  mark - Search bar delegate
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar {
     if (self.selectedLocationAddress) [self moveCameraToLocation:self.selectedLocationAddress.location animated:YES];
-    searchBar.text = nil;
-    searchBar.placeholder = nil;
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar*)searchBar {
-    [self updateLocationSearchBar];
 }
 
 - (BOOL)searchBar:(UISearchBar*)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text {
     return self.searchDisplayController.isActive;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar*)searchBar {
+    [self performSelector:@selector(updateLocationSearchBar) withObject:nil afterDelay:0.0];
 }
 
 #pragma mark - Table view datasource
@@ -464,6 +475,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
         
         [self.provisionServerProxy setLocation:location.coordinate.latitude
                                      longitude:location.coordinate.longitude
+                                          name:(self.selectedLocationAddress ? [self displayStringForLocation:self.selectedLocationAddress] : nil)
                                       timezone:[[NSTimeZone localTimeZone] name]];
         
         [self showHud];
@@ -472,8 +484,13 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
     }
 }
 
-- (IBAction)onNext:(id)sender
-{
+- (IBAction)onSkipLocation:(id)sender {
+    if (self.isPartOfWizard) {
+        [self displayNoLocationAlertWithContinueMessage:YES skip:YES];
+    }
+}
+
+- (IBAction)onSave:(id)sender {
     if ([self detectedLocation]) {
         [self continueSetup];
     } else {
@@ -534,18 +551,6 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 1;
        didFailWithError:(NSError *)error
 {
     [self displayNoLocationAlertWithContinueMessage:NO skip:NO];
-}
-
-- (IBAction)onSkipLocation:(id)sender {
-    if (self.isPartOfWizard) {
-        [self displayNoLocationAlertWithContinueMessage:YES skip:YES];
-    } else {
-        if ([self detectedLocation]) {
-            [self continueSetup];
-        } else {
-            [self displayNoLocationAlertWithContinueMessage:NO skip:NO];
-        }
-    }
 }
 
 - (void)continueWithDateTime

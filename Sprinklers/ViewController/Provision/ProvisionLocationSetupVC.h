@@ -28,6 +28,7 @@
 //@property (nonatomic, weak) BaseNetworkHandlingVC *delegate;
 @property (nonatomic, strong) GoogleAddress *selectedLocationAddress;
 
-- (IBAction)onNext:(id)sender;
+- (IBAction)onSave:(id)sender;
+- (IBAction)onSkipLocation:(id)sender;
 
 @end

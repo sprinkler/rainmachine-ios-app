@@ -29,10 +29,6 @@
     return @"https://maps.googleapis.com/maps/api/geocode";
 }
 
-- (NSString*)googleAPIKey {
-    return kGoogleMapsAPIKey;
-}
-
 - (id)resultFromDictionary:(NSDictionary*)dictionary {
     NSArray *results = [dictionary valueForKey:@"results"];
     if (!results.count) return nil;

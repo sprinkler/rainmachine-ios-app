@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProvisionLocationSetupVC">
@@ -9,8 +10,8 @@
                 <outlet property="locationSearchBar" destination="gvN-4O-VF3" id="13U-ov-mpP"/>
                 <outlet property="mapContentView" destination="ssn-wm-Th6" id="xjR-oD-rkw"/>
                 <outlet property="mapView" destination="0ii-5l-J6e" id="zy7-0J-Kb5"/>
+                <outlet property="saveButton" destination="ztQ-B5-tjA" id="N4t-tp-BQb"/>
                 <outlet property="searchDisplayController" destination="ici-Ke-z9t" id="1BG-Nx-RsL"/>
-                <outlet property="skipButton" destination="ztQ-B5-tjA" id="OLc-ac-I3r"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -39,11 +40,11 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztQ-B5-tjA" customClass="ColoredBackgroundButton">
                             <rect key="frame" x="20" y="508" width="560" height="36"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                            <state key="normal" title="Skip location setup">
+                            <state key="normal" title="Save">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="onSkipLocation:" destination="-1" eventType="touchUpInside" id="JhC-gO-Cb1"/>
+                                <action selector="onSave:" destination="-1" eventType="touchUpInside" id="WzX-zR-EOB"/>
                             </connections>
                         </button>
                     </subviews>

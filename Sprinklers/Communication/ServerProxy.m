@@ -685,23 +685,15 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
-- (void)setLocation:(double)latitude longitude:(double)longitude timezone:(NSString*)timezone
+- (void)setLocation:(double)latitude longitude:(double)longitude name:(NSString*)name timezone:(NSString*)timezone
 {
-    NSDictionary *params;
-    if (timezone) {
-        params = @{@"location" : @{@"latitude" : @(latitude),
-                                   @"longitude" : @(longitude),
-                                   @"timezone" : timezone
-                                   }
-                   };
-    } else {
-        params = @{@"location" : @{@"latitude" : @(latitude),
-                                   @"longitude" : @(longitude)
-                                   }
-                   };
-    }
-    
-    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:params
+    NSMutableDictionary *locationParams = [NSMutableDictionary new];
+    [locationParams setObject:@(latitude) forKey:@"latitude"];
+    [locationParams setObject:@(longitude) forKey:@"longitude"];
+    if (timezone) [locationParams setObject:timezone forKey:@"timezone"];
+    if (name) [locationParams setObject:name forKey:@"name"];
+        
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/provision"] parameters:@{@"location" : locationParams}
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
                        [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:nil];

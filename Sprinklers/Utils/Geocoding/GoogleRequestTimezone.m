@@ -30,10 +30,6 @@
     return @"https://maps.googleapis.com/maps/api/timezone";
 }
 
-- (NSString*)googleAPIKey {
-    return kGoogleMapsAPIKey;
-}
-
 - (id)resultFromDictionary:(NSDictionary*)dictionary {
     return [GoogleTimezone timezoneWithDictionary:dictionary];
 }
