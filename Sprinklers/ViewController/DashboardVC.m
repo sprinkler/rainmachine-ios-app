@@ -95,6 +95,10 @@
                        withObject:nil
                        afterDelay:0.0
                           inModes:@[NSRunLoopCommonModes]];
+            [self performSelector:@selector(showGraphsTableView)
+                       withObject:nil
+                       afterDelay:0.1
+                          inModes:@[NSRunLoopCommonModes]];
         }
     }
     [self.graphsTableView reloadData];
@@ -111,6 +115,10 @@
 
 - (void)scrollToGlobalContentOffsetAfterDelay:(GraphScrollableCell*)cell {
     [cell scrollToContentOffset:self.globalContentOffset animated:NO];
+}
+
+- (void)showGraphsTableView {
+    self.graphsTableView.hidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -137,6 +145,8 @@
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate.updateManager poll];
     }
+    
+    self.graphsTableView.hidden = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceNotSupported:) name:kDeviceNotSupported object:nil];
 }
