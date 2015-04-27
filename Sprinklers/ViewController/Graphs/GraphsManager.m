@@ -42,6 +42,8 @@ NSString *kEmptyGraphIdentifier                     = @"EmptyGraphIdentifier";
 
 NSInteger kShowAllGraphsMinAPI3Subversion           = 63;
 NSInteger kMaxRequestAPIVersionRetries              = 10;
+NSInteger kWeekdaysGraphPastWeeks                   = 1;
+NSInteger kWeekdaysGraphFutureWeeks                 = 1;
 
 NSString *kPersistentGraphsOrderKey                 = @"kPersistentGraphsOrderKey";
 NSString *kDisabledGraphsIdentifiers                = @"kDisabledGraphsIdentifiers";
@@ -322,6 +324,43 @@ static GraphsManager *sharedGraphsManager = nil;
     return [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year,(int)dateComponents.month,(int)dateComponents.day];
 }
 
+- (NSInteger)futureDaysForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
+    if (graphTimeInterval.type == GraphTimeIntervalType_Weekly) {
+        return kWeekdaysGraphFutureWeeks * 7;
+    }
+    return 7;
+}
+
+- (NSInteger)totalDaysForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
+    if (graphTimeInterval.type == GraphTimeIntervalType_Weekly) {
+        return 7 + (kWeekdaysGraphPastWeeks + kWeekdaysGraphFutureWeeks) * 7;
+    }
+    return 365;
+}
+
+- (NSDate*)startDateForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
+    if (graphTimeInterval.type == GraphTimeIntervalType_Weekly) {
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        
+        NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear | NSCalendarUnitHour fromDate:[NSDate date]];
+        dateComponents.weekday = calendar.firstWeekday;
+        dateComponents.hour = 12;
+        
+        NSDate *date = [calendar dateFromComponents:dateComponents];
+        return [date dateBySubtractingDays:kWeekdaysGraphPastWeeks * 7];
+    }
+    
+    NSInteger futureDays = [self futureDaysForGraphTimeInterval:graphTimeInterval];
+    NSInteger totalDays = [self totalDaysForGraphTimeInterval:graphTimeInterval];
+    return [NSDate dateWithDaysBeforeNow:totalDays - futureDays];
+}
+
+- (NSString*)startDateStringForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval {
+    NSDate *startDate = [self startDateForGraphTimeInterval:graphTimeInterval];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:startDate];
+    return [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year,(int)dateComponents.month,(int)dateComponents.day];
+}
 
 #pragma mark - Server communication
 

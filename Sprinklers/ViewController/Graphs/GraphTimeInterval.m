@@ -97,16 +97,14 @@ static NSMutableArray *registeredTimeIntervals = nil;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSInteger totalDays = 0;
-    NSDate *startDate = [GraphsManager sharedGraphsManager].startDate;
+    NSDate *startDate = [[GraphsManager sharedGraphsManager] startDateForGraphTimeInterval:self];
     
-    NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear fromDate:startDate];
-    NSInteger startWeekDay = startDateComponents.weekday;
-    
-    startDateComponents.weekday = 1;
+    NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear | NSCalendarUnitHour fromDate:startDate];    
+    startDateComponents.weekday = calendar.firstWeekday;
     startDateComponents.hour = 12;
     startDate = [calendar dateFromComponents:startDateComponents];
     
-    while (totalDays < [GraphsManager sharedGraphsManager].totalDays + startWeekDay - 1) {
+    while (totalDays < [[GraphsManager sharedGraphsManager] totalDaysForGraphTimeInterval:self]) {
         GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
         graphTimeIntervalPart.startDate = startDate;
         graphTimeIntervalPart.endDate = [startDate dateByAddingDays:6];
@@ -128,16 +126,16 @@ static NSMutableArray *registeredTimeIntervals = nil;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSInteger totalDays = 0;
-    NSDate *startDate = [GraphsManager sharedGraphsManager].startDate;
+    NSDate *startDate = [[GraphsManager sharedGraphsManager] startDateForGraphTimeInterval:self];
     
-    NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:startDate];
+    NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour fromDate:startDate];
     NSInteger startDay = startDateComponents.day;
     
     startDateComponents.day = 1;
     startDateComponents.hour = 12;
     startDate = [calendar dateFromComponents:startDateComponents];
     
-    while (totalDays < [GraphsManager sharedGraphsManager].totalDays + startDay - 1) {
+    while (totalDays < [[GraphsManager sharedGraphsManager] totalDaysForGraphTimeInterval:self] + startDay - 1) {
         NSRange monthRange = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:startDate];
         
         GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
@@ -157,10 +155,13 @@ static NSMutableArray *registeredTimeIntervals = nil;
 }
 
 - (void)createYearlyGraphTimeIntervalParts {
+    NSDate *startDate = [[GraphsManager sharedGraphsManager] startDateForGraphTimeInterval:self];
+    NSInteger totalDays = [[GraphsManager sharedGraphsManager] totalDaysForGraphTimeInterval:self];
+    
     GraphTimeIntervalPart *graphTimeIntervalPart = [GraphTimeIntervalPart new];
-    graphTimeIntervalPart.startDate = [GraphsManager sharedGraphsManager].startDate;
-    graphTimeIntervalPart.endDate = [[GraphsManager sharedGraphsManager].startDate dateByAddingDays:[GraphsManager sharedGraphsManager].totalDays];
-    graphTimeIntervalPart.length = [GraphsManager sharedGraphsManager].totalDays;
+    graphTimeIntervalPart.startDate = startDate;
+    graphTimeIntervalPart.endDate = [startDate dateByAddingDays:totalDays];
+    graphTimeIntervalPart.length = totalDays;
     graphTimeIntervalPart.type = GraphTimeIntervalPartType_DisplayMonths;
     
     [graphTimeIntervalPart initialize];

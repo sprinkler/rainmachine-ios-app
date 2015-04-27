@@ -119,7 +119,7 @@
             NSString *dateValue = [NSString stringWithFormat:@"%02d",(int)dateComponents.day];
             [dateValues addObject:dateValue];
             
-            NSInteger weekday = dateComponents.weekday - calendar.firstWeekday;
+            NSInteger weekday = dateComponents.weekday - 2;
             if (weekday < 0) weekday += 7;
             if (weekday < 7) [weekdays addObject:abbrevWeekdays[weekday]];
             

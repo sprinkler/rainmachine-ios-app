@@ -37,6 +37,11 @@
 @property (nonatomic, readonly) NSDate *startDate;
 @property (nonatomic, readonly) NSString *startDateString;
 
+- (NSInteger)futureDaysForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval;
+- (NSInteger)totalDaysForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval;
+- (NSDate*)startDateForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval;
+- (NSString*)startDateStringForGraphTimeInterval:(GraphTimeInterval*)graphTimeInterval;
+
 @property (nonatomic, strong) NSArray *programs;
 @property (nonatomic, strong) NSArray *zones;
 @property (nonatomic, strong) id mixerData;

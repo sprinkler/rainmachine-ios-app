@@ -13,8 +13,6 @@
 #import "Utils.h"
 #import "Additions.h"
 
-#define GRAPHDATASOURCE_RANDOMIZE   NO
-
 #pragma mark -
 
 @interface GraphDataSource ()
@@ -46,23 +44,7 @@
 }
 
 - (void)reloadGraphDataSource {
-    NSDictionary *values = nil;
-    
-    if (GRAPHDATASOURCE_RANDOMIZE) {
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSMutableDictionary *randomizedValues = [NSMutableDictionary new];
-        
-        for (NSInteger day = 0; day < [GraphsManager sharedGraphsManager].totalDays; day++) {
-            NSDate *date = [[GraphsManager sharedGraphsManager].startDate dateByAddingDays:day];
-            NSDateComponents *dateComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
-            NSString *dateString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)dateComponents.year, (int)dateComponents.month, (int)dateComponents.day];
-            randomizedValues[dateString] = @((double)rand() / (double)RAND_MAX * 100.0);
-        }
-        
-        values = randomizedValues;
-    } else {
-        values = [self valuesFromLoadedData];
-    }
+    NSDictionary *values = [self valuesFromLoadedData];
     
     [self updateMinMaxValuesFromValues:values.allValues];
     if (values) self.values = values;
