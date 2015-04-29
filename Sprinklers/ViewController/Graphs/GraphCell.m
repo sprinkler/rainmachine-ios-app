@@ -79,6 +79,10 @@
     [self setupCurrentDateWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalPart:self.graphTimeIntervalPart];
 }
 
+- (void)updateCurrentDate {
+    [self setupCurrentDateWithDescriptor:self.graphDescriptor.dateBarDescriptor timeIntervalPart:self.graphTimeIntervalPart];
+}
+
 #pragma mark - Helper methods
 
 - (void)setup {

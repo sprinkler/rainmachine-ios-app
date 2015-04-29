@@ -38,4 +38,6 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *todaySelectionViewYLayoutConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *todaySelectionViewWidthLayoutConstraint;
 
+- (void)updateCurrentDate;
+
 @end

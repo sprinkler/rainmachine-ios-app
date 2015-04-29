@@ -89,36 +89,22 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.hud = nil;
             [self.statusTableView reloadData];
+            return;
         }
         if ([keyPath isEqualToString:@"firstGraphsReloadFinished"] && [GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
-            [self performSelector:@selector(scrollToCurrentDateAfterDelay)
-                       withObject:nil
-                       afterDelay:0.0
-                          inModes:@[NSRunLoopCommonModes]];
-            [self performSelector:@selector(showGraphsTableView)
-                       withObject:nil
-                       afterDelay:0.1
-                          inModes:@[NSRunLoopCommonModes]];
+            [self.graphsTableView reloadData];
+            [self.graphsTableView setNeedsLayout];
+            [self.graphsTableView layoutIfNeeded];
+            [self scrollGraphsToCurrentDateAnimated:NO];
+            [self resetGlobalContentOffset];
+            return;
         }
     }
     [self.graphsTableView reloadData];
 }
 
-- (void)scrollToCurrentDateAfterDelay {
-    [self scrollGraphsToCurrentDateAnimated:NO];
-    [self resetGlobalContentOffset];
-}
-
-- (void)scrollToGlobalContentOffsetAfterDelay {
-    [self scrollToGlobalContentOffsetAnimated:NO];
-}
-
 - (void)scrollToGlobalContentOffsetAfterDelay:(GraphScrollableCell*)cell {
     [cell scrollToContentOffset:self.globalContentOffset animated:NO];
-}
-
-- (void)showGraphsTableView {
-    self.graphsTableView.hidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -145,8 +131,6 @@
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate.updateManager poll];
     }
-    
-    self.graphsTableView.hidden = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceNotSupported:) name:kDeviceNotSupported object:nil];
 }
@@ -185,6 +169,14 @@
         [self setEditing:NO animated:NO];
         [self.graphsTableView setEditing:NO animated:NO];
     }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self.graphsTableView reloadData];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.graphsTableView reloadData];
 }
 
 #pragma mark - Helper methods
@@ -378,7 +370,7 @@
                    afterDelay:0.0
                       inModes:@[NSRunLoopCommonModes]];
     }
-    
+        
     return graphScrollableCell;
 }
 
@@ -505,11 +497,11 @@
     
     if (!sender) [self.graphsTableView reloadData];
     else [self.graphsTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-    
-    [self performSelector:@selector(scrollToCurrentDateAfterDelay)
-               withObject:nil
-               afterDelay:0.0
-                  inModes:@[NSRunLoopCommonModes]];
+
+    [self.graphsTableView setNeedsLayout];
+    [self.graphsTableView layoutIfNeeded];
+    [self scrollGraphsToCurrentDateAnimated:NO];
+    [self resetGlobalContentOffset];
 }
 
 - (IBAction)onEditGraphsTable:(id)sender {

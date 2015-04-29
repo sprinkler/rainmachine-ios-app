@@ -118,7 +118,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I96-aE-v6x">
-                                        <rect key="frame" x="8" y="1" width="242" height="21"/>
+                                        <rect key="frame" x="8" y="1" width="180" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="ROG-8d-6TI"/>
                                         </constraints>
@@ -126,11 +126,21 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWe-HN-GZ5">
-                                        <rect key="frame" x="258" y="1" width="42" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="inch" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWe-HN-GZ5">
+                                        <rect key="frame" x="264" y="1" width="36" height="21"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="42" id="DvI-ol-Ah1"/>
+                                            <constraint firstAttribute="width" constant="36" id="DvI-ol-Ah1"/>
                                             <constraint firstAttribute="height" constant="21" id="H2G-3k-Fkl"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forecast" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZR-b8-tVc">
+                                        <rect key="frame" x="196" y="1" width="68" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="0Yf-0n-oIq"/>
+                                            <constraint firstAttribute="width" constant="68" id="kKl-Ud-2oJ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -139,6 +149,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="lZR-b8-tVc" secondAttribute="centerY" id="62G-dp-Ise"/>
                                     <constraint firstItem="I96-aE-v6x" firstAttribute="leading" secondItem="cqg-zL-QJC" secondAttribute="leading" constant="8" id="6Ck-HR-Pk2"/>
                                     <constraint firstItem="XWe-HN-GZ5" firstAttribute="leading" secondItem="I96-aE-v6x" secondAttribute="trailing" constant="8" id="7Os-Ps-pOP"/>
                                     <constraint firstAttribute="bottom" secondItem="aaV-Yd-Jdr" secondAttribute="bottom" id="BLG-Rk-xQ5"/>
@@ -147,8 +158,15 @@
                                     <constraint firstAttribute="trailing" secondItem="XWe-HN-GZ5" secondAttribute="trailing" constant="8" id="We5-8Q-tgG"/>
                                     <constraint firstAttribute="height" constant="23" id="YXy-Q0-tIL"/>
                                     <constraint firstAttribute="centerY" secondItem="XWe-HN-GZ5" secondAttribute="centerY" id="e08-T4-Fqq"/>
+                                    <constraint firstItem="lZR-b8-tVc" firstAttribute="leading" secondItem="I96-aE-v6x" secondAttribute="trailing" constant="8" id="hJm-Wp-ugJ"/>
+                                    <constraint firstItem="XWe-HN-GZ5" firstAttribute="leading" secondItem="lZR-b8-tVc" secondAttribute="trailing" id="owe-Lv-Zma"/>
                                     <constraint firstAttribute="centerY" secondItem="I96-aE-v6x" secondAttribute="centerY" id="rXw-iy-kpK"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="7Os-Ps-pOP"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="deviceRGB"/>
@@ -209,6 +227,7 @@
                 <outlet property="dateLabelTop" destination="DAg-NH-kDy" id="NC5-d2-sbN"/>
                 <outlet property="dateLabelTopBottomSpaceLayoutConstraint" destination="J4R-eZ-5cd" id="qyc-pu-0L6"/>
                 <outlet property="dateLabelTopHeightLayoutConstraint" destination="Qa8-g8-Goi" id="A7R-y8-7jd"/>
+                <outlet property="forecastLabel" destination="lZR-b8-tVc" id="bxG-Oh-QtH"/>
                 <outlet property="graphCollectionView" destination="RkN-H3-LjU" id="JsK-ru-Lmg"/>
                 <outlet property="graphContainerView" destination="Idj-4f-6kl" id="7fI-yW-MVY"/>
                 <outlet property="graphTitleLabel" destination="I96-aE-v6x" id="Wd6-t9-3y6"/>
@@ -227,7 +246,7 @@
                 <outlet property="valuesMetricLabelHeightLayoutConstraint" destination="AFS-5M-BiL" id="5qz-DE-wRL"/>
                 <outlet property="valuesMetricLabelTopSpaceLayoutConstraint" destination="9ap-HG-QLa" id="uYd-Mi-2vM"/>
             </connections>
-            <point key="canvasLocation" x="213" y="189.5"/>
+            <point key="canvasLocation" x="213" y="189"/>
         </tableViewCell>
     </objects>
 </document>

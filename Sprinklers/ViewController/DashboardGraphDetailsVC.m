@@ -29,6 +29,8 @@
 - (void)initializeTimeIntervalsSegmentedControl;
 - (void)initializeGraphScrollableHeaderCellAnimated:(BOOL)animate;
 
+@property (nonatomic, assign) BOOL doNotLayoutGraphsScrollableHeaderCell;
+
 @end
 
 #pragma mark -
@@ -42,11 +44,6 @@
     self.graphDescriptor.dontShowDisabledState = YES;
     self.originalGraphDescriptor.dontShowDisabledState = YES;
     [self.graphDescriptor updateDisabledState];
-    
-    [self initializeTimeIntervalsSegmentedControl];
-    [self initializeGraphScrollableHeaderCellAnimated:NO];
-    
-    self.tableView.tableHeaderView = self.headerContainerView;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,6 +54,14 @@
     [super viewWillDisappear:animated];
     self.originalGraphDescriptor.dontShowDisabledState = NO;
     [self.originalGraphDescriptor updateDisabledState];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (!self.doNotLayoutGraphsScrollableHeaderCell) {
+        [self initializeTimeIntervalsSegmentedControl];
+        [self initializeGraphScrollableHeaderCellAnimated:NO];
+    }
 }
 
 - (void)dealloc {
@@ -115,13 +120,8 @@
         self.tableView.tableHeaderView = self.headerContainerView;
     }
     
-    [self performSelector:@selector(scrollToCurrentDateAfterDelay)
-               withObject:nil
-               afterDelay:0.01
-                  inModes:@[NSRunLoopCommonModes]];
-}
-
-- (void)scrollToCurrentDateAfterDelay {
+    [self.graphScrollableHeaderCell setNeedsLayout];
+    [self.graphScrollableHeaderCell layoutIfNeeded];
     [self.graphScrollableHeaderCell scrollToCurrentDateAnimated:NO];
 }
 
@@ -183,6 +183,7 @@
         DashboardGraphAllDataVC *dashboardGraphAllDataVC = [[DashboardGraphAllDataVC alloc] init];
         dashboardGraphAllDataVC.graphDescriptor = self.graphDescriptor;
         [self.navigationController pushViewController:dashboardGraphAllDataVC animated:YES];
+        self.doNotLayoutGraphsScrollableHeaderCell = YES;
     }
 }
 

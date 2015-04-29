@@ -118,7 +118,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I96-aE-v6x">
-                                        <rect key="frame" x="8" y="1" width="242" height="21"/>
+                                        <rect key="frame" x="8" y="1" width="248" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="ROG-8d-6TI"/>
                                         </constraints>
@@ -127,9 +127,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWe-HN-GZ5">
-                                        <rect key="frame" x="258" y="1" width="42" height="21"/>
+                                        <rect key="frame" x="264" y="1" width="36" height="21"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="42" id="DvI-ol-Ah1"/>
+                                            <constraint firstAttribute="width" constant="36" id="DvI-ol-Ah1"/>
                                             <constraint firstAttribute="height" constant="21" id="H2G-3k-Fkl"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>

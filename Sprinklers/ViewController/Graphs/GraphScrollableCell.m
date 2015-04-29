@@ -317,7 +317,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView*)scrollView {
     if (self.graphScrollableCellDelegate && [self.graphScrollableCellDelegate respondsToSelector:@selector(graphScrollableCell:didScrollToContentOffset:)]) {
-        [self.graphScrollableCellDelegate graphScrollableCell:self didScrollToContentOffset:self.graphCollectionView.contentOffset];
+        if (scrollView.tracking || scrollView.dragging || scrollView.decelerating) {
+            [self.graphScrollableCellDelegate graphScrollableCell:self didScrollToContentOffset:self.graphCollectionView.contentOffset];
+        }
     }
     [self updateDateLabelsForContentOffset];
 }
@@ -329,6 +331,7 @@
         else if (visibleCell.frame.origin.x < firstVisibleCell.frame.origin.x) {
             firstVisibleCell = visibleCell;
         }
+        [visibleCell updateCurrentDate];
     }
     
     if (firstVisibleCell) {
@@ -343,6 +346,8 @@
         
         [self updateDateLabelsForTimeIntervalPart:firstVisibleCell.graphTimeIntervalPart andIndex:index];
     }
+    
+    [self updateForecastLabelForContentOffset];
 }
 
 - (void)updateDateLabelsForTimeIntervalPart:(GraphTimeIntervalPart*)timeIntervalPart andIndex:(NSInteger)index {
@@ -361,6 +366,34 @@
         self.dateLabelTop.text = nil;
         if (monthValue) self.dateLabelBottom.text = monthValue;
         else if (yearValue) self.dateLabelBottom.text = yearValue;
+    }
+}
+
+- (void)updateForecastLabelForContentOffset {
+    if (!self.forecastLabel) return;
+    
+    UIView *todaySelectionView = nil;
+    GraphCell *todaySelectionCell = nil;
+    BOOL isFuture = NO;
+    
+    for (GraphCell *cell in self.graphCollectionView.visibleCells) {
+        if (!cell.todaySelectionView.hidden) {
+            todaySelectionView = cell.todaySelectionView;
+            todaySelectionCell = cell;
+            break;
+        }
+        if (cell.graphTimeIntervalPart.isFuture) isFuture = YES;
+    }
+    
+    if (todaySelectionView) {
+        CGRect todaySelectionViewRect = [self convertRect:todaySelectionView.frame fromView:todaySelectionCell];
+        if (todaySelectionViewRect.origin.x + todaySelectionViewRect.size.width - 6.0 < self.forecastLabel.frame.origin.x) {
+            self.forecastLabel.hidden = NO;
+        } else {
+            self.forecastLabel.hidden = YES;
+        }
+    } else {
+        self.forecastLabel.hidden = !isFuture;
     }
 }
 

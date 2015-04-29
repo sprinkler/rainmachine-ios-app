@@ -110,6 +110,7 @@ static NSMutableArray *registeredTimeIntervals = nil;
         graphTimeIntervalPart.endDate = [startDate dateByAddingDays:6];
         graphTimeIntervalPart.length = 7;
         graphTimeIntervalPart.type = GraphTimeIntervalPartType_DisplayWeekdays;
+        graphTimeIntervalPart.isFuture = ([graphTimeIntervalPart.startDate isLaterThanDate:[NSDate date]]);
 
         [graphTimeIntervalPart initialize];
         [graphTimeIntervalParts addObject:graphTimeIntervalPart];

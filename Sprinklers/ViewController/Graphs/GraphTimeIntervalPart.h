@@ -23,6 +23,8 @@ typedef enum {
 @property (nonatomic, assign) NSInteger length;
 @property (nonatomic, assign) GraphTimeIntervalPartType type;
 
+@property (nonatomic, assign) BOOL isFuture;
+
 @property (nonatomic, strong) NSArray *dateValues;
 @property (nonatomic, strong) NSArray *monthValues;
 @property (nonatomic, strong) NSArray *yearValues;

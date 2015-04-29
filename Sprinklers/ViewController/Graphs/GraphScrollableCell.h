@@ -49,9 +49,13 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateLabelTopBottomSpaceLayoutConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *dateLabelBottomBottomSpaceLayoutConstraint;
 
+@property (nonatomic, weak) IBOutlet UILabel *forecastLabel;
+
 - (void)scrollToContentOffset:(CGPoint)contentOffset animated:(BOOL)animate;
 - (void)scrollToCurrentDateAnimated:(BOOL)animate;
 - (void)stopScrolling;
+
+- (void)updateForecastLabelForContentOffset;
 
 @end
 
