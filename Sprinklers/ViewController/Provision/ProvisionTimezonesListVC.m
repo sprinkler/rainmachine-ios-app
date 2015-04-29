@@ -108,9 +108,13 @@
     if (self.isPartOfWizard) {
         [self dismissViewControllerAnimated:YES completion:nil];
     } else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        ServerProxy *provisionTimezoneServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
-        [provisionTimezoneServerProxy setTimezone:timeZoneName];
+        if ([timeZoneName isEqualToString:[self.delegate timeZoneName]]) {
+            [self dismissViewControllerAnimated:YES completion:nil]; 
+        } else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            ServerProxy *provisionTimezoneServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:YES];
+            [provisionTimezoneServerProxy setTimezone:timeZoneName];
+        }
     }
     
     [self.searchBar resignFirstResponder];
