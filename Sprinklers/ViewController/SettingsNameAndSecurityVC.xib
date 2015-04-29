@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsNameAndSecurityVC">
@@ -19,42 +19,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="utJ-qM-lXy">
-                    <rect key="frame" x="20" y="158.5" width="280" height="30"/>
+                    <rect key="frame" x="10" y="50" width="300" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Tt3-8w-DmR">
-                    <rect key="frame" x="20" y="196.5" width="280" height="30"/>
+                    <rect key="frame" x="10" y="88" width="300" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Old password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YEF-RN-mYv">
-                    <rect key="frame" x="20" y="120.5" width="280" height="30"/>
+                    <rect key="frame" x="10" y="12" width="300" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R7Z-hx-7by">
-                    <rect key="frame" x="91" y="348" width="160" height="220"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="160" id="5AH-S4-oQb"/>
-                        <constraint firstAttribute="height" constant="220" id="7U9-E5-kpG"/>
-                    </constraints>
-                </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gdm-kL-WHA">
-                    <rect key="frame" x="115" y="0.0" width="160" height="121"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="160" id="eBv-fK-4cT"/>
-                    </constraints>
-                </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J3W-i9-T0V">
-                    <rect key="frame" x="96" y="226.5" width="160" height="121"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="160" id="lEa-iX-VI9"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -62,19 +40,11 @@
                 <constraint firstItem="Tt3-8w-DmR" firstAttribute="top" secondItem="utJ-qM-lXy" secondAttribute="bottom" priority="500" constant="8" id="6hl-1U-GyZ"/>
                 <constraint firstItem="YEF-RN-mYv" firstAttribute="trailing" secondItem="utJ-qM-lXy" secondAttribute="trailing" priority="500" id="ISk-vG-Sjh"/>
                 <constraint firstItem="utJ-qM-lXy" firstAttribute="top" secondItem="YEF-RN-mYv" secondAttribute="bottom" priority="500" constant="8" id="JE3-s8-pkY"/>
-                <constraint firstAttribute="trailing" secondItem="utJ-qM-lXy" secondAttribute="trailing" priority="500" constant="20" id="KtD-rG-hnZ"/>
-                <constraint firstAttribute="centerX" secondItem="R7Z-hx-7by" secondAttribute="centerX" constant="-11" id="ObK-S1-rQ0"/>
+                <constraint firstAttribute="trailing" secondItem="utJ-qM-lXy" secondAttribute="trailing" priority="500" constant="10" id="KtD-rG-hnZ"/>
                 <constraint firstItem="Tt3-8w-DmR" firstAttribute="leading" secondItem="utJ-qM-lXy" secondAttribute="leading" priority="500" id="WX4-4i-jEC"/>
-                <constraint firstAttribute="bottom" secondItem="R7Z-hx-7by" secondAttribute="bottom" id="Xyg-GE-IMx"/>
-                <constraint firstItem="utJ-qM-lXy" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="a0B-N8-F3f"/>
-                <constraint firstItem="Gdm-kL-WHA" firstAttribute="top" secondItem="1" secondAttribute="top" id="bTF-7I-IuG"/>
-                <constraint firstItem="J3W-i9-T0V" firstAttribute="top" secondItem="Tt3-8w-DmR" secondAttribute="bottom" id="cIS-bm-zLQ"/>
-                <constraint firstItem="YEF-RN-mYv" firstAttribute="top" secondItem="Gdm-kL-WHA" secondAttribute="bottom" id="du2-eK-peD"/>
+                <constraint firstItem="YEF-RN-mYv" firstAttribute="top" secondItem="1" secondAttribute="top" constant="12" id="Wiz-VB-CcN"/>
+                <constraint firstItem="utJ-qM-lXy" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="10" id="a0B-N8-F3f"/>
                 <constraint firstItem="YEF-RN-mYv" firstAttribute="leading" secondItem="utJ-qM-lXy" secondAttribute="leading" priority="500" id="hte-5G-RHx"/>
-                <constraint firstAttribute="centerX" secondItem="J3W-i9-T0V" secondAttribute="centerX" constant="-16" id="qH8-0i-vEh"/>
-                <constraint firstItem="J3W-i9-T0V" firstAttribute="height" secondItem="Gdm-kL-WHA" secondAttribute="height" id="rDl-2W-ndD"/>
-                <constraint firstItem="R7Z-hx-7by" firstAttribute="top" secondItem="J3W-i9-T0V" secondAttribute="bottom" id="s9v-eO-jAf"/>
-                <constraint firstAttribute="centerX" secondItem="Gdm-kL-WHA" secondAttribute="centerX" constant="-35" id="z9g-oM-sYt"/>
             </constraints>
         </view>
     </objects>
