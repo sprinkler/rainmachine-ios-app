@@ -89,7 +89,6 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.hud = nil;
             [self.statusTableView reloadData];
-            return;
         }
         if ([keyPath isEqualToString:@"firstGraphsReloadFinished"] && [GraphsManager sharedGraphsManager].firstGraphsReloadFinished) {
             [self.graphsTableView reloadData];
@@ -97,7 +96,6 @@
             [self.graphsTableView layoutIfNeeded];
             [self scrollGraphsToCurrentDateAnimated:NO];
             [self resetGlobalContentOffset];
-            return;
         }
     }
     [self.graphsTableView reloadData];

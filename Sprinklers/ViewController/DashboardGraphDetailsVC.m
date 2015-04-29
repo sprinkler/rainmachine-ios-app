@@ -61,6 +61,10 @@
     if (!self.doNotLayoutGraphsScrollableHeaderCell) {
         [self initializeTimeIntervalsSegmentedControl];
         [self initializeGraphScrollableHeaderCellAnimated:NO];
+        [self.graphScrollableHeaderCell performSelector:@selector(updateForecastLabelForContentOffset)
+                                             withObject:nil
+                                             afterDelay:0.0
+                                                inModes:@[NSRunLoopCommonModes]];
     }
 }
 
