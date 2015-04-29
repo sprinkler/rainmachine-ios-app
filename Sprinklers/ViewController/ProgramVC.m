@@ -905,8 +905,8 @@
         }
         
         else if (indexPath.section == startTimeSectionIndex) {
-            int nextRunRow = ([ServerProxy usesAPI3] ? -1 : 0);
-            int startTimeRow = ([ServerProxy usesAPI3] ? 0 : 1);
+            int startTimeRow = 0;
+            int nextRunRow = ([ServerProxy usesAPI3] ? -1 : 1);
             
             static NSString *CellIdentifier = @"ProgramCellType4";
             ProgramCellType4 *cell = (ProgramCellType4*)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -914,6 +914,7 @@
             if (indexPath.row == nextRunRow) {
                 cell.theTextLabel.text = @"NEXT RUN";
                 cell.timeLabel.text = [[NSDate sharedReverseDateFormatterAPI4] stringFromDate:((Program4*)self.program).nextRun];
+                cell.theTextLabel.font = [UIFont systemFontOfSize: 17.0f];
                 
                 if ([self.program.weekdays containsString:@"INT"]) {
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -934,9 +935,9 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
                 cell.timeLabelTrailingLayoutConstraint.constant = 4.0;
+                cell.theTextLabel.font = [UIFont systemFontOfSize: 22.0f];
             }
             
-            cell.theTextLabel.font = [UIFont systemFontOfSize: 22.0f];
             cell.timeLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
             
             return cell;
@@ -1183,8 +1184,8 @@
         }
         else if (indexPath.section == startTimeSectionIndex) {
             
-            int nextRunRow = ([ServerProxy usesAPI3] ? -1 : 0);
-            int startTimeRow = ([ServerProxy usesAPI3] ? 0 : 1);
+            int startTimeRow = 0;
+            int nextRunRow = ([ServerProxy usesAPI3] ? -1 : 1);
             
             if (indexPath.row == nextRunRow) {
                 if ([self.program.weekdays containsString:@"INT"]) {
