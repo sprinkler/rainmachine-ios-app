@@ -61,10 +61,6 @@
     if (!self.doNotLayoutGraphsScrollableHeaderCell) {
         [self initializeTimeIntervalsSegmentedControl];
         [self initializeGraphScrollableHeaderCellAnimated:NO];
-        [self.graphScrollableHeaderCell performSelector:@selector(updateForecastLabelForContentOffset)
-                                             withObject:nil
-                                             afterDelay:0.0
-                                                inModes:@[NSRunLoopCommonModes]];
     }
 }
 
@@ -127,6 +123,11 @@
     [self.graphScrollableHeaderCell setNeedsLayout];
     [self.graphScrollableHeaderCell layoutIfNeeded];
     [self.graphScrollableHeaderCell scrollToCurrentDateAnimated:NO];
+    
+    [self.graphScrollableHeaderCell performSelector:@selector(updateForecastLabelForContentOffset)
+                                         withObject:nil
+                                         afterDelay:0.0
+                                            inModes:@[NSRunLoopCommonModes]];
 }
 
 #pragma mark - Table view datasource
