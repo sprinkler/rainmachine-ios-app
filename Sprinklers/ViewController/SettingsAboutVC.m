@@ -112,7 +112,7 @@
     }
 }
 
-- (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version
+- (void)updateNowAvailable:(BOOL)available withVersion:(NSString*)the_new_version currentVersion:(NSString*)the_current_version
 {
     if (available) {
         doUpdate.hidden = NO;

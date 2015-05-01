@@ -104,7 +104,7 @@
 @protocol UpdateManagerDelegate <NSObject>
 
 - (void)sprinklerVersionReceivedMajor:(int)major minor:(int)minor subMinor:(int)subMinor;
-- (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version;
+- (void)updateNowAvailable:(BOOL)available withVersion:(NSString*)the_new_version currentVersion:(NSString*)the_current_version;
 
 @end
 

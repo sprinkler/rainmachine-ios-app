@@ -63,6 +63,7 @@
 @property (nonatomic, assign) BOOL checkingForUpdate;
 @property (nonatomic, assign) BOOL updateAvailable;
 @property (nonatomic, strong) NSString *updateAvailableVersion;
+@property (nonatomic, strong) NSString *updateCurrentVersion;
 
 - (IBAction)startUpdate:(id)sender;
 
@@ -206,8 +207,13 @@
         cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         
         if (indexPath.row == kRow_RainMachineFirmware) {
+            NSString *firmwareVersion = self.apiVersion.swVer;
+            if (self.updateCurrentVersion.length && self.updateAvailableVersion.length) {
+                firmwareVersion = [NSString stringWithFormat:@"%@ (new: %@)",self.updateCurrentVersion,self.updateAvailableVersion];
+            }
+                                         
             cell.textLabel.text = @"RainMachine firmware";
-            cell.detailTextLabel.text = [self detailTextFromValue:self.apiVersion.swVer metric:nil];
+            cell.detailTextLabel.text = [self detailTextFromValue:firmwareVersion metric:nil];
             
             if (self.updateAvailable) {
                 ColoredBackgroundButton *updateNowButton = [ColoredBackgroundButton buttonWithType:UIButtonTypeSystem];
@@ -345,17 +351,16 @@
 }
 
 - (void)sprinklerVersionReceivedMajor:(int)major minor:(int)minor subMinor:(int)subMinor {
-    // Update the values from AppDelegate's UpdateManager too
-    
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.updateManager.serverAPIMainVersion = major;
     appDelegate.updateManager.serverAPISubVersion = minor;
     appDelegate.updateManager.serverAPIMinorSubVersion = subMinor;
 }
 
-- (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version {
+- (void)updateNowAvailable:(BOOL)available withVersion:(NSString *)the_new_version currentVersion:(NSString*)the_current_version {
     self.updateAvailable = available;
     self.updateAvailableVersion = the_new_version;
+    self.updateCurrentVersion = the_current_version;
     self.checkingForUpdate = NO;
     
     [self.tableView reloadData];

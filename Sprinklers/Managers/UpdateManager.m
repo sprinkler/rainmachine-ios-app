@@ -131,7 +131,7 @@
                 // statusCode == 5xx or other. In this case the Sprinkler version is unknown for us.
                 [self setSprinklerVersionMajor:0 minor:0 subMinor:-1];
                 [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion subMinor:serverAPIMinorSubVersion];
-                [self.delegate updateNowAvailable:NO withVersion:nil];
+                [self.delegate updateNowAvailable:NO withVersion:nil currentVersion:nil];
                 
                 [self performSelector:@selector(retry) withObject:nil afterDelay:2.0];
             }
@@ -141,7 +141,7 @@
 
             // Error was received for some reason. Don't continue the update detection process
             [self.delegate sprinklerVersionReceivedMajor:serverAPIMainVersion minor:serverAPISubVersion subMinor:serverAPIMinorSubVersion];
-            [self.delegate updateNowAvailable:NO withVersion:nil];
+            [self.delegate updateNowAvailable:NO withVersion:nil currentVersion:nil];
 //            serverAPIMainVersion = 3;
 //            serverAPISubVersion = 56; // or 55;
 //            
@@ -199,13 +199,17 @@
         UpdateInfo *updateInfo = (UpdateInfo*)data;
         UpdateInfo4 *updateInfo4 = (UpdateInfo4*)data;
         
-        NSString *newVersion;
+        NSString *newVersion = nil;
+        NSString *currentVersion = nil;
+        
         if ([ServerProxy usesAPI3]) {
             newVersion = updateInfo.the_new_version;
+            currentVersion = updateInfo.current_version;
         } else {
             for (UpdateInfo4PackageDetails *packageDetails in updateInfo4.packageDetails) {
                 if ([packageDetails.packageName isEqualToString:@"rainmachine-app"] || [packageDetails.packageName isEqualToString:@"rainmachine"]) {
                     newVersion = packageDetails.theNewVersion;
+                    currentVersion = packageDetails.oldVersion;
                     break;
                 }
             }
@@ -236,7 +240,9 @@
             }
         }
         
-        [self.delegate updateNowAvailable:[updateInfo.update boolValue] withVersion:newVersion];
+        [self.delegate updateNowAvailable:[updateInfo.update boolValue]
+                              withVersion:newVersion
+                           currentVersion:currentVersion];
     }
     else if ([data isKindOfClass:[UpdateStartInfo class]]) {
         [self stop];
