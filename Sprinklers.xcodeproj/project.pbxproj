@@ -27,6 +27,12 @@
 		3AC64A07192B56130009061D /* MappingModev1tov6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3AC64A06192B56130009061D /* MappingModev1tov6.xcmappingmodel */; };
 		960374F819D5FB3C009CB68A /* RestrictionsSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */; };
 		960374F919D5FB3C009CB68A /* RestrictionsSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */; };
+		960D7B891AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960D7B871AF3E8C100FA1670 /* SoftwareUpdateVC.m */; };
+		960D7B8A1AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960D7B871AF3E8C100FA1670 /* SoftwareUpdateVC.m */; };
+		960D7B8B1AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960D7B871AF3E8C100FA1670 /* SoftwareUpdateVC.m */; };
+		960D7B8C1AF3E8C100FA1670 /* SoftwareUpdateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 960D7B881AF3E8C100FA1670 /* SoftwareUpdateVC.xib */; };
+		960D7B8D1AF3E8C100FA1670 /* SoftwareUpdateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 960D7B881AF3E8C100FA1670 /* SoftwareUpdateVC.xib */; };
+		960D7B8E1AF3E8C100FA1670 /* SoftwareUpdateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 960D7B881AF3E8C100FA1670 /* SoftwareUpdateVC.xib */; };
 		96116DD31A6BE9680017FB3F /* GraphScrollableCellMonth.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD01A6BE9680017FB3F /* GraphScrollableCellMonth.xib */; };
 		96116DD41A6BE9680017FB3F /* GraphScrollableCellWeek.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */; };
 		96116DD51A6BE9680017FB3F /* GraphScrollableCellYear.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */; };
@@ -1584,6 +1590,9 @@
 		960374F519D5FB3C009CB68A /* RestrictionsSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestrictionsSwitchCell.h; path = Cells/RestrictionsSwitchCell.h; sourceTree = "<group>"; };
 		960374F619D5FB3C009CB68A /* RestrictionsSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestrictionsSwitchCell.m; path = Cells/RestrictionsSwitchCell.m; sourceTree = "<group>"; };
 		960374F719D5FB3C009CB68A /* RestrictionsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestrictionsSwitchCell.xib; path = Cells/RestrictionsSwitchCell.xib; sourceTree = "<group>"; };
+		960D7B861AF3E8C100FA1670 /* SoftwareUpdateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoftwareUpdateVC.h; path = ViewController/SoftwareUpdateVC.h; sourceTree = "<group>"; };
+		960D7B871AF3E8C100FA1670 /* SoftwareUpdateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoftwareUpdateVC.m; path = ViewController/SoftwareUpdateVC.m; sourceTree = "<group>"; };
+		960D7B881AF3E8C100FA1670 /* SoftwareUpdateVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SoftwareUpdateVC.xib; path = ViewController/SoftwareUpdateVC.xib; sourceTree = "<group>"; };
 		96116DD01A6BE9680017FB3F /* GraphScrollableCellMonth.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellMonth.xib; path = ViewController/Graphs/GraphScrollableCellMonth.xib; sourceTree = "<group>"; };
 		96116DD11A6BE9680017FB3F /* GraphScrollableCellWeek.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellWeek.xib; path = ViewController/Graphs/GraphScrollableCellWeek.xib; sourceTree = "<group>"; };
 		96116DD21A6BE9680017FB3F /* GraphScrollableCellYear.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GraphScrollableCellYear.xib; path = ViewController/Graphs/GraphScrollableCellYear.xib; sourceTree = "<group>"; };
@@ -2529,7 +2538,7 @@
 			name = Restrictions;
 			sourceTree = "<group>";
 		};
-		963983F71AE8F60200D537A2 /* About */ = {
+		963983F71AE8F60200D537A2 /* About & Software Update */ = {
 			isa = PBXGroup;
 			children = (
 				3A9C8FFD18EEF76100272BA3 /* SettingsAboutVC.h */,
@@ -2538,8 +2547,11 @@
 				96DB95DA1A9F43F400789D05 /* SettingsAbout4VC.h */,
 				96DB95DB1A9F43F400789D05 /* SettingsAbout4VC.m */,
 				96DB95DC1A9F43F400789D05 /* SettingsAbout4VC.xib */,
+				960D7B861AF3E8C100FA1670 /* SoftwareUpdateVC.h */,
+				960D7B871AF3E8C100FA1670 /* SoftwareUpdateVC.m */,
+				960D7B881AF3E8C100FA1670 /* SoftwareUpdateVC.xib */,
 			);
-			name = About;
+			name = "About & Software Update";
 			sourceTree = "<group>";
 		};
 		963983F81AE8F61C00D537A2 /* System Settings */ = {
@@ -3547,7 +3559,7 @@
 				963983F61AE8F5B800D537A2 /* Restrictions */,
 				963983E11AE8E53600D537A2 /* Weather */,
 				963983F81AE8F61C00D537A2 /* System Settings */,
-				963983F71AE8F60200D537A2 /* About */,
+				963983F71AE8F60200D537A2 /* About & Software Update */,
 				B1EF21141860497B00D9CE26 /* SettingsVC.h */,
 				B1EF21151860497B00D9CE26 /* SettingsVC.m */,
 				B1EF21161860497B00D9CE26 /* SettingsVC.xib */,
@@ -3697,6 +3709,7 @@
 				96CB93F31A38AFAD00F3691F /* nsct_small_white.png in Resources */,
 				96F686BA1AB8763A00A41505 /* ProvisionRemoteAccessVC.xib in Resources */,
 				AF48266C1990DC9500D80B87 /* fg.png in Resources */,
+				960D7B8C1AF3E8C100FA1670 /* SoftwareUpdateVC.xib in Resources */,
 				AF4826721990DC9500D80B87 /* hi_shwrs.png in Resources */,
 				AF81E6EB18BA34ED007E9A03 /* ProgramCellType2.xib in Resources */,
 				AFE894D11A356538007FC7EB /* icon_wi-fi-2-bars.png in Resources */,
@@ -3966,6 +3979,7 @@
 				BD0BB6C01ACE93AA005E2426 /* ProvisionRemoteAccessVC.xib in Resources */,
 				BD0BB6C11ACE93AA005E2426 /* fg.png in Resources */,
 				BD0BB6C21ACE93AA005E2426 /* hi_shwrs.png in Resources */,
+				960D7B8D1AF3E8C100FA1670 /* SoftwareUpdateVC.xib in Resources */,
 				BD0BB6C31ACE93AA005E2426 /* ProgramCellType2.xib in Resources */,
 				BD0BB6C41ACE93AA005E2426 /* icon_wi-fi-2-bars.png in Resources */,
 				BD0BB6C51ACE93AA005E2426 /* Default@2x.png in Resources */,
@@ -4235,6 +4249,7 @@
 				BD0BB8B91ACE9525005E2426 /* ProvisionRemoteAccessVC.xib in Resources */,
 				BD0BB8BA1ACE9525005E2426 /* fg.png in Resources */,
 				BD0BB8BB1ACE9525005E2426 /* hi_shwrs.png in Resources */,
+				960D7B8E1AF3E8C100FA1670 /* SoftwareUpdateVC.xib in Resources */,
 				BD0BB8BC1ACE9525005E2426 /* ProgramCellType2.xib in Resources */,
 				BD0BB8BD1ACE9525005E2426 /* icon_wi-fi-2-bars.png in Resources */,
 				BD0BB8BE1ACE9525005E2426 /* Default@2x.png in Resources */,
@@ -4657,6 +4672,7 @@
 				963983EA1AE8E76900D537A2 /* WindSensitivityCell.m in Sources */,
 				9624BE051AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */,
 				AF726E331A2C670D0024604B /* WiFi.m in Sources */,
+				960D7B891AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
 				96EF1A8B1A40BB5F002CF2E0 /* BVReorderTableView.m in Sources */,
 				AF0B1F5119AF3B1200FDC406 /* TimeResponse4.m in Sources */,
@@ -4897,6 +4913,7 @@
 				BD0BB65D1ACE93AA005E2426 /* DevicesVC.m in Sources */,
 				9624BE061AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */,
 				BD0BB65E1ACE93AA005E2426 /* WiFi.m in Sources */,
+				960D7B8A1AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */,
 				BD0BB65F1ACE93AA005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB6601ACE93AA005E2426 /* BVReorderTableView.m in Sources */,
 				BD0BB6611ACE93AA005E2426 /* TimeResponse4.m in Sources */,
@@ -5137,6 +5154,7 @@
 				BD0BB8561ACE9525005E2426 /* DevicesVC.m in Sources */,
 				9624BE071AEA596A00141891 /* WateringHistoryNoDataCell.m in Sources */,
 				BD0BB8571ACE9525005E2426 /* WiFi.m in Sources */,
+				960D7B8B1AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */,
 				BD0BB8581ACE9525005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB8591ACE9525005E2426 /* BVReorderTableView.m in Sources */,
 				BD0BB85A1ACE9525005E2426 /* TimeResponse4.m in Sources */,

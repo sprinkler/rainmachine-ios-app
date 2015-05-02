@@ -41,6 +41,7 @@
 #import "CloudSettings.h"
 #import "RainSensorVC.h"
 #import "WateringHistoryVC.h"
+#import "SoftwareUpdateVC.h"
 
 NSString *kSettingsPrograms             = @"Programs";
 NSString *kSettingsWateringHistory      = @"Watering History";
@@ -316,7 +317,8 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         }
     }
     else if ([settingsRow isEqualToString:kSettingsSoftwareUpdate]) {
-        
+        SoftwareUpdateVC *softwareUpdateVC = [[SoftwareUpdateVC alloc] init];
+        [self.navigationController pushViewController:softwareUpdateVC animated:YES];
     }
 
     // Weather Settings
