@@ -203,7 +203,10 @@ const float kTimeout = 6;
 #pragma mark - Setters
 
 - (void)setAvailableWiFis:(NSArray*)availableWiFis {
-    if (!availableWiFis) return;
+    if (!availableWiFis) {
+        _availableWiFis = nil;
+        return;
+    }
     
     NSMutableArray *availableWiFisMut = [[NSMutableArray alloc] initWithArray:availableWiFis];
     
