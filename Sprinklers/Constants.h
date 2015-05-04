@@ -1,4 +1,8 @@
+#if DEBUG
 #define ENABLE_DEBUG_SETTINGS YES
+#else
+#define ENABLE_DEBUG_SETTINGS NO
+#endif
 
 #define broadcastPort   15800
 #define listenPort      15900

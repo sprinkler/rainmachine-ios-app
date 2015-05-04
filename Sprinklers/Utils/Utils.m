@@ -541,6 +541,7 @@
     
     cell.labelMainTitle.text = sprinkler.name;
     
+#if DEBUG
     // remove https from address
     NSString *adressWithoutPrefix = [Utils addressWithoutPrefix:sprinkler.address];
     
@@ -549,6 +550,10 @@
         cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@", adressWithoutPrefix] : sprinkler.address;
     else
         cell.labelMainSubtitle.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
+#else
+    [cell.labelMainSubtitle removeFromSuperview];
+    cell.labelMainSubtitle = nil;
+#endif
     
     BOOL isDeviceInactive = [Utils isDeviceInactive:sprinkler];
     
@@ -562,7 +567,10 @@
     
     cell.disclosureImageView.hidden = tableView.isEditing || (isDeviceInactive) || (forceHiddenDisclosure);
     cell.labelMainTitle.textColor = isDeviceInactive ? [UIColor lightGrayColor] : [UIColor blackColor];
+    
+#if DEBUG
     cell.labelMainSubtitle.textColor = cell.labelMainTitle.textColor;
+#endif
     
     if (tableView.isEditing && canEditRow) {
         cell.disclosureImageView.hidden = NO;
