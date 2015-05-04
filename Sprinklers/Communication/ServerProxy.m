@@ -685,6 +685,20 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
+- (void)enableLightLEDs:(BOOL)enabled {
+    NSDictionary *params = @{@"enabled" : @(enabled)};
+    
+    [self.manager POST:[self urlByAppendingAccessTokenToUrl:@"api/4/machine/lightleds"] parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:[ServerProxy fromJSON:responseObject toClass:NSStringFromClass([API4StatusResponse class])] serverProxy:self userInfo:nil];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
 - (void)setLocation:(double)latitude longitude:(double)longitude name:(NSString*)name timezone:(NSString*)timezone
 {
     NSMutableDictionary *locationParams = [NSMutableDictionary new];

@@ -66,6 +66,9 @@
 		9624BE0C1AEA9F4800141891 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9624BE0B1AEA9F4700141891 /* MessageUI.framework */; };
 		9624BE0D1AEA9F5F00141891 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9624BE0B1AEA9F4700141891 /* MessageUI.framework */; };
 		9624BE0E1AEA9F7000141891 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9624BE0B1AEA9F4700141891 /* MessageUI.framework */; };
+		9626881D1AF7A0610026D79A /* LightLeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9626881C1AF7A0610026D79A /* LightLeds.m */; };
+		9626881E1AF7A0610026D79A /* LightLeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9626881C1AF7A0610026D79A /* LightLeds.m */; };
+		9626881F1AF7A0610026D79A /* LightLeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9626881C1AF7A0610026D79A /* LightLeds.m */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -1619,6 +1622,8 @@
 		9624BE031AEA596A00141891 /* WateringHistoryNoDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistoryNoDataCell.m; path = Cells/WateringHistoryNoDataCell.m; sourceTree = "<group>"; };
 		9624BE041AEA596A00141891 /* WateringHistoryNoDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WateringHistoryNoDataCell.xib; path = Cells/WateringHistoryNoDataCell.xib; sourceTree = "<group>"; };
 		9624BE0B1AEA9F4700141891 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9626881B1AF7A0610026D79A /* LightLeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightLeds.h; path = "Communication/Request objects/LightLeds.h"; sourceTree = "<group>"; };
+		9626881C1AF7A0610026D79A /* LightLeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LightLeds.m; path = "Communication/Request objects/LightLeds.m"; sourceTree = "<group>"; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -3270,6 +3275,8 @@
 				9611A0371ACD580300ADCA06 /* DailyStatsDetailProgram.m */,
 				9611A0301ACD571100ADCA06 /* DailyStatsDetail.h */,
 				9611A0311ACD571100ADCA06 /* DailyStatsDetail.m */,
+				9626881B1AF7A0610026D79A /* LightLeds.h */,
+				9626881C1AF7A0610026D79A /* LightLeds.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -4638,6 +4645,7 @@
 				AF7AC9E0184E3E080047BD9E /* AFSecurityPolicy.m in Sources */,
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */,
+				9626881D1AF7A0610026D79A /* LightLeds.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				AF085CAD1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
@@ -4879,6 +4887,7 @@
 				BD0BB63B1ACE93AA005E2426 /* ProgramCellType3.m in Sources */,
 				BD0BB63C1ACE93AA005E2426 /* AFSecurityPolicy.m in Sources */,
 				BD0BB63D1ACE93AA005E2426 /* AFURLSessionManager.m in Sources */,
+				9626881E1AF7A0610026D79A /* LightLeds.m in Sources */,
 				BD0BB63E1ACE93AA005E2426 /* GoogleTimezone.m in Sources */,
 				BD0BB63F1ACE93AA005E2426 /* +UIBezierPath.m in Sources */,
 				BD0BB6401ACE93AA005E2426 /* ProvisionAvailableWiFisVC.m in Sources */,
@@ -5120,6 +5129,7 @@
 				BD0BB8341ACE9525005E2426 /* ProgramCellType3.m in Sources */,
 				BD0BB8351ACE9525005E2426 /* AFSecurityPolicy.m in Sources */,
 				BD0BB8361ACE9525005E2426 /* AFURLSessionManager.m in Sources */,
+				9626881F1AF7A0610026D79A /* LightLeds.m in Sources */,
 				BD0BB8371ACE9525005E2426 /* GoogleTimezone.m in Sources */,
 				BD0BB8381ACE9525005E2426 /* +UIBezierPath.m in Sources */,
 				BD0BB8391ACE9525005E2426 /* ProvisionAvailableWiFisVC.m in Sources */,

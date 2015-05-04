@@ -170,6 +170,7 @@ typedef enum {
 - (void)saveCloudEmail:(NSString*)email;
 
 - (void)provisionReset;
+- (void)enableLightLEDs:(BOOL)enabled;
 
 - (void)requestParsers;
 - (void)activateParser:(Parser*)parser activate:(BOOL)activate;

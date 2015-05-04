@@ -22,6 +22,7 @@
 #import "AppDelegate.h"
 #import "UpdateManager.h"
 #import "DevicesVC.h"
+#import "LightLeds.h"
 
 #define kPollInterval 6
 #define kWiFisPollInterval 5
@@ -174,6 +175,11 @@ const float kTimeout = 6;
 {
     [super viewWillDisappear:animated];
     
+    if (self.isPartOfWizard) {
+        [[LightLeds sharedLightLeds] disableLightLeds];
+        [[LightLeds sharedLightLeds] setSprinklerURL:nil];
+    }
+    
     [self.requestAvailableWiFisProvisionServerProxy cancelAllOperations];
     self.requestAvailableWiFisProvisionServerProxy = nil;
     
@@ -197,6 +203,8 @@ const float kTimeout = 6;
 #pragma mark - Setters
 
 - (void)setAvailableWiFis:(NSArray*)availableWiFis {
+    if (!availableWiFis) return;
+    
     NSMutableArray *availableWiFisMut = [[NSMutableArray alloc] initWithArray:availableWiFis];
     
     NSSortDescriptor *signalSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"signal" ascending:NO];
@@ -421,6 +429,10 @@ const float kTimeout = 6;
 //            }
             self.messageLabel.hidden = YES;
             [self showPressAButtonUI:YES];
+            
+            [[LightLeds sharedLightLeds] setSprinklerURL:self.sprinkler.url];
+            [[LightLeds sharedLightLeds] enableLightLeds];
+            
             self.sprinkler = nil;
         } else {
             NSString *address = self.sprinkler.url;
