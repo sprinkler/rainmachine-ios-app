@@ -8,6 +8,7 @@
 
 #import "DevicesMenuVC.h"
 #import "CloudAccountsVC.h"
+#import "PortForwardSettingsVC.h"
 #import "AddNewDeviceVC.h"
 #import "Additions.h"
 #import "Constants.h"
@@ -20,6 +21,7 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
 @interface DevicesMenuVC ()
 
 @property (nonatomic, strong) CloudAccountsVC *cloudAccountsVC;
+@property (nonatomic, strong) PortForwardSettingsVC *portForwardSettingsVC;
 
 @end
 
@@ -59,6 +61,10 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
     if (self.cloudAccountsVC) {
         self.cloudEmails = self.cloudAccountsVC.cloudEmails;
         self.cloudAccountsVC = nil;
+    }
+    
+    if (self.portForwardSettingsVC) {
+        self.portForwardSettingsVC = nil;
     }
 }
 
@@ -117,8 +123,9 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
         [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
     }
     else if (indexPath.section == DevicesMenuNetworkSettingsSection) {
-        AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
-        [self.navigationController pushViewController:addNewDeviceVC animated:YES];
+        self.portForwardSettingsVC = [[PortForwardSettingsVC alloc] init];
+        self.portForwardSettingsVC.portForwardSprinklers = self.manuallyEnteredSprinkler;
+        [self.navigationController pushViewController:self.portForwardSettingsVC animated:YES];
     }
 }
 

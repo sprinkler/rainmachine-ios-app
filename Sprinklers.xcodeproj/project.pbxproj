@@ -81,6 +81,12 @@
 		96268B2F1AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */; };
 		96268B301AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */; };
 		96268B311AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */; };
+		96268B351AF7F84C0026D79A /* PortForwardSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96268B331AF7F84C0026D79A /* PortForwardSettingsVC.m */; };
+		96268B361AF7F84C0026D79A /* PortForwardSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96268B331AF7F84C0026D79A /* PortForwardSettingsVC.m */; };
+		96268B371AF7F84C0026D79A /* PortForwardSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96268B331AF7F84C0026D79A /* PortForwardSettingsVC.m */; };
+		96268B381AF7F84C0026D79A /* PortForwardSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B341AF7F84C0026D79A /* PortForwardSettingsVC.xib */; };
+		96268B391AF7F84C0026D79A /* PortForwardSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B341AF7F84C0026D79A /* PortForwardSettingsVC.xib */; };
+		96268B3A1AF7F84C0026D79A /* PortForwardSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B341AF7F84C0026D79A /* PortForwardSettingsVC.xib */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -1641,6 +1647,9 @@
 		96268B291AF7C3C90026D79A /* DevicesMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DevicesMenuVC.h; path = ViewController/DevicesMenuVC.h; sourceTree = "<group>"; };
 		96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DevicesMenuVC.m; path = ViewController/DevicesMenuVC.m; sourceTree = "<group>"; };
 		96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DevicesMenuVC.xib; path = ViewController/DevicesMenuVC.xib; sourceTree = "<group>"; };
+		96268B321AF7F84C0026D79A /* PortForwardSettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortForwardSettingsVC.h; path = ViewController/PortForwardSettingsVC.h; sourceTree = "<group>"; };
+		96268B331AF7F84C0026D79A /* PortForwardSettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PortForwardSettingsVC.m; path = ViewController/PortForwardSettingsVC.m; sourceTree = "<group>"; };
+		96268B341AF7F84C0026D79A /* PortForwardSettingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PortForwardSettingsVC.xib; path = ViewController/PortForwardSettingsVC.xib; sourceTree = "<group>"; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -3514,6 +3523,9 @@
 				AF3E02E41A1D457E00E76C53 /* CloudAccountsVC.h */,
 				AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */,
 				AF3E02E61A1D457E00E76C53 /* CloudAccountsVC.xib */,
+				96268B321AF7F84C0026D79A /* PortForwardSettingsVC.h */,
+				96268B331AF7F84C0026D79A /* PortForwardSettingsVC.m */,
+				96268B341AF7F84C0026D79A /* PortForwardSettingsVC.xib */,
 				AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */,
 				AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */,
 				AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */,
@@ -3940,6 +3952,7 @@
 				AF0EFF5A1861AE8C007BF852 /* HomeScreenCell.xib in Resources */,
 				96C223A619D7255900683AC6 /* MonthsVC.xib in Resources */,
 				AF4826981990DC9500D80B87 /* skc.png in Resources */,
+				96268B381AF7F84C0026D79A /* PortForwardSettingsVC.xib in Resources */,
 				B11F7DB316BA6F3B00E36D00 /* form_inputbox_one@2x.png in Resources */,
 				96E70AFB1A7BC9EE00A07D94 /* ZoneAdvancedPropertyCell.xib in Resources */,
 				AF4826791990DC9500D80B87 /* nbkn.png in Resources */,
@@ -4213,6 +4226,7 @@
 				BD0BB7801ACE93AA005E2426 /* HomeScreenCell.xib in Resources */,
 				BD0BB7811ACE93AA005E2426 /* MonthsVC.xib in Resources */,
 				BD0BB7821ACE93AA005E2426 /* skc.png in Resources */,
+				96268B391AF7F84C0026D79A /* PortForwardSettingsVC.xib in Resources */,
 				BD0BB7831ACE93AA005E2426 /* form_inputbox_one@2x.png in Resources */,
 				BD0BB7841ACE93AA005E2426 /* ZoneAdvancedPropertyCell.xib in Resources */,
 				BD0BB7851ACE93AA005E2426 /* nbkn.png in Resources */,
@@ -4486,6 +4500,7 @@
 				BD0BB9791ACE9525005E2426 /* HomeScreenCell.xib in Resources */,
 				BD0BB97A1ACE9525005E2426 /* MonthsVC.xib in Resources */,
 				BD0BB97B1ACE9525005E2426 /* skc.png in Resources */,
+				96268B3A1AF7F84C0026D79A /* PortForwardSettingsVC.xib in Resources */,
 				BD0BB97C1ACE9525005E2426 /* form_inputbox_one@2x.png in Resources */,
 				BD0BB97D1ACE9525005E2426 /* ZoneAdvancedPropertyCell.xib in Resources */,
 				BD0BB97E1ACE9525005E2426 /* nbkn.png in Resources */,
@@ -4725,6 +4740,7 @@
 				96D8F8BF1A53645300139940 /* GraphDataSourceWaterConsume.m in Sources */,
 				AF927C9019C84B91009C59EA /* CloudUtils.m in Sources */,
 				96F0F3441A3702D60056D167 /* GraphTitleAreaDescriptor.m in Sources */,
+				96268B351AF7F84C0026D79A /* PortForwardSettingsVC.m in Sources */,
 				AF167D59189ABF6C003E659D /* UpdateInfo.m in Sources */,
 				AF61117B19C62D55008AA62B /* ProgramWateringTimes4.m in Sources */,
 				96C223A119D7223700683AC6 /* MonthsVC.m in Sources */,
@@ -4968,6 +4984,7 @@
 				BD0BB6671ACE93AA005E2426 /* ProgramListCell.m in Sources */,
 				BD0BB6681ACE93AA005E2426 /* GraphDataSourceWaterConsume.m in Sources */,
 				BD0BB6691ACE93AA005E2426 /* CloudUtils.m in Sources */,
+				96268B361AF7F84C0026D79A /* PortForwardSettingsVC.m in Sources */,
 				BD0BB66A1ACE93AA005E2426 /* GraphTitleAreaDescriptor.m in Sources */,
 				BD0BB66B1ACE93AA005E2426 /* UpdateInfo.m in Sources */,
 				BD0BB66C1ACE93AA005E2426 /* ProgramWateringTimes4.m in Sources */,
@@ -5211,6 +5228,7 @@
 				BD0BB8601ACE9525005E2426 /* ProgramListCell.m in Sources */,
 				BD0BB8611ACE9525005E2426 /* GraphDataSourceWaterConsume.m in Sources */,
 				BD0BB8621ACE9525005E2426 /* CloudUtils.m in Sources */,
+				96268B371AF7F84C0026D79A /* PortForwardSettingsVC.m in Sources */,
 				BD0BB8631ACE9525005E2426 /* GraphTitleAreaDescriptor.m in Sources */,
 				BD0BB8641ACE9525005E2426 /* UpdateInfo.m in Sources */,
 				BD0BB8651ACE9525005E2426 /* ProgramWateringTimes4.m in Sources */,

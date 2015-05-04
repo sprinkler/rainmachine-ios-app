@@ -111,7 +111,7 @@
                                                                       toItem:_urlOrIPTextField
                                                                    attribute:NSLayoutAttributeBottom
                                                                   multiplier:1.0
-                                                                    constant:(self.edit ? 58.0 : 18.0)];
+                                                                    constant:(self.edit && self.cloudUI ? 58.0 : 18.0)];
 
     constraint.priority = UILayoutPriorityRequired;
     

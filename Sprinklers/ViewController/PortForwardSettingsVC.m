@@ -1,25 +1,25 @@
 //
-//  CloudAccountsVC.m
+//  PortForwardSettingsVC.m
 //  Sprinklers
 //
-//  Created by Fabian Matyas on 19/11/14.
-//  Copyright (c) 2014 Tremend. All rights reserved.
+//  Created by Istvan Sipos on 04/05/15.
+//  Copyright (c) 2015 Tremend. All rights reserved.
 //
 
-#import "CloudAccountsVC.h"
+#import "PortForwardSettingsVC.h"
+#import "AddNewDeviceVC.h"
 #import "AddNewCell.h"
 #import "Constants.h"
+#import "Sprinkler.h"
+#import "Utils.h"
 #import "+UILabel.h"
-#import "AddNewDeviceVC.h"
-#import "CloudUtils.h"
 
 #pragma mark -
 
-@interface CloudAccountsVC ()
+@interface PortForwardSettingsVC ()
 
 @property (nonatomic, strong) UIBarButtonItem *editBarButtonItem;
-@property (nonatomic, strong) NSMutableDictionary *cloudResponsePerEmails;
-@property (nonatomic, strong) AddNewDeviceVC *addCloudAccountVC;
+@property (nonatomic, strong) AddNewDeviceVC *addNewDeviceVC;
 
 - (void)updateEditButton;
 
@@ -27,34 +27,25 @@
 
 #pragma mark -
 
-@implementation CloudAccountsVC
+@implementation PortForwardSettingsVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Account Settings";
+    self.title = @"Network Settings";
     
     self.editBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
                                                              action:@selector(edit:)];
     self.navigationItem.rightBarButtonItem = self.editBarButtonItem;
-
-    NSArray *sprinklersByEmail = self.cloudResponse[@"sprinklersByEmail"];
-    self.cloudResponsePerEmails = [NSMutableDictionary new];
-    for (NSDictionary *cloudDict in sprinklersByEmail) {
-        self.cloudResponsePerEmails[cloudDict[@"email"]] = cloudDict;
-    }
-    [self.tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
     [self updateEditButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
-    self.cloudEmails = [[cloudAccounts allKeys] mutableCopy];
     
     [self.tableView reloadData];
     [self updateEditButton];
@@ -74,7 +65,7 @@
 }
 
 - (void)updateEditButton {
-    self.navigationItem.rightBarButtonItem.enabled = (self.cloudEmails.count > 0);
+    self.navigationItem.rightBarButtonItem.enabled = (self.portForwardSprinklers.count > 0);
 }
 
 #pragma mark - Table view data source
@@ -84,33 +75,35 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) return self.cloudEmails.count;
+    if (section == 0) return self.portForwardSprinklers.count;
     if (section == 1) return 1;
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        static NSString *CloudAccountCellIdentifier = @"CloudAccountCellIdentifier";
+        static NSString *PortForwardDeviceCellIdentifier = @"PortForwardDeviceCellIdentifier";
         
-        UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:CloudAccountCellIdentifier];
-        if (!cell) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CloudAccountCellIdentifier];
+        UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:PortForwardDeviceCellIdentifier];
+        if (!cell) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:PortForwardDeviceCellIdentifier];
         
-        cell.textLabel.text = self.cloudEmails[indexPath.row];
+        Sprinkler *sprinkler = self.portForwardSprinklers[indexPath.row];
+        
+        cell.textLabel.text = sprinkler.name;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
-#if DEBUG
-        NSDictionary *details = self.cloudResponsePerEmails[cell.textLabel.text];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"activeCount:%d knownCount:%d authCount:%d",
-                                     [details[@"activeCount"] intValue],
-                                     [details[@"knownCount"] intValue],
-                                     [details[@"authCount"] intValue]];
-        cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-#endif
+        NSString *adressWithoutPrefix = [Utils addressWithoutPrefix:sprinkler.address];
+        
+        if ([sprinkler.port isEqual: @"443"]) {
+            cell.detailTextLabel.text = sprinkler.port ? [NSString stringWithFormat:@"%@", adressWithoutPrefix] : sprinkler.address;
+        }
+        else {
+            cell.detailTextLabel.text = sprinkler.port ? [NSString stringWithFormat:@"%@:%@", adressWithoutPrefix, sprinkler.port] : sprinkler.address;
+        }
         
         return cell;
     }
-
+    
     // Add Cloud Account
     AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
     cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
@@ -119,8 +112,8 @@
     [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
     [cell.titleLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
     
-    cell.titleLabel.text = @"Add Account";
-
+    cell.titleLabel.text = @"Add Device";
+    
     return cell;
 }
 
@@ -130,8 +123,12 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [CloudUtils deleteCloudAccountWithEmail:self.cloudEmails[indexPath.row]];
-        [self.cloudEmails removeObjectAtIndex:indexPath.row];
+        // TODO: Delete sprinkler from the DB
+        
+        NSMutableArray *portForwardSprinklers = [self.portForwardSprinklers mutableCopy];
+        [portForwardSprinklers removeObjectAtIndex:indexPath.row];
+        self.portForwardSprinklers = portForwardSprinklers;
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self updateEditButton];
     }
@@ -143,19 +140,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        AddNewDeviceVC *editCloudAccountVC = [[AddNewDeviceVC alloc] init];
-        editCloudAccountVC.cloudUI = YES;
-        editCloudAccountVC.edit = YES;
+        AddNewDeviceVC *editDeviceVC = [[AddNewDeviceVC alloc] init];
+        editDeviceVC.edit = YES;
+        editDeviceVC.sprinkler = self.portForwardSprinklers[indexPath.row];
         
-        NSString *cloudEmail = self.cloudEmails[indexPath.row];
-        editCloudAccountVC.existingEmail = cloudEmail;
-        editCloudAccountVC.existingPassword = [CloudUtils passwordForCloudAccountWithEmail:cloudEmail];
-        
-        [self.navigationController pushViewController:editCloudAccountVC animated:YES];
+        [self.navigationController pushViewController:editDeviceVC animated:YES];
     } else {
-        AddNewDeviceVC *addCloudAccountVC = [[AddNewDeviceVC alloc] init];
-        addCloudAccountVC.cloudUI = YES;
-        [self.navigationController pushViewController:addCloudAccountVC animated:YES];
+        AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+        [self.navigationController pushViewController:addNewDeviceVC animated:YES];
     }
 }
 
