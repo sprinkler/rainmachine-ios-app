@@ -54,17 +54,16 @@
     [super viewDidLoad];
     
     if (self.cloudUI) {
-        self.title = @"Add Account";
+        self.title = (self.edit ? @"Edit Account" : @"Add Account");
         self.nameTitleLabel.text = @"E-mail address";
         self.urlOrIPTitleLabel.text = @"RainMachine password";
         self.urlOrIPTextField.secureTextEntry = YES;
         
-//#if DEBUG
-//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Server" style:UIBarButtonItemStylePlain target:self action:@selector(onSwitchServer:)];
-//#endif
+        if (self.existingEmail) _nameTextField.text = self.existingEmail;
+        if (self.existingPassword) _urlOrIPTextField.text = self.existingPassword;
+        
     }
     
-    // Do any additional setup after loading the view from its nib.
     if (self.sprinkler) {
         self.nameTextField.text = self.sprinkler.name;
         self.urlOrIPTextField.text = self.sprinkler.address;
@@ -125,7 +124,7 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid e-mail address" message:@"It looks like you entered an invalid e-mail address for the sprinkler. Please check your syntax and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
         } else if ([CloudUtils existsCloudAccountWithEmail:self.nameTextField.text]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"A device with the same e-mail already exists." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An account with the same e-mail already exists." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
         } else {
             [self requestCloudSprinklersForEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
@@ -212,6 +211,7 @@
         NSArray *cloudSprinklers = sprinklerDict[@"sprinklers"];
         
         if (cloudSprinklers.count > 0) {
+            if (self.edit && self.existingEmail.length) [CloudUtils deleteCloudAccountWithEmail:self.existingEmail];
             [CloudUtils addCloudAccountWithEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
             self.cloudResponse = data;
             [self.navigationController popViewControllerAnimated:YES];

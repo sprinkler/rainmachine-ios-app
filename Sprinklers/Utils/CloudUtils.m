@@ -43,9 +43,13 @@
 }
 
 + (BOOL)existsCloudAccountWithEmail:(NSString*)email {
-    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount] mutableCopy];
-    if (!keychainDictionary) keychainDictionary = [NSMutableDictionary dictionary];
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount];
     return (keychainDictionary[email] != nil);
+}
+
++ (NSString*)passwordForCloudAccountWithEmail:(NSString*)email {
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount];
+    return keychainDictionary[email];
 }
 
 + (void)deleteCloudAccountWithEmail:(NSString*)email

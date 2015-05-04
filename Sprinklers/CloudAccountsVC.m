@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSMutableDictionary *cloudResponsePerEmails;
 @property (nonatomic, strong) AddNewDeviceVC *addCloudAccountVC;
 
+- (void)updateEditButton;
+
 @end
 
 @implementation CloudAccountsVC
@@ -41,6 +43,8 @@
         self.cloudResponsePerEmails[cloudDict[@"email"]] = cloudDict;
     }
     [self.tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
+    
+    [self updateEditButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -50,7 +54,14 @@
     self.cloudEmails = [[cloudAccounts allKeys] mutableCopy];
     
     [self.tableView reloadData];
+    [self updateEditButton];
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Edit mode
 
 - (IBAction)edit:(id)sender {
     [self.tableView setEditing:!self.tableView.editing];
@@ -59,8 +70,8 @@
     [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)updateEditButton {
+    self.navigationItem.rightBarButtonItem.enabled = (self.cloudEmails.count > 0);
 }
 
 #pragma mark - Table view data source
@@ -120,6 +131,7 @@
         [CloudUtils deleteCloudAccountWithEmail:self.cloudEmails[indexPath.row]];
         [self.cloudEmails removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self updateEditButton];
     }
 }
 
@@ -129,7 +141,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
+        AddNewDeviceVC *addCloudAccountVC = [[AddNewDeviceVC alloc] init];
+        addCloudAccountVC.cloudUI = YES;
+        addCloudAccountVC.edit = YES;
         
+        NSString *cloudEmail = self.cloudEmails[indexPath.row];
+        addCloudAccountVC.existingEmail = cloudEmail;
+        addCloudAccountVC.existingPassword = [CloudUtils passwordForCloudAccountWithEmail:cloudEmail];
+        
+        [self.navigationController pushViewController:addCloudAccountVC animated:YES];
     } else {
         AddNewDeviceVC *addCloudAccountVC = [[AddNewDeviceVC alloc] init];
         addCloudAccountVC.cloudUI = YES;

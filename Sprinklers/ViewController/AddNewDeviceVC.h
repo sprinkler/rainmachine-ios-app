@@ -17,5 +17,9 @@
 @property (strong, nonatomic) Sprinkler *sprinkler;
 @property (strong, nonatomic) NSDictionary *cloudResponse;
 @property (assign, nonatomic) BOOL cloudUI;
+@property (assign, nonatomic) BOOL edit;
+
+@property (strong, nonatomic) NSString *existingEmail;
+@property (strong, nonatomic) NSString *existingPassword;
 
 @end
