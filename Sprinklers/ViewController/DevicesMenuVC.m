@@ -19,6 +19,8 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
 
 @interface DevicesMenuVC ()
 
+@property (nonatomic, strong) CloudAccountsVC *cloudAccountsVC;
+
 @end
 
 #pragma mark -
@@ -49,6 +51,15 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(onClose:)];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if (self.cloudAccountsVC) {
+        self.cloudEmails = self.cloudAccountsVC.cloudEmails;
+        self.cloudAccountsVC = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,8 +110,11 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == DevicesMenuAccountSettingsSection) {
-        CloudAccountsVC *cloudAccountsVC = [[CloudAccountsVC alloc] init];
-        [self.navigationController pushViewController:cloudAccountsVC animated:YES];
+        self.cloudAccountsVC = [[CloudAccountsVC alloc] init];
+        self.cloudAccountsVC.cloudResponse = self.cloudResponse;
+        self.cloudAccountsVC.cloudSprinklers = self.cloudSprinklers;
+        self.cloudAccountsVC.cloudEmails = self.cloudEmails;
+        [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
     }
     else if (indexPath.section == DevicesMenuNetworkSettingsSection) {
         AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];

@@ -53,7 +53,7 @@
 @property (strong, nonatomic) ServerProxy *versionServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
-@property (strong, nonatomic) AddNewDeviceVC *addCloudDeviceVC;
+@property (strong, nonatomic) DevicesMenuVC *devicesMenuVC;
 @property (strong, nonatomic) Sprinkler *selectedSprinkler;
 @property (assign, nonatomic) BOOL selectingSprinklerInProgress;
 @property (strong, nonatomic) ProvisionAvailableWiFisVC *wizardVC;
@@ -227,11 +227,31 @@
 
     [ServerProxy popSprinklerVersion];
     
-    if (self.addCloudDeviceVC) {
-        if (self.addCloudDeviceVC.cloudResponse) {
-            [self updateCloudSprinklersFromCloudResponse:self.addCloudDeviceVC.cloudResponse];
+    if (self.devicesMenuVC) {
+        NSMutableSet *deletedSprinklers = [NSMutableSet setWithArray:self.cloudEmails];
+        NSMutableSet *secondSet = [NSMutableSet setWithArray:self.devicesMenuVC.cloudEmails];
+        [deletedSprinklers minusSet:secondSet];
+        
+        NSMutableDictionary *cloudSprinklersMut = [self.cloudSprinklers mutableCopy];
+        NSArray *remoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:nil];
+        
+        for (NSString *email in deletedSprinklers) {
+            // Delete from DB
+            for (Sprinkler *sprinkler in remoteDevices) {
+                if ([email isEqualToString:sprinkler.email]) {
+                    [[StorageManager current] deleteSprinkler:sprinkler];
+                }
+            }
+            
+            // Delete from Cloud
+            [CloudUtils deleteCloudAccountWithEmail:email];
+            [cloudSprinklersMut removeObjectForKey:email];
         }
-        self.addCloudDeviceVC = nil;
+        
+        self.cloudSprinklers = cloudSprinklersMut;
+        self.cloudEmails = self.devicesMenuVC.cloudEmails;
+        
+        self.devicesMenuVC = nil;
     }
     
     if (!self.tableView.isEditing) {
@@ -671,8 +691,12 @@
 }
 
 - (void)onDisplayDevicesMenu:(id)sender {
-    DevicesMenuVC *devicesMenuVC = [[DevicesMenuVC alloc] init];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:devicesMenuVC];
+    self.devicesMenuVC = [[DevicesMenuVC alloc] init];
+    self.devicesMenuVC.cloudResponse = self.cloudResponse;
+    self.devicesMenuVC.cloudSprinklers = self.cloudSprinklers;
+    self.devicesMenuVC.cloudEmails = [self.cloudEmails mutableCopy];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.devicesMenuVC];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 

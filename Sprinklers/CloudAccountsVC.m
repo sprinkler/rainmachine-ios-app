@@ -17,7 +17,8 @@
 @interface CloudAccountsVC ()
 
 @property (nonatomic, strong) UIBarButtonItem *editBarButtonItem;
-@property (strong, nonatomic) NSMutableDictionary *cloudResponsePerEmails;
+@property (nonatomic, strong) NSMutableDictionary *cloudResponsePerEmails;
+@property (nonatomic, strong) AddNewDeviceVC *addCloudAccountVC;
 
 @end
 
@@ -36,8 +37,8 @@
 
     NSArray *sprinklersByEmail = self.cloudResponse[@"sprinklersByEmail"];
     self.cloudResponsePerEmails = [NSMutableDictionary new];
-    for (NSDictionary *cloudD in sprinklersByEmail) {
-        self.cloudResponsePerEmails[cloudD[@"email"]] = cloudD;
+    for (NSDictionary *cloudDict in sprinklersByEmail) {
+        self.cloudResponsePerEmails[cloudDict[@"email"]] = cloudDict;
     }
     [self.tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
 }
@@ -47,7 +48,7 @@
     
     NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
     self.cloudEmails = [[cloudAccounts allKeys] mutableCopy];
-
+    
     [self.tableView reloadData];
 }
 
@@ -125,17 +126,14 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
-        CloudEmailDevicesVC *detailViewController = [[CloudEmailDevicesVC alloc] init];
-        NSString *email = self.cloudEmails[indexPath.row];
-        detailViewController.devices = self.cloudSprinklers[email];
-        detailViewController.email = email;
-
-        [self.navigationController pushViewController:detailViewController animated:YES];
+        
     } else {
-        AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
-        addNewDeviceVC.cloudUI = YES;
-        [self.navigationController pushViewController:addNewDeviceVC animated:YES];
+        AddNewDeviceVC *addCloudAccountVC = [[AddNewDeviceVC alloc] init];
+        addCloudAccountVC.cloudUI = YES;
+        [self.navigationController pushViewController:addCloudAccountVC animated:YES];
     }
 }
 
