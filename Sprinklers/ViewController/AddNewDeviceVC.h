@@ -22,4 +22,7 @@
 @property (strong, nonatomic) NSString *existingEmail;
 @property (strong, nonatomic) NSString *existingPassword;
 
+- (IBAction)onShowPassword:(id)sender;
+- (IBAction)onSave:(id)sender;
+
 @end

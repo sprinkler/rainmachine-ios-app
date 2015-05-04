@@ -21,6 +21,10 @@
 
 @interface AddNewDeviceVC ()
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (assign, nonatomic) NSInteger scrollViewContentHeight;
+
 @property (weak, nonatomic) IBOutlet UITextField *urlOrIPTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *tokenEmailTextField;
@@ -32,9 +36,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *urlOrIPTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameTitleLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton *showPasswordButton;
+@property (weak, nonatomic) IBOutlet UILabel *showPasswordLabel;
+
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
 
 - (void)requestCloudSprinklersForEmail:(NSString*)email password:(NSString*)password;
+- (void)removeTokenView;
+- (void)enableShowPasswordButton;
 
 @end
 
@@ -53,6 +62,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.scrollViewContentHeight = (self.edit ? 280.0 : 250.0);
+    
+    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.contentView.frame = CGRectMake(0.0, 0.0, self.scrollView.bounds.size.width, self.contentView.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(0.0, self.scrollViewContentHeight);
+    [self.scrollView addSubview:self.contentView];
+    
     if (self.cloudUI) {
         self.title = (self.edit ? @"Edit Account" : @"Add Account");
         self.nameTitleLabel.text = @"E-mail address";
@@ -61,7 +77,7 @@
         
         if (self.existingEmail) _nameTextField.text = self.existingEmail;
         if (self.existingPassword) _urlOrIPTextField.text = self.existingPassword;
-        
+        if (self.edit) [self enableShowPasswordButton];
     }
     
     if (self.sprinkler) {
@@ -83,8 +99,7 @@
     [_nameTextField becomeFirstResponder];
 }
 
-- (void)removeTokenView
-{
+- (void)removeTokenView {
     [_tokenExplanationTextfield removeFromSuperview];
     [_nameAndUrlSeparator removeFromSuperview];
     [_tokenTitleLabel removeFromSuperview];
@@ -96,16 +111,44 @@
                                                                       toItem:_urlOrIPTextField
                                                                    attribute:NSLayoutAttributeBottom
                                                                   multiplier:1.0
-                                                                    constant:18.0];
+                                                                    constant:(self.edit ? 58.0 : 18.0)];
 
     constraint.priority = UILayoutPriorityRequired;
     
     [self.view addConstraint:constraint];
 }
 
+- (void)enableShowPasswordButton {
+    self.showPasswordButton.hidden = NO;
+    self.showPasswordLabel.hidden = NO;
+    
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_showPasswordLabel
+                                                                  attribute:NSLayoutAttributeTop
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:_urlOrIPTextField
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                 multiplier:1.0
+                                                                   constant:20.0];
+    
+    constraint.priority = UILayoutPriorityRequired;
+    [self.view addConstraint:constraint];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.cloudServerProxy cancelAllOperations];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - Helper methods
@@ -117,6 +160,11 @@
 }
 
 #pragma mark - Actions
+
+- (IBAction)onShowPassword:(id)sender {
+    self.showPasswordButton.selected = !self.showPasswordButton.selected;
+    self.urlOrIPTextField.secureTextEntry = !self.showPasswordButton.selected;
+}
 
 - (IBAction)onSave:(id)sender {
     if (self.cloudUI) {
@@ -177,11 +225,6 @@
             }
         }
     }
-}
-
-- (IBAction)onSwitchServer:(id)sender {
-    CloudServerVC *cloudServerVC = [[CloudServerVC alloc] init];
-    [self.navigationController pushViewController:cloudServerVC animated:YES];
 }
 
 #pragma mark - UITextField delegate
@@ -250,11 +293,15 @@
     [self handleLoggedOutSprinklerError];
 }
 
-#pragma mark - Dealloc
+#pragma mark - Keyboard notifications
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)keyboardWillShow:(NSNotification*)notification {
+    CGSize keyboardSize = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    self.scrollView.contentSize = CGSizeMake(0.0, self.scrollViewContentHeight + keyboardSize.height);
+}
+
+- (void)keyboardWillHide:(NSNotification*)notification {
+    self.scrollView.contentSize = CGSizeMake(0.0, self.scrollViewContentHeight);
 }
 
 @end
