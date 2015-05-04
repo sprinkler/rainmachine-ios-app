@@ -69,6 +69,18 @@
 		9626881D1AF7A0610026D79A /* LightLeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9626881C1AF7A0610026D79A /* LightLeds.m */; };
 		9626881E1AF7A0610026D79A /* LightLeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9626881C1AF7A0610026D79A /* LightLeds.m */; };
 		9626881F1AF7A0610026D79A /* LightLeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9626881C1AF7A0610026D79A /* LightLeds.m */; };
+		962688221AF7C2AE0026D79A /* devices_menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 962688201AF7C2AE0026D79A /* devices_menu_icon.png */; };
+		962688231AF7C2AE0026D79A /* devices_menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 962688201AF7C2AE0026D79A /* devices_menu_icon.png */; };
+		962688241AF7C2AE0026D79A /* devices_menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 962688201AF7C2AE0026D79A /* devices_menu_icon.png */; };
+		962688251AF7C2AE0026D79A /* devices_menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 962688211AF7C2AE0026D79A /* devices_menu_icon@2x.png */; };
+		962688261AF7C2AE0026D79A /* devices_menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 962688211AF7C2AE0026D79A /* devices_menu_icon@2x.png */; };
+		962688271AF7C2AE0026D79A /* devices_menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 962688211AF7C2AE0026D79A /* devices_menu_icon@2x.png */; };
+		96268B2C1AF7C3C90026D79A /* DevicesMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */; };
+		96268B2D1AF7C3C90026D79A /* DevicesMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */; };
+		96268B2E1AF7C3C90026D79A /* DevicesMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */; };
+		96268B2F1AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */; };
+		96268B301AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */; };
+		96268B311AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */; };
 		962C5E061AB3150200CFED4F /* CloudSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C5E051AB3150200CFED4F /* CloudSettings.m */; };
 		962D81971A83C659004E00DB /* DashboardGraphDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 962D81951A83C659004E00DB /* DashboardGraphDetailsVC.m */; };
 		962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 962D81961A83C659004E00DB /* DashboardGraphDetailsVC.xib */; };
@@ -1624,6 +1636,11 @@
 		9624BE0B1AEA9F4700141891 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9626881B1AF7A0610026D79A /* LightLeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightLeds.h; path = "Communication/Request objects/LightLeds.h"; sourceTree = "<group>"; };
 		9626881C1AF7A0610026D79A /* LightLeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LightLeds.m; path = "Communication/Request objects/LightLeds.m"; sourceTree = "<group>"; };
+		962688201AF7C2AE0026D79A /* devices_menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = devices_menu_icon.png; path = Resources/devices_menu_icon.png; sourceTree = "<group>"; };
+		962688211AF7C2AE0026D79A /* devices_menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "devices_menu_icon@2x.png"; path = "Resources/devices_menu_icon@2x.png"; sourceTree = "<group>"; };
+		96268B291AF7C3C90026D79A /* DevicesMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DevicesMenuVC.h; path = ViewController/DevicesMenuVC.h; sourceTree = "<group>"; };
+		96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DevicesMenuVC.m; path = ViewController/DevicesMenuVC.m; sourceTree = "<group>"; };
+		96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DevicesMenuVC.xib; path = ViewController/DevicesMenuVC.xib; sourceTree = "<group>"; };
 		962C5E041AB3150200CFED4F /* CloudSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudSettings.h; path = "Communication/Response objects/CloudSettings.h"; sourceTree = "<group>"; };
 		962C5E051AB3150200CFED4F /* CloudSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudSettings.m; path = "Communication/Response objects/CloudSettings.m"; sourceTree = "<group>"; };
 		962D81941A83C659004E00DB /* DashboardGraphDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardGraphDetailsVC.h; path = ViewController/DashboardGraphDetailsVC.h; sourceTree = "<group>"; };
@@ -3334,6 +3351,8 @@
 				963984031AE8F89100D537A2 /* SPK2-rain-sensor.png */,
 				963984041AE8F89100D537A2 /* SPK2-rain-sensor@2x.png */,
 				963984051AE8F89100D537A2 /* SPK2-rain-sensor@3x.png */,
+				962688201AF7C2AE0026D79A /* devices_menu_icon.png */,
+				962688211AF7C2AE0026D79A /* devices_menu_icon@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3507,6 +3526,9 @@
 				B1EF2101186048F500D9CE26 /* DevicesVC.h */,
 				B1EF2102186048F500D9CE26 /* DevicesVC.m */,
 				B1EF2103186048F500D9CE26 /* DevicesVC.xib */,
+				96268B291AF7C3C90026D79A /* DevicesMenuVC.h */,
+				96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */,
+				96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */,
 				B1EF210C1860493C00D9CE26 /* LoginVC.h */,
 				B1EF210D1860493C00D9CE26 /* LoginVC.m */,
 				B1EF210E1860493C00D9CE26 /* LoginVC.xib */,
@@ -3797,6 +3819,7 @@
 				AFE894CD1A356538007FC7EB /* icon_wi-fi-0-bar.png in Resources */,
 				AF48269C1990DC9500D80B87 /* wind.png in Resources */,
 				AFC7E93718579D7600ACA626 /* icon_status_ok.png in Resources */,
+				96268B2F1AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */,
 				AF4826761990DC9500D80B87 /* mist.png in Resources */,
 				AFC5CEE318893A5B005191DE /* icon_stats@2x.png in Resources */,
 				96CB93D41A38AFAD00F3691F /* bkn_small_white.png in Resources */,
@@ -3836,6 +3859,7 @@
 				B1EF21231860499E00D9CE26 /* WaterNowVC.xib in Resources */,
 				9624BDF41AEA215F00141891 /* WateringHistoryCell.xib in Resources */,
 				AF48266A1990DC9500D80B87 /* du.png in Resources */,
+				962688251AF7C2AE0026D79A /* devices_menu_icon@2x.png in Resources */,
 				AFF6A6B0188834AC00825A37 /* checkbox-selected@2x.png in Resources */,
 				96CB94021A38AFAD00F3691F /* scttsra_small_white.png in Resources */,
 				3A9C900118EEF76100272BA3 /* SettingsAboutVC.xib in Resources */,
@@ -3929,6 +3953,7 @@
 				96F48FFA1AA05C3200DFA578 /* DataSourcesParserVC.xib in Resources */,
 				96CB94091A38AFAD00F3691F /* tsra_small_white.png in Resources */,
 				96CB94061A38AFAD00F3691F /* skc_small_white.png in Resources */,
+				962688221AF7C2AE0026D79A /* devices_menu_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4067,6 +4092,7 @@
 				BD0BB70E1ACE93AA005E2426 /* nwind.png in Resources */,
 				BD0BB70F1ACE93AA005E2426 /* icon_wi-fi-0-bar.png in Resources */,
 				BD0BB7101ACE93AA005E2426 /* wind.png in Resources */,
+				96268B301AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */,
 				BD0BB7111ACE93AA005E2426 /* icon_status_ok.png in Resources */,
 				BD0BB7121ACE93AA005E2426 /* mist.png in Resources */,
 				BD0BB7131ACE93AA005E2426 /* icon_stats@2x.png in Resources */,
@@ -4106,6 +4132,7 @@
 				BD0BB7351ACE93AA005E2426 /* WaterNowVC.xib in Resources */,
 				BD0BB7361ACE93AA005E2426 /* du.png in Resources */,
 				BD0BB7371ACE93AA005E2426 /* checkbox-selected@2x.png in Resources */,
+				962688261AF7C2AE0026D79A /* devices_menu_icon@2x.png in Resources */,
 				BD0BB7381ACE93AA005E2426 /* scttsra_small_white.png in Resources */,
 				BD0BB7391ACE93AA005E2426 /* SettingsAboutVC.xib in Resources */,
 				BD0BB73A1ACE93AA005E2426 /* ParserCell.xib in Resources */,
@@ -4199,6 +4226,7 @@
 				BD0BB78D1ACE93AA005E2426 /* DataSourcesParserVC.xib in Resources */,
 				BD0BB78E1ACE93AA005E2426 /* tsra_small_white.png in Resources */,
 				BD0BB78F1ACE93AA005E2426 /* skc_small_white.png in Resources */,
+				962688231AF7C2AE0026D79A /* devices_menu_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4337,6 +4365,7 @@
 				BD0BB9071ACE9525005E2426 /* nwind.png in Resources */,
 				BD0BB9081ACE9525005E2426 /* icon_wi-fi-0-bar.png in Resources */,
 				BD0BB9091ACE9525005E2426 /* wind.png in Resources */,
+				96268B311AF7C3C90026D79A /* DevicesMenuVC.xib in Resources */,
 				BD0BB90A1ACE9525005E2426 /* icon_status_ok.png in Resources */,
 				BD0BB90B1ACE9525005E2426 /* mist.png in Resources */,
 				BD0BB90C1ACE9525005E2426 /* icon_stats@2x.png in Resources */,
@@ -4376,6 +4405,7 @@
 				BD0BB92E1ACE9525005E2426 /* WaterNowVC.xib in Resources */,
 				BD0BB92F1ACE9525005E2426 /* du.png in Resources */,
 				BD0BB9301ACE9525005E2426 /* checkbox-selected@2x.png in Resources */,
+				962688271AF7C2AE0026D79A /* devices_menu_icon@2x.png in Resources */,
 				BD0BB9311ACE9525005E2426 /* scttsra_small_white.png in Resources */,
 				BD0BB9321ACE9525005E2426 /* SettingsAboutVC.xib in Resources */,
 				BD0BB9331ACE9525005E2426 /* ParserCell.xib in Resources */,
@@ -4469,6 +4499,7 @@
 				BD0BB9861ACE9525005E2426 /* DataSourcesParserVC.xib in Resources */,
 				BD0BB9871ACE9525005E2426 /* tsra_small_white.png in Resources */,
 				BD0BB9881ACE9525005E2426 /* skc_small_white.png in Resources */,
+				962688241AF7C2AE0026D79A /* devices_menu_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4646,6 +4677,7 @@
 				AF7AC9D1184E3DD30047BD9E /* AFURLSessionManager.m in Sources */,
 				964ADD131A1E5AA5008281A8 /* GoogleTimezone.m in Sources */,
 				9626881D1AF7A0610026D79A /* LightLeds.m in Sources */,
+				96268B2C1AF7C3C90026D79A /* DevicesMenuVC.m in Sources */,
 				B1EF20F2186046D300D9CE26 /* +UIBezierPath.m in Sources */,
 				AF085CAD1A2EC36A00519BF6 /* ProvisionAvailableWiFisVC.m in Sources */,
 				B111987016A7EED00094EF9F /* StorageManager.m in Sources */,
@@ -4888,6 +4920,7 @@
 				BD0BB63C1ACE93AA005E2426 /* AFSecurityPolicy.m in Sources */,
 				BD0BB63D1ACE93AA005E2426 /* AFURLSessionManager.m in Sources */,
 				9626881E1AF7A0610026D79A /* LightLeds.m in Sources */,
+				96268B2D1AF7C3C90026D79A /* DevicesMenuVC.m in Sources */,
 				BD0BB63E1ACE93AA005E2426 /* GoogleTimezone.m in Sources */,
 				BD0BB63F1ACE93AA005E2426 /* +UIBezierPath.m in Sources */,
 				BD0BB6401ACE93AA005E2426 /* ProvisionAvailableWiFisVC.m in Sources */,
@@ -5130,6 +5163,7 @@
 				BD0BB8351ACE9525005E2426 /* AFSecurityPolicy.m in Sources */,
 				BD0BB8361ACE9525005E2426 /* AFURLSessionManager.m in Sources */,
 				9626881F1AF7A0610026D79A /* LightLeds.m in Sources */,
+				96268B2E1AF7C3C90026D79A /* DevicesMenuVC.m in Sources */,
 				BD0BB8371ACE9525005E2426 /* GoogleTimezone.m in Sources */,
 				BD0BB8381ACE9525005E2426 /* +UIBezierPath.m in Sources */,
 				BD0BB8391ACE9525005E2426 /* ProvisionAvailableWiFisVC.m in Sources */,

@@ -1,0 +1,13 @@
+//
+//  DevicesMenuVC.h
+//  Sprinklers
+//
+//  Created by Istvan Sipos on 04/05/15.
+//  Copyright (c) 2015 Tremend. All rights reserved.
+//
+
+#import "BaseViewController.h"
+
+@interface DevicesMenuVC : BaseViewController <UITableViewDataSource, UITableViewDelegate>
+
+@end

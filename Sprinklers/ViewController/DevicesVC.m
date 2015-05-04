@@ -7,6 +7,7 @@
 //
 
 #import "DevicesVC.h"
+#import "DevicesMenuVC.h"
 #import "Additions.h"
 #import "LoginVC.h"
 #import "AddNewDeviceVC.h"
@@ -199,6 +200,7 @@
     }*/
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"devices_menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(onDisplayDevicesMenu:)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -670,6 +672,12 @@
     [self.tableView reloadData];
 }
 
+- (void)onDisplayDevicesMenu:(id)sender {
+    DevicesMenuVC *devicesMenuVC = [[DevicesMenuVC alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:devicesMenuVC];
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
 - (void)deviceSetupFinished
 {
     self.hideHudTimeoutCountDown = 2;
@@ -726,25 +734,11 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == [self tvSectionDevices]) {
-        if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
-            return @"DEVICES";
-        }
-    }
-    
     if (section == [self tvSectionDebugSettings]) {
         return @"SETTINGS (DEBUG)";
     }
         
     return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if ([self tableView:tableView titleForHeaderInSection:section]) {
-        return UITableViewAutomaticDimension;
-    }
-
-    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
