@@ -187,7 +187,7 @@
 
 - (void)updateNavigationbarButtons
 {
-    self.navigationItem.rightBarButtonItem = nil;
+    /*self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItems = nil;
     self.navigationItem.leftBarButtonItem = nil;
     
@@ -196,7 +196,9 @@
     } else {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(edit)];
-    }
+    }*/
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -280,6 +282,7 @@
     NSMutableArray *locallyDiscoveredSprinklers = [NSMutableArray array];
     NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
     for (Sprinkler *sprinkler in sprinklers) {
+        if ([Utils isDeviceInactive:sprinkler]) continue;
         if ([Utils isCloudDevice:sprinkler]) {
             if (!cloudSprinklersDic[sprinkler.email]) {
                 cloudSprinklersDic[sprinkler.email] = [NSMutableArray array];
@@ -641,6 +644,10 @@
         return;
     }
     
+    self.locallyDiscoveredSprinklers = [NSArray array];
+    self.cloudSprinklersList = [NSMutableArray array];
+    self.manuallyEnteredSprinklers = [NSArray array];
+    
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
     NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
@@ -672,19 +679,14 @@
 
 #pragma mark - UITableView delegate
 
-- (NSInteger)tvSectionManuallyEnteredDevices
+- (NSInteger)tvSectionDevices
 {
     return 0;
 }
 
-- (NSInteger)tvSectionDiscoveredDevices
-{
-    return [self tvSectionManuallyEnteredDevices] + 1;
-}
-
 - (NSInteger)tvSectionAddDevice
 {
-    return [self tvSectionDiscoveredDevices] + 1;
+    return [self tvSectionDevices] + 1;
 }
 
 - (NSInteger)tvSectionCloud
@@ -703,22 +705,17 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Manually added sprinklers
-    // Discovered + Cloud Sprinklers
+    // Devices
+    // Add new device
     // Add Device
-    // Cloud
     // New Rain Machine Setup
     // Debug Settings
-    return (([self tvSectionManuallyEnteredDevices] == -1) ? 0 : 1) + 4 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
+    return  4 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == [self tvSectionManuallyEnteredDevices]) {
-        return self.manuallyEnteredSprinklers.count;
-    }
-    
-    if (section == [self tvSectionDiscoveredDevices]) {
-        return self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count;
+    if (section == [self tvSectionDevices]) {
+        return self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count + self.manuallyEnteredSprinklers.count;
     }
     
     if (section == [self tvSectionDebugSettings]) {
@@ -728,17 +725,10 @@
     return 1;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == [self tvSectionManuallyEnteredDevices]) {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == [self tvSectionDevices]) {
         if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
-            return @"MANUALLY ENTERED";
-        }
-    }
-    
-    if (section == [self tvSectionDiscoveredDevices]) {
-        if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
-            return @"DISCOVERED LOCALLY & CLOUD";
+            return @"DEVICES";
         }
     }
     
@@ -751,31 +741,26 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if ([self tableView:tableView titleForHeaderInSection:section]) {
-        return 38;
+        return UITableViewAutomaticDimension;
     }
 
     return 10;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        return 56;
-    }
-    
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
 }
 
-- (Sprinkler*)sprinklerToShowForIndexPath:(NSIndexPath*)indexPath
-{
+- (Sprinkler*)sprinklerToShowForIndexPath:(NSIndexPath*)indexPath {
     Sprinkler *sprinkler = nil;
-    if (indexPath.section == [self tvSectionManuallyEnteredDevices]) {
-        sprinkler = self.manuallyEnteredSprinklers[indexPath.row];
-    } else if (indexPath.section == [self tvSectionDiscoveredDevices]) {
+    
+    if (indexPath.section == [self tvSectionDevices]) {
         if (indexPath.row < self.locallyDiscoveredSprinklers.count) {
             sprinkler = self.locallyDiscoveredSprinklers[indexPath.row];
-        } else {
+        } else if (indexPath.row < self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count) {
             sprinkler = self.cloudSprinklersList[indexPath.row - self.locallyDiscoveredSprinklers.count];
+        } else {
+            sprinkler = self.manuallyEnteredSprinklers[indexPath.row - self.locallyDiscoveredSprinklers.count - self.cloudSprinklersList.count];
         }
     }
     
@@ -843,7 +828,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
 
-    if ((indexPath.section == [self tvSectionDiscoveredDevices]) || (indexPath.section == [self tvSectionManuallyEnteredDevices])) {
+    if (indexPath.section == [self tvSectionDevices]) {
         DevicesCellType1 *cell = [Utils configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler canEditRow:[self tableView:tableView canEditRowAtIndexPath:indexPath] forceHiddenDisclosure:NO];
         cell.sprinkler = sprinkler;
         return cell;
@@ -952,7 +937,7 @@
         return;
     }
     
-    if ((indexPath.section == [self tvSectionDiscoveredDevices]) || (indexPath.section == [self tvSectionManuallyEnteredDevices])) {
+    if (indexPath.section == [self tvSectionDevices]) {
         DevicesCellType1 *selectedCell = (DevicesCellType1*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
         if (!selectedCell.disclosureImageView.hidden) {
             Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
