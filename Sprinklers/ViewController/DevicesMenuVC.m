@@ -7,8 +7,13 @@
 //
 
 #import "DevicesMenuVC.h"
+#import "CloudAccountsVC.h"
+#import "AddNewDeviceVC.h"
 #import "Additions.h"
 #import "Constants.h"
+
+NSInteger DevicesMenuAccountSettingsSection     = 0;
+NSInteger DevicesMenuNetworkSettingsSection     = 1;
 
 #pragma mark -
 
@@ -63,8 +68,8 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) return 1;
-    if (section == 1) return 1;
+    if (section == DevicesMenuAccountSettingsSection) return 1;
+    if (section == DevicesMenuNetworkSettingsSection) return 1;
     return 0;
 }
 
@@ -80,17 +85,27 @@
     
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.textColor = [UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    if (indexPath.section == 0) cell.textLabel.text = @"Cloud accounts";
-    else if (indexPath.section == 1) cell.textLabel.text = @"Port forward settings";
+    if (indexPath.section == DevicesMenuAccountSettingsSection) cell.textLabel.text = @"Account Settings";
+    else if (indexPath.section == DevicesMenuNetworkSettingsSection) cell.textLabel.text = @"Network Settings";
 
     return cell;
 }
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == DevicesMenuAccountSettingsSection) {
+        CloudAccountsVC *cloudAccountsVC = [[CloudAccountsVC alloc] init];
+        [self.navigationController pushViewController:cloudAccountsVC animated:YES];
+    }
+    else if (indexPath.section == DevicesMenuNetworkSettingsSection) {
+        AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+        [self.navigationController pushViewController:addNewDeviceVC animated:YES];
+    }
 }
 
 @end

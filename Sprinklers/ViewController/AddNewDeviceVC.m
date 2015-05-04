@@ -45,7 +45,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Add New Device";
+        self.title = @"Add Device";
     }
     return self;
 }
@@ -54,7 +54,7 @@
     [super viewDidLoad];
     
     if (self.cloudUI) {
-        self.title = @"Add Device";
+        self.title = @"Add Account";
         self.nameTitleLabel.text = @"E-mail address";
         self.urlOrIPTitleLabel.text = @"RainMachine password";
         self.urlOrIPTextField.secureTextEntry = YES;

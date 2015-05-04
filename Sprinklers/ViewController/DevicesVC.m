@@ -413,15 +413,13 @@
 
 #pragma mark - UI
 
-// Overwrites BaseViewController's updateTitle
-- (void)updateTitle
-{
+- (void)updateTitle {
     self.title = @"Devices";
 }
 
 - (void)createFooter {
     NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 64)];
     label.text = [NSString stringWithFormat:@"Version: %@", version];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:13];
@@ -687,38 +685,23 @@
 
 #pragma mark - UITableView delegate
 
-- (NSInteger)tvSectionDevices
-{
+- (NSInteger)tvSectionDevices {
     return 0;
 }
 
-- (NSInteger)tvSectionAddDevice
-{
+- (NSInteger)tvNewRainMachineSetup {
     return [self tvSectionDevices] + 1;
 }
 
-- (NSInteger)tvSectionCloud
-{
-    return [self tvSectionAddDevice] + 1;
-}
-
-- (NSInteger)tvNewRainMachineSetup
-{
-    return [self tvSectionCloud] + 1;
-}
-
-- (NSInteger)tvSectionDebugSettings
-{
+- (NSInteger)tvSectionDebugSettings {
     return [self tvNewRainMachineSetup] + 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Devices
-    // Add new device
-    // Add Device
     // New Rain Machine Setup
     // Debug Settings
-    return  4 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
+    return  2 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -873,46 +856,17 @@
         
         return cell;
     }
-    else {
-        if (indexPath.section == [self tvSectionAddDevice]) {
-            // Add New Device
-            AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
-            cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
-            [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
-            
-            [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
-            [cell.titleLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
-            
-            return cell;
-        } else {
-            if (indexPath.section == [self tvSectionCloud]) {
-                AddNewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AddNewCell" forIndexPath:indexPath];
-                cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
-                [cell.plusLabel setCustomRMFontWithCode:icon_Add size:24];
-                
-                [cell.plusLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
-                [cell.titleLabel setTextColor:[UIColor colorWithRed:kWateringGreenButtonColor[0] green:kWateringGreenButtonColor[1] blue:kWateringGreenButtonColor[2] alpha:1]];
-                
-                cell.titleLabel.text = @"Add device";
-                
-                return cell;
-            } else if (indexPath.section == [self tvNewRainMachineSetup]) {
-                UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
-                if (!cell) {
-                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
-                }
-                cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
-                cell.textLabel.text = @"New Rain Machine";
-                cell.detailTextLabel.text = @"setup";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                
-                return cell;
-
-            } else {
-                // Should not happen
-                assert(0);
-            }
+    else if (indexPath.section == [self tvNewRainMachineSetup]) {
+        UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
         }
+        cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
+        cell.textLabel.text = @"New Rain Machine";
+        cell.detailTextLabel.text = @"setup";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        return cell;
     }
     
     return nil;
@@ -1000,24 +954,9 @@
                 [self.debugTextField becomeFirstResponder];
             }
         }
-    } else {
-        if (indexPath.section == [self tvSectionAddDevice]) {
-            AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
-            [self.navigationController pushViewController:addNewDeviceVC animated:YES];
-        } else {
-            if (indexPath.section == [self tvSectionCloud]) {
-                self.addCloudDeviceVC = [[AddNewDeviceVC alloc] init];
-                self.addCloudDeviceVC.cloudUI = YES;
-                
-                [self.navigationController pushViewController:self.addCloudDeviceVC animated:YES];
-            } else if (indexPath.section == [self tvNewRainMachineSetup]) {
-                [self presentWizardWithSprinkler:nil];
-            }
-            else {
-                // Should not happen
-                assert(0);
-            }
-        }
+    }
+    else if (indexPath.section == [self tvNewRainMachineSetup]) {
+        [self presentWizardWithSprinkler:nil];
     }
 }
 
