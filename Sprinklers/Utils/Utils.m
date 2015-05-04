@@ -526,7 +526,7 @@
     }
     if ([wifi.isWEP boolValue]) {
         *needsPassword = YES;
-        return @"None";
+        return @"WEP";
     }
 
     return @"None";

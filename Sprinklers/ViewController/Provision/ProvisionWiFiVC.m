@@ -244,6 +244,9 @@
     if ([self.securityOption isEqualToString:@"None"]) {
         return @"none";
     }
+    else if ([self.securityOption isEqualToString:@"WEP"]) {
+        return @"wep";
+    }
     else if ([self.securityOption isEqualToString:@"PSK"]) {
         return @"psk";
     }
