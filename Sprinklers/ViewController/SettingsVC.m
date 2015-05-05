@@ -347,7 +347,7 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         [self.navigationController pushViewController:availableWiFiVC animated:YES];
     }
     else if ([settingsRow isEqualToString:kSettingsRemoteAccess]) {
-        ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] init];
+        ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] initWithNibName:@"ProvisionRemoteAccessVC" bundle:nil];
         remoteAccessVC.isPartOfWizard = NO;
         remoteAccessVC.dbSprinkler = [Utils currentSprinkler];
         [self.navigationController pushViewController:remoteAccessVC animated:YES];

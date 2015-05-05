@@ -11,10 +11,16 @@
 
 @class DiscoveredSprinklers;
 @class Sprinkler;
+@class ColoredBackgroundButton;
 
-@interface ProvisionRemoteAccessVC : BaseWizardVC <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SprinklerResponseProtocol>
+@interface ProvisionRemoteAccessVC : BaseWizardVC <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UITextFieldDelegate, SprinklerResponseProtocol>
 
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
 @property (strong, nonatomic) Sprinkler *dbSprinkler;
+
+@property (weak, nonatomic) IBOutlet UITextField *emailAddressTextField;
+@property (weak, nonatomic) IBOutlet ColoredBackgroundButton *saveButton;
+
+- (IBAction)onSave:(id)sender;
 
 @end

@@ -46,6 +46,9 @@
 		961296581AF8EDD1000762EC /* NetworkSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 961296521AF8B671000762EC /* NetworkSettingsVC.m */; };
 		961296591AF8EDD9000762EC /* NetworkSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 961296531AF8B671000762EC /* NetworkSettingsVC.xib */; };
 		9612965A1AF8EDD9000762EC /* NetworkSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 961296531AF8B671000762EC /* NetworkSettingsVC.xib */; };
+		9612965C1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9612965B1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib */; };
+		9612965D1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9612965B1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib */; };
+		9612965E1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9612965B1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib */; };
 		961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */; };
 		961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */; };
 		9624BDED1AEA0F5400141891 /* WateringHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */; };
@@ -1633,6 +1636,7 @@
 		961296511AF8B671000762EC /* NetworkSettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSettingsVC.h; path = ViewController/NetworkSettingsVC.h; sourceTree = "<group>"; };
 		961296521AF8B671000762EC /* NetworkSettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSettingsVC.m; path = ViewController/NetworkSettingsVC.m; sourceTree = "<group>"; };
 		961296531AF8B671000762EC /* NetworkSettingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NetworkSettingsVC.xib; path = ViewController/NetworkSettingsVC.xib; sourceTree = "<group>"; };
+		9612965B1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProvisionRemoteAccessWizardVC.xib; path = ViewController/ProvisionRemoteAccessWizardVC.xib; sourceTree = "<group>"; };
 		961629EA1ACAA3400011BF4B /* GraphDataSourceRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataSourceRainAmount.h; path = ViewController/Graphs/GraphDataSourceRainAmount.h; sourceTree = "<group>"; };
 		961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceRainAmount.m; path = ViewController/Graphs/GraphDataSourceRainAmount.m; sourceTree = "<group>"; };
 		961629ED1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterRainAmount.h; path = ViewController/Graphs/GraphDataFormatterRainAmount.h; sourceTree = "<group>"; };
@@ -2466,6 +2470,31 @@
 			path = "Resources/programs-cell";
 			sourceTree = "<group>";
 		};
+		9612965F1AF9281F000762EC /* Devices menu */ = {
+			isa = PBXGroup;
+			children = (
+				AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */,
+				AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */,
+				AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */,
+				B1EF21071860492B00D9CE26 /* AddNewDeviceVC.h */,
+				B1EF21081860492B00D9CE26 /* AddNewDeviceVC.m */,
+				B1EF21091860492B00D9CE26 /* AddNewDeviceVC.xib */,
+				96268B321AF7F84C0026D79A /* PortForwardSettingsVC.h */,
+				96268B331AF7F84C0026D79A /* PortForwardSettingsVC.m */,
+				96268B341AF7F84C0026D79A /* PortForwardSettingsVC.xib */,
+				AF3E02E41A1D457E00E76C53 /* CloudAccountsVC.h */,
+				AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */,
+				AF3E02E61A1D457E00E76C53 /* CloudAccountsVC.xib */,
+				961296511AF8B671000762EC /* NetworkSettingsVC.h */,
+				961296521AF8B671000762EC /* NetworkSettingsVC.m */,
+				961296531AF8B671000762EC /* NetworkSettingsVC.xib */,
+				96268B291AF7C3C90026D79A /* DevicesMenuVC.h */,
+				96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */,
+				96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */,
+			);
+			name = "Devices menu";
+			sourceTree = "<group>";
+		};
 		9624BDEF1AEA0F5D00141891 /* Watering History */ = {
 			isa = PBXGroup;
 			children = (
@@ -2892,6 +2921,7 @@
 				96F686B61AB8763A00A41505 /* ProvisionRemoteAccessVC.h */,
 				96F686B71AB8763A00A41505 /* ProvisionRemoteAccessVC.m */,
 				96F686B81AB8763A00A41505 /* ProvisionRemoteAccessVC.xib */,
+				9612965B1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib */,
 				AFF935081A2C759F008063D2 /* LabelAndTextFieldCell.h */,
 				AFF935091A2C759F008063D2 /* LabelAndTextFieldCell.m */,
 				AFF9350A1A2C759F008063D2 /* LabelAndTextFieldCell.xib */,
@@ -3529,27 +3559,10 @@
 			isa = PBXGroup;
 			children = (
 				AF085C981A2EBF8800519BF6 /* Provision */,
-				AF9D2E911A1E4484009F4654 /* CloudEmailDevicesVC.h */,
-				AF9D2E921A1E4484009F4654 /* CloudEmailDevicesVC.m */,
-				AF9D2E931A1E4484009F4654 /* CloudEmailDevicesVC.xib */,
+				9612965F1AF9281F000762EC /* Devices menu */,
 				AF51E4161A190DA500A7A6A5 /* TRPickerInputView.h */,
 				AF51E4171A190DA500A7A6A5 /* TRPickerInputView.m */,
 				AF51E4191A190FDD00A7A6A5 /* PickerInputView.xib */,
-				B1EF21071860492B00D9CE26 /* AddNewDeviceVC.h */,
-				B1EF21081860492B00D9CE26 /* AddNewDeviceVC.m */,
-				B1EF21091860492B00D9CE26 /* AddNewDeviceVC.xib */,
-				96268B321AF7F84C0026D79A /* PortForwardSettingsVC.h */,
-				96268B331AF7F84C0026D79A /* PortForwardSettingsVC.m */,
-				96268B341AF7F84C0026D79A /* PortForwardSettingsVC.xib */,
-				AF3E02E41A1D457E00E76C53 /* CloudAccountsVC.h */,
-				AF3E02E51A1D457E00E76C53 /* CloudAccountsVC.m */,
-				AF3E02E61A1D457E00E76C53 /* CloudAccountsVC.xib */,
-				961296511AF8B671000762EC /* NetworkSettingsVC.h */,
-				961296521AF8B671000762EC /* NetworkSettingsVC.m */,
-				961296531AF8B671000762EC /* NetworkSettingsVC.xib */,
-				96268B291AF7C3C90026D79A /* DevicesMenuVC.h */,
-				96268B2A1AF7C3C90026D79A /* DevicesMenuVC.m */,
-				96268B2B1AF7C3C90026D79A /* DevicesMenuVC.xib */,
 				B1EF2101186048F500D9CE26 /* DevicesVC.h */,
 				B1EF2102186048F500D9CE26 /* DevicesVC.m */,
 				B1EF2103186048F500D9CE26 /* DevicesVC.xib */,
@@ -3950,6 +3963,7 @@
 				96CB93FA1A38AFAD00F3691F /* nwind_small_white.png in Resources */,
 				962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */,
 				AF4826711990DC9500D80B87 /* hi_ntsra.png in Resources */,
+				9612965C1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */,
 				AFF6A6AF188834AC00825A37 /* checkbox-selected.png in Resources */,
 				AF48267F1990DC9500D80B87 /* nmix.png in Resources */,
 				96CB93EB1A38AFAD00F3691F /* nfg_small_white.png in Resources */,
@@ -4225,6 +4239,7 @@
 				BD0BB7711ACE93AA005E2426 /* nwind_small_white.png in Resources */,
 				BD0BB7721ACE93AA005E2426 /* DashboardGraphDetailsVC.xib in Resources */,
 				BD0BB7731ACE93AA005E2426 /* hi_ntsra.png in Resources */,
+				9612965D1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */,
 				BD0BB7741ACE93AA005E2426 /* checkbox-selected.png in Resources */,
 				BD0BB7751ACE93AA005E2426 /* nmix.png in Resources */,
 				BD0BB7761ACE93AA005E2426 /* nfg_small_white.png in Resources */,
@@ -4500,6 +4515,7 @@
 				BD0BB96A1ACE9525005E2426 /* nwind_small_white.png in Resources */,
 				BD0BB96B1ACE9525005E2426 /* DashboardGraphDetailsVC.xib in Resources */,
 				BD0BB96C1ACE9525005E2426 /* hi_ntsra.png in Resources */,
+				9612965E1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */,
 				BD0BB96D1ACE9525005E2426 /* checkbox-selected.png in Resources */,
 				BD0BB96E1ACE9525005E2426 /* nmix.png in Resources */,
 				BD0BB96F1ACE9525005E2426 /* nfg_small_white.png in Resources */,

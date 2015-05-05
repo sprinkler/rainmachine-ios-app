@@ -556,9 +556,8 @@ NSUInteger DeviceSystemMajorVersion()
     }
 }
 
-- (void)continueWithRemoteAccess
-{
-    ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] init];
+- (void)continueWithRemoteAccess {
+    ProvisionRemoteAccessVC *remoteAccessVC = [[ProvisionRemoteAccessVC alloc] initWithNibName:@"ProvisionRemoteAccessWizardVC" bundle:nil];
     remoteAccessVC.isPartOfWizard = YES;
     remoteAccessVC.sprinkler = self.sprinkler;
     

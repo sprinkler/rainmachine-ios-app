@@ -12,6 +12,7 @@
 #import "ServerProxy.h"
 #import "Sprinkler.h"
 #import "CloudSettings.h"
+#import "CloudUtils.h"
 #import "Additions.h"
 #import "DiscoveredSprinklers.h"
 #import "Sprinkler.h"
@@ -19,11 +20,13 @@
 #import "Constants.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
+#import "ColoredBackgroundButton.h"
 
 #define kRemoteAccess_SetCloudEmail_AlertView_Tag                   1000
 #define kRemoteAccess_InvalidEmail_AlertView_Tag                    1001
 #define kRemoteAccess_FinishRainmachineSetup_AlertView_Tag          1002
 #define kRemoteAccess_CloudEmailWarning_AlertView_Tag               1003
+#define kRemoteAccess_VerificationEmail_AlertView_Tag               1004
 
 #pragma mark -
 
@@ -53,7 +56,7 @@
 - (void)showRainMachineSetUpSuccessfulAlert;
 
 - (IBAction)onEnableCloudEmail:(UISwitch*)enableCloudEmailSwitch;
-- (IBAction)onNext:(id)sender;
+- (IBAction)onSkip:(id)sender;
 
 @end
 
@@ -82,10 +85,22 @@
     
     if (self.isPartOfWizard) {
         self.wizardCloudSettings = [CloudSettings new];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next"
+        self.saveButton.customBackgroundColorFromComponents = kSprinklerBlueColor;
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            self.emailAddressTextField.tintColor = [UIColor blackColor];
+        }
+        
+        NSMutableArray *cloudEmails = [[CloudUtils cloudAccounts].allKeys mutableCopy];
+        if (cloudEmails.count) {
+            [cloudEmails sortUsingSelector:@selector(compare:)];
+            self.emailAddressTextField.text = cloudEmails.firstObject;
+        }
+        
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Skip"
                                                                                   style:UIBarButtonItemStyleDone
                                                                                  target:self
-                                                                                 action:@selector(onNext:)];
+                                                                                 action:@selector(onSkip:)];
     }
 }
 
@@ -240,6 +255,13 @@
     }
 }
 
+#pragma mark - UITextField delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField*)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 #pragma mark - Actions
 
 - (IBAction)onEnableCloudEmail:(UISwitch*)enableCloudEmailSwitch {
@@ -256,6 +278,13 @@
         CloudSettings *cloudSettings = (self.isPartOfWizard ? self.wizardCloudSettings : [GlobalsManager current].cloudSettings);
         NSString *email = cloudSettings.pendingEmail;
         if (!email.length) email = cloudSettings.email;
+        if (!email.length) {
+            NSMutableArray *cloudEmails = [[CloudUtils cloudAccounts].allKeys mutableCopy];
+            if (cloudEmails.count) {
+                [cloudEmails sortUsingSelector:@selector(compare:)];
+                email = cloudEmails.firstObject;
+            }
+        }
         
         [setCloudEmailAlertView textFieldAtIndex:0].text = email;
         [setCloudEmailAlertView textFieldAtIndex:0].keyboardType = UIKeyboardTypeEmailAddress;
@@ -265,7 +294,7 @@
     }
 }
 
-- (IBAction)onNext:(id)sender {
+- (IBAction)onSkip:(id)sender {
     if (!self.wizardCloudSettings.enabled && !self.cloudEmailWarningWasShown) {
         [self showCloudEmailWarning];
         self.cloudEmailWarningWasShown = YES;
@@ -274,19 +303,36 @@
     }
 }
 
+- (IBAction)onSave:(id)sender {
+    NSString *email = self.emailAddressTextField.text;
+    if (!email.isValidEmail) {
+        UIAlertView *invalidEmailAlertView = [[UIAlertView alloc] initWithTitle:@"Invalid email address"
+                                                                        message:@"Please enter a valid email address"
+                                                                       delegate:nil
+                                                              cancelButtonTitle:@"OK"
+                                                              otherButtonTitles:nil];
+        invalidEmailAlertView.tag = kRemoteAccess_InvalidEmail_AlertView_Tag;
+        [invalidEmailAlertView show];
+        return;
+    }
+    
+    [self.emailAddressTextField resignFirstResponder];
+    [self saveCloudEmail:email];
+}
+
 - (void)showCloudEmailWarning {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                        message:@"Your RainMachine cannot be remotely accessed if you do not provide an email address. Would you like to enter your email?"
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"In order to remotely access your RainMachine, you need to provide a valid email."
                                                        delegate:self
-                                              cancelButtonTitle:@"No"
-                                              otherButtonTitles:@"Yes",nil];
+                                              cancelButtonTitle:@"Back"
+                                              otherButtonTitles:@"Skip",nil];
     alertView.tag = kRemoteAccess_CloudEmailWarning_AlertView_Tag;
     [alertView show];
 }
 
 - (void)showRainMachineSetUpSuccessfulAlert {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your Rain Machine is set up!"
-                                                        message:@"Now you can go ahead and create your first program."
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"Congratulations. Your RainMachine is ready to use. Please setup your watering programs."
                                                        delegate:self
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
@@ -324,11 +370,15 @@
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
     else if (alertView.tag == kRemoteAccess_CloudEmailWarning_AlertView_Tag) {
-        if (buttonIndex == alertView.cancelButtonIndex) {
+        if (buttonIndex == alertView.firstOtherButtonIndex) {
             [self showRainMachineSetUpSuccessfulAlert];
         }
-        else if (buttonIndex == alertView.firstOtherButtonIndex) {
-            [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    }
+    else if (alertView.tag == kRemoteAccess_VerificationEmail_AlertView_Tag) {
+        if (self.isPartOfWizard) {
+            [self performSelector:@selector(showRainMachineSetUpSuccessfulAlert)
+                       withObject:nil
+                       afterDelay:0.2];
         }
     }
 }
@@ -362,18 +412,16 @@
         }
     }
     else if (serverProxy == self.emailValidatorServerProxy) {
-        if (self.isPartOfWizard) {
-            [self onNext:nil];
-        } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Successfully sent confirmation email"
-                                                                message:nil
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-            [self refreshCloudSettings];
-        }
+        NSString *email = (self.isPartOfWizard ? self.emailAddressTextField.text : self.currentPendingEmail);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                            message:[NSString stringWithFormat:@"For your own security, a verification email has been sent to %@. Please open the email and click the link to verify it. You might want to check your Spam folder too.",email]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        alertView.tag = kRemoteAccess_VerificationEmail_AlertView_Tag;
+        [alertView show];
         
+        if (!self.isPartOfWizard) [self refreshCloudSettings];
         self.emailValidatorServerProxy = nil;
         
         [[GlobalsManager current] startPollingCloudSettings];
