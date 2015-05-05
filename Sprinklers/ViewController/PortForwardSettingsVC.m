@@ -158,12 +158,14 @@
     
     if (indexPath.section == 0) {
         self.addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+        self.addNewDeviceVC.parent = self;
         self.addNewDeviceVC.edit = YES;
         self.addNewDeviceVC.sprinkler = self.portForwardSprinklers[indexPath.row];
         
         [self.navigationController pushViewController:self.addNewDeviceVC animated:YES];
     } else {
         self.addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+        self.addNewDeviceVC.parent = self;
         [self.navigationController pushViewController:self.addNewDeviceVC animated:YES];
     }
 }

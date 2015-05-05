@@ -169,6 +169,7 @@
     
     if (indexPath.section == 0) {
         AddNewDeviceVC *editCloudAccountVC = [[AddNewDeviceVC alloc] init];
+        editCloudAccountVC.parent = self;
         editCloudAccountVC.cloudUI = YES;
         editCloudAccountVC.edit = YES;
         
@@ -179,6 +180,7 @@
         [self.navigationController pushViewController:editCloudAccountVC animated:YES];
     } else {
         AddNewDeviceVC *addCloudAccountVC = [[AddNewDeviceVC alloc] init];
+        addCloudAccountVC.parent = self;
         addCloudAccountVC.cloudUI = YES;
         [self.navigationController pushViewController:addCloudAccountVC animated:YES];
     }

@@ -7,7 +7,7 @@
 //
 
 #import "AddNewDeviceVC.h"
-#import "CloudServerVC.h"
+#import "CloudAccountsVC.h"
 #import "Sprinkler.h"
 #import "StorageManager.h"
 #import "Constants.h"
@@ -171,12 +171,32 @@
         if (!self.nameTextField.text.isValidEmail) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid e-mail address" message:@"It looks like you entered an invalid e-mail address for the sprinkler. Please check your syntax and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
-        } else if ([CloudUtils existsCloudAccountWithEmail:self.nameTextField.text]) {
+        } else if ([CloudUtils existsCloudAccountWithEmail:self.nameTextField.text] && !self.edit) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An account with the same e-mail already exists." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
         } else {
-            [self requestCloudSprinklersForEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            if (self.edit) {
+                [CloudUtils deleteCloudAccountWithEmail:self.existingEmail];
+                
+                NSArray *remoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:nil];
+                for (Sprinkler *sprinkler in remoteDevices) {
+                    if ([self.existingEmail isEqualToString:sprinkler.email]) {
+                        if (sprinkler == [StorageManager current].currentSprinkler) {
+                            [Utils invalidateLoginForCurrentSprinkler];
+                            if ([self.parent isKindOfClass:[CloudAccountsVC class]]) {
+                                ((CloudAccountsVC*)self.parent).currentSprinklerDeleted = YES;
+                            }
+                        }
+                        [[StorageManager current] deleteSprinkler:sprinkler];
+                    }
+                }
+                
+                [CloudUtils addCloudAccountWithEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [self requestCloudSprinklersForEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            }
         }
     } else {
         NSString *name = self.nameTextField.text;

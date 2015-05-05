@@ -14,6 +14,8 @@
 
 @interface AddNewDeviceVC :  BaseNetworkHandlingVC <SprinklerResponseProtocol>
 
+@property (weak, nonatomic) UIViewController *parent;
+
 @property (strong, nonatomic) Sprinkler *sprinkler;
 @property (strong, nonatomic) NSDictionary *cloudResponse;
 @property (assign, nonatomic) BOOL cloudUI;
