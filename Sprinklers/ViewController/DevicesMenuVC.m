@@ -12,6 +12,7 @@
 #import "AddNewDeviceVC.h"
 #import "Additions.h"
 #import "Constants.h"
+#import "CloudUtils.h"
 
 NSInteger DevicesMenuAccountSettingsSection     = 0;
 NSInteger DevicesMenuNetworkSettingsSection     = 1;
@@ -59,11 +60,12 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
     [super viewWillAppear:animated];
 
     if (self.cloudAccountsVC) {
-        self.cloudEmails = self.cloudAccountsVC.cloudEmails;
+        self.cloudEmails = [[CloudUtils cloudAccounts].allKeys mutableCopy];
         self.cloudAccountsVC = nil;
     }
     
     if (self.networkSettingsVC) {
+        self.manuallyEnteredSprinklers = self.networkSettingsVC.portForwardSprinklers;
         self.networkSettingsVC = nil;
     }
 }
@@ -124,7 +126,7 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
     }
     else if (indexPath.section == DevicesMenuNetworkSettingsSection) {
         self.networkSettingsVC = [[NetworkSettingsVC alloc] init];
-        self.networkSettingsVC.portForwardSprinklers = self.manuallyEnteredSprinkler;
+        self.networkSettingsVC.portForwardSprinklers = self.manuallyEnteredSprinklers;
         [self.navigationController pushViewController:self.networkSettingsVC animated:YES];
     }
 }

@@ -15,6 +15,8 @@
 
 @interface NetworkSettingsVC ()
 
+@property (nonatomic, strong) PortForwardSettingsVC *portForwardSettingsVC;
+
 - (IBAction)onClose:(id)sender;
 - (IBAction)onSwitchLocalDiscovery:(UISwitch*)localDiscoverySwitch;
 
@@ -32,6 +34,14 @@
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(onClose:)];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.portForwardSettingsVC) {
+        self.portForwardSprinklers = self.portForwardSettingsVC.portForwardSprinklers;
+        self.portForwardSettingsVC = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,9 +94,9 @@
         [self onSwitchLocalDiscovery:localDiscoverySwitch];
     }
     else if (indexPath.section == 1) {
-        PortForwardSettingsVC *portForwardSettingsVC = [[PortForwardSettingsVC alloc] init];
-        portForwardSettingsVC.portForwardSprinklers = self.portForwardSprinklers;
-        [self.navigationController pushViewController:portForwardSettingsVC animated:YES];
+        self.portForwardSettingsVC = [[PortForwardSettingsVC alloc] init];
+        self.portForwardSettingsVC.portForwardSprinklers = [self.portForwardSprinklers mutableCopy];
+        [self.navigationController pushViewController:self.portForwardSettingsVC animated:YES];
     }
 }
 

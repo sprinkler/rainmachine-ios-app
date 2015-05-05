@@ -76,6 +76,8 @@
 
 + (NSString*)fixedSprinklerAddress:(NSString*)address
 {
+    if (!address.length) return nil;
+    
     if (![address hasPrefix:@"http://"] && ![address hasPrefix:@"https://"]) {
         address = [NSString stringWithFormat:@"https://%@", address ];
     }

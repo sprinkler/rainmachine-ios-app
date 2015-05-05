@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "Sprinkler.h"
 #import "Utils.h"
+#import "StorageManager.h"
 #import "+UILabel.h"
 
 #pragma mark -
@@ -47,6 +48,14 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    if (self.addNewDeviceVC && !self.addNewDeviceVC.edit && self.addNewDeviceVC.sprinkler) {
+        [self.portForwardSprinklers addObject:self.addNewDeviceVC.sprinkler];
+    }
+    
+    [self.portForwardSprinklers sortUsingComparator:^NSComparisonResult(Sprinkler *sprinkler1, Sprinkler *sprinkler2) {
+        return [sprinkler1.name compare:sprinkler2.name];
+    }];
+    
     [self.tableView reloadData];
     [self updateEditButton];
 }
@@ -66,6 +75,9 @@
 
 - (void)updateEditButton {
     self.navigationItem.rightBarButtonItem.enabled = (self.portForwardSprinklers.count > 0);
+    if (self.portForwardSprinklers.count == 0 && self.tableView.editing) {
+        [self edit:nil];
+    }
 }
 
 #pragma mark - Table view data source
@@ -123,7 +135,8 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // TODO: Delete sprinkler from the DB
+        Sprinkler *sprinkler = [self.portForwardSprinklers objectAtIndex:indexPath.row];
+        [[StorageManager current] deleteSprinkler:sprinkler];
         
         NSMutableArray *portForwardSprinklers = [self.portForwardSprinklers mutableCopy];
         [portForwardSprinklers removeObjectAtIndex:indexPath.row];
@@ -140,14 +153,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        AddNewDeviceVC *editDeviceVC = [[AddNewDeviceVC alloc] init];
-        editDeviceVC.edit = YES;
-        editDeviceVC.sprinkler = self.portForwardSprinklers[indexPath.row];
+        self.addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+        self.addNewDeviceVC.edit = YES;
+        self.addNewDeviceVC.sprinkler = self.portForwardSprinklers[indexPath.row];
         
-        [self.navigationController pushViewController:editDeviceVC animated:YES];
+        [self.navigationController pushViewController:self.addNewDeviceVC animated:YES];
     } else {
-        AddNewDeviceVC *addNewDeviceVC = [[AddNewDeviceVC alloc] init];
-        [self.navigationController pushViewController:addNewDeviceVC animated:YES];
+        self.addNewDeviceVC = [[AddNewDeviceVC alloc] init];
+        [self.navigationController pushViewController:self.addNewDeviceVC animated:YES];
     }
 }
 

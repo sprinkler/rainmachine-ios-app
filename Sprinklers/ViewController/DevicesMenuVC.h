@@ -13,6 +13,6 @@
 @property (strong, nonatomic) NSDictionary *cloudResponse;
 @property (strong, nonatomic) NSMutableArray *cloudEmails;
 @property (strong, nonatomic) NSDictionary *cloudSprinklers;
-@property (strong, nonatomic) NSArray *manuallyEnteredSprinkler;
+@property (strong, nonatomic) NSArray *manuallyEnteredSprinklers;
 
 @end

@@ -703,7 +703,7 @@
     self.devicesMenuVC.cloudResponse = self.cloudResponse;
     self.devicesMenuVC.cloudSprinklers = self.cloudSprinklers;
     self.devicesMenuVC.cloudEmails = [self.cloudEmails mutableCopy];
-    self.devicesMenuVC.manuallyEnteredSprinkler = self.manuallyEnteredSprinklers;
+    self.devicesMenuVC.manuallyEnteredSprinklers = self.manuallyEnteredSprinklers;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.devicesMenuVC];
     [self presentViewController:navigationController animated:YES completion:nil];

@@ -56,6 +56,8 @@
     NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
     self.cloudEmails = [[cloudAccounts allKeys] mutableCopy];
     
+    [self.cloudEmails sortUsingSelector:@selector(compare:)];
+    
     [self.tableView reloadData];
     [self updateEditButton];
 }
@@ -75,6 +77,9 @@
 
 - (void)updateEditButton {
     self.navigationItem.rightBarButtonItem.enabled = (self.cloudEmails.count > 0);
+    if (self.cloudEmails.count == 0 && self.tableView.editing) {
+        [self edit:nil];
+    }
 }
 
 #pragma mark - Table view data source

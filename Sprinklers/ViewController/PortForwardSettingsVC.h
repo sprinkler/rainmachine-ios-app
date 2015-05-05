@@ -10,6 +10,6 @@
 
 @interface PortForwardSettingsVC : UITableViewController
 
-@property (nonatomic, strong) NSArray *portForwardSprinklers;
+@property (nonatomic, strong) NSMutableArray *portForwardSprinklers;
 
 @end
