@@ -87,6 +87,9 @@
 + (NSString*)cloudEmailStatusForCloudSettings:(CloudSettings*)cloudSettings;
 + (NSString*)formattedUptimeForUptimeString:(NSString*)uptimeString;
 
++ (BOOL)localDiscoveryDisabled;
++ (void)setLocalDiscoveryDisabled:(BOOL)localDiscoveryDisabled;
+
 @end
 
 float evenValue(float value);

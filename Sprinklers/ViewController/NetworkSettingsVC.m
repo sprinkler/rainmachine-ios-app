@@ -9,10 +9,14 @@
 #import "NetworkSettingsVC.h"
 #import "PortForwardSettingsVC.h"
 #import "Constants.h"
+#import "Utils.h"
 
 #pragma mark -
 
 @interface NetworkSettingsVC ()
+
+- (IBAction)onClose:(id)sender;
+- (IBAction)onSwitchLocalDiscovery:(UISwitch*)localDiscoverySwitch;
 
 @end
 
@@ -34,12 +38,6 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Actions
-
-- (void)onClose:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -57,11 +55,12 @@
     if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NetworkSettingsCellIdentifier];
     
     if (indexPath.section == 0) {
-        cell.textLabel.text = @"Local Discovery";
+        cell.textLabel.text = @"Disable Local Discovery";
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         UISwitch *localDiscoverySwitch = [UISwitch new];
-        localDiscoverySwitch.on = ![[NSUserDefaults standardUserDefaults] boolForKey:kDisableLocalDiscoveryKey];
+        localDiscoverySwitch.on = [Utils localDiscoveryDisabled];
+        [localDiscoverySwitch addTarget:self action:@selector(onSwitchLocalDiscovery:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = localDiscoverySwitch;
     }
     else if (indexPath.section == 1) {
@@ -76,18 +75,29 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UISwitch *localDiscoverySwitch = (UISwitch*)cell.accessoryView;
         localDiscoverySwitch.on = !localDiscoverySwitch.isOn;
-        [[NSUserDefaults standardUserDefaults] setBool:!localDiscoverySwitch.isOn forKey:kDisableLocalDiscoveryKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self onSwitchLocalDiscovery:localDiscoverySwitch];
     }
     else if (indexPath.section == 1) {
         PortForwardSettingsVC *portForwardSettingsVC = [[PortForwardSettingsVC alloc] init];
         portForwardSettingsVC.portForwardSprinklers = self.portForwardSprinklers;
         [self.navigationController pushViewController:portForwardSettingsVC animated:YES];
     }
+}
+
+#pragma mark - Actions
+
+- (IBAction)onClose:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)onSwitchLocalDiscovery:(UISwitch*)localDiscoverySwitch {
+    [Utils setLocalDiscoveryDisabled:localDiscoverySwitch.isOn];
 }
 
 @end

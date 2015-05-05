@@ -858,6 +858,15 @@
     return uptimeString;
 }
 
++ (BOOL)localDiscoveryDisabled {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kDisableLocalDiscoveryKey];
+}
+
++ (void)setLocalDiscoveryDisabled:(BOOL)localDiscoveryDisabled {
+    [[NSUserDefaults standardUserDefaults] setBool:localDiscoveryDisabled forKey:kDisableLocalDiscoveryKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 #pragma mark - General
 
 + (int)checkOSVersion {

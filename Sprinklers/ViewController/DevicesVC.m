@@ -313,7 +313,7 @@
         } else {
             if ([Utils isManuallyAddedDevice:sprinkler]) {
                 [manuallyEnteredSprinklers addObject:sprinkler];
-            } else {
+            } else if (![Utils localDiscoveryDisabled]){
                 [locallyDiscoveredSprinklers addObject:sprinkler];
             }
         }
@@ -413,13 +413,13 @@
     [self hideHud];
 }
 
-- (void)startBroadcastSilent:(BOOL)silent
-{
-    [[ServiceManager current] startBroadcastForSprinklers:silent];
+- (void)startBroadcastSilent:(BOOL)silent {
+    if (![Utils localDiscoveryDisabled]) {
+        [[ServiceManager current] startBroadcastForSprinklers:silent];
+    }
 }
 
 - (void)shouldStopBroadcast {
-    
     [[ServiceManager current] stopBroadcast];
 }
 
@@ -716,18 +716,20 @@
 }
 
 - (NSInteger)tvNewRainMachineSetup {
-    return [self tvSectionDevices] + 1;
+    if (![Utils localDiscoveryDisabled]) return 1;
+    return -1;
 }
 
 - (NSInteger)tvSectionDebugSettings {
-    return [self tvNewRainMachineSetup] + 1;
+    if (![Utils localDiscoveryDisabled]) return 2;
+    return 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Devices
     // New Rain Machine Setup
     // Debug Settings
-    return  2 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
+    return  1 + ([Utils localDiscoveryDisabled] ? 0 : 1) + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
