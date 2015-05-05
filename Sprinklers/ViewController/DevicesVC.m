@@ -73,6 +73,8 @@
 @property (strong, nonatomic) Sprinkler *selectedCloudSprinklerToDelete;
 @property (strong, nonatomic) NSIndexPath *selectedCloudSprinklerToDeleteIndexPath;
 
+@property (assign, nonatomic) BOOL sprinklerListEmpty;
+
 @end
 
 @implementation DevicesVC
@@ -96,6 +98,7 @@
     [super viewDidLoad];
 
     self.hideHudTimeoutCountDown = 0;
+    self.sprinklerListEmpty = NO;
     
     [self setDefaultTuningValues];
     
@@ -347,6 +350,8 @@
     self.manuallyEnteredSprinklers = manuallyEnteredSprinklers;
     self.locallyDiscoveredSprinklers = locallyDiscoveredSprinklers;
     self.cloudSprinklers = cloudSprinklersDic;
+    
+    self.sprinklerListEmpty = (self.manuallyEnteredSprinklers.count + self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count == 0);
 }
 
 - (void)pollLocal
@@ -466,6 +471,7 @@
     if (!self.selectingSprinklerInProgress) {
         if (!self.forceUserRefreshActivityIndicator) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.hud = nil;
         }
     }
  }
@@ -734,6 +740,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == [self tvSectionDevices]) {
+        if (self.sprinklerListEmpty) return 1;
         return self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count + self.manuallyEnteredSprinklers.count;
     }
     
@@ -752,7 +759,8 @@
     return nil;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (indexPath.section == [self tvSectionDevices] && self.sprinklerListEmpty) return 64.0;
     return 44;
 }
 
@@ -760,6 +768,7 @@
     Sprinkler *sprinkler = nil;
     
     if (indexPath.section == [self tvSectionDevices]) {
+        if (self.sprinklerListEmpty) return nil;
         if (indexPath.row < self.locallyDiscoveredSprinklers.count) {
             sprinkler = self.locallyDiscoveredSprinklers[indexPath.row];
         } else if (indexPath.row < self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count) {
@@ -772,71 +781,89 @@
     return sprinkler;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
-
-    if (sprinkler) {
-        BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler] || [Utils isCloudDevice:sprinkler]);
-        return isDeviceEditable;
+- (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (indexPath.section == [self tvSectionDevices]) {
+        if (self.sprinklerListEmpty) return NO;
+        
+        Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
+        if (sprinkler) {
+            BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler] || [Utils isCloudDevice:sprinkler]);
+            return isDeviceEditable;
+        }
     }
     
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-
-        Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
-        
-        if ([Utils isCloudDevice:sprinkler]) {
-            self.selectedCloudSprinklerToDelete = sprinkler;
-            self.selectedCloudSprinklerToDeleteIndexPath = indexPath;
+        if (indexPath.section == [self tvSectionDevices]) {
+            if (self.sprinklerListEmpty) return;
             
-            NSInteger cloudDevicesCount = 0;
-            for (Sprinkler *cloudSprinkler in self.cloudSprinklersList) {
-                if ([cloudSprinkler.email isEqualToString:sprinkler.email]) {
-                    cloudDevicesCount++;
+            Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
+            if ([Utils isCloudDevice:sprinkler]) {
+                self.selectedCloudSprinklerToDelete = sprinkler;
+                self.selectedCloudSprinklerToDeleteIndexPath = indexPath;
+                
+                NSInteger cloudDevicesCount = 0;
+                for (Sprinkler *cloudSprinkler in self.cloudSprinklersList) {
+                    if ([cloudSprinkler.email isEqualToString:sprinkler.email]) {
+                        cloudDevicesCount++;
+                    }
                 }
-            }
-            
-            NSString *errorMessage = nil;
-            if (cloudDevicesCount == 1) errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete the device associated to the email %@", sprinkler.email];
-            else errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete all %d devices associated to the email %@", (int)cloudDevicesCount, sprinkler.email];
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                                message:errorMessage
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Cancel"
-                                                      otherButtonTitles:@"OK", nil];
-            alertView.tag = kAlertView_DeleteCloudDevice;
-            [alertView show];
-        } else {
-            BOOL currentSprinklerDeleted = sprinkler == [StorageManager current].currentSprinkler;
-            [Utils invalidateLoginForCurrentSprinkler];
-
-            BOOL deleted = [[StorageManager current] deleteSprinkler:sprinkler];
-            
-            if (currentSprinklerDeleted) {
-                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                [appDelegate refreshRootViews:nil];
+                
+                NSString *errorMessage = nil;
+                if (cloudDevicesCount == 1) errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete the device associated to the email %@", sprinkler.email];
+                else errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete all %d devices associated to the email %@", (int)cloudDevicesCount, sprinkler.email];
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                                    message:errorMessage
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Cancel"
+                                                          otherButtonTitles:@"OK", nil];
+                alertView.tag = kAlertView_DeleteCloudDevice;
+                [alertView show];
             } else {
-                [self refreshSprinklerList];
-                if (deleted) {
-                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                BOOL currentSprinklerDeleted = sprinkler == [StorageManager current].currentSprinkler;
+                [Utils invalidateLoginForCurrentSprinkler];
+
+                BOOL deleted = [[StorageManager current] deleteSprinkler:sprinkler];
+                
+                if (currentSprinklerDeleted) {
+                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                    [appDelegate refreshRootViews:nil];
+                } else {
+                    [self refreshSprinklerList];
+                    if (deleted) {
+                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    }
                 }
             }
         }
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
-
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.section == [self tvSectionDevices]) {
-        DevicesCellType1 *cell = [Utils configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler canEditRow:[self tableView:tableView canEditRowAtIndexPath:indexPath] forceHiddenDisclosure:NO];
-        cell.sprinkler = sprinkler;
-        return cell;
+        if (self.sprinklerListEmpty) {
+            static NSString *EmptySprinklersListCellIdentifier = @"EmptySprinklersListCellIdentifier";
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:EmptySprinklersListCellIdentifier];
+            if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:EmptySprinklersListCellIdentifier];
+            
+            cell.textLabel.text = @"No RainMachines found";
+            cell.textLabel.textColor = [UIColor lightGrayColor];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
+        } else {
+            Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
+            DevicesCellType1 *cell = [Utils configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler canEditRow:[self tableView:tableView canEditRowAtIndexPath:indexPath] forceHiddenDisclosure:NO];
+            cell.sprinkler = sprinkler;
+            return cell;
+        }
     }
     else if (indexPath.section == [self tvSectionDebugSettings]) {
         UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
@@ -914,6 +941,8 @@
     }
     
     if (indexPath.section == [self tvSectionDevices]) {
+        if (self.sprinklerListEmpty) return;
+        
         DevicesCellType1 *selectedCell = (DevicesCellType1*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
         if (!selectedCell.disclosureImageView.hidden) {
             Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
