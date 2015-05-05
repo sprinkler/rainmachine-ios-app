@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Network Settings";
+    self.title = @"Port Forward Settings";
     
     self.editBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
                                                               style:UIBarButtonItemStylePlain

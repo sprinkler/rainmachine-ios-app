@@ -43,6 +43,8 @@ extern NSString *const kCloudEmailValidatorURLKey;
 extern NSString *const kCloudEmailValidatorStagingURL;
 extern NSString *const kCloudEmailValidatorURL;
 
+extern NSString *const kDisableLocalDiscoveryKey;
+
 extern NSString* const kSprinklerKeychain_CookieDictionaryStorageKey;
 extern NSString* const kSprinklerKeychain_CookiesKey;
 extern NSString* const kSprinklerKeychain_isSessionOnly;

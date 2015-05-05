@@ -8,7 +8,7 @@
 
 #import "DevicesMenuVC.h"
 #import "CloudAccountsVC.h"
-#import "PortForwardSettingsVC.h"
+#import "NetworkSettingsVC.h"
 #import "AddNewDeviceVC.h"
 #import "Additions.h"
 #import "Constants.h"
@@ -21,7 +21,7 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
 @interface DevicesMenuVC ()
 
 @property (nonatomic, strong) CloudAccountsVC *cloudAccountsVC;
-@property (nonatomic, strong) PortForwardSettingsVC *portForwardSettingsVC;
+@property (nonatomic, strong) NetworkSettingsVC *networkSettingsVC;
 
 @end
 
@@ -63,8 +63,8 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
         self.cloudAccountsVC = nil;
     }
     
-    if (self.portForwardSettingsVC) {
-        self.portForwardSettingsVC = nil;
+    if (self.networkSettingsVC) {
+        self.networkSettingsVC = nil;
     }
 }
 
@@ -75,7 +75,7 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
 #pragma mark - Actions
 
 - (void)onClose:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Table view datasource
@@ -123,9 +123,9 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
         [self.navigationController pushViewController:self.cloudAccountsVC animated:YES];
     }
     else if (indexPath.section == DevicesMenuNetworkSettingsSection) {
-        self.portForwardSettingsVC = [[PortForwardSettingsVC alloc] init];
-        self.portForwardSettingsVC.portForwardSprinklers = self.manuallyEnteredSprinkler;
-        [self.navigationController pushViewController:self.portForwardSettingsVC animated:YES];
+        self.networkSettingsVC = [[NetworkSettingsVC alloc] init];
+        self.networkSettingsVC.portForwardSprinklers = self.manuallyEnteredSprinkler;
+        [self.navigationController pushViewController:self.networkSettingsVC animated:YES];
     }
 }
 
