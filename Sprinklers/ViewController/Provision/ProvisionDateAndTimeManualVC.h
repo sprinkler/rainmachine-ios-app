@@ -10,7 +10,6 @@
 #import "Protocols.h"
 #import "DiscoveredSprinklers.h"
 #import "ProvisionLocationSetupVC.h"
-#import "ProvisionNameSetupVC.h"
 #import "BaseWizardVC.h"
 
 @interface ProvisionDateAndTimeManualVC : UITableViewController<SprinklerResponseProtocol, TimeZoneSelectorDelegate>

@@ -18,6 +18,7 @@
 #import "NetworkUtilities.h"
 #import "Utils.h"
 #import "API4StatusResponse.h"
+#import "CloudUtils.h"
 
 @interface ProvisionNameSetupVC ()
 
@@ -26,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordLabel;
 @property (weak, nonatomic) IBOutlet UITextField *verifyPasswordLabel;
 @property (weak, nonatomic) IBOutlet UITextField *oldPasswordLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *showPasswordTopSpaceLayoutConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *showPasswordButton;
 @property (strong, nonatomic) ServerProxy *provisionNameServerProxy;
 @property (strong, nonatomic) ServerProxy *provisionPasswordServerProxy;
 @property (strong, nonatomic) ServerProxy *loginServerProxy;
@@ -55,6 +58,10 @@
     self.oldPasswordLabel.delegate = self;
     
     self.oldPasswordLabel.hidden = !(self.presentOldPasswordField);
+    self.showPasswordTopSpaceLayoutConstraint.constant = (self.presentOldPasswordField ? 50.0 : 12.0);
+    
+    self.passwordLabel.text = [CloudUtils passwordForCloudAccountWithEmail:[CloudUtils firstCloudAccount]];
+    self.verifyPasswordLabel.text = [CloudUtils passwordForCloudAccountWithEmail:[CloudUtils firstCloudAccount]];
     
     if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
         self.deviceNameLabel.tintColor = self.deviceNameLabel.textColor;
@@ -83,6 +90,13 @@
 {
     self.navigationItem.rightBarButtonItem.enabled = (self.deviceNameLabel.text.length != 0) && (self.passwordLabel.text.length != 0) && (self.verifyPasswordLabel.text.length != 0);
 }
+
+- (void)startSetProvisionRequests
+{
+    [self.provisionNameServerProxy setProvisionName:self.deviceNameLabel.text];
+}
+
+#pragma mark - Actions
 
 - (IBAction)onNext:(id)sender {
     if (self.deviceNameLabel.text.length == 0) {
@@ -115,9 +129,11 @@
     }
 }
 
-- (void)startSetProvisionRequests
-{
-    [self.provisionNameServerProxy setProvisionName:self.deviceNameLabel.text];
+- (IBAction)onShowPassword:(id)sender {
+    self.showPasswordButton.selected = !self.showPasswordButton.selected;
+    self.passwordLabel.secureTextEntry = !self.showPasswordButton.selected;
+    self.verifyPasswordLabel.secureTextEntry = !self.showPasswordButton.selected;
+    self.oldPasswordLabel.secureTextEntry = !self.showPasswordButton.selected;
 }
 
 #pragma mark - ProxyService delegate

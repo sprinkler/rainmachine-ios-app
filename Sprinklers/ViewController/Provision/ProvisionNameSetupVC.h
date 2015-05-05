@@ -18,4 +18,6 @@
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
 @property (assign, nonatomic) BOOL presentOldPasswordField;
 
+- (IBAction)onShowPassword:(id)sender;
+
 @end

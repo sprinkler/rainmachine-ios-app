@@ -25,6 +25,13 @@
     return keychainDictionary;
 }
 
++ (NSString*)firstCloudAccount {
+    NSMutableArray *cloudEmails = [[self cloudAccounts].allKeys mutableCopy];
+    if (!cloudEmails.count) return nil;
+    [cloudEmails sortUsingSelector:@selector(compare:)];
+    return cloudEmails.firstObject;
+}
+
 + (BOOL)addCloudAccountWithEmail:(NSString*)email password:(NSString*)password
 {
     NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount] mutableCopy];
@@ -59,6 +66,7 @@
 }
 
 + (NSString*)passwordForCloudAccountWithEmail:(NSString*)email {
+    if (!email.length) return nil;
     NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount];
     return keychainDictionary[email];
 }

@@ -91,11 +91,7 @@
             self.emailAddressTextField.tintColor = [UIColor blackColor];
         }
         
-        NSMutableArray *cloudEmails = [[CloudUtils cloudAccounts].allKeys mutableCopy];
-        if (cloudEmails.count) {
-            [cloudEmails sortUsingSelector:@selector(compare:)];
-            self.emailAddressTextField.text = cloudEmails.firstObject;
-        }
+        self.emailAddressTextField.text = [CloudUtils firstCloudAccount];
         
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Skip"
                                                                                   style:UIBarButtonItemStyleDone
@@ -278,13 +274,7 @@
         CloudSettings *cloudSettings = (self.isPartOfWizard ? self.wizardCloudSettings : [GlobalsManager current].cloudSettings);
         NSString *email = cloudSettings.pendingEmail;
         if (!email.length) email = cloudSettings.email;
-        if (!email.length) {
-            NSMutableArray *cloudEmails = [[CloudUtils cloudAccounts].allKeys mutableCopy];
-            if (cloudEmails.count) {
-                [cloudEmails sortUsingSelector:@selector(compare:)];
-                email = cloudEmails.firstObject;
-            }
-        }
+        if (!email.length) email = [CloudUtils firstCloudAccount];
         
         [setCloudEmailAlertView textFieldAtIndex:0].text = email;
         [setCloudEmailAlertView textFieldAtIndex:0].keyboardType = UIKeyboardTypeEmailAddress;
