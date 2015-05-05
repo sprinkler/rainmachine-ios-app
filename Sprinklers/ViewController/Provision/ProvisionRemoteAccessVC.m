@@ -422,6 +422,10 @@
         [alertView show];
         
         if (!self.isPartOfWizard) [self refreshCloudSettings];
+        else {
+            if ([CloudUtils existsCloudAccountWithEmail:email]) [CloudUtils updateCloudAccountWithEmail:email newPassword:self.sprinkler.password];
+            else [CloudUtils addCloudAccountWithEmail:email password:self.sprinkler.password];
+        }
         self.emailValidatorServerProxy = nil;
         
         [[GlobalsManager current] startPollingCloudSettings];

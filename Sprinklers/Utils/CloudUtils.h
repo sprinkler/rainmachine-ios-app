@@ -13,6 +13,7 @@
 + (void)resetKeychain;
 + (NSDictionary*)cloudAccounts;
 + (BOOL)addCloudAccountWithEmail:(NSString*)email password:(NSString*)password;
++ (BOOL)updateCloudAccountWithEmail:(NSString*)email newPassword:(NSString*)newPassword;
 + (BOOL)existsCloudAccountWithEmail:(NSString*)email;
 + (NSString*)passwordForCloudAccountWithEmail:(NSString*)email;
 + (void)deleteCloudAccountWithEmail:(NSString*)email;

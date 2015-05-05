@@ -153,14 +153,13 @@
     }
     else if (serverProxy == self.provisionPasswordServerProxy) {
         [self hideHud];
+        
+        self.sprinkler.password = self.passwordLabel.text;
+        
         ProvisionLocationSetupVC *locationSetupVC = [[ProvisionLocationSetupVC alloc] init];
         locationSetupVC.sprinkler = self.sprinkler;
         locationSetupVC.isPartOfWizard = YES;
-//        locationSetupVC.delegate = self;
-
-//        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:locationSetupVC];
-//        [self.navigationController presentViewController:navVC animated:NO completion:nil];
-
+        
         [self.navigationController pushViewController:locationSetupVC animated:YES];
     }
 }

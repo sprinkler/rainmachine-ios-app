@@ -42,6 +42,17 @@
     return NO;
 }
 
++ (BOOL)updateCloudAccountWithEmail:(NSString*)email newPassword:(NSString*)newPassword {
+    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount] mutableCopy];
+    if (!keychainDictionary) return NO;
+    if (keychainDictionary[email] == nil) return NO;
+    
+    keychainDictionary[email] = newPassword;
+    [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CloudAccount];
+    
+    return NO;
+}
+
 + (BOOL)existsCloudAccountWithEmail:(NSString*)email {
     NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CloudAccount];
     return (keychainDictionary[email] != nil);

@@ -17,5 +17,6 @@
 @property (nonatomic, strong) NSString *host;
 @property (nonatomic) int port;
 @property (nonatomic, strong) NSString *apFlag;
+@property (nonatomic, strong) NSString *password;
 
 @end
