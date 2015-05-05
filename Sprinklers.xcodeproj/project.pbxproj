@@ -42,6 +42,10 @@
 		9611A0381ACD580300ADCA06 /* DailyStatsDetailProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 9611A0371ACD580300ADCA06 /* DailyStatsDetailProgram.m */; };
 		961296541AF8B671000762EC /* NetworkSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 961296521AF8B671000762EC /* NetworkSettingsVC.m */; };
 		961296551AF8B671000762EC /* NetworkSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 961296531AF8B671000762EC /* NetworkSettingsVC.xib */; };
+		961296571AF8EDD0000762EC /* NetworkSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 961296521AF8B671000762EC /* NetworkSettingsVC.m */; };
+		961296581AF8EDD1000762EC /* NetworkSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 961296521AF8B671000762EC /* NetworkSettingsVC.m */; };
+		961296591AF8EDD9000762EC /* NetworkSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 961296531AF8B671000762EC /* NetworkSettingsVC.xib */; };
+		9612965A1AF8EDD9000762EC /* NetworkSettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 961296531AF8B671000762EC /* NetworkSettingsVC.xib */; };
 		961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */; };
 		961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */; };
 		9624BDED1AEA0F5400141891 /* WateringHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */; };
@@ -4097,6 +4101,7 @@
 				BD0BB6FE1ACE93AA005E2426 /* DatePickerVC.xib in Resources */,
 				BD0BB6FF1ACE93AA005E2426 /* blizzard.png in Resources */,
 				BD0BB7001ACE93AA005E2426 /* ZoneAdvancedVC.xib in Resources */,
+				961296591AF8EDD9000762EC /* NetworkSettingsVC.xib in Resources */,
 				BD0BB7011ACE93AA005E2426 /* nav_menu_icon@2x.png in Resources */,
 				BD0BB7021ACE93AA005E2426 /* ZoneCell.xib in Resources */,
 				BD0BB7031ACE93AA005E2426 /* GraphDataFormatterCell4.xib in Resources */,
@@ -4371,6 +4376,7 @@
 				BD0BB8F71ACE9525005E2426 /* DatePickerVC.xib in Resources */,
 				BD0BB8F81ACE9525005E2426 /* blizzard.png in Resources */,
 				BD0BB8F91ACE9525005E2426 /* ZoneAdvancedVC.xib in Resources */,
+				9612965A1AF8EDD9000762EC /* NetworkSettingsVC.xib in Resources */,
 				BD0BB8FA1ACE9525005E2426 /* nav_menu_icon@2x.png in Resources */,
 				BD0BB8FB1ACE9525005E2426 /* ZoneCell.xib in Resources */,
 				BD0BB8FC1ACE9525005E2426 /* GraphDataFormatterCell4.xib in Resources */,
@@ -4893,6 +4899,7 @@
 				BD0BB6091ACE93AA005E2426 /* ZoneAdvancedVC.m in Sources */,
 				BD0BB60A1ACE93AA005E2426 /* ColoredBackgroundButton.m in Sources */,
 				BD0BB60B1ACE93AA005E2426 /* DashboardGraphDetailsVC.m in Sources */,
+				961296571AF8EDD0000762EC /* NetworkSettingsVC.m in Sources */,
 				BD0BB60C1ACE93AA005E2426 /* GraphDescriptor.m in Sources */,
 				BD0BB60D1ACE93AA005E2426 /* ProgramCellType4.m in Sources */,
 				BD0BB60E1ACE93AA005E2426 /* WaterLogZoneCycle.m in Sources */,
@@ -5137,6 +5144,7 @@
 				BD0BB8021ACE9525005E2426 /* ZoneAdvancedVC.m in Sources */,
 				BD0BB8031ACE9525005E2426 /* ColoredBackgroundButton.m in Sources */,
 				BD0BB8041ACE9525005E2426 /* DashboardGraphDetailsVC.m in Sources */,
+				961296581AF8EDD1000762EC /* NetworkSettingsVC.m in Sources */,
 				BD0BB8051ACE9525005E2426 /* GraphDescriptor.m in Sources */,
 				BD0BB8061ACE9525005E2426 /* ProgramCellType4.m in Sources */,
 				BD0BB8071ACE9525005E2426 /* WaterLogZoneCycle.m in Sources */,
