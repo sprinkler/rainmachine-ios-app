@@ -11,7 +11,9 @@
 #import "Constants.h"
 #import "+UILabel.h"
 #import "AddNewDeviceVC.h"
+#import "StorageManager.h"
 #import "CloudUtils.h"
+#import "Utils.h"
 
 #pragma mark -
 
@@ -135,10 +137,28 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [CloudUtils deleteCloudAccountWithEmail:self.cloudEmails[indexPath.row]];
+        NSString *cloudEmail = self.cloudEmails[indexPath.row];
+        [CloudUtils deleteCloudAccountWithEmail:cloudEmail];
         [self.cloudEmails removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self updateEditButton];
+        
+        NSArray *remoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:nil];
+        for (Sprinkler *sprinkler in remoteDevices) {
+            if ([cloudEmail isEqualToString:sprinkler.email]) {
+                if (sprinkler == [StorageManager current].currentSprinkler) {
+                    [Utils invalidateLoginForCurrentSprinkler];
+                    self.currentSprinklerDeleted = YES;
+                }
+                [[StorageManager current] deleteSprinkler:sprinkler];
+            }
+        }
+        
+        NSMutableDictionary *cloudSprinklers = [self.cloudSprinklers mutableCopy];
+        [cloudSprinklers removeObjectForKey:cloudEmail];
+        self.cloudSprinklers = cloudSprinklers;
+                
+        [self.tableView reloadData];
     }
 }
 

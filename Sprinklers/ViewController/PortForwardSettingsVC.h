@@ -11,5 +11,6 @@
 @interface PortForwardSettingsVC : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray *portForwardSprinklers;
+@property (assign, nonatomic) BOOL currentSprinklerDeleted;
 
 @end

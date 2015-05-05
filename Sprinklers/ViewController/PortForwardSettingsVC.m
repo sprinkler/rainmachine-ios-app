@@ -136,6 +136,10 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Sprinkler *sprinkler = [self.portForwardSprinklers objectAtIndex:indexPath.row];
+        if (sprinkler == [StorageManager current].currentSprinkler) {
+            [Utils invalidateLoginForCurrentSprinkler];
+            self.currentSprinklerDeleted = YES;
+        }
         [[StorageManager current] deleteSprinkler:sprinkler];
         
         NSMutableArray *portForwardSprinklers = [self.portForwardSprinklers mutableCopy];

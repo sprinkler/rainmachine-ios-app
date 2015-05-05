@@ -61,11 +61,13 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
 
     if (self.cloudAccountsVC) {
         self.cloudEmails = [[CloudUtils cloudAccounts].allKeys mutableCopy];
+        self.currentSprinklerDeleted |= self.cloudAccountsVC.currentSprinklerDeleted;
         self.cloudAccountsVC = nil;
     }
     
     if (self.networkSettingsVC) {
         self.manuallyEnteredSprinklers = self.networkSettingsVC.portForwardSprinklers;
+        self.currentSprinklerDeleted |= self.networkSettingsVC.currentSprinklerDeleted;
         self.networkSettingsVC = nil;
     }
 }

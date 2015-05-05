@@ -40,6 +40,7 @@
     [super viewWillAppear:animated];
     if (self.portForwardSettingsVC) {
         self.portForwardSprinklers = self.portForwardSettingsVC.portForwardSprinklers;
+        self.currentSprinklerDeleted = self.portForwardSettingsVC.currentSprinklerDeleted;
         self.portForwardSettingsVC = nil;
     }
 }

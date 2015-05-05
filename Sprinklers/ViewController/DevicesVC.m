@@ -8,6 +8,7 @@
 
 #import "DevicesVC.h"
 #import "DevicesMenuVC.h"
+#import "NetworkSettingsVC.h"
 #import "Additions.h"
 #import "LoginVC.h"
 #import "AddNewDeviceVC.h"
@@ -118,8 +119,6 @@
         self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     }
     
-    _tableView.allowsSelectionDuringEditing = YES;
-    
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType1" bundle:nil] forCellReuseIdentifier:@"DevicesCellType1"];
     [_tableView registerNib:[UINib nibWithNibName:@"DevicesCellType2" bundle:nil] forCellReuseIdentifier:@"DevicesCellType2"];
     [_tableView registerNib:[UINib nibWithNibName:@"AddNewCell" bundle:nil] forCellReuseIdentifier:@"AddNewCell"];
@@ -189,19 +188,7 @@
     return selectedServer;
 }
 
-- (void)updateNavigationbarButtons
-{
-    /*self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItems = nil;
-    self.navigationItem.leftBarButtonItem = nil;
-    
-    if (self.tableView.isEditing) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-    } else {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(edit)];
-    }*/
-    
+- (void)updateNavigationbarButtons {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefresh:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"devices_menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(onDisplayDevicesMenu:)];
 }
@@ -254,17 +241,28 @@
         self.cloudSprinklers = cloudSprinklersMut;
         self.cloudEmails = self.devicesMenuVC.cloudEmails;
         
+        BOOL currentSprinklerDeleted = self.devicesMenuVC.currentSprinklerDeleted;
+        if ([self.devicesMenuVC.navigationController.topViewController isKindOfClass:[NetworkSettingsVC class]]) {
+            NetworkSettingsVC *networkSettingsVC = (NetworkSettingsVC*)self.devicesMenuVC.navigationController.topViewController;
+            currentSprinklerDeleted = networkSettingsVC.currentSprinklerDeleted;
+        }
+        
+        if (currentSprinklerDeleted) {
+            [Utils invalidateLoginForCurrentSprinkler];
+            if (currentSprinklerDeleted) {
+                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate refreshRootViews:nil];
+            }
+        }
+        
         self.devicesMenuVC = nil;
         
+        // Poll cloud
         [self pollCloud];
     }
     
-    if (!self.tableView.isEditing) {
-        [self refreshSprinklerList];
-        [self shouldStartBroadcastForceUIRefresh:NO];
-        
-//        [self pollCloud];
-    }
+    [self refreshSprinklerList];
+    [self shouldStartBroadcastForceUIRefresh:NO];
     
     [self.tableView reloadData];
     [self refreshDeviceDiscoveryTimers];
@@ -355,28 +353,21 @@
     self.sprinklerListEmpty = (self.manuallyEnteredSprinklers.count + self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count == 0);
 }
 
-- (void)pollLocal
-{
+- (void)pollLocal {
     [self shouldStartBroadcastForceUIRefresh:YES];
 }
 
 - (void)shouldStartBroadcastForceUIRefresh:(BOOL)forceUIRefresh {
-    if (!self.tableView.isEditing) {
-//        [self shouldStopBroadcast];
-        
-        if (forceUIRefresh) {
-//            if (!self.selectingSprinklerInProgress) [self hideHud];
-            // Process the list of discovered devices before starting a new discovery process
-            // We do the processing until here, because otherwise, when no sprinklers in the network, the 'SprinklersDiscovered' callback is not called at all
-            [self SprinklersDiscovered];
-        }
-
-        [self startBroadcastSilent:YES];
+    if (forceUIRefresh) {
+        // Process the list of discovered devices before starting a new discovery process
+        // We do the processing until here, because otherwise, when no sprinklers in the network, the 'SprinklersDiscovered' callback is not called at all
+        [self SprinklersDiscovered];
     }
+
+    [self startBroadcastSilent:YES];
 }
 
--(void)SprinklersDiscovered
-{
+- (void)SprinklersDiscovered {
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Local onlySprinklersWithEmail:NO];
     NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:nil];
     
@@ -473,24 +464,6 @@
         if (!self.forceUserRefreshActivityIndicator) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             self.hud = nil;
-        }
-    }
- }
-
-- (void)updateVisibleCellsForEditMode {
-    for (UITableViewCell *cell in self.tableView.visibleCells) {
-        cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
-        
-        if (![cell isKindOfClass:[DevicesCellType1 class]]) continue;
-        
-        DevicesCellType1 *deviceCell = (DevicesCellType1*)cell;
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:deviceCell];
-        deviceCell.disclosureImageView.hidden = (self.tableView.isEditing);// || (!deviceCell.sprinkler.isDiscovered.boolValue);
-        deviceCell.labelInfo.hidden = self.tableView.isEditing;
-        
-        if (self.tableView.isEditing && [self tableView:self.tableView canEditRowAtIndexPath:indexPath]) {
-            deviceCell.disclosureImageView.hidden = NO;
-            deviceCell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
     }
 }
@@ -639,25 +612,10 @@
 }
 
 - (void)done:(NSString*)unit {
-    if (self.tableView.isEditing) {
-        [self.tableView setEditing:NO animated:YES];
-        [self updateVisibleCellsForEditMode];
-        [self updateNavigationbarButtons];
-        [self shouldStartBroadcastForceUIRefresh:NO];
-        return;
-    }
-    
     [[GraphsManager sharedGraphsManager] reregisterAllGraphs];
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate refreshRootViews:unit];
-}
-
-- (void)edit {
-    [self.tableView setEditing:YES animated:YES];
-    [self updateVisibleCellsForEditMode];
-    [self updateNavigationbarButtons];
-    [self shouldStopBroadcast];
 }
 
 - (void)onRefresh:(id)notification {
@@ -782,69 +740,6 @@
     return sprinkler;
 }
 
-- (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (indexPath.section == [self tvSectionDevices]) {
-        if (self.sprinklerListEmpty) return NO;
-        
-        Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
-        if (sprinkler) {
-            BOOL isDeviceEditable = [Utils isManuallyAddedDevice:sprinkler] || ([Utils isDeviceInactive:sprinkler] || [Utils isCloudDevice:sprinkler]);
-            return isDeviceEditable;
-        }
-    }
-    
-    return NO;
-}
-
-- (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if (indexPath.section == [self tvSectionDevices]) {
-            if (self.sprinklerListEmpty) return;
-            
-            Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
-            if ([Utils isCloudDevice:sprinkler]) {
-                self.selectedCloudSprinklerToDelete = sprinkler;
-                self.selectedCloudSprinklerToDeleteIndexPath = indexPath;
-                
-                NSInteger cloudDevicesCount = 0;
-                for (Sprinkler *cloudSprinkler in self.cloudSprinklersList) {
-                    if ([cloudSprinkler.email isEqualToString:sprinkler.email]) {
-                        cloudDevicesCount++;
-                    }
-                }
-                
-                NSString *errorMessage = nil;
-                if (cloudDevicesCount == 1) errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete the device associated to the email %@", sprinkler.email];
-                else errorMessage = [NSString stringWithFormat:@"Are you sure you want to delete all %d devices associated to the email %@", (int)cloudDevicesCount, sprinkler.email];
-                
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                                    message:errorMessage
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"Cancel"
-                                                          otherButtonTitles:@"OK", nil];
-                alertView.tag = kAlertView_DeleteCloudDevice;
-                [alertView show];
-            } else {
-                BOOL currentSprinklerDeleted = sprinkler == [StorageManager current].currentSprinkler;
-                [Utils invalidateLoginForCurrentSprinkler];
-
-                BOOL deleted = [[StorageManager current] deleteSprinkler:sprinkler];
-                
-                if (currentSprinklerDeleted) {
-                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                    [appDelegate refreshRootViews:nil];
-                } else {
-                    [self refreshSprinklerList];
-                    if (deleted) {
-                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
-                    }
-                }
-            }
-        }
-    }
-}
-
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.section == [self tvSectionDevices]) {
         if (self.sprinklerListEmpty) {
@@ -861,7 +756,7 @@
             return cell;
         } else {
             Sprinkler *sprinkler = [self sprinklerToShowForIndexPath:indexPath];
-            DevicesCellType1 *cell = [Utils configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler canEditRow:[self tableView:tableView canEditRowAtIndexPath:indexPath] forceHiddenDisclosure:NO];
+            DevicesCellType1 *cell = [Utils configureSprinklerCellForTableView:tableView indexPath:indexPath sprinkler:sprinkler canEditRow:NO forceHiddenDisclosure:NO];
             cell.sprinkler = sprinkler;
             return cell;
         }
@@ -917,7 +812,7 @@
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
         }
-        cell.selectionStyle = (self.tableView.isEditing ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleGray);
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.textLabel.text = @"New Rain Machine";
         cell.detailTextLabel.text = @"setup";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -930,16 +825,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (self.tableView.isEditing) {
-        if ([self tableView:tableView canEditRowAtIndexPath:indexPath]) {
-            AddNewDeviceVC *editDeviceVC = [[AddNewDeviceVC alloc] init];
-            editDeviceVC.sprinkler = [self sprinklerToShowForIndexPath:indexPath];
-            editDeviceVC.title = @"Edit Device";
-            [self.navigationController pushViewController:editDeviceVC animated:YES];
-        }
-        return;
-    }
     
     if (indexPath.section == [self tvSectionDevices]) {
         if (self.sprinklerListEmpty) return;
@@ -1018,18 +903,7 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self shouldStopBroadcast];
-}
-
-- (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self shouldStartBroadcastForceUIRefresh:NO];
-}
-
-- (void)sprinklerSelected:(Sprinkler*)sprinkler
-{
+- (void)sprinklerSelected:(Sprinkler*)sprinkler {
     [self.versionServerProxy cancelAllOperations];
     [self.diagServerProxy cancelAllOperations];
     
@@ -1144,14 +1018,7 @@
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     if (serverProxy == self.cloudServerProxy) {
         [self hideHud];
-    //    NSError *e = nil;
-    //    NSData *testData = [@"{\"sprinklersByEmail\":[{\"email\":\"dragos@oriunde.com\",\"sprinklers\":[{\"name\":\"sprinkler196\",\"mac\":\"2180:1f:02:1b:d7:4f\",\"sprinklerUrl\":\"54.76.26.90:8443\"}],\"activeCount\":1,\"knownCount\":2,\"authCount\":1}]}" dataUsingEncoding:NSUTF8StringEncoding];
-    //    data = [NSJSONSerialization JSONObjectWithData:testData options:NSJSONReadingMutableContainers error:&e];
-        
-        // The cloud is continuosly pulled, so if the table finished editing the cloud state will refresh at the next timer poll
-        if (!self.tableView.isEditing) {
-            [self updateCloudSprinklersFromCloudResponse:data];
-        }
+        [self updateCloudSprinklersFromCloudResponse:data];
     }
     else if (serverProxy == self.versionServerProxy) {
         self.versionServerProxy = nil;

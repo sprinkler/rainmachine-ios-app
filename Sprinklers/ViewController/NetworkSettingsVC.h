@@ -11,5 +11,6 @@
 @interface NetworkSettingsVC : UITableViewController
 
 @property (nonatomic, strong) NSArray *portForwardSprinklers;
+@property (assign, nonatomic) BOOL currentSprinklerDeleted;
 
 @end
