@@ -74,7 +74,7 @@
     
     [_buttonLogin setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
     
-    _buttonCheckBox.selected = [_sprinkler.loginRememberMe boolValue];
+    _buttonCheckBox.selected = YES;
     
     [self.bucketLabel setCustomRMFontWithCode:icon_Stropitoare_Icon size:195];
     
