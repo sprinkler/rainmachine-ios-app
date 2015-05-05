@@ -466,6 +466,8 @@
             self.hud = nil;
         }
     }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Reset to Defaults
@@ -638,6 +640,8 @@
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
     NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in allSprinklers) {
+        // Force Sprinklers to disappear from the list at manual refresh
+        sprinkler.nrOfFailedConsecutiveDiscoveries = @([Utils deviceGreyOutRetryCount]);
         sprinkler.isDiscovered = @NO;
     }
     
@@ -699,7 +703,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == [self tvSectionDevices]) {
-        if (self.sprinklerListEmpty) return 1;
+        if (self.sprinklerListEmpty && !self.hud) return 1;
         return self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count + self.manuallyEnteredSprinklers.count;
     }
     
@@ -719,7 +723,7 @@
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (indexPath.section == [self tvSectionDevices] && self.sprinklerListEmpty) return 64.0;
+    if (indexPath.section == [self tvSectionDevices] && self.sprinklerListEmpty && !self.hud) return 64.0;
     return 44;
 }
 
@@ -727,7 +731,7 @@
     Sprinkler *sprinkler = nil;
     
     if (indexPath.section == [self tvSectionDevices]) {
-        if (self.sprinklerListEmpty) return nil;
+        if (self.sprinklerListEmpty && !self.hud) return nil;
         if (indexPath.row < self.locallyDiscoveredSprinklers.count) {
             sprinkler = self.locallyDiscoveredSprinklers[indexPath.row];
         } else if (indexPath.row < self.locallyDiscoveredSprinklers.count + self.cloudSprinklersList.count) {
@@ -742,7 +746,7 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.section == [self tvSectionDevices]) {
-        if (self.sprinklerListEmpty) {
+        if (self.sprinklerListEmpty && !self.hud) {
             static NSString *EmptySprinklersListCellIdentifier = @"EmptySprinklersListCellIdentifier";
             
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:EmptySprinklersListCellIdentifier];
@@ -827,7 +831,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == [self tvSectionDevices]) {
-        if (self.sprinklerListEmpty) return;
+        if (self.sprinklerListEmpty && !self.hud) return;
         
         DevicesCellType1 *selectedCell = (DevicesCellType1*)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]];
         if (!selectedCell.disclosureImageView.hidden) {
