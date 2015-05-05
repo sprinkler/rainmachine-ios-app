@@ -531,8 +531,7 @@
 
 #pragma mark - Cloud Sprinklers
 
-- (void)pollCloud
-{
+- (void)pollCloud {
     NSDictionary *cloudAccounts = [CloudUtils cloudAccounts];
     self.cloudEmails = [cloudAccounts allKeys];
     
@@ -547,6 +546,8 @@
 {
     if (cloudAccounts.count > 0) {
         [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
+    } else {
+        [self updateCloudSprinklersFromCloudResponse:nil];
     }
 }
 
