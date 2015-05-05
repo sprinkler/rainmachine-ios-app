@@ -35,6 +35,7 @@ NSString* const kSprinklerKeychain_CookiesKey = @"SprinklerKeychain_CookiesKey";
 NSString* const kSprinklerKeychain_isSessionOnly = @"SprinklerKeychain_isSessionOnly";
 
 NSString* const kSprinklerKeychain_CloudAccount = @"kSprinklerKeychain_CloudAccount";
+NSString* const kSprinklerKeychain_PhoneID = @"kSprinklerKeychain_PhoneID";
 
 NSString *const kSprinklerUserDefaults_AccessTokensDictionaryKey = @"kSprinklerUserDefaults_AccessTokensDictionaryKey";
 

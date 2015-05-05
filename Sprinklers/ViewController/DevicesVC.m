@@ -525,7 +525,7 @@
 - (void)requestCloudSprinklers:(NSDictionary*)cloudAccounts
 {
     if (cloudAccounts.count > 0) {
-        [self.cloudServerProxy requestCloudSprinklers:cloudAccounts];
+        [self.cloudServerProxy requestCloudSprinklers:cloudAccounts phoneID:[Utils phoneID]];
     } else {
         [self updateCloudSprinklersFromCloudResponse:nil];
     }

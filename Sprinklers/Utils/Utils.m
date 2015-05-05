@@ -23,6 +23,7 @@
 #import "ServerProxy.h"
 #import "WiFi.h"
 #import "CloudSettings.h"
+#import "NSDictionary+Keychain.h"
 
 @implementation Utils
 
@@ -867,6 +868,27 @@
 + (void)setLocalDiscoveryDisabled:(BOOL)localDiscoveryDisabled {
     [[NSUserDefaults standardUserDefaults] setBool:localDiscoveryDisabled forKey:kDisableLocalDiscoveryKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSString*)generateGUID {
+    CFUUIDRef UUID= CFUUIDCreate(NULL);
+    NSString *GUIDString = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, UUID);
+    CFRelease(UUID);
+    return GUIDString;
+}
+
++ (NSString*)phoneID {
+    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_PhoneID] mutableCopy];
+    if (!keychainDictionary) keychainDictionary = [NSMutableDictionary new];
+    
+    NSString *phoneID = [keychainDictionary objectForKey:kSprinklerKeychain_PhoneID];
+    if (!phoneID.length) {
+        phoneID = [self generateGUID];
+        [keychainDictionary setObject:phoneID forKey:kSprinklerKeychain_PhoneID];
+        [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_PhoneID];
+    }
+    
+    return phoneID;
 }
 
 #pragma mark - General

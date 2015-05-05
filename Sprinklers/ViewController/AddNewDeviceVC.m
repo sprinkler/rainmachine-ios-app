@@ -156,7 +156,7 @@
 - (void)requestCloudSprinklersForEmail:(NSString*)email password:(NSString*)password {
     NSString *cloudProxyFinderURL = [[NSUserDefaults standardUserDefaults] objectForKey:kCloudProxyFinderURLKey];
     self.cloudServerProxy = [[ServerProxy alloc] initWithServerURL:cloudProxyFinderURL delegate:self jsonRequest:YES];
-    [self.cloudServerProxy requestCloudSprinklers:@{email: password}];
+    [self.cloudServerProxy requestCloudSprinklers:@{email: password} phoneID:[Utils phoneID]];
 }
 
 #pragma mark - Actions

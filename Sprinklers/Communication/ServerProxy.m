@@ -1926,12 +1926,12 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
-- (void)requestCloudSprinklers:(NSDictionary*)accounts
-{
+- (void)requestCloudSprinklers:(NSDictionary*)accounts phoneID:(NSString*)phoneID {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:[NSMutableArray array] forKey:@"credentials"];
     for (NSString *email in accounts) {
         [params[@"credentials"] addObject:@{@"email" : email, @"pwd" : accounts[email]}];
     }
+    if (phoneID.length) params[@"phoneID"] = phoneID;
 
     [self.manager POST:@"get-sprinklers" parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {

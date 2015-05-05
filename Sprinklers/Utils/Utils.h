@@ -90,6 +90,9 @@
 + (BOOL)localDiscoveryDisabled;
 + (void)setLocalDiscoveryDisabled:(BOOL)localDiscoveryDisabled;
 
++ (NSString*)generateGUID;
++ (NSString*)phoneID;
+
 @end
 
 float evenValue(float value);

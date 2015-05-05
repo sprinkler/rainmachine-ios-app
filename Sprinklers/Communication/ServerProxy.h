@@ -163,7 +163,7 @@ typedef enum {
 - (void)requestWateringLogSimulatedDetailsFromDate:(NSString*)dateString daysCount:(NSInteger)daysCount;
 
 - (void)validateEmail:(NSString*)email deviceName:(NSString*)deviceName mac:(NSString*)mac;
-- (void)requestCloudSprinklers:(NSDictionary*)accounts;
+- (void)requestCloudSprinklers:(NSDictionary*)accounts phoneID:(NSString*)phoneID;
 - (void)requestCloudSettings;
 - (void)saveCloudSettings:(CloudSettings*)cloudSettings;
 - (void)enableRemoteAccess:(BOOL)enable;

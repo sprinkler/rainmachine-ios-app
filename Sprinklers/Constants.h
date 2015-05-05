@@ -50,6 +50,7 @@ extern NSString* const kSprinklerKeychain_CookiesKey;
 extern NSString* const kSprinklerKeychain_isSessionOnly;
 
 extern NSString* const kSprinklerKeychain_CloudAccount;
+extern NSString* const kSprinklerKeychain_PhoneID;
 
 extern NSString* const kSprinklerUserDefaults_AccessTokensDictionaryKey;
 
