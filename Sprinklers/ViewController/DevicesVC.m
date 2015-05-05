@@ -232,7 +232,7 @@
     
     if (self.devicesMenuVC) {
         NSMutableSet *deletedSprinklers = [NSMutableSet setWithArray:self.cloudEmails];
-        NSMutableSet *secondSet = [NSMutableSet setWithArray:self.devicesMenuVC.cloudEmails];
+        NSMutableSet *secondSet = [NSMutableSet setWithArray:[CloudUtils cloudAccounts].allKeys];
         [deletedSprinklers minusSet:secondSet];
         
         NSMutableDictionary *cloudSprinklersMut = [self.cloudSprinklers mutableCopy];
@@ -255,6 +255,8 @@
         self.cloudEmails = self.devicesMenuVC.cloudEmails;
         
         self.devicesMenuVC = nil;
+        
+        [self pollCloud];
     }
     
     if (!self.tableView.isEditing) {
@@ -265,7 +267,6 @@
     }
     
     [self.tableView reloadData];
-
     [self refreshDeviceDiscoveryTimers];
 }
 
