@@ -36,6 +36,7 @@
 @property (nonatomic, strong) MBProgressHUD *hud;
 
 @property (nonatomic, strong) NSString *currentPendingEmail;
+@property (nonatomic, strong) NSString *oldEmail;
 @property (nonatomic, assign) BOOL currentRemoteAccessEnabled;
 
 @property (nonatomic, strong) ServerProxy *enableRemoteAccessServerProxy;
@@ -274,6 +275,8 @@
         CloudSettings *cloudSettings = (self.isPartOfWizard ? self.wizardCloudSettings : [GlobalsManager current].cloudSettings);
         NSString *email = cloudSettings.pendingEmail;
         if (!email.length) email = cloudSettings.email;
+        self.oldEmail = email;
+        
         if (!email.length) email = [CloudUtils firstCloudAccount];
         
         [setCloudEmailAlertView textFieldAtIndex:0].text = email;
@@ -411,7 +414,19 @@
         alertView.tag = kRemoteAccess_VerificationEmail_AlertView_Tag;
         [alertView show];
         
-        if (!self.isPartOfWizard) [self refreshCloudSettings];
+        if (!self.isPartOfWizard) {
+            [self refreshCloudSettings];
+            
+            // Create a new cloud account with the new email, same password
+            
+            if (self.oldEmail.length && [CloudUtils existsCloudAccountWithEmail:self.oldEmail]) {
+                NSString *password = [CloudUtils passwordForCloudAccountWithEmail:self.oldEmail];
+                if (password.length) {
+                    if ([CloudUtils existsCloudAccountWithEmail:email]) [CloudUtils updateCloudAccountWithEmail:email newPassword:password];
+                    else [CloudUtils addCloudAccountWithEmail:email password:password];
+                }
+            }
+        }
         else {
             if ([CloudUtils existsCloudAccountWithEmail:email]) [CloudUtils updateCloudAccountWithEmail:email newPassword:self.sprinkler.password];
             else [CloudUtils addCloudAccountWithEmail:email password:self.sprinkler.password];

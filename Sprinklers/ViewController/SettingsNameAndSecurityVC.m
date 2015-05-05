@@ -18,6 +18,9 @@
 #import "AppDelegate.h"
 #import "SetPassword4Response.h"
 #import "API4StatusResponse.h"
+#import "GlobalsManager.h"
+#import "CloudSettings.h"
+#import "CloudUtils.h"
 
 @interface SettingsNameAndSecurityVC ()
 
@@ -155,6 +158,16 @@
                 [self.parent handleSprinklerGeneralError:response.message showErrorMessage:YES];
             } else {
                 [Utils invalidateLoginForCurrentSprinkler];
+                
+                // Update the password in the existing cloud account
+                
+                CloudSettings *cloudSettings = [GlobalsManager current].cloudSettings;
+                NSString *email = cloudSettings.pendingEmail;
+                if (!email.length) email = cloudSettings.email;
+                
+                if (email.length && [CloudUtils existsCloudAccountWithEmail:email]) {
+                    [CloudUtils updateCloudAccountWithEmail:email newPassword:self.textFieldNewPassword.text];
+                }
                 
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle: nil message:@"Password changed successfully!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
                 [alertView show];
