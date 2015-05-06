@@ -176,6 +176,9 @@
 		96AD36371A1CDBC00019453C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD36361A1CDBC00019453C /* libc++.dylib */; };
 		96AD36391A1CDBCC0019453C /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD36381A1CDBCC0019453C /* libicucore.dylib */; };
 		96AD363B1A1CDBD40019453C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AD363A1A1CDBD40019453C /* libz.dylib */; };
+		96B42F951AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96B42F941AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib */; };
+		96B42F961AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96B42F941AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib */; };
+		96B42F971AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96B42F941AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib */; };
 		96BED90F1ADFE4D0003F0453 /* TimePickerMinutesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */; };
 		96BED9101ADFE4D0003F0453 /* TimePickerMinutesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */; };
 		96C2239D19D7080900683AC6 /* HourlyRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C2239C19D7080900683AC6 /* HourlyRestriction.m */; };
@@ -1761,6 +1764,7 @@
 		96AD36361A1CDBC00019453C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		96AD36381A1CDBCC0019453C /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		96AD363A1A1CDBD40019453C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		96B42F941AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaterNowLevel1VC_SPK2.xib; path = ViewController/WaterNowLevel1VC_SPK2.xib; sourceTree = "<group>"; };
 		96BED90C1ADFE4D0003F0453 /* TimePickerMinutesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimePickerMinutesVC.h; path = ViewController/TimePickerMinutesVC.h; sourceTree = "<group>"; };
 		96BED90D1ADFE4D0003F0453 /* TimePickerMinutesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimePickerMinutesVC.m; path = ViewController/TimePickerMinutesVC.m; sourceTree = "<group>"; };
 		96BED90E1ADFE4D0003F0453 /* TimePickerMinutesVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TimePickerMinutesVC.xib; path = ViewController/TimePickerMinutesVC.xib; sourceTree = "<group>"; };
@@ -3608,6 +3612,7 @@
 				B1EF212E186049D800D9CE26 /* WaterNowLevel1VC.h */,
 				B1EF212F186049D800D9CE26 /* WaterNowLevel1VC.m */,
 				B1EF2130186049D800D9CE26 /* WaterNowLevel1VC.xib */,
+				96B42F941AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib */,
 				AFF796C418E04C6400E3C109 /* CounterHelper.h */,
 				AFF796C518E04C6400E3C109 /* CounterHelper.m */,
 			);
@@ -3963,6 +3968,7 @@
 				96CB93FA1A38AFAD00F3691F /* nwind_small_white.png in Resources */,
 				962D81981A83C659004E00DB /* DashboardGraphDetailsVC.xib in Resources */,
 				AF4826711990DC9500D80B87 /* hi_ntsra.png in Resources */,
+				96B42F951AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib in Resources */,
 				9612965C1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */,
 				AFF6A6AF188834AC00825A37 /* checkbox-selected.png in Resources */,
 				AF48267F1990DC9500D80B87 /* nmix.png in Resources */,
@@ -4239,6 +4245,7 @@
 				BD0BB7711ACE93AA005E2426 /* nwind_small_white.png in Resources */,
 				BD0BB7721ACE93AA005E2426 /* DashboardGraphDetailsVC.xib in Resources */,
 				BD0BB7731ACE93AA005E2426 /* hi_ntsra.png in Resources */,
+				96B42F961AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib in Resources */,
 				9612965D1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */,
 				BD0BB7741ACE93AA005E2426 /* checkbox-selected.png in Resources */,
 				BD0BB7751ACE93AA005E2426 /* nmix.png in Resources */,
@@ -4515,6 +4522,7 @@
 				BD0BB96A1ACE9525005E2426 /* nwind_small_white.png in Resources */,
 				BD0BB96B1ACE9525005E2426 /* DashboardGraphDetailsVC.xib in Resources */,
 				BD0BB96C1ACE9525005E2426 /* hi_ntsra.png in Resources */,
+				96B42F971AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib in Resources */,
 				9612965E1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */,
 				BD0BB96D1ACE9525005E2426 /* checkbox-selected.png in Resources */,
 				BD0BB96E1ACE9525005E2426 /* nmix.png in Resources */,

@@ -215,6 +215,11 @@
     return (counterValue + 30) / 60;
 }
 
++ (NSString*)fixedFormattedMinutesAndSecondsFromZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle {
+    int counterValue = [[Utils fixedZoneCounter:counter isIdle:YES] intValue];
+    return [self formattedTimeFromSeconds:counterValue];
+}
+
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle
 {
     if (isIdle) {

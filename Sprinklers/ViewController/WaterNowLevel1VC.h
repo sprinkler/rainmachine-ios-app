@@ -22,6 +22,8 @@
 
 - (IBAction)onUpButton:(id)sender;
 - (IBAction)onDownButton:(id)sender;
+- (IBAction)onUpSecondsButton:(id)sender;
+- (IBAction)onDownSecondsButton:(id)sender;
 - (IBAction)onStartButton:(id)sender;
 
 @end

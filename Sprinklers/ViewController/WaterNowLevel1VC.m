@@ -43,6 +43,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *counterLabel;
 @property (weak, nonatomic) IBOutlet UIButton *buttonUp;
 @property (weak, nonatomic) IBOutlet UIButton *buttonDown;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSecondsUp;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSecondsDown;
 
 @end
 
@@ -90,6 +92,12 @@
     
     [self.buttonDown setTitleColor:self.redColor forState:UIControlStateNormal];
     [self.buttonUp setTitleColor:self.greenColor forState:UIControlStateNormal];
+    
+    [self.buttonSecondsDown setCustomRMFontWithCode:icon_Minus size:self.buttonSecondsDown.frame.size.width - 2];
+    [self.buttonSecondsUp setCustomRMFontWithCode:icon_Plus size:self.buttonSecondsUp.frame.size.width - 2];
+    
+    [self.buttonSecondsDown setTitleColor:self.redColor forState:UIControlStateNormal];
+    [self.buttonSecondsUp setTitleColor:self.greenColor forState:UIControlStateNormal];
 
     if ([Utils isZoneIdle:self.wateringZone]) {
         self.initialTimerRequestActivityIndicator.hidden = YES;
@@ -161,9 +169,13 @@
     if (isIdle) {
         self.buttonDown.hidden = NO;
         self.buttonUp.hidden = NO;
+        self.buttonSecondsDown.hidden = NO;
+        self.buttonSecondsUp.hidden = NO;
     } else {
         self.buttonDown.hidden = YES;
         self.buttonUp.hidden = YES;
+        self.buttonSecondsDown.hidden = YES;
+        self.buttonSecondsUp.hidden = YES;
     }
 }
 
@@ -299,6 +311,8 @@
     [self.parent handleLoggedOutSprinklerError];
 }
 
+#pragma mark - Actions
+
 - (IBAction)onUpButton:(id)sender {
     BOOL isIdle = [Utils isZoneIdle:self.wateringZone];
     
@@ -323,6 +337,34 @@
 
         self.wateringZone.counter = [NSNumber numberWithInt:MAX(minCounterValue, counter - 60)];
 
+        [self refreshUI];
+    }
+}
+
+- (IBAction)onUpSecondsButton:(id)sender {
+    BOOL isIdle = [Utils isZoneIdle:self.wateringZone];
+    
+    if (isIdle) {
+        int counter = [[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue];
+        int newCounter = MIN(counter + 1, kMaxCounterValue);
+        self.wateringZone.counter = [NSNumber numberWithInt:newCounter];
+        
+        [self refreshUI];
+    }
+}
+
+- (IBAction)onDownSecondsButton:(id)sender {
+    BOOL isIdle = [Utils isZoneIdle:self.wateringZone];
+    
+    if (isIdle) {
+        int counter = [[Utils fixedZoneCounter:self.wateringZone.counter isIdle:isIdle] intValue];
+        // This limiting is done to avoid confusion, because the value 0 is in fact used for both of the following:
+        // * the default value of 5:00
+        // * to show that a device is stopped
+        int minCounterValue = [Utils isZoneWatering:self.wateringZone] ? 0 : 60;
+        
+        self.wateringZone.counter = [NSNumber numberWithInt:MAX(minCounterValue, counter - 1)];
+        
         [self refreshUI];
     }
 }

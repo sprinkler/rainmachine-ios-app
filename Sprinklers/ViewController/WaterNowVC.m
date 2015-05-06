@@ -728,7 +728,11 @@
             else if (isIdle) {
                 [self hide:YES multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
                 [cell.timeLabel setFont:[UIFont systemFontOfSize:18]];
-                cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [Utils fixedRoundedToMinutesZoneCounter:cell.zone.counter isIdle:YES]];
+                if ([ServerProxy usesAPI3]) {
+                    cell.timeLabel.text = [NSString stringWithFormat:@"%d min", [Utils fixedRoundedToMinutesZoneCounter:cell.zone.counter isIdle:YES]];
+                } else {
+                    cell.timeLabel.text = [NSString stringWithFormat:@"%@ min", [Utils fixedFormattedMinutesAndSecondsFromZoneCounter:cell.zone.counter isIdle:YES]];
+                }
             } else {
                 if (isPending) {
                     [self hide:NO multipartTimeLabels:cell color:cell.onOffSwitch.onTintColor];
@@ -796,7 +800,10 @@
 }
 
 - (void)pushWaterNowZoneVCForZone:(WaterNowZone*)waterZone {
-    WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
+    WaterNowLevel1VC *waterNowZoneVC = nil;
+    if ([ServerProxy usesAPI3]) waterNowZoneVC = [[WaterNowLevel1VC alloc] initWithNibName:@"WaterNowLevel1VC" bundle:nil];
+    else waterNowZoneVC = [[WaterNowLevel1VC alloc] initWithNibName:@"WaterNowLevel1VC_SPK2" bundle:nil];
+    
     if ([Utils isZoneWatering:waterZone]) {
         if ((self.wateringZone) && (self.wateringZone.counter)) {
             waterZone = self.wateringZone;
@@ -872,7 +879,10 @@
 }
 
 - (IBAction)next:(id)sender {
-    WaterNowLevel1VC *waterNowZoneVC = [[WaterNowLevel1VC alloc] init];
+    WaterNowLevel1VC *waterNowZoneVC = nil;
+    if ([ServerProxy usesAPI3]) waterNowZoneVC = [[WaterNowLevel1VC alloc] initWithNibName:@"WaterNowLevel1VC" bundle:nil];
+    else waterNowZoneVC = [[WaterNowLevel1VC alloc] initWithNibName:@"WaterNowLevel1VC_SPK2" bundle:nil];
+    
     waterNowZoneVC.parent = self;
     [self.navigationController pushViewController:waterNowZoneVC animated:YES];
 }

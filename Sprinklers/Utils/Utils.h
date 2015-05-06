@@ -30,6 +30,7 @@
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (int)fixedRoundedToMinutesZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
++ (NSString*)fixedFormattedMinutesAndSecondsFromZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (BOOL)isZoneWatering:(WaterNowZone*)zone;
 + (BOOL)isZonePending:(WaterNowZone*)zone;
 + (BOOL)isZoneIdle:(WaterNowZone*)zone;
