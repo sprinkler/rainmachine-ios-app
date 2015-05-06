@@ -12,7 +12,7 @@
 #import "ProvisionLocationSetupVC.h"
 #import "BaseWizardVC.h"
 
-@interface ProvisionDateAndTimeManualVC : UITableViewController<SprinklerResponseProtocol, TimeZoneSelectorDelegate>
+@interface ProvisionDateAndTimeManualVC : UIViewController <SprinklerResponseProtocol, TimeZoneSelectorDelegate>
 
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
 @property (nonatomic, weak) ProvisionLocationSetupVC *locationSetupVC;

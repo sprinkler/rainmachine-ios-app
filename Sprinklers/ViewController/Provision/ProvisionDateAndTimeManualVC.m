@@ -16,6 +16,7 @@
 #import "AppDelegate.h"
 #import "DevicesVC.h"
 #import "Utils.h"
+#import "ColoredBackgroundButton.h"
 
 #define kPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define kDatePickerTag              99     // view tag identifiying the date picker view
@@ -44,6 +45,8 @@ static NSString *kTimeZoneCell = @"timeZoneCell";     // the remaining cells at 
 
 @property (assign) NSInteger pickerCellRowHeight;
 
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet ColoredBackgroundButton *saveButton;
 @property (nonatomic, strong) IBOutlet UIDatePicker *pickerView;
 
 // this button appears only when the date picker is shown (iOS 6.1.x or earlier)
@@ -57,9 +60,6 @@ static NSString *kTimeZoneCell = @"timeZoneCell";     // the remaining cells at 
     [super viewDidLoad];
     
     self.title = @"Date and Time";
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(onNext:)];
-
     self.timeZoneName = [[NSTimeZone localTimeZone] name];
     
     NSMutableDictionary *itemOne = [@{ kTitleKey : @"Date and Time",
@@ -67,13 +67,13 @@ static NSString *kTimeZoneCell = @"timeZoneCell";     // the remaining cells at 
     NSMutableDictionary *itemTwo = [@{ kTitleKey : @"TimeZone" } mutableCopy];
     self.dataArray = @[itemOne, itemTwo];
     
-//    self.dateFormatter = [[NSDateFormatter alloc] init];
-//    [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];    // show short-style date format
-//    [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     self.dateFormatter = [NSDate getDateFormaterFixedFormatParsing];
     [self.dateFormatter setAMSymbol:@"AM"];
     [self.dateFormatter setPMSymbol:@"PM"];
     [self.dateFormatter setDateFormat:@"MM/dd/yy hh:mm a"];
+    
+    [self.saveButton setCustomBackgroundColorFromComponents:kSprinklerBlueColor];
+    [self.saveButton setTitle:@"Save" forState:UIControlStateNormal];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"ProvisionDatePickerCell" bundle:nil] forCellReuseIdentifier:kDatePickerID];
     
@@ -519,11 +519,7 @@ NSUInteger DeviceSystemMajorVersion()
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (IBAction)onNext:(id)sender
-{
-    // self.selectedLocationAddress contains the selected location
-    // self.selectedLocationElevation.elevation contains the elevation of the selected location
-    // self.selectedLocationTimezone.timeZoneId contains the timezone of the selected location
+- (IBAction)onSave:(id)sender {
     self.provisionTimezoneServerProxy = [[ServerProxy alloc] initWithServerURL:self.sprinkler.url delegate:self jsonRequest:YES];
     [self.provisionTimezoneServerProxy setTimezone:self.timeZoneName];
     [self showHud];
