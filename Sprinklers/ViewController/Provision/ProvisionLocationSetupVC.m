@@ -29,6 +29,12 @@ const double LocationSetup_MapView_InitializeTimeout                = 3.0;
 const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
 const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 
+const int LocationServicesDisabledAlertTag                          = 1000;
+
+// Defaults location to New York when the Location Services are disabled
+const CLLocationDegrees LocationSetup_DefaultLocation_Latitude      = 40.7127;
+const CLLocationDegrees LocationSetup_DefaultLocation_Longitude     = -74.0059;
+
 #pragma mark -
 
 @interface ProvisionLocationSetupVC ()
@@ -219,7 +225,9 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Location Services disabled"
                                                                                  message:@"Allow RainMachine to access your location in your phone's settings."
                                                                           preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [self handleLocationServicesDisabledCase];
+        }]];
         [alertController.view setTintColor:[UIColor colorWithRed:kButtonBlueTintColor[0] green:kButtonBlueTintColor[1] blue:kButtonBlueTintColor[2] alpha:1]];
         [self presentViewController:alertController animated:YES completion:nil];
     } else {
@@ -228,6 +236,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
+        alertView.tag = LocationServicesDisabledAlertTag;
         [alertView show];
     }
 }
@@ -277,8 +286,7 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
     }
 }
 
-- (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
+- (void)alertView:(UIAlertView*)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     
     // This is the no location alert view
@@ -354,6 +362,20 @@ const double LocationSetup_Autocomplete_ReloadResultsTimeInterval   = 0.3;
 - (void)updateLocationSearchBar {
     self.locationSearchBar.text = [self displayStringForLocation:self.selectedLocationAddress];
     self.locationSearchBar.placeholder = (self.locationSearchBar.text.length ? nil : @"Select your location");
+}
+
+#pragma mark - Alert view delegate
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == LocationServicesDisabledAlertTag) [self handleLocationServicesDisabledCase];
+}
+
+- (void)handleLocationServicesDisabledCase {
+    CLLocation *defaultLocation = [[CLLocation alloc] initWithLatitude:LocationSetup_DefaultLocation_Latitude
+                                                             longitude:LocationSetup_DefaultLocation_Longitude];
+    [self moveCameraToLocation:defaultLocation animated:YES];
+    [self.searchDisplayController setActive:YES animated:YES];
+    [self.locationSearchBar becomeFirstResponder];
 }
 
 #pragma mark - Search display controller delegate
