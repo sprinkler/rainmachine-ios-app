@@ -30,6 +30,7 @@
 #import "ProvisionLocationSetupVC.h"
 #import "ProvisionAvailableWiFisVC.h"
 #import "GraphsManager.h"
+#import "Login4Response.h"
 
 #define kDebugSettingsNrBeforeCloudServer 6
 #define kRequestDiagTimeoutInterval 5
@@ -52,6 +53,8 @@
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
 @property (strong, nonatomic) ServerProxy *diagServerProxy;
 @property (strong, nonatomic) ServerProxy *versionServerProxy;
+@property (strong, nonatomic) ServerProxy *loginCloudSprinklerServerProxy;
+@property (strong, nonatomic) ServerProxy *requestSettingsDateServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
 @property (strong, nonatomic) DevicesMenuVC *devicesMenuVC;
@@ -451,6 +454,14 @@
 }
 
 - (void)hideHud {
+    if ([self isDuringAutomaticCloudSprinklerLogin]) {
+        return;
+    }
+    
+    if ([self isDuringLoginVerification]) {
+        return;
+    }
+    
     if ([self isDuringResetToDefaults]) {
         return;
     }
@@ -480,6 +491,14 @@
     
     NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDateResetToDefaults];
     return (t <= kTimeout_ResetToDefaults);
+}
+
+- (BOOL)isDuringAutomaticCloudSprinklerLogin {
+    return (self.loginCloudSprinklerServerProxy != nil);
+}
+
+- (BOOL)isDuringLoginVerification {
+    return (self.requestSettingsDateServerProxy != nil);
 }
 
 - (void)setResetToDefaultsModeWithSprinkler:(Sprinkler*)sprinkler
@@ -965,21 +984,42 @@
                                             minor:-1
                                          subMinor:-1];
             
-            [StorageManager current].currentSprinkler = sprinkler;
-            [[StorageManager current] saveData];
-            [self done:nil];
+            // Try to make a request to verify if the cookie or the token is still valid
+            self.requestSettingsDateServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:NO];
+            [self.requestSettingsDateServerProxy requestSettingsDate];
+            [self startHud:nil];
         } else {
-            LoginVC *login = [[LoginVC alloc] init];
-            login.sprinkler = sprinkler;
-            
-            if ([login.sprinkler.loginRememberMe boolValue] == YES) {
-                [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
-            }
-            
-            login.parent = self;
-            [self.navigationController pushViewController:login animated:YES];
+            [self continueWithNonAutomaticLoginForSprinkler:sprinkler];
         }
     }
+}
+
+- (void)continueWithNonAutomaticLoginForSprinkler:(Sprinkler*)sprinkler {
+    if ([Utils isCloudDevice:sprinkler]) {
+        [ServerProxy setSprinklerVersionMajor:4 minor:-1 subMinor:-1];
+        
+        NSString *password = [CloudUtils passwordForCloudAccountWithEmail:sprinkler.email];
+        self.loginCloudSprinklerServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:YES];
+        [self.loginCloudSprinklerServerProxy loginWithUserName:sprinkler.email password:password rememberMe:YES];
+        
+        [self startHud:nil];
+    } else {
+        LoginVC *login = [[LoginVC alloc] init];
+        login.sprinkler = sprinkler;
+        
+        if ([login.sprinkler.loginRememberMe boolValue] == YES) {
+            [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
+        }
+        
+        login.parent = self;
+        [self.navigationController pushViewController:login animated:YES];
+    }
+}
+
+- (void)continueWithAutomaticLoginForSprinkler:(Sprinkler*)sprinkler {
+    [StorageManager current].currentSprinkler = sprinkler;
+    [[StorageManager current] saveData];
+    [self done:nil];
 }
 
 #pragma mark - Communication callbacks
@@ -1017,6 +1057,11 @@
         
         self.versionServerProxy = nil;
     }
+    else if (serverProxy == self.requestSettingsDateServerProxy) {
+        self.requestSettingsDateServerProxy = nil;
+        [self hideHud];
+        [self continueWithNonAutomaticLoginForSprinkler:self.selectedSprinkler];
+    }
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
@@ -1047,12 +1092,55 @@
         self.diagServerProxy = nil;
         [self continueSprinklerSelectionAction:self.selectedSprinkler diag:(NSDictionary*)data];
     }
+    else if (serverProxy == self.requestSettingsDateServerProxy) {
+        self.requestSettingsDateServerProxy = nil;
+        [self hideHud];
+        [self continueWithAutomaticLoginForSprinkler:self.selectedSprinkler];
+    }
 }
 
 - (void)loggedOut {
+    if ([self isDuringLoginVerification]) {
+        self.requestSettingsDateServerProxy = nil;
+        [self hideHud];
+        [self continueWithNonAutomaticLoginForSprinkler:self.selectedSprinkler];
+    }
+    else if ([self isDuringAutomaticCloudSprinklerLogin]) {
+        LoginVC *login = [[LoginVC alloc] init];
+        login.sprinkler = self.selectedSprinkler;
+        
+        [Utils clearRememberMeFlagForSprinkler:login.sprinkler];
+        
+        login.parent = self;
+        [self.navigationController pushViewController:login animated:YES];
+        
+        self.loginCloudSprinklerServerProxy = nil;
+        
+        [self hideHud];
+    }
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
+    if ([self isDuringAutomaticCloudSprinklerLogin]) {
+        if ([loginResponse isKindOfClass:[Login4Response class]]) {
+            [NetworkUtilities saveAccessTokenForBaseURL:self.selectedSprinkler.address port:self.selectedSprinkler.port loginResponse:(Login4Response*)loginResponse];
+        
+            self.selectedSprinkler.loginRememberMe = [NSNumber numberWithBool:remembered];
+            self.selectedSprinkler.username = self.selectedSprinkler.email;
+            [StorageManager current].currentSprinkler = self.selectedSprinkler;
+            [[StorageManager current] saveData];
+            
+            [self hideHud];
+        
+            [self done:unit];
+        
+            self.loginCloudSprinklerServerProxy = nil;
+        
+            [self hideHud];
+        } else {
+            [self loggedOut];
+        }
+    }
 }
 
 #pragma mark - UIAlertView delegate
