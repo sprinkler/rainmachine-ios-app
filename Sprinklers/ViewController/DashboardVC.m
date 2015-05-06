@@ -462,6 +462,7 @@
 #pragma mark - Actions
 
 - (void)applicationDidEnterInForeground {
+    if (self.tabBarController.selectedViewController != self.navigationController) return;
     self.doNotRefreshGraphsWhenBecomesVisible = NO;
     [self refreshGraphs];
 }

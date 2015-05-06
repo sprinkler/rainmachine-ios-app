@@ -24,4 +24,6 @@ extern NSString *kSettingsSoftwareUpdate;
 
 - (id)initWithSettings:(NSArray*)settings parentSetting:(NSString*)parentSetting;
 
+- (void)applicationDidEnterInForeground;
+
 @end

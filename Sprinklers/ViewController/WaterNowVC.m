@@ -172,6 +172,15 @@
     [self.tableView reloadData];
 }
 
+- (void)applicationDidEnterInForeground {
+    if (self.tabBarController.selectedViewController != self.navigationController) return;
+    if (self.navigationController.topViewController != self) return;
+    [self requestListRefreshWithShowingHud:[NSNumber numberWithBool:YES]];
+    [self requestZonesProperties];
+    [self.rainDelayPoller scheduleNextPoll:0];
+    [self.tableView reloadData];
+}
+
 #pragma mark - UI
 
 - (void)refreshNavBarButtons {

@@ -271,6 +271,12 @@
     [self refreshDeviceDiscoveryTimers];
 }
 
+- (void)applicationDidEnterInForeground {
+    BOOL shouldRefresh = (self.tabBarController.selectedViewController == self.navigationController || !self.tabBarController);
+    if (!shouldRefresh) return;
+    [self onRefresh:nil];
+}
+
 #pragma mark - Methods
 
 - (void)refreshDeviceDiscoveryTimers

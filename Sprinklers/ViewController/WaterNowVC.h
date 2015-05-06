@@ -29,4 +29,6 @@
 - (void)setZone:(Zone*)zone withIndex:(int)i;
 - (void)setUnsavedZone:(Zone*)zone withIndex:(int)i;
 
+- (void)applicationDidEnterInForeground;
+
 @end

@@ -122,10 +122,10 @@
                          kSettingsSoftwareUpdate];
         }
         
-        SettingsVC *settingsVC = [[SettingsVC alloc] initWithSettings:settings parentSetting:nil];
-        RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:settingsVC];
+        self.settingsVC = [[SettingsVC alloc] initWithSettings:settings parentSetting:nil];
+        RMNavigationController *navSettings = [[RMNavigationController alloc] initWithRootViewController:self.settingsVC];
         UITabBarItem *tabBarItemSettings = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"icon_settings"] tag:2];
-        settingsVC.tabBarItem = tabBarItemSettings;
+        self.settingsVC.tabBarItem = tabBarItemSettings;
         
         _tabBarController = [[UITabBarController alloc] init];
         _tabBarController.viewControllers = @[navDevices, navDashboard, navWater, navSettings];
@@ -157,7 +157,10 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ApplicationDidBecomeActive" object:nil];
     [self.updateManager poll];
+    [self.devicesVC applicationDidEnterInForeground];
     [self.dashboardVC applicationDidEnterInForeground];
+    [self.waterNowVC applicationDidEnterInForeground];
+    [self.settingsVC applicationDidEnterInForeground];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

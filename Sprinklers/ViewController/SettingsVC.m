@@ -125,19 +125,7 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
     [super viewWillAppear:animated];
 
     if ([self.parentSetting isEqualToString:kSettingsSystemSettings]) {
-        if ([ServerProxy usesAPI4]) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            
-            ServerProxy *getProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-            [getProvisionServerProxy requestProvision];
-            
-            if ([GlobalsManager current].cloudSettings.pendingEmail.length) {
-                [[GlobalsManager current] startPollingCloudSettings];
-            }
-        } else {
-            ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
-            [dateTimeServerProxy requestSettingsDate];
-        }
+        [self refreshSettingsScreen];
     }
 }
 
@@ -156,6 +144,27 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
         if (![GlobalsManager current].cloudSettings.pendingEmail.length) {
             [[GlobalsManager current] stopPollingCloudSettings];
         }
+    }
+}
+
+- (void)applicationDidEnterInForeground {
+    if (self.tabBarController.selectedViewController != self.navigationController) return;
+    [self refreshSettingsScreen];
+}
+
+- (void)refreshSettingsScreen {
+    if ([ServerProxy usesAPI4]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        ServerProxy *getProvisionServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        [getProvisionServerProxy requestProvision];
+        
+        if ([GlobalsManager current].cloudSettings.pendingEmail.length) {
+            [[GlobalsManager current] startPollingCloudSettings];
+        }
+    } else {
+        ServerProxy *dateTimeServerProxy = [[ServerProxy alloc] initWithSprinkler:[Utils currentSprinkler] delegate:self jsonRequest:NO];
+        [dateTimeServerProxy requestSettingsDate];
     }
 }
 
@@ -524,8 +533,7 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
     }
 }
 
-- (void)loggedOut
-{
+- (void)loggedOut {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self handleLoggedOutSprinklerError];
 }

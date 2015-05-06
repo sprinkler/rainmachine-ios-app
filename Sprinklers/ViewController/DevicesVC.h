@@ -18,4 +18,6 @@
 - (void)deviceSetupFinished;
 - (void)setResetToDefaultsModeWithSprinkler:(Sprinkler*)sprinkler;
 
+- (void)applicationDidEnterInForeground;
+
 @end
