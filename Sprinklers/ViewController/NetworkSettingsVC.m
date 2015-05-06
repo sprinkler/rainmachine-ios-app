@@ -75,7 +75,7 @@
         cell.accessoryView = localDiscoverySwitch;
     }
     else if (indexPath.section == 1) {
-        cell.textLabel.text = @"Port Forward Settings";
+        cell.textLabel.text = @"Direct Access";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.accessoryView = nil;
     }

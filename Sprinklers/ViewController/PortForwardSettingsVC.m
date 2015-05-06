@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Port Forward Settings";
+    self.title = @"Direct Access";
     
     self.editBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
                                                               style:UIBarButtonItemStylePlain
