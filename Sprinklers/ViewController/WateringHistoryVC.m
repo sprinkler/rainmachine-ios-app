@@ -537,7 +537,18 @@ const NSInteger WateringHistoryNumberOfDays     = 7;
         NSString *exportedWateringHistoryString = self.exportedWateringHistoryString;
         NSData *exportedWateringHistoryData = [exportedWateringHistoryString dataUsingEncoding:NSUTF8StringEncoding];
         
+        NSDictionary *titleTextAttributes = nil;
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            titleTextAttributes = [UINavigationBar appearance].titleTextAttributes;
+            [UINavigationBar appearance].titleTextAttributes = nil;
+        }
+        
         MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+        
+        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
+            [UINavigationBar appearance].titleTextAttributes = titleTextAttributes;
+        }
+        
         controller.mailComposeDelegate = self;
 
         [controller setSubject:@"Watering History"];
