@@ -151,8 +151,10 @@ static GlobalsManager *current = nil;
             NSString *email = self.cloudSettings.pendingEmail;
             if (!email.length) email = self.cloudSettings.email;
             
-            if ([CloudUtils existsCloudAccountWithEmail:email]) [CloudUtils updateCloudAccountWithEmail:email newPassword:self.refreshedCloudSprinklerPassword];
-            else [CloudUtils addCloudAccountWithEmail:email password:self.refreshedCloudSprinklerPassword];
+            if (email.length) {
+                if ([CloudUtils existsCloudAccountWithEmail:email]) [CloudUtils updateCloudAccountWithEmail:email newPassword:self.refreshedCloudSprinklerPassword];
+                else [CloudUtils addCloudAccountWithEmail:email password:self.refreshedCloudSprinklerPassword];
+            }
             
             self.refreshedCloudSprinklerPassword = nil;
         }
