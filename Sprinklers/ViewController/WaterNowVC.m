@@ -116,6 +116,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (self.waterNowScreenLostConnection) return;
+    
     if (self.delayedInitialListRefresh) {
         [self setDensePollingInterval];
         
@@ -186,7 +188,7 @@
 #pragma mark - Connection lost to server
 
 - (void)handleCouldNotConnectToServerError {
-    [self.wateringCounterHelper stopCounterTimer];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     [self.pollServerProxy cancelAllOperations], self.pollServerProxy = nil;
     [self.postServerProxy cancelAllOperations], self.postServerProxy = nil;
