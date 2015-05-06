@@ -518,7 +518,7 @@ const float kTimeout = 6;
 - (void)refreshState
 {
     BOOL timedOut = NO;
-    DLog(@"connected to network: %@", [self fetchSSIDInfo]);
+    DLog(@"connected to network: %@", [NetworkUtilities currentSSIDInfo]);
     
     if (self.isPartOfWizard) {
         NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:self.startDate];
@@ -846,23 +846,8 @@ const float kTimeout = 6;
 
 - (NSString*)currentWiFiName
 {
-    NSDictionary *currentWifi = [self fetchSSIDInfo];
+    NSDictionary *currentWifi = [NetworkUtilities currentSSIDInfo];
     return currentWifi[@"SSID"];
-}
-
-- (id)fetchSSIDInfo {
-    NSArray *ifs = (__bridge_transfer id)CNCopySupportedInterfaces();
-    //    NSLog(@"%s: Supported interfaces: %@", ifs);
-    id info = nil;
-    for (NSString *ifnam in ifs) {
-        info = (__bridge_transfer id)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
-        //        NSLog(@"%s: %@ => %@", ifnam, info);
-        if (info && [info count]) {
-            break;
-        }
-    }
-    
-    return info;
 }
 
 - (void)dealloc

@@ -15,6 +15,8 @@
 #import "DiscoveredSprinklers.h"
 #import "Utils.h"
 
+#import <SystemConfiguration/CaptiveNetwork.h>
+
 #include <arpa/inet.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
@@ -374,6 +376,21 @@ static NSString *kWifiInterface = @"en0";
 
     [[NSUserDefaults standardUserDefaults] setObject:accessTokensDictionary forKey:kSprinklerUserDefaults_AccessTokensDictionaryKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (id)currentSSIDInfo {
+    NSArray *ifs = (__bridge_transfer id)CNCopySupportedInterfaces();
+    //    NSLog(@"%s: Supported interfaces: %@", ifs);
+    id info = nil;
+    for (NSString *ifnam in ifs) {
+        info = (__bridge_transfer id)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
+        //        NSLog(@"%s: %@ => %@", ifnam, info);
+        if (info && [info count]) {
+            break;
+        }
+    }
+    
+    return info;
 }
 
 @end

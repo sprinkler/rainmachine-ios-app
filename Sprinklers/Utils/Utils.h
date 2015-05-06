@@ -93,6 +93,7 @@
 
 + (NSString*)generateGUID;
 + (NSString*)phoneID;
++ (BOOL)connectedToRainMachineWIFI;
 
 @end
 

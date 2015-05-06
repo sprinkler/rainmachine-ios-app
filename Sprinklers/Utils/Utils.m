@@ -896,6 +896,10 @@
     return phoneID;
 }
 
++ (BOOL)connectedToRainMachineWIFI {
+    return [[[NetworkUtilities currentSSIDInfo] objectForKey:@"SSID"] hasPrefix:@"RainMachine"];
+}
+
 #pragma mark - General
 
 + (int)checkOSVersion {

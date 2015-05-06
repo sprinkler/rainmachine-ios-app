@@ -31,4 +31,6 @@
 + (void)saveAccessTokenForBaseURL:(NSString*)baseUrl port:(NSString*)thePort loginResponse:(Login4Response*)loginResponse;
 + (NSString*)accessTokenForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort;
 
++ (id)currentSSIDInfo;
+
 @end
