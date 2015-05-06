@@ -84,6 +84,12 @@ static NSMutableArray *registeredTimeIntervals = nil;
     return -1;
 }
 
++ (void)reloadRegisteredGraphTimeIntervals {
+    for (GraphTimeInterval *graphTimeInterval in registeredTimeIntervals) {
+        [graphTimeInterval createGraphTimeIntervalPartsArray];
+    }
+}
+
 #pragma mark - Graph time interval parts
 
 - (void)createGraphTimeIntervalPartsArray {

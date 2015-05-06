@@ -231,6 +231,8 @@ static GraphsManager *sharedGraphsManager = nil;
     
     self.reloadingGraphs = YES;
     
+    [GraphTimeInterval reloadRegisteredGraphTimeIntervals];
+    
     [self requestPrograms];
     [self requestZones];
     

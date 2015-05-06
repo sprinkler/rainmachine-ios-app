@@ -23,6 +23,7 @@ typedef enum {
 
 + (GraphTimeInterval*)graphTimeIntervalWithType:(GraphTimeIntervalType)type;
 + (NSArray*)graphTimeIntervals;
++ (void)reloadRegisteredGraphTimeIntervals;
 
 @property (nonatomic, strong) NSArray *graphTimeIntervalParts;
 @property (nonatomic, readonly) NSInteger currentDateTimeIntervalPartIndex;
