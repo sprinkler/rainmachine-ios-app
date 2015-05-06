@@ -406,6 +406,10 @@
     }
     else if (serverProxy == self.emailValidatorServerProxy) {
         NSString *email = (self.isPartOfWizard ? self.emailAddressTextField.text : self.currentPendingEmail);
+        
+        // If there is no pending email then it means that we are resending the verification mail
+        if (!self.isPartOfWizard && !email.length) email = [GlobalsManager current].cloudSettings.pendingEmail;
+        
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                             message:[NSString stringWithFormat:@"For your own security, a verification email has been sent to %@. Please open the email and click the link to verify it. You might want to check your Spam folder too.",email]
                                                            delegate:self
