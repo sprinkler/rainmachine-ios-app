@@ -11,6 +11,7 @@
 #import "Utils.h"
 #import "Constants.h"
 #import "Sprinkler.h"
+#import "CloudUtils.h"
 
 NSString *PersistentGlobalsKey      = @"PersistentGlobalsKey";
 
@@ -26,6 +27,8 @@ NSString *PersistentGlobalsKey      = @"PersistentGlobalsKey";
 
 - (NSDictionary*)persistentGlobalsForSprinkler:(Sprinkler*)sprinkler;
 - (void)setPersistentGlobals:(NSDictionary*)globals forSprinkler:(Sprinkler*)sprinkler;
+
+@property (strong, nonatomic) NSString *refreshedCloudSprinklerPassword;
 
 @end
 
@@ -124,6 +127,12 @@ static GlobalsManager *current = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark - Cloud support
+
+- (void)shouldRefreshCloudSprinklerWithPassword:(NSString*)password {
+    self.refreshedCloudSprinklerPassword = password;
+}
+
 #pragma mark - ProxyService delegate
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
@@ -138,6 +147,15 @@ static GlobalsManager *current = nil;
     }
     else if ([data isKindOfClass:[CloudSettings class]]) {
         self.cloudSettings = (CloudSettings*)data;
+        if (self.refreshedCloudSprinklerPassword) {
+            NSString *email = self.cloudSettings.pendingEmail;
+            if (!email.length) email = self.cloudSettings.email;
+            
+            if ([CloudUtils existsCloudAccountWithEmail:email]) [CloudUtils updateCloudAccountWithEmail:email newPassword:self.refreshedCloudSprinklerPassword];
+            else [CloudUtils addCloudAccountWithEmail:email password:self.refreshedCloudSprinklerPassword];
+            
+            self.refreshedCloudSprinklerPassword = nil;
+        }
     }
 }
 

@@ -26,4 +26,6 @@
 - (void)setPersistentGlobal:(id)value forKey:(NSString*)key;
 - (void)resetPersistentGlobals;
 
+- (void)shouldRefreshCloudSprinklerWithPassword:(NSString*)password;
+
 @end

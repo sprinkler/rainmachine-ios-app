@@ -13,6 +13,7 @@
 #import "ServerProxy.h"
 #import "MBProgressHUD.h"
 #import "StorageManager.h"
+#import "GlobalsManager.h"
 #import "DevicesVC.h"
 #import "ColoredBackgroundButton.h"
 #import "Utils.h"
@@ -23,6 +24,7 @@
 #import "AppDelegate.h"
 #import "Login4Response.h"
 #import "GlobalsManager.h"
+#import "CloudUtils.h"
 
 @interface LoginVC () {
 }
@@ -242,6 +244,20 @@
     [self hideHud];
     
     [self.parent done:unit];
+    
+    // If auth successful and remember me checked: create a new cloud account OR update the password to the existing cloud account
+    
+    if (self.buttonCheckBox.selected) {
+        if ([Utils isCloudDevice:self.sprinkler]) {
+            NSString *email = self.sprinkler.email;
+            NSString *password = self.textPassword.text;
+            if ([CloudUtils existsCloudAccountWithEmail:email]) [CloudUtils updateCloudAccountWithEmail:email newPassword:password];
+            else [CloudUtils addCloudAccountWithEmail:email password:password];
+        }
+        else if ([loginResponse isKindOfClass:[Login4Response class]]) {
+            [[GlobalsManager current] shouldRefreshCloudSprinklerWithPassword:self.textPassword.text];
+        }
+    }
 }
 
 - (void)loggedOut {
