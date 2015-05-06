@@ -13,6 +13,7 @@
 @interface BaseNetworkHandlingVC : UIViewController
 
 - (void)handleServerLoggedOutUser;
+- (void)handleCouldNotConnectToServerError;
 - (void)handleSprinklerGeneralError:(NSString*)errorMessage showErrorMessage:(BOOL)showErrorMessage;
 - (void)handleSprinklerNetworkError:(NSError*)error operation:(AFHTTPRequestOperation *)operation showErrorMessage:(BOOL)showErrorMessage;
 - (void)handleLoggedOutSprinklerError;

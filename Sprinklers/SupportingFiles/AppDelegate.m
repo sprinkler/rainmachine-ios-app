@@ -157,6 +157,10 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ApplicationDidBecomeActive" object:nil];
     [self.updateManager poll];
+    
+    // Clear NSURLCache when waking up, otherwise some requests will return their cached responses even if the Sprinkler is offline
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
     [self.devicesVC applicationDidEnterInForeground];
     [self.dashboardVC applicationDidEnterInForeground];
     [self.waterNowVC applicationDidEnterInForeground];

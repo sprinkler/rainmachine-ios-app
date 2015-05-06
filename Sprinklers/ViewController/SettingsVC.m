@@ -476,6 +476,9 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         }
     }
+    else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
+    }
 }
 
 - (void)timePickerVCWillDissapear:(id)timePicker {

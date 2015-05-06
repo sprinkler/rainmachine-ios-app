@@ -19,7 +19,8 @@
 @property (strong, nonatomic) ServerProxy *rainDelayServerProxy;
 @property (strong, nonatomic) ServerProxy *rainDelayPostServerProxy;
 @property (strong, nonatomic) NSDate *lastRainDelayPollDate;
-@property (assign, nonatomic) id<RainDelayPollerDelegate> delegate;
+@property (weak, nonatomic) id<RainDelayPollerDelegate> delegate;
+
 @end
 
 @implementation RainDelayPoller
@@ -42,12 +43,10 @@
 
 #pragma mark - Communication callbacks
 
-- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo
-{
+- (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation*)operation userInfo:(id)userInfo {
     [self.delegate hideHUD];
-    
     [self.delegate handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
-    
+        
     if (serverProxy == self.rainDelayPostServerProxy) {
         self.rainDelayData = nil;
         [self updatePollState];
@@ -57,8 +56,7 @@
     [self.delegate refreshStatus];
 }
 
-- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo
-{
+- (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
     [self.delegate hideHUD];
     
     if (serverProxy == self.rainDelayPostServerProxy) {
@@ -118,8 +116,7 @@
     [self.delegate rainDelayResponseReceived];
 }
 
-- (void)loggedOut
-{
+- (void)loggedOut {
     [self.delegate loggedOut];
 }
 

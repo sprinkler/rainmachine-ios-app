@@ -177,6 +177,14 @@
     [self.graphsTableView reloadData];
 }
 
+#pragma mark - Connection lost to server
+
+- (void)handleCouldNotConnectToServerError {
+    [self.rainDelayPoller stopPollRequests];
+    [GraphsManager sharedGraphsManager].presentationViewController = nil;
+    [[GraphsManager sharedGraphsManager] cancel];
+}
+
 #pragma mark - Helper methods
 
 - (void)initializeConfiguration {

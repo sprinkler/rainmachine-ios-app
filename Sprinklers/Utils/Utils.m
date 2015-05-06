@@ -233,7 +233,7 @@
 
 + (BOOL)isZoneWatering:(WaterNowZone*)zone
 {
-    if ([ServerProxy usesAPI3]) {
+    if ([ServerProxy usesAPI3] && [zone isKindOfClass:[WaterNowZone class]]) {
         return [zone.state isEqualToString:@"Watering"];
     }
     
@@ -243,7 +243,7 @@
 
 + (BOOL)isZoneIdle:(WaterNowZone*)zone
 {
-    if ([ServerProxy usesAPI3]) {
+    if ([ServerProxy usesAPI3] && [zone isKindOfClass:[WaterNowZone class]]) {
         return  ([zone.state length] == 0) || ([zone.state isEqualToString:@"Idle"]);
     }
     
@@ -253,7 +253,7 @@
 
 + (BOOL)isZonePending:(WaterNowZone*)zone
 {
-    if ([ServerProxy usesAPI3]) {
+    if ([ServerProxy usesAPI3] && [zone isKindOfClass:[WaterNowZone class]]) {
         return [zone.state isEqualToString:@"Pending"];
     }
     

@@ -119,6 +119,7 @@ extern NSString *abbrevWeekdays[7];
 #define kAlertView_SetupWizard_NewLocationSuccesfullySet 20
 #define kAlertView_ResetToDefaultsSuccesfull 21
 #define kAlertView_DoYouWantToReset 22
+#define kAlertView_CouldNotConnectToServer 23
 
 #define  kOneDayInSeconds (24 * 60 * 60)
 

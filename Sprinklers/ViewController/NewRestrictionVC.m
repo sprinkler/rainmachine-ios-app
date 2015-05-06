@@ -529,6 +529,8 @@
         if (theAlertView.cancelButtonIndex == buttonIndex) {
             [self popWithoutQuestion];
         }
+    } else {
+        [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
     }
 }
 

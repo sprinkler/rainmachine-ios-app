@@ -58,6 +58,8 @@
 @property (strong, nonatomic) Zone *unsavedZone;
 @property (assign, nonatomic) int unsavedZoneIndex;
 
+@property (assign, nonatomic) BOOL waterNowScreenLostConnection;
+
 @property (weak, nonatomic) IBOutlet UITableView *statusTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusTableViewHeightConstraint;
@@ -179,6 +181,32 @@
     [self requestZonesProperties];
     [self.rainDelayPoller scheduleNextPoll:0];
     [self.tableView reloadData];
+}
+
+#pragma mark - Connection lost to server
+
+- (void)handleCouldNotConnectToServerError {
+    [self.wateringCounterHelper stopCounterTimer];
+    
+    [self.pollServerProxy cancelAllOperations], self.pollServerProxy = nil;
+    [self.postServerProxy cancelAllOperations], self.postServerProxy = nil;
+    [self.stopAllServerProxy cancelAllOperations], self.stopAllServerProxy = nil;
+    [self.zonesDetailsServerProxy cancelAllOperations], self.zonesDetailsServerProxy = nil;
+    [self.zonesPropertiesServerProxy cancelAllOperations], self.zonesPropertiesServerProxy = nil;
+    
+    self.pollServerProxy = nil;
+    
+    [self.rainDelayPoller cancel];
+    [self.rainDelayPoller stopPollRequests];
+    
+    self.rainDelayPoller = nil;
+    
+    [self.wateringCounterHelper stopCounterTimer];
+    self.wateringCounterHelper = nil;
+        
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    self.waterNowScreenLostConnection = YES;
 }
 
 #pragma mark - UI
@@ -411,6 +439,8 @@
 #pragma mark - Communication callbacks
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
+    if (self.waterNowScreenLostConnection) return;
+    
     BOOL showErrorMessage = YES;
     if (serverProxy == self.pollServerProxy) {
         showErrorMessage = NO;
@@ -448,6 +478,8 @@
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
+    if (self.waterNowScreenLostConnection) return;
+    
     [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (serverProxy == self.pollServerProxy) {

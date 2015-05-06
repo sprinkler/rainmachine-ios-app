@@ -40,10 +40,18 @@ static UIAlertView *alertView;
     //    [[StorageManager current] saveData];
 
     if ((errorMessage) && (showErrorMessage)) {
-        if ((!alertView) || (alertView.tag != kAlertView_Error)) {
-            alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            alertView.tag = tag;
-            [alertView show];
+        if (tag == kAlertView_CouldNotConnectToServer) {
+            if ((!alertView) || (alertView.tag != kAlertView_CouldNotConnectToServer)) {
+                alertView  = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                alertView.tag = kAlertView_CouldNotConnectToServer;
+                [alertView show];
+            }
+        } else {
+            if ((!alertView) || (alertView.tag != kAlertView_Error)) {
+                alertView = [[UIAlertView alloc] initWithTitle:titleMessage message:errorMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                alertView.tag = tag;
+                [alertView show];
+            }
         }
     }
 }
@@ -95,6 +103,10 @@ static UIAlertView *alertView;
             if (!malformedJSON) {
                 int tag = kAlertView_Error;
                 if (![self handleSprinklerErrorMessageBodyResponse:operation showErrorMessage:showErrorMessage tag:tag]) {
+                    if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCannotConnectToHost) {
+                        tag = kAlertView_CouldNotConnectToServer;
+                        [self handleCouldNotConnectToServerError];
+                    }
                     [self handleSprinklerError:[error localizedDescription] title:[error.domain isEqualToString:@"Sprinkler"] ? @"Sprinkler error" : @"Network error" showErrorMessage:showErrorMessage tag:tag];
                 }
             }
@@ -114,10 +126,21 @@ static UIAlertView *alertView;
     }
 }
 
+- (void)handleCouldNotConnectToServerError {
+    
+}
+
 #pragma mark - Alert view
 
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (theAlertView.tag == kAlertView_LoggedOut) {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate refreshRootViews:nil];
+    }
+    else if (theAlertView.tag == kAlertView_CouldNotConnectToServer) {
+        [StorageManager current].currentSprinkler = nil;
+        [[StorageManager current] saveData];
+        
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate refreshRootViews:nil];
     }
