@@ -78,9 +78,14 @@
         BOOL isFahrenheit = [units isEqualToString:@"F"];
         
         for (MixerDailyValue *mixerDailyValue in [GraphsManager sharedGraphsManager].mixerData) {
+            if (!mixerDailyValue.maxTemp && !mixerDailyValue.minTemp) continue;
+            
+            double maxTemp = (mixerDailyValue.maxTemp ? mixerDailyValue.maxTemp.doubleValue : 0.0);
+            double minTemp = (mixerDailyValue.minTemp ? mixerDailyValue.minTemp.doubleValue : 0.0);
+            
             [values addObject:@{@"date" : mixerDailyValue.day,
-                                @"maxt" : @(isFahrenheit ? mixerDailyValue.maxTemp * 1.8 + 32 : mixerDailyValue.maxTemp),
-                                @"mint" : @(isFahrenheit ? mixerDailyValue.minTemp * 1.8 + 32 : mixerDailyValue.minTemp)}];
+                                @"maxt" : @(isFahrenheit ? maxTemp * 1.8 + 32 : maxTemp),
+                                @"mint" : @(isFahrenheit ? minTemp * 1.8 + 32 : minTemp)}];
         }
     }
     else if ([ServerProxy usesAPI3]) {
@@ -106,8 +111,9 @@
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
         NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
+        if (!mixerDailyValue.maxTemp) continue;
         
-        double maxTemp = mixerDailyValue.maxTemp;
+        double maxTemp = mixerDailyValue.maxTemp.doubleValue;
         if (isFahrenheit) maxTemp = maxTemp * 1.8 + 32;
         
         values[day] = @(maxTemp);

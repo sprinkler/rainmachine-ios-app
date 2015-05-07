@@ -19,9 +19,9 @@
         
         dailyStatsDetail.day = [jsonObj nullProofedStringValueForKey:@"day"];
         dailyStatsDetail.dayTimestamp = [jsonObj nullProofedDoubleValueForKey:@"dayTimestamp"];
-        dailyStatsDetail.mint = [jsonObj nullProofedDoubleValueForKey:@"mint"];
-        dailyStatsDetail.maxt = [jsonObj nullProofedDoubleValueForKey:@"maxt"];
-        dailyStatsDetail.icon = [jsonObj nullProofedIntValueForKey:@"icon"];
+        dailyStatsDetail.mint = [jsonObj nullProofedNumberValueForKey:@"mint"];
+        dailyStatsDetail.maxt = [jsonObj nullProofedNumberValueForKey:@"maxt"];
+        dailyStatsDetail.icon = [jsonObj nullProofedNumberValueForKey:@"icon"];
         
         NSMutableArray *programs = [NSMutableArray new];
         for (NSDictionary *programJson in [jsonObj objectForKey:@"programs"]) {

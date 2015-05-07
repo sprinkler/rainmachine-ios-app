@@ -119,6 +119,7 @@
         NSMutableSet *futureDaysSet = [NSMutableSet set];
         
         for (DailyStatsDetail *dailyStatsDetail in [GraphsManager sharedGraphsManager].dailyStatsDetails) {
+            if (!dailyStatsDetail.simulatedPrograms.count) continue;
             [values addObject:@{@"date" : dailyStatsDetail.day,
                                 @"percentage" : @(dailyStatsDetail.simulatedProgramsPercentageAverage / 100.0)}];
             [futureDaysSet addObject:dailyStatsDetail.day];
@@ -153,8 +154,9 @@
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
         NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
+        if (!mixerDailyValue.maxTemp) continue;
         
-        double maxTemp = mixerDailyValue.maxTemp;
+        double maxTemp = mixerDailyValue.maxTemp.doubleValue;
         if (isFahrenheit) maxTemp = maxTemp * 1.8 + 32;
         
         values[day] = @(maxTemp);
@@ -163,8 +165,9 @@
     for (DailyStatsDetail *dailyStatsDetail in dailyStatsDetailsValues) {
         NSString *day = dailyStatsDetail.day;
         if (!day.length) continue;
+        if (!dailyStatsDetail.maxt) continue;
         
-        double maxTemp = dailyStatsDetail.maxt;
+        double maxTemp = dailyStatsDetail.maxt.doubleValue;
         if (isFahrenheit) maxTemp = maxTemp * 1.8 + 32;
         
         values[day] = @(maxTemp);
@@ -179,14 +182,16 @@
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
         NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
+        if (!mixerDailyValue.condition) continue;
         
-        values[day] = @(mixerDailyValue.condition);
+        values[day] = mixerDailyValue.condition;
     }
     
     for (DailyStatsDetail *dailyStatsDetail in dailyStatsDetailsValues) {
         NSString *day = dailyStatsDetail.day;
         if (!day.length) continue;
-        values[day] = @(dailyStatsDetail.icon);
+        if (!dailyStatsDetail.icon) continue;
+        values[day] = dailyStatsDetail.icon;
     }
     
     return values;

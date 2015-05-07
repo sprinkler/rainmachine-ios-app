@@ -114,8 +114,9 @@
     BOOL isInch = [units isEqualToString:@"inch"];
     
     for (MixerDailyValue *mixerDailyValue in [GraphsManager sharedGraphsManager].mixerData) {
+        if (!mixerDailyValue.qpf) continue;
         [values addObject:@{@"date" : mixerDailyValue.day,
-                            @"qpf" : @(isInch ? mixerDailyValue.qpf / 25.4 : mixerDailyValue.qpf)}];
+                            @"qpf" : @(isInch ? mixerDailyValue.qpf.doubleValue / 25.4 : mixerDailyValue.qpf.doubleValue)}];
     }
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
@@ -133,8 +134,9 @@
     for (MixerDailyValue *mixerDailyValue in mixerDailyValues) {
         NSString *day = [[NSDate sharedDateFormatterAPI4] stringFromDate:mixerDailyValue.day];
         if (!day.length) continue;
+        if (!mixerDailyValue.qpf) continue;
         
-        double qpf = mixerDailyValue.qpf;
+        double qpf = mixerDailyValue.qpf.doubleValue;
         if (isInch) qpf = qpf / 25.4;
         
         values[day] = @(qpf);

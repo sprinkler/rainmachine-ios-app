@@ -240,14 +240,14 @@
                 continue;
             }
             
-            double waterNeed = mixerDailyValue.et0 - rainSensitivity * mixerDailyValue.qpf - waterSurplus;
+            double waterNeed = mixerDailyValue.et0.doubleValue - rainSensitivity * mixerDailyValue.qpf.doubleValue - waterSurplus;
             if (waterNeed < 0) {
                 waterSurplus = MIN(-waterNeed, wsDays * et0Average);
                 waterNeed = 0.0;
             }
             
-            double et0Value = mixerDailyValue.et0 / et0Average;
-            double qpfValue = mixerDailyValue.qpf;
+            double et0Value = mixerDailyValue.et0.doubleValue / et0Average;
+            double qpfValue = mixerDailyValue.qpf.doubleValue;
             double waterNeedValue = waterNeed / et0Average;
             
             maxValue = MAX(maxValue, MAX(et0Value, waterNeedValue));
@@ -256,7 +256,7 @@
             [qpfArray addObject:@(qpfValue)];
             [waterNeedArray addObject:@(waterNeedValue)];
             
-            savedWater += (mixerDailyValue.et0 - waterNeed);
+            savedWater += (mixerDailyValue.et0.doubleValue - waterNeed);
         }
         
         [monthDays addObject:@(monthRange.length)];
@@ -347,12 +347,12 @@
             NSString *dayString = [NSString stringWithFormat:@"%d-%02d-%02d", (int)self.year, (int)month + 1, (int)day + 1];
             
             MixerDailyValue *mixerDailyValue = [MixerDailyValue new];
-            mixerDailyValue.et0 = (double)rand() / (double)RAND_MAX * TestDataEt0Interval + TestDataMinEt0;
-            mixerDailyValue.qpf = (double)rand() / (double)RAND_MAX * TestDataQpfInterval + TestDataMinQpf;
+            mixerDailyValue.et0 = @((double)rand() / (double)RAND_MAX * TestDataEt0Interval + TestDataMinEt0);
+            mixerDailyValue.qpf = @((double)rand() / (double)RAND_MAX * TestDataQpfInterval + TestDataMinQpf);
             
             mixerDataByDateTestData[dayString] = mixerDailyValue;
             
-            et0AverageValue += mixerDailyValue.et0;
+            et0AverageValue += mixerDailyValue.et0.doubleValue;
             et0Count++;
         }
     }

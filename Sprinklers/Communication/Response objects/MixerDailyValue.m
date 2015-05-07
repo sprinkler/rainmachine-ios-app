@@ -16,24 +16,24 @@
         MixerDailyValue *mixerDailyValue = [MixerDailyValue new];
         
         mixerDailyValue.day = [[NSDate sharedDateTimeFormatterAPI4] dateFromString:[jsonObj nullProofedStringValueForKey:@"day"]];
-        mixerDailyValue.temperature = [jsonObj nullProofedDoubleValueForKey:@"temperature"];
-        mixerDailyValue.rh = [jsonObj nullProofedDoubleValueForKey:@"rh"];
-        mixerDailyValue.wind = [jsonObj nullProofedDoubleValueForKey:@"wind"];
-        mixerDailyValue.solarRad = [jsonObj nullProofedDoubleValueForKey:@"solarRad"];
-        mixerDailyValue.skyCover = [jsonObj nullProofedDoubleValueForKey:@"skyCover"];
-        mixerDailyValue.rain = [jsonObj nullProofedDoubleValueForKey:@"rain"];
-        mixerDailyValue.et0 = [jsonObj nullProofedDoubleValueForKey:@"et0"];
-        mixerDailyValue.pop = [jsonObj nullProofedDoubleValueForKey:@"pop"];
-        mixerDailyValue.qpf = [jsonObj nullProofedDoubleValueForKey:@"qpf"];
-        mixerDailyValue.condition = [jsonObj nullProofedIntValueForKey:@"condition"];
-        mixerDailyValue.pressure = [jsonObj nullProofedDoubleValueForKey:@"pressure"];
-        mixerDailyValue.dewPoint = [jsonObj nullProofedDoubleValueForKey:@"dewPoint"];
-        mixerDailyValue.minTemp = [jsonObj nullProofedDoubleValueForKey:@"minTemp"];
-        mixerDailyValue.maxTemp = [jsonObj nullProofedDoubleValueForKey:@"maxTemp"];
-        mixerDailyValue.minRH = [jsonObj nullProofedDoubleValueForKey:@"minRH"];
-        mixerDailyValue.maxRH = [jsonObj nullProofedDoubleValueForKey:@"maxRH"];
-        mixerDailyValue.et0calc = [jsonObj nullProofedDoubleValueForKey:@"et0calc"];
-        mixerDailyValue.et0final = [jsonObj nullProofedDoubleValueForKey:@"et0final"];
+        mixerDailyValue.temperature = [jsonObj nullProofedNumberValueForKey:@"temperature"];
+        mixerDailyValue.rh = [jsonObj nullProofedNumberValueForKey:@"rh"];
+        mixerDailyValue.wind = [jsonObj nullProofedNumberValueForKey:@"wind"];
+        mixerDailyValue.solarRad = [jsonObj nullProofedNumberValueForKey:@"solarRad"];
+        mixerDailyValue.skyCover = [jsonObj nullProofedNumberValueForKey:@"skyCover"];
+        mixerDailyValue.rain = [jsonObj nullProofedNumberValueForKey:@"rain"];
+        mixerDailyValue.et0 = [jsonObj nullProofedNumberValueForKey:@"et0"];
+        mixerDailyValue.pop = [jsonObj nullProofedNumberValueForKey:@"pop"];
+        mixerDailyValue.qpf = [jsonObj nullProofedNumberValueForKey:@"qpf"];
+        mixerDailyValue.condition = [jsonObj nullProofedNumberValueForKey:@"condition"];
+        mixerDailyValue.pressure = [jsonObj nullProofedNumberValueForKey:@"pressure"];
+        mixerDailyValue.dewPoint = [jsonObj nullProofedNumberValueForKey:@"dewPoint"];
+        mixerDailyValue.minTemp = [jsonObj nullProofedNumberValueForKey:@"minTemp"];
+        mixerDailyValue.maxTemp = [jsonObj nullProofedNumberValueForKey:@"maxTemp"];
+        mixerDailyValue.minRH = [jsonObj nullProofedNumberValueForKey:@"minRH"];
+        mixerDailyValue.maxRH = [jsonObj nullProofedNumberValueForKey:@"maxRH"];
+        mixerDailyValue.et0calc = [jsonObj nullProofedNumberValueForKey:@"et0calc"];
+        mixerDailyValue.et0final = [jsonObj nullProofedNumberValueForKey:@"et0final"];
         
         return mixerDailyValue;
     }

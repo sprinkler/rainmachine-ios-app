@@ -11,24 +11,24 @@
 @interface MixerDailyValue : NSObject
 
 @property (nonatomic, strong) NSDate *day;
-@property (nonatomic, assign) double temperature;
-@property (nonatomic, assign) double rh;
-@property (nonatomic, assign) double wind;
-@property (nonatomic, assign) double solarRad;
-@property (nonatomic, assign) double skyCover;
-@property (nonatomic, assign) double rain;
-@property (nonatomic, assign) double et0;
-@property (nonatomic, assign) double pop;
-@property (nonatomic, assign) double qpf;
-@property (nonatomic, assign) int condition;
-@property (nonatomic, assign) double pressure;
-@property (nonatomic, assign) double dewPoint;
-@property (nonatomic, assign) double minTemp;
-@property (nonatomic, assign) double maxTemp;
-@property (nonatomic, assign) double minRH;
-@property (nonatomic, assign) double maxRH;
-@property (nonatomic, assign) double et0calc;
-@property (nonatomic, assign) double et0final;
+@property (nonatomic, strong) NSNumber *temperature;
+@property (nonatomic, strong) NSNumber *rh;
+@property (nonatomic, strong) NSNumber *wind;
+@property (nonatomic, strong) NSNumber *solarRad;
+@property (nonatomic, strong) NSNumber *skyCover;
+@property (nonatomic, strong) NSNumber *rain;
+@property (nonatomic, strong) NSNumber *et0;
+@property (nonatomic, strong) NSNumber *pop;
+@property (nonatomic, strong) NSNumber *qpf;
+@property (nonatomic, strong) NSNumber *condition;
+@property (nonatomic, strong) NSNumber *pressure;
+@property (nonatomic, strong) NSNumber *dewPoint;
+@property (nonatomic, strong) NSNumber *minTemp;
+@property (nonatomic, strong) NSNumber *maxTemp;
+@property (nonatomic, strong) NSNumber *minRH;
+@property (nonatomic, strong) NSNumber *maxRH;
+@property (nonatomic, strong) NSNumber *et0calc;
+@property (nonatomic, strong) NSNumber *et0final;
 
 + (MixerDailyValue*)createFromJson:(NSDictionary*)jsonObj;
 

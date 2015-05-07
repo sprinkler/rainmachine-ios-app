@@ -14,9 +14,9 @@
 
 @property (nonatomic, strong) NSString *day;
 @property (nonatomic, assign) double dayTimestamp;
-@property (nonatomic, assign) double mint;
-@property (nonatomic, assign) double maxt;
-@property (nonatomic, assign) int icon;
+@property (nonatomic, strong) NSNumber *mint;
+@property (nonatomic, strong) NSNumber *maxt;
+@property (nonatomic, strong) NSNumber *icon;
 @property (nonatomic, strong) NSArray *programs;
 @property (nonatomic, strong) NSArray *simulatedPrograms;
 

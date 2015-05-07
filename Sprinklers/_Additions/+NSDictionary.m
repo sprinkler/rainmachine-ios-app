@@ -18,6 +18,13 @@
 
 }
 
+- (NSNumber*)nullProofedNumberValueForKey:(NSString*)key {
+    if (![self objectForKey:key])
+        return nil;
+    else
+        return [[self objectForKey:key] isEqual:[NSNull null]] ? nil : [self objectForKey:key];
+}
+
 - (NSString *) nullProofedStringValueForKey: (NSString *)key {
     if (![self objectForKey:key])
         return @"";
