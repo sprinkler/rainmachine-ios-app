@@ -218,7 +218,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:CloudEmailCellIdentifier];
         if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CloudEmailCellIdentifier];
         
-        cell.textLabel.text = @"Cloud Email";
+        cell.textLabel.text = @"Email";
         cell.detailTextLabel.text = [Utils cloudEmailStatusForCloudSettings:cloudSettings];
         
         UISwitch *enableCloudEmailSwitch = [UISwitch new];
@@ -267,8 +267,8 @@
 
 - (IBAction)onEnableCloudEmail:(UISwitch*)enableCloudEmailSwitch {
     if (enableCloudEmailSwitch.isOn) {
-        UIAlertView *setCloudEmailAlertView = [[UIAlertView alloc] initWithTitle:@"Set Cloud Email"
-                                                                         message:nil
+        UIAlertView *setCloudEmailAlertView = [[UIAlertView alloc] initWithTitle:@"Set Email"
+                                                                         message:@"In order to remotely access your RainMachine, you need to provide a valid email."
                                                                         delegate:self
                                                                cancelButtonTitle:@"Cancel"
                                                                otherButtonTitles:@"Save", nil];
