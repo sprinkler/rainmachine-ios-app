@@ -27,6 +27,7 @@
 + (BOOL)isManuallyAddedDevice:(Sprinkler*)sprinkler;
 + (BOOL)isCloudDevice:(Sprinkler*)sprinkler;
 + (BOOL)isLocallyDiscoveredDevice:(Sprinkler*)sprinkler;
++ (BOOL)isConnectedToRainmachineDevice:(Sprinkler*)sprinkler;
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId;
 + (NSNumber*)fixedZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;
 + (int)fixedRoundedToMinutesZoneCounter:(NSNumber*)counter isIdle:(BOOL)isIdle;

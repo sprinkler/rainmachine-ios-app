@@ -66,6 +66,19 @@
     return (![sprinkler.isLocalDevice boolValue]) && (sprinkler.email);
 }
 
++ (BOOL)isConnectedToRainmachineDevice:(Sprinkler*)sprinkler {
+    if (![Utils connectedToRainMachineWIFI]) return NO;
+
+    NSString *ipAddressForWifi = [NetworkUtilities ipAddressForWifi];
+    NSArray *comp1 = [[Utils getBaseUrl:sprinkler.address] componentsSeparatedByString:@"."];
+    NSArray *comp2 = [ipAddressForWifi componentsSeparatedByString:@"."];
+    
+    if (comp1.count != comp2.count) return NO;
+    if (comp1.count != 4) return NO;
+    
+    return ([comp1[0] isEqualToString:comp2[0]] && [comp1[1] isEqualToString:comp2[1]] && [comp1[2] isEqualToString:comp2[2]]);
+}
+
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId
 {
     if ([zoneName length] == 0) {
@@ -567,8 +580,10 @@
     
     // TODO: decide upon local/remote type on runtime
     if ([Utils isSprinklerInAPMode:sprinkler]) {
-//        cell.labelInfo.textColor = [UIColor colorWithRed:kSprinklerBlueColor[0] green:kSprinklerBlueColor[1] blue:kSprinklerBlueColor[2] alpha:1];
         cell.labelInfo.text = isDeviceInactive ? nil : @"setup";
+    } else if ([Utils isLocallyDiscoveredDevice:sprinkler]) {
+        if ([Utils isConnectedToRainmachineDevice:sprinkler] && !isDeviceInactive) cell.labelInfo.text = @"setup";
+        else cell.labelInfo.text = nil;
     } else {
         cell.labelInfo.text = nil;
     }

@@ -53,7 +53,7 @@
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
 @property (strong, nonatomic) ServerProxy *diagServerProxy;
 @property (strong, nonatomic) ServerProxy *versionServerProxy;
-@property (strong, nonatomic) ServerProxy *loginCloudSprinklerServerProxy;
+@property (strong, nonatomic) ServerProxy *automaticLoginSprinklerServerProxy;
 @property (strong, nonatomic) ServerProxy *requestSettingsDateServerProxy;
 @property (strong, nonatomic) NSTimer *networkDevicesTimer;
 @property (strong, nonatomic) NSTimer *cloudDevicesTimer;
@@ -465,7 +465,7 @@
 }
 
 - (void)hideHud {
-    if ([self isDuringAutomaticCloudSprinklerLogin]) {
+    if ([self isDuringAutomaticSprinklerLogin]) {
         return;
     }
     
@@ -504,8 +504,8 @@
     return (t <= kTimeout_ResetToDefaults);
 }
 
-- (BOOL)isDuringAutomaticCloudSprinklerLogin {
-    return (self.loginCloudSprinklerServerProxy != nil);
+- (BOOL)isDuringAutomaticSprinklerLogin {
+    return (self.automaticLoginSprinklerServerProxy != nil);
 }
 
 - (BOOL)isDuringLoginVerification {
@@ -977,18 +977,26 @@
             [self.requestSettingsDateServerProxy requestSettingsDate];
             [self startHud:nil];
         } else {
-            [self continueWithNonAutomaticLoginForSprinkler:sprinkler];
+            [self continueWithNonAutomaticLoginForSprinkler:sprinkler diag:diag];
         }
     }
 }
 
-- (void)continueWithNonAutomaticLoginForSprinkler:(Sprinkler*)sprinkler {
+- (void)continueWithNonAutomaticLoginForSprinkler:(Sprinkler*)sprinkler diag:(NSDictionary*)diag {
     if ([Utils isCloudDevice:sprinkler]) {
         [ServerProxy setSprinklerVersionMajor:4 minor:-1 subMinor:-1];
         
         NSString *password = [CloudUtils passwordForCloudAccountWithEmail:sprinkler.email];
-        self.loginCloudSprinklerServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:YES];
-        [self.loginCloudSprinklerServerProxy loginWithUserName:sprinkler.email password:password rememberMe:YES];
+        self.automaticLoginSprinklerServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:YES];
+        [self.automaticLoginSprinklerServerProxy loginWithUserName:sprinkler.email password:password rememberMe:YES];
+        
+        [self startHud:nil];
+    } else if ([Utils isConnectedToRainmachineDevice:sprinkler]) {
+        [ServerProxy setSprinklerVersionMajor:4 minor:-1 subMinor:-1];
+        
+        NSString *password = @"";
+        self.automaticLoginSprinklerServerProxy = [[ServerProxy alloc] initWithSprinkler:sprinkler delegate:self jsonRequest:YES];
+        [self.automaticLoginSprinklerServerProxy loginWithUserName:nil password:password rememberMe:YES];
         
         [self startHud:nil];
     } else {
@@ -1048,7 +1056,7 @@
     else if (serverProxy == self.requestSettingsDateServerProxy) {
         self.requestSettingsDateServerProxy = nil;
         [self hideHud];
-        [self continueWithNonAutomaticLoginForSprinkler:self.selectedSprinkler];
+        [self continueWithNonAutomaticLoginForSprinkler:self.selectedSprinkler diag:nil];
     }
 }
 
@@ -1091,9 +1099,9 @@
     if ([self isDuringLoginVerification]) {
         self.requestSettingsDateServerProxy = nil;
         [self hideHud];
-        [self continueWithNonAutomaticLoginForSprinkler:self.selectedSprinkler];
+        [self continueWithNonAutomaticLoginForSprinkler:self.selectedSprinkler diag:nil];
     }
-    else if ([self isDuringAutomaticCloudSprinklerLogin]) {
+    else if ([self isDuringAutomaticSprinklerLogin]) {
         LoginVC *login = [[LoginVC alloc] init];
         login.sprinkler = self.selectedSprinkler;
         
@@ -1102,14 +1110,14 @@
         login.parent = self;
         [self.navigationController pushViewController:login animated:YES];
         
-        self.loginCloudSprinklerServerProxy = nil;
+        self.automaticLoginSprinklerServerProxy = nil;
         
         [self hideHud];
     }
 }
 
 - (void)loginSucceededAndRemembered:(BOOL)remembered loginResponse:(id)loginResponse unit:(NSString*)unit {
-    if ([self isDuringAutomaticCloudSprinklerLogin]) {
+    if ([self isDuringAutomaticSprinklerLogin]) {
         if ([loginResponse isKindOfClass:[Login4Response class]]) {
             [NetworkUtilities saveAccessTokenForBaseURL:self.selectedSprinkler.address port:self.selectedSprinkler.port loginResponse:(Login4Response*)loginResponse];
         
@@ -1122,7 +1130,7 @@
         
             [self done:unit];
         
-            self.loginCloudSprinklerServerProxy = nil;
+            self.automaticLoginSprinklerServerProxy = nil;
         
             [self hideHud];
         } else {
