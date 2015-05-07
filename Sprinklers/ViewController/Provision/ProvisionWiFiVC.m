@@ -199,7 +199,7 @@
         else if (indexPath.row == [self rowForPassword]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"LabelAndTextFieldCell" forIndexPath:indexPath];
             LabelAndTextFieldCell *labelAndTextFieldCell = (LabelAndTextFieldCell*)cell;
-            labelAndTextFieldCell.titleLabel.text = @"Password";
+            labelAndTextFieldCell.titleLabel.text = @"WiFi password";
             labelAndTextFieldCell.textField.text = self.password;
             labelAndTextFieldCell.textField.placeholder = @"";
             labelAndTextFieldCell.textField.delegate = self;
@@ -222,9 +222,7 @@
 
 #pragma mark - Table view delegate
 
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if (indexPath.section == [self sectionForSecurity]) {
         if (indexPath.row == [self rowForSecurity]) {
             ProvisionSelectWiFiSecurityOptionVC *selectSecurityOptionVC = [[ProvisionSelectWiFiSecurityOptionVC alloc] initWithDelegate:self];
@@ -239,8 +237,7 @@
 
 #pragma mark -
 
-- (NSString*)APISecurityOptionFromUIText
-{
+- (NSString*)APISecurityOptionFromUIText {
     if ([self.securityOption isEqualToString:@"None"]) {
         return @"none";
     }
@@ -257,8 +254,7 @@
     return nil;
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
+- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     
     if (textField.tag == kProvisionWiFi_Password) {

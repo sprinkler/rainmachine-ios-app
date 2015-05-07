@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -16,16 +16,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agm-C5-Qvk">
-                        <rect key="frame" x="16" y="12" width="90" height="20.5"/>
+                        <rect key="frame" x="16" y="11" width="118" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="90" id="gpW-eU-dG5"/>
+                            <constraint firstAttribute="width" constant="118" id="gpW-eU-dG5"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Network Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yeu-jJ-mS8">
-                        <rect key="frame" x="106" y="8" width="206" height="27.5"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Network Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yeu-jJ-mS8">
+                        <rect key="frame" x="142" y="11" width="170" height="21"/>
                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
@@ -34,16 +34,18 @@
                 <constraints>
                     <constraint firstItem="yeu-jJ-mS8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="3jY-Bg-JdD"/>
                     <constraint firstAttribute="bottomMargin" secondItem="yeu-jJ-mS8" secondAttribute="bottom" id="b9T-1v-ots"/>
-                    <constraint firstItem="agm-C5-Qvk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="iT8-t2-RIz"/>
+                    <constraint firstItem="agm-C5-Qvk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="iT8-t2-RIz"/>
                     <constraint firstAttribute="centerY" secondItem="yeu-jJ-mS8" secondAttribute="centerY" id="iaQ-RZ-JFQ"/>
                     <constraint firstAttribute="centerY" secondItem="agm-C5-Qvk" secondAttribute="centerY" id="l7u-6G-YBa"/>
                     <constraint firstItem="yeu-jJ-mS8" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="mS2-gU-L6A"/>
-                    <constraint firstItem="yeu-jJ-mS8" firstAttribute="leading" secondItem="agm-C5-Qvk" secondAttribute="trailing" id="xWy-jU-rmZ"/>
+                    <constraint firstItem="yeu-jJ-mS8" firstAttribute="leading" secondItem="agm-C5-Qvk" secondAttribute="trailing" constant="8" id="xWy-jU-rmZ"/>
+                    <constraint firstItem="yeu-jJ-mS8" firstAttribute="leading" secondItem="agm-C5-Qvk" secondAttribute="trailing" constant="8" id="yY4-at-pHr"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
                         <exclude reference="3jY-Bg-JdD"/>
                         <exclude reference="b9T-1v-ots"/>
+                        <exclude reference="xWy-jU-rmZ"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
