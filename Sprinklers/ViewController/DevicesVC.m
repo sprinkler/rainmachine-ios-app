@@ -709,21 +709,13 @@
     return 0;
 }
 
-- (NSInteger)tvNewRainMachineSetup {
-    if (![Utils localDiscoveryDisabled]) return 1;
-    return -1;
-}
-
 - (NSInteger)tvSectionDebugSettings {
-    if (![Utils localDiscoveryDisabled]) return 2;
+    if (![Utils localDiscoveryDisabled]) return 1;
     return 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Devices
-    // New Rain Machine Setup
-    // Debug Settings
-    return  1 + ([Utils localDiscoveryDisabled] ? 0 : 1) + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
+    return  1 + (ENABLE_DEBUG_SETTINGS ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -836,18 +828,6 @@
         
         return cell;
     }
-    else if (indexPath.section == [self tvNewRainMachineSetup]) {
-        UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"Debug"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Debug"];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.textLabel.text = @"New Rain Machine";
-        cell.detailTextLabel.text = @"setup";
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
-        return cell;
-    }
     
     return nil;
 }
@@ -926,9 +906,6 @@
                 [self.debugTextField becomeFirstResponder];
             }
         }
-    }
-    else if (indexPath.section == [self tvNewRainMachineSetup]) {
-        [self presentWizardWithSprinkler:nil];
     }
 }
 
