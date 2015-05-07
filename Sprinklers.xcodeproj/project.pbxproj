@@ -51,6 +51,9 @@
 		9612965E1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9612965B1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib */; };
 		961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */; };
 		961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */; };
+		9622C4B41AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */; };
+		9622C4B51AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */; };
+		9622C4B61AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */; };
 		9624BDED1AEA0F5400141891 /* WateringHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */; };
 		9624BDEE1AEA0F5400141891 /* WateringHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */; };
 		9624BDF31AEA215F00141891 /* WateringHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624BDF11AEA215F00141891 /* WateringHistoryCell.m */; };
@@ -1644,6 +1647,8 @@
 		961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceRainAmount.m; path = ViewController/Graphs/GraphDataSourceRainAmount.m; sourceTree = "<group>"; };
 		961629ED1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterRainAmount.h; path = ViewController/Graphs/GraphDataFormatterRainAmount.h; sourceTree = "<group>"; };
 		961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterRainAmount.m; path = ViewController/Graphs/GraphDataFormatterRainAmount.m; sourceTree = "<group>"; };
+		9622C4B21AFB5F2D00A356DD /* ProvisionLocationSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionLocationSearchBar.h; path = ViewController/Provision/ProvisionLocationSearchBar.h; sourceTree = "<group>"; };
+		9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionLocationSearchBar.m; path = ViewController/Provision/ProvisionLocationSearchBar.m; sourceTree = "<group>"; };
 		9624BDEA1AEA0F5400141891 /* WateringHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistoryVC.h; path = ViewController/WateringHistoryVC.h; sourceTree = "<group>"; };
 		9624BDEB1AEA0F5400141891 /* WateringHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WateringHistoryVC.m; path = ViewController/WateringHistoryVC.m; sourceTree = "<group>"; };
 		9624BDEC1AEA0F5400141891 /* WateringHistoryVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WateringHistoryVC.xib; path = ViewController/WateringHistoryVC.xib; sourceTree = "<group>"; };
@@ -2913,6 +2918,8 @@
 				AFE894D81A35733B007FC7EB /* ProvisionNameSetupVC.h */,
 				AFE894D91A35733B007FC7EB /* ProvisionNameSetupVC.m */,
 				AFE894DA1A35733B007FC7EB /* ProvisionNameSetupVC.xib */,
+				9622C4B21AFB5F2D00A356DD /* ProvisionLocationSearchBar.h */,
+				9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */,
 				AF085C991A2EBFB700519BF6 /* ProvisionLocationSetupVC.h */,
 				AF085C9A1A2EBFB700519BF6 /* ProvisionLocationSetupVC.m */,
 				AF085C9B1A2EBFB700519BF6 /* ProvisionLocationSetupVC.xib */,
@@ -4770,6 +4777,7 @@
 				960D7B891AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */,
 				B1583E7416A803970051B480 /* PullToRefreshView.m in Sources */,
 				96EF1A8B1A40BB5F002CF2E0 /* BVReorderTableView.m in Sources */,
+				9622C4B41AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */,
 				AF0B1F5119AF3B1200FDC406 /* TimeResponse4.m in Sources */,
 				AF7AC9D0184E3DD30047BD9E /* AFHTTPSessionManager.m in Sources */,
 				AF7AC9BE184E3D200047BD9E /* ServerProxy.m in Sources */,
@@ -5015,6 +5023,7 @@
 				960D7B8A1AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */,
 				BD0BB65F1ACE93AA005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB6601ACE93AA005E2426 /* BVReorderTableView.m in Sources */,
+				9622C4B51AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */,
 				BD0BB6611ACE93AA005E2426 /* TimeResponse4.m in Sources */,
 				9624BDFE1AEA3ACF00141891 /* WateringHistoryVC.m in Sources */,
 				BD0BB6621ACE93AA005E2426 /* AFHTTPSessionManager.m in Sources */,
@@ -5260,6 +5269,7 @@
 				960D7B8B1AF3E8C100FA1670 /* SoftwareUpdateVC.m in Sources */,
 				BD0BB8581ACE9525005E2426 /* PullToRefreshView.m in Sources */,
 				BD0BB8591ACE9525005E2426 /* BVReorderTableView.m in Sources */,
+				9622C4B61AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */,
 				BD0BB85A1ACE9525005E2426 /* TimeResponse4.m in Sources */,
 				9624BDFF1AEA3AD000141891 /* WateringHistoryVC.m in Sources */,
 				BD0BB85B1ACE9525005E2426 /* AFHTTPSessionManager.m in Sources */,

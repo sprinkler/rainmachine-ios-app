@@ -20,12 +20,12 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" barStyle="black" placeholder="Select your location" translatesAutoresizingMaskIntoConstraints="NO" id="gvN-4O-VF3">
+                <searchBar contentMode="redraw" barStyle="black" placeholder="Please type your address" translatesAutoresizingMaskIntoConstraints="NO" id="gvN-4O-VF3" customClass="ProvisionLocationSearchBar">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="D3E-5E-OA3"/>
                     </constraints>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="coB-2B-PmW"/>
                     </connections>

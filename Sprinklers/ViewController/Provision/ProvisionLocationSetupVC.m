@@ -24,6 +24,7 @@
 #import "ServerProxy.h"
 #import "NetworkUtilities.h"
 #import "ProvisionDateAndTimeManualVC.h"
+#import "ProvisionLocationSearchBar.h"
 
 const double LocationSetup_MapView_InitializeTimeout                = 3.0;
 const double LocationSetup_MapView_StartRegionSizeMeters            = 1000.0;
@@ -99,7 +100,7 @@ const CLLocationDegrees LocationSetup_DefaultLocation_Longitude     = -74.0059;
     self.mapView.superview.backgroundColor = [UIColor colorWithRed:0.200000 green:0.200000 blue:0.203922 alpha:1];
     
     if (![self initializeLocationServices]) {
-        [self displayLocationServicesDisabledAlert];
+        [self handleLocationServicesDisabledCaseAfterDelay:1.0];
         return;
     }
     
@@ -116,6 +117,8 @@ const CLLocationDegrees LocationSetup_DefaultLocation_Longitude     = -74.0059;
                                              selector:@selector(applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    
+    [[UITextField appearanceWhenContainedIn:[ProvisionLocationSearchBar class], nil] setFont:[UIFont systemFontOfSize:17]];
 }
 
 - (void)applicationWillEnterForeground:(id)notif
@@ -195,7 +198,7 @@ const CLLocationDegrees LocationSetup_DefaultLocation_Longitude     = -74.0059;
 {
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
-        [self displayLocationServicesDisabledAlert];
+        [self handleLocationServicesDisabledCaseAfterDelay:1.0];
     }
     
     if ([[UIDevice currentDevice] iOSGreaterThan:8.0]) {
@@ -360,14 +363,20 @@ const CLLocationDegrees LocationSetup_DefaultLocation_Longitude     = -74.0059;
 }
 
 - (void)updateLocationSearchBar {
-    self.locationSearchBar.text = [self displayStringForLocation:self.selectedLocationAddress];
-    self.locationSearchBar.placeholder = (self.locationSearchBar.text.length ? nil : @"Select your location");
+    if (self.selectedLocationAddress) {
+        self.locationSearchBar.text = [self displayStringForLocation:self.selectedLocationAddress];
+    }
+    self.locationSearchBar.placeholder = (self.locationSearchBar.text.length ? nil : @"Please type your address");
 }
 
 #pragma mark - Alert view delegate
 
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == LocationServicesDisabledAlertTag) [self handleLocationServicesDisabledCase];
+}
+
+- (void)handleLocationServicesDisabledCaseAfterDelay:(NSTimeInterval)delay {
+    [self performSelector:@selector(handleLocationServicesDisabledCase) withObject:nil afterDelay:delay];
 }
 
 - (void)handleLocationServicesDisabledCase {
@@ -569,21 +578,16 @@ const CLLocationDegrees LocationSetup_DefaultLocation_Longitude     = -74.0059;
     self.view.userInteractionEnabled = YES;
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-       didFailWithError:(NSError *)error
-{
-    [self displayNoLocationAlertWithContinueMessage:NO skip:NO];
+- (void)locationManager:(CLLocationManager*)manager
+       didFailWithError:(NSError*)error {
+    
+    //[self displayNoLocationAlertWithContinueMessage:NO skip:NO];
 }
 
-- (void)continueWithDateTime
-{
+- (void)continueWithDateTime {
     ProvisionDateAndTimeManualVC *dateTimeVC = [[ProvisionDateAndTimeManualVC alloc] init];
     dateTimeVC.sprinkler = self.sprinkler;
-//    dateTimeVC.delegate = self.delegate;
     dateTimeVC.locationSetupVC = self;
-    
-//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:dateTimeVC];
-//    [self.navigationController presentViewController:navVC animated:NO completion:nil];
     
     [self.navigationController pushViewController:dateTimeVC animated:YES];
 }

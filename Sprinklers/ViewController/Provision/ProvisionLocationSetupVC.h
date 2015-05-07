@@ -15,10 +15,11 @@
 #import "GoogleAddress.h"
 
 @class ColoredBackgroundButton;
+@class ProvisionLocationSearchBar;
 
 @interface ProvisionLocationSetupVC : BaseWizardVC <GMSMapViewDelegate, SprinklerResponseProtocol, UIAlertViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 
-@property (nonatomic, weak) IBOutlet UISearchBar *locationSearchBar;
+@property (nonatomic, weak) IBOutlet ProvisionLocationSearchBar *locationSearchBar;
 @property (nonatomic, weak) IBOutlet UIView *mapContentView;
 @property (nonatomic, weak) IBOutlet GMSMapView *mapView;
 @property (strong, nonatomic) DiscoveredSprinklers *sprinkler;
