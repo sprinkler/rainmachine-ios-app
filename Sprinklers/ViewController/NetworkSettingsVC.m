@@ -66,11 +66,11 @@
     if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NetworkSettingsCellIdentifier];
     
     if (indexPath.section == 0) {
-        cell.textLabel.text = @"Disable Local Discovery";
+        cell.textLabel.text = @"Local Discovery";
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         UISwitch *localDiscoverySwitch = [UISwitch new];
-        localDiscoverySwitch.on = [Utils localDiscoveryDisabled];
+        localDiscoverySwitch.on = ![Utils localDiscoveryDisabled];
         [localDiscoverySwitch addTarget:self action:@selector(onSwitchLocalDiscovery:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = localDiscoverySwitch;
     }
@@ -108,7 +108,7 @@
 }
 
 - (IBAction)onSwitchLocalDiscovery:(UISwitch*)localDiscoverySwitch {
-    [Utils setLocalDiscoveryDisabled:localDiscoverySwitch.isOn];
+    [Utils setLocalDiscoveryDisabled:!localDiscoverySwitch.isOn];
 }
 
 @end
