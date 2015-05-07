@@ -11,6 +11,7 @@
 #import "DashboardVC.h"
 #import "GlobalsManager.h"
 #import "StorageManager.h"
+#import "UpdateManager.h"
 #import "GraphsManager.h"
 #import "ServerProxy.h"
 #import "Sprinkler.h"
@@ -381,6 +382,7 @@
         [[StorageManager current] saveData];
         
         [appDelegate refreshRootViews:nil selectSettings:YES];
+        [appDelegate.updateManager poll];
         
         appDelegate.devicesVC.forceRefreshWhenAppearing = YES;
         appDelegate.dashboardVC.shouldReloadAllSelectedGraphsWhenAppear = YES;
