@@ -60,6 +60,9 @@
     self.oldPasswordLabel.hidden = !(self.presentOldPasswordField);
     self.showPasswordTopSpaceLayoutConstraint.constant = (self.presentOldPasswordField ? 50.0 : 12.0);
     
+    if (self.presentOldPasswordField) self.oldPasswordLabel.returnKeyType = UIReturnKeyNext;
+    else self.verifyPasswordLabel.returnKeyType = UIReturnKeyNext;
+    
     self.passwordLabel.text = [CloudUtils passwordForCloudAccountWithEmail:[CloudUtils firstCloudAccount]];
     self.verifyPasswordLabel.text = [CloudUtils passwordForCloudAccountWithEmail:[CloudUtils firstCloudAccount]];
     
@@ -231,7 +234,11 @@
         [self.verifyPasswordLabel becomeFirstResponder];
     }
     else if (textField == self.verifyPasswordLabel) {
-        [self.oldPasswordLabel becomeFirstResponder];
+        if (self.presentOldPasswordField) [self.oldPasswordLabel becomeFirstResponder];
+        else [self onNext:nil];
+    }
+    else if (textField == self.oldPasswordLabel) {
+        [self onNext:nil];
     }
     return NO;
 }
