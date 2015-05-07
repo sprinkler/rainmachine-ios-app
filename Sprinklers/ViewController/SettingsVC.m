@@ -85,8 +85,6 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 @property (nonatomic, readonly) NSArray *weatherSettings;
 @property (nonatomic, readonly) NSArray *systemSetting;
 
-@property (nonatomic, assign) BOOL settingsScreenLostConnection;
-
 @end
 
 @implementation SettingsVC
@@ -125,8 +123,6 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    if (self.settingsScreenLostConnection) return;
     
     if ([self.parentSetting isEqualToString:kSettingsSystemSettings]) {
         [self refreshSettingsScreen];
@@ -177,7 +173,6 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 - (void)handleCouldNotConnectToServerError {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [[GlobalsManager current] stopPollingCloudSettings];
-    self.settingsScreenLostConnection = YES;
 }
 
 #pragma mark - UITableView delegate
@@ -504,16 +499,12 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 #pragma mark - ProxyService delegate
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    if (self.settingsScreenLostConnection) return;
-    
     [self handleSprinklerNetworkError:error operation:operation showErrorMessage:YES];
 
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    if (self.settingsScreenLostConnection) return;
-    
     if ([data isKindOfClass:[API4StatusResponse class]]) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         

@@ -58,8 +58,6 @@
 @property (strong, nonatomic) Zone *unsavedZone;
 @property (assign, nonatomic) int unsavedZoneIndex;
 
-@property (assign, nonatomic) BOOL waterNowScreenLostConnection;
-
 @property (weak, nonatomic) IBOutlet UITableView *statusTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusTableViewHeightConstraint;
@@ -115,8 +113,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    if (self.waterNowScreenLostConnection) return;
     
     if (self.delayedInitialListRefresh) {
         [self setDensePollingInterval];
@@ -207,8 +203,6 @@
     self.wateringCounterHelper = nil;
         
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
-    self.waterNowScreenLostConnection = YES;
 }
 
 #pragma mark - UI
@@ -441,8 +435,6 @@
 #pragma mark - Communication callbacks
 
 - (void)serverErrorReceived:(NSError*)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
-    if (self.waterNowScreenLostConnection) return;
-    
     BOOL showErrorMessage = YES;
     if (serverProxy == self.pollServerProxy) {
         showErrorMessage = NO;
@@ -480,8 +472,6 @@
 }
 
 - (void)serverResponseReceived:(id)data serverProxy:(id)serverProxy userInfo:(id)userInfo {
-    if (self.waterNowScreenLostConnection) return;
-    
     [self handleSprinklerNetworkError:nil operation:nil showErrorMessage:YES];
     
     if (serverProxy == self.pollServerProxy) {

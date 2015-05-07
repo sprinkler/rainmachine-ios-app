@@ -136,6 +136,8 @@
         self.window.rootViewController = navDevices;
         self.dashboardVC = nil;
         self.statsVC = nil;
+        self.waterNowVC = nil;
+        self.settingsVC = nil;
     }
 }
 
