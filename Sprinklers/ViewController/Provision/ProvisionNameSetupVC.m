@@ -165,6 +165,8 @@
             [self handleSprinklerGeneralError:response.message showErrorMessage:YES];
         }
         
+        self.sprinkler.sprinklerName = self.deviceNameLabel.text;
+        
         [self.provisionPasswordServerProxy setNewPassword:self.passwordLabel.text confirmPassword:self.verifyPasswordLabel.text oldPassword:self.oldPasswordLabel.text];
     }
     else if (serverProxy == self.provisionPasswordServerProxy) {

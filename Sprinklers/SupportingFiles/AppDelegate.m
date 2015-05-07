@@ -54,7 +54,7 @@
         [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
     }
     
-    [self refreshRootViews:nil];
+    [self refreshRootViews:nil selectSettings:NO];
   
 //    // TODO: remove this hack in production builds!
 //    NSString *kTestSprinklerName = @"Test Sprinkler In Cloud";
@@ -74,8 +74,7 @@
     return YES;
 }
 
-- (void)refreshRootViews:(NSString*)unit
-{
+- (void)refreshRootViews:(NSString*)unit selectSettings:(BOOL)selectSettings {
     self.devicesVC = [[DevicesVC alloc] init];
     UINavigationController *navDevices = [[UINavigationController alloc] initWithRootViewController:self.devicesVC];
     
@@ -130,7 +129,9 @@
         _tabBarController = [[UITabBarController alloc] init];
         _tabBarController.viewControllers = @[navDevices, navDashboard, navWater, navSettings];
         
-        _tabBarController.selectedViewController = navDashboard;
+        if (selectSettings) _tabBarController.selectedViewController = navSettings;
+        else _tabBarController.selectedViewController = navDashboard;
+        
         self.window.rootViewController = _tabBarController;
     } else {
         self.window.rootViewController = navDevices;

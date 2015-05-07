@@ -247,7 +247,7 @@ static GraphsManager *sharedGraphsManager = nil;
     }
 }
 
-- (void)reregisterAllGraphs {
+- (void)reregisterAllGraphsReload:(BOOL)reload {
     [self cancel];
     
     self.disabledGraphIdentifiers = nil;
@@ -263,7 +263,7 @@ static GraphsManager *sharedGraphsManager = nil;
     } else {
         [self registerAvailableGraphs];
         [self initializeAllSelectedGraphs];
-        [self reloadAllSelectedGraphs];
+        if (reload) [self reloadAllSelectedGraphs];
     }
 }
 

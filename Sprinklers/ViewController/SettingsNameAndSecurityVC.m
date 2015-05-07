@@ -193,7 +193,7 @@
     if (self.isSecurityScreen) {
         if (buttonIndex == 0) {
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate refreshRootViews:nil];
+            [appDelegate refreshRootViews:nil selectSettings:NO];
         } else {
             [super alertView:theAlertView didDismissWithButtonIndex:buttonIndex];
         }

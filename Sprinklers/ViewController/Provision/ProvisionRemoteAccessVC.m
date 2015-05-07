@@ -8,7 +8,10 @@
 
 #import "ProvisionRemoteAccessVC.h"
 #import "DevicesVC.h"
+#import "DashboardVC.h"
 #import "GlobalsManager.h"
+#import "StorageManager.h"
+#import "GraphsManager.h"
 #import "ServerProxy.h"
 #import "Sprinkler.h"
 #import "CloudSettings.h"
@@ -358,9 +361,29 @@
     }
     else if (alertView.tag == kRemoteAccess_FinishRainmachineSetup_AlertView_Tag) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate.devicesVC deviceSetupFinished];
         
-        [self.navigationController popToRootViewControllerAnimated:NO];
+        NSString *port = [NSString stringWithFormat:@"%d", self.sprinkler.port];
+        NSString *address = [Utils addressWithoutPrefix:[Utils getBaseUrl:self.sprinkler.host]];
+        Sprinkler *setupedSprinkler = [[StorageManager current] getSprinkler:self.sprinkler.sprinklerId name:self.sprinkler.sprinklerName address:address local:@YES email:nil];
+        if (!setupedSprinkler) setupedSprinkler = [[StorageManager current] addSprinkler:self.sprinkler.sprinklerName ipAddress:address port:port isLocal:@YES email:nil mac:self.sprinkler.sprinklerId save:NO];
+        
+        setupedSprinkler.address = [Utils fixedSprinklerAddress:self.sprinkler.host];
+        setupedSprinkler.port = port;
+        setupedSprinkler.name = self.sprinkler.sprinklerName;
+        setupedSprinkler.sprinklerId = self.sprinkler.sprinklerId;
+        setupedSprinkler.mac = self.sprinkler.sprinklerId;  // Update the mac for existing sprinklers too
+        setupedSprinkler.isDiscovered = @YES;
+        setupedSprinkler.nrOfFailedConsecutiveDiscoveries = @0;
+        
+        setupedSprinkler.apFlag = self.sprinkler.apFlag ? @([self.sprinkler.apFlag boolValue]) : nil;
+        
+        [StorageManager current].currentSprinkler = setupedSprinkler;
+        [[StorageManager current] saveData];
+        
+        [appDelegate refreshRootViews:nil selectSettings:YES];
+        
+        appDelegate.devicesVC.forceRefreshWhenAppearing = YES;
+        appDelegate.dashboardVC.shouldReloadAllSelectedGraphsWhenAppear = YES;
     }
     else if (alertView.tag == kRemoteAccess_CloudEmailWarning_AlertView_Tag) {
         if (buttonIndex == alertView.firstOtherButtonIndex) {

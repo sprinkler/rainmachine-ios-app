@@ -135,14 +135,14 @@ static UIAlertView *alertView;
 - (void)alertView:(UIAlertView *)theAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (theAlertView.tag == kAlertView_LoggedOut) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate refreshRootViews:nil];
+        [appDelegate refreshRootViews:nil selectSettings:NO];
     }
     else if (theAlertView.tag == kAlertView_CouldNotConnectToServer) {
         [StorageManager current].currentSprinkler = nil;
         [[StorageManager current] saveData];
         
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate refreshRootViews:nil];
+        [appDelegate refreshRootViews:nil selectSettings:NO];
     }
     
     alertView = nil;

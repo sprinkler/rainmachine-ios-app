@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UIColor *graphsGraySepratorColor;
 
 @property (nonatomic, strong) NSString *unitsText;
+@property (nonatomic, assign) BOOL shouldReloadAllSelectedGraphsWhenAppear;
 
 - (void)applicationDidEnterInForeground;
 

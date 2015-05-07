@@ -148,9 +148,12 @@
     
     self.isVisible = YES;
     
+    if (self.shouldReloadAllSelectedGraphsWhenAppear) [[GraphsManager sharedGraphsManager] reregisterAllGraphsReload:YES];
+    self.shouldReloadAllSelectedGraphsWhenAppear = NO;
+    
     if (!self.doNotRefreshGraphsWhenBecomesVisible) [self refreshGraphs];
     self.doNotRefreshGraphsWhenBecomesVisible = NO;
-    
+        
     [self.rainDelayPoller scheduleNextPoll:0];
     [self refreshStatus];
 }

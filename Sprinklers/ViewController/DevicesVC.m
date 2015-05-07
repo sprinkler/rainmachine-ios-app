@@ -254,7 +254,7 @@
             [Utils invalidateLoginForCurrentSprinkler];
             if (currentSprinklerDeleted) {
                 AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                [appDelegate refreshRootViews:nil];
+                [appDelegate refreshRootViews:nil selectSettings:NO];
             }
         }
         
@@ -269,6 +269,11 @@
     
     [self.tableView reloadData];
     [self refreshDeviceDiscoveryTimers];
+    
+    if (self.forceRefreshWhenAppearing) {
+        [self onRefresh:nil];
+        self.forceRefreshWhenAppearing = NO;
+    }
 }
 
 - (void)applicationDidEnterInForeground {
@@ -639,10 +644,10 @@
 }
 
 - (void)done:(NSString*)unit {
-    [[GraphsManager sharedGraphsManager] reregisterAllGraphs];
+    [[GraphsManager sharedGraphsManager] reregisterAllGraphsReload:YES];
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate refreshRootViews:unit];
+    [appDelegate refreshRootViews:unit selectSettings:NO];
 }
 
 - (void)onRefresh:(id)notification {

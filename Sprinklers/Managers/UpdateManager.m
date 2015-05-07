@@ -286,7 +286,7 @@
         [Utils invalidateLoginForCurrentSprinkler];
         
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate refreshRootViews:nil];
+        [appDelegate refreshRootViews:nil selectSettings:NO];
         
         if (buttonIndex != theAlertView.cancelButtonIndex) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/rainmachine/id647589286"]];

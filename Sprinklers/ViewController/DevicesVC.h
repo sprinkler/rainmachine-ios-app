@@ -13,6 +13,8 @@
 
 @interface DevicesVC : BaseViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SprinklerResponseProtocol, TRPickerInputViewDataSource, TRPickerInputViewDelegate>
 
+@property (nonatomic, assign) BOOL forceRefreshWhenAppearing;
+
 - (void)done:(NSString*)unit;
 
 - (void)deviceSetupFinished;

@@ -467,7 +467,7 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
     
     [Utils invalidateLoginForCurrentSprinkler];
     
-    [appDelegate refreshRootViews:nil];
+    [appDelegate refreshRootViews:nil selectSettings:NO];
     [appDelegate.devicesVC setResetToDefaultsModeWithSprinkler:sprinkler];
 }
 
@@ -517,7 +517,7 @@ NSString *kSettingsResetToDefaults      = @"Reset to Defaults";
 //            [self resetToDefaults];
             [Utils invalidateLoginForCurrentSprinkler];
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate refreshRootViews:nil];
+            [appDelegate refreshRootViews:nil selectSettings:NO];
 
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Succesfuly restored initial settings" message:@"Rainmachine is now rebooting. In order to set up your Rainmachine, switch to iOS Settings, connect to RainMachine's WiFi network, switch back to Rainmachine app, then select \"New Rainmachine setup\""
                                                                delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

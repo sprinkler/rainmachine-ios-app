@@ -28,6 +28,6 @@
 @property (strong, nonatomic) UpdateManager *updateManager;
 @property (strong, nonatomic) GlobalsManager *globalsManager;
 
-- (void)refreshRootViews:(NSString*)unit;
+- (void)refreshRootViews:(NSString*)unit selectSettings:(BOOL)selectSettings;
 
 @end
