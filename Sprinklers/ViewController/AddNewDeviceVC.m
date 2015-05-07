@@ -38,12 +38,14 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *showPasswordButton;
 @property (weak, nonatomic) IBOutlet UILabel *showPasswordLabel;
+@property (weak, nonatomic) IBOutlet UILabel *exampleIPLabel;
 
 @property (strong, nonatomic) ServerProxy *cloudServerProxy;
 
 - (void)requestCloudSprinklersForEmail:(NSString*)email password:(NSString*)password;
 - (void)removeTokenView;
 - (void)enableShowPasswordButton;
+- (void)enableExampleIPLabel;
 
 @end
 
@@ -78,6 +80,8 @@
         if (self.existingEmail) _nameTextField.text = self.existingEmail;
         if (self.existingPassword) _urlOrIPTextField.text = self.existingPassword;
         if (self.edit) [self enableShowPasswordButton];
+    } else {
+        [self enableExampleIPLabel];
     }
     
     if (self.sprinkler) {
@@ -105,13 +109,17 @@
     [_tokenTitleLabel removeFromSuperview];
     [_tokenEmailTextField removeFromSuperview];
     
+    NSInteger constraintConstant = 0.0;
+    if (self.cloudUI) constraintConstant = (self.edit ? 58.0 : 18.0);
+    else constraintConstant = 40.0;
+    
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_tokenSeparator
                                                                    attribute:NSLayoutAttributeTop
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:_urlOrIPTextField
                                                                    attribute:NSLayoutAttributeBottom
                                                                   multiplier:1.0
-                                                                    constant:(self.edit && self.cloudUI ? 58.0 : 18.0)];
+                                                                    constant:constraintConstant];
 
     constraint.priority = UILayoutPriorityRequired;
     
@@ -129,6 +137,21 @@
                                                                   attribute:NSLayoutAttributeBottom
                                                                  multiplier:1.0
                                                                    constant:20.0];
+    
+    constraint.priority = UILayoutPriorityRequired;
+    [self.view addConstraint:constraint];
+}
+
+- (void)enableExampleIPLabel {
+    self.exampleIPLabel.hidden = NO;
+    
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:_exampleIPLabel
+                                                                  attribute:NSLayoutAttributeTop
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:_urlOrIPTextField
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                 multiplier:1.0
+                                                                   constant:4.0];
     
     constraint.priority = UILayoutPriorityRequired;
     [self.view addConstraint:constraint];

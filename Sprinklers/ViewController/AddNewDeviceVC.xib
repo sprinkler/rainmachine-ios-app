@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddNewDeviceVC">
             <connections>
                 <outlet property="contentView" destination="1" id="rOg-x9-bHe"/>
+                <outlet property="exampleIPLabel" destination="HNf-Yb-Y0C" id="7rh-hI-rTl"/>
                 <outlet property="nameAndUrlSeparator" destination="yQ5-Es-zRy" id="6uW-si-wHz"/>
                 <outlet property="nameTextField" destination="M6d-8P-Njm" id="Pdv-34-XDJ"/>
                 <outlet property="nameTitleLabel" destination="L9A-OR-2gj" id="1qC-NZ-ehg"/>
@@ -156,6 +157,12 @@
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Example: 1.1.1.200:443" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HNf-Yb-Y0C">
+                    <rect key="frame" x="12" y="367" width="298" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.9215686917" green="0.9215686917" blue="0.9215686917" alpha="1" colorSpace="deviceRGB"/>
             <constraints>
@@ -175,6 +182,7 @@
                 <constraint firstItem="tIU-cL-Zf2" firstAttribute="top" secondItem="SEX-mT-Mbs" secondAttribute="bottom" priority="500" constant="248" id="LZl-V4-DAj"/>
                 <constraint firstAttribute="trailing" secondItem="up8-mt-WJg" secondAttribute="trailing" constant="10" id="LZp-K0-rdB"/>
                 <constraint firstItem="51s-3c-Ydc" firstAttribute="top" secondItem="SEX-mT-Mbs" secondAttribute="bottom" constant="4" id="N8H-Ft-ebf"/>
+                <constraint firstItem="HNf-Yb-Y0C" firstAttribute="top" secondItem="SEX-mT-Mbs" secondAttribute="bottom" priority="500" constant="265" id="QBd-KG-l6T"/>
                 <constraint firstAttribute="trailing" secondItem="L9A-OR-2gj" secondAttribute="trailing" constant="29" id="QFW-9v-5c7"/>
                 <constraint firstItem="M6d-8P-Njm" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="RPc-Tf-ay3"/>
                 <constraint firstItem="4hR-Xy-5wC" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="RdQ-ze-ZR3"/>
@@ -193,7 +201,9 @@
                 <constraint firstAttribute="trailing" secondItem="Niw-uz-ddE" secondAttribute="trailing" constant="10" id="nr3-Cb-Z4a"/>
                 <constraint firstItem="yQ5-Es-zRy" firstAttribute="top" secondItem="51s-3c-Ydc" secondAttribute="bottom" constant="18" id="pqz-zh-oZU"/>
                 <constraint firstAttribute="trailing" secondItem="M6d-8P-Njm" secondAttribute="trailing" constant="10" id="uom-JC-jsF"/>
+                <constraint firstAttribute="trailing" secondItem="HNf-Yb-Y0C" secondAttribute="trailing" constant="10" id="v2W-44-Wad"/>
                 <constraint firstAttribute="trailing" secondItem="fz6-tG-soY" secondAttribute="trailing" constant="25" id="vPF-wc-kIb"/>
+                <constraint firstItem="HNf-Yb-Y0C" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="12" id="vtJ-nM-c0x"/>
                 <constraint firstAttribute="trailing" secondItem="SEX-mT-Mbs" secondAttribute="trailing" constant="29" id="xwT-oc-8bn"/>
                 <constraint firstItem="tIU-cL-Zf2" firstAttribute="centerY" secondItem="4hR-Xy-5wC" secondAttribute="centerY" id="yTj-YM-Lhp"/>
             </constraints>
