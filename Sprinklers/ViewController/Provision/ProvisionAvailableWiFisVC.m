@@ -23,6 +23,7 @@
 #import "UpdateManager.h"
 #import "DevicesVC.h"
 #import "LightLeds.h"
+#import "StorageManager.h"
 
 #define kPollInterval 5
 #define kWiFisPollInterval 5
@@ -410,7 +411,11 @@ const float kTimeout = 6;
 //    [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
 //    self.sprinkler = nil;
     
-    [self continueSetupLogicWithLoggedIn:NO];
+    if (self.isPartOfWizard) {
+        [self continueSetupLogicWithLoggedIn:NO];
+    } else {
+        [self pop];
+    }
 }
 
 #pragma mark - Wizard logic
@@ -615,22 +620,25 @@ const float kTimeout = 6;
         NSTimeInterval since = -[self.startDateWifiJoin timeIntervalSinceNow];
         // Handle the timeout for SPK joining the WiFi
         if (since > kWizard_TimeoutWifiJoin) {
+            // The WiFi is home network / another network / Rainmachine AP / or no-network
+            NSString *message = [NSString stringWithFormat:@"RainMachine could not join the network %@. Please go to iOS settings on your phone and connect back to your Rainmachine to continue.", self.homeWifiSSID];
+            if ([self currentWiFiName] == nil) {
+                message = @"Connecting the Rainmachine to your home network timed out because your device didn't reconnect to your home network. Go to Settings and connect to your home network in order to continue the setup.";
+            }
+            if (!self.isPartOfWizard) {
+                message = [NSString stringWithFormat:@"RainMachine could not join the network %@.", self.homeWifiSSID];
+            }
+            self.forceQuit = YES;
+            self.alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.alertView.tag = kAlertView_SetupWizard_WifiJoinTimedOut;
+            [self.alertView show];
+            
             self.startDateWifiJoin = nil;
             
             [self hideHud];
             [self hideWifiRebootHud];
             
             [self resetWiFiSetup];
-            
-            // The WiFi is home network / another network / Rainmachine AP / or no-network
-            NSString *message = [NSString stringWithFormat:@"RainMachine could not join the network %@. Please go to iOS settings on your phone and connect back to your Rainmachine to continue.", self.homeWifiSSID];
-            if ([self currentWiFiName] == nil) {
-                message = @"Connecting the Rainmachine to your home network timed out because your device didn't reconnect to your home network. Go to Settings and connect to your home network in order to continue the setup.";
-            }
-            self.forceQuit = YES;
-            self.alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            self.alertView.tag = kAlertView_SetupWizard_WifiJoinTimedOut;
-            [self.alertView show];
             
             //            [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
             
@@ -658,13 +666,20 @@ const float kTimeout = 6;
             DLog(@"newSprinkler: %@", newSprinkler);
             
             if (self.duringWiFiRestart) {
-                [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
+                if (self.isPartOfWizard) {
+                    [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
+                } else {
+                    [StorageManager current].currentSprinkler.address = [Utils fixedSprinklerAddress:self.sprinkler.host];
+                    [self pop];
+                }
             }
             
             if (self.isPartOfWizard) {
                 [self requestDiag];
             } else {
-                [self startWiFiPoll];
+                if (!self.duringWiFiRestart) {
+                    [self startWiFiPoll];
+                }
             }
         }
     }
@@ -839,8 +854,16 @@ const float kTimeout = 6;
         [self showHud];
     }
     else if (theAlertView.tag == kAlertView_SetupWizard_WifiJoinTimedOut) {
-        // Prevent the user to be able to open the device from the device list because the login token is valid but the device is not usable
-        [self onCancel:nil];
+        if (self.isPartOfWizard) {
+            // Prevent the user to be able to open the device from the device list because the login token is valid but the device is not usable
+            [self onCancel:nil];
+        } else {
+            [StorageManager current].currentSprinkler = nil;
+            [[StorageManager current] saveData];
+            
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate refreshRootViews:nil selectSettings:NO];
+        }
     }
 }
 
@@ -910,6 +933,13 @@ const float kTimeout = 6;
 {
     NSDictionary *currentWifi = [NetworkUtilities currentSSIDInfo];
     return currentWifi[@"SSID"];
+}
+
+- (void)pop
+{
+    [self cancelAllOperations];
+    [self shouldStopBroadcast];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)dealloc
