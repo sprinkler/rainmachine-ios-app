@@ -66,7 +66,6 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
     }
     
     if (self.networkSettingsVC) {
-        self.manuallyEnteredSprinklers = self.networkSettingsVC.portForwardSprinklers;
         self.currentSprinklerDeleted |= self.networkSettingsVC.currentSprinklerDeleted;
         self.networkSettingsVC = nil;
     }
@@ -128,7 +127,6 @@ NSInteger DevicesMenuNetworkSettingsSection     = 1;
     }
     else if (indexPath.section == DevicesMenuNetworkSettingsSection) {
         self.networkSettingsVC = [[NetworkSettingsVC alloc] init];
-        self.networkSettingsVC.portForwardSprinklers = self.manuallyEnteredSprinklers;
         [self.navigationController pushViewController:self.networkSettingsVC animated:YES];
     }
 }

@@ -79,6 +79,17 @@
     return ([comp1[0] isEqualToString:comp2[0]] && [comp1[1] isEqualToString:comp2[1]] && [comp1[2] isEqualToString:comp2[2]]);
 }
 
++ (NSArray*)manuallyEnteredSprinklers {
+    NSArray *sprinklers = [[StorageManager current] getSprinklersFromNetwork:NetworkType_All aliveDevices:nil];
+    NSMutableArray *manuallyEnteredSprinklers = [NSMutableArray array];
+    for (Sprinkler *sprinkler in sprinklers) {
+        if ([Utils isManuallyAddedDevice:sprinkler]) {
+            [manuallyEnteredSprinklers addObject:sprinkler];
+        }
+    }
+    return manuallyEnteredSprinklers;
+}
+
 + (NSString*)fixedZoneName:(NSString *)zoneName withId:(NSNumber*)theId
 {
     if ([zoneName length] == 0) {

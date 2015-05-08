@@ -320,6 +320,10 @@
     NSMutableArray *locallyDiscoveredSprinklers = [NSMutableArray array];
     NSMutableDictionary *cloudSprinklersDic = [NSMutableDictionary dictionary];
     for (Sprinkler *sprinkler in sprinklers) {
+        // Force failed discoveries count to 0 for manually added devices
+        if ([Utils isManuallyAddedDevice:sprinkler]) {
+            sprinkler.nrOfFailedConsecutiveDiscoveries = @0;
+        }
         if ([Utils isDeviceInactive:sprinkler]) continue;
         if ([Utils isCloudDevice:sprinkler]) {
             if (!cloudSprinklersDic[sprinkler.email]) {
@@ -670,6 +674,7 @@
     [[StorageManager current] increaseFailedCountersForDevicesOnNetwork:NetworkType_Remote onlySprinklersWithEmail:NO];
     NSArray *allSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
     for (Sprinkler *sprinkler in allSprinklers) {
+        if ([Utils isManuallyAddedDevice:sprinkler]) continue;
         // Force Sprinklers to disappear from the list at manual refresh
         sprinkler.nrOfFailedConsecutiveDiscoveries = @([Utils deviceGreyOutRetryCount]);
         sprinkler.isDiscovered = @NO;
@@ -695,7 +700,6 @@
     self.devicesMenuVC.cloudResponse = self.cloudResponse;
     self.devicesMenuVC.cloudSprinklers = self.cloudSprinklers;
     self.devicesMenuVC.cloudEmails = [self.cloudEmails mutableCopy];
-    self.devicesMenuVC.manuallyEnteredSprinklers = self.manuallyEnteredSprinklers;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.devicesMenuVC];
     [self presentViewController:navigationController animated:YES completion:nil];

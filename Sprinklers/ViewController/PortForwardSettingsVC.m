@@ -19,6 +19,7 @@
 
 @interface PortForwardSettingsVC ()
 
+@property (nonatomic, strong) NSMutableArray *portForwardSprinklers;
 @property (nonatomic, strong) UIBarButtonItem *editBarButtonItem;
 @property (nonatomic, strong) AddNewDeviceVC *addNewDeviceVC;
 
@@ -48,10 +49,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    if (self.addNewDeviceVC && !self.addNewDeviceVC.edit && self.addNewDeviceVC.sprinkler) {
-        [self.portForwardSprinklers addObject:self.addNewDeviceVC.sprinkler];
-    }
-    
+    self.portForwardSprinklers = [[Utils manuallyEnteredSprinklers] mutableCopy];
     [self.portForwardSprinklers sortUsingComparator:^NSComparisonResult(Sprinkler *sprinkler1, Sprinkler *sprinkler2) {
         return [sprinkler1.name compare:sprinkler2.name];
     }];

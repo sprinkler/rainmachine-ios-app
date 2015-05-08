@@ -39,7 +39,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (self.portForwardSettingsVC) {
-        self.portForwardSprinklers = self.portForwardSettingsVC.portForwardSprinklers;
         self.currentSprinklerDeleted = self.portForwardSettingsVC.currentSprinklerDeleted;
         self.portForwardSettingsVC = nil;
     }
@@ -96,7 +95,6 @@
     }
     else if (indexPath.section == 1) {
         self.portForwardSettingsVC = [[PortForwardSettingsVC alloc] init];
-        self.portForwardSettingsVC.portForwardSprinklers = [self.portForwardSprinklers mutableCopy];
         [self.navigationController pushViewController:self.portForwardSettingsVC animated:YES];
     }
 }
