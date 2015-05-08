@@ -539,10 +539,11 @@ const float kTimeout = 6;
             
             // We are not on home network
             if (newSprinkler) {
-                // Case 1. The sprinker is still discovered. This means that the phone is still connected the SPK AP
+                // Case 1.1 The sprinker is still discovered. This means that the phone is still connected the SPK AP
+                // TODO: Normally, after this message we should take the user to tge WiFi setup screen again.
                 message = [NSString stringWithFormat:@"RainMachine could not join the network %@, please try again", self.homeWifiSSID];
             } else {
-                // Case 2. The sprinker is not discovered. This means that the phone connected by fault to another WiFi (not home network)
+                // Case 1.2 The sprinker is not discovered. This means that the phone connected by fault to another WiFi (not home network)
                 message = [NSString stringWithFormat:@"You are on the network %@, please go to Settings on your phone and select the network %@", [self currentWiFiName], self.homeWifiSSID];
             }
 
