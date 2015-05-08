@@ -506,20 +506,77 @@ const float kTimeout = 6;
                                                             repeats:YES];
 }
 
+- (BOOL)didJoinHomeWiFi
+{
+    return ([[self currentWiFiName] isEqualToString:self.homeWifiSSID]);
+}
+
 - (void)pollDevices {
+    
     if (self.duringWiFiRestart && self.homeWifiSSID) {
-        if ([[self currentWiFiName] isEqualToString:self.homeWifiSSID]) {
+        
+        if ([self didJoinHomeWiFi]) {
             self.wifiRebootHud.detailsLabelText = [NSString stringWithFormat:@"Waiting for RainMachine to join\nnetwork %@\n(this may take up to 3 minutes)",self.homeWifiSSID];
+            self.devicePollingRefreshSkipCountDown = 0;
         }
     }
     
     if (self.devicePollingRefreshSkipCountDown > 0) {
         self.devicePollingRefreshSkipCountDown--;
+        // Quit the method before aprox. 30s passes
+        [self shouldStartBroadcastForceUIRefresh:NO];
         return;
+    }
+
+    // Handle the timeout for phone joining the WiFi
+    if (self.duringWiFiRestart && self.homeWifiSSID) {
+        if (![self didJoinHomeWiFi]) {
+            // The phone could not join home WiFi (happens after aprox. 30 seconds timeout)
+
+            NSArray *discoveredSprinklers = [[ServiceManager current] getDiscoveredSprinklersWithAPFlag:self.isPartOfWizard ? @NO : @YES];
+            DiscoveredSprinklers *newSprinkler = [self extractInputSprinklerFromList:discoveredSprinklers];
+            NSString *message = nil;
+            
+            // We are not on home network
+            if (newSprinkler) {
+                // Case 1. The sprinker is still discovered. This means that the phone is still connected the SPK AP
+                message = [NSString stringWithFormat:@"RainMachine could not join the network %@, please try again", self.homeWifiSSID];
+            } else {
+                // Case 2. The sprinker is not discovered. This means that the phone connected by fault to another WiFi (not home network)
+                message = [NSString stringWithFormat:@"You are on the network %@, please go to Settings on your phone and select the network %@", [self currentWiFiName], self.homeWifiSSID];
+            }
+
+            self.startDateWifiJoin = nil;
+            
+            [self hideHud];
+            [self hideWifiRebootHud];
+            
+            [self resetWiFiSetup];
+            
+            self.forceQuit = YES;
+            self.alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.alertView.tag = kAlertView_SetupWizard_WifiJoinTimedOut;
+            [self.alertView show];
+            
+            return;
+        }
     }
     
     [self refreshState];
     [self shouldStartBroadcastForceUIRefresh:NO];
+}
+
+- (DiscoveredSprinklers*)extractInputSprinklerFromList:(NSArray*)discoveredSprinklers
+{
+    DiscoveredSprinklers *s = nil;
+    for (DiscoveredSprinklers *ds in discoveredSprinklers) {
+        if ([ds.sprinklerId isEqualToString:self.inputSprinklerMAC]) {
+            s = ds;
+            break;
+        }
+    }
+    
+    return s;
 }
 
 - (void)refreshState
@@ -555,6 +612,7 @@ const float kTimeout = 6;
     
     if (self.startDateWifiJoin) {
         NSTimeInterval since = -[self.startDateWifiJoin timeIntervalSinceNow];
+        // Handle the timeout for SPK joining the WiFi
         if (since > kWizard_TimeoutWifiJoin) {
             self.startDateWifiJoin = nil;
             
@@ -564,7 +622,7 @@ const float kTimeout = 6;
             [self resetWiFiSetup];
             
             // The WiFi is home network / another network / Rainmachine AP / or no-network
-            NSString *message = @"Connecting the Rainmachine to your home network timed out. Go to Settings and connect back to your Rainmachine in order to restart the setup.";
+            NSString *message = [NSString stringWithFormat:@"RainMachine could not join the network %@. Please go to iOS settings on your phone and connect back to your Rainmachine to continue.", self.homeWifiSSID];
             if ([self currentWiFiName] == nil) {
                 message = @"Connecting the Rainmachine to your home network timed out because your device didn't reconnect to your home network. Go to Settings and connect to your home network in order to continue the setup.";
             }
@@ -581,12 +639,7 @@ const float kTimeout = 6;
     
     DiscoveredSprinklers *newSprinkler = nil;
     if (self.inputSprinklerMAC) {
-        for (DiscoveredSprinklers *ds in self.discoveredSprinklers) {
-            if ([ds.sprinklerId isEqualToString:self.inputSprinklerMAC]) {
-                newSprinkler = ds;
-                break;
-            }
-        }
+        newSprinkler = [self extractInputSprinklerFromList:self.discoveredSprinklers];
     } else {
         newSprinkler = [self.discoveredSprinklers firstObject];
         self.inputSprinklerMAC = newSprinkler.sprinklerId;
