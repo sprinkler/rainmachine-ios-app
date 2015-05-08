@@ -24,7 +24,7 @@
 #import "DevicesVC.h"
 #import "LightLeds.h"
 
-#define kPollInterval 6
+#define kPollInterval 5
 #define kWiFisPollInterval 5
 
 const float kWifiSignalMin = -100;
@@ -65,6 +65,8 @@ const float kTimeout = 6;
 
 @property (assign, nonatomic) BOOL isHidden;
 @property (assign, nonatomic) BOOL refreshingAvailableWiFis;
+
+@property (strong, nonatomic) NSString *homeWifiSSID;
 
 @end
 
@@ -504,8 +506,13 @@ const float kTimeout = 6;
                                                             repeats:YES];
 }
 
-- (void)pollDevices
-{
+- (void)pollDevices {
+    if (self.duringWiFiRestart && self.homeWifiSSID) {
+        if ([[self currentWiFiName] isEqualToString:self.homeWifiSSID]) {
+            self.wifiRebootHud.detailsLabelText = [NSString stringWithFormat:@"Waiting for RainMachine to join\nnetwork %@\n(this may take up to 3 minutes)",self.homeWifiSSID];
+        }
+    }
+    
     if (self.devicePollingRefreshSkipCountDown > 0) {
         self.devicePollingRefreshSkipCountDown--;
         return;
@@ -642,6 +649,7 @@ const float kTimeout = 6;
     self.startDateWifiJoin = [NSDate date];
     
     self.duringWiFiRestart = YES;
+    self.homeWifiSSID = SSID;
     
     //    self.networkSSIDChoosenForSprinkler = SSID;
     //    self.apNetworkNameOfSprinkler = [self currentWifiName];
@@ -662,8 +670,8 @@ const float kTimeout = 6;
     // Clear all discovered device until this point, because refreshStatus would use the device with the old URL (192.168.13.1)
     [[ServiceManager current] clearDiscoveredSprinklers];
     
-    // Give the sprinkler ((devicePollingRefreshSkipCountDown + 1) * 6) seconds to restart and prevent self.sprinkler to get reassigned to a sprinkler which has the current state without wifi set up
-    self.devicePollingRefreshSkipCountDown = 4;
+    // Give the sprinkler ((devicePollingRefreshSkipCountDown + 1) * 5) seconds to restart and prevent self.sprinkler to get reassigned to a sprinkler which has the current state without wifi set up
+    self.devicePollingRefreshSkipCountDown = 5;
     [self restartPolling];
 }
 
@@ -671,6 +679,7 @@ const float kTimeout = 6;
 {
     [self hideWifiRebootHud];
     self.duringWiFiRestart = NO;
+    self.homeWifiSSID = nil;
 }
 
 - (NSArray*)wifisListByEliminatingDuplicatesFromList:(NSArray*)wifisList {
@@ -804,17 +813,16 @@ const float kTimeout = 6;
     }
 }
 
-- (void)showWifiRebootHud
-{
+- (void)showWifiRebootHud {
     [self showHud];
 
     self.wifiRebootHud = self.hud;
-    self.wifiRebootHud.labelText = @"Please wait...";
+    self.wifiRebootHud.detailsLabelText = [NSString stringWithFormat:@"Joining network\n%@",self.homeWifiSSID],
+    self.wifiRebootHud.detailsLabelFont = [UIFont boldSystemFontOfSize:16.0];
     self.hud = nil;
 }
 
-- (void)hideWifiRebootHud
-{
+- (void)hideWifiRebootHud {
     self.wifiRebootHud = nil;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     self.view.userInteractionEnabled = YES;
