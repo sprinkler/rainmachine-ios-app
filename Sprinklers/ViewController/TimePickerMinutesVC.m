@@ -31,7 +31,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (!self) return nil;
-
+    
+    _maxMinutes = 60;
+    
     return self;
 }
 
@@ -100,6 +102,7 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component {
+    if (component == 0) return self.maxMinutes;
     return 60;
 }
 

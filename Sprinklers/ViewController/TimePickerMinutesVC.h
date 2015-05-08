@@ -15,6 +15,7 @@
 
 @property (assign, nonatomic) int minutes;
 @property (assign, nonatomic) int seconds;
+@property (assign, nonatomic) int maxMinutes;
 @property (strong, nonatomic) id userInfo;
 @property (weak, nonatomic) BaseNetworkHandlingVC<TimePickerMinutesDelegate> *parent;
 

@@ -1224,6 +1224,9 @@
                                               @"duration" : [NSNumber numberWithInt:programWateringTime.duration],
                                               @"active"   : [NSNumber numberWithBool:programWateringTime.active]
                                               };
+                    
+                    timePickerVC.maxMinutes = 24 * 60;
+                    
                     timePickerVC.minutes = programWateringTime.duration / 60;
                     timePickerVC.seconds = programWateringTime.duration % 60;
                     
