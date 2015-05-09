@@ -670,6 +670,7 @@ const float kTimeout = 6;
                     [NetworkUtilities invalidateLoginForDiscoveredSprinkler:self.sprinkler];
                 } else {
                     [StorageManager current].currentSprinkler.address = [Utils fixedSprinklerAddress:self.sprinkler.host];
+                    [[StorageManager current] saveData];
                     [self pop];
                 }
             }
