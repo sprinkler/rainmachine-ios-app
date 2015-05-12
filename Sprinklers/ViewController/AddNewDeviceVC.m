@@ -19,6 +19,8 @@
 #import "+UIDevice.h"
 #import "MBProgressHUD.h"
 
+#define AlertViewAddCloudAccountTag         1000
+
 @interface AddNewDeviceVC ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -296,59 +298,63 @@
             knownCount = [sprinklerDict[@"knownCount"] integerValue];
         }
         
-        if (knownCount != 0 && activeCount != 0 && authCount != 0) {
-            if (self.edit) {
-                if (self.existingEmail) {
-                    [CloudUtils deleteCloudAccountWithEmail:self.existingEmail];
-                    
-                    NSArray *remoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:nil];
-                    for (Sprinkler *sprinkler in remoteDevices) {
-                        if ([self.existingEmail isEqualToString:sprinkler.email]) {
-                            if (sprinkler == [StorageManager current].currentSprinkler) {
-                                [Utils invalidateLoginForCurrentSprinkler];
-                                if ([self.parent isKindOfClass:[CloudAccountsVC class]]) {
-                                    ((CloudAccountsVC*)self.parent).currentSprinklerDeleted = YES;
-                                }
-                            }
-                            [[StorageManager current] deleteSprinkler:sprinkler];
-                        }
-                    }
-                }
-            }
-            
-            [CloudUtils addCloudAccountWithEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
-            self.cloudResponse = data;
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            if (knownCount == 0) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:[NSString stringWithFormat:@"Could not find any RainMachine associated to %@. Check that the email address is correct, and that the verification email has been confirmed.",self.nameTextField.text]
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles: nil];
-                [alert show];
-            }
-            else if (activeCount == 0) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:[NSString stringWithFormat:@"The RainMachine associated to %@ is not connected to the Internet",self.nameTextField.text]
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles: nil];
-                [alert show];
-            }
-            else if (authCount == 0) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:@"Invalid password, please try again"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles: nil];
-                [alert show];
-            }
+        if (knownCount == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                            message:[NSString stringWithFormat:@"Could not find any RainMachine associated to %@. Check that the email address is correct, and that the verification email has been confirmed.",self.nameTextField.text]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            alert.tag = AlertViewAddCloudAccountTag;
+            [alert show];
         }
+        else if (activeCount == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                            message:[NSString stringWithFormat:@"The RainMachine associated to %@ is not connected to the Internet",self.nameTextField.text]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            alert.tag = AlertViewAddCloudAccountTag;
+            [alert show];
+        }
+        else if (authCount == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:@"Invalid password, please try again"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            [alert show];
+        }
+        else [self continueWithAddingOrReplacingCloudAccount];
         
         self.cloudServerProxy = nil;
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
+}
+
+- (void)continueWithAddingOrReplacingCloudAccount {
+    if (self.edit) {
+        if (self.existingEmail) {
+            [CloudUtils deleteCloudAccountWithEmail:self.existingEmail];
+            
+            NSArray *remoteDevices = [[StorageManager current] getSprinklersFromNetwork:NetworkType_Remote aliveDevices:nil];
+            for (Sprinkler *sprinkler in remoteDevices) {
+                if ([self.existingEmail isEqualToString:sprinkler.email]) {
+                    if (sprinkler == [StorageManager current].currentSprinkler) {
+                        [Utils invalidateLoginForCurrentSprinkler];
+                        if ([self.parent isKindOfClass:[CloudAccountsVC class]]) {
+                            ((CloudAccountsVC*)self.parent).currentSprinklerDeleted = YES;
+                        }
+                    }
+                    [[StorageManager current] deleteSprinkler:sprinkler];
+                }
+            }
+        }
+    }
+    
+    [CloudUtils addCloudAccountWithEmail:self.nameTextField.text password:self.urlOrIPTextField.text];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)serverErrorReceived:(NSError *)error serverProxy:(id)serverProxy operation:(AFHTTPRequestOperation *)operation userInfo:(id)userInfo {
@@ -374,6 +380,15 @@
 
 - (void)keyboardWillHide:(NSNotification*)notification {
     self.scrollView.contentSize = CGSizeMake(0.0, self.scrollViewContentHeight);
+}
+
+#pragma mark - UiAlertView delegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == AlertViewAddCloudAccountTag) {
+        [self continueWithAddingOrReplacingCloudAccount];
+    }
+    else [super alertView:alertView didDismissWithButtonIndex:buttonIndex];
 }
 
 @end
