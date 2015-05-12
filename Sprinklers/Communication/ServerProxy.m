@@ -1947,8 +1947,8 @@ static int serverAPIMinorSubVersion = -1;
 - (void)checkCloudAccount:(NSString*)email password:(NSString*)password phoneID:(NSString*)phoneID {
     NSMutableDictionary *params = [NSMutableDictionary new];
     if (email.length) params[@"email"] = email;
-    if (password.length) params[@"password"] = password;
-    if (phoneID.length) params[@"phoneID"] = phoneID;
+    if (password.length) params[@"pwd"] = password;
+    if (phoneID.length) params[@"phoneId"] = phoneID;
     
     [self.manager POST:@"check-cloud-account" parameters:params
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
