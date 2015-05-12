@@ -346,7 +346,7 @@ const CLLocationDegrees LocationSetup_DefaultLocation_Longitude     = -74.0059;
     NSMutableArray *locationStringComponents = [NSMutableArray new];
     
     if (location.premise.length) [locationStringComponents addObject:location.premise];
-    if (location.route.length && location.streetNumber.length) [locationStringComponents addObject:[NSString stringWithFormat:@"%@ %@",location.route,location.streetNumber]];
+    if (location.route.length && location.streetNumber.length) [locationStringComponents addObject:[NSString stringWithFormat:@"%@ %@",location.streetNumber,location.route]];
     else if (location.route.length) [locationStringComponents addObject:location.route];
     else if (location.streetNumber.length) [locationStringComponents addObject:location.streetNumber];
     
