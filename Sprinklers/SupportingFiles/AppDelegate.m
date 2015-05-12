@@ -128,6 +128,7 @@
         
         _tabBarController = [[UITabBarController alloc] init];
         _tabBarController.viewControllers = @[navDevices, navDashboard, navWater, navSettings];
+        _tabBarController.delegate = self;
         
         if (selectSettings) _tabBarController.selectedViewController = navSettings;
         else _tabBarController.selectedViewController = navDashboard;
@@ -139,6 +140,14 @@
         self.statsVC = nil;
         self.waterNowVC = nil;
         self.settingsVC = nil;
+    }
+}
+
+#pragma mark - UITabBarController delegate
+
+- (void)tabBarController:(UITabBarController*)tabBarController didSelectViewController:(UIViewController*)viewController {
+    if (viewController != self.settingsVC.navigationController && self.settingsVC.navigationController.viewControllers.count > 1) {
+        [self.settingsVC.navigationController popToRootViewControllerAnimated:NO];
     }
 }
 
