@@ -80,6 +80,9 @@
         if (self.existingEmail) _nameTextField.text = self.existingEmail;
         if (self.existingPassword) _urlOrIPTextField.text = self.existingPassword;
         if (self.edit) [self enableShowPasswordButton];
+        
+        _nameTextField.keyboardType = UIKeyboardTypeEmailAddress;
+        _urlOrIPTextField.keyboardType = UIKeyboardTypeDefault;
     } else {
         [self enableExampleIPLabel];
     }
