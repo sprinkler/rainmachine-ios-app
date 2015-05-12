@@ -164,6 +164,7 @@ typedef enum {
 
 - (void)validateEmail:(NSString*)email deviceName:(NSString*)deviceName mac:(NSString*)mac;
 - (void)requestCloudSprinklers:(NSDictionary*)accounts phoneID:(NSString*)phoneID;
+- (void)checkCloudAccount:(NSString*)email password:(NSString*)password phoneID:(NSString*)phoneID;
 - (void)requestCloudSettings;
 - (void)saveCloudSettings:(CloudSettings*)cloudSettings;
 - (void)enableRemoteAccess:(BOOL)enable;

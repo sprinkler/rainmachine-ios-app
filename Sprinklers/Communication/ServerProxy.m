@@ -1944,6 +1944,23 @@ static int serverAPIMinorSubVersion = -1;
                }];
 }
 
+- (void)checkCloudAccount:(NSString*)email password:(NSString*)password phoneID:(NSString*)phoneID {
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    if (email.length) params[@"email"] = email;
+    if (password.length) params[@"password"] = password;
+    if (phoneID.length) params[@"phoneID"] = phoneID;
+    
+    [self.manager POST:@"check-cloud-account" parameters:params
+               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                   if (([self passLoggedOutFilter:operation]) && ([self passErrorFilter:responseObject])) {
+                       [self.delegate serverResponseReceived:responseObject serverProxy:self userInfo:@"check-cloud-account"];
+                   }
+               }
+               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                   [self handleError:error fromOperation:operation userInfo:nil];
+               }];
+}
+
 - (void)requestCloudSettings {
     [self.manager GET:[self urlByAppendingAccessTokenToUrl:@"api/4/provision/cloud"] parameters:nil
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
