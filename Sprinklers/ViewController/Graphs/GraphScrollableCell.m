@@ -360,7 +360,7 @@
             self.dateLabelBottom.text = yearValue;
         } else {
             self.dateLabelTop.text = nil;
-            self.dateLabelBottom.text = [NSString stringWithFormat:@"%@'%@",monthValue,[yearValue substringFromIndex:2]];
+            self.dateLabelBottom.text = [NSString stringWithFormat:@"%@",monthValue];
         }
     } else {
         self.dateLabelTop.text = nil;
