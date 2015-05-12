@@ -63,6 +63,7 @@
         self.textFieldConfirmPassword.hidden = YES;
         self.textFieldNewPassword.placeholder = @"New Rainmachine Name";
         self.textFieldNewPassword.secureTextEntry = NO;
+        self.textFieldNewPassword.text = [Utils currentSprinkler].name;
     } else {
         self.textFieldOldPassword.delegate = self;
         self.textFieldConfirmPassword.delegate = self;
