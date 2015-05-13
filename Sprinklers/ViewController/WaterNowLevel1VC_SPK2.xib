@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="49" translatesAutoresizingMaskIntoConstraints="NO" id="CTN-uG-pW0">
-                    <rect key="frame" x="0.0" y="132" width="320" height="117"/>
+                    <rect key="frame" x="0.0" y="127" width="320" height="117"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="320" id="ety-af-j65"/>
                         <constraint firstAttribute="height" constant="117" id="myF-qd-OOL"/>
@@ -34,7 +34,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cGm-B7-oKl" customClass="WaterNowButton">
-                    <rect key="frame" x="52" y="47" width="85" height="85"/>
+                    <rect key="frame" x="52" y="42" width="85" height="85"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="85" id="jiM-31-bRz"/>
                         <constraint firstAttribute="width" constant="85" id="wf4-2F-xPV"/>
@@ -52,7 +52,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qt5-Xm-U1i" customClass="WaterNowButton">
-                    <rect key="frame" x="184" y="47" width="85" height="85"/>
+                    <rect key="frame" x="184" y="42" width="85" height="85"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="85" id="DDs-Aj-I41"/>
                         <constraint firstAttribute="height" constant="85" id="J9V-gM-e4s"/>
@@ -70,7 +70,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5RT-aF-4Cr" customClass="WaterNowButton">
-                    <rect key="frame" x="52" y="249" width="85" height="85"/>
+                    <rect key="frame" x="52" y="254" width="85" height="85"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="85" id="W14-ik-9bC"/>
                         <constraint firstAttribute="height" constant="85" id="opn-lU-iAH"/>
@@ -104,18 +104,18 @@
                     <rect key="frame" x="274" y="390" width="20" height="20"/>
                 </activityIndicatorView>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5cH-65-G46">
-                    <rect key="frame" x="150" y="180" width="20" height="20"/>
+                    <rect key="frame" x="150" y="175" width="20" height="20"/>
                 </activityIndicatorView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Egh-LL-NpI">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="47"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3F-mN-vQE">
-                    <rect key="frame" x="0.0" y="334" width="312" height="46"/>
+                    <rect key="frame" x="0.0" y="339" width="312" height="41"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ReR-kj-K0c" customClass="WaterNowButton">
-                    <rect key="frame" x="184" y="249" width="85" height="85"/>
+                    <rect key="frame" x="184" y="254" width="85" height="85"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="85" id="BHe-Ld-EV7"/>
                         <constraint firstAttribute="width" constant="85" id="aur-Bj-tAY"/>
@@ -132,13 +132,31 @@
                         <action selector="onDownSecondsButton:" destination="-1" eventType="touchUpInside" id="dXw-3n-4yV"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="minutes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kHW-ho-BeG">
+                    <rect key="frame" x="52" y="228" width="85" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="85" id="4cx-WQ-TxF"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="seconds" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hco-6e-8oB">
+                    <rect key="frame" x="184" y="228" width="85" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="85" id="d6c-36-Orc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="5RT-aF-4Cr" secondAttribute="centerX" constant="66" id="0GE-KT-pod"/>
                 <constraint firstItem="cGm-B7-oKl" firstAttribute="top" secondItem="Egh-LL-NpI" secondAttribute="bottom" id="5bd-h9-xxl"/>
-                <constraint firstItem="5RT-aF-4Cr" firstAttribute="top" secondItem="CTN-uG-pW0" secondAttribute="bottom" id="AxA-kG-qEX"/>
-                <constraint firstItem="ReR-kj-K0c" firstAttribute="top" secondItem="CTN-uG-pW0" secondAttribute="bottom" id="EvL-6i-6N9"/>
+                <constraint firstItem="5RT-aF-4Cr" firstAttribute="top" secondItem="CTN-uG-pW0" secondAttribute="bottom" constant="10" id="AxA-kG-qEX"/>
+                <constraint firstItem="ReR-kj-K0c" firstAttribute="top" secondItem="CTN-uG-pW0" secondAttribute="bottom" constant="10" id="EvL-6i-6N9"/>
                 <constraint firstItem="Y3F-mN-vQE" firstAttribute="top" secondItem="5RT-aF-4Cr" secondAttribute="bottom" id="Exo-mt-GH3"/>
                 <constraint firstItem="CTN-uG-pW0" firstAttribute="top" secondItem="cGm-B7-oKl" secondAttribute="bottom" id="GEz-nT-JLu"/>
                 <constraint firstAttribute="centerX" secondItem="cGm-B7-oKl" secondAttribute="centerX" constant="66" id="Nj0-a0-iff"/>
@@ -154,13 +172,17 @@
                 <constraint firstAttribute="bottom" secondItem="YXi-li-OTW" secondAttribute="bottom" constant="60" id="fFl-oo-doG"/>
                 <constraint firstAttribute="centerX" secondItem="ReR-kj-K0c" secondAttribute="centerX" constant="-66" id="gYa-YU-1dm"/>
                 <constraint firstItem="pba-FE-FFy" firstAttribute="leading" secondItem="YXi-li-OTW" secondAttribute="trailing" constant="-26" id="l4f-n5-otN"/>
+                <constraint firstItem="5RT-aF-4Cr" firstAttribute="top" secondItem="kHW-ho-BeG" secondAttribute="bottom" constant="10" id="mMh-2T-b1M"/>
                 <constraint firstItem="CTN-uG-pW0" firstAttribute="top" secondItem="qt5-Xm-U1i" secondAttribute="bottom" id="md6-u5-KQo"/>
+                <constraint firstAttribute="centerX" secondItem="Hco-6e-8oB" secondAttribute="centerX" constant="-66" id="mia-ds-9uf"/>
                 <constraint firstItem="Y3F-mN-vQE" firstAttribute="height" secondItem="Egh-LL-NpI" secondAttribute="height" id="oZO-Nn-FSS"/>
                 <constraint firstItem="Egh-LL-NpI" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="sPA-O2-Ndy"/>
                 <constraint firstItem="5cH-65-G46" firstAttribute="centerY" secondItem="CTN-uG-pW0" secondAttribute="centerY" id="tCm-WV-9GS"/>
                 <constraint firstAttribute="trailing" secondItem="Egh-LL-NpI" secondAttribute="trailing" id="tZq-Wp-Orh"/>
                 <constraint firstItem="Egh-LL-NpI" firstAttribute="top" secondItem="1" secondAttribute="top" id="toI-Ca-rdD"/>
+                <constraint firstItem="ReR-kj-K0c" firstAttribute="top" secondItem="Hco-6e-8oB" secondAttribute="bottom" constant="10" id="xMv-ip-GOe"/>
                 <constraint firstAttribute="centerX" secondItem="qt5-Xm-U1i" secondAttribute="centerX" constant="-66" id="xPK-cE-vnV"/>
+                <constraint firstAttribute="centerX" secondItem="kHW-ho-BeG" secondAttribute="centerX" constant="66" id="zUJ-UQ-Cjf"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>

@@ -20,6 +20,5 @@
 @property (weak, nonatomic) BaseNetworkHandlingVC<TimePickerMinutesDelegate> *parent;
 
 @property (weak, nonatomic) IBOutlet UIPickerView *datePicker;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* leftConstraint;
 
 @end

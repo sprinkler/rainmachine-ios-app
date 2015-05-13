@@ -17,7 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel* separatorLabel;
 
 - (void)refreshUIWithMinutes:(int)minutes seconds:(int)seconds;
-- (void)refreshTimeFormatConstraint;
 
 @end
 
@@ -55,19 +54,6 @@
         
         [self.view removeConstraint:self.verticalConstraint];
         [self.view addConstraint:constraint];
-    }
-    
-    [self refreshTimeFormatConstraint];
-}
-
-- (void)refreshTimeFormatConstraint {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        self.leftConstraint.constant = 384;
-    }
-    else {
-        if ([[UIDevice currentDevice] iOSGreaterThan:7]) {
-            self.leftConstraint.constant = 160;
-        }
     }
 }
 
