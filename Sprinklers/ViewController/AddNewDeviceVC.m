@@ -197,7 +197,7 @@
 - (IBAction)onSave:(id)sender {
     if (self.cloudUI) {
         if (!self.nameTextField.text.isValidEmail) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid email address" message:@"It looks like you entered an invalid email address for the sprinkler. Please check your email address and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid email address" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
         } else if ([CloudUtils existsCloudAccountWithEmail:self.nameTextField.text] && !self.edit) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An account with the same email already exists." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -318,7 +318,7 @@
         }
         else if (authCount == 0) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:@"Invalid password, please try again"
+                                                            message:@"You entered a wrong password. Please try again."
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles: nil];
