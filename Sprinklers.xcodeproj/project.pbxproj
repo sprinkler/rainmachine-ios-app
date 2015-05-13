@@ -51,6 +51,9 @@
 		9612965E1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9612965B1AF9236D000762EC /* ProvisionRemoteAccessWizardVC.xib */; };
 		961629EC1ACAA3400011BF4B /* GraphDataSourceRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */; };
 		961629EF1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */; };
+		9618FCE91B036413004DE502 /* WaterNowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9618FCE81B036413004DE502 /* WaterNowButton.m */; };
+		9618FCEA1B036413004DE502 /* WaterNowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9618FCE81B036413004DE502 /* WaterNowButton.m */; };
+		9618FCEB1B036413004DE502 /* WaterNowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9618FCE81B036413004DE502 /* WaterNowButton.m */; };
 		9622C4B41AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */; };
 		9622C4B51AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */; };
 		9622C4B61AFB5F2D00A356DD /* ProvisionLocationSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */; };
@@ -1647,6 +1650,8 @@
 		961629EB1ACAA3400011BF4B /* GraphDataSourceRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataSourceRainAmount.m; path = ViewController/Graphs/GraphDataSourceRainAmount.m; sourceTree = "<group>"; };
 		961629ED1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphDataFormatterRainAmount.h; path = ViewController/Graphs/GraphDataFormatterRainAmount.h; sourceTree = "<group>"; };
 		961629EE1ACAA7E40011BF4B /* GraphDataFormatterRainAmount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphDataFormatterRainAmount.m; path = ViewController/Graphs/GraphDataFormatterRainAmount.m; sourceTree = "<group>"; };
+		9618FCE71B036413004DE502 /* WaterNowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterNowButton.h; path = ViewController/WaterNowButton.h; sourceTree = "<group>"; };
+		9618FCE81B036413004DE502 /* WaterNowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaterNowButton.m; path = ViewController/WaterNowButton.m; sourceTree = "<group>"; };
 		9622C4B21AFB5F2D00A356DD /* ProvisionLocationSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProvisionLocationSearchBar.h; path = ViewController/Provision/ProvisionLocationSearchBar.h; sourceTree = "<group>"; };
 		9622C4B31AFB5F2D00A356DD /* ProvisionLocationSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProvisionLocationSearchBar.m; path = ViewController/Provision/ProvisionLocationSearchBar.m; sourceTree = "<group>"; };
 		9624BDEA1AEA0F5400141891 /* WateringHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WateringHistoryVC.h; path = ViewController/WateringHistoryVC.h; sourceTree = "<group>"; };
@@ -3622,6 +3627,8 @@
 				96B42F941AFA399500D01709 /* WaterNowLevel1VC_SPK2.xib */,
 				AFF796C418E04C6400E3C109 /* CounterHelper.h */,
 				AFF796C518E04C6400E3C109 /* CounterHelper.m */,
+				9618FCE71B036413004DE502 /* WaterNowButton.h */,
+				9618FCE81B036413004DE502 /* WaterNowButton.m */,
 			);
 			name = WaterNow;
 			sourceTree = "<group>";
@@ -4809,6 +4816,7 @@
 				AF6008AE18D9E69300DB6D75 /* StartStopProgramResponse.m in Sources */,
 				AFC7E93A18579EE900ACA626 /* HomeScreenDataSourceCell.m in Sources */,
 				968E25EF1A1F8DD1008006D3 /* Provision.m in Sources */,
+				9618FCE91B036413004DE502 /* WaterNowButton.m in Sources */,
 				AF34021D1A9E61CA000EB519 /* GlobalsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5055,6 +5063,7 @@
 				BD0BB67B1ACE93AA005E2426 /* StartStopProgramResponse.m in Sources */,
 				BD0BB67C1ACE93AA005E2426 /* HomeScreenDataSourceCell.m in Sources */,
 				BD0BB67D1ACE93AA005E2426 /* Provision.m in Sources */,
+				9618FCEA1B036413004DE502 /* WaterNowButton.m in Sources */,
 				BD0BB67E1ACE93AA005E2426 /* GlobalsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5301,6 +5310,7 @@
 				BD0BB8741ACE9525005E2426 /* StartStopProgramResponse.m in Sources */,
 				BD0BB8751ACE9525005E2426 /* HomeScreenDataSourceCell.m in Sources */,
 				BD0BB8761ACE9525005E2426 /* Provision.m in Sources */,
+				9618FCEB1B036413004DE502 /* WaterNowButton.m in Sources */,
 				BD0BB8771ACE9525005E2426 /* GlobalsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
