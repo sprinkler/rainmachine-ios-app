@@ -13,10 +13,9 @@
 #import "Sprinkler.h"
 #import "Additions.h"
 #import "Constants.h"
-
+         
 @interface ServiceManager : NSObject <GCDAsyncUdpSocketDelegate> {
     
-    NSMutableArray *discoveredSprinklers;
     GCDAsyncUdpSocket *broadcastUdpSocket;
     GCDAsyncUdpSocket *receiveUdpSocket;
     GCDAsyncUdpSocket *keepAliveSocket;
@@ -36,7 +35,8 @@
 - (BOOL)sendBroadcast:(BOOL)silent;
 - (BOOL)stopBroadcast;
 
-- (NSMutableArray *)getDiscoveredSprinklers;
+- (NSMutableArray *)getDiscoveredSprinklersWithAPFlag:(NSNumber*)apFlag;
+- (void)clearDiscoveredSprinklers;
 
 + (id)current;
 

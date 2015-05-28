@@ -8,9 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate> {
-}
+@class DashboardVC;
+@class StatsVC;
+@class WaterNowVC;
+@class SettingsVC;
+@class UpdateManager;
+@class GlobalsManager;
+@class DevicesVC;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) UITabBarController *tabBarController;
+@property (nonatomic, strong) DashboardVC *dashboardVC;
+@property (nonatomic, strong) StatsVC *statsVC;
+@property (nonatomic, strong) DevicesVC *devicesVC;
+@property (nonatomic, strong) WaterNowVC *waterNowVC;
+@property (nonatomic, strong) SettingsVC *settingsVC;
+@property (strong, nonatomic) UpdateManager *updateManager;
+@property (strong, nonatomic) GlobalsManager *globalsManager;
+
+- (void)refreshRootViews:(NSString*)unit selectSettings:(BOOL)selectSettings;
 
 @end

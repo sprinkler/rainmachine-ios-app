@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ParserCell" id="KGk-i7-Jjw" customClass="ParserCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pOn-Fx-W66">
+                        <rect key="frame" x="8" y="6" width="51" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="31" id="1cw-m5-Jjf"/>
+                            <constraint firstAttribute="width" constant="49" id="snF-eY-GoI"/>
+                        </constraints>
+                        <connections>
+                            <action selector="onActivateParser:" destination="KGk-i7-Jjw" eventType="valueChanged" id="fqA-ke-8aT"/>
+                        </connections>
+                    </switch>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xLd-Cd-fbl">
+                        <rect key="frame" x="65" y="11" width="247" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="7zA-wh-HF6"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="centerY" secondItem="pOn-Fx-W66" secondAttribute="centerY" id="Oiu-0a-tWV"/>
+                    <constraint firstAttribute="centerY" secondItem="xLd-Cd-fbl" secondAttribute="centerY" id="aon-aj-Hte"/>
+                    <constraint firstAttribute="trailing" secondItem="xLd-Cd-fbl" secondAttribute="trailing" constant="8" id="ivg-oj-KBm"/>
+                    <constraint firstItem="xLd-Cd-fbl" firstAttribute="leading" secondItem="pOn-Fx-W66" secondAttribute="trailing" constant="8" id="mId-Nz-vbi"/>
+                    <constraint firstItem="pOn-Fx-W66" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="zjT-OS-wwM"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="parserEnabledSwitch" destination="pOn-Fx-W66" id="3Pi-fF-loi"/>
+                <outlet property="parserNameLabel" destination="xLd-Cd-fbl" id="9US-Kq-aEl"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="i0F-sP-VOt" customClass="ProgramCellType2">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i0F-sP-VOt" id="2ht-D1-Sz0">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89Z-CY-HkF">
+                        <rect key="frame" x="251" y="6" width="51" height="31"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <connections>
+                            <action selector="onSwitch:" destination="i0F-sP-VOt" eventType="valueChanged" id="qzx-Qu-By5"/>
+                        </connections>
+                    </switch>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jm0-yD-CyX">
+                        <rect key="frame" x="15" y="2" width="45" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tj8-wJ-Wak">
+                        <rect key="frame" x="15" y="24" width="31" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="tj8-wJ-Wak" firstAttribute="leading" secondItem="jm0-yD-CyX" secondAttribute="leading" id="LT3-y9-nfn"/>
+                    <constraint firstAttribute="centerY" secondItem="89Z-CY-HkF" secondAttribute="centerY" id="ZDN-4D-q3h"/>
+                    <constraint firstAttribute="centerY" secondItem="tj8-wJ-Wak" secondAttribute="centerY" constant="-10" id="ZpS-l5-JSR"/>
+                    <constraint firstItem="jm0-yD-CyX" firstAttribute="leading" secondItem="2ht-D1-Sz0" secondAttribute="leading" constant="15" id="dAp-eL-evS"/>
+                    <constraint firstAttribute="centerY" secondItem="jm0-yD-CyX" secondAttribute="centerY" priority="500" id="grA-B0-w2o"/>
+                    <constraint firstItem="tj8-wJ-Wak" firstAttribute="top" secondItem="jm0-yD-CyX" secondAttribute="bottom" id="nbd-gP-0S4"/>
+                    <constraint firstAttribute="trailing" secondItem="89Z-CY-HkF" secondAttribute="trailing" constant="20" id="y8C-tV-3UJ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="theDetailLabel" destination="tj8-wJ-Wak" id="V5s-Gr-slK"/>
+                <outlet property="theSwitch" destination="89Z-CY-HkF" id="gkd-9s-ock"/>
+                <outlet property="theTextLabel" destination="jm0-yD-CyX" id="7SI-no-7I6"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

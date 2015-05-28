@@ -7,6 +7,15 @@
 //
 
 #import "NetworkUtilities.h"
+#import "NSDictionary+Keychain.h"
+#import "Constants.h"
+#import "StorageManager.h"
+#import "ServerProxy.h"
+#import "Login4Response.h"
+#import "DiscoveredSprinklers.h"
+#import "Utils.h"
+
+#import <SystemConfiguration/CaptiveNetwork.h>
 
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -98,6 +107,290 @@ static NSString *kWifiInterface = @"en0";
 
 + (NSString *)netmaskForWifi {
     return [NetworkUtilities netmaskForInterface:kWifiInterface];
+}
+
+#pragma mark - Keychain
+
++ (NSArray*)cookiesForURL:(NSURL*)url
+{
+    NSMutableArray *results = [NSMutableArray array];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//    NSLog(@"cookies: %@", cookies);
+    NSString *address = [url absoluteString];
+    
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([address rangeOfString:cookie.domain].location != NSNotFound) {
+            [results addObject:cookie];
+        }
+    }
+    
+    return results;
+}
+
++ (void)removeCookiesForURL:(NSURL*)url {
+    NSArray *cookies = [self cookiesForURL:url];
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+}
+
+// Structure of our dictionary saved in keychain
+// URL1
+// ...
+// URLn(dict) - Credentials(dict) - UserName(string)
+//                                - Password(string)
+//
+//            - Cookies(dict) - Port 1(array of cookies)
+//                            - ...
+//                            - Port n(array of cookies)
+
++ (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort
+{
+    NSString *port = thePort ? thePort : @"443";
+    
+    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey] mutableCopy];
+    if (!keychainDictionary) {
+        keychainDictionary = [NSMutableDictionary dictionary];
+    }
+    
+    NSMutableDictionary *urlDictionary = [[keychainDictionary objectForKey:baseUrl] mutableCopy];
+    if (!urlDictionary) {
+        urlDictionary = [NSMutableDictionary dictionary];
+    }
+    [keychainDictionary setObject:urlDictionary forKey:baseUrl];
+
+    NSMutableDictionary *cookiesDictionary = [[urlDictionary objectForKey:kSprinklerKeychain_CookiesKey] mutableCopy];
+    if (!cookiesDictionary) {
+        cookiesDictionary = [NSMutableDictionary dictionary];
+    }
+    [urlDictionary setObject:cookiesDictionary forKey:kSprinklerKeychain_CookiesKey];
+    
+    NSArray *cookies = [NetworkUtilities cookiesForURL:[NSURL URLWithString:baseUrl]];
+    [cookiesDictionary setObject:cookies forKey:port];
+    
+    [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+}
+
++ (void)restoreCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort
+{
+    NSString *port = thePort ? thePort : @"443";
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    NSArray *newCookiesForPort = [[[keychainDictionary objectForKey:baseUrl] objectForKey:kSprinklerKeychain_CookiesKey] objectForKey:port];
+    
+    // Delete old cookies associated with baseUrl
+    NSArray *cookies = [NetworkUtilities cookiesForURL:[NSURL URLWithString:baseUrl]];
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    
+    // Set new cookies asociated with baseUrl and port
+    if (newCookiesForPort) {
+        for (NSHTTPCookie *cookie in newCookiesForPort) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+        }
+    }
+}
+
++ (void)clearCookiesFromKeychain
+{
+    NSDictionary *keychainDictionary = [NSDictionary dictionary];
+    [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+}
+
++ (void)clearKeychainCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)port
+{
+    NSMutableDictionary *keychainDictionary = [[NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey] mutableCopy];
+    
+    NSMutableDictionary *urlDictionary = [keychainDictionary[baseUrl] mutableCopy];
+    if (urlDictionary) {
+        [keychainDictionary setValue:urlDictionary forKey:baseUrl];
+        
+        NSMutableDictionary *cookiesDictionary = [urlDictionary[kSprinklerKeychain_CookiesKey] mutableCopy];
+        urlDictionary[kSprinklerKeychain_CookiesKey] = cookiesDictionary;
+        
+        [cookiesDictionary removeObjectForKey:port];
+        
+        [keychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    }
+}
+
++ (BOOL)containsDictionarySessionOnlyCookies:(NSDictionary*)cookiesDictionary forPort:(NSString*)port
+{
+    BOOL isSessionOnly = NO;
+    NSArray *cookies = [cookiesDictionary objectForKey:port];
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie isSessionOnly]) {
+            isSessionOnly = YES;
+            break;
+        }
+    }
+
+    return isSessionOnly;
+}
+
++ (void)clearSessionOnlyCookiesFromKeychain
+{
+    BOOL changed = NO;
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    NSMutableDictionary *newKeychainDictionary = [keychainDictionary mutableCopy];
+    
+    for (NSString *urlKey in keychainDictionary) {
+        NSDictionary *urlDictionary = [keychainDictionary objectForKey:urlKey];
+        NSDictionary *cookiesDictionary = [urlDictionary objectForKey:kSprinklerKeychain_CookiesKey];
+        for (NSString *portKey in cookiesDictionary) {
+            if ([self containsDictionarySessionOnlyCookies:cookiesDictionary forPort:portKey]) {
+                changed = YES;
+                NSMutableDictionary *newUrlDictionary = [newKeychainDictionary[urlKey] mutableCopy];
+                newKeychainDictionary[urlKey] = newUrlDictionary;
+                
+                NSMutableDictionary *newCookiesDictionary = [[newUrlDictionary objectForKey:kSprinklerKeychain_CookiesKey] mutableCopy];
+                newUrlDictionary[kSprinklerKeychain_CookiesKey] = newCookiesDictionary;
+                
+                [newCookiesDictionary removeObjectForKey:portKey];
+            }
+        }
+    }
+
+    if (changed) {
+        [newKeychainDictionary storeToKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    }
+}
+
+#pragma mark - Cookies
+
++ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl
+{
+    NSArray *cookies = [NetworkUtilities cookiesForURL:[NSURL URLWithString:baseUrl]];
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([[cookie name] isEqualToString:@"login"]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
++ (void)invalidateLoginForDiscoveredSprinkler:(DiscoveredSprinklers*)sprinkler
+{
+    NSString *port = [NSString stringWithFormat:@"%d", sprinkler.port];
+    NSString *url = [Utils fixedSprinklerAddress:sprinkler.host];
+    DLog(@"invalidateLoginForDiscoveredSprinkler. url: %@, port: %@", url, port);
+    
+    [self invalidateLoginForBaseUrl:url port:port];
+}
+
++ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort
+{
+    if (baseUrl) {
+        NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        NSArray *cookies = [cookieStorage cookiesForURL:[NSURL URLWithString:baseUrl]];
+        for (NSHTTPCookie *cookie in cookies) {
+            [cookieStorage deleteCookie:cookie];
+            DLog(@"Deleted cookie: %@", cookie);
+        }
+        [NetworkUtilities clearKeychainCookieForBaseUrl:baseUrl port:thePort];
+        
+        // Remove access token from user defaults
+        
+        [self invalidateAccessTokenForBaseUrl:baseUrl port:thePort];
+    }
+}
+
++ (void)refreshKeychainCookies
+{
+    NSString *storePath = [[StorageManager current] persistentStoreLocation];
+    // This line should be the first test in this method
+    if (![[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
+        
+        // App was deleted and installed
+        [NetworkUtilities clearCookiesFromKeychain];
+    }
+
+    [NetworkUtilities importCookiesToKeychain];
+
+    // Clear the session-only cookies from keychain
+    [NetworkUtilities clearSessionOnlyCookiesFromKeychain];
+}
+
++ (void)importCookiesToKeychain
+{
+    // In case the keychain dictionary is empty try to import the cookies from the shared cookie storage
+    // Walk through all devices from the db and if it has a persistent cookie, import it into the keychain
+    
+    NSDictionary *keychainDictionary = [NSDictionary dictionaryFromKeychainWithKey:kSprinklerKeychain_CookieDictionaryStorageKey];
+    
+    if ([keychainDictionary count] == 0) {
+        NSArray *remoteSprinklers = [[StorageManager current] getAllSprinklersFromNetwork];
+        for (Sprinkler *sprinkler in remoteSprinklers) {
+            if ([[NetworkUtilities cookiesForURL:[NSURL URLWithString:sprinkler.address]] count] > 0) {
+                [NetworkUtilities saveCookiesForBaseURL:sprinkler.address port:sprinkler.port];
+            }
+        }
+    }
+}
+
+#pragma mark - Access tokens
+
++ (void)saveAccessTokenForBaseURL:(NSString*)baseUrl port:(NSString*)thePort loginResponse:(Login4Response*)loginResponse {
+    if (!baseUrl.length || !loginResponse) return;
+    
+    NSString *port = (thePort.length ? thePort : @"443");
+    
+    baseUrl = [Utils getBaseUrl:baseUrl];
+
+    NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
+    NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
+    
+    accessTokensForBaseUrl[port] = [loginResponse toDictionary];
+    accessTokensDictionary[baseUrl] = accessTokensForBaseUrl;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:accessTokensDictionary forKey:kSprinklerUserDefaults_AccessTokensDictionaryKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSString*)accessTokenForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort {
+    NSString *port = (thePort.length ? thePort : @"443");
+    
+    baseUrl = [Utils getBaseUrl:baseUrl];
+    
+    NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
+    NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
+    
+    NSDictionary *accessTokenDictionary = [accessTokensForBaseUrl valueForKey:port];
+    if (accessTokenDictionary) {
+        Login4Response *loginResponse = [[Login4Response alloc] initWithDictionary:accessTokenDictionary];
+        return loginResponse.accessToken;
+    }
+    
+    return nil;
+}
+
++ (void)invalidateAccessTokenForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort {
+    NSString *port = (thePort.length ? thePort : @"443");
+    
+    baseUrl = [Utils getBaseUrl:baseUrl];
+    NSMutableDictionary *accessTokensDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSprinklerUserDefaults_AccessTokensDictionaryKey]];
+    NSMutableDictionary *accessTokensForBaseUrl = [NSMutableDictionary dictionaryWithDictionary:[accessTokensDictionary valueForKey:baseUrl]];
+    [accessTokensForBaseUrl setValue:nil forKey:port];
+    [accessTokensDictionary setValue:accessTokensForBaseUrl forKey:baseUrl];
+
+    [[NSUserDefaults standardUserDefaults] setObject:accessTokensDictionary forKey:kSprinklerUserDefaults_AccessTokensDictionaryKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (id)currentSSIDInfo {
+    NSArray *ifs = (__bridge_transfer id)CNCopySupportedInterfaces();
+    //    NSLog(@"%s: Supported interfaces: %@", ifs);
+    id info = nil;
+    for (NSString *ifnam in ifs) {
+        info = (__bridge_transfer id)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
+        //        NSLog(@"%s: %@ => %@", ifnam, info);
+        if (info && [info count]) {
+            break;
+        }
+    }
+    
+    return info;
 }
 
 @end

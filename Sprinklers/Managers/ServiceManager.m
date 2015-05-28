@@ -10,6 +10,13 @@
 
 static ServiceManager *current = nil;
 
+@interface ServiceManager () {
+}
+
+@property (strong, nonatomic) NSMutableArray *discoveredSprinklers;
+
+@end
+
 @implementation ServiceManager
 
 #pragma mark - Singleton
@@ -24,9 +31,14 @@ static ServiceManager *current = nil;
 
 #pragma mark - Methods
 
+- (void)clearDiscoveredSprinklers
+{
+    self.discoveredSprinklers = [NSMutableArray array];
+}
+
 - (BOOL)startBroadcastForSprinklers:(BOOL)silent {
     
-    discoveredSprinklers = [NSMutableArray array];
+    self.discoveredSprinklers = [NSMutableArray array];
 
     localIpAddress = [NetworkUtilities ipAddressForWifi];
     localNetmask = [NetworkUtilities netmaskForWifi];
@@ -67,7 +79,11 @@ static ServiceManager *current = nil;
         return NO;
     }
     
-    return [self sendBroadcast:silent];
+    if ([self sendBroadcast:silent]) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (BOOL)sendBroadcast:(BOOL)silent {
@@ -75,9 +91,7 @@ static ServiceManager *current = nil;
     [self stopBroadcast];
     
     receiveUdpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
-    NSError *udpError;
-    
+
     if (receiveUdpSocket == nil) {
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sprinklers autodiscovery cannot initialize discovery socket!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
@@ -85,21 +99,20 @@ static ServiceManager *current = nil;
         return NO;
     }
     
+    return [self trySendBroadcastBindToPort:@(silent)];
+}
+
+- (BOOL)trySendBroadcastBindToPort:(NSNumber*)silent {
+    NSError *udpError = nil;
+    
     if (![receiveUdpSocket bindToPort:listenPort error:&udpError]) {
-        bool socketBound = NO;
-        for(int i = 0; i < burstBroadcasts; i++) {
-            if ([receiveUdpSocket bindToPort:listenPort error:&udpError]) {
-                [NSThread sleepForTimeInterval:1];
-                socketBound = YES;
-                break;
-            }
-        }
-        if (!socketBound) {
-            //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sprinklers autodiscovery cannot bind to discovery port!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            //[alert show];
-            NSLog(@"Sprinklers autodiscovery cannot bind to discovery port!");
-            return NO;
-        }
+        NSLog(@"Sprinklers autodiscovery cannot bind to discovery port!");
+        
+        [self performSelector:@selector(trySendBroadcastBindToPort:)
+                   withObject:silent
+                   afterDelay:1.0];
+        
+        return NO;
     }
     
     if (![receiveUdpSocket beginReceiving:&udpError]) {
@@ -114,7 +127,7 @@ static ServiceManager *current = nil;
         [broadcastUdpSocket sendData:broadcastMessage toHost:broadcastAddress port:broadcastPort withTimeout:-1 tag:0];
     }
     
-    if (!silent) {
+    if (!silent.boolValue) {
         reSendTimer = [NSTimer scheduledTimerWithTimeInterval:resendTimeout target:self selector:@selector(resendBroadcast) userInfo:nil repeats:NO];
         keepAliveTimer = [NSTimer scheduledTimerWithTimeInterval:resendTimeout target:self selector:@selector(keepAlive) userInfo:nil repeats:NO];
     }
@@ -123,17 +136,19 @@ static ServiceManager *current = nil;
 }
 
 - (BOOL)stopBroadcast {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
     [receiveUdpSocket close];
     [autoRefreshTimer invalidate];
     [reSendTimer invalidate];
     [keepAliveTimer invalidate];
     [sockTimeOutTimer invalidate];
+    
     return YES;
 }
 
 - (void)resendBroadcast {
     for (int i = 0; i < burstBroadcasts; i++) {
-       NSLog(@"Resending broadcast...");
        [broadcastUdpSocket sendData:broadcastMessage toHost:broadcastAddress port:broadcastPort withTimeout:-1 tag:0];
     }
         
@@ -149,16 +164,36 @@ static ServiceManager *current = nil;
 
 - (void)updateSprinklers {
     NSMutableArray *updatedSprinklers = [NSMutableArray array];
-    for (DiscoveredSprinklers *ds in discoveredSprinklers) {
+    for (DiscoveredSprinklers *ds in self.discoveredSprinklers) {
         if ([ds.updated timeIntervalSinceNow] <= 0 && [ds.updated timeIntervalSinceNow] > -(refreshTimeout + listenTimeout)) {
             [updatedSprinklers addObject:ds];
         }
     }
-    discoveredSprinklers = [NSMutableArray arrayWithArray:updatedSprinklers];
+    self.discoveredSprinklers = [NSMutableArray arrayWithArray:updatedSprinklers];
 }
 
-- (NSMutableArray *)getDiscoveredSprinklers {
-    return [discoveredSprinklers copy];
+- (NSMutableArray *)getDiscoveredSprinklersWithAPFlag:(NSNumber*)apFlag {
+    NSMutableArray *filteredDiscoveredSprinklers = [NSMutableArray array];
+    for (DiscoveredSprinklers *sprinkler in self.discoveredSprinklers) {
+        BOOL add = NO;
+        if (apFlag) {
+            if ([apFlag boolValue]) {
+                // Return only the fully setup sprinklers: API3 sprinklers || API4 with apFlag=1
+                add = !(sprinkler.apFlag) || (![sprinkler.apFlag isEqualToString:@"0"]);
+            } else {
+                add = [sprinkler.apFlag isEqualToString:@"0"];
+            }
+        } else {
+            // apFlag is nil, add everything
+            add = YES;
+        }
+        
+        if (add) {
+            [filteredDiscoveredSprinklers addObject:sprinkler];
+        }
+    }
+    
+    return filteredDiscoveredSprinklers;
 }
 
 #pragma mark - GCGAsyncUdpSocket delegate
@@ -169,14 +204,26 @@ static ServiceManager *current = nil;
     NSString *host = nil;
     uint16_t port = 0;
     [GCDAsyncUdpSocket getHost:&host port:&port fromAddress:address];
-    NSLog(@"UDP message received from sprinkler: %@, %@:%d", string, host, port);
+    
+    // Overwrite port value. For the discovered sprinklers we will set a default port
+    port = 443;
+    
+//    DLog(@"discovery string: %@", string);
     
     NSArray *splits = [string componentsSeparatedByString:messageDelimiter];
+    if (splits.count >= 5) {
+        // Sprinkler2
+        NSURL *baseURL = [NSURL URLWithString:splits[3]];
+        port = [[baseURL port] integerValue];
+    }
+    
+    //NSLog(@"UDP message received from sprinkler: %@, %@:%d", string, host, port);
+    
     if (splits && splits.count >= 4 && [splits[0] isEqualToString:@"SPRINKLER"]) {
         NSString *sprinklerId = splits[1];
         
         BOOL found = NO;
-        for (DiscoveredSprinklers *ds in discoveredSprinklers) {
+        for (DiscoveredSprinklers *ds in self.discoveredSprinklers) {
             if ([ds.sprinklerId isEqualToString:sprinklerId]) {
                 ds.updated = [NSDate date];
                 found = YES;
@@ -192,13 +239,15 @@ static ServiceManager *current = nil;
             sprinkler.updated = [NSDate date];
             sprinkler.host = host;
             sprinkler.port = port;
+            sprinkler.apFlag = splits.count >= 5 ? splits[4] : nil;
+            // Keep apFlag's value only if it is 0 or 1. This way we filter out possible garbage values received from SPK1
+            sprinkler.apFlag = (([sprinkler.apFlag isEqualToString:@"0"]) || ([sprinkler.apFlag isEqualToString:@"1"])) ? sprinkler.apFlag : nil;
             
-            [discoveredSprinklers addObject:sprinkler];
+            [self.discoveredSprinklers addObject:sprinkler];
         }
     }
     
     [self updateSprinklers];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SprinklersUpdate" object:nil]];
 }
 
 @end

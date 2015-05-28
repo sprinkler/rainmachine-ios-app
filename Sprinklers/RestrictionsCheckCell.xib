@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RestrictionsCheckCell" id="5sL-rW-xD8" customClass="RestrictionsCheckCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5sL-rW-xD8" id="v7a-ui-Q95">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BB6-hQ-asQ">
+                        <rect key="frame" x="34" y="2.5" width="278" height="21.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q8G-H3-o0V">
+                        <rect key="frame" x="34" y="11.5" width="278" height="21.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ka-vn-Arq">
+                        <rect key="frame" x="34" y="24" width="278" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pg-rO-2Rt">
+                        <rect key="frame" x="6" y="11" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="IUc-Nt-VyD"/>
+                            <constraint firstAttribute="height" constant="22" id="vBR-tC-lXm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" image="programs-checkbox-unselected.png">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="selected" image="programs-checkbox-selected"/>
+                        <connections>
+                            <action selector="onCheck:" destination="5sL-rW-xD8" eventType="touchUpInside" id="x52-et-YlI"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="q8G-H3-o0V" secondAttribute="trailing" constant="8" id="0br-Hd-rVN"/>
+                    <constraint firstAttribute="centerY" secondItem="q8G-H3-o0V" secondAttribute="centerY" id="IHt-CM-y2V"/>
+                    <constraint firstItem="6pg-rO-2Rt" firstAttribute="leading" secondItem="v7a-ui-Q95" secondAttribute="leading" constant="6" id="IaY-Z3-x1N"/>
+                    <constraint firstItem="5Ka-vn-Arq" firstAttribute="leading" secondItem="6pg-rO-2Rt" secondAttribute="trailing" constant="6" id="UXX-2m-zgW"/>
+                    <constraint firstAttribute="centerY" secondItem="5Ka-vn-Arq" secondAttribute="centerY" constant="-9" id="UcE-p1-8mj"/>
+                    <constraint firstAttribute="centerY" secondItem="BB6-hQ-asQ" secondAttribute="centerY" constant="9" id="Zao-7l-CdE"/>
+                    <constraint firstAttribute="centerY" secondItem="6pg-rO-2Rt" secondAttribute="centerY" id="apC-uV-1lS"/>
+                    <constraint firstAttribute="trailing" secondItem="BB6-hQ-asQ" secondAttribute="trailing" constant="8" id="dnx-7c-8rn"/>
+                    <constraint firstItem="BB6-hQ-asQ" firstAttribute="leading" secondItem="6pg-rO-2Rt" secondAttribute="trailing" constant="6" id="oVp-za-Enc"/>
+                    <constraint firstItem="q8G-H3-o0V" firstAttribute="leading" secondItem="6pg-rO-2Rt" secondAttribute="trailing" constant="6" id="wiZ-R5-fmJ"/>
+                    <constraint firstAttribute="trailing" secondItem="5Ka-vn-Arq" secondAttribute="trailing" constant="8" id="xmt-Ek-cCg"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="checkmarkButton" destination="6pg-rO-2Rt" id="XuR-q1-qzg"/>
+                <outlet property="restrictionCenteredNameLabel" destination="q8G-H3-o0V" id="6iu-6U-tyV"/>
+                <outlet property="restrictionDescriptionLabel" destination="5Ka-vn-Arq" id="g4X-a7-QOH"/>
+                <outlet property="restrictionNameLabel" destination="BB6-hQ-asQ" id="0ED-fk-lee"/>
+            </connections>
+            <point key="canvasLocation" x="269" y="121"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="programs-checkbox-selected" width="48" height="48"/>
+        <image name="programs-checkbox-unselected.png" width="48" height="48"/>
+    </resources>
+</document>

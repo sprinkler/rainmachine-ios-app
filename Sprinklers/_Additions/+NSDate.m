@@ -336,4 +336,94 @@
 	return components.year;
 }
 
+#pragma mark - Time intervals
+
+static NSDateFormatter* formatter;
+
++(NSDateFormatter*)getDateFormater {
+  @synchronized([NSDate class]) {
+    if (formatter == nil) {
+      formatter = [[NSDateFormatter alloc] init];
+      [formatter setLocale:[NSLocale autoupdatingCurrentLocale]];
+    }
+  }
+  return formatter;
+}
+
++(NSDateFormatter*)getDateFormaterFixedFormatParsing {
+    // NSDateFormatter has two common roles: generate&parse user-visible dates OR fixed-format dates.
+    // For fixed-date parsing is not sufficient to set the correct date format string in NSDateFormatter. Locale should also be set.
+    // https://developer.apple.com/library/ios/qa/qa1480/_index.html
+    @synchronized([NSDate class]) {
+        if (formatter == nil) {
+            formatter = [[NSDateFormatter alloc] init];
+            [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+        }
+    }
+    return formatter;
+}
+
++ (NSDateFormatter*)sharedDateFormatterAPI4 {
+    NSDateFormatter *sharedDateFormatterAPI4 = nil;
+    if (!sharedDateFormatterAPI4) {
+        sharedDateFormatterAPI4 = [NSDateFormatter new];
+        sharedDateFormatterAPI4.dateFormat = @"yyyy-MM-dd";
+    }
+    return sharedDateFormatterAPI4;
+}
+
++ (NSDateFormatter*)sharedDateTimeFormatterAPI4 {
+    NSDateFormatter *sharedDateTimeFormatterAPI4 = nil;
+    if (!sharedDateTimeFormatterAPI4) {
+        sharedDateTimeFormatterAPI4 = [NSDateFormatter new];
+        sharedDateTimeFormatterAPI4.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    }
+    return sharedDateTimeFormatterAPI4;
+}
+
++ (NSDateFormatter*)sharedReverseDateFormatterAPI4 {
+    NSDateFormatter *sharedReverseDateFormatterAPI4 = nil;
+    if (!sharedReverseDateFormatterAPI4) {
+        sharedReverseDateFormatterAPI4 = [NSDateFormatter new];
+        sharedReverseDateFormatterAPI4.dateFormat = @"MMM dd, yyyy";
+    }
+    return sharedReverseDateFormatterAPI4;
+}
+
+-(NSDate*)startOfDay:(NSDate*)date {
+  NSCalendar* cal = [NSCalendar currentCalendar];
+  NSDateComponents* dateComp = [cal components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:date];
+  return [cal dateFromComponents:dateComp];
+}
+
+-(NSString*)getTimeSinceDate
+{
+    long sinceMinutes = -([self timeIntervalSinceNow]) / 60;
+    if (sinceMinutes <= 1) {
+      return NSLocalizedString(@"1 minute ago", nil);
+    }
+    if (sinceMinutes < 60) {
+      return [NSString stringWithFormat:NSLocalizedString(@"%d minutes ago", nil), sinceMinutes];
+    }
+    
+    long sinceHours = sinceMinutes / 60;
+    if (sinceHours <= 1) {
+      return NSLocalizedString(@"1 hour ago", nil);
+    }
+    if (sinceHours < 24) {
+      return [NSString stringWithFormat:NSLocalizedString(@"%d hours ago", nil), sinceHours];
+    }
+    
+    NSDate* auxDay = [self startOfDay:self];
+    NSDate* curDay = [self startOfDay:[NSDate date]];
+    
+    long sinceDays = [curDay timeIntervalSinceDate:auxDay] / 3600 / 24;
+    if (sinceDays == 1) {
+      NSDateFormatter* df = [NSDate getDateFormater];
+      [df setDateFormat:NSLocalizedString(@"HH:mm", nil)];
+      return [NSString stringWithFormat:NSLocalizedString(@"yesterday at %@", nil), [df stringFromDate:self]];
+    }
+    return [NSString stringWithFormat:NSLocalizedString(@"%d days ago", nil), sinceDays];
+}
+
 @end

@@ -13,6 +13,7 @@
 - (NSString *)capitalizedFirstLetter;
 - (BOOL)containsString:(NSString *)string;
 - (BOOL)containsString:(NSString *)string options:(NSStringCompareOptions)options;
+- (int)indexOf:(char)searchChar;
 
 // Strips HTML tags & comments, removes extra whitespace and decodes HTML character entities.
 - (NSString *)stringByConvertingHTMLToPlainText;
@@ -41,5 +42,11 @@
 // - Expression: (?<!=")\b((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)
 // - Adapted from http://regexlib.com/REDetails.aspx?regexp_id=96
 - (NSString *)stringByLinkifyingURLs;
+
++ (NSString *)base64String:(NSString *)str;
+
+- (BOOL)isValidEmail;
+
++ (NSString*)formattedTime:(int)timeInSeconds usingOnlyDigits:(BOOL)usingOnlyDigits;
 
 @end

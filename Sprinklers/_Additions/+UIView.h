@@ -14,4 +14,6 @@
 @property (nonatomic) CGFloat width;
 @property (nonatomic) CGFloat height;
 
+- (UIImage *)getImageFromView:(UIView *)view;
+
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class Login4Response, DiscoveredSprinklers;
+
 @interface NetworkUtilities : NSObject
 
 + (NSString *)broadcastAddressForAddress:(NSString *)ipAddress withMask:(NSString *)netmask;
@@ -15,5 +17,20 @@
 + (NSString *)ipAddressForWifi;
 + (NSString *)netmaskForInterface:(NSString *)ifName;
 + (NSString *)netmaskForWifi;
++ (BOOL)isLoginCookieActiveForBaseUrl:(NSString*)baseUrl;
++ (void)invalidateLoginForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort;
++ (void)invalidateLoginForDiscoveredSprinkler:(DiscoveredSprinklers*)sprinkler;
+
++ (void)saveCookiesForBaseURL:(NSString*)baseUrl port:(NSString*)thePort;
++ (void)restoreCookieForBaseUrl:(NSString*)baseUrl port:(NSString*)port;
++ (void)clearSessionOnlyCookiesFromKeychain;
++ (void)refreshKeychainCookies;
++ (NSArray*)cookiesForURL:(NSURL*)url;
++ (void)removeCookiesForURL:(NSURL*)url;
+
++ (void)saveAccessTokenForBaseURL:(NSString*)baseUrl port:(NSString*)thePort loginResponse:(Login4Response*)loginResponse;
++ (NSString*)accessTokenForBaseUrl:(NSString*)baseUrl port:(NSString*)thePort;
+
++ (id)currentSSIDInfo;
 
 @end

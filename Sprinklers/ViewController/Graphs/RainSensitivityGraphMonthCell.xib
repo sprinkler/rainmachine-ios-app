@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="RainSensitivityGraphMonthCell">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzI-5v-LTg">
+                    <rect key="frame" x="199" y="0.0" width="1" height="200"/>
+                    <color key="backgroundColor" white="0.92000000000000004" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1" id="vLP-E8-CMW"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnQ-do-yNi">
+                    <rect key="frame" x="0.0" y="168" width="200" height="1"/>
+                    <color key="backgroundColor" white="0.92000000000000004" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="Pwx-I2-eot"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Wn-T2-nab" customClass="RainSensitivityGraphMonthView">
+                    <rect key="frame" x="0.0" y="0.0" width="199" height="168"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shra.png" translatesAutoresizingMaskIntoConstraints="NO" id="snm-nC-Zsb">
+                    <rect key="frame" x="8" y="8" width="52" height="52"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="52" id="K95-LQ-WPF"/>
+                        <constraint firstAttribute="height" constant="52" id="TaM-1H-yWL"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JANUARY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kP7-7q-XeO">
+                    <rect key="frame" x="0.0" y="169" width="199" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="31" id="Che-W1-Kum"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A4H-2i-bDD">
+                    <rect key="frame" x="0.0" y="0.0" width="1" height="200"/>
+                    <color key="backgroundColor" white="0.92000000000000004" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1" id="nsE-ir-qzI"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="cnQ-do-yNi" secondAttribute="trailing" id="25d-Ke-8mI"/>
+                <constraint firstAttribute="trailing" secondItem="dzI-5v-LTg" secondAttribute="trailing" id="6Ow-bi-7nW"/>
+                <constraint firstItem="cnQ-do-yNi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8BC-VS-md2"/>
+                <constraint firstItem="kP7-7q-XeO" firstAttribute="top" secondItem="cnQ-do-yNi" secondAttribute="bottom" id="B0a-JQ-BJd"/>
+                <constraint firstItem="9Wn-T2-nab" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GUA-fE-At3"/>
+                <constraint firstItem="A4H-2i-bDD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IJS-Eq-7SF"/>
+                <constraint firstItem="dzI-5v-LTg" firstAttribute="leading" secondItem="kP7-7q-XeO" secondAttribute="trailing" id="KNf-EO-SCH"/>
+                <constraint firstItem="kP7-7q-XeO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="L2t-X9-6dh"/>
+                <constraint firstItem="dzI-5v-LTg" firstAttribute="leading" secondItem="9Wn-T2-nab" secondAttribute="trailing" id="Pj7-Lv-E2i"/>
+                <constraint firstItem="dzI-5v-LTg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="SDG-e0-fdr"/>
+                <constraint firstItem="A4H-2i-bDD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VOn-TS-Me4"/>
+                <constraint firstAttribute="bottom" secondItem="kP7-7q-XeO" secondAttribute="bottom" id="cLT-Nd-kp7"/>
+                <constraint firstItem="9Wn-T2-nab" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ckC-yP-mNZ"/>
+                <constraint firstItem="cnQ-do-yNi" firstAttribute="top" secondItem="9Wn-T2-nab" secondAttribute="bottom" id="dhZ-fg-osf"/>
+                <constraint firstItem="snm-nC-Zsb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="ewT-Ei-4rs"/>
+                <constraint firstAttribute="bottom" secondItem="A4H-2i-bDD" secondAttribute="bottom" id="g8p-M9-sdG"/>
+                <constraint firstAttribute="bottom" secondItem="dzI-5v-LTg" secondAttribute="bottom" id="gwG-KJ-Pe6"/>
+                <constraint firstItem="snm-nC-Zsb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="zcs-Io-ud5"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="cloudImageView" destination="snm-nC-Zsb" id="vpF-th-c09"/>
+                <outlet property="graphView" destination="9Wn-T2-nab" id="YZb-O0-7Qm"/>
+                <outlet property="monthLabel" destination="kP7-7q-XeO" id="vE6-wJ-HYH"/>
+                <outlet property="trailingSeparatorView" destination="A4H-2i-bDD" id="evR-Fq-e79"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="shra.png" width="256" height="256"/>
+    </resources>
+</document>

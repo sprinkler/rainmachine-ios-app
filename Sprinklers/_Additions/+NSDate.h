@@ -65,6 +65,13 @@
 - (NSInteger) daysAfterDate: (NSDate *) aDate;
 - (NSInteger) daysBeforeDate: (NSDate *) aDate;
 
+- (NSString*)getTimeSinceDate;
+
++ (NSDateFormatter*)getDateFormaterFixedFormatParsing;
++ (NSDateFormatter*)sharedDateFormatterAPI4;
++ (NSDateFormatter*)sharedDateTimeFormatterAPI4;
++ (NSDateFormatter*)sharedReverseDateFormatterAPI4;
+
 // Decomposing dates
 @property (readonly) NSInteger nearestHour;
 @property (readonly) NSInteger hour;

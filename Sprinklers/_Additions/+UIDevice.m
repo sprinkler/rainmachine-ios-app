@@ -19,7 +19,6 @@
 
 #pragma mark - Private Methods
 
-// Return the local MAC addy
 - (NSString *)macaddress{
     
     int mib[6];
@@ -78,13 +77,6 @@
     return uniqueIdentifier;
 }
 
-- (NSString *)uniqueGlobalDeviceIdentifier{
-    NSString *macaddress = [[UIDevice currentDevice] macaddress];
-    NSString *uniqueIdentifier = [macaddress stringFromMD5];
-    
-    return uniqueIdentifier;
-}
-
 - (BOOL)isIPhone5 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         CGSize result = [[UIScreen mainScreen] bounds].size;
@@ -93,6 +85,19 @@
         if (result.height == 568)
             return YES;
     }
+    return NO;
+}
+
+- (BOOL)iOSGreaterThan:(float)version {
+    return [[self systemVersion] floatValue] >= version;
+}
+
+- (BOOL) isIpad {
+    
+#ifdef UI_USER_INTERFACE_IDIOM
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+#endif
+    
     return NO;
 }
 

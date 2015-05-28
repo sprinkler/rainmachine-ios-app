@@ -349,5 +349,36 @@
     
 }
 
++ (UIImage *)imageFromLayer:(CALayer *)layer
+{
+  UIGraphicsBeginImageContext([layer frame].size);
+  
+  [layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+  
+  UIGraphicsEndImageContext();
+  
+  return outputImage;
+}
+
+- (UIImage *)imageByFillingWithColor:(UIColor *)color {
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, [UIScreen mainScreen].scale);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    
+    CGContextTranslateCTM(context, 0, self.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGContextClipToMask(context, rect, self.CGImage);
+    CGContextAddRect(context, rect);
+    CGContextDrawPath(context, kCGPathFill);
+    
+    UIImage *coloredImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return coloredImage;
+}
 
 @end
