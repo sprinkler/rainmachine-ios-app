@@ -1,0 +1,23 @@
+//
+// Prefix header for all source files of the 'Sprinklers' target in the 'Sprinklers' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
+#ifdef APPSTORE
+#define DLog(...) /* */
+#else
+#define DLog(...) NSLog(__VA_ARGS__)
+#endif
+
+#define ALog(...) NSLog(__VA_ARGS__)

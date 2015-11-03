@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginVC">
+            <connections>
+                <outlet property="bucketLabel" destination="7rW-D2-z09" id="xkD-uK-Yk9"/>
+                <outlet property="buttonCheckBox" destination="rkA-0y-l2m" id="RrR-iS-PJc"/>
+                <outlet property="buttonLogin" destination="ZVg-nK-f1I" id="lpJ-bK-DrI"/>
+                <outlet property="rememberMeLabel" destination="doT-Ty-bXu" id="NRv-Xe-Q0R"/>
+                <outlet property="textPassword" destination="IlE-gQ-CaR" id="AwU-4O-PIf"/>
+                <outlet property="textUsername" destination="QkD-Pc-YFt" id="O66-cU-Fgv"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IlE-gQ-CaR">
+                    <rect key="frame" x="20" y="68" width="280" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="GGl-Ou-YjE"/>
+                    </connections>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QkD-Pc-YFt">
+                    <rect key="frame" x="20" y="20" width="280" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="p4y-Ud-HEM"/>
+                    </connections>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkA-0y-l2m">
+                    <rect key="frame" x="20" y="111" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="DvY-Z4-HWN"/>
+                        <constraint firstAttribute="width" constant="30" id="GcG-IA-u2B"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" image="checkbox-unselected.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="checkbox-selected.png"/>
+                    <connections>
+                        <action selector="rememberMe:" destination="-1" eventType="touchUpInside" id="IYo-X5-tL3"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doT-Ty-bXu">
+                    <rect key="frame" x="55" y="115" width="114" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVg-nK-f1I" customClass="ColoredBackgroundButton">
+                    <rect key="frame" x="20" y="155" width="280" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="SwH-SV-PHx"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                    <state key="normal" title="Login">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="login:" destination="-1" eventType="touchUpInside" id="gDU-Ss-UFO"/>
+                    </connections>
+                </button>
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bucket" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rW-D2-z09">
+                    <rect key="frame" x="0.0" y="314" width="320" height="120"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="120" id="hEE-BG-5Sg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="100"/>
+                    <color key="textColor" red="0.27843137254901962" green="0.27843137254901962" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.92156869173049927" green="0.92156869173049927" blue="0.92156869173049927" alpha="1" colorSpace="deviceRGB"/>
+            <constraints>
+                <constraint firstItem="IlE-gQ-CaR" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="1tA-ke-E60"/>
+                <constraint firstAttribute="bottom" secondItem="7rW-D2-z09" secondAttribute="bottom" constant="134" id="34e-Zh-33H"/>
+                <constraint firstItem="IlE-gQ-CaR" firstAttribute="top" secondItem="QkD-Pc-YFt" secondAttribute="bottom" priority="500" constant="18" id="5YQ-BE-jNb"/>
+                <constraint firstItem="7rW-D2-z09" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" id="Ac8-Wh-6lj"/>
+                <constraint firstItem="doT-Ty-bXu" firstAttribute="leading" secondItem="rkA-0y-l2m" secondAttribute="trailing" priority="500" constant="5" id="An6-di-afG"/>
+                <constraint firstAttribute="trailing" secondItem="IlE-gQ-CaR" secondAttribute="trailing" priority="500" constant="20" id="E00-Wn-LBm"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ZVg-nK-f1I" secondAttribute="bottom" constant="150" id="HYQ-Ku-gOW"/>
+                <constraint firstAttribute="trailing" secondItem="7rW-D2-z09" secondAttribute="trailing" priority="500" id="Ia2-B8-UF5"/>
+                <constraint firstItem="ZVg-nK-f1I" firstAttribute="top" secondItem="rkA-0y-l2m" secondAttribute="bottom" constant="14" id="Pr7-MU-y9o"/>
+                <constraint firstAttribute="trailing" secondItem="ZVg-nK-f1I" secondAttribute="trailing" priority="500" constant="20" id="Qui-6y-0AB"/>
+                <constraint firstItem="QkD-Pc-YFt" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" id="TGJ-aT-Z7U"/>
+                <constraint firstItem="rkA-0y-l2m" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="XOJ-Fa-yuL"/>
+                <constraint firstItem="QkD-Pc-YFt" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="aXh-TP-2eC"/>
+                <constraint firstAttribute="trailing" secondItem="QkD-Pc-YFt" secondAttribute="trailing" priority="500" constant="20" id="dKu-XF-kdj"/>
+                <constraint firstItem="doT-Ty-bXu" firstAttribute="centerY" secondItem="rkA-0y-l2m" secondAttribute="centerY" id="dP2-ek-Uar"/>
+                <constraint firstItem="doT-Ty-bXu" firstAttribute="top" secondItem="IlE-gQ-CaR" secondAttribute="bottom" priority="500" constant="17" id="mjl-E2-mAL"/>
+                <constraint firstItem="ZVg-nK-f1I" firstAttribute="leading" secondItem="1" secondAttribute="leading" priority="500" constant="20" id="wrt-UY-eYN"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="checkbox-selected.png" width="48" height="48"/>
+        <image name="checkbox-unselected.png" width="48" height="48"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

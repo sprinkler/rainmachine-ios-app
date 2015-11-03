@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="F3V-sU-588" customClass="ProgramCellType3">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F3V-sU-588" id="Xtz-mp-FG1">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0SM-ys-qzh">
+                        <rect key="frame" x="34" y="2" width="45" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dY9-hv-t0E">
+                        <rect key="frame" x="34" y="12" width="45" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pix-uw-aZ9">
+                        <rect key="frame" x="34" y="24" width="31" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lvP-Ns-os1">
+                        <rect key="frame" x="6" y="11" width="22" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="Caq-H1-OHC"/>
+                            <constraint firstAttribute="height" constant="22" id="hEe-tt-EbX"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" image="programs-checkbox-unselected.png">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="selected" image="programs-checkbox-selected"/>
+                        <connections>
+                            <action selector="onCheckMark:" destination="F3V-sU-588" eventType="touchUpInside" id="T8d-lw-m9C"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dY9-hv-t0E" firstAttribute="leading" secondItem="lvP-Ns-os1" secondAttribute="trailing" constant="6" id="Srm-5o-jxC"/>
+                    <constraint firstItem="lvP-Ns-os1" firstAttribute="centerY" secondItem="0SM-ys-qzh" secondAttribute="centerY" constant="9" id="W3W-R7-9yL"/>
+                    <constraint firstAttribute="centerY" secondItem="pix-uw-aZ9" secondAttribute="centerY" priority="500" id="eAY-XZ-Tly"/>
+                    <constraint firstAttribute="centerY" secondItem="dY9-hv-t0E" secondAttribute="centerY" constant="-1.5" id="hw9-CX-oom"/>
+                    <constraint firstItem="pix-uw-aZ9" firstAttribute="leading" secondItem="lvP-Ns-os1" secondAttribute="trailing" constant="6" id="kbV-9G-a7A"/>
+                    <constraint firstItem="lvP-Ns-os1" firstAttribute="leading" secondItem="Xtz-mp-FG1" secondAttribute="leading" constant="6" id="nmw-E3-MA1"/>
+                    <constraint firstAttribute="centerY" secondItem="lvP-Ns-os1" secondAttribute="centerY" constant="-0.5" id="qW5-sp-kwZ"/>
+                    <constraint firstItem="pix-uw-aZ9" firstAttribute="top" secondItem="0SM-ys-qzh" secondAttribute="bottom" id="t5s-ss-F4b"/>
+                    <constraint firstItem="0SM-ys-qzh" firstAttribute="leading" secondItem="lvP-Ns-os1" secondAttribute="trailing" constant="6" id="xNF-3x-k5G"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="checkmark" destination="lvP-Ns-os1" id="yfS-rk-tkb"/>
+                <outlet property="theCenteredTextLabel" destination="dY9-hv-t0E" id="nLg-Co-KH3"/>
+                <outlet property="theDetailTextLabel" destination="pix-uw-aZ9" id="H2I-5b-Uyl"/>
+                <outlet property="theTextLabel" destination="0SM-ys-qzh" id="dI6-TY-HiW"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="programs-checkbox-selected" width="48" height="48"/>
+        <image name="programs-checkbox-unselected.png" width="48" height="48"/>
+    </resources>
+</document>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeDataSourceCell" id="FzE-wB-NfW" customClass="HomeScreenDataSourceCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FzE-wB-NfW" id="gia-eb-gMr">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last updated" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8a-lp-IfI">
+                        <rect key="frame" x="11" y="30" width="255" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wheather update:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4vM-Xp-8IH">
+                        <rect key="frame" x="11" y="9" width="255" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_status_ok.png" translatesAutoresizingMaskIntoConstraints="NO" id="jdx-nN-ZfO">
+                        <rect key="frame" x="274" y="11" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="Bzy-KY-jtg"/>
+                            <constraint firstAttribute="width" constant="32" id="Mjj-7b-HfI"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RAIN MACHINE IS PAUSED" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="WCt-j2-hhU">
+                        <rect key="frame" x="10" y="5" width="300" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="idl-0a-XRJ">
+                        <rect key="frame" x="288" y="27" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="WSC-nS-CqA"/>
+                            <constraint firstAttribute="height" constant="20" id="hl7-kf-hmr"/>
+                        </constraints>
+                    </activityIndicatorView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="WCt-j2-hhU" firstAttribute="leading" secondItem="gia-eb-gMr" secondAttribute="leading" constant="10" id="3Al-Gc-lnn"/>
+                    <constraint firstItem="idl-0a-XRJ" firstAttribute="trailing" secondItem="WCt-j2-hhU" secondAttribute="trailing" constant="-2" id="53G-f8-sf2"/>
+                    <constraint firstAttribute="bottom" secondItem="WCt-j2-hhU" secondAttribute="bottom" constant="5" id="8Vc-X1-W5I"/>
+                    <constraint firstItem="idl-0a-XRJ" firstAttribute="bottom" secondItem="WCt-j2-hhU" secondAttribute="bottom" constant="-2" id="J8G-rC-S5o"/>
+                    <constraint firstAttribute="trailing" secondItem="WCt-j2-hhU" secondAttribute="trailing" constant="10" id="Lew-9Z-WRg"/>
+                    <constraint firstItem="4vM-Xp-8IH" firstAttribute="leading" secondItem="gia-eb-gMr" secondAttribute="leading" constant="11" id="TqL-Ul-kUB"/>
+                    <constraint firstItem="jdx-nN-ZfO" firstAttribute="leading" secondItem="4vM-Xp-8IH" secondAttribute="trailing" constant="8" id="VVh-Ha-U2F"/>
+                    <constraint firstAttribute="centerY" secondItem="P8a-lp-IfI" secondAttribute="centerY" constant="-11" id="Vfv-Oc-uUP"/>
+                    <constraint firstItem="4vM-Xp-8IH" firstAttribute="leading" secondItem="P8a-lp-IfI" secondAttribute="leading" id="Wh3-ox-cyk"/>
+                    <constraint firstAttribute="centerY" secondItem="jdx-nN-ZfO" secondAttribute="centerY" constant="-0.5" id="Y2S-wV-ZxI"/>
+                    <constraint firstAttribute="trailing" secondItem="jdx-nN-ZfO" secondAttribute="trailing" constant="14" id="cC1-U9-AUg"/>
+                    <constraint firstItem="4vM-Xp-8IH" firstAttribute="trailing" secondItem="P8a-lp-IfI" secondAttribute="trailing" id="jEJ-76-RRc"/>
+                    <constraint firstItem="WCt-j2-hhU" firstAttribute="top" secondItem="gia-eb-gMr" secondAttribute="top" constant="5" id="pWe-qN-qVj"/>
+                    <constraint firstAttribute="centerY" secondItem="4vM-Xp-8IH" secondAttribute="centerY" constant="10" id="tsO-Tb-SmH"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="lastUpdatedLabel" destination="P8a-lp-IfI" id="9nW-Ng-em7"/>
+                <outlet property="rainDelayLabel" destination="WCt-j2-hhU" id="zhD-8J-tFb"/>
+                <outlet property="setRainDelayActivityIndicator" destination="idl-0a-XRJ" id="s3G-nw-E52"/>
+                <outlet property="statusImageView" destination="jdx-nN-ZfO" id="cBl-xY-HHX"/>
+                <outlet property="wheatherUpdateLabel" destination="4vM-Xp-8IH" id="eZd-sV-vZK"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_status_ok.png" width="48" height="48"/>
+    </resources>
+</document>
